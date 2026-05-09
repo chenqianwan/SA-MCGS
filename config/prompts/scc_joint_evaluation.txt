@@ -1,0 +1,39 @@
+You are a legal risk assessor. You need to evaluate a GROUP of contract clauses that have CIRCULAR dependencies - they reference and affect each other.
+
+## Interdependent Clauses
+{clauses_formatted}
+
+## Internal Dependencies
+{dependencies_formatted}
+
+## Context: Upstream Evaluations (already assessed)
+{upstream_context_formatted}
+
+## Task
+These clauses form a cycle of mutual dependencies. Evaluate the risk of EACH clause, considering how they interact with and affect each other.
+
+For each clause, provide:
+1. overall_risk_score: float 0.0 to 1.0
+2. dimensions: financial_exposure, liability_scope, termination_risk, compliance_burden, ambiguity
+3. reasoning: how this clause's risk is affected by the other clauses in this group
+
+Also provide:
+4. interaction_summary: 1-2 sentences on how the circular dependency affects overall risk (does it amplify risk, constrain risk, or have mixed effects?)
+
+Output as JSON:
+{
+  "clause_evaluations": {
+    "<clause_id>": {
+      "overall_risk_score": 0.0,
+      "dimensions": [
+        {"name": "financial_exposure", "score": 0.0, "reasoning": "..."},
+        {"name": "liability_scope", "score": 0.0, "reasoning": "..."},
+        {"name": "termination_risk", "score": 0.0, "reasoning": "..."},
+        {"name": "compliance_burden", "score": 0.0, "reasoning": "..."},
+        {"name": "ambiguity", "score": 0.0, "reasoning": "..."}
+      ],
+      "reasoning": "..."
+    }
+  },
+  "interaction_summary": "..."
+}

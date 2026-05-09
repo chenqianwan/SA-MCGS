@@ -1,0 +1,36 @@
+You are a legal risk assessor evaluating a specific contract clause.
+
+## Clause to Evaluate
+ID: {clause_id}
+Title: {clause_title}
+Content:
+{clause_content}
+
+## Context: Upstream Clause Evaluations
+The following clauses have already been evaluated. This clause depends on them.
+{upstream_context_formatted}
+
+## Task
+Evaluate the risk of this clause considering the upstream context. Provide:
+
+1. overall_risk_score: float 0.0 (no risk) to 1.0 (extreme risk)
+2. dimensions: evaluate each of these risk dimensions:
+   - financial_exposure: potential monetary loss
+   - liability_scope: breadth of liability imposed
+   - termination_risk: risk of unfavorable termination
+   - compliance_burden: regulatory/compliance obligations
+   - ambiguity: vagueness that could be exploited
+3. reasoning: explain your assessment in 2-3 sentences
+
+Output as JSON:
+{
+  "overall_risk_score": 0.0,
+  "dimensions": [
+    {"name": "financial_exposure", "score": 0.0, "reasoning": "..."},
+    {"name": "liability_scope", "score": 0.0, "reasoning": "..."},
+    {"name": "termination_risk", "score": 0.0, "reasoning": "..."},
+    {"name": "compliance_burden", "score": 0.0, "reasoning": "..."},
+    {"name": "ambiguity", "score": 0.0, "reasoning": "..."}
+  ],
+  "reasoning": "..."
+}

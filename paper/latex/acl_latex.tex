@@ -1,0 +1,556 @@
+\documentclass[11pt]{article}
+
+% ARR / ACL 2025 review mode
+\usepackage[review]{acl}
+
+% Standard package includes
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{inconsolata}
+
+% Additional packages
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{colortbl}
+\usetikzlibrary{shapes.geometric, arrows, positioning, calc, fit}
+\pgfplotsset{compat=1.18}
+
+% Color definitions
+\definecolor{mcgsblue}{RGB}{31,119,180}
+\definecolor{llmred}{RGB}{214,39,40}
+\definecolor{geminiorange}{RGB}{255,127,14}
+\definecolor{llamagreen}{RGB}{44,160,44}
+\definecolor{focusedpurple}{RGB}{148,103,189}
+\definecolor{lightgray}{RGB}{245,245,245}
+
+% ======================================================================
+% TITLE
+% ======================================================================
+\title{SA-MCGS: Structure-Aware Monte Carlo Graph Search\\for Cyclic Reasoning in Complex Document Analysis}
+
+% Anonymous for review
+\author{Anonymous ARR Submission}
+
+\begin{document}
+\maketitle
+
+% ======================================================================
+% ABSTRACT
+% ======================================================================
+\begin{abstract}
+Large Language Models (LLMs) achieve strong performance on many NLP tasks
+but remain fundamentally limited as \emph{System-1} reasoners: they rely on
+single-pass inference over linearized token sequences and fail when tasks
+require tracking cyclic dependencies across hundreds of interconnected
+elements. We propose \textbf{SA-MCGS} (\textbf{S}tructure-\textbf{A}ware
+\textbf{M}onte \textbf{C}arlo \textbf{G}raph \textbf{S}earch), a framework
+that augments LLM reasoning with \emph{System-2} capabilities by decomposing
+analytical tasks into directed dependency graphs, identifying reasoning
+bottlenecks via Strongly Connected Component (SCC) detection, and applying
+AlphaGo-inspired Monte Carlo search to systematically explore hypothesis
+spaces within these bottlenecks. An Online Conformal Prediction layer
+provides distribution-free reliability guarantees. We evaluate SA-MCGS on
+legal contract analysis using the CUAD and CLAUSE benchmarks across 311
+experimental runs. SA-MCGS achieves \textbf{100\%} detection of structural
+anomalies within SCC scope (vs.\ 47\% for Gemini-2.5), exhibits graceful
+degradation across five difficulty tiers (100\%$\to$80\%), and maintains
+stable performance at 500+ interdependent clauses where pure LLM reasoning
+collapses beyond 60--80. We further identify a novel \emph{Magnifier Effect}
+where the search process itself encodes diagnostic signals invisible to
+single-pass inference.
+
+% TODO: Tighten to exactly 200 words per ACL guidelines
+% TODO: Add one sentence on generality beyond legal domain
+\end{abstract}
+
+
+% ======================================================================
+% 1. INTRODUCTION
+% ======================================================================
+\section{Introduction}
+\label{sec:intro}
+
+% --- Paragraph 1: Motivation via concrete example ---
+% TODO: Write opening paragraph — motivate the problem with a concrete example
+%       (e.g., circular liability clause spanning 3 non-contiguous sections)
+%       Cite Kahneman's dual-process theory \citep{kahneman2011thinking}.
+%       Mention LLMs as System-1 reasoners.
+
+% --- Paragraph 2: Structural blindness of LLMs ---
+% TODO: Write paragraph on "structural blindness":
+%       - Lost in the Middle \citep{liu2024lost}: attention degrades mid-context
+%       - CLAUSE benchmark \citep{clause2026}: Gemini-2.5 at 46.7% F1 on structural flaws
+%       - CUAD \citep{hendrycks2021cuad}: cross-clause consistency challenges
+%       - ContractNLI \citep{koreeda2021contractnli}: document-level inference gaps
+
+% --- Paragraph 3: From Pattern Matching to Search ---
+% TODO: Write paragraph on the AlphaGo parallel:
+%       - AlphaGo \citep{silver2016mastering}: neural nets + MCTS = superhuman Go
+%       - Propose "Search-Augmented LLM Reasoning" paradigm
+%       - LLM as value function evaluator, not standalone reasoner
+
+% --- Paragraph 4: SA-MCGS Overview ---
+% TODO: Write brief overview of SA-MCGS pipeline:
+%       Graph construction → SCC detection → MCGS search → conformal calibration
+%       Domain-agnostic framework, validated on legal domain
+
+% --- Key Findings ---
+Our evaluation across 311 experimental runs reveals:
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+    \item \textbf{Structural Blindness}: State-of-the-art LLMs detect only 15--47\% of structural flaws in contracts; SA-MCGS achieves 100\% within SCC scope.
+    \item \textbf{Scaling Collapse}: Pure LLM reasoning catastrophically fails beyond 60--80 interdependent clauses (0\% detection at 300+); SA-MCGS maintains $>$85\% at 500+.
+    \item \textbf{Difficulty Gradient}: Detection degrades gracefully from 100\% to 80\% across 5 difficulty tiers, validating principled behavior.
+    \item \textbf{Magnifier Effect}: Search friction patterns provide a secondary diagnostic signal invisible to single-pass inference.
+\end{itemize}
+
+% --- Contributions ---
+% TODO: Write contributions paragraph:
+% (1) A general framework for search-augmented LLM reasoning with dual-process architecture.
+% (2) The SA-MCGS algorithm with transposition tables, virtual loss, and adaptive pruning.
+% (3) Online Conformal Prediction integration for LLM reliability guarantees.
+% (4) 311 experimental runs across two studies with detailed scaling, ablation, and error analyses.
+
+
+% ======================================================================
+% 2. RELATED WORK
+% ======================================================================
+\section{Related Work}
+\label{sec:related}
+
+% --- 2.1 Reasoning Gap ---
+\subsection{The Reasoning Gap in LLMs}
+\label{sec:rw_reasoning}
+
+Despite breakthroughs in language understanding, LLMs exhibit well-documented failures in structured reasoning. The ``Lost in the Middle'' phenomenon \citep{liu2024lost} demonstrates that transformer attention degrades for information positioned away from document boundaries, with retrieval accuracy dropping by up to 20\% for mid-context information. Chain-of-Thought (CoT) prompting \citep{wei2022chain} partially addresses sequential reasoning but fundamentally cannot handle branching or cyclic logic.
+
+Benchmarks in the legal domain have quantified these limitations. CUAD \citep{hendrycks2021cuad} demonstrated that even fine-tuned models struggle with cross-clause consistency. ContractNLI \citep{koreeda2021contractnli} showed that document-level inference remains challenging when evidence spans non-contiguous sections. The CLAUSE benchmark \citep{clause2026} provides the first systematic evaluation of structural legal reasoning, revealing that Gemini-2.5 achieves only 46.7\% F1 on structural flaws and LLaMA-3.3 drops to 14.7\%.
+
+% TODO: Expand with more specific failure mode examples from CUAD/ContractNLI
+% TODO: Add Legal-BERT \citep{chalkidis2020legalbert} if relevant
+
+% --- 2.2 Search-Augmented Reasoning ---
+\subsection{Search-Augmented LLM Reasoning}
+\label{sec:rw_search}
+
+Tree of Thoughts \citep{yao2024tree} extends CoT by exploring multiple reasoning paths via BFS/DFS, but its tree structure cannot represent merging or cyclic reasoning patterns. Graph of Thoughts \citep{besta2024graph} generalizes to graph-structured reasoning with thought merging and refinement, but operates on LLM-generated thought graphs rather than externally constructed dependency graphs, making it susceptible to the same hallucination problems it aims to solve. Reasoning via Planning (RAP) \citep{hao2023reasoning} applies MCTS directly to LLM reasoning chains, treating each step as a game move. RAP is closest to our work but operates in the space of reasoning steps rather than document structure, lacks topological focusing (SCC detection), and does not address cyclic dependencies.
+
+SA-MCGS advances this line by operating on \emph{externally constructed} dependency graphs and introducing topological analysis to focus search on critical reasoning bottlenecks.
+
+% TODO: Add a comparison table (SA-MCGS vs ToT vs GoT vs RAP) if space permits
+
+% --- 2.3 MCTS Beyond Games ---
+\subsection{Monte Carlo Tree Search Beyond Games}
+\label{sec:rw_mcts}
+
+MCTS has been the backbone of modern AI achievements in games \citep{silver2016mastering,silver2017mastering}. The UCT algorithm's convergence proof \citep{kocsis2006bandit} fundamentally requires finite search depth ($D < \infty$). \citet{czech2021monte} extended MCTS to Directed Acyclic Graphs (DAGs) for AlphaZero, enabling transposition sharing, but \emph{explicitly} restricts the search structure to be acyclic. \citet{moerland2020mcts} identified that loops cause $O(2^N)$ complexity explosion in MCTS and proposed trace-level loop blocking (MCTS-T+), but this solution discards all information within loops.
+
+SA-MCGS addresses this gap: it detects SCCs via Tarjan's algorithm, performs information-preserving evaluation within cycles, and collapses them into DAG super-nodes, restoring the finite-depth assumption required by UCT convergence theory.
+
+% TODO: Add AlphaCode \citep{li2022alphacode} for program synthesis MCTS extension
+
+% --- 2.4 Contract Graph Analysis ---
+\subsection{Contract Graph Construction and Analysis}
+\label{sec:rw_graph}
+
+GRAPH-GRPO-LEX \citep{dechtiar2025graphgrpolex} uses GRPO reinforcement learning to train LLMs for automated contract graph extraction, achieving 0.798 strict micro-F1. Their cycle detection module identifies logical flaws, but treats cycles solely as defect signals without further search or risk quantification on SCCs. \citet{boulet2021measuring} analyze cross-reference graphs of the US Code and German federal law via QuantLaw, finding that SCCs constitute $\sim$15\% of legal networks, but perform only descriptive measurement without risk assessment.
+
+Our work is complementary: GRAPH-GRPO-LEX solves graph \emph{construction}; SA-MCGS solves \emph{search and risk evaluation} on the constructed graph.
+
+% TODO: Add NCKG (Zheng et al., 2025) and LAW (Watson et al., 2025) if space permits
+
+% --- 2.5 Conformal Prediction ---
+\subsection{Conformal Prediction for AI Reliability}
+\label{sec:rw_conformal}
+
+Conformal prediction provides distribution-free statistical guarantees for prediction uncertainty \citep{vovk2005algorithmic}. Online variants \citep{gibbs2021adaptive} adapt to non-stationary data streams, making them suitable for the sequential nature of search-based evaluation. We leverage Online Conformal Prediction to transform stochastic LLM rollout outputs into calibrated risk assessments with mathematically grounded confidence levels.
+
+
+% ======================================================================
+% 3. SA-MCGS FRAMEWORK
+% ======================================================================
+\section{SA-MCGS Framework}
+\label{sec:method}
+
+% TODO: Write 1 overview paragraph describing the 4-phase pipeline
+%       mirroring dual-process cognition (Kahneman):
+%       Phase 1 (System-1): Graph Construction
+%       Phase 2 (System-1): SCC Detection + Pruning
+%       Phase 3 (System-2): Monte Carlo Graph Search
+%       Phase 4 (System-2): Online Conformal Prediction
+
+% TODO: Include architecture figure (Figure 1) — TikZ diagram from NeurIPS draft
+
+% --- 3.1 Graph Construction ---
+\subsection{Phase 1: Graph Construction}
+\label{sec:graph_construction}
+
+% TODO: Write formal definition:
+%       G = (V, E), V = {v_1, ..., v_n} = atomic analytical units
+%       E = typed semantic dependencies
+
+% TODO: Describe 5 dependency types:
+%       Defines, Constrains, Triggers, Modifies, References
+
+% TODO: Describe Two-Pass Extraction:
+%       (a) Explicit pass: regex + structural cues
+%       (b) Implicit pass: LLM reasoning + semantic embeddings
+%       Example: "Force Majeure" → "Delivery Timelines"
+
+% TODO: Describe Cross-Document Extension:
+%       Inter-document edges via shared defined terms
+%       → enables deal package analysis
+
+% --- 3.2 SCC Detection + Pruning ---
+\subsection{Phase 2: SCC Detection and Adaptive Pruning}
+\label{sec:scc_pruning}
+
+% TODO: Write SCC detection paragraph:
+%       - Tarjan's algorithm \citep{tarjan1972depth}, O(|V| + |E|)
+%       - SCCs = "logic kernels" with circular dependencies
+%       - Table: topology stats from CUAD contracts
+%         (NDA: 0% cyclic, Master Service: 27%, Construction: 42%)
+
+% TODO: Write Adaptive TACS pruning:
+%       Layer 1: Legacy heuristic (weight threshold < 0.35, hierarchy prior, info bottleneck)
+%       Layer 2: Adaptive TACS (Type-Aware Cycle Saliency):
+%       S(e) = ω_type · Betweenness(e) if semantic diversity > 0.2,
+%              else Betweenness(e) (adaptive fallback)
+%       → 100% signal preservation, FP rate controlled
+
+% TODO: Include pruning comparison table
+%       (None vs Legacy vs TACS vs Adaptive TACS)
+
+% --- 3.3 Monte Carlo Graph Search ---
+\subsection{Phase 3: Monte Carlo Graph Search}
+\label{sec:mcgs}
+
+% TODO: Write objective formulation:
+%       G*_finding = argmax_{G' ⊆ G_SCC} [ P(Finding | G') - λ·|G'| ]
+
+% TODO: Write Algorithm 1 pseudocode (SA-MCGS: AlphaGo-Style Search):
+%       Input: SCC S, iterations M, LLM evaluator H, UCB constant c
+%       Output: Finding subgraph G*, conflict probability matrix C
+%       Loop: Selection (UCB1 + Dir noise) → Expansion → LLM Rollout → Backprop
+
+% TODO: Write Key Innovations paragraphs:
+%       (a) Transposition Tables: prevent infinite loops, ~40% LLM cost reduction
+%       (b) Virtual Loss: enables 4–8 concurrent rollouts, ~3.5x speedup
+%       (c) Conflict Probability Matrix C ∈ R^{|S|×|S|}:
+%           per-edge conflict evidence → BackwardBFS → minimal conflict subgraph
+
+% TODO: Write UCB1 equation:
+%       UCB(v) = Q(v)/N(v) + c·sqrt(ln N(parent)/N(v)) + ε·Dir(α)
+%       c = sqrt(2), α = 0.03
+
+% --- 3.4 Online Conformal Prediction ---
+\subsection{Phase 4: Online Conformal Prediction}
+\label{sec:ocp}
+
+% TODO: Write OCP formulation:
+%       p_t = Σ 1(α_i ≥ α_t) / (n+1), report finding iff p_t < ε
+%       Distribution-free, adaptive to non-stationary LLM outputs
+%       Controls False Discovery Rate
+%       Domain-agnostic wrapper for any search-augmented system
+
+
+% ======================================================================
+% 4. EXPERIMENTAL SETUP
+% ======================================================================
+\section{Experimental Setup}
+\label{sec:setup}
+
+% --- 4.1 Study 1 ---
+\subsection{Study 1: Single-Contract Analysis}
+\label{sec:study1_setup}
+
+% TODO: Write dataset description:
+%       5 SCC-rich contracts from CUAD \citep{hendrycks2021cuad}
+%       with CLAUSE benchmark \citep{clause2026} defect injections
+%       Table: contract name, nodes, SCCs, max SCC, runs, in-SCC det.
+%       Total: 141 runs (126 injections + 15 clean baselines)
+
+% TODO: Describe injection protocol:
+%       3 types from CLAUSE: Type A (structural flaws), Type B (omissions),
+%       Type C (inconsistencies)
+%       5 contracts × 3 types × multiple targets × 3 repeats
+
+% TODO: List baselines:
+%       GPT-4o-mini, Gemini-2.5, LLaMA-3.3 (full-document CLAUSE protocol)
+
+% --- 4.2 Study 2 ---
+\subsection{Study 2: Cross-Contract Deal Packages}
+\label{sec:study2_setup}
+
+% TODO: Write deal package descriptions:
+%       Reynolds (Supply+Service, SCC=10),
+%       AzulSa (2×Maintenance, SCC=13),
+%       NETGEAR (Distribution+2 Amendments, SCC=6)
+%       82 CLAUSE perturbations × 2 repeats + 6 clean = 170 runs
+
+% TODO: Write difficulty tier table:
+%       T1: Inconsistencies (Easy), T2: Structural Flaws (Medium),
+%       T3: Misaligned Terms (Medium), T4: Omissions (Hard),
+%       T5: Ambiguity (Hard)
+%       Include LLM best baseline score and perturbation example per tier
+
+% TODO: Describe Focused LLM baseline:
+%       All SCC clauses → single LLM prompt, no search
+%       48 runs, 57 seconds total
+
+% TODO: Document infrastructure:
+%       AlphaGoMCGS 50–100 iterations/SCC
+%       LLM: DeepSeek-Chat (rollouts), Claude 3.5 Sonnet (verification)
+%       Hardware: Apple M2 Ultra, 128GB
+%       Wall-clock: Study 1 ~16h, Study 2 ~102min (concurrency=8)
+
+
+% ======================================================================
+% 5. RESULTS
+% ======================================================================
+\section{Results}
+\label{sec:results}
+
+% --- 5.1 Main Results ---
+\subsection{SA-MCGS vs.\ LLM Baselines}
+\label{sec:main_results}
+
+% TODO: Write main results paragraph with table:
+%       Method | Structural F1 | Omission F1 | Inconsist. F1 | FPR
+%       LLaMA-3.3:     0.15      0.50          0.55           ~35%
+%       GPT-4o-mini:   0.47      0.45          0.44           ~30%
+%       Gemini-2.5:    0.47      0.64          0.64           ~20%
+%       SA-MCGS:       1.00      1.00          1.00           13%
+
+% TODO: Include F1 bar chart figure (TikZ pgfplots)
+% TODO: Explain conditional detection: SCC scope = ~5% of nodes
+
+% --- 5.2 Difficulty Gradient ---
+\subsection{Cross-Contract Analysis with Difficulty Gradient}
+\label{sec:difficulty}
+
+% TODO: Write difficulty gradient results:
+%       T1: 100%, T2: 100%, T3: 100%, T4: 100%, T5: 80%
+%       Overall SCC scope: 42 runs, 95.2%, avg rank 4.9
+
+% TODO: Include difficulty gradient bar chart
+% TODO: Explain why T5 (ambiguity) is weakest — by design:
+%       ambiguity ≠ logical contradiction
+
+% --- 5.3 Focused LLM ---
+\subsection{Isolating the Value of Search}
+\label{sec:focused}
+
+% TODO: Write Focused LLM comparison:
+%       SA-MCGS vs Focused LLM vs Full-Doc LLM
+%       Focused LLM: 100% recall but 9.2 FP/run (13x worse than SA-MCGS 0.7)
+%       Three-layer value:
+%         (1) SCC detection → recall (45%→100%)
+%         (2) MCGS search → precision (FP 9.2→0.7)
+%         (3) MCGS → scales where Focused LLM cannot
+
+% --- 5.4 Scaling Collapse ---
+\subsection{The Scaling Collapse of Pure LLM Reasoning}
+\label{sec:scaling}
+
+% TODO: Write scaling analysis:
+%       5–50 clauses: LLM sufficient (100% det., 100% JSON parse)
+%       60–80: tipping point (80–100% det., 90% JSON)
+%       200+: near-failure (20% det., 20% JSON)
+%       300+: total collapse (0% det., 0% JSON)
+%       SA-MCGS: >85% at 500 clauses, local context per rollout
+
+% TODO: Include scaling line chart figure
+
+% --- 5.5 Magnifier Effect ---
+\subsection{The Magnifier Effect}
+\label{sec:magnifier}
+
+% TODO: Write Magnifier Effect description:
+%       Type C: few direct alarms (0.8) but massive subgraph expansion
+%       (+8.4 nodes, 300%+)
+%       Clean baseline: 21% SCC coverage (5/24 nodes)
+%       After Type C injection: 58% coverage (13.9/24 nodes)
+%       Most dramatic case: bgb_327o → 5 nodes to 21 nodes (87%)
+
+% TODO: Include bar chart comparing OC alarms vs subgraph expansion
+
+% --- 5.6 Ablation: MCTS vs Cycles ---
+\subsection{Ablation: Why Standard MCTS Fails on Cycles}
+\label{sec:ablation_cycle}
+
+% TODO: Write ablation results describing three failure modes:
+%       F1: Search tree explosion — 6.4x inflation on compound cycles
+%       F2: Rollout trap — 100% truncation on compound cycles
+%       F3: Q-value dilution — Q-Spread: MCTS 0.044 vs SA-MCGS 0.371 (8.4x)
+%
+%       Real LLM validation:
+%       AzulSa: TreeMCTS Q-Spread 0.058, SA-MCGS 0.800 (13.8x)
+%       NETGEAR: TreeMCTS Q-Spread 0.097, SA-MCGS 0.800 (8.3x)
+
+% TODO: Include comparison table
+
+
+% ======================================================================
+% 6. ANALYSIS AND DISCUSSION
+% ======================================================================
+\section{Analysis and Discussion}
+\label{sec:discussion}
+
+% --- 6.1 Case Studies ---
+\subsection{Case Studies}
+\label{sec:cases}
+
+% TODO: Write 4 case studies:
+%       Case 1 (success): Circular Liability Trap — 3-clause SCC, infinite recursion
+%         LLM: no errors; SA-MCGS: found in 12 iterations, p=0.008
+%       Case 2 (success): Cross-Contract Term Drift — Reynolds, "Acceptable Quality"
+%         SA-MCGS rank 2/10 SCC nodes
+%       Case 3 (medium): Orphaned Reference — construction agreement
+%         SA-MCGS traced full impact propagation chain
+%       Case 4 (honest failure): Ambiguity — T5 Reynolds, ranked 10/10
+%         No logical contradiction = no structural signal
+
+% --- 6.2 Error Analysis ---
+\subsection{Error Analysis}
+\label{sec:errors}
+
+% TODO: Write error analysis:
+%       False Negatives: 2/42 in-SCC, both T5 ambiguity on Reynolds
+%         → ambiguity ≠ logical contradiction, principled limitation
+%       False Positives: 2/15 clean baselines (Phasebio, 329 nodes, 10 SCCs)
+%         → genuinely complex interdependencies, adjustable via ε
+%       Computational Cost: ~300s vs ~30s, ~$0.50–1.00 vs ~$0.02/run
+
+% --- 6.3 Generalization ---
+\subsection{Generalization Potential}
+\label{sec:generalization}
+
+% TODO: Write generalization discussion:
+%       Core principle: cyclic dependencies + exceeds attention span → search wins
+%       Domains: code auditing (circular imports), literature synthesis (citation cycles),
+%       knowledge graphs (cyclic constraints), multi-agent systems
+
+% --- 6.4 System-1/System-2 Pattern ---
+\subsection{The System-1 / System-2 Design Pattern}
+\label{sec:dual_process}
+
+% TODO: Write design pattern:
+%       (1) Externalize Structure → graph → detection 45%→100%
+%       (2) Focus Search → SCC → only ~5% nodes need expensive search
+%       (3) Search for Precision → MCGS → FP 9.2→0.7 (13x)
+%       (4) Calibrate → OCP → statistical guarantees
+
+
+% ======================================================================
+% LIMITATIONS  (Required by ACL — unnumbered, before references)
+% ======================================================================
+\section*{Limitations}
+\label{sec:limitations}
+
+% TODO: Write limitations paragraphs covering:
+% (1) Scope: excels within SCC scope (~5% of nodes), not for non-cyclic defects
+% (2) Ambiguity: T5 weakest signal (80%) — no logical contradictions
+% (3) LLM Dependency: rollout quality depends on LLM; used DeepSeek-Chat for cost
+% (4) Graph Quality: two-pass extraction imperfect; edge precision → SCC quality
+% (5) Cost: ~$0.50–1.00 per SCC vs ~$0.02 single-pass
+% (6) Evaluation: validated only on English legal contracts (CUAD)
+% (7) Reproducibility: LLM non-determinism may affect exact replication
+
+
+% ======================================================================
+% ETHICS STATEMENT  (Recommended by ACL — unnumbered)
+% ======================================================================
+\section*{Ethics Statement}
+\label{sec:ethics}
+
+% TODO: Write ethics statement:
+% (1) Explainability: every finding has its conflict subgraph ("glass-box")
+% (2) Human-in-the-loop: augments, not replaces, human experts
+% (3) Cannot detect purely linguistic manipulation
+% (4) CUAD is publicly available, no privacy concerns
+% (5) No human subjects
+
+
+% ======================================================================
+% CONCLUSION
+% ======================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+% TODO: Write conclusion summarizing:
+% (1) SA-MCGS: search-augmented LLM reasoning with dual-process architecture
+% (2) 100% structural anomaly recall within SCC scope (vs 15–47% SoTA LLMs)
+% (3) Graceful degradation across 5 difficulty tiers (100%→80%)
+% (4) Scaling stability at 500+ clauses (vs collapse at 60–80)
+% (5) Magnifier Effect: search process encodes secondary diagnostic signals
+% (6) SCC-based topological focusing as primary contributor
+
+% TODO: Write future work:
+% - Multi-document portfolio analysis at enterprise scale
+% - Cross-domain transfer: code → law → science
+% - Integration with RAG systems
+% - Hierarchical GNNs for extending scope beyond SCCs
+
+
+% ======================================================================
+% REFERENCES
+% ======================================================================
+\bibliography{custom}
+
+
+% ======================================================================
+% APPENDICES  (after references, do not count toward page limit)
+% ======================================================================
+\appendix
+
+\section{Supplementary Experimental Data}
+\label{sec:appendix_data}
+
+\subsection{Per-Contract Detection Breakdown}
+% TODO: Table: Phasebio 27 runs 12/12, Harpoon 27 runs 3/3, etc.
+
+\subsection{Cross-Contract Subgraph Compression}
+% TODO: Table: Reynolds 71%, AzulSa 90%, NETGEAR 98%
+
+\subsection{JSON Output Stability at Scale}
+% TODO: Table: 5–50 clauses → 300+ collapse
+
+\subsection{Synthetic Graph Ablation}
+% TODO: Full 90-run table: 2 methods × 3 topologies × 3 scales × 5 repeats
+
+\section{Prompts}
+\label{sec:appendix_prompts}
+
+\subsection{Search Rollout Prompt}
+% TODO: Exact prompt text
+
+\subsection{Graph Extraction Prompt}
+% TODO: Exact prompt text
+
+\subsection{Focused LLM Baseline Prompt}
+% TODO: Exact prompt text
+
+\section{Implementation Details}
+\label{sec:appendix_impl}
+
+% TODO: Graph construction pipeline, MCGS hyperparameters, OCP config
+
+\section{Glossary}
+\label{sec:appendix_glossary}
+
+% TODO: SCC, MCTS, MCGS, OCP, TACS, TT, FDR, UCB1
+
+\end{document}

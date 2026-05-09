@@ -1,0 +1,4631 @@
+[
+  {
+    "method": "naive",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 6,
+    "scc_id": "scc_20",
+    "llm_calls": 1,
+    "time": 8.710884666012134,
+    "scores": {
+      "libmono-security4.0-cil": 0.6,
+      "libmono-system-configuration4.0-cil": 0.7,
+      "libmono-system-core4.0-cil": 0.5,
+      "libmono-system-security4.0-cil": 0.8,
+      "libmono-system-xml4.0-cil": 0.7,
+      "libmono-system4.0-cil": 0.9
+    },
+    "reasonings": {
+      "libmono-security4.0-cil": "This package is part of a circular dependency cluster, which increases the risk of version conflicts and CVE propagation. It directly depends on libmono-system4.0-cil, which is tightly coupled with other packages in the cycle.",
+      "libmono-system-configuration4.0-cil": "This package has multiple dependencies within the circular cluster, including libmono-system-security4.0-cil, libmono-system-xml4.0-cil, and libmono-system4.0-cil. This tight coupling increases the risk of cascading failures and CVE propagation.",
+      "libmono-system-core4.0-cil": "This package depends on libmono-system4.0-cil, which is central to the circular dependency cluster. While it has fewer direct dependencies, its reliance on a critical package in the cycle increases its risk.",
+      "libmono-system-security4.0-cil": "This package has multiple dependencies within the circular cluster, including libmono-system-core4.0-cil, libmono-system-xml4.0-cil, and libmono-system4.0-cil. Its central role in the cycle makes it a high-risk package for CVE propagation and version conflicts.",
+      "libmono-system-xml4.0-cil": "This package depends on libmono-system-configuration4.0-cil and libmono-system4.0-cil, both of which are tightly coupled in the circular dependency cluster. This increases the risk of cascading issues.",
+      "libmono-system4.0-cil": "This package is the most central to the circular dependency cluster, with dependencies on nearly all other packages in the cycle. Its critical role makes it highly susceptible to version conflicts, CVE propagation, and tight coupling risks."
+    },
+    "ranking": [
+      [
+        "libmono-system4.0-cil",
+        0.9
+      ],
+      [
+        "libmono-system-security4.0-cil",
+        0.8
+      ],
+      [
+        "libmono-system-configuration4.0-cil",
+        0.7
+      ],
+      [
+        "libmono-system-xml4.0-cil",
+        0.7
+      ],
+      [
+        "libmono-security4.0-cil",
+        0.6
+      ],
+      [
+        "libmono-system-core4.0-cil",
+        0.5
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "libmono-security4.0-cil",
+        "clause_b": "libmono-system4.0-cil",
+        "description": "libmono-security4.0-cil depends on libmono-system4.0-cil, which is central to the circular dependency cluster. This creates a risk of version conflicts and cascading failures."
+      },
+      {
+        "clause_a": "libmono-system-configuration4.0-cil",
+        "clause_b": "libmono-system-security4.0-cil",
+        "description": "libmono-system-configuration4.0-cil depends on libmono-system-security4.0-cil, creating a tight coupling that increases the risk of CVE propagation."
+      },
+      {
+        "clause_a": "libmono-system-configuration4.0-cil",
+        "clause_b": "libmono-system-xml4.0-cil",
+        "description": "libmono-system-configuration4.0-cil depends on libmono-system-xml4.0-cil, which is also part of the circular dependency cluster. This dependency increases the risk of cascading issues."
+      },
+      {
+        "clause_a": "libmono-system-security4.0-cil",
+        "clause_b": "libmono-system-core4.0-cil",
+        "description": "libmono-system-security4.0-cil depends on libmono-system-core4.0-cil, creating a dependency loop that increases the risk of version conflicts."
+      },
+      {
+        "clause_a": "libmono-system-xml4.0-cil",
+        "clause_b": "libmono-system-configuration4.0-cil",
+        "description": "libmono-system-xml4.0-cil depends on libmono-system-configuration4.0-cil, which is part of the circular dependency cluster. This tight coupling increases the risk of cascading failures."
+      },
+      {
+        "clause_a": "libmono-system4.0-cil",
+        "clause_b": "libmono-security4.0-cil",
+        "description": "libmono-system4.0-cil depends on libmono-security4.0-cil, creating a circular dependency that increases the risk of CVE propagation and version conflicts."
+      }
+    ],
+    "score_spread": 0.4,
+    "score_mean": 0.7000000000000001,
+    "score_max": 0.9,
+    "node_names": {
+      "libmono-security4.0-cil": "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil": "libmono-system-configuration4.0-cil",
+      "libmono-system-core4.0-cil": "libmono-system-core4.0-cil",
+      "libmono-system-security4.0-cil": "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil": "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil": "libmono-system4.0-cil"
+    }
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 6,
+    "scc_id": "scc_20",
+    "budget": 30,
+    "llm_calls": 14,
+    "tt_hits": 16,
+    "tt_hit_rate": 0.5333333333333333,
+    "time": 39.075694875005865,
+    "scores": {
+      "libmono-system4.0-cil": 0.6068965517241381,
+      "libmono-system-security4.0-cil": 0.5857142857142856,
+      "libmono-system-configuration4.0-cil": 0.5000000000000001,
+      "libmono-system-xml4.0-cil": 0.4904761904761905,
+      "libmono-security4.0-cil": 0.4799999999999999,
+      "libmono-system-core4.0-cil": 0.45333333333333325
+    },
+    "ranking": [
+      [
+        "libmono-system4.0-cil",
+        0.6068965517241381
+      ],
+      [
+        "libmono-system-security4.0-cil",
+        0.5857142857142856
+      ],
+      [
+        "libmono-system-configuration4.0-cil",
+        0.5000000000000001
+      ],
+      [
+        "libmono-system-xml4.0-cil",
+        0.4904761904761905
+      ],
+      [
+        "libmono-security4.0-cil",
+        0.4799999999999999
+      ],
+      [
+        "libmono-system-core4.0-cil",
+        0.45333333333333325
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.1535632183908049,
+    "score_mean": 0.5194033935413246,
+    "score_max": 0.6068965517241381,
+    "node_names": {
+      "libmono-security4.0-cil": "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil": "libmono-system-configuration4.0-cil",
+      "libmono-system-core4.0-cil": "libmono-system-core4.0-cil",
+      "libmono-system-security4.0-cil": "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil": "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil": "libmono-system4.0-cil"
+    },
+    "clause_details": {
+      "libmono-security4.0-cil": {
+        "mean_score": 0.4799999999999999,
+        "visit_count": 15,
+        "conflict_count": 15,
+        "risk_history": [
+          0.7,
+          0.7,
+          0.7,
+          0.2,
+          0.7,
+          0.3,
+          0.7,
+          0.2,
+          0.3,
+          0.6,
+          0.6,
+          0.3,
+          0.3,
+          0.2,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system-configuration4.0-cil": {
+        "mean_score": 0.5000000000000001,
+        "visit_count": 19,
+        "conflict_count": 35,
+        "risk_history": [
+          0.6,
+          0.7,
+          0.3,
+          0.7,
+          0.7,
+          0.3,
+          0.5,
+          0.7,
+          0.7,
+          0.6,
+          0.5,
+          0.3,
+          0.4,
+          0.4,
+          0.5,
+          0.6,
+          0.4,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system-core4.0-cil": {
+        "mean_score": 0.45333333333333325,
+        "visit_count": 15,
+        "conflict_count": 23,
+        "risk_history": [
+          0.6,
+          0.2,
+          0.7,
+          0.7,
+          0.6,
+          0.3,
+          0.4,
+          0.3,
+          0.7,
+          0.3,
+          0.3,
+          0.5,
+          0.3,
+          0.3,
+          0.6
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system-security4.0-cil": {
+        "mean_score": 0.5857142857142856,
+        "visit_count": 21,
+        "conflict_count": 40,
+        "risk_history": [
+          0.7,
+          0.4,
+          0.6,
+          0.7,
+          0.6,
+          0.6,
+          0.6,
+          0.7,
+          0.6,
+          0.6,
+          0.6,
+          0.7,
+          0.6,
+          0.6,
+          0.4,
+          0.4,
+          0.6,
+          0.6,
+          0.6,
+          0.4,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system-xml4.0-cil": {
+        "mean_score": 0.4904761904761905,
+        "visit_count": 21,
+        "conflict_count": 46,
+        "risk_history": [
+          0.2,
+          0.5,
+          0.5,
+          0.7,
+          0.3,
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.8,
+          0.5,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.5,
+          0.6,
+          0.5,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system4.0-cil": {
+        "mean_score": 0.6068965517241381,
+        "visit_count": 29,
+        "conflict_count": 83,
+        "risk_history": [
+          0.8,
+          0.3,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.3,
+          0.9,
+          0.9,
+          0.8,
+          0.4,
+          0.9,
+          0.9,
+          0.8,
+          0.4,
+          0.8,
+          0.3,
+          0.3,
+          0.5,
+          0.3,
+          0.4,
+          0.7,
+          0.7,
+          0.7,
+          0.3,
+          0.4,
+          0.5,
+          0.3,
+          0.8
+        ],
+        "is_oc_detected": false
+      }
+    }
+  },
+  {
+    "method": "naive",
+    "model": "deepseek-chat",
+    "domain": "debian",
+    "scc_size": 6,
+    "scc_id": "scc_20",
+    "llm_calls": 1,
+    "time": 20.969351833016844,
+    "scores": {
+      "libmono-security4.0-cil": 0.3,
+      "libmono-system-configuration4.0-cil": 0.2,
+      "libmono-system-core4.0-cil": 0.1,
+      "libmono-system-security4.0-cil": 0.4,
+      "libmono-system-xml4.0-cil": 0.3,
+      "libmono-system4.0-cil": 0.5
+    },
+    "reasonings": {
+      "libmono-security4.0-cil": "Security library with circular dependencies, CVE propagation risk",
+      "libmono-system-configuration4.0-cil": "Configuration library with tight coupling to security and XML components",
+      "libmono-system-core4.0-cil": "Core library with minimal circular dependencies",
+      "libmono-system-security4.0-cil": "High-risk security component with multiple circular dependencies",
+      "libmono-system-xml4.0-cil": "XML library with bidirectional security coupling",
+      "libmono-system4.0-cil": "Central hub with circular dependencies to all security components"
+    },
+    "ranking": [
+      [
+        "libmono-system4.0-cil",
+        0.5
+      ],
+      [
+        "libmono-system-security4.0-cil",
+        0.4
+      ],
+      [
+        "libmono-security4.0-cil",
+        0.3
+      ],
+      [
+        "libmono-system-xml4.0-cil",
+        0.3
+      ],
+      [
+        "libmono-system-configuration4.0-cil",
+        0.2
+      ],
+      [
+        "libmono-system-core4.0-cil",
+        0.1
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "libmono-system4.0-cil",
+        "clause_b": "libmono-security4.0-cil",
+        "description": "Bidirectional security dependency creates CVE propagation path"
+      },
+      {
+        "clause_a": "libmono-system-security4.0-cil",
+        "clause_b": "libmono-system-configuration4.0-cil",
+        "description": "Security-configuration circular dependency increases attack surface"
+      },
+      {
+        "clause_a": "libmono-system-xml4.0-cil",
+        "clause_b": "libmono-system-configuration4.0-cil",
+        "description": "XML-configuration bidirectional dependency creates parsing vulnerability chain"
+      },
+      {
+        "clause_a": "libmono-system-security4.0-cil",
+        "clause_b": "libmono-system-core4.0-cil",
+        "description": "Security-core circular dependency risks privilege escalation"
+      }
+    ],
+    "score_spread": 0.4,
+    "score_mean": 0.3,
+    "score_max": 0.5,
+    "node_names": {
+      "libmono-security4.0-cil": "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil": "libmono-system-configuration4.0-cil",
+      "libmono-system-core4.0-cil": "libmono-system-core4.0-cil",
+      "libmono-system-security4.0-cil": "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil": "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil": "libmono-system4.0-cil"
+    }
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-chat",
+    "domain": "debian",
+    "scc_size": 6,
+    "scc_id": "scc_20",
+    "budget": 30,
+    "llm_calls": 14,
+    "tt_hits": 16,
+    "tt_hit_rate": 0.5333333333333333,
+    "time": 106.14157062501181,
+    "scores": {
+      "libmono-system4.0-cil": 0.8344827586206899,
+      "libmono-security4.0-cil": 0.7500000000000001,
+      "libmono-system-security4.0-cil": 0.7449999999999999,
+      "libmono-system-configuration4.0-cil": 0.6736842105263157,
+      "libmono-system-core4.0-cil": 0.6499999999999998,
+      "libmono-system-xml4.0-cil": 0.6099999999999999
+    },
+    "ranking": [
+      [
+        "libmono-system4.0-cil",
+        0.8344827586206899
+      ],
+      [
+        "libmono-security4.0-cil",
+        0.7500000000000001
+      ],
+      [
+        "libmono-system-security4.0-cil",
+        0.7449999999999999
+      ],
+      [
+        "libmono-system-configuration4.0-cil",
+        0.6736842105263157
+      ],
+      [
+        "libmono-system-core4.0-cil",
+        0.6499999999999998
+      ],
+      [
+        "libmono-system-xml4.0-cil",
+        0.6099999999999999
+      ]
+    ],
+    "oc_detected": [
+      "libmono-system4.0-cil"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.22448275862069,
+    "score_mean": 0.7105278281911676,
+    "score_max": 0.8344827586206899,
+    "node_names": {
+      "libmono-security4.0-cil": "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil": "libmono-system-configuration4.0-cil",
+      "libmono-system-core4.0-cil": "libmono-system-core4.0-cil",
+      "libmono-system-security4.0-cil": "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil": "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil": "libmono-system4.0-cil"
+    },
+    "clause_details": {
+      "libmono-security4.0-cil": {
+        "mean_score": 0.7500000000000001,
+        "visit_count": 14,
+        "conflict_count": 14,
+        "risk_history": [
+          0.7,
+          0.9,
+          0.8,
+          0.7,
+          0.9,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.6,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system-configuration4.0-cil": {
+        "mean_score": 0.6736842105263157,
+        "visit_count": 19,
+        "conflict_count": 35,
+        "risk_history": [
+          0.6,
+          0.7,
+          0.8,
+          0.8,
+          0.7,
+          0.6,
+          0.7,
+          0.6,
+          0.7,
+          0.8,
+          0.8,
+          0.7,
+          0.6,
+          0.6,
+          0.8,
+          0.6,
+          0.5,
+          0.6,
+          0.6
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system-core4.0-cil": {
+        "mean_score": 0.6499999999999998,
+        "visit_count": 18,
+        "conflict_count": 26,
+        "risk_history": [
+          0.6,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.6,
+          0.6,
+          0.6,
+          0.6,
+          0.7,
+          0.5,
+          0.7,
+          0.6,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.6
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system-security4.0-cil": {
+        "mean_score": 0.7449999999999999,
+        "visit_count": 20,
+        "conflict_count": 27,
+        "risk_history": [
+          0.8,
+          0.9,
+          0.8,
+          0.8,
+          0.6,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.6,
+          0.7,
+          0.8,
+          0.9,
+          0.7,
+          0.6,
+          0.7,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system-xml4.0-cil": {
+        "mean_score": 0.6099999999999999,
+        "visit_count": 20,
+        "conflict_count": 36,
+        "risk_history": [
+          0.5,
+          0.6,
+          0.7,
+          0.7,
+          0.6,
+          0.6,
+          0.6,
+          0.7,
+          0.7,
+          0.5,
+          0.5,
+          0.6,
+          0.7,
+          0.7,
+          0.6,
+          0.5,
+          0.7,
+          0.7,
+          0.6,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system4.0-cil": {
+        "mean_score": 0.8344827586206899,
+        "visit_count": 29,
+        "conflict_count": 64,
+        "risk_history": [
+          0.8,
+          0.9,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7
+        ],
+        "is_oc_detected": true
+      }
+    }
+  },
+  {
+    "method": "naive",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_6",
+    "llm_calls": 1,
+    "time": 6.6719830830115825,
+    "scores": {
+      "libecore-drm2-1": 0.3,
+      "libecore-evas1": 0.5,
+      "libecore-fb1": 0.2,
+      "libecore-input1": 0.4,
+      "libecore-wl2-1": 0.3,
+      "libecore-x1": 0.3,
+      "libelput1": 0.4,
+      "libevas1": 0.5,
+      "libevas1-engines-drm": 0.3,
+      "libevas1-engines-fb": 0.2,
+      "libevas1-engines-wayland": 0.4,
+      "libevas1-engines-x": 0.3
+    },
+    "reasonings": {
+      "libecore-drm2-1": "Dependency on libelput1 creates tight coupling, which could propagate CVEs if libelput1 is vulnerable.",
+      "libecore-evas1": "High dependency count (8 packages) increases risk of version conflicts and CVE propagation.",
+      "libecore-fb1": "Minimal dependencies, but indirect reliance on libecore-input1 could propagate risks.",
+      "libecore-input1": "Central dependency in the cluster; any vulnerability here could cascade to multiple packages.",
+      "libecore-wl2-1": "Dependency on libecore-input1 and libecore-evas1 increases risk of CVE propagation.",
+      "libecore-x1": "Dependency on libecore-input1 and libevas1-engines-x creates potential for CVE propagation.",
+      "libelput1": "Dependency on libecore-input1 and libecore-drm2-1 creates tight coupling and potential CVE propagation.",
+      "libevas1": "Central package with multiple dependencies (5 engines), increasing risk of version conflicts and CVE propagation.",
+      "libevas1-engines-drm": "Dependency on libecore-drm2-1 and libevas1 creates tight coupling and potential CVE propagation.",
+      "libevas1-engines-fb": "Dependency on libevas1 creates moderate risk of CVE propagation.",
+      "libevas1-engines-wayland": "High dependency count (5 packages) increases risk of version conflicts and CVE propagation.",
+      "libevas1-engines-x": "Dependency on libecore-x1 and libevas1 creates tight coupling and potential CVE propagation."
+    },
+    "ranking": [
+      [
+        "libecore-evas1",
+        0.5
+      ],
+      [
+        "libevas1",
+        0.5
+      ],
+      [
+        "libecore-input1",
+        0.4
+      ],
+      [
+        "libelput1",
+        0.4
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.4
+      ],
+      [
+        "libecore-drm2-1",
+        0.3
+      ],
+      [
+        "libecore-wl2-1",
+        0.3
+      ],
+      [
+        "libecore-x1",
+        0.3
+      ],
+      [
+        "libevas1-engines-drm",
+        0.3
+      ],
+      [
+        "libevas1-engines-x",
+        0.3
+      ],
+      [
+        "libecore-fb1",
+        0.2
+      ],
+      [
+        "libevas1-engines-fb",
+        0.2
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "libecore-evas1",
+        "clause_b": "libevas1",
+        "description": "libecore-evas1 depends on libevas1, which itself depends on multiple engine packages, creating a risk of version conflicts and CVE propagation."
+      },
+      {
+        "clause_a": "libevas1",
+        "clause_b": "libevas1-engines-wayland",
+        "description": "libevas1 depends on libevas1-engines-wayland, which has high dependency count, increasing risk of cascading failures."
+      },
+      {
+        "clause_a": "libecore-input1",
+        "clause_b": "libelput1",
+        "description": "libelput1 depends on libecore-input1, creating tight coupling and potential CVE propagation risk."
+      },
+      {
+        "clause_a": "libevas1-engines-drm",
+        "clause_b": "libecore-drm2-1",
+        "description": "libevas1-engines-drm depends on libecore-drm2-1, creating tight coupling and potential CVE propagation risk."
+      },
+      {
+        "clause_a": "libevas1-engines-x",
+        "clause_b": "libecore-x1",
+        "description": "libevas1-engines-x depends on libecore-x1, creating tight coupling and potential CVE propagation risk."
+      }
+    ],
+    "score_spread": 0.3,
+    "score_mean": 0.3416666666666666,
+    "score_max": 0.5,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libecore-x1": "libecore-x1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    }
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_6",
+    "budget": 30,
+    "llm_calls": 27,
+    "tt_hits": 3,
+    "tt_hit_rate": 0.1,
+    "time": 48.72672312500072,
+    "scores": {
+      "libevas1-engines-x": 0.6,
+      "libevas1-engines-fb": 0.5857142857142856,
+      "libevas1": 0.58,
+      "libevas1-engines-wayland": 0.5384615384615384,
+      "libecore-evas1": 0.48749999999999993,
+      "libecore-x1": 0.41,
+      "libecore-input1": 0.4058823529411764,
+      "libevas1-engines-drm": 0.36666666666666664,
+      "libecore-wl2-1": 0.31428571428571433,
+      "libelput1": 0.28750000000000003,
+      "libecore-drm2-1": 0.27142857142857146,
+      "libecore-fb1": 0.2
+    },
+    "ranking": [
+      [
+        "libevas1-engines-x",
+        0.6
+      ],
+      [
+        "libevas1-engines-fb",
+        0.5857142857142856
+      ],
+      [
+        "libevas1",
+        0.58
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.5384615384615384
+      ],
+      [
+        "libecore-evas1",
+        0.48749999999999993
+      ],
+      [
+        "libecore-x1",
+        0.41
+      ],
+      [
+        "libecore-input1",
+        0.4058823529411764
+      ],
+      [
+        "libevas1-engines-drm",
+        0.36666666666666664
+      ],
+      [
+        "libecore-wl2-1",
+        0.31428571428571433
+      ],
+      [
+        "libelput1",
+        0.28750000000000003
+      ],
+      [
+        "libecore-drm2-1",
+        0.27142857142857146
+      ],
+      [
+        "libecore-fb1",
+        0.2
+      ]
+    ],
+    "oc_detected": [
+      "libevas1",
+      "libevas1-engines-x"
+    ],
+    "oc_count": 2,
+    "score_spread": 0.39999999999999997,
+    "score_mean": 0.42061992745816273,
+    "score_max": 0.6,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libecore-x1": "libecore-x1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "clause_details": {
+      "libecore-drm2-1": {
+        "mean_score": 0.27142857142857146,
+        "visit_count": 7,
+        "conflict_count": 9,
+        "risk_history": [
+          0.3,
+          0.1,
+          0.4,
+          0.4,
+          0.3,
+          0.2,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-evas1": {
+        "mean_score": 0.48749999999999993,
+        "visit_count": 16,
+        "conflict_count": 38,
+        "risk_history": [
+          0.6,
+          0.5,
+          0.6,
+          0.3,
+          0.4,
+          0.3,
+          0.5,
+          0.4,
+          0.7,
+          0.5,
+          0.6,
+          0.3,
+          0.4,
+          0.6,
+          0.6,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-fb1": {
+        "mean_score": 0.2,
+        "visit_count": 8,
+        "conflict_count": 7,
+        "risk_history": [
+          0.2,
+          0.2,
+          0.1,
+          0.2,
+          0.3,
+          0.3,
+          0.1,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-input1": {
+        "mean_score": 0.4058823529411764,
+        "visit_count": 17,
+        "conflict_count": 33,
+        "risk_history": [
+          0.5,
+          0.5,
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.6,
+          0.3,
+          0.8,
+          0.5,
+          0.1,
+          0.3,
+          0.5,
+          0.2,
+          0.3,
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-wl2-1": {
+        "mean_score": 0.31428571428571433,
+        "visit_count": 7,
+        "conflict_count": 8,
+        "risk_history": [
+          0.2,
+          0.5,
+          0.7,
+          0.2,
+          0.3,
+          0.1,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-x1": {
+        "mean_score": 0.41,
+        "visit_count": 10,
+        "conflict_count": 19,
+        "risk_history": [
+          0.6,
+          0.4,
+          0.5,
+          0.2,
+          0.2,
+          0.4,
+          0.2,
+          0.4,
+          0.6,
+          0.6
+        ],
+        "is_oc_detected": false
+      },
+      "libelput1": {
+        "mean_score": 0.28750000000000003,
+        "visit_count": 8,
+        "conflict_count": 11,
+        "risk_history": [
+          0.4,
+          0.3,
+          0.2,
+          0.3,
+          0.2,
+          0.6,
+          0.1,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1": {
+        "mean_score": 0.58,
+        "visit_count": 15,
+        "conflict_count": 34,
+        "risk_history": [
+          0.7,
+          0.4,
+          0.7,
+          0.8,
+          0.5,
+          0.6,
+          0.5,
+          0.8,
+          0.5,
+          0.6,
+          0.1,
+          0.4,
+          0.8,
+          0.7,
+          0.6
+        ],
+        "is_oc_detected": true
+      },
+      "libevas1-engines-drm": {
+        "mean_score": 0.36666666666666664,
+        "visit_count": 6,
+        "conflict_count": 12,
+        "risk_history": [
+          0.3,
+          0.2,
+          0.4,
+          0.6,
+          0.4,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-fb": {
+        "mean_score": 0.5857142857142856,
+        "visit_count": 7,
+        "conflict_count": 12,
+        "risk_history": [
+          0.6,
+          0.7,
+          0.4,
+          0.7,
+          0.4,
+          0.6,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-wayland": {
+        "mean_score": 0.5384615384615384,
+        "visit_count": 13,
+        "conflict_count": 30,
+        "risk_history": [
+          0.7,
+          0.3,
+          0.2,
+          0.6,
+          0.8,
+          0.2,
+          0.6,
+          0.5,
+          0.6,
+          0.5,
+          0.6,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-x": {
+        "mean_score": 0.6,
+        "visit_count": 6,
+        "conflict_count": 13,
+        "risk_history": [
+          0.6,
+          0.6,
+          0.7,
+          0.4,
+          0.7,
+          0.6
+        ],
+        "is_oc_detected": true
+      }
+    }
+  },
+  {
+    "method": "naive",
+    "model": "deepseek-chat",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_6",
+    "llm_calls": 1,
+    "time": 25.477882207982475,
+    "scores": {
+      "libecore-drm2-1": 0.3,
+      "libecore-evas1": 0.4,
+      "libecore-fb1": 0.2,
+      "libecore-input1": 0.3,
+      "libecore-wl2-1": 0.2,
+      "libecore-x1": 0.2,
+      "libelput1": 0.3,
+      "libevas1": 0.4,
+      "libevas1-engines-drm": 0.3,
+      "libevas1-engines-fb": 0.1,
+      "libevas1-engines-wayland": 0.4,
+      "libevas1-engines-x": 0.3
+    },
+    "reasonings": {
+      "libecore-drm2-1": "Circular dependency with libelput1 and libevas1-engines-drm, potential CVE propagation risk",
+      "libecore-evas1": "Central hub with 8 dependencies, high propagation risk if any dependency has security issues",
+      "libecore-fb1": "Simple dependency chain, minimal circular risk",
+      "libecore-input1": "Multiple packages depend on this, potential bottleneck in circular chain",
+      "libecore-wl2-1": "Moderate circular dependency involvement",
+      "libecore-x1": "Moderate circular dependency involvement",
+      "libelput1": "Circular dependency with libecore-drm2-1 and libecore-input1",
+      "libevas1": "Core component with 5 engine dependencies, central to circular chain",
+      "libevas1-engines-drm": "Mutual circular dependency with libecore-drm2-1",
+      "libevas1-engines-fb": "Simple dependency, minimal circular risk",
+      "libevas1-engines-wayland": "Complex circular dependencies with 5 different packages",
+      "libevas1-engines-x": "Circular dependency with libecore-x1 and libevas1"
+    },
+    "ranking": [
+      [
+        "libecore-evas1",
+        0.4
+      ],
+      [
+        "libevas1",
+        0.4
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.4
+      ],
+      [
+        "libecore-drm2-1",
+        0.3
+      ],
+      [
+        "libecore-input1",
+        0.3
+      ],
+      [
+        "libelput1",
+        0.3
+      ],
+      [
+        "libevas1-engines-drm",
+        0.3
+      ],
+      [
+        "libevas1-engines-x",
+        0.3
+      ],
+      [
+        "libecore-fb1",
+        0.2
+      ],
+      [
+        "libecore-wl2-1",
+        0.2
+      ],
+      [
+        "libecore-x1",
+        0.2
+      ],
+      [
+        "libevas1-engines-fb",
+        0.1
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "libecore-drm2-1",
+        "clause_b": "libelput1",
+        "description": "Mutual circular dependency creates tight coupling"
+      },
+      {
+        "clause_a": "libecore-drm2-1",
+        "clause_b": "libevas1-engines-drm",
+        "description": "Mutual circular dependency between core and engine"
+      },
+      {
+        "clause_a": "libecore-evas1",
+        "clause_b": "libevas1",
+        "description": "Core mutual dependency creating central circular hub"
+      },
+      {
+        "clause_a": "libecore-evas1",
+        "clause_b": "libevas1-engines-wayland",
+        "description": "Complex mutual dependency chain"
+      },
+      {
+        "clause_a": "libevas1",
+        "clause_b": "libevas1-engines-x",
+        "description": "Engine circular dependency with core library"
+      }
+    ],
+    "score_spread": 0.30000000000000004,
+    "score_mean": 0.28333333333333327,
+    "score_max": 0.4,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libecore-x1": "libecore-x1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    }
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-chat",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_6",
+    "budget": 30,
+    "llm_calls": 30,
+    "tt_hits": 0,
+    "tt_hit_rate": 0.0,
+    "time": 139.8398935420264,
+    "scores": {
+      "libevas1": 0.7000000000000001,
+      "libevas1-engines-fb": 0.6124999999999999,
+      "libevas1-engines-drm": 0.6111111111111112,
+      "libevas1-engines-wayland": 0.5933333333333333,
+      "libevas1-engines-x": 0.5555555555555556,
+      "libecore-input1": 0.4923076923076923,
+      "libecore-evas1": 0.48125000000000007,
+      "libecore-drm2-1": 0.44000000000000006,
+      "libecore-fb1": 0.36666666666666664,
+      "libecore-wl2-1": 0.34285714285714286,
+      "libecore-x1": 0.3222222222222222,
+      "libelput1": 0.32
+    },
+    "ranking": [
+      [
+        "libevas1",
+        0.7000000000000001
+      ],
+      [
+        "libevas1-engines-fb",
+        0.6124999999999999
+      ],
+      [
+        "libevas1-engines-drm",
+        0.6111111111111112
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.5933333333333333
+      ],
+      [
+        "libevas1-engines-x",
+        0.5555555555555556
+      ],
+      [
+        "libecore-input1",
+        0.4923076923076923
+      ],
+      [
+        "libecore-evas1",
+        0.48125000000000007
+      ],
+      [
+        "libecore-drm2-1",
+        0.44000000000000006
+      ],
+      [
+        "libecore-fb1",
+        0.36666666666666664
+      ],
+      [
+        "libecore-wl2-1",
+        0.34285714285714286
+      ],
+      [
+        "libecore-x1",
+        0.3222222222222222
+      ],
+      [
+        "libelput1",
+        0.32
+      ]
+    ],
+    "oc_detected": [
+      "libevas1",
+      "libevas1-engines-fb"
+    ],
+    "oc_count": 2,
+    "score_spread": 0.38000000000000006,
+    "score_mean": 0.48648364367114366,
+    "score_max": 0.7000000000000001,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libecore-x1": "libecore-x1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "clause_details": {
+      "libecore-drm2-1": {
+        "mean_score": 0.44000000000000006,
+        "visit_count": 5,
+        "conflict_count": 5,
+        "risk_history": [
+          0.6,
+          0.6,
+          0.4,
+          0.2,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-evas1": {
+        "mean_score": 0.48125000000000007,
+        "visit_count": 16,
+        "conflict_count": 23,
+        "risk_history": [
+          0.6,
+          0.6,
+          0.5,
+          0.5,
+          0.6,
+          0.4,
+          0.4,
+          0.4,
+          0.5,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.6,
+          0.4,
+          0.6
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-fb1": {
+        "mean_score": 0.36666666666666664,
+        "visit_count": 6,
+        "conflict_count": 5,
+        "risk_history": [
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.6,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-input1": {
+        "mean_score": 0.4923076923076923,
+        "visit_count": 13,
+        "conflict_count": 23,
+        "risk_history": [
+          0.7,
+          0.4,
+          0.6,
+          0.5,
+          0.3,
+          0.3,
+          0.6,
+          0.4,
+          0.5,
+          0.6,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-wl2-1": {
+        "mean_score": 0.34285714285714286,
+        "visit_count": 7,
+        "conflict_count": 7,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.2,
+          0.4,
+          0.3,
+          0.4,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-x1": {
+        "mean_score": 0.3222222222222222,
+        "visit_count": 9,
+        "conflict_count": 11,
+        "risk_history": [
+          0.2,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.2,
+          0.2,
+          0.6,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libelput1": {
+        "mean_score": 0.32,
+        "visit_count": 5,
+        "conflict_count": 7,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1": {
+        "mean_score": 0.7000000000000001,
+        "visit_count": 18,
+        "conflict_count": 37,
+        "risk_history": [
+          0.8,
+          0.7,
+          0.5,
+          0.6,
+          0.6,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": true
+      },
+      "libevas1-engines-drm": {
+        "mean_score": 0.6111111111111112,
+        "visit_count": 9,
+        "conflict_count": 13,
+        "risk_history": [
+          0.7,
+          0.7,
+          0.2,
+          0.7,
+          0.6,
+          0.6,
+          0.6,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-fb": {
+        "mean_score": 0.6124999999999999,
+        "visit_count": 8,
+        "conflict_count": 12,
+        "risk_history": [
+          0.6,
+          0.6,
+          0.6,
+          0.6,
+          0.6,
+          0.7,
+          0.6,
+          0.6
+        ],
+        "is_oc_detected": true
+      },
+      "libevas1-engines-wayland": {
+        "mean_score": 0.5933333333333333,
+        "visit_count": 15,
+        "conflict_count": 25,
+        "risk_history": [
+          0.5,
+          0.7,
+          0.7,
+          0.7,
+          0.5,
+          0.6,
+          0.5,
+          0.5,
+          0.5,
+          0.7,
+          0.7,
+          0.7,
+          0.3,
+          0.6,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-x": {
+        "mean_score": 0.5555555555555556,
+        "visit_count": 9,
+        "conflict_count": 14,
+        "risk_history": [
+          0.5,
+          0.2,
+          0.6,
+          0.6,
+          0.6,
+          0.7,
+          0.4,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": false
+      }
+    }
+  },
+  {
+    "method": "naive",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 6,
+    "scc_id": "scc_0",
+    "llm_calls": 1,
+    "time": 3.918556707998505,
+    "scores": {
+      "Falangism": 0.8,
+      "Francoism": 0.6,
+      "Francoist_Spain": 0.4,
+      "Nationalist_faction_(Spanish_Civil_War)": 0.7,
+      "Politics_of_the_Spanish_Civil_War": 0.9,
+      "Spanish_Civil_War": 0.3
+    },
+    "reasonings": {
+      "Falangism": "Falangism being a subcategory of 'Politics_of_the_Spanish_Civil_War' creates a cycle when combined with other links.",
+      "Francoism": "Francoism being a subcategory of 'Francoist_Spain' and 'Nationalist_faction_(Spanish_Civil_War)' contributes to the cycle.",
+      "Francoist_Spain": "Francoist_Spain being a subcategory of 'Spanish_Civil_War' is less problematic but still part of the cycle.",
+      "Nationalist_faction_(Spanish_Civil_War)": "Nationalist_faction being a subcategory of 'Francoism' contributes to the cycle.",
+      "Politics_of_the_Spanish_Civil_War": "Politics_of_the_Spanish_Civil_War being a subcategory of 'Falangism' is a key contributor to the cycle.",
+      "Spanish_Civil_War": "Spanish_Civil_War being a subcategory of 'Politics_of_the_Spanish_Civil_War' is less problematic but still part of the cycle."
+    },
+    "ranking": [
+      [
+        "Politics_of_the_Spanish_Civil_War",
+        0.9
+      ],
+      [
+        "Falangism",
+        0.8
+      ],
+      [
+        "Nationalist_faction_(Spanish_Civil_War)",
+        0.7
+      ],
+      [
+        "Francoism",
+        0.6
+      ],
+      [
+        "Francoist_Spain",
+        0.4
+      ],
+      [
+        "Spanish_Civil_War",
+        0.3
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "Politics_of_the_Spanish_Civil_War \u2192 Falangism",
+        "clause_b": "Falangism \u2192 Francoism",
+        "description": "The link 'Politics_of_the_Spanish_Civil_War \u2192 Falangism' creates a cycle when combined with 'Falangism \u2192 Francoism'."
+      },
+      {
+        "clause_a": "Nationalist_faction_(Spanish_Civil_War) \u2192 Francoism",
+        "clause_b": "Francoism \u2192 Francoist_Spain",
+        "description": "The link 'Nationalist_faction_(Spanish_Civil_War) \u2192 Francoism' contributes to the cycle when combined with 'Francoism \u2192 Francoist_Spain'."
+      },
+      {
+        "clause_a": "Spanish_Civil_War \u2192 Politics_of_the_Spanish_Civil_War",
+        "clause_b": "Politics_of_the_Spanish_Civil_War \u2192 Falangism",
+        "description": "The link 'Spanish_Civil_War \u2192 Politics_of_the_Spanish_Civil_War' contributes to the cycle when combined with 'Politics_of_the_Spanish_Civil_War \u2192 Falangism'."
+      }
+    ],
+    "score_spread": 0.6000000000000001,
+    "score_mean": 0.6166666666666666,
+    "score_max": 0.9,
+    "node_names": {
+      "Falangism": "Falangism",
+      "Francoism": "Francoism",
+      "Francoist_Spain": "Francoist Spain",
+      "Nationalist_faction_(Spanish_Civil_War)": "Nationalist faction (Spanish Civil War)",
+      "Politics_of_the_Spanish_Civil_War": "Politics of the Spanish Civil War",
+      "Spanish_Civil_War": "Spanish Civil War"
+    }
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 6,
+    "scc_id": "scc_0",
+    "budget": 60,
+    "llm_calls": 23,
+    "tt_hits": 37,
+    "tt_hit_rate": 0.6166666666666667,
+    "time": 58.142391166999005,
+    "scores": {
+      "Francoist_Spain": 0.6477272727272729,
+      "Nationalist_faction_(Spanish_Civil_War)": 0.5810344827586206,
+      "Francoism": 0.5382978723404256,
+      "Falangism": 0.523076923076923,
+      "Politics_of_the_Spanish_Civil_War": 0.5072916666666666,
+      "Spanish_Civil_War": 0.48913043478260854
+    },
+    "ranking": [
+      [
+        "Francoist_Spain",
+        0.6477272727272729
+      ],
+      [
+        "Nationalist_faction_(Spanish_Civil_War)",
+        0.5810344827586206
+      ],
+      [
+        "Francoism",
+        0.5382978723404256
+      ],
+      [
+        "Falangism",
+        0.523076923076923
+      ],
+      [
+        "Politics_of_the_Spanish_Civil_War",
+        0.5072916666666666
+      ],
+      [
+        "Spanish_Civil_War",
+        0.48913043478260854
+      ]
+    ],
+    "oc_detected": [
+      "Francoist_Spain"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.1585968379446644,
+    "score_mean": 0.5477597753920862,
+    "score_max": 0.6477272727272729,
+    "node_names": {
+      "Falangism": "Falangism",
+      "Francoism": "Francoism",
+      "Francoist_Spain": "Francoist Spain",
+      "Nationalist_faction_(Spanish_Civil_War)": "Nationalist faction (Spanish Civil War)",
+      "Politics_of_the_Spanish_Civil_War": "Politics of the Spanish Civil War",
+      "Spanish_Civil_War": "Spanish Civil War"
+    },
+    "clause_details": {
+      "Falangism": {
+        "mean_score": 0.523076923076923,
+        "visit_count": 26,
+        "conflict_count": 16,
+        "risk_history": [
+          0.5,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.5,
+          0.3,
+          0.5,
+          0.5,
+          1.0,
+          0.3,
+          0.3,
+          1.0,
+          0.0,
+          0.3,
+          0.7,
+          1.0,
+          0.5,
+          0.0,
+          0.5,
+          0.7,
+          1.0
+        ],
+        "is_oc_detected": false
+      },
+      "Francoism": {
+        "mean_score": 0.5382978723404256,
+        "visit_count": 47,
+        "conflict_count": 22,
+        "risk_history": [
+          0.7,
+          1.0,
+          0.0,
+          0.0,
+          0.5,
+          0.5,
+          0.0,
+          0.5,
+          0.5,
+          0.0,
+          0.5,
+          0.5,
+          0.5,
+          1.0,
+          0.5,
+          0.0,
+          0.2,
+          0.3,
+          0.2,
+          0.2,
+          0.8,
+          0.5,
+          0.3,
+          0.2,
+          1.0,
+          0.8,
+          1.0,
+          0.8,
+          0.8,
+          0.8,
+          0.0,
+          0.8,
+          0.8,
+          0.8,
+          1.0,
+          0.8,
+          0.5,
+          1.0,
+          1.0,
+          0.0,
+          0.5,
+          0.0,
+          0.7,
+          1.0,
+          1.0,
+          0.0,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "Francoist_Spain": {
+        "mean_score": 0.6477272727272729,
+        "visit_count": 44,
+        "conflict_count": 37,
+        "risk_history": [
+          1.0,
+          1.0,
+          0.0,
+          0.7,
+          0.7,
+          1.0,
+          0.7,
+          0.7,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.3,
+          0.3,
+          0.3,
+          0.9,
+          1.0,
+          0.3,
+          0.5,
+          0.0,
+          0.9,
+          1.0,
+          0.6,
+          0.6,
+          0.9,
+          1.0,
+          0.0,
+          0.0,
+          0.9,
+          0.6,
+          0.6,
+          0.5,
+          0.6,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.8,
+          1.0,
+          0.5,
+          0.6,
+          1.0
+        ],
+        "is_oc_detected": true
+      },
+      "Nationalist_faction_(Spanish_Civil_War)": {
+        "mean_score": 0.5810344827586206,
+        "visit_count": 29,
+        "conflict_count": 10,
+        "risk_history": [
+          0.8,
+          0.5,
+          0.0,
+          0.0,
+          1.0,
+          0.7,
+          0.0,
+          0.7,
+          0.0,
+          0.5,
+          1.0,
+          1.0,
+          0.75,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          0.7,
+          0.75,
+          0.5,
+          0.5,
+          0.0,
+          0.75,
+          0.5,
+          0.5,
+          1.0,
+          0.7,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Politics_of_the_Spanish_Civil_War": {
+        "mean_score": 0.5072916666666666,
+        "visit_count": 48,
+        "conflict_count": 40,
+        "risk_history": [
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.8,
+          0.3,
+          0.3,
+          0.0,
+          1.0,
+          0.3,
+          0.3,
+          0.8,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.5,
+          0.7,
+          0.8,
+          0.7,
+          0.7,
+          0.75,
+          0.8,
+          1.0,
+          0.7,
+          0.0,
+          1.0,
+          0.5,
+          0.2,
+          0.2,
+          1.0,
+          1.0,
+          0.2,
+          0.5,
+          0.0,
+          0.8,
+          0.2,
+          0.75,
+          0.75,
+          1.0,
+          0.0,
+          0.5,
+          0.5,
+          0.8,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Spanish_Civil_War": {
+        "mean_score": 0.48913043478260854,
+        "visit_count": 46,
+        "conflict_count": 37,
+        "risk_history": [
+          0.5,
+          1.0,
+          0.5,
+          0.5,
+          0.6,
+          0.6,
+          1.0,
+          0.6,
+          0.6,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.0,
+          0.5,
+          0.6,
+          0.5,
+          0.5,
+          0.2,
+          0.6,
+          1.0,
+          0.5,
+          0.5,
+          0.2,
+          0.5,
+          0.4,
+          0.4,
+          0.2,
+          1.0,
+          0.5,
+          0.2,
+          0.4,
+          0.5,
+          0.4,
+          0.5,
+          0.5,
+          0.5,
+          0.0,
+          0.5,
+          0.5,
+          0.0,
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      }
+    }
+  },
+  {
+    "method": "naive",
+    "model": "deepseek-chat",
+    "domain": "wikipedia",
+    "scc_size": 6,
+    "scc_id": "scc_0",
+    "llm_calls": 1,
+    "time": 20.13166275000549,
+    "scores": {
+      "Falangism": 0.8,
+      "Francoism": 0.3,
+      "Francoist_Spain": 0.9,
+      "Nationalist_faction_(Spanish_Civil_War)": 0.7,
+      "Politics_of_the_Spanish_Civil_War": 0.8,
+      "Spanish_Civil_War": 0.9
+    },
+    "reasonings": {
+      "Falangism": "Should not be parent of Politics_of_the_Spanish_Civil_War - Falangism is an ideology, not a broader political context",
+      "Francoism": "Correctly subcategory of Francoist_Spain, but problematic as parent of Falangism",
+      "Francoist_Spain": "Should not be subcategory of Spanish_Civil_War - Francoist Spain was the regime that emerged AFTER the war",
+      "Nationalist_faction_(Spanish_Civil_War)": "Should not be parent of Francoism - the faction preceded and evolved into the regime",
+      "Politics_of_the_Spanish_Civil_War": "Should not be subcategory of Falangism - politics is broader than one ideology",
+      "Spanish_Civil_War": "Should not be subcategory of Politics_of_the_Spanish_Civil_War - the war encompasses more than just politics"
+    },
+    "ranking": [
+      [
+        "Francoist_Spain",
+        0.9
+      ],
+      [
+        "Spanish_Civil_War",
+        0.9
+      ],
+      [
+        "Falangism",
+        0.8
+      ],
+      [
+        "Politics_of_the_Spanish_Civil_War",
+        0.8
+      ],
+      [
+        "Nationalist_faction_(Spanish_Civil_War)",
+        0.7
+      ],
+      [
+        "Francoism",
+        0.3
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "Francoist_Spain",
+        "clause_b": "Spanish_Civil_War",
+        "description": "Francoist Spain was the regime that emerged from the war, not a subcategory of the war itself"
+      },
+      {
+        "clause_a": "Politics_of_the_Spanish_Civil_War",
+        "clause_b": "Falangism",
+        "description": "Political context of the war is broader than and should contain Falangism, not vice versa"
+      },
+      {
+        "clause_a": "Spanish_Civil_War",
+        "clause_b": "Politics_of_the_Spanish_Civil_War",
+        "description": "The war category should contain political aspects, not be contained by them"
+      }
+    ],
+    "score_spread": 0.6000000000000001,
+    "score_mean": 0.7333333333333334,
+    "score_max": 0.9,
+    "node_names": {
+      "Falangism": "Falangism",
+      "Francoism": "Francoism",
+      "Francoist_Spain": "Francoist Spain",
+      "Nationalist_faction_(Spanish_Civil_War)": "Nationalist faction (Spanish Civil War)",
+      "Politics_of_the_Spanish_Civil_War": "Politics of the Spanish Civil War",
+      "Spanish_Civil_War": "Spanish Civil War"
+    }
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-chat",
+    "domain": "wikipedia",
+    "scc_size": 6,
+    "scc_id": "scc_0",
+    "budget": 60,
+    "llm_calls": 19,
+    "tt_hits": 41,
+    "tt_hit_rate": 0.6833333333333333,
+    "time": 133.14304312499007,
+    "scores": {
+      "Politics_of_the_Spanish_Civil_War": 0.7976744186046507,
+      "Nationalist_faction_(Spanish_Civil_War)": 0.5774999999999999,
+      "Francoism": 0.534146341463415,
+      "Francoist_Spain": 0.4875000000000001,
+      "Spanish_Civil_War": 0.47380952380952396,
+      "Falangism": 0.3941176470588237
+    },
+    "ranking": [
+      [
+        "Politics_of_the_Spanish_Civil_War",
+        0.7976744186046507
+      ],
+      [
+        "Nationalist_faction_(Spanish_Civil_War)",
+        0.5774999999999999
+      ],
+      [
+        "Francoism",
+        0.534146341463415
+      ],
+      [
+        "Francoist_Spain",
+        0.4875000000000001
+      ],
+      [
+        "Spanish_Civil_War",
+        0.47380952380952396
+      ],
+      [
+        "Falangism",
+        0.3941176470588237
+      ]
+    ],
+    "oc_detected": [
+      "Politics_of_the_Spanish_Civil_War"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.40355677154582703,
+    "score_mean": 0.5441246551560689,
+    "score_max": 0.7976744186046507,
+    "node_names": {
+      "Falangism": "Falangism",
+      "Francoism": "Francoism",
+      "Francoist_Spain": "Francoist Spain",
+      "Nationalist_faction_(Spanish_Civil_War)": "Nationalist faction (Spanish Civil War)",
+      "Politics_of_the_Spanish_Civil_War": "Politics of the Spanish Civil War",
+      "Spanish_Civil_War": "Spanish Civil War"
+    },
+    "clause_details": {
+      "Falangism": {
+        "mean_score": 0.3941176470588237,
+        "visit_count": 34,
+        "conflict_count": 25,
+        "risk_history": [
+          0.2,
+          0.9,
+          0.1,
+          0.9,
+          0.3,
+          0.1,
+          0.0,
+          0.3,
+          0.0,
+          0.8,
+          0.0,
+          0.1,
+          0.3,
+          0.9,
+          0.1,
+          0.9,
+          0.2,
+          0.0,
+          0.3,
+          0.2,
+          0.3,
+          0.8,
+          0.8,
+          0.3,
+          0.8,
+          0.8,
+          0.8,
+          0.2,
+          0.3,
+          0.3,
+          0.3,
+          0.8,
+          0.3,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Francoism": {
+        "mean_score": 0.534146341463415,
+        "visit_count": 41,
+        "conflict_count": 34,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.9,
+          0.9,
+          0.1,
+          0.2,
+          0.2,
+          0.9,
+          0.9,
+          0.1,
+          0.3,
+          0.8,
+          0.8,
+          0.9,
+          0.2,
+          0.1,
+          0.9,
+          0.9,
+          0.8,
+          0.1,
+          0.8,
+          0.6,
+          0.9,
+          0.8,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.1,
+          0.6,
+          0.3,
+          0.2,
+          0.8,
+          0.8,
+          0.1,
+          0.8,
+          0.1,
+          0.3,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "Francoist_Spain": {
+        "mean_score": 0.4875000000000001,
+        "visit_count": 40,
+        "conflict_count": 41,
+        "risk_history": [
+          0.3,
+          0.7,
+          0.8,
+          0.1,
+          0.9,
+          0.9,
+          0.1,
+          0.8,
+          0.0,
+          0.0,
+          0.3,
+          0.7,
+          0.7,
+          0.0,
+          0.8,
+          0.9,
+          0.8,
+          0.1,
+          0.3,
+          0.3,
+          0.0,
+          0.7,
+          0.1,
+          0.3,
+          0.9,
+          0.7,
+          0.3,
+          0.9,
+          0.3,
+          0.9,
+          0.9,
+          0.3,
+          0.9,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.7,
+          0.0,
+          0.9
+        ],
+        "is_oc_detected": false
+      },
+      "Nationalist_faction_(Spanish_Civil_War)": {
+        "mean_score": 0.5774999999999999,
+        "visit_count": 40,
+        "conflict_count": 38,
+        "risk_history": [
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          0.3,
+          0.4,
+          0.3,
+          0.4,
+          0.0,
+          0.9,
+          0.9,
+          0.4,
+          0.8,
+          0.8,
+          0.3,
+          0.0,
+          0.9,
+          0.4,
+          0.9,
+          0.7,
+          0.3,
+          0.9,
+          0.2,
+          0.0,
+          0.2,
+          0.7,
+          0.0,
+          0.2,
+          0.2,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.9,
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "Politics_of_the_Spanish_Civil_War": {
+        "mean_score": 0.7976744186046507,
+        "visit_count": 43,
+        "conflict_count": 68,
+        "risk_history": [
+          1.0,
+          1.0,
+          0.8,
+          0.8,
+          0.1,
+          0.1,
+          0.8,
+          1.0,
+          0.8,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          0.1,
+          0.8,
+          1.0,
+          1.0,
+          0.8,
+          1.0,
+          1.0,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          1.0,
+          0.9,
+          0.9,
+          1.0,
+          0.9,
+          0.8,
+          0.9,
+          0.9,
+          0.9,
+          0.1,
+          0.9,
+          0.2,
+          0.9,
+          0.2,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9
+        ],
+        "is_oc_detected": true
+      },
+      "Spanish_Civil_War": {
+        "mean_score": 0.47380952380952396,
+        "visit_count": 42,
+        "conflict_count": 36,
+        "risk_history": [
+          0.2,
+          0.1,
+          0.2,
+          0.2,
+          0.8,
+          0.8,
+          0.2,
+          0.8,
+          0.8,
+          0.5,
+          0.1,
+          0.1,
+          0.1,
+          0.8,
+          0.2,
+          0.8,
+          0.2,
+          0.2,
+          0.2,
+          0.5,
+          0.8,
+          0.1,
+          0.9,
+          0.8,
+          0.8,
+          0.5,
+          0.1,
+          0.8,
+          0.2,
+          0.5,
+          0.8,
+          0.8,
+          0.9,
+          0.1,
+          0.2,
+          0.8,
+          0.8,
+          0.2,
+          0.8,
+          0.8,
+          0.1,
+          0.3
+        ],
+        "is_oc_detected": false
+      }
+    }
+  },
+  {
+    "method": "naive",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 8,
+    "scc_id": "scc_4",
+    "llm_calls": 1,
+    "time": 4.738767041999381,
+    "scores": {
+      "Ba\u2013Shu": 1.0,
+      "Chongqing": 0.5,
+      "Eastern_Sichuan": 0.0,
+      "Geography_of_Chongqing": 0.0,
+      "Geography_of_Sichuan": 0.0,
+      "History_of_Chongqing": 0.0,
+      "Regions_of_Sichuan": 0.0,
+      "Sichuan": 0.0
+    },
+    "reasonings": {
+      "Ba\u2013Shu": "The subcategory link 'Ba\u2013Shu \u2192 Sichuan' and 'Ba\u2013Shu \u2192 Geography_of_Chongqing' create a cycle by connecting back to Sichuan and Geography_of_Chongqing, respectively.",
+      "Chongqing": "Chongqing is a subcategory of 'History_of_Chongqing' but also indirectly loops back to Sichuan.",
+      "Eastern_Sichuan": "Eastern_Sichuan is a valid sub-region of Sichuan.",
+      "Geography_of_Chongqing": "Geography_of_Chongqing is valid.",
+      "Geography_of_Sichuan": "Geography_of_Sichuan is valid.",
+      "History_of_Chongqing": "History_of_Chongqing is valid.",
+      "Regions_of_Sichuan": "Regions_of_Sichuan is valid.",
+      "Sichuan": "Sichuan is valid."
+    },
+    "ranking": [
+      [
+        "Ba\u2013Shu",
+        1.0
+      ],
+      [
+        "Chongqing",
+        0.5
+      ],
+      [
+        "Eastern_Sichuan",
+        0.0
+      ],
+      [
+        "Geography_of_Chongqing",
+        0.0
+      ],
+      [
+        "Geography_of_Sichuan",
+        0.0
+      ],
+      [
+        "History_of_Chongqing",
+        0.0
+      ],
+      [
+        "Regions_of_Sichuan",
+        0.0
+      ],
+      [
+        "Sichuan",
+        0.0
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "Ba\u2013Shu",
+        "clause_b": "Sichuan",
+        "description": "Ba Shu loops back."
+      }
+    ],
+    "score_spread": 1.0,
+    "score_mean": 0.1875,
+    "score_max": 1.0,
+    "node_names": {
+      "Ba\u2013Shu": "Ba\u2013Shu",
+      "Chongqing": "Chongqing",
+      "Eastern_Sichuan": "Eastern Sichuan",
+      "Geography_of_Chongqing": "Geography of Chongqing",
+      "Geography_of_Sichuan": "Geography of Sichuan",
+      "History_of_Chongqing": "History of Chongqing",
+      "Regions_of_Sichuan": "Regions of Sichuan",
+      "Sichuan": "Sichuan"
+    }
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 8,
+    "scc_id": "scc_4",
+    "budget": 60,
+    "llm_calls": 24,
+    "tt_hits": 36,
+    "tt_hit_rate": 0.6,
+    "time": 49.51769350000541,
+    "scores": {
+      "Eastern_Sichuan": 0.8612903225806453,
+      "Regions_of_Sichuan": 0.8371428571428572,
+      "Geography_of_Sichuan": 0.7125000000000001,
+      "Ba\u2013Shu": 0.6151515151515152,
+      "Sichuan": 0.546875,
+      "Chongqing": 0.5121212121212121,
+      "Geography_of_Chongqing": 0.42105263157894735,
+      "History_of_Chongqing": 0.36
+    },
+    "ranking": [
+      [
+        "Eastern_Sichuan",
+        0.8612903225806453
+      ],
+      [
+        "Regions_of_Sichuan",
+        0.8371428571428572
+      ],
+      [
+        "Geography_of_Sichuan",
+        0.7125000000000001
+      ],
+      [
+        "Ba\u2013Shu",
+        0.6151515151515152
+      ],
+      [
+        "Sichuan",
+        0.546875
+      ],
+      [
+        "Chongqing",
+        0.5121212121212121
+      ],
+      [
+        "Geography_of_Chongqing",
+        0.42105263157894735
+      ],
+      [
+        "History_of_Chongqing",
+        0.36
+      ]
+    ],
+    "oc_detected": [
+      "Eastern_Sichuan",
+      "Regions_of_Sichuan"
+    ],
+    "oc_count": 2,
+    "score_spread": 0.5012903225806453,
+    "score_mean": 0.6082666923218972,
+    "score_max": 0.8612903225806453,
+    "node_names": {
+      "Ba\u2013Shu": "Ba\u2013Shu",
+      "Chongqing": "Chongqing",
+      "Eastern_Sichuan": "Eastern Sichuan",
+      "Geography_of_Chongqing": "Geography of Chongqing",
+      "Geography_of_Sichuan": "Geography of Sichuan",
+      "History_of_Chongqing": "History of Chongqing",
+      "Regions_of_Sichuan": "Regions of Sichuan",
+      "Sichuan": "Sichuan"
+    },
+    "clause_details": {
+      "Ba\u2013Shu": {
+        "mean_score": 0.6151515151515152,
+        "visit_count": 33,
+        "conflict_count": 14,
+        "risk_history": [
+          0.5,
+          1.0,
+          1.0,
+          0.5,
+          0.0,
+          0.5,
+          1.0,
+          0.5,
+          0.5,
+          0.5,
+          0.0,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          1.0,
+          0.9,
+          0.9,
+          1.0,
+          0.0,
+          0.9,
+          0.9,
+          1.0,
+          1.0,
+          0.3,
+          0.5,
+          0.0,
+          0.5,
+          1.0,
+          0.9,
+          1.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Chongqing": {
+        "mean_score": 0.5121212121212121,
+        "visit_count": 33,
+        "conflict_count": 14,
+        "risk_history": [
+          0.5,
+          0.5,
+          1.0,
+          0.5,
+          1.0,
+          0.5,
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          0.5,
+          0.5,
+          0.5,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "Eastern_Sichuan": {
+        "mean_score": 0.8612903225806453,
+        "visit_count": 31,
+        "conflict_count": 20,
+        "risk_history": [
+          1.0,
+          0.8,
+          1.0,
+          1.0,
+          1.0,
+          0.7,
+          0.7,
+          1.0,
+          0.7,
+          1.0,
+          1.0,
+          0.7,
+          1.0,
+          1.0,
+          0.8,
+          1.0,
+          0.8,
+          1.0,
+          1.0,
+          0.8,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.5,
+          1.0,
+          0.5,
+          0.5,
+          1.0,
+          0.5,
+          0.7
+        ],
+        "is_oc_detected": true
+      },
+      "Geography_of_Chongqing": {
+        "mean_score": 0.42105263157894735,
+        "visit_count": 19,
+        "conflict_count": 4,
+        "risk_history": [
+          1.0,
+          0.5,
+          0.0,
+          0.5,
+          0.5,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5,
+          0.5,
+          0.5,
+          0.0,
+          1.0,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Geography_of_Sichuan": {
+        "mean_score": 0.7125000000000001,
+        "visit_count": 32,
+        "conflict_count": 16,
+        "risk_history": [
+          0.5,
+          0.4,
+          1.0,
+          1.0,
+          0.5,
+          1.0,
+          0.5,
+          0.5,
+          0.5,
+          1.0,
+          0.4,
+          1.0,
+          0.5,
+          0.8,
+          0.4,
+          1.0,
+          0.8,
+          0.5,
+          0.4,
+          1.0,
+          0.8,
+          0.8,
+          0.5,
+          1.0,
+          1.0,
+          0.5,
+          0.7,
+          1.0,
+          0.5,
+          0.7,
+          1.0,
+          0.6
+        ],
+        "is_oc_detected": false
+      },
+      "History_of_Chongqing": {
+        "mean_score": 0.36,
+        "visit_count": 25,
+        "conflict_count": 10,
+        "risk_history": [
+          1.0,
+          0.5,
+          0.0,
+          0.0,
+          1.0,
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.0,
+          0.5,
+          0.0,
+          0.0,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          1.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Regions_of_Sichuan": {
+        "mean_score": 0.8371428571428572,
+        "visit_count": 35,
+        "conflict_count": 20,
+        "risk_history": [
+          0.5,
+          0.6,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.8,
+          1.0,
+          0.8,
+          1.0,
+          0.8,
+          1.0,
+          1.0,
+          0.8,
+          1.0,
+          1.0,
+          0.6,
+          1.0,
+          0.4,
+          0.6,
+          1.0,
+          0.4,
+          1.0,
+          0.6,
+          1.0,
+          0.4,
+          0.4,
+          1.0,
+          1.0,
+          1.0,
+          0.8,
+          1.0,
+          1.0,
+          1.0,
+          0.8
+        ],
+        "is_oc_detected": true
+      },
+      "Sichuan": {
+        "mean_score": 0.546875,
+        "visit_count": 32,
+        "conflict_count": 14,
+        "risk_history": [
+          0.0,
+          0.0,
+          1.0,
+          0.2,
+          0.5,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.2,
+          1.0,
+          1.0,
+          0.6,
+          0.2,
+          0.6,
+          1.0,
+          0.2,
+          0.6,
+          0.6,
+          1.0,
+          1.0,
+          0.5,
+          0.5,
+          1.0,
+          1.0,
+          0.8,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      }
+    }
+  },
+  {
+    "method": "naive",
+    "model": "deepseek-chat",
+    "domain": "wikipedia",
+    "scc_size": 8,
+    "scc_id": "scc_4",
+    "llm_calls": 1,
+    "time": 16.78085737497895,
+    "scores": {
+      "Ba\u2013Shu": 0.8,
+      "Chongqing": 0.9,
+      "Eastern_Sichuan": 0.7,
+      "Geography_of_Chongqing": 0.6,
+      "Geography_of_Sichuan": 0.3,
+      "History_of_Chongqing": 0.4,
+      "Regions_of_Sichuan": 0.5,
+      "Sichuan": 0.2
+    },
+    "reasonings": {
+      "Ba\u2013Shu": "Should not be subcategory of Sichuan AND have Geography_of_Chongqing as subcategory",
+      "Chongqing": "Should not be subcategory of Eastern_Sichuan while also having Sichuan-related categories as ancestors",
+      "Eastern_Sichuan": "Problematic to be subcategory of Chongqing while being region of Sichuan",
+      "Geography_of_Chongqing": "Should not be subcategory of Ba\u2013Shu, creates circular path",
+      "Geography_of_Sichuan": "Should not be subcategory of Regions_of_Sichuan, creates overly specific hierarchy",
+      "History_of_Chongqing": "Should not be subcategory of Ba\u2013Shu, creates historical-geographical loop",
+      "Regions_of_Sichuan": "Should not be subcategory of Eastern_Sichuan, reverses logical hierarchy",
+      "Sichuan": "Should not be subcategory of Geography_of_Sichuan, reverses province-geography relationship"
+    },
+    "ranking": [
+      [
+        "Chongqing",
+        0.9
+      ],
+      [
+        "Ba\u2013Shu",
+        0.8
+      ],
+      [
+        "Eastern_Sichuan",
+        0.7
+      ],
+      [
+        "Geography_of_Chongqing",
+        0.6
+      ],
+      [
+        "Regions_of_Sichuan",
+        0.5
+      ],
+      [
+        "History_of_Chongqing",
+        0.4
+      ],
+      [
+        "Geography_of_Sichuan",
+        0.3
+      ],
+      [
+        "Sichuan",
+        0.2
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "Chongqing",
+        "clause_b": "Eastern_Sichuan",
+        "description": "Chongqing (municipality) should not be subcategory of Eastern_Sichuan (region)"
+      },
+      {
+        "clause_a": "Geography_of_Chongqing",
+        "clause_b": "Ba\u2013Shu",
+        "description": "Geography_of_Chongqing should not be subcategory of historical Ba\u2013Shu region"
+      },
+      {
+        "clause_a": "Sichuan",
+        "clause_b": "Geography_of_Sichuan",
+        "description": "Sichuan province should not be subcategory of its own geography category"
+      }
+    ],
+    "score_spread": 0.7,
+    "score_mean": 0.55,
+    "score_max": 0.9,
+    "node_names": {
+      "Ba\u2013Shu": "Ba\u2013Shu",
+      "Chongqing": "Chongqing",
+      "Eastern_Sichuan": "Eastern Sichuan",
+      "Geography_of_Chongqing": "Geography of Chongqing",
+      "Geography_of_Sichuan": "Geography of Sichuan",
+      "History_of_Chongqing": "History of Chongqing",
+      "Regions_of_Sichuan": "Regions of Sichuan",
+      "Sichuan": "Sichuan"
+    }
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-chat",
+    "domain": "wikipedia",
+    "scc_size": 8,
+    "scc_id": "scc_4",
+    "budget": 60,
+    "llm_calls": 21,
+    "tt_hits": 39,
+    "tt_hit_rate": 0.65,
+    "time": 114.51445516600506,
+    "scores": {
+      "Chongqing": 0.8297297297297297,
+      "Sichuan": 0.8076923076923077,
+      "Geography_of_Sichuan": 0.6916666666666669,
+      "History_of_Chongqing": 0.6034482758620691,
+      "Eastern_Sichuan": 0.5514285714285716,
+      "Regions_of_Sichuan": 0.47037037037037055,
+      "Geography_of_Chongqing": 0.33103448275862074,
+      "Ba\u2013Shu": 0.22424242424242427
+    },
+    "ranking": [
+      [
+        "Chongqing",
+        0.8297297297297297
+      ],
+      [
+        "Sichuan",
+        0.8076923076923077
+      ],
+      [
+        "Geography_of_Sichuan",
+        0.6916666666666669
+      ],
+      [
+        "History_of_Chongqing",
+        0.6034482758620691
+      ],
+      [
+        "Eastern_Sichuan",
+        0.5514285714285716
+      ],
+      [
+        "Regions_of_Sichuan",
+        0.47037037037037055
+      ],
+      [
+        "Geography_of_Chongqing",
+        0.33103448275862074
+      ],
+      [
+        "Ba\u2013Shu",
+        0.22424242424242427
+      ]
+    ],
+    "oc_detected": [
+      "Sichuan"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.6054873054873054,
+    "score_mean": 0.563701603593845,
+    "score_max": 0.8297297297297297,
+    "node_names": {
+      "Ba\u2013Shu": "Ba\u2013Shu",
+      "Chongqing": "Chongqing",
+      "Eastern_Sichuan": "Eastern Sichuan",
+      "Geography_of_Chongqing": "Geography of Chongqing",
+      "Geography_of_Sichuan": "Geography of Sichuan",
+      "History_of_Chongqing": "History of Chongqing",
+      "Regions_of_Sichuan": "Regions of Sichuan",
+      "Sichuan": "Sichuan"
+    },
+    "clause_details": {
+      "Ba\u2013Shu": {
+        "mean_score": 0.22424242424242427,
+        "visit_count": 33,
+        "conflict_count": 9,
+        "risk_history": [
+          0.8,
+          0.3,
+          0.3,
+          0.2,
+          0.3,
+          0.3,
+          0.0,
+          0.2,
+          0.3,
+          0.4,
+          0.2,
+          0.2,
+          0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.3,
+          0.2,
+          0.0,
+          0.3,
+          0.3,
+          0.0,
+          0.3,
+          0.3,
+          0.0,
+          0.0,
+          0.4,
+          0.3,
+          0.2,
+          0.3,
+          0.4,
+          0.4,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Chongqing": {
+        "mean_score": 0.8297297297297297,
+        "visit_count": 37,
+        "conflict_count": 65,
+        "risk_history": [
+          1.0,
+          0.8,
+          1.0,
+          0.8,
+          0.9,
+          1.0,
+          0.8,
+          0.8,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          0.8,
+          1.0,
+          1.0,
+          0.2,
+          0.2,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          1.0,
+          0.9,
+          0.8,
+          0.8,
+          1.0,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.2,
+          0.8,
+          0.9,
+          0.8,
+          0.9
+        ],
+        "is_oc_detected": false
+      },
+      "Eastern_Sichuan": {
+        "mean_score": 0.5514285714285716,
+        "visit_count": 35,
+        "conflict_count": 25,
+        "risk_history": [
+          0.5,
+          0.1,
+          0.1,
+          0.9,
+          0.1,
+          0.8,
+          0.9,
+          0.1,
+          0.9,
+          0.3,
+          0.7,
+          0.0,
+          0.5,
+          0.5,
+          0.9,
+          0.5,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.0,
+          1.0,
+          0.8,
+          1.0,
+          0.9,
+          0.0,
+          0.0,
+          0.3,
+          0.2,
+          0.9,
+          0.8,
+          0.3,
+          0.9,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "Geography_of_Chongqing": {
+        "mean_score": 0.33103448275862074,
+        "visit_count": 29,
+        "conflict_count": 27,
+        "risk_history": [
+          0.3,
+          0.0,
+          0.0,
+          0.8,
+          0.2,
+          0.8,
+          0.0,
+          0.0,
+          0.8,
+          0.0,
+          0.0,
+          0.0,
+          0.8,
+          1.0,
+          1.0,
+          0.2,
+          0.2,
+          0.0,
+          0.0,
+          0.4,
+          0.0,
+          0.2,
+          0.4,
+          0.4,
+          0.0,
+          0.0,
+          0.4,
+          0.7,
+          1.0
+        ],
+        "is_oc_detected": false
+      },
+      "Geography_of_Sichuan": {
+        "mean_score": 0.6916666666666669,
+        "visit_count": 24,
+        "conflict_count": 38,
+        "risk_history": [
+          1.0,
+          0.8,
+          0.8,
+          1.0,
+          1.0,
+          0.8,
+          0.8,
+          1.0,
+          0.8,
+          0.8,
+          0.1,
+          0.8,
+          0.8,
+          1.0,
+          0.8,
+          1.0,
+          0.8,
+          0.8,
+          0.0,
+          0.0,
+          0.8,
+          0.8,
+          0.1,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "History_of_Chongqing": {
+        "mean_score": 0.6034482758620691,
+        "visit_count": 29,
+        "conflict_count": 32,
+        "risk_history": [
+          0.4,
+          0.0,
+          0.8,
+          0.9,
+          0.8,
+          0.8,
+          0.8,
+          0.0,
+          0.0,
+          0.0,
+          0.8,
+          1.0,
+          1.0,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.3,
+          0.9,
+          0.0,
+          0.0,
+          0.8,
+          0.8,
+          0.3,
+          1.0,
+          0.9,
+          0.8,
+          0.8,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Regions_of_Sichuan": {
+        "mean_score": 0.47037037037037055,
+        "visit_count": 27,
+        "conflict_count": 27,
+        "risk_history": [
+          0.8,
+          0.7,
+          0.7,
+          0.8,
+          0.0,
+          0.8,
+          0.7,
+          0.0,
+          0.7,
+          0.0,
+          0.8,
+          0.9,
+          0.9,
+          0.3,
+          0.3,
+          0.0,
+          0.9,
+          0.0,
+          0.3,
+          0.0,
+          0.2,
+          0.9,
+          0.9,
+          0.3,
+          0.3,
+          0.2,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "Sichuan": {
+        "mean_score": 0.8076923076923077,
+        "visit_count": 26,
+        "conflict_count": 23,
+        "risk_history": [
+          0.2,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.1,
+          0.9,
+          0.9,
+          0.3,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.1,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.1,
+          1.0
+        ],
+        "is_oc_detected": true
+      }
+    }
+  },
+  {
+    "method": "naive",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 6,
+    "scc_id": "scc_3",
+    "llm_calls": 1,
+    "time": 5.802359875000548,
+    "scores": {
+      "us-cw-1001817": 0.8,
+      "us-cw-18788": 1.0,
+      "us-cw-3779": 0.7,
+      "us-cw-863719": 0.5,
+      "us-cw-993767": 0.6,
+      "us-cw-993768": 0.6
+    },
+    "reasonings": {
+      "us-cw-1001817": "This entity is involved in multiple ownership links that contribute to circular ownership, suggesting potential erroneous filings or misrepresentation.",
+      "us-cw-18788": "This entity appears to be central to the circular ownership structure, owning or controlling multiple entities while also being owned by another entity in the cycle.",
+      "us-cw-3779": "This entity is both owned by and owns other entities in the cycle, contributing to the circular ownership anomaly.",
+      "us-cw-863719": "This entity's ownership link to 'us-cw-3779' contributes to the circular structure but is less central compared to others.",
+      "us-cw-993767": "This entity's ownership of 'us-cw-1001817' contributes to the circular ownership structure, but its role is secondary.",
+      "us-cw-993768": "Similar to 'us-cw-993767,' this entity's ownership of 'us-cw-1001817' contributes to the circular ownership structure but is less central."
+    },
+    "ranking": [
+      [
+        "us-cw-18788",
+        1.0
+      ],
+      [
+        "us-cw-1001817",
+        0.8
+      ],
+      [
+        "us-cw-3779",
+        0.7
+      ],
+      [
+        "us-cw-993767",
+        0.6
+      ],
+      [
+        "us-cw-993768",
+        0.6
+      ],
+      [
+        "us-cw-863719",
+        0.5
+      ]
+    ],
+    "conflicts": [],
+    "score_spread": 0.5,
+    "score_mean": 0.7000000000000001,
+    "score_max": 1.0,
+    "node_names": {
+      "us-cw-1001817": "EQK Holdings, Inc",
+      "us-cw-18788": "AMERICAN REALTY INVESTORS INC",
+      "us-cw-3779": "TRANSCONTINENTAL REALTY INVESTORS INC",
+      "us-cw-863719": "Transcontinental Realty Acquisition Corp (note 1)",
+      "us-cw-993767": "American Realty Trust, Inc",
+      "us-cw-993768": "American Realty Trust Inc"
+    }
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 6,
+    "scc_id": "scc_3",
+    "budget": 30,
+    "llm_calls": 11,
+    "tt_hits": 19,
+    "tt_hit_rate": 0.6333333333333333,
+    "time": 25.102200416993583,
+    "scores": {
+      "us-cw-18788": 0.974074074074074,
+      "us-cw-3779": 0.9608695652173912,
+      "us-cw-1001817": 0.9181818181818183,
+      "us-cw-993768": 0.7466666666666666,
+      "us-cw-993767": 0.7,
+      "us-cw-863719": 0.6117647058823531
+    },
+    "ranking": [
+      [
+        "us-cw-18788",
+        0.974074074074074
+      ],
+      [
+        "us-cw-3779",
+        0.9608695652173912
+      ],
+      [
+        "us-cw-1001817",
+        0.9181818181818183
+      ],
+      [
+        "us-cw-993768",
+        0.7466666666666666
+      ],
+      [
+        "us-cw-993767",
+        0.7
+      ],
+      [
+        "us-cw-863719",
+        0.6117647058823531
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.3623093681917209,
+    "score_mean": 0.8185928050037172,
+    "score_max": 0.974074074074074,
+    "node_names": {
+      "us-cw-1001817": "EQK Holdings, Inc",
+      "us-cw-18788": "AMERICAN REALTY INVESTORS INC",
+      "us-cw-3779": "TRANSCONTINENTAL REALTY INVESTORS INC",
+      "us-cw-863719": "Transcontinental Realty Acquisition Corp (note 1)",
+      "us-cw-993767": "American Realty Trust, Inc",
+      "us-cw-993768": "American Realty Trust Inc"
+    },
+    "clause_details": {
+      "us-cw-1001817": {
+        "mean_score": 0.9181818181818183,
+        "visit_count": 22,
+        "conflict_count": 44,
+        "risk_history": [
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          0.8,
+          0.8,
+          0.9,
+          0.8,
+          1.0,
+          0.8,
+          1.0,
+          1.0,
+          0.8,
+          1.0,
+          0.8,
+          1.0,
+          0.8,
+          0.8,
+          1.0,
+          1.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-18788": {
+        "mean_score": 0.974074074074074,
+        "visit_count": 27,
+        "conflict_count": 45,
+        "risk_history": [
+          1.0,
+          1.0,
+          1.0,
+          0.8,
+          1.0,
+          1.0,
+          1.0,
+          0.8,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3779": {
+        "mean_score": 0.9608695652173912,
+        "visit_count": 23,
+        "conflict_count": 40,
+        "risk_history": [
+          1.0,
+          1.0,
+          1.0,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.9,
+          1.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-863719": {
+        "mean_score": 0.6117647058823531,
+        "visit_count": 17,
+        "conflict_count": 13,
+        "risk_history": [
+          0.0,
+          0.8,
+          0.0,
+          0.8,
+          0.6,
+          0.6,
+          0.0,
+          0.8,
+          1.0,
+          0.6,
+          1.0,
+          0.6,
+          1.0,
+          1.0,
+          0.8,
+          0.8,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-993767": {
+        "mean_score": 0.7,
+        "visit_count": 16,
+        "conflict_count": 14,
+        "risk_history": [
+          1.0,
+          0.5,
+          0.8,
+          1.0,
+          0.7,
+          0.7,
+          0.5,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.0,
+          0.5,
+          0.7,
+          1.0,
+          1.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-993768": {
+        "mean_score": 0.7466666666666666,
+        "visit_count": 15,
+        "conflict_count": 16,
+        "risk_history": [
+          1.0,
+          1.0,
+          1.0,
+          0.8,
+          1.0,
+          0.8,
+          1.0,
+          0.5,
+          0.8,
+          0.5,
+          1.0,
+          0.8,
+          0.0,
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      }
+    }
+  },
+  {
+    "method": "naive",
+    "model": "deepseek-chat",
+    "domain": "sec_ex21",
+    "scc_size": 6,
+    "scc_id": "scc_3",
+    "llm_calls": 1,
+    "time": 15.829888999985997,
+    "scores": {
+      "us-cw-1001817": 0.3,
+      "us-cw-18788": 0.9,
+      "us-cw-3779": 0.8,
+      "us-cw-863719": 0.7,
+      "us-cw-993767": 0.2,
+      "us-cw-993768": 0.2
+    },
+    "reasonings": {
+      "us-cw-1001817": "Multiple parents claim ownership, but not central to circular loop",
+      "us-cw-18788": "Claims ownership of 5 entities including its own parent, creating circular control",
+      "us-cw-3779": "Owns its parent company (18788), creating direct circular ownership",
+      "us-cw-863719": "Owns 3779 which owns 18788 which owns 863719 - circular chain participant",
+      "us-cw-993767": "Owns 1001817 but not central to main circular loop",
+      "us-cw-993768": "Owns 1001817 but not central to main circular loop"
+    },
+    "ranking": [
+      [
+        "us-cw-18788",
+        0.9
+      ],
+      [
+        "us-cw-3779",
+        0.8
+      ],
+      [
+        "us-cw-863719",
+        0.7
+      ],
+      [
+        "us-cw-1001817",
+        0.3
+      ],
+      [
+        "us-cw-993767",
+        0.2
+      ],
+      [
+        "us-cw-993768",
+        0.2
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "us-cw-18788",
+        "clause_b": "us-cw-3779",
+        "description": "Mutual ownership creates impossible circular control: 18788 owns 3779 AND 3779 owns 18788"
+      },
+      {
+        "clause_a": "us-cw-18788",
+        "clause_b": "us-cw-863719",
+        "description": "Circular chain: 18788\u2192863719\u21923779\u219218788"
+      },
+      {
+        "clause_a": "us-cw-1001817",
+        "clause_b": "multiple_parents",
+        "description": "Has 3 different parent claims (18788, 993767, 993768) creating ownership ambiguity"
+      }
+    ],
+    "score_spread": 0.7,
+    "score_mean": 0.5166666666666667,
+    "score_max": 0.9,
+    "node_names": {
+      "us-cw-1001817": "EQK Holdings, Inc",
+      "us-cw-18788": "AMERICAN REALTY INVESTORS INC",
+      "us-cw-3779": "TRANSCONTINENTAL REALTY INVESTORS INC",
+      "us-cw-863719": "Transcontinental Realty Acquisition Corp (note 1)",
+      "us-cw-993767": "American Realty Trust, Inc",
+      "us-cw-993768": "American Realty Trust Inc"
+    }
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-chat",
+    "domain": "sec_ex21",
+    "scc_size": 6,
+    "scc_id": "scc_3",
+    "budget": 30,
+    "llm_calls": 11,
+    "tt_hits": 19,
+    "tt_hit_rate": 0.6333333333333333,
+    "time": 102.25018183302018,
+    "scores": {
+      "us-cw-3779": 0.8526315789473687,
+      "us-cw-18788": 0.7620689655172413,
+      "us-cw-863719": 0.675,
+      "us-cw-993767": 0.5705882352941175,
+      "us-cw-993768": 0.5294117647058824,
+      "us-cw-1001817": 0.5136363636363638
+    },
+    "ranking": [
+      [
+        "us-cw-3779",
+        0.8526315789473687
+      ],
+      [
+        "us-cw-18788",
+        0.7620689655172413
+      ],
+      [
+        "us-cw-863719",
+        0.675
+      ],
+      [
+        "us-cw-993767",
+        0.5705882352941175
+      ],
+      [
+        "us-cw-993768",
+        0.5294117647058824
+      ],
+      [
+        "us-cw-1001817",
+        0.5136363636363638
+      ]
+    ],
+    "oc_detected": [
+      "us-cw-3779"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.33899521531100496,
+    "score_mean": 0.6505561513501622,
+    "score_max": 0.8526315789473687,
+    "node_names": {
+      "us-cw-1001817": "EQK Holdings, Inc",
+      "us-cw-18788": "AMERICAN REALTY INVESTORS INC",
+      "us-cw-3779": "TRANSCONTINENTAL REALTY INVESTORS INC",
+      "us-cw-863719": "Transcontinental Realty Acquisition Corp (note 1)",
+      "us-cw-993767": "American Realty Trust, Inc",
+      "us-cw-993768": "American Realty Trust Inc"
+    },
+    "clause_details": {
+      "us-cw-1001817": {
+        "mean_score": 0.5136363636363638,
+        "visit_count": 22,
+        "conflict_count": 14,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.9,
+          0.3,
+          0.3,
+          0.3,
+          0.9,
+          0.3,
+          0.3,
+          0.3,
+          0.9,
+          0.9,
+          0.4,
+          0.4,
+          0.8,
+          0.4,
+          0.3,
+          0.8,
+          0.8,
+          0.8,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-18788": {
+        "mean_score": 0.7620689655172413,
+        "visit_count": 29,
+        "conflict_count": 39,
+        "risk_history": [
+          0.7,
+          0.9,
+          0.9,
+          0.7,
+          0.7,
+          0.9,
+          0.7,
+          0.9,
+          0.9,
+          0.7,
+          0.7,
+          0.3,
+          0.9,
+          0.9,
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          0.3,
+          0.9,
+          0.9,
+          0.3,
+          0.3,
+          0.9,
+          0.9,
+          0.7,
+          0.9,
+          0.9,
+          0.9
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3779": {
+        "mean_score": 0.8526315789473687,
+        "visit_count": 19,
+        "conflict_count": 30,
+        "risk_history": [
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.9,
+          0.3,
+          0.9
+        ],
+        "is_oc_detected": true
+      },
+      "us-cw-863719": {
+        "mean_score": 0.675,
+        "visit_count": 16,
+        "conflict_count": 12,
+        "risk_history": [
+          0.8,
+          0.3,
+          0.8,
+          0.8,
+          0.8,
+          0.3,
+          0.8,
+          0.8,
+          0.8,
+          0.3,
+          0.8,
+          0.3,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-993767": {
+        "mean_score": 0.5705882352941175,
+        "visit_count": 17,
+        "conflict_count": 19,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.3,
+          0.3,
+          0.8,
+          0.8,
+          0.8,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.7,
+          0.3,
+          0.7,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-993768": {
+        "mean_score": 0.5294117647058824,
+        "visit_count": 17,
+        "conflict_count": 12,
+        "risk_history": [
+          0.4,
+          0.8,
+          0.8,
+          0.8,
+          0.1,
+          0.4,
+          0.8,
+          0.7,
+          0.7,
+          0.1,
+          0.1,
+          0.1,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.4
+        ],
+        "is_oc_detected": false
+      }
+    }
+  },
+  {
+    "method": "naive",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 8,
+    "scc_id": "scc_2",
+    "llm_calls": 1,
+    "time": 5.762493290996645,
+    "scores": {
+      "us-cw-1011656": 0.8,
+      "us-cw-102751": 0.7,
+      "us-cw-102829": 0.9,
+      "us-cw-515315": 0.8,
+      "us-cw-650301": 0.6,
+      "us-cw-650302": 0.5,
+      "us-cw-710459": 1.0,
+      "us-cw-995501": 0.7
+    },
+    "reasonings": {
+      "us-cw-1011656": "Appears to own multiple entities, including 'us-cw-102829' and 'us-cw-995501', which are involved in circular ownership.",
+      "us-cw-102751": "Owns 'us-cw-1011656', which is central to the circular ownership structure.",
+      "us-cw-102829": "Owned by multiple entities ('us-cw-1011656', 'us-cw-995501', and 'us-cw-710459') and also owns 'us-cw-515315', contributing to circular ownership.",
+      "us-cw-515315": "Owned by 'us-cw-102829' and 'us-cw-710459', and also owns 'us-cw-710459', creating a loop.",
+      "us-cw-650301": "Owned by 'us-cw-650302' and owns 'us-cw-102751', indirectly contributing to circular ownership.",
+      "us-cw-650302": "Owns 'us-cw-650301', which is part of the circular ownership structure.",
+      "us-cw-710459": "Central to the circular ownership structure, owning multiple entities ('us-cw-102829', 'us-cw-515315', and 'us-cw-650302') and being owned by 'us-cw-515315'.",
+      "us-cw-995501": "Owns 'us-cw-102829', which is heavily involved in circular ownership."
+    },
+    "ranking": [
+      [
+        "us-cw-710459",
+        1.0
+      ],
+      [
+        "us-cw-102829",
+        0.9
+      ],
+      [
+        "us-cw-1011656",
+        0.8
+      ],
+      [
+        "us-cw-515315",
+        0.8
+      ],
+      [
+        "us-cw-102751",
+        0.7
+      ],
+      [
+        "us-cw-995501",
+        0.7
+      ],
+      [
+        "us-cw-650301",
+        0.6
+      ],
+      [
+        "us-cw-650302",
+        0.5
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "us-cw-710459",
+        "clause_b": "us-cw-515315",
+        "description": "Circular ownership detected: 'us-cw-710459' owns 'us-cw-515315', which owns 'us-cw-710459'."
+      },
+      {
+        "clause_a": "us-cw-102829",
+        "clause_b": "us-cw-995501",
+        "description": "Circular ownership detected: 'us-cw-102829' is owned by 'us-cw-995501' and also owns 'us-cw-515315', which loops back to 'us-cw-710459'."
+      },
+      {
+        "clause_a": "us-cw-1011656",
+        "clause_b": "us-cw-102751",
+        "description": "Circular ownership detected: 'us-cw-1011656' is owned by 'us-cw-102751' and owns 'us-cw-102829', which loops back to 'us-cw-515315'."
+      }
+    ],
+    "score_spread": 0.5,
+    "score_mean": 0.7500000000000001,
+    "score_max": 1.0,
+    "node_names": {
+      "us-cw-1011656": "Newmont USA Limited",
+      "us-cw-102751": "Newmont Capital Limited",
+      "us-cw-102829": "Newmont Nova Scotia ULC",
+      "us-cw-515315": "Newmont Canada Corp",
+      "us-cw-650301": "Newmont Mining B.C. ULC",
+      "us-cw-650302": "Newmont Northern Mining ULC",
+      "us-cw-710459": "Newmont Canada FN Holdings ULC",
+      "us-cw-995501": "Battle Mountain Gold Co"
+    }
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 8,
+    "scc_id": "scc_2",
+    "budget": 30,
+    "llm_calls": 12,
+    "tt_hits": 18,
+    "tt_hit_rate": 0.6,
+    "time": 31.685889333020896,
+    "scores": {
+      "us-cw-710459": 0.961904761904762,
+      "us-cw-102829": 0.9545454545454546,
+      "us-cw-995501": 0.8466666666666666,
+      "us-cw-1011656": 0.8307692307692308,
+      "us-cw-515315": 0.8058823529411765,
+      "us-cw-650302": 0.7333333333333333,
+      "us-cw-102751": 0.5909090909090909,
+      "us-cw-650301": 0.5111111111111111
+    },
+    "ranking": [
+      [
+        "us-cw-710459",
+        0.961904761904762
+      ],
+      [
+        "us-cw-102829",
+        0.9545454545454546
+      ],
+      [
+        "us-cw-995501",
+        0.8466666666666666
+      ],
+      [
+        "us-cw-1011656",
+        0.8307692307692308
+      ],
+      [
+        "us-cw-515315",
+        0.8058823529411765
+      ],
+      [
+        "us-cw-650302",
+        0.7333333333333333
+      ],
+      [
+        "us-cw-102751",
+        0.5909090909090909
+      ],
+      [
+        "us-cw-650301",
+        0.5111111111111111
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.45079365079365097,
+    "score_mean": 0.7793902502726032,
+    "score_max": 0.961904761904762,
+    "node_names": {
+      "us-cw-1011656": "Newmont USA Limited",
+      "us-cw-102751": "Newmont Capital Limited",
+      "us-cw-102829": "Newmont Nova Scotia ULC",
+      "us-cw-515315": "Newmont Canada Corp",
+      "us-cw-650301": "Newmont Mining B.C. ULC",
+      "us-cw-650302": "Newmont Northern Mining ULC",
+      "us-cw-710459": "Newmont Canada FN Holdings ULC",
+      "us-cw-995501": "Battle Mountain Gold Co"
+    },
+    "clause_details": {
+      "us-cw-1011656": {
+        "mean_score": 0.8307692307692308,
+        "visit_count": 13,
+        "conflict_count": 23,
+        "risk_history": [
+          1.0,
+          0.8,
+          0.5,
+          1.0,
+          1.0,
+          0.6,
+          0.6,
+          1.0,
+          1.0,
+          1.0,
+          0.5,
+          0.8,
+          1.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-102751": {
+        "mean_score": 0.5909090909090909,
+        "visit_count": 11,
+        "conflict_count": 9,
+        "risk_history": [
+          1.0,
+          0.0,
+          0.9,
+          0.0,
+          0.6,
+          0.6,
+          0.0,
+          1.0,
+          0.5,
+          0.9,
+          1.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-102829": {
+        "mean_score": 0.9545454545454546,
+        "visit_count": 22,
+        "conflict_count": 47,
+        "risk_history": [
+          1.0,
+          1.0,
+          0.7,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.8,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.7,
+          1.0,
+          1.0,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-515315": {
+        "mean_score": 0.8058823529411765,
+        "visit_count": 17,
+        "conflict_count": 25,
+        "risk_history": [
+          1.0,
+          0.9,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-650301": {
+        "mean_score": 0.5111111111111111,
+        "visit_count": 9,
+        "conflict_count": 9,
+        "risk_history": [
+          1.0,
+          1.0,
+          0.0,
+          0.8,
+          0.8,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-650302": {
+        "mean_score": 0.7333333333333333,
+        "visit_count": 12,
+        "conflict_count": 11,
+        "risk_history": [
+          1.0,
+          1.0,
+          0.8,
+          0.5,
+          0.8,
+          0.5,
+          0.7,
+          0.8,
+          0.5,
+          1.0,
+          0.5,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-710459": {
+        "mean_score": 0.961904761904762,
+        "visit_count": 21,
+        "conflict_count": 40,
+        "risk_history": [
+          1.0,
+          1.0,
+          0.6,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.6,
+          1.0,
+          1.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-995501": {
+        "mean_score": 0.8466666666666666,
+        "visit_count": 15,
+        "conflict_count": 20,
+        "risk_history": [
+          1.0,
+          0.8,
+          1.0,
+          0.8,
+          1.0,
+          0.9,
+          0.9,
+          0.6,
+          0.8,
+          0.8,
+          1.0,
+          1.0,
+          0.5,
+          1.0,
+          0.6
+        ],
+        "is_oc_detected": false
+      }
+    }
+  },
+  {
+    "method": "naive",
+    "model": "deepseek-chat",
+    "domain": "sec_ex21",
+    "scc_size": 8,
+    "scc_id": "scc_2",
+    "llm_calls": 1,
+    "time": 15.692816416994901,
+    "scores": {
+      "us-cw-1011656": 0.3,
+      "us-cw-102751": 0.2,
+      "us-cw-102829": 0.9,
+      "us-cw-515315": 0.4,
+      "us-cw-650301": 0.3,
+      "us-cw-650302": 0.3,
+      "us-cw-710459": 1.0,
+      "us-cw-995501": 0.8
+    },
+    "reasonings": {
+      "us-cw-1011656": "Owns two companies but not central to circular pattern",
+      "us-cw-102751": "Simple ownership link, not obviously problematic",
+      "us-cw-102829": "Critical node with multiple owners and ownership of others - creates circular dependencies",
+      "us-cw-515315": "Owns 710459 but also owned by 710459 - creates direct circularity",
+      "us-cw-650301": "Intermediate ownership link",
+      "us-cw-650302": "Intermediate ownership link",
+      "us-cw-710459": "Owns multiple entities including its own owner (515315) - clear circular ownership",
+      "us-cw-995501": "Owns 102829 which creates redundant ownership path"
+    },
+    "ranking": [
+      [
+        "us-cw-710459",
+        1.0
+      ],
+      [
+        "us-cw-102829",
+        0.9
+      ],
+      [
+        "us-cw-995501",
+        0.8
+      ],
+      [
+        "us-cw-515315",
+        0.4
+      ],
+      [
+        "us-cw-1011656",
+        0.3
+      ],
+      [
+        "us-cw-650301",
+        0.3
+      ],
+      [
+        "us-cw-650302",
+        0.3
+      ],
+      [
+        "us-cw-102751",
+        0.2
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "us-cw-515315",
+        "clause_b": "us-cw-710459",
+        "description": "Mutual ownership: 515315 owns 710459 AND 710459 owns 515315 - creates direct circular ownership"
+      },
+      {
+        "clause_a": "us-cw-102829",
+        "clause_b": "us-cw-710459",
+        "description": "102829 owns 515315 which owns 710459, but 710459 also owns 102829 - creates circular chain"
+      },
+      {
+        "clause_a": "us-cw-1011656",
+        "clause_b": "us-cw-995501",
+        "description": "Both own 102829 creating redundant ownership paths to same entity"
+      }
+    ],
+    "score_spread": 0.8,
+    "score_mean": 0.5249999999999999,
+    "score_max": 1.0,
+    "node_names": {
+      "us-cw-1011656": "Newmont USA Limited",
+      "us-cw-102751": "Newmont Capital Limited",
+      "us-cw-102829": "Newmont Nova Scotia ULC",
+      "us-cw-515315": "Newmont Canada Corp",
+      "us-cw-650301": "Newmont Mining B.C. ULC",
+      "us-cw-650302": "Newmont Northern Mining ULC",
+      "us-cw-710459": "Newmont Canada FN Holdings ULC",
+      "us-cw-995501": "Battle Mountain Gold Co"
+    }
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-chat",
+    "domain": "sec_ex21",
+    "scc_size": 8,
+    "scc_id": "scc_2",
+    "budget": 30,
+    "llm_calls": 14,
+    "tt_hits": 16,
+    "tt_hit_rate": 0.5333333333333333,
+    "time": 87.56170862499857,
+    "scores": {
+      "us-cw-710459": 0.8526315789473685,
+      "us-cw-102829": 0.7941176470588235,
+      "us-cw-515315": 0.7823529411764708,
+      "us-cw-102751": 0.7272727272727273,
+      "us-cw-650302": 0.6333333333333334,
+      "us-cw-650301": 0.6071428571428571,
+      "us-cw-1011656": 0.5611111111111111,
+      "us-cw-995501": 0.5583333333333332
+    },
+    "ranking": [
+      [
+        "us-cw-710459",
+        0.8526315789473685
+      ],
+      [
+        "us-cw-102829",
+        0.7941176470588235
+      ],
+      [
+        "us-cw-515315",
+        0.7823529411764708
+      ],
+      [
+        "us-cw-102751",
+        0.7272727272727273
+      ],
+      [
+        "us-cw-650302",
+        0.6333333333333334
+      ],
+      [
+        "us-cw-650301",
+        0.6071428571428571
+      ],
+      [
+        "us-cw-1011656",
+        0.5611111111111111
+      ],
+      [
+        "us-cw-995501",
+        0.5583333333333332
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.2942982456140353,
+    "score_mean": 0.6895369411720031,
+    "score_max": 0.8526315789473685,
+    "node_names": {
+      "us-cw-1011656": "Newmont USA Limited",
+      "us-cw-102751": "Newmont Capital Limited",
+      "us-cw-102829": "Newmont Nova Scotia ULC",
+      "us-cw-515315": "Newmont Canada Corp",
+      "us-cw-650301": "Newmont Mining B.C. ULC",
+      "us-cw-650302": "Newmont Northern Mining ULC",
+      "us-cw-710459": "Newmont Canada FN Holdings ULC",
+      "us-cw-995501": "Battle Mountain Gold Co"
+    },
+    "clause_details": {
+      "us-cw-1011656": {
+        "mean_score": 0.5611111111111111,
+        "visit_count": 18,
+        "conflict_count": 16,
+        "risk_history": [
+          0.7,
+          0.3,
+          0.3,
+          0.7,
+          0.9,
+          0.3,
+          0.3,
+          0.6,
+          0.6,
+          0.9,
+          0.8,
+          0.3,
+          0.3,
+          0.6,
+          0.8,
+          0.6,
+          0.8,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-102751": {
+        "mean_score": 0.7272727272727273,
+        "visit_count": 11,
+        "conflict_count": 13,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.2,
+          0.8,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-102829": {
+        "mean_score": 0.7941176470588235,
+        "visit_count": 17,
+        "conflict_count": 9,
+        "risk_history": [
+          0.3,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.9,
+          0.9,
+          0.7,
+          0.7,
+          0.9,
+          0.7,
+          0.9
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-515315": {
+        "mean_score": 0.7823529411764708,
+        "visit_count": 17,
+        "conflict_count": 15,
+        "risk_history": [
+          0.8,
+          1.0,
+          1.0,
+          0.1,
+          0.1,
+          1.0,
+          0.8,
+          0.9,
+          0.8,
+          0.9,
+          1.0,
+          0.8,
+          0.9,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-650301": {
+        "mean_score": 0.6071428571428571,
+        "visit_count": 14,
+        "conflict_count": 8,
+        "risk_history": [
+          0.9,
+          0.3,
+          0.3,
+          0.9,
+          0.7,
+          0.3,
+          0.9,
+          0.9,
+          0.7,
+          0.3,
+          0.9,
+          0.2,
+          0.3,
+          0.9
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-650302": {
+        "mean_score": 0.6333333333333334,
+        "visit_count": 12,
+        "conflict_count": 5,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.3,
+          0.3,
+          0.8,
+          0.7,
+          0.3,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-710459": {
+        "mean_score": 0.8526315789473685,
+        "visit_count": 19,
+        "conflict_count": 31,
+        "risk_history": [
+          0.7,
+          1.0,
+          0.4,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          0.9,
+          0.7,
+          1.0,
+          1.0,
+          0.4,
+          0.9,
+          1.0,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-995501": {
+        "mean_score": 0.5583333333333332,
+        "visit_count": 12,
+        "conflict_count": 5,
+        "risk_history": [
+          0.8,
+          0.6,
+          0.3,
+          1.0,
+          1.0,
+          0.3,
+          0.3,
+          0.8,
+          0.7,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      }
+    }
+  }
+]

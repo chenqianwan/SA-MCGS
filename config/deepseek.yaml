@@ -1,0 +1,69 @@
+# DeepSeek API config — high-concurrency cloud LLM
+# Uses OpenAI-compatible endpoint
+
+llm:
+  provider: "openai"
+  model: "deepseek-chat"
+  base_url: "https://api.deepseek.com/v1"
+  api_key_env: "DEEPSEEK_API_KEY"
+  max_concurrent_calls: 20
+  timeout: 300
+
+parsing:
+  max_clause_length: 2000
+  classify_with_llm: false
+
+graph:
+  max_clauses_per_batch: 20
+  min_dependency_weight: 0.3
+
+graph_pruning:
+  enabled: true
+  # Plugin mode: selectively load pruning strategies (comment out to use legacy mode)
+  plugins:
+    - legacy       # Noise + Hierarchy + Info Bottleneck
+    - plan_b       # Adaptive TACS (topology fallback)
+  noise_weight_threshold: 0.35
+  remove_duplicate_reasoning: true
+  hierarchy_violation_threshold: 0.6
+  ib_compression_ratio: 0.15
+  ib_beta: 1.0
+
+scc:
+  num_samples: 5
+  temperature: 0.8
+  max_tokens: 8192
+  compact_threshold: 6
+
+pruning:
+  variance_threshold: 0.001
+  influence_threshold: 0.3
+  risk_dimensions:
+    - financial_exposure
+    - liability_scope
+    - termination_risk
+    - compliance_burden
+    - ambiguity
+
+mcgs:
+  num_rollouts: 5
+  ucb_exploration_weight: 1.414
+  early_stopping: true
+  convergence_window: 5
+  convergence_threshold: 0.02
+
+aggregation:
+  high_risk_threshold: 0.7
+  high_uncertainty_threshold: 0.15
+
+quantlaw:
+  edge_type_field: "edge_type"
+  hierarchy_edge_types:
+    - containment
+    - hierarchy
+    - part_of
+  jurisdictions:
+    - de
+
+logging:
+  level: "INFO"

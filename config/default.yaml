@@ -1,0 +1,82 @@
+# SA-MCGS 默认配置
+
+llm:
+  provider: "openai"           # "openai" | "anthropic" | "local"
+  model: "gpt-4o"
+  api_key_env: "OPENAI_API_KEY"
+  base_url: null               # 自定义 API 地址 (local / proxy)
+  max_concurrent_calls: 10
+  timeout: 60
+
+parsing:
+  max_clause_length: 2000
+  classify_with_llm: false     # true = LLM 分类，false = heuristic
+
+graph:
+  max_clauses_per_batch: 20
+  min_dependency_weight: 0.3
+
+# Step 3: Domain-Informed Graph Pruning (⭐ Core Contribution)
+graph_pruning:
+  enabled: true
+  # 1. Noise edge removal
+  noise_weight_threshold: 0.35
+  remove_duplicate_reasoning: true
+  # 2. Hierarchical prior (Def→Obl→Cond→Rem→Lim)
+  hierarchy_violation_threshold: 0.6
+  # 3. Information Bottleneck
+  ib_compression_ratio: 0.15   # 移除 15% 最低 relevance 的边
+  ib_beta: 1.0
+
+scc:
+  num_samples: 5
+  temperature: 0.7
+
+# Step 6: Three-stage search tree pruning
+pruning:
+  variance_threshold: 0.01
+  influence_threshold: 0.2
+  risk_dimensions:
+    - financial_exposure
+    - liability_scope
+    - termination_risk
+    - compliance_burden
+    - ambiguity
+
+mcgs:
+  num_rollouts: 100
+  ucb_exploration_weight: 1.414
+  early_stopping: true
+  convergence_window: 10
+  convergence_threshold: 0.01
+
+aggregation:
+  high_risk_threshold: 0.7
+  high_uncertainty_threshold: 0.15
+
+# Evaluation framework
+evaluation:
+  judge_agreement_tolerance: 0.15
+  human_sample_size: 50
+  human_risk_threshold: 0.5
+
+# Dataset paths
+datasets:
+  quantlaw:
+    data_dir: "data/quantlaw/"
+
+# QuantLaw-specific config
+quantlaw:
+  edge_type_field: "edge_type"          # gpickle 中边类型的属性名
+  hierarchy_edge_types:                  # 需要过滤掉的层级边类型
+    - containment
+    - hierarchy
+    - part_of
+  jurisdictions:                         # 要加载的司法管辖区
+    - us
+    - de
+    - us_reg
+
+logging:
+  level: "INFO"
+  save_path: "data/results/logs/"

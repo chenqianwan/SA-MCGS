@@ -1,0 +1,2078 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SA-MCGS · Experiment Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+  :root {
+    --bg: #0a0e1a; --surface: #111827; --surface2: #1a2332; --surface3: #1e293b;
+    --border: #1e3a5f; --border2: #334155;
+    --text: #e2e8f0; --text2: #94a3b8; --text3: #64748b;
+    --accent: #6366f1; --accent2: #818cf8; --accent-glow: rgba(99,102,241,.15);
+    --green: #22c55e; --green-dim: rgba(34,197,94,.12);
+    --yellow: #eab308; --yellow-dim: rgba(234,179,8,.12);
+    --red: #ef4444; --red-dim: rgba(239,68,68,.12);
+    --orange: #f97316; --orange-dim: rgba(249,115,22,.12);
+    --cyan: #06b6d4; --cyan-dim: rgba(6,182,212,.12);
+    --purple: #a855f7; --purple-dim: rgba(168,85,247,.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; transition: border-color .2s, box-shadow .2s; }
+  .card:hover { border-color: var(--border2); }
+  .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 6px; font-size: 10px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .nav-tab { padding: 10px 20px; font-size: 13px; font-weight: 500; border-radius: 10px; cursor: pointer; transition: all .15s; border: 1px solid transparent; background: transparent; color: var(--text2); }
+  .nav-tab:hover { color: var(--text); background: var(--surface2); }
+  .nav-tab.active { color: #fff; background: var(--accent); border-color: rgba(129,140,248,.3); box-shadow: 0 0 20px rgba(99,102,241,.2); }
+  .metric-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-align: center; }
+  .metric-value { font-size: 28px; font-weight: 800; line-height: 1; margin: 4px 0; }
+  .metric-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .05em; }
+  .metric-sub { font-size: 10px; color: var(--text3); margin-top: 2px; }
+  .pulse { animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.5; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  .fade-up { animation: fadeUp .4s ease backwards; }
+  svg.graph-svg { width: 100%; height: 500px; background: var(--surface); border-radius: 12px; border: 1px solid var(--border); }
+  .tooltip { position: absolute; background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 14px; font-size: 12px; pointer-events: none; z-index: 100; max-width: 300px; box-shadow: 0 8px 30px rgba(0,0,0,.5); }
+
+  .compare-grid { display: grid; gap: 16px; }
+  .compare-group { border-radius: 14px; border: 1px solid var(--border); overflow: hidden; background: var(--surface); }
+  .compare-group-header { padding: 14px 20px; background: var(--surface2); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .compare-row { display: grid; grid-template-columns: 140px 1fr 1fr 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-cell { padding: 12px 16px; display: flex; flex-direction: column; gap: 4px; border-right: 1px solid var(--border); }
+  .compare-cell:last-child { border-right: none; }
+  .compare-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: .04em; }
+  .compare-value { font-size: 15px; font-weight: 700; }
+  .compare-sub { font-size: 10px; color: var(--text3); }
+  .round-pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+  .ptype-tag { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+  .arrow-improve { color: var(--green); font-size: 12px; }
+  .detail-toggle { cursor: pointer; font-size: 11px; color: var(--text3); transition: color .15s; }
+  .detail-toggle:hover { color: var(--text); }
+  th.th-style { text-align: center; padding: 10px 14px; color: var(--text2); font-weight: 600; font-size: 10px; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<header style="background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%); border-bottom: 1px solid var(--border);">
+  <div style="max-width:1400px; margin:0 auto; padding:16px 24px;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#6366f1,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 20px rgba(99,102,241,.3);">&#9878;</div>
+        <div>
+          <div style="font-weight:800; font-size:18px; letter-spacing:-.02em;">SA-MCGS Dashboard</div>
+          <div style="font-size:12px; color:var(--text2); margin-top:1px;">Structure-Aware Monte Carlo Graph Search</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div id="status-badge" class="badge" style="background:var(--green-dim);color:var(--green);">Ready</div>
+        <div class="mono" style="font-size:11px;color:var(--text3);"><span id="footer-count">0</span> results</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div style="max-width:1400px; margin:0 auto; padding:20px 24px;">
+
+<div style="display:flex; gap:6px; margin-bottom:20px; flex-wrap:wrap;" id="nav-tabs">
+  <button class="nav-tab active" onclick="showSection('overview', this)">Overview</button>
+  <button class="nav-tab" onclick="showSection('scaling', this)">Scaling Analysis</button>
+  <button class="nav-tab" onclick="showSection('scc', this)">SCC Comparison</button>
+  <button class="nav-tab" onclick="showSection('all', this)">All Results</button>
+  <button class="nav-tab" onclick="showSection('graph', this)">Graph</button>
+  <button class="nav-tab" onclick="showSection('mcts-cycle', this)">MCTS vs Cycle</button>
+  <button class="nav-tab" onclick="showSection('ablation', this)">Ablation Study</button>
+  <button class="nav-tab" onclick="showSection('experiment', this)">Design</button>
+</div>
+
+<!-- ================================================================== -->
+<!-- SECTION: Overview -->
+<!-- ================================================================== -->
+<div id="sec-overview" class="section">
+  <div id="overview-metrics" style="display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; margin-bottom:20px;"></div>
+
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:20px;">
+    <div class="card" style="padding:20px;">
+      <h4 style="font-size:13px; font-weight:600; margin-bottom:12px;">SCC Detection Rate by Round</h4>
+      <canvas id="chart-round-compare" height="260"></canvas>
+    </div>
+    <div class="card" style="padding:20px;">
+      <h4 style="font-size:13px; font-weight:600; margin-bottom:12px;">Risk Score Distribution</h4>
+      <canvas id="chart-risk-dist" height="260"></canvas>
+    </div>
+  </div>
+
+  <!-- Quick DAG summary -->
+  <div class="card" style="padding:20px; margin-bottom:20px;">
+    <h4 style="font-size:13px; font-weight:600; margin-bottom:12px;">DAG Results (R2)</h4>
+    <div id="dag-summary" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;"></div>
+    </div>
+  </div>
+
+<!-- ================================================================== -->
+<!-- SECTION: Scaling Analysis -->
+<!-- ================================================================== -->
+<div id="sec-scaling" class="section" style="display:none;">
+  <div style="margin-bottom:20px;">
+    <h2 style="font-size:18px; font-weight:700;">LLM Scaling Analysis</h2>
+    <p style="font-size:12px; color:var(--text2); margin-top:4px;">
+      Joint LLM detection rate vs clause-set size. Identifies the tipping point where single-call LLM evaluation degrades.
+    </p>
+  </div>
+
+  <!-- Key finding cards -->
+  <div id="scaling-findings" style="display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; margin-bottom:20px;"></div>
+
+  <!-- Charts -->
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:20px;">
+    <div class="card" style="padding:20px;">
+      <h4 style="font-size:13px; font-weight:600; margin-bottom:12px;">Detection Rate vs Scale</h4>
+      <canvas id="chart-scaling-detection" height="300"></canvas>
+    </div>
+    <div class="card" style="padding:20px;">
+      <h4 style="font-size:13px; font-weight:600; margin-bottom:12px;">Average Risk Score vs Scale</h4>
+      <canvas id="chart-scaling-score" height="300"></canvas>
+    </div>
+  </div>
+
+  <!-- Full data table -->
+  <div class="card" style="overflow:hidden;">
+    <div style="padding:16px 20px; border-bottom:1px solid var(--border);">
+      <h3 style="font-size:15px; font-weight:700;">Complete Scaling Data</h3>
+      <p style="font-size:11px; color:var(--text2); margin-top:2px;">Model: DeepSeek-Chat · 5 trials per scale · threshold: 0.7</p>
+    </div>
+    <div style="overflow-x:auto;">
+      <table id="scaling-table" style="width:100%; font-size:12px; border-collapse:collapse; white-space:nowrap;">
+        <thead style="background:var(--surface2);">
+          <tr>
+            <th class="th-style">Scale</th>
+            <th class="th-style">~Tokens</th>
+            <th class="th-style" colspan="2">Type A (Obvious)</th>
+            <th class="th-style" colspan="2">Type C (Subtle)</th>
+            <th class="th-style">JSON Fail</th>
+            <th class="th-style">Insight</th>
+          </tr>
+          <tr style="background:var(--surface2);">
+            <th class="th-style"></th>
+            <th class="th-style"></th>
+            <th class="th-style" style="font-size:9px;color:var(--green);">Det%</th>
+            <th class="th-style" style="font-size:9px;color:var(--green);">Avg Score</th>
+            <th class="th-style" style="font-size:9px;color:var(--red);">Det%</th>
+            <th class="th-style" style="font-size:9px;color:var(--red);">Avg Score</th>
+            <th class="th-style"></th>
+            <th class="th-style"></th>
+          </tr>
+        </thead>
+        <tbody id="scaling-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MCGS vs Joint LLM Comparison -->
+  <div style="margin-top:24px; margin-bottom:20px;">
+    <h3 style="font-size:16px; font-weight:700;">MCGS vs Joint LLM: Head-to-Head</h3>
+    <p style="font-size:12px; color:var(--text2); margin-top:4px;">Same SCC, same perturbation. Joint LLM = single call (temp=0). MCGS = 5 samples + Online Conformal search.</p>
+  </div>
+
+  <div id="mcgs-vs-joint-stats" style="margin-bottom:20px;"></div>
+
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:20px;">
+    <div class="card" style="padding:20px;">
+      <h4 style="font-size:13px; font-weight:600; margin-bottom:12px;">Type B: Detection Rate by SCC Size</h4>
+      <canvas id="chart-mcgs-typeb" height="260"></canvas>
+    </div>
+    <div class="card" style="padding:20px;">
+      <h4 style="font-size:13px; font-weight:600; margin-bottom:12px;">Type C: Detection Rate by SCC Size</h4>
+      <canvas id="chart-mcgs-typec" height="260"></canvas>
+    </div>
+  </div>
+
+  <div class="card" style="overflow:hidden; margin-bottom:20px;">
+    <div style="padding:16px 20px; border-bottom:1px solid var(--border);">
+      <h3 style="font-size:15px; font-weight:700;">MCGS vs Joint LLM Detail</h3>
+    </div>
+    <div style="overflow-x:auto;">
+      <table id="mcgs-detail-table" style="width:100%; font-size:12px; border-collapse:collapse; white-space:nowrap;">
+        <thead style="background:var(--surface2);">
+          <tr>
+            <th class="th-style" rowspan="2" style="vertical-align:middle;">Type</th>
+            <th class="th-style" rowspan="2" style="vertical-align:middle;">SCC Size</th>
+            <th class="th-style" rowspan="2" style="vertical-align:middle;">Target</th>
+            <th class="th-style" colspan="2" style="color:var(--yellow);text-align:center;border-bottom:1px solid var(--border);">Joint LLM</th>
+            <th class="th-style" colspan="5" style="color:var(--accent2);text-align:center;border-bottom:1px solid var(--border);">MCGS (Online Conformal)</th>
+            <th class="th-style" rowspan="2" style="vertical-align:middle;">Winner</th>
+          </tr>
+          <tr style="background:var(--surface2);">
+            <th class="th-style" style="color:var(--yellow);font-size:10px;">Score</th>
+            <th class="th-style" style="color:var(--yellow);font-size:10px;">Det.</th>
+            <th class="th-style" style="color:var(--accent2);font-size:10px;">Score</th>
+            <th class="th-style" style="color:var(--orange);font-size:10px;">Score Det.</th>
+            <th class="th-style" style="color:var(--purple);font-size:10px;">Var. Det.</th>
+            <th class="th-style" style="color:var(--cyan);font-size:10px;">OC Det.</th>
+            <th class="th-style" style="color:var(--accent2);font-size:10px;">Composite</th>
+          </tr>
+        </thead>
+        <tbody id="mcgs-detail-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Deep Experiment: Enhanced MCGS -->
+  <div style="margin-top:28px; margin-bottom:20px;">
+    <h3 style="font-size:16px; font-weight:700;">Deep Experiment: Enhanced MCGS on 5-node Type C</h3>
+    <p style="font-size:12px; color:var(--text2); margin-top:4px;">MCGS: 10 initial samples + 50 rollouts (vs previous 5+10). Joint LLM: 5 concurrent trials for statistical reliability.</p>
+  </div>
+  <div id="deep-experiment-container"></div>
+
+  <!-- Verdict Experiment: Conclusion-Driven Detection -->
+  <div style="margin-top:28px; margin-bottom:20px;">
+    <h3 style="font-size:16px; font-weight:700;">Verdict Experiment: Conclusion-Driven Detection</h3>
+    <p style="font-size:12px; color:var(--text2); margin-top:4px;">
+      Joint LLM: binary "found_defect?" (no score threshold) · MCGS: structural detection (ANY clause flagged = SCC detected) · Type C · 5n + 9n
+    </p>
+  </div>
+  <div id="verdict-experiment-container"></div>
+
+  <!-- Conclusion box -->
+  <div class="card" style="padding:20px; margin-top:16px; border-color: var(--accent); background: linear-gradient(135deg, var(--accent-glow), transparent);">
+    <h4 style="font-size:14px; font-weight:700; color:var(--accent2); margin-bottom:10px;">Key Conclusions</h4>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; font-size:12px; color:var(--text2); line-height:1.7;">
+      <div>
+        <div style="font-weight:600; color:var(--text); margin-bottom:4px;">1. Obvious Defects (Type A)</div>
+        LLM maintains 100% detection up to ~60 clauses (~17K tokens). At 80+ clauses (~20K tokens), detection starts to degrade. At 200+ clauses, JSON output truncation becomes the dominant failure mode.
+      </div>
+      <div>
+        <div style="font-weight:600; color:var(--text); margin-bottom:4px;">2. Subtle Defects (Type C)</div>
+        LLM fails to detect scope expansion at <b>all scales</b> (0-40% detection even at 5 clauses). This type of cross-clause reasoning defect fundamentally requires multi-hop analysis — exactly what MCGS provides through sampling and search.
+      </div>
+      <div>
+        <div style="font-weight:600; color:var(--text); margin-bottom:4px;">3. Output Token Bottleneck</div>
+        At 200+ clauses, the LLM cannot produce valid JSON output within the 8192-token limit, causing 100% structural failures. MCGS avoids this by evaluating smaller subsets per call.
+      </div>
+      <div>
+        <div style="font-weight:600; color:var(--text); margin-bottom:4px;">4. MCGS Advantage</div>
+        MCGS addresses <b>both</b> failure modes: (a) attention degradation on large inputs via divide-and-conquer sampling, and (b) subtle cross-clause defects via multi-hop search with Online Conformal calibration.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================== -->
+<!-- SECTION: SCC Comparison -->
+<!-- ================================================================== -->
+<div id="sec-scc" class="section" style="display:none;">
+  <div style="margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
+    <div>
+      <h2 style="font-size:18px; font-weight:700;">SCC Detection Comparison</h2>
+      <p style="font-size:12px; color:var(--text2); margin-top:2px;">R3 (Original) vs R7 (Joint LLM) vs R6 (Online Conformal)</p>
+    </div>
+    <select id="scc-filter-target" onchange="renderSCCComparison()" style="background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;">
+      <option value="all">All Targets</option>
+    </select>
+  </div>
+  <div id="scc-comparison-container" class="compare-grid"></div>
+</div>
+
+<!-- ================================================================== -->
+<!-- SECTION: All Results -->
+<!-- ================================================================== -->
+<div id="sec-all" class="section" style="display:none;">
+  <div class="card" style="overflow:hidden;">
+    <div style="padding:16px 20px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+      <h3 style="font-size:15px; font-weight:700;">All Experiment Results</h3>
+      <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+        <select id="filter-round" onchange="renderTable()" style="background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;">
+          <option value="all">All Rounds</option>
+        </select>
+        <select id="filter-ptype" onchange="renderTable()" style="background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;">
+          <option value="all">All Types</option>
+          <option value="type_a">Type A</option>
+          <option value="type_b">Type B</option>
+          <option value="type_c">Type C</option>
+        </select>
+        <div style="position:relative;">
+          <button id="col-toggle-btn" onclick="toggleColumnPicker()" style="background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:4px;">
+            <span style="font-size:13px;">&#9881;</span> Columns
+          </button>
+          <div id="col-picker" style="display:none;position:absolute;right:0;top:100%;margin-top:4px;background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:10px 0;z-index:50;min-width:220px;box-shadow:0 12px 40px rgba(0,0,0,.5);max-height:400px;overflow-y:auto;">
+      </div>
+    </div>
+      </div>
+    </div>
+    <div style="overflow-x:auto; max-height:600px; overflow-y:auto;">
+      <table id="results-table" style="width:100%; font-size:12px; border-collapse:collapse; white-space:nowrap;">
+        <thead style="position:sticky;top:0;z-index:10;">
+          <tr id="results-thead" style="background:var(--surface2);"></tr>
+        </thead>
+        <tbody id="results-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================== -->
+<!-- SECTION: Graph Visualization -->
+<!-- ================================================================== -->
+<div id="sec-graph" class="section" style="display:none;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+    <div>
+      <h2 style="font-size:18px; font-weight:700;">Contract Graph</h2>
+      <p style="font-size:12px; color:var(--text2);">Force-directed layout. Node size = risk score.</p>
+    </div>
+      <div style="display:flex; gap:12px; font-size:11px;">
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#22c55e;margin-right:4px;"></span>Low</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#eab308;margin-right:4px;"></span>Med</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#ef4444;margin-right:4px;"></span>High</span>
+        <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:rgba(168,85,247,.3);border:1px solid #a855f7;margin-right:4px;"></span>SCC</span>
+    </div>
+  </div>
+  <div id="graph-container" style="position:relative;">
+    <svg id="graph-svg" class="graph-svg"></svg>
+    <div id="graph-tooltip" class="tooltip" style="display:none;"></div>
+  </div>
+  </div>
+
+<!-- ================================================================== -->
+<!-- SECTION: Ablation Study -->
+<!-- ================================================================== -->
+<!-- SECTION: MCTS vs Cycle (Ablation 1) -->
+<!-- ================================================================== -->
+<div id="sec-mcts-cycle" class="section" style="display:none;">
+  <div style="margin-bottom:20px;">
+    <h2 style="font-size:18px; font-weight:700;">Ablation 1: Why MCTS Fails on Cyclic Graphs</h2>
+    <p style="font-size:12px; color:var(--text2); margin-top:4px;">
+      Standard Tree-Based MCTS (AlphaGo-style) catastrophically fails on cyclic contract graphs.
+      SA-MCGS resolves all three failure modes via SCC-awareness + window evaluation + transposition table.
+    </p>
+  </div>
+
+  <!-- Key Metrics -->
+  <div id="mcts-cycle-metrics" style="display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:20px;"></div>
+
+  <!-- Three Failure Modes -->
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:20px;">
+    <div class="card" style="padding:20px; border-top:3px solid var(--red);">
+      <h4 style="font-size:13px; font-weight:700; color:var(--red); margin-bottom:10px;">F1: Search Tree Explosion</h4>
+      <div id="f1-content" style="font-size:12px; color:var(--text2); line-height:1.8;"></div>
+    </div>
+    <div class="card" style="padding:20px; border-top:3px solid var(--orange);">
+      <h4 style="font-size:13px; font-weight:700; color:var(--orange); margin-bottom:10px;">F2: Rollout Trapped in Cycle</h4>
+      <div id="f2-content" style="font-size:12px; color:var(--text2); line-height:1.8;"></div>
+    </div>
+    <div class="card" style="padding:20px; border-top:3px solid var(--yellow);">
+      <h4 style="font-size:13px; font-weight:700; color:var(--yellow); margin-bottom:10px;">F3: Q-Value Dilution</h4>
+      <div id="f3-content" style="font-size:12px; color:var(--text2); line-height:1.8;"></div>
+    </div>
+  </div>
+
+  <!-- Mock Experiment Table -->
+  <div class="card" style="overflow:hidden; margin-bottom:20px;">
+    <div style="padding:14px 20px; border-bottom:1px solid var(--border); background:var(--surface2); display:flex; justify-content:space-between; align-items:center;">
+      <h3 style="font-size:14px; font-weight:700;">Mock Experiment: 90 Runs (Controlled Variables)</h3>
+      <span class="badge" style="background:var(--green-dim);color:var(--green);">3/3 Failure Modes Confirmed</span>
+    </div>
+    <div style="overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse;" id="mcts-cycle-table">
+        <thead>
+          <tr style="border-bottom:2px solid var(--border);">
+            <th class="th-style" style="text-align:left;">Method</th>
+            <th class="th-style">Topology</th>
+            <th class="th-style">Scale</th>
+            <th class="th-style">Hit@3</th>
+            <th class="th-style">Q-Spread</th>
+            <th class="th-style">Tree Nodes</th>
+            <th class="th-style">Avg Rollout</th>
+          </tr>
+        </thead>
+        <tbody id="mcts-cycle-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Two-column: Charts -->
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+    <div class="card" style="padding:20px;">
+      <h4 style="font-size:13px; font-weight:700; margin-bottom:14px;">Q-Spread Comparison</h4>
+      <canvas id="chart-qspread" height="220"></canvas>
+    </div>
+    <div class="card" style="padding:20px;">
+      <h4 style="font-size:13px; font-weight:700; margin-bottom:14px;">Rollout Steps by Topology</h4>
+      <canvas id="chart-rollout" height="220"></canvas>
+    </div>
+  </div>
+
+  <!-- Real LLM Results -->
+  <div class="card" style="overflow:hidden; margin-bottom:20px;">
+    <div style="padding:14px 20px; border-bottom:1px solid var(--border); background:var(--surface2); display:flex; justify-content:space-between; align-items:center;">
+      <h3 style="font-size:14px; font-weight:700;">Real LLM Validation (DeepSeek-Chat on CUAD Contracts)</h3>
+      <span class="badge" style="background:var(--accent-glow);color:var(--accent2);">Cross-Contract Deal Packages</span>
+    </div>
+    <div id="real-llm-results" style="padding:20px;"></div>
+  </div>
+
+  <!-- Dataset Evolution: BGB → CUAD -->
+  <div class="card" style="padding:20px; border-color:var(--cyan); background:linear-gradient(135deg,var(--cyan-dim),transparent); margin-bottom:16px;">
+    <h4 style="font-size:14px; font-weight:700; color:var(--cyan); margin-bottom:12px;">Dataset Evolution: BGB &rarr; CUAD</h4>
+    <p style="font-size:11px; color:var(--text3); margin-bottom:16px;">
+      The transition from BGB to CUAD resolved a critical authority gap for top-tier venue submission.
+    </p>
+    <div id="dataset-evolution" style="font-size:12px; color:var(--text2); line-height:1.7;"></div>
+  </div>
+
+  <!-- Dataset Current: CUAD -->
+  <div class="card" style="padding:20px; border-color:var(--cyan);">
+    <h4 style="font-size:14px; font-weight:700; color:var(--cyan); margin-bottom:12px;">Current Primary Dataset: CUAD</h4>
+    <div id="dataset-info" style="font-size:12px; color:var(--text2); line-height:1.7;"></div>
+  </div>
+</div>
+
+<!-- ================================================================== -->
+<div id="sec-ablation" class="section" style="display:none;">
+  <div style="margin-bottom:20px;">
+    <h2 style="font-size:18px; font-weight:700;">Ablation Study: MCGS Delta vs Pure LLM</h2>
+    <p style="font-size:12px; color:var(--text2); margin-top:4px;">
+      Comprehensive validation: Cross-Scale (5n/9n/24n), Multi-Target (24n&times;3), Repeated Trials (24n&times;3).
+      Every condition compares MCGS Delta against Joint LLM baseline.
+    </p>
+    </div>
+
+  <!-- Key Metrics -->
+  <div id="ablation-metrics" style="display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:20px;"></div>
+
+  <!-- Summary Table -->
+  <div class="card" style="overflow:hidden; margin-bottom:20px;">
+    <div style="padding:14px 20px; border-bottom:1px solid var(--border); background:var(--surface2);">
+      <h3 style="font-size:14px; font-weight:700;">All Conditions</h3>
+    </div>
+    <div style="overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse;" id="ablation-table">
+        <thead>
+          <tr style="border-bottom:2px solid var(--border);">
+            <th class="th-style" style="text-align:left;">Condition</th>
+            <th class="th-style">SCC</th>
+            <th class="th-style">Target</th>
+            <th class="th-style">MCGS &Delta; Rank</th>
+            <th class="th-style">&Delta;&mu;</th>
+            <th class="th-style">Joint FP</th>
+            <th class="th-style">Joint Det</th>
+            <th class="th-style">Joint Tgt ID</th>
+          </tr>
+        </thead>
+        <tbody id="ablation-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Two-column: OC Analysis + Repeated Trials -->
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+    <!-- OC Detection Analysis -->
+    <div class="card" style="padding:20px;">
+      <h4 style="font-size:13px; font-weight:700; margin-bottom:14px;">OC Detection: Aggregate Signal</h4>
+      <p style="font-size:11px; color:var(--text2); margin-bottom:14px;">
+        Total # of Online Conformal detections across 3 repeated trials (24n SCC).
+        Perturbed consistently triggers more OC detections than Clean.
+      </p>
+      <canvas id="chart-oc-counts" height="200"></canvas>
+      <div id="oc-frequency-list" style="margin-top:14px;"></div>
+</div>
+
+    <!-- Repeated Trials Stability -->
+    <div class="card" style="padding:20px;">
+      <h4 style="font-size:13px; font-weight:700; margin-bottom:14px;">Repeated Trials: Rank Stability (24n)</h4>
+      <p style="font-size:11px; color:var(--text2); margin-bottom:14px;">
+        Per-node averaged &Delta;&mu; across 3 independent runs.
+      </p>
+      <canvas id="chart-avg-delta" height="200"></canvas>
+      <div id="repeated-stats" style="margin-top:14px;"></div>
+  </div>
+  </div>
+
+  <!-- Key Findings -->
+  <div class="card" style="padding:20px; border-color:var(--accent); background:linear-gradient(135deg,var(--accent-glow),transparent);">
+    <h4 style="font-size:14px; font-weight:700; color:var(--accent2); margin-bottom:12px;">Key Findings</h4>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:12px; color:var(--text2); line-height:1.7;">
+      <div>
+        <div style="font-weight:600; color:var(--text); margin-bottom:4px;">1. Joint LLM: Fundamental Blind Spots</div>
+        <span style="color:var(--red);">&bull; 24n: 100% FP</span> &mdash; always reports "defect found" even on clean legal text (avg 15.8/24 clauses flagged).<br>
+        <span style="color:var(--yellow);">&bull; 9n: 0% detection</span> &mdash; misses both clean and perturbed entirely.<br>
+        <span style="color:var(--text3);">&bull; 5n: 100%/100%</span> &mdash; not discriminative.
+      </div>
+      <div>
+        <div style="font-weight:600; color:var(--text); margin-bottom:4px;">2. MCGS: Reliable Aggregate Signal</div>
+        <span style="color:var(--green);">&bull; OC count is stable</span>: Clean always has ~3 OC detections, Perturbed always has ~7 (+4 consistent delta).<br>
+        <span style="color:var(--cyan);">&bull; Specific nodes</span>: bgb_312 and bgb_495 are consistently OC-detected only in perturbed (3/3 runs).<br>
+        <span style="color:var(--text3);">&bull; Per-node &Delta;&mu; is noisy</span> due to independent LLM sampling variance.
+      </div>
+      <div>
+        <div style="font-weight:600; color:var(--text); margin-bottom:4px;">3. MCGS vs LLM: Key Advantage</div>
+        MCGS provides <b>calibrated statistical signals</b> (OC detection counts, aggregate risk changes) that are consistent across runs,
+        while Joint LLM produces only binary yes/no verdicts with no calibration &mdash; either 100% FP or 0% detection.
+      </div>
+      <div>
+        <div style="font-weight:600; color:var(--text); margin-bottom:4px;">4. Improvement Path</div>
+        <b>Paired sampling design</b>: use the same LLM samples for both clean and perturbed evaluations, varying only the perturbation text.
+        This would eliminate inter-run variance and improve per-node localization (the aggregate signal is already strong).
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================== -->
+<!-- SECTION: Experiment Design -->
+<!-- ================================================================== -->
+<div id="sec-experiment" class="section" style="display:none;">
+  <h2 style="font-size:18px; font-weight:700; margin-bottom:16px;">Counterfactual Perturbation Experiment</h2>
+  <div class="card" style="padding:20px; margin-bottom:16px;">
+    <h3 style="font-size:14px; font-weight:700; margin-bottom:14px;">Three Perturbation Types</h3>
+    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;">
+      <div style="padding:14px;background:var(--green-dim);border:1px solid rgba(34,197,94,.25);border-radius:10px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span class="badge" style="background:var(--green);color:#fff;">Type A</span><span style="font-weight:600;font-size:13px;color:var(--green);">Semantic Contradiction</span></div>
+        <div style="font-size:11px;color:var(--text2);line-height:1.6;">Negate normative content. DAG + SCC.<br><code class="mono" style="font-size:10px;color:var(--text3);">"shall" &rarr; "shall not"</code></div>
+      </div>
+      <div style="padding:14px;background:var(--yellow-dim);border:1px solid rgba(234,179,8,.25);border-radius:10px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span class="badge" style="background:var(--yellow);color:#000;">Type B</span><span style="font-weight:600;font-size:13px;color:var(--yellow);">Circular Deadlock</span></div>
+        <div style="font-size:11px;color:var(--text2);line-height:1.6;">X&rarr;Y&rarr;X deadlock. SCC only.<br><code class="mono" style="font-size:10px;color:var(--text3);">"X requires Y" + "Y requires X"</code></div>
+      </div>
+      <div style="padding:14px;background:var(--red-dim);border:1px solid rgba(239,68,68,.25);border-radius:10px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span class="badge" style="background:var(--red);color:#fff;">Type C</span><span style="font-weight:600;font-size:13px;color:var(--red);">Scope Expansion</span></div>
+        <div style="font-size:11px;color:var(--text2);line-height:1.6;">Subtle scope widening. Multi-hop. SCC only.<br><code class="mono" style="font-size:10px;color:var(--text3);">"this section" &rarr; "entire code"</code></div>
+      </div>
+    </div>
+      </div>
+  <div class="card" style="padding:20px;">
+    <h3 style="font-size:14px; font-weight:700; margin-bottom:14px;">Algorithm Versions</h3>
+    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;">
+      <div style="padding:14px;background:var(--orange-dim);border:1px solid rgba(249,115,22,.25);border-radius:10px;text-align:center;">
+        <div style="font-weight:700;color:var(--orange);font-size:14px;">R3 Original</div>
+        <div style="font-size:11px;color:var(--text2);margin-top:4px;">Variance pruning + basic MCGS</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:2px;">max_tokens=4096 (SCC truncated)</div>
+      </div>
+      <div style="padding:14px;background:var(--green-dim);border:1px solid rgba(34,197,94,.25);border-radius:10px;text-align:center;">
+        <div style="font-weight:700;color:var(--green);font-size:14px;">R7 Joint</div>
+        <div style="font-size:11px;color:var(--text2);margin-top:4px;">Brute-force: All SCC in one call</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:2px;">max_tokens=8192, temp=0</div>
+      </div>
+      <div style="padding:14px;background:var(--accent-glow);border:1px solid rgba(99,102,241,.25);border-radius:10px;text-align:center;">
+        <div style="font-weight:700;color:var(--accent2);font-size:14px;">R6 Conformal</div>
+        <div style="font-size:11px;color:var(--text2);margin-top:4px;">+ Online Conformal MCGS</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:2px;">Self-calibrating detection</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<footer style="text-align:center;padding:16px;font-size:11px;color:var(--text3);border-top:1px solid var(--border);margin-top:40px;">
+  SA-MCGS &middot; Auto-refresh every 10s
+</footer>
+
+<script>
+let liveResults = [];
+let baselineData = null;
+let graphData = null;
+let scalingData = null;
+let mcgsVsJointData = null;
+let deepData = null;
+let verdictData = null;
+let ablationData = null;
+let mctsCycleData = null;
+let charts = {};
+let graphSim = null;
+
+const COLORS = {
+  accent: '#6366f1', accentBg: 'rgba(99,102,241,.3)',
+  red: '#ef4444', redBg: 'rgba(239,68,68,.3)',
+  green: '#22c55e', greenBg: 'rgba(34,197,94,.3)',
+  yellow: '#eab308', yellowBg: 'rgba(234,179,8,.3)',
+  cyan: '#06b6d4', cyanBg: 'rgba(6,182,212,.3)',
+  orange: '#f97316', orangeBg: 'rgba(249,115,22,.3)',
+  purple: '#a855f7', purpleBg: 'rgba(168,85,247,.3)',
+};
+const ROUND_COLORS = { R2_DAG: 'var(--cyan)', R3_SCC: 'var(--orange)', R4_ABLATION: 'var(--purple)', R5_ENHANCED: 'var(--green)', R6_CONFORMAL: 'var(--accent)', R7_JOINT: 'var(--yellow)' };
+const ROUND_LABELS = { R2_DAG: 'DAG', R3_SCC: 'Original', R4_ABLATION: 'Ablation', R5_ENHANCED: 'Enhanced', R6_CONFORMAL: 'Conformal', R7_JOINT: 'Joint' };
+const PTYPE_COLORS = { type_a: 'var(--green)', type_b: 'var(--yellow)', type_c: 'var(--red)' };
+
+function getBaselineRisk(clauseId) {
+  if (!baselineData || !baselineData.clause_results) return null;
+  const cr = baselineData.clause_results[clauseId];
+  return cr ? cr.mean_risk_score : null;
+}
+const chartDefaults = {
+  responsive: true,
+  plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11, family: 'Inter' } } } },
+  scales: {
+    x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,.3)' } },
+    y: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,.3)' }, beginAtZero: true },
+  },
+};
+
+async function fetchJSON(url) {
+  try { const r = await fetch(url + '?t=' + Date.now()); if (!r.ok) return null; return await r.json(); } catch { return null; }
+}
+
+async function refreshData() {
+  const [results, graph, baseline, scaling, mcgsVsJ, deep, verdict, abl, mctsCyc] = await Promise.all([
+    fetchJSON('/experiments/results/live_results.json'),
+    graphData ? null : fetchJSON('/experiments/results/live_graph.json'),
+    baselineData ? null : fetchJSON('/experiments/results/baseline_bgb_focus.json'),
+    scalingData ? null : fetchJSON('/experiments/results/scaling_all.json'),
+    mcgsVsJointData ? null : fetchJSON('/experiments/results/mcgs_vs_joint.json'),
+    deepData ? null : fetchJSON('/experiments/results/deep_5n_typec.json'),
+    verdictData ? null : fetchJSON('/experiments/results/verdict_typec.json'),
+    ablationData ? null : fetchJSON('/experiments/results/ablation_suite.json'),
+    mctsCycleData ? null : fetchJSON('/experiments/results/ablation1_mcts_cycle.json'),
+  ]);
+  if (results) liveResults = results.filter(r => !r.error);
+  if (graph) { graphData = graph; }
+  if (baseline) { baselineData = baseline; }
+  if (scaling) { scalingData = scaling; }
+  if (mcgsVsJ) { mcgsVsJointData = mcgsVsJ; }
+  if (deep) { deepData = deep; }
+  if (verdict) { verdictData = verdict; }
+  if (abl) { ablationData = abl; }
+  if (mctsCyc) { mctsCycleData = mctsCyc; }
+  updateAll();
+}
+
+function updateAll() {
+  document.getElementById('footer-count').textContent = liveResults.length;
+  updateOverview();
+  renderScaling();
+  renderSCCComparison();
+  renderTable();
+  populateFilterOptions();
+  renderMctsCycle();
+  renderAblation();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// OVERVIEW
+// ═══════════════════════════════════════════════════════════════
+function updateOverview() {
+  const container = document.getElementById('overview-metrics');
+  const sccRounds = ['R3_SCC', 'R7_JOINT', 'R6_CONFORMAL'];
+
+  const metrics = sccRounds.map(round => {
+    const rows = liveResults.filter(r => r.round === round);
+    const det = rows.filter(r => r.mcgs_high_risk_detected || r.mcgs_uncertain_detected);
+    const avgDelta = rows.length ? rows.reduce((s,r) => s + (r.delta_mcgs_risk||0), 0) / rows.length : 0;
+    return { round, count: rows.length, detected: det.length, rate: rows.length ? Math.round(det.length/rows.length*100) : 0, avgDelta };
+  });
+
+  const totalResults = liveResults.length;
+
+  container.innerHTML = `
+    <div class="metric-card">
+      <div class="metric-label">Total Results</div>
+      <div class="metric-value" style="color:var(--accent2);">${totalResults}</div>
+      <div class="metric-sub">${[...new Set(liveResults.map(r=>r.round))].length} rounds</div>
+    </div>
+  ` + metrics.map(m => {
+    const color = ROUND_COLORS[m.round] || 'var(--text)';
+    const label = ROUND_LABELS[m.round] || m.round;
+    const rateColor = m.rate === 100 ? 'var(--green)' : m.rate > 0 ? 'var(--yellow)' : 'var(--red)';
+    const deltaColor = m.avgDelta > 0 ? 'var(--green)' : m.avgDelta < -0.1 ? 'var(--red)' : 'var(--text3)';
+    return `<div class="metric-card">
+      <div class="metric-label" style="color:${color};">${label} SCC</div>
+      <div class="metric-value" style="color:${rateColor};">${m.rate}%</div>
+      <div class="metric-sub">${m.detected}/${m.count} detected · avg &Delta; <span style="color:${deltaColor}">${m.avgDelta>=0?'+':''}${m.avgDelta.toFixed(3)}</span></div>
+    </div>`;
+  }).join('');
+
+  updateOverviewCharts();
+  updateDAGSummary();
+}
+
+function updateOverviewCharts() {
+  const sccRounds = ['R3_SCC', 'R7_JOINT', 'R6_CONFORMAL'];
+  const labels = sccRounds.map(r => ROUND_LABELS[r]);
+  const colors = sccRounds.map(r => ROUND_COLORS[r]).map(c => c === 'var(--orange)' ? COLORS.orange : c === 'var(--yellow)' ? COLORS.yellow : COLORS.accent);
+
+  const ptypes = ['type_a', 'type_b', 'type_c'];
+  const ptypeLabels = ['Type A', 'Type B', 'Type C'];
+  const ptypeColors = [COLORS.green, COLORS.yellow, COLORS.red];
+
+  // Round comparison chart
+  const ctx1 = document.getElementById('chart-round-compare').getContext('2d');
+  if (charts.roundCompare) charts.roundCompare.destroy();
+
+  const datasets = ptypes.map((pt, pi) => ({
+    label: ptypeLabels[pi],
+    data: sccRounds.map(round => {
+      const rows = liveResults.filter(r => r.round === round && r.perturbation_type === pt);
+      const det = rows.filter(r => r.mcgs_high_risk_detected || r.mcgs_uncertain_detected);
+      return rows.length ? Math.round(det.length / rows.length * 100) : 0;
+    }),
+    backgroundColor: ptypeColors[pi] + '60',
+    borderColor: ptypeColors[pi],
+    borderWidth: 2,
+    borderRadius: 6,
+  }));
+
+  charts.roundCompare = new Chart(ctx1, {
+    type: 'bar',
+    data: { labels, datasets },
+    options: { ...chartDefaults, scales: { ...chartDefaults.scales, y: { ...chartDefaults.scales.y, max: 110, title: { display: true, text: 'Detection %', color: '#94a3b8' } } } },
+  });
+
+  // Risk distribution chart
+  const ctx2 = document.getElementById('chart-risk-dist').getContext('2d');
+  if (charts.riskDist) charts.riskDist.destroy();
+
+  const roundDatasets = sccRounds.map((round, ri) => ({
+    label: ROUND_LABELS[round],
+    data: liveResults.filter(r => r.round === round).map(r => r.mcgs_risk_score || 0),
+    backgroundColor: colors[ri] + '80',
+    borderColor: colors[ri],
+    borderWidth: 1,
+    pointRadius: 6,
+    pointHoverRadius: 8,
+  }));
+
+  const scatterData = [];
+  sccRounds.forEach((round, ri) => {
+    liveResults.filter(r => r.round === round).forEach((r, i) => {
+      scatterData.push({ x: ri + (Math.random()-0.5)*0.3, y: r.mcgs_risk_score || 0, round });
+    });
+  });
+
+  charts.riskDist = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: sccRounds.map(r => ROUND_LABELS[r]),
+      datasets: [{
+        label: 'Avg Risk',
+        data: sccRounds.map(round => {
+          const rows = liveResults.filter(r => r.round === round);
+          return rows.length ? +(rows.reduce((s,r) => s + (r.mcgs_risk_score||0), 0) / rows.length).toFixed(3) : 0;
+        }),
+        backgroundColor: colors.map(c => c + '60'),
+        borderColor: colors,
+        borderWidth: 2,
+        borderRadius: 8,
+      }],
+    },
+    options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, legend: { display: false } }, scales: { ...chartDefaults.scales, y: { ...chartDefaults.scales.y, max: 1, title: { display: true, text: 'Risk Score', color: '#94a3b8' } } } },
+  });
+}
+
+function updateDAGSummary() {
+  const container = document.getElementById('dag-summary');
+  const dag = liveResults.filter(r => r.round === 'R2_DAG');
+  if (!dag.length) { container.innerHTML = '<div style="color:var(--text3);font-size:12px;">No DAG results</div>'; return; }
+
+  container.innerHTML = dag.map(r => {
+    const det = r.mcgs_high_risk_detected || r.mcgs_uncertain_detected;
+    const detColor = det ? 'var(--green)' : 'var(--red)';
+    return `<div style="padding:12px;background:var(--surface2);border-radius:10px;border:1px solid var(--border);">
+      <div style="font-weight:700;font-size:13px;margin-bottom:6px;">${r.target_clause_id}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:11px;">
+        <div>MCGS: <span class="mono" style="color:${r.mcgs_risk_score>=0.7?'var(--red)':'var(--yellow)'};">${(r.mcgs_risk_score||0).toFixed(3)}</span></div>
+        <div>LLM: <span class="mono">${(r.direct_llm_risk_score||0).toFixed(3)}</span></div>
+        <div>&Delta;: <span class="mono" style="color:${(r.delta_mcgs_risk||0)>0?'var(--green)':'var(--red)'};">${(r.delta_mcgs_risk||0)>=0?'+':''}${(r.delta_mcgs_risk||0).toFixed(3)}</span></div>
+        <div>Det: <span style="color:${detColor};">${det?'&#10003;':'&#10007;'}</span></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SCC COMPARISON
+// ═══════════════════════════════════════════════════════════════
+function renderSCCComparison() {
+  const container = document.getElementById('scc-comparison-container');
+  const filterTarget = document.getElementById('scc-filter-target').value;
+
+  const sccRounds = ['R3_SCC', 'R7_JOINT', 'R6_CONFORMAL'];
+  const sccResults = liveResults.filter(r => sccRounds.includes(r.round));
+
+  // Group by target + ptype
+  const groups = {};
+  sccResults.forEach(r => {
+    const key = `${r.target_clause_id}__${r.perturbation_type}`;
+    if (!groups[key]) groups[key] = { target: r.target_clause_id, ptype: r.perturbation_type, rounds: {} };
+    groups[key].rounds[r.round] = r;
+  });
+
+  // Update target filter
+  const targets = [...new Set(sccResults.map(r => r.target_clause_id))].sort();
+  const sel = document.getElementById('scc-filter-target');
+  if (sel.options.length <= 1) {
+    sel.innerHTML = '<option value="all">All Targets</option>' + targets.map(t => `<option value="${t}">${t}</option>`).join('');
+  }
+
+  let groupList = Object.values(groups);
+  if (filterTarget !== 'all') groupList = groupList.filter(g => g.target === filterTarget);
+  groupList.sort((a, b) => a.target.localeCompare(b.target) || a.ptype.localeCompare(b.ptype));
+
+  container.innerHTML = groupList.map(g => {
+    const ptypeColor = PTYPE_COLORS[g.ptype] || 'var(--text)';
+    const ptypeLabel = g.ptype.replace('_', ' ').toUpperCase();
+    const baseRisk = getBaselineRisk(g.target);
+
+    const roundCells = sccRounds.map(round => {
+      const r = g.rounds[round];
+      if (!r) return `<div class="compare-cell" style="opacity:0.3;"><div class="compare-label">No Data</div></div>`;
+
+      const det = r.mcgs_high_risk_detected || r.mcgs_uncertain_detected;
+      const risk = (r.mcgs_risk_score || 0);
+      const delta = (r.delta_mcgs_risk || 0);
+      const riskColor = risk >= 0.7 ? 'var(--green)' : risk >= 0.4 ? 'var(--yellow)' : 'var(--red)';
+      const deltaSign = delta > 0.01 ? '+' : delta < -0.01 ? '' : '~';
+      const deltaColor = delta > 0.01 ? 'var(--green)' : delta < -0.01 ? 'var(--red)' : 'var(--text3)';
+      const roundColor = ROUND_COLORS[round];
+      const oc = r.online_conformal_detected;
+
+      const detLabel = det
+        ? '<span style="color:var(--green);font-weight:700;">DETECTED</span>'
+        : '<span style="color:var(--red);font-weight:700;">MISSED</span>';
+
+      return `<div class="compare-cell">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+          <span class="round-pill" style="background:${roundColor}20;color:${roundColor};">${ROUND_LABELS[round]}</span>
+          ${detLabel}
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          <div>
+            <div class="compare-label">Risk Score</div>
+            <div class="compare-value mono" style="color:${riskColor};">${risk.toFixed(3)}</div>
+          </div>
+          <div>
+            <div class="compare-label">&Delta; vs Baseline</div>
+            <div class="compare-value mono" style="color:${deltaColor};">${deltaSign === '~' ? '~0' : (delta>=0?'+':'') + delta.toFixed(3)}</div>
+          </div>
+        </div>
+        ${round === 'R6_CONFORMAL' && oc !== undefined ? `<div style="margin-top:6px;font-size:10px;padding:2px 6px;border-radius:4px;display:inline-block;background:${oc?'var(--accent-glow)':'transparent'};color:${oc?'var(--accent2)':'var(--text3)'};">Conformal: ${oc?'&#10003; Detected':'&#10007; Not triggered'}</div>` : ''}
+      </div>`;
+    }).join('');
+
+    const r3det = g.rounds.R3_SCC && (g.rounds.R3_SCC.mcgs_high_risk_detected || g.rounds.R3_SCC.mcgs_uncertain_detected);
+    const r6det = g.rounds.R6_CONFORMAL && (g.rounds.R6_CONFORMAL.mcgs_high_risk_detected || g.rounds.R6_CONFORMAL.mcgs_uncertain_detected);
+    let improveBadge = '';
+    if (r6det && !r3det) improveBadge = `<span style="color:var(--green);font-weight:600;">&#9650; Fixed (vs Orig)</span>`;
+    else if (r6det && r3det) improveBadge = '<span style="color:var(--green);font-weight:600;">&#10003; Consistent</span>';
+    else if (!r6det && !r3det) improveBadge = '<span style="color:var(--red);font-weight:600;">&#10007; Still failing</span>';
+
+    const r7det = g.rounds.R7_JOINT && (g.rounds.R7_JOINT.mcgs_high_risk_detected || g.rounds.R7_JOINT.mcgs_uncertain_detected);
+    if (r6det && !r7det) improveBadge += ` <span style="color:var(--cyan);font-weight:600;margin-left:8px;">&#9650; Better than Joint</span>`;
+
+    return `<div class="compare-group">
+      <div class="compare-group-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-weight:700;font-size:14px;">${g.target}</span>
+          <span class="ptype-tag" style="background:${ptypeColor}20;color:${ptypeColor};">${ptypeLabel}</span>
+          ${baseRisk !== null ? `<span style="font-size:10px;color:var(--text3);background:var(--surface2);padding:2px 8px;border-radius:4px;">Baseline: <span class="mono" style="color:var(--text2);">${baseRisk.toFixed(3)}</span></span>` : ''}
+        </div>
+        <div style="font-size:11px;">${improveBadge}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;">
+        ${roundCells}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ALL RESULTS TABLE
+// ═══════════════════════════════════════════════════════════════
+function populateFilterOptions() {
+  const sel = document.getElementById('filter-round');
+  const rounds = [...new Set(liveResults.map(r => r.round))].filter(r => r !== 'R7_JOINT').sort();
+  if (sel.options.length <= 1) {
+    sel.innerHTML = '<option value="all">All Rounds</option>' + rounds.map(r => `<option value="${r}">${ROUND_LABELS[r] || r} (${r})</option>`).join('');
+  }
+}
+
+const TABLE_COLUMNS = [
+  { id: 'round',       label: 'Round',          group: 'Basic',   visible: true,  align: 'left' },
+  { id: 'target',      label: 'Target',         group: 'Basic',   visible: true,  align: 'left' },
+  { id: 'perturb',     label: 'Perturb',        group: 'Basic',   visible: true,  align: 'left' },
+  { id: 'baseline',    label: 'Baseline',       group: 'Basic',   visible: true,  align: 'center' },
+  { id: 'mcgs_risk',   label: 'MCGS Risk',      group: 'MCGS',    visible: true,  align: 'center' },
+  { id: 'mcgs_det',    label: 'MCGS Det.',      group: 'MCGS',    visible: true,  align: 'center' },
+  { id: 'delta_mcgs',  label: '\u0394 MCGS',    group: 'MCGS',    visible: false, align: 'center' },
+  { id: 'joint_risk',  label: 'Joint Risk',     group: 'Joint',   visible: true,  align: 'center' },
+  { id: 'joint_det',   label: 'Joint Det.',     group: 'Joint',   visible: true,  align: 'center' },
+  { id: 'delta_joint', label: '\u0394 Joint',   group: 'Joint',   visible: false, align: 'center' },
+  { id: 'llm_risk',    label: 'Direct LLM',     group: 'Direct',  visible: true,  align: 'center' },
+  { id: 'llm_det',     label: 'Direct Det.',    group: 'Direct',  visible: true,  align: 'center' },
+  { id: 'delta_llm',   label: '\u0394 Direct',  group: 'Direct',  visible: false, align: 'center' },
+  { id: 'oc_det',      label: 'Conformal Det.', group: 'Extra',   visible: false, align: 'center' },
+  { id: 'mcgs_std',    label: 'MCGS Std',       group: 'Extra',   visible: false, align: 'center' },
+  { id: 'mcgs_max',    label: 'MCGS Max',       group: 'Extra',   visible: false, align: 'center' },
+  { id: 'mcgs_time',   label: 'MCGS Time(s)',   group: 'Extra',   visible: false, align: 'center' },
+  { id: 'llm_time',    label: 'LLM Time(s)',    group: 'Extra',   visible: false, align: 'center' },
+  { id: 'rollouts',    label: 'Rollouts',       group: 'Extra',   visible: false, align: 'center' },
+  { id: 'vs_direct',   label: 'MCGS vs Direct', group: 'Verdict', visible: true,  align: 'center' },
+  { id: 'vs_joint',    label: 'MCGS vs Joint',  group: 'Verdict', visible: true,  align: 'center' },
+];
+
+function toggleColumnPicker() {
+  const picker = document.getElementById('col-picker');
+  if (picker.style.display === 'none') {
+    picker.style.display = 'block';
+    buildColumnPicker();
+    document.addEventListener('click', closePickerOutside);
+  } else {
+    picker.style.display = 'none';
+    document.removeEventListener('click', closePickerOutside);
+  }
+}
+function closePickerOutside(e) {
+  const picker = document.getElementById('col-picker');
+  const btn = document.getElementById('col-toggle-btn');
+  if (!picker.contains(e.target) && !btn.contains(e.target)) {
+    picker.style.display = 'none';
+    document.removeEventListener('click', closePickerOutside);
+  }
+}
+
+function buildColumnPicker() {
+  const picker = document.getElementById('col-picker');
+  const groups = {};
+  TABLE_COLUMNS.forEach(c => { if (!groups[c.group]) groups[c.group] = []; groups[c.group].push(c); });
+  picker.innerHTML = Object.entries(groups).map(([group, cols]) => `
+    <div style="padding:2px 14px 4px;">
+      <div style="font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin:6px 0 4px;">${group}</div>
+      ${cols.map(c => `
+        <label style="display:flex;align-items:center;gap:8px;padding:4px 0;cursor:pointer;font-size:12px;color:var(--text2);">
+          <input type="checkbox" ${c.visible?'checked':''} onchange="toggleColumn('${c.id}', this.checked)" style="accent-color:var(--accent);cursor:pointer;">
+          ${c.label}
+        </label>
+      `).join('')}
+    </div>
+  `).join('<div style="border-top:1px solid var(--border);margin:4px 0;"></div>');
+}
+
+function toggleColumn(id, visible) {
+  const col = TABLE_COLUMNS.find(c => c.id === id);
+  if (col) { col.visible = visible; renderTable(); }
+}
+
+function getJointDataForCase(targetId, ptype) {
+  return liveResults.find(r => r.round === 'R7_JOINT' && r.target_clause_id === targetId && r.perturbation_type === ptype);
+}
+
+function renderTable() {
+  const thead = document.getElementById('results-thead');
+  const tbody = document.getElementById('results-tbody');
+  const roundFilter = document.getElementById('filter-round').value;
+  const ptypeFilter = document.getElementById('filter-ptype').value;
+
+  const visCols = TABLE_COLUMNS.filter(c => c.visible);
+
+  thead.innerHTML = visCols.map(c =>
+    `<th class="th-style" style="text-align:${c.align};">${c.label}</th>`
+  ).join('');
+
+  let filtered = liveResults.filter(r => r.round !== 'R7_JOINT');
+  if (roundFilter !== 'all') filtered = filtered.filter(r => r.round === roundFilter);
+  if (ptypeFilter !== 'all') filtered = filtered.filter(r => r.perturbation_type === ptypeFilter);
+
+  filtered.sort((a, b) => {
+    const ro = (a.round||'').localeCompare(b.round||'');
+    if (ro !== 0) return ro;
+    return (a.target_clause_id||'').localeCompare(b.target_clause_id||'') || (a.perturbation_type||'').localeCompare(b.perturbation_type||'');
+  });
+
+  const rows = filtered.map(r => {
+    const baseRisk = getBaselineRisk(r.target_clause_id);
+    const baseLabel = baseRisk !== null ? baseRisk.toFixed(3) : '-';
+    const roundColor = ROUND_COLORS[r.round] || 'var(--surface2)';
+
+    const mcgsScore = (r.mcgs_risk_score != null) ? (r.mcgs_risk_score||0) : null;
+    const mcgsDet = (r.mcgs_high_risk_detected != null) ? !!(r.mcgs_high_risk_detected || r.mcgs_uncertain_detected) : null;
+    const deltaMcgs = (r.delta_mcgs_risk != null) ? (r.delta_mcgs_risk||0) : null;
+
+    const jointRow = getJointDataForCase(r.target_clause_id, r.perturbation_type);
+    const jointScore = jointRow ? (jointRow.mcgs_risk_score||0) : null;
+    const jointDet = jointRow ? !!(jointRow.mcgs_high_risk_detected) : null;
+    const deltaJoint = jointScore !== null && baseRisk !== null ? jointScore - baseRisk : null;
+
+    const llmScore = r.direct_llm_risk_score || 0;
+    const llmDet = !!r.direct_llm_detected;
+    const deltaLlm = r.delta_direct_llm_risk || 0;
+
+    const ocDet = r.online_conformal_detected;
+
+    function fmtScore(v) { return v !== null && v !== undefined ? v.toFixed(3) : '<span style="color:var(--text3);">-</span>'; }
+    function fmtDelta(v) {
+      if (v === null || v === undefined) return '<span style="color:var(--text3);">-</span>';
+      const c = v > 0.01 ? 'var(--green)' : v < -0.01 ? 'var(--red)' : 'var(--text3)';
+      return `<span style="color:${c};">${v>=0?'+':''}${v.toFixed(3)}</span>`;
+    }
+    function fmtDet(v) {
+      if (v === null || v === undefined) return '<span style="color:var(--text3);">-</span>';
+      return `<span style="color:${v?'var(--green)':'var(--red)'};">${v?'&#10003;':'&#10007;'}</span>`;
+    }
+
+    function makeVerdict(aDet, aName, bDet, bName) {
+      if (aDet === null || bDet === null) return { html: '<span style="color:var(--text3);">-</span>', title: 'N/A' };
+      if (aDet && !bDet) return { html: `<span title="${aName} wins">&#11088; <span style="font-size:10px;color:var(--green);">${aName}</span></span>`, title: `${aName} wins` };
+      if (aDet && bDet) return { html: `<span style="color:var(--green);" title="Both detected">&#10003;</span>`, title: 'Both detected' };
+      if (!aDet && bDet) return { html: `<span title="${bName} wins">&#128737; <span style="font-size:10px;color:var(--yellow);">${bName}</span></span>`, title: `${bName} wins` };
+      return { html: `<span style="color:var(--red);" title="Both missed">&#10007;</span>`, title: 'Both missed' };
+    }
+    const vsDirect = makeVerdict(mcgsDet, 'MCGS', llmDet, 'Direct');
+    const vsJoint = makeVerdict(mcgsDet, 'MCGS', jointDet, 'Joint');
+
+    const cellMap = {
+      round:      `<span class="badge" style="background:${roundColor}20;color:${roundColor};font-size:9px;">${ROUND_LABELS[r.round]||r.round}</span>`,
+      target:     `<span style="font-weight:600;">${r.target_clause_id}</span>`,
+      perturb:    `<span style="color:${PTYPE_COLORS[r.perturbation_type]||'var(--text2)'};font-size:11px;">${r.perturbation_type}</span>`,
+      baseline:   `<span class="mono" style="color:var(--text3);">${baseLabel}</span>`,
+      mcgs_risk:  `<span class="mono">${fmtScore(mcgsScore)}</span>`,
+      mcgs_det:   fmtDet(mcgsDet),
+      delta_mcgs: `<span class="mono">${fmtDelta(deltaMcgs)}</span>`,
+      joint_risk: `<span class="mono">${fmtScore(jointScore)}</span>`,
+      joint_det:  fmtDet(jointDet),
+      delta_joint:`<span class="mono">${fmtDelta(deltaJoint)}</span>`,
+      llm_risk:   `<span class="mono">${fmtScore(llmScore)}</span>`,
+      llm_det:    fmtDet(llmDet),
+      delta_llm:  `<span class="mono">${fmtDelta(deltaLlm)}</span>`,
+      oc_det:     fmtDet(ocDet),
+      mcgs_std:   `<span class="mono">${fmtScore(r.mcgs_std)}</span>`,
+      mcgs_max:   `<span class="mono">${fmtScore(r.mcgs_max_risk)}</span>`,
+      mcgs_time:  `<span class="mono">${r.mcgs_time_seconds != null ? r.mcgs_time_seconds.toFixed(1) : '-'}</span>`,
+      llm_time:   `<span class="mono">${r.direct_llm_time_seconds != null ? r.direct_llm_time_seconds.toFixed(1) : '-'}</span>`,
+      rollouts:   `<span class="mono">${r.rollouts_run != null ? r.rollouts_run : '-'}</span>`,
+      vs_direct:  `<span style="font-size:14px;" title="${vsDirect.title}">${vsDirect.html}</span>`,
+      vs_joint:   `<span style="font-size:14px;" title="${vsJoint.title}">${vsJoint.html}</span>`,
+    };
+
+    const tds = visCols.map(c =>
+      `<td style="text-align:${c.align};padding:8px 14px;">${cellMap[c.id] || '-'}</td>`
+    ).join('');
+
+    return `<tr style="border-top:1px solid var(--border);">${tds}</tr>`;
+  });
+
+  tbody.innerHTML = rows.join('') || `<tr><td colspan="${visCols.length}" style="padding:20px;text-align:center;color:var(--text3);">No results</td></tr>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// GRAPH (simplified from original)
+// ═══════════════════════════════════════════════════════════════
+function initGraph() {
+  if (!graphData) return;
+  const svg = d3.select('#graph-svg');
+  const container = document.getElementById('graph-container');
+  const width = container.clientWidth; const height = 500;
+  svg.attr('viewBox', `0 0 ${width} ${height}`);
+  const sccColors = ['#a855f7', '#f97316', '#06b6d4', '#22c55e', '#ef4444'];
+  svg.append('defs').append('marker').attr('id','arrowhead').attr('viewBox','0 -5 10 10').attr('refX',20).attr('refY',0).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto').append('path').attr('d','M0,-4L10,0L0,4').attr('fill','#334155');
+  const sccGroupMap = {};
+  (graphData.sccs||[]).forEach((scc,i) => { scc.forEach(n => sccGroupMap[n]=i); });
+  const nodes = graphData.nodes.map(n => ({...n, sccIdx: sccGroupMap[n.id]!==undefined?sccGroupMap[n.id]:-1}));
+  const links = graphData.edges.map(e => ({source:e.source,target:e.target}));
+  const sim = d3.forceSimulation(nodes).force('link',d3.forceLink(links).id(d=>d.id).distance(60)).force('charge',d3.forceManyBody().strength(-200)).force('center',d3.forceCenter(width/2,height/2)).force('collision',d3.forceCollide().radius(20));
+  const sccHulls = svg.append('g');
+  const linkGroup = svg.append('g');
+  const nodeGroup = svg.append('g');
+  const labelGroup = svg.append('g');
+  linkGroup.selectAll('line').data(links).join('line').attr('stroke','#1e3a5f').attr('stroke-width',1).attr('marker-end','url(#arrowhead)');
+  const node = nodeGroup.selectAll('circle').data(nodes).join('circle').attr('r',d=>d.sccIdx>=0?10:8).attr('fill',d=>d.sccIdx>=0?sccColors[d.sccIdx%sccColors.length]:'#475569').attr('stroke',d=>d.sccIdx>=0?sccColors[d.sccIdx%sccColors.length]:'#64748b').attr('stroke-width',2).attr('opacity',0.9).style('cursor','pointer').call(d3.drag().on('start',(e,d)=>{if(!e.active)sim.alphaTarget(0.3).restart();d.fx=d.x;d.fy=d.y;}).on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y;}).on('end',(e,d)=>{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null;}));
+  labelGroup.selectAll('text').data(nodes).join('text').text(d=>d.id).attr('font-size',10).attr('fill','#94a3b8').attr('text-anchor','middle').attr('dy',-14).attr('font-family','JetBrains Mono, monospace');
+  sim.on('tick',()=>{
+    linkGroup.selectAll('line').attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+    nodeGroup.selectAll('circle').attr('cx',d=>d.x).attr('cy',d=>d.y);
+    labelGroup.selectAll('text').attr('x',d=>d.x).attr('y',d=>d.y);
+    sccHulls.selectAll('path').remove();
+    const sg={};nodes.forEach(n=>{if(n.sccIdx>=0){if(!sg[n.sccIdx])sg[n.sccIdx]=[];sg[n.sccIdx].push([n.x,n.y]);}});
+    Object.entries(sg).forEach(([idx,pts])=>{if(pts.length<3){pts.push([pts[0][0]+1,pts[0][1]+1]);if(pts.length<3)pts.push([pts[0][0]-1,pts[0][1]+1]);}const h=d3.polygonHull(pts);if(h){const cx=pts.reduce((s,p)=>s+p[0],0)/pts.length,cy=pts.reduce((s,p)=>s+p[1],0)/pts.length;const pd=h.map(p=>{const dx=p[0]-cx,dy=p[1]-cy,d=Math.sqrt(dx*dx+dy*dy);return[p[0]+dx/d*20,p[1]+dy/d*20];});sccHulls.append('path').attr('d','M'+pd.join('L')+'Z').attr('fill',sccColors[idx%sccColors.length]+'15').attr('stroke',sccColors[idx%sccColors.length]).attr('stroke-width',1.5).attr('stroke-dasharray','4,3').attr('opacity',0.6);}});
+  });
+  graphSim = { sim, node };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+// SCALING ANALYSIS
+// ═══════════════════════════════════════════════════════════════
+function renderScaling() {
+  if (!scalingData || !scalingData.data) return;
+  const typeA = scalingData.data.type_a_obvious || scalingData.data.type_a || [];
+  const typeC = scalingData.data.type_c_subtle || [];
+
+  // Key findings cards
+  const findingsEl = document.getElementById('scaling-findings');
+  const tippingA = typeA.find(d => d.detection_rate < 1.0 && d.json_failures === 0);
+  const tippingScale = tippingA ? tippingA.scale : '—';
+  const maxPerfectA = [...typeA].reverse().find(d => d.detection_rate === 1.0 && d.json_failures === 0);
+  const maxPerfectScale = maxPerfectA ? maxPerfectA.scale : '—';
+  const bestSubtle = typeC.reduce((best, d) => d.detection_rate > best.detection_rate ? d : best, { detection_rate: 0, scale: '—' });
+  const jsonFailStart = typeA.find(d => d.json_failures > 0);
+
+  findingsEl.innerHTML = `
+    <div class="metric-card">
+      <div class="metric-label">Perfect Detection (Type A)</div>
+      <div class="metric-value" style="color:var(--green);">≤${maxPerfectScale}</div>
+      <div class="metric-sub">clauses (100% detection)</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Tipping Point (Type A)</div>
+      <div class="metric-value" style="color:var(--yellow);">${tippingScale}</div>
+      <div class="metric-sub">clauses (~${tippingA ? Math.round(tippingA.avg_tokens/1000) + 'K' : '?'} tokens)</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Best Subtle Detection</div>
+      <div class="metric-value" style="color:var(--red);">${Math.round(bestSubtle.detection_rate*100)}%</div>
+      <div class="metric-sub">at ${bestSubtle.scale} clauses</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">JSON Truncation Starts</div>
+      <div class="metric-value" style="color:var(--orange);">${jsonFailStart ? jsonFailStart.scale : '—'}</div>
+      <div class="metric-sub">clauses (output &gt; 8192 tokens)</div>
+    </div>
+  `;
+
+  // Detection rate chart
+  const detCtx = document.getElementById('chart-scaling-detection');
+  if (charts.scalingDet) charts.scalingDet.destroy();
+
+  const labelsA = typeA.filter(d => d.scale <= 200).map(d => d.scale);
+  const labelsC = typeC.filter(d => d.scale <= 200).map(d => d.scale);
+  const allLabels = [...new Set([...labelsA, ...labelsC])].sort((a, b) => a - b);
+
+  const mapA = Object.fromEntries(typeA.map(d => [d.scale, d]));
+  const mapC = Object.fromEntries(typeC.map(d => [d.scale, d]));
+
+  charts.scalingDet = new Chart(detCtx, {
+    type: 'line',
+    data: {
+      labels: allLabels.map(String),
+      datasets: [
+        {
+          label: 'Type A (Obvious)',
+          data: allLabels.map(s => mapA[s] ? mapA[s].detection_rate * 100 : null),
+          borderColor: COLORS.green, backgroundColor: COLORS.greenBg,
+          borderWidth: 2.5, pointRadius: 5, pointHoverRadius: 7, tension: 0.3,
+          fill: false, spanGaps: true,
+        },
+        {
+          label: 'Type C (Subtle)',
+          data: allLabels.map(s => mapC[s] ? mapC[s].detection_rate * 100 : null),
+          borderColor: COLORS.red, backgroundColor: COLORS.redBg,
+          borderWidth: 2.5, pointRadius: 5, pointHoverRadius: 7, tension: 0.3,
+          fill: false, spanGaps: true,
+        },
+      ],
+    },
+    options: {
+      ...chartDefaults,
+      scales: {
+        ...chartDefaults.scales,
+        x: { ...chartDefaults.scales.x, title: { display: true, text: 'Number of Clauses', color: '#94a3b8', font: { size: 11 } } },
+        y: { ...chartDefaults.scales.y, min: 0, max: 105, title: { display: true, text: 'Detection Rate (%)', color: '#94a3b8', font: { size: 11 } } },
+      },
+      plugins: {
+        ...chartDefaults.plugins,
+        annotation: {
+          annotations: {
+            tipping: {
+              type: 'line', mode: 'vertical',
+              xMin: allLabels.indexOf(tippingScale), xMax: allLabels.indexOf(tippingScale),
+              borderColor: 'rgba(234,179,8,.5)', borderWidth: 2, borderDash: [6, 4],
+              label: { display: true, content: 'Tipping Point', position: 'start', backgroundColor: 'rgba(234,179,8,.2)', color: '#eab308', font: { size: 10 } },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  // Score chart
+  const scoreCtx = document.getElementById('chart-scaling-score');
+  if (charts.scalingScore) charts.scalingScore.destroy();
+  charts.scalingScore = new Chart(scoreCtx, {
+    type: 'line',
+    data: {
+      labels: allLabels.map(String),
+      datasets: [
+        {
+          label: 'Type A Avg Score',
+          data: allLabels.map(s => mapA[s] ? mapA[s].avg_score : null),
+          borderColor: COLORS.green, backgroundColor: COLORS.greenBg,
+          borderWidth: 2, pointRadius: 4, tension: 0.3, fill: true, spanGaps: true,
+        },
+        {
+          label: 'Type C Avg Score',
+          data: allLabels.map(s => mapC[s] ? mapC[s].avg_score : null),
+          borderColor: COLORS.red, backgroundColor: COLORS.redBg,
+          borderWidth: 2, pointRadius: 4, tension: 0.3, fill: true, spanGaps: true,
+        },
+        {
+          label: 'Threshold (0.7)',
+          data: allLabels.map(() => 0.7),
+          borderColor: 'rgba(234,179,8,.6)', borderWidth: 1.5, borderDash: [6, 4],
+          pointRadius: 0, fill: false,
+        },
+      ],
+    },
+    options: {
+      ...chartDefaults,
+      scales: {
+        ...chartDefaults.scales,
+        x: { ...chartDefaults.scales.x, title: { display: true, text: 'Number of Clauses', color: '#94a3b8', font: { size: 11 } } },
+        y: { ...chartDefaults.scales.y, min: 0, max: 1.05, title: { display: true, text: 'Avg Risk Score', color: '#94a3b8', font: { size: 11 } } },
+      },
+    },
+  });
+
+  // Table
+  const tbody = document.getElementById('scaling-tbody');
+  const allScales = [...new Set([...typeA.map(d => d.scale), ...typeC.map(d => d.scale)])].sort((a, b) => a - b);
+  tbody.innerHTML = allScales.map(scale => {
+    const a = mapA[scale];
+    const c = mapC[scale];
+    const tokens = a ? a.avg_tokens : (c ? c.avg_tokens : 0);
+
+    const aRate = a ? a.detection_rate : null;
+    const aScore = a ? a.avg_score : null;
+    const cRate = c ? c.detection_rate : null;
+    const cScore = c ? c.avg_score : null;
+    const jsonFail = (a ? a.json_failures : 0) + (c ? c.json_failures : 0);
+
+    const rateColor = (r) => r === null ? 'var(--text3)' : r >= 1.0 ? 'var(--green)' : r >= 0.6 ? 'var(--yellow)' : 'var(--red)';
+    const formatRate = (r) => r === null ? '—' : `${Math.round(r * 100)}%`;
+    const formatScore = (s) => s === null ? '—' : s.toFixed(3);
+
+    let insight = '';
+    if (aRate === 1.0 && (cRate === null || cRate < 0.5)) insight = '<span style="color:var(--green);">LLM OK for obvious</span>';
+    else if (aRate !== null && aRate < 1.0 && aRate > 0 && jsonFail === 0) insight = '<span style="color:var(--yellow);">Attention degrading</span>';
+    else if (jsonFail > 0 && jsonFail < 10) insight = '<span style="color:var(--orange);">JSON truncation</span>';
+    else if (jsonFail >= 10) insight = '<span style="color:var(--red);">Complete failure</span>';
+    if (cRate !== null && cRate === 0 && scale <= 60) insight += insight ? ' · ' : '';
+    if (cRate !== null && cRate === 0 && scale <= 60) insight += '<span style="color:var(--red);">Subtle: needs MCGS</span>';
+
+    return `<tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:10px 14px;text-align:center;font-weight:600;" class="mono">${scale}</td>
+      <td style="padding:10px 14px;text-align:center;color:var(--text2);" class="mono">~${Math.round(tokens/1000)}K</td>
+      <td style="padding:10px 14px;text-align:center;font-weight:700;color:${rateColor(aRate)};" class="mono">${formatRate(aRate)}</td>
+      <td style="padding:10px 14px;text-align:center;color:var(--text2);" class="mono">${formatScore(aScore)}</td>
+      <td style="padding:10px 14px;text-align:center;font-weight:700;color:${rateColor(cRate)};" class="mono">${formatRate(cRate)}</td>
+      <td style="padding:10px 14px;text-align:center;color:var(--text2);" class="mono">${formatScore(cScore)}</td>
+      <td style="padding:10px 14px;text-align:center;color:${jsonFail > 0 ? 'var(--orange)' : 'var(--text3)'};" class="mono">${jsonFail > 0 ? jsonFail : '—'}</td>
+      <td style="padding:10px 14px;font-size:11px;">${insight || '—'}</td>
+    </tr>`;
+  }).join('');
+
+  renderMcgsVsJoint();
+  renderDeepExperiment();
+  renderVerdictExperiment();
+}
+
+function renderMcgsVsJoint() {
+  if (!mcgsVsJointData) return;
+  const allData = mcgsVsJointData.all || [];
+  if (!allData.length) return;
+
+  const typeB = allData.filter(r => r.perturbation === 'type_b');
+  const typeC = allData.filter(r => r.perturbation === 'type_c');
+
+  function rates(arr) {
+    const n = arr.length || 1;
+    return {
+      joint: arr.filter(r => r.joint_detected).length,
+      hr: arr.filter(r => r.mcgs_hr_detected).length,
+      unc: arr.filter(r => r.mcgs_unc_detected).length,
+      oc: arr.filter(r => r.mcgs_oc_detected).length,
+      composite: arr.filter(r => r.mcgs_detected).length,
+      total: arr.length,
+    };
+  }
+  const rB = rates(typeB), rC = rates(typeC);
+
+  function pct(count, total) { return Math.round(count / total * 100) + '%'; }
+  function rateCell(count, total, color) {
+    const p = pct(count, total);
+    const bg = count > 0 ? color + '18' : 'transparent';
+    return `<td style="padding:10px 14px;text-align:center;font-weight:700;color:${count > 0 ? color : 'var(--text3)'};background:${bg};" class="mono">${p}<div style="font-size:9px;font-weight:400;color:var(--text3);margin-top:2px;">${count}/${total}</div></td>`;
+  }
+
+  const statsEl = document.getElementById('mcgs-vs-joint-stats');
+  statsEl.innerHTML = `
+    <table style="width:100%;font-size:12px;border-collapse:collapse;border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+      <thead style="background:var(--surface2);">
+        <tr>
+          <th style="padding:10px 14px;text-align:left;font-size:11px;color:var(--text3);font-weight:600;border-right:1px solid var(--border);">Perturbation</th>
+          <th style="padding:10px 14px;text-align:center;font-size:11px;color:var(--yellow);font-weight:600;border-right:1px solid var(--border);">Joint LLM<br><span style="font-size:9px;color:var(--text3);font-weight:400;">score &ge; 0.7</span></th>
+          <th style="padding:10px 14px;text-align:center;font-size:11px;color:var(--orange);font-weight:600;border-right:1px solid var(--border);">MCGS Score Det.<br><span style="font-size:9px;color:var(--text3);font-weight:400;">max_score &ge; 0.7</span></th>
+          <th style="padding:10px 14px;text-align:center;font-size:11px;color:var(--purple);font-weight:600;border-right:1px solid var(--border);">MCGS Var. Det.<br><span style="font-size:9px;color:var(--text3);font-weight:400;">std &ge; 0.15</span></th>
+          <th style="padding:10px 14px;text-align:center;font-size:11px;color:var(--cyan);font-weight:600;border-right:1px solid var(--border);">MCGS Conformal<br><span style="font-size:9px;color:var(--text3);font-weight:400;">online calibrated</span></th>
+          <th style="padding:10px 14px;text-align:center;font-size:11px;color:var(--accent2);font-weight:600;">MCGS Composite<br><span style="font-size:9px;color:var(--text3);font-weight:400;">any of above</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-top:1px solid var(--border);">
+          <td style="padding:10px 14px;font-weight:600;border-right:1px solid var(--border);"><span class="ptype-tag" style="background:var(--yellow-dim);color:var(--yellow);">TYPE B</span></td>
+          ${rateCell(rB.joint, rB.total, 'var(--yellow)')}
+          ${rateCell(rB.hr, rB.total, 'var(--orange)')}
+          ${rateCell(rB.unc, rB.total, 'var(--purple)')}
+          ${rateCell(rB.oc, rB.total, 'var(--cyan)')}
+          ${rateCell(rB.composite, rB.total, 'var(--accent2)')}
+        </tr>
+        <tr style="border-top:1px solid var(--border);">
+          <td style="padding:10px 14px;font-weight:600;border-right:1px solid var(--border);"><span class="ptype-tag" style="background:var(--red-dim);color:var(--red);">TYPE C</span></td>
+          ${rateCell(rC.joint, rC.total, 'var(--yellow)')}
+          ${rateCell(rC.hr, rC.total, 'var(--orange)')}
+          ${rateCell(rC.unc, rC.total, 'var(--purple)')}
+          ${rateCell(rC.oc, rC.total, 'var(--cyan)')}
+          ${rateCell(rC.composite, rC.total, 'var(--accent2)')}
+        </tr>
+      </tbody>
+    </table>
+  `;
+
+  function makeBarChart(canvasId, data, title) {
+    const sorted = [...data].sort((a, b) => b.scc_size - a.scc_size);
+    const labels = sorted.map(r => `${r.target_id}\n(${r.scc_size}n)`);
+    const ctx = document.getElementById(canvasId);
+    const key = 'chart_' + canvasId;
+    if (charts[key]) charts[key].destroy();
+    charts[key] = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Joint LLM',
+            data: sorted.map(r => r.joint_score),
+            backgroundColor: sorted.map(r => r.joint_detected ? 'rgba(234,179,8,.7)' : 'rgba(234,179,8,.2)'),
+            borderColor: 'rgba(234,179,8,.9)',
+            borderWidth: 1,
+          },
+          {
+            label: 'MCGS',
+            data: sorted.map(r => r.mcgs_score),
+            backgroundColor: sorted.map(r => r.mcgs_detected ? 'rgba(99,102,241,.7)' : 'rgba(99,102,241,.2)'),
+            borderColor: 'rgba(99,102,241,.9)',
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        ...chartDefaults,
+        scales: {
+          ...chartDefaults.scales,
+          y: { ...chartDefaults.scales.y, min: 0, max: 1.05 },
+        },
+        plugins: {
+          ...chartDefaults.plugins,
+          annotation: {
+            annotations: {
+              threshold: {
+                type: 'line', yMin: 0.7, yMax: 0.7,
+                borderColor: 'rgba(239,68,68,.6)', borderWidth: 1.5, borderDash: [6, 4],
+                label: { display: true, content: 'Threshold 0.7', position: 'end', backgroundColor: 'rgba(239,68,68,.2)', color: '#ef4444', font: { size: 9 } },
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  makeBarChart('chart-mcgs-typeb', typeB, 'Type B');
+  makeBarChart('chart-mcgs-typec', typeC, 'Type C');
+
+  // Detail table
+  const tbody = document.getElementById('mcgs-detail-tbody');
+  function flagCell(val, color) {
+    if (val) return `<td style="padding:8px 10px;text-align:center;font-weight:700;color:${color};font-size:11px;">YES</td>`;
+    return `<td style="padding:8px 10px;text-align:center;color:var(--text3);font-size:11px;">—</td>`;
+  }
+  tbody.innerHTML = allData.map(r => {
+    const winner = r.mcgs_detected && !r.joint_detected ? 'MCGS' :
+                   r.mcgs_detected && r.joint_detected ? 'Both' :
+                   r.joint_detected && !r.mcgs_detected ? 'Joint' : 'Neither';
+    const winColor = winner === 'MCGS' ? 'var(--accent2)' : winner === 'Both' ? 'var(--green)' : winner === 'Neither' ? 'var(--red)' : 'var(--yellow)';
+    const jColor = r.joint_detected ? 'var(--green)' : 'var(--red)';
+    const ptypeColor = r.perturbation === 'type_b' ? 'var(--yellow)' : 'var(--red)';
+    const compColor = r.mcgs_detected ? 'var(--green)' : 'var(--red)';
+    return `<tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:8px 10px;text-align:center;"><span class="ptype-tag" style="background:${ptypeColor}20;color:${ptypeColor};">${r.perturbation.replace('_',' ').toUpperCase()}</span></td>
+      <td style="padding:8px 10px;text-align:center;font-weight:600;" class="mono">${r.scc_size}</td>
+      <td style="padding:8px 10px;" class="mono">${r.target_id}</td>
+      <td style="padding:8px 10px;text-align:center;" class="mono">${r.joint_score.toFixed(2)}</td>
+      <td style="padding:8px 10px;text-align:center;font-weight:700;color:${jColor};">${r.joint_detected ? 'YES' : 'NO'}</td>
+      <td style="padding:8px 10px;text-align:center;" class="mono">${r.mcgs_score.toFixed(2)}</td>
+      ${flagCell(r.mcgs_hr_detected, 'var(--orange)')}
+      ${flagCell(r.mcgs_unc_detected, 'var(--purple)')}
+      ${flagCell(r.mcgs_oc_detected, 'var(--cyan)')}
+      <td style="padding:8px 10px;text-align:center;font-weight:700;color:${compColor};font-size:11px;">${r.mcgs_detected ? 'YES' : 'NO'}</td>
+      <td style="padding:8px 10px;text-align:center;font-weight:700;color:${winColor};">${winner}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderDeepExperiment() {
+  if (!deepData || !deepData.cases) return;
+  const container = document.getElementById('deep-experiment-container');
+  if (!container) return;
+
+  const cases = deepData.cases;
+  const cfg = deepData.config || {};
+
+  let html = '';
+  for (const c of cases) {
+    const jScores = c.joint_trial_scores || [];
+    const jFails = jScores.filter(s => s === 0).length;
+    const jValid = jScores.filter(s => s > 0);
+    const jValidAvg = jValid.length ? (jValid.reduce((a,b)=>a+b,0)/jValid.length) : 0;
+
+    const jDetColor = c.joint_det_rate > 0.5 ? 'var(--green)' : c.joint_det_rate > 0 ? 'var(--yellow)' : 'var(--red)';
+    const mDetColor = c.mcgs_detected ? 'var(--green)' : 'var(--red)';
+    const hrColor = c.mcgs_hr_detected ? 'var(--orange)' : 'var(--text3)';
+    const uncColor = c.mcgs_unc_detected ? 'var(--purple)' : 'var(--text3)';
+    const ocColor = c.mcgs_oc_detected ? 'var(--cyan)' : 'var(--text3)';
+
+    html += `
+    <div class="card" style="padding:20px; margin-bottom:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <div>
+          <span class="mono" style="font-size:16px; font-weight:700;">${c.target_id}</span>
+          <span style="font-size:11px; color:var(--text3); margin-left:8px;">${c.scc_size} nodes · Type C</span>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <span class="badge" style="background:var(--cyan-dim); color:var(--cyan);">50 Rollouts</span>
+          <span class="badge" style="background:var(--purple-dim); color:var(--purple);">10 Samples</span>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+        <!-- Joint LLM -->
+        <div style="background:var(--surface2); border-radius:10px; padding:16px; border:1px solid var(--border);">
+          <div style="font-size:11px; font-weight:600; color:var(--yellow); text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px;">Joint LLM · ${c.joint_total_trials} Trials</div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline;">
+            <div>
+              <div style="font-size:24px; font-weight:800; color:${jDetColor};">${Math.round(c.joint_det_rate*100)}%</div>
+              <div style="font-size:10px; color:var(--text3);">${c.joint_det_count}/${c.joint_total_trials} detected</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:13px; font-weight:600;" class="mono">${c.joint_avg_score.toFixed(3)}</div>
+              <div style="font-size:10px; color:var(--text3);">avg score</div>
+            </div>
+          </div>
+          <div style="margin-top:10px; display:flex; gap:4px; align-items:center;">
+            ${jScores.map(s => {
+              const bg = s === 0 ? 'var(--red)' : s >= 0.7 ? 'var(--green)' : 'var(--yellow)';
+              const w = Math.max(s * 40, 3);
+              return `<div title="score=${s}" style="height:24px; width:${w}px; min-width:3px; background:${bg}; border-radius:3px; opacity:${s===0?0.4:0.8};"></div>`;
+            }).join('')}
+            <span style="font-size:9px; color:var(--text3); margin-left:4px;">scores: [${jScores.join(', ')}]</span>
+          </div>
+          ${jFails > 0 ? `<div style="margin-top:6px; font-size:10px; color:var(--red);">⚠ ${jFails}/${c.joint_total_trials} JSON parse failures (score=0)</div>` : ''}
+        </div>
+
+        <!-- MCGS -->
+        <div style="background:var(--surface2); border-radius:10px; padding:16px; border:1px solid var(--border);">
+          <div style="font-size:11px; font-weight:600; color:var(--accent2); text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px;">MCGS · ${c.mcgs_rollouts} Rollouts · ${c.mcgs_branches} Branches</div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; margin-bottom:10px;">
+            <div style="text-align:center;">
+              <div style="font-size:18px; font-weight:700;" class="mono">${c.mcgs_mean_score.toFixed(3)}</div>
+              <div style="font-size:9px; color:var(--text3);">Mean</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:18px; font-weight:700;" class="mono">${c.mcgs_std_score.toFixed(3)}</div>
+              <div style="font-size:9px; color:var(--text3);">Std</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:18px; font-weight:700;" class="mono">${c.mcgs_max_score.toFixed(3)}</div>
+              <div style="font-size:9px; color:var(--text3);">Max</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:12px; margin-top:10px;">
+            <div style="flex:1; text-align:center; padding:6px; border-radius:6px; background:${c.mcgs_hr_detected ? 'rgba(249,115,22,.15)' : 'transparent'};">
+              <div style="font-size:14px; font-weight:700; color:${hrColor};">${c.mcgs_hr_detected ? 'YES' : '—'}</div>
+              <div style="font-size:9px; color:var(--text3);">Score Det.</div>
+            </div>
+            <div style="flex:1; text-align:center; padding:6px; border-radius:6px; background:${c.mcgs_unc_detected ? 'rgba(168,85,247,.15)' : 'transparent'};">
+              <div style="font-size:14px; font-weight:700; color:${uncColor};">${c.mcgs_unc_detected ? 'YES' : '—'}</div>
+              <div style="font-size:9px; color:var(--text3);">Var. Det.</div>
+            </div>
+            <div style="flex:1; text-align:center; padding:6px; border-radius:6px; background:${c.mcgs_oc_detected ? 'rgba(6,182,212,.15)' : 'transparent'};">
+              <div style="font-size:14px; font-weight:700; color:${ocColor};">${c.mcgs_oc_detected ? 'YES' : '—'}</div>
+              <div style="font-size:9px; color:var(--text3);">OC Det.</div>
+            </div>
+            <div style="flex:1; text-align:center; padding:6px; border-radius:6px; background:${c.mcgs_detected ? 'rgba(34,197,94,.15)' : 'transparent'}; border:1px solid ${c.mcgs_detected ? 'var(--green)' : 'var(--border)'};">
+              <div style="font-size:14px; font-weight:700; color:${mDetColor};">${c.mcgs_detected ? 'YES' : 'NO'}</div>
+              <div style="font-size:9px; color:var(--text3);">Composite</div>
+            </div>
+          </div>
+          ${c.mcgs_oc_log && c.mcgs_oc_log.length > 0 ? c.mcgs_oc_log.map(l => `
+          <div style="margin-top:8px; padding:6px 10px; background:var(--cyan-dim); border-radius:6px; font-size:10px; color:var(--cyan);">
+            OC detected at rollout ${l.detected_at_rollout}: z=${l.z_score.toFixed(2)}, rank=${l.avg_rank.toFixed(2)}, exc=${l.exceedance_frac.toFixed(2)} · ${l.tests_passed}
+          </div>`).join('') : ''}
+        </div>
+      </div>
+    </div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+function renderVerdictExperiment() {
+  if (!verdictData || !verdictData.cases) return;
+  const container = document.getElementById('verdict-experiment-container');
+  if (!container) return;
+
+  const cases = verdictData.cases;
+  const cfg = verdictData.config || {};
+
+  let html = '';
+
+  // Summary bar
+  const allJointDet = cases.every(c => c.joint_found_defect_rate === 1.0);
+  const allMcgsDet = cases.every(c => c.mcgs_found_defect);
+  html += `
+  <div class="card" style="padding:16px; margin-bottom:16px; display:flex; gap:16px; align-items:center; justify-content:center;">
+    <div style="text-align:center; padding:8px 20px; border-radius:8px; background:${allJointDet ? 'rgba(34,197,94,.12)' : 'rgba(239,68,68,.12)'}; border:1px solid ${allJointDet ? 'var(--green)' : 'var(--red)'};">
+      <div style="font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:.05em;">Joint LLM</div>
+      <div style="font-size:22px; font-weight:800; color:${allJointDet ? 'var(--green)' : 'var(--red)'};">${cases.filter(c=>c.joint_found_defect_rate===1).length}/${cases.length}</div>
+      <div style="font-size:10px; color:var(--text3);">cases 100% detected</div>
+    </div>
+    <div style="font-size:18px; color:var(--text3);">vs</div>
+    <div style="text-align:center; padding:8px 20px; border-radius:8px; background:${allMcgsDet ? 'rgba(34,197,94,.12)' : 'rgba(239,68,68,.12)'}; border:1px solid ${allMcgsDet ? 'var(--green)' : 'var(--red)'};">
+      <div style="font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:.05em;">MCGS Structural</div>
+      <div style="font-size:22px; font-weight:800; color:${allMcgsDet ? 'var(--green)' : 'var(--red)'};">${cases.filter(c=>c.mcgs_found_defect).length}/${cases.length}</div>
+      <div style="font-size:10px; color:var(--text3);">cases detected</div>
+    </div>
+  </div>`;
+
+  for (const c of cases) {
+    const jColor = c.joint_found_defect_rate === 1 ? 'var(--green)' : c.joint_found_defect_rate > 0 ? 'var(--yellow)' : 'var(--red)';
+    const mColor = c.mcgs_found_defect ? 'var(--green)' : 'var(--red)';
+
+    // Collect issue types from all trials
+    const allIssueTypes = {};
+    (c.joint_trials || []).forEach(t => {
+      (t.issue_types || []).forEach(it => { allIssueTypes[it] = (allIssueTypes[it]||0)+1; });
+    });
+    const issueTypeSummary = Object.entries(allIssueTypes).map(([k,v]) => `${k}(${v})`).join(', ');
+
+    // Clause-level heatmap for MCGS
+    const clauseDetails = c.mcgs_clause_details || {};
+    const clauseIds = c.scc_clause_ids || Object.keys(clauseDetails);
+
+    html += `
+    <div class="card" style="padding:20px; margin-bottom:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <div>
+          <span class="mono" style="font-size:16px; font-weight:700;">${c.target_id}</span>
+          <span style="font-size:11px; color:var(--text3); margin-left:8px;">${c.scc_size} nodes · Type C · ${cfg.detection_mode || 'structural'}</span>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <span class="badge" style="background:var(--cyan-dim); color:var(--cyan);">${c.mcgs_rollouts} Rollouts</span>
+          <span class="badge" style="background:var(--purple-dim); color:var(--purple);">${cfg.mcgs_num_samples || 10} Samples</span>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+        <!-- Joint LLM Verdict -->
+        <div style="background:var(--surface2); border-radius:10px; padding:16px; border:1px solid var(--border);">
+          <div style="font-size:11px; font-weight:600; color:var(--yellow); text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px;">Joint LLM · ${c.joint_total_trials} Trials · Binary Verdict</div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:12px;">
+            <div>
+              <div style="font-size:28px; font-weight:800; color:${jColor};">${Math.round(c.joint_found_defect_rate*100)}%</div>
+              <div style="font-size:10px; color:var(--text3);">found defect</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:12px; color:var(--text2);">${c.joint_json_fail_count > 0 ? `<span style="color:var(--red);">${c.joint_json_fail_count} JSON fails</span>` : '<span style="color:var(--green);">0 JSON fails</span>'}</div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            ${(c.joint_trials || []).map(t => {
+              const bg = t.json_failed ? 'rgba(239,68,68,.1)' : t.found_defect ? 'rgba(34,197,94,.1)' : 'rgba(234,179,8,.1)';
+              const iconColor = t.json_failed ? 'var(--red)' : t.found_defect ? 'var(--green)' : 'var(--yellow)';
+              const icon = t.json_failed ? '✗' : t.found_defect ? '✓' : '—';
+              const issues = (t.issues_found||[]).join(', ') || '—';
+              const types = (t.issue_types||[]).join(', ') || '—';
+              return `<div style="display:flex; align-items:center; gap:8px; padding:4px 8px; border-radius:6px; background:${bg};">
+                <span style="font-size:14px; font-weight:700; color:${iconColor}; width:16px; text-align:center;">${icon}</span>
+                <span style="font-size:10px; color:var(--text2); flex:1;">
+                  <span class="mono">${issues}</span>
+                  <span style="color:var(--text3); margin-left:4px;">[${types}]</span>
+                </span>
+              </div>`;
+            }).join('')}
+          </div>
+          ${issueTypeSummary ? `<div style="margin-top:8px; font-size:10px; color:var(--text3);">Issue types: ${issueTypeSummary}</div>` : ''}
+        </div>
+
+        <!-- MCGS Structural -->
+        <div style="background:var(--surface2); border-radius:10px; padding:16px; border:1px solid var(--border);">
+          <div style="font-size:11px; font-weight:600; color:var(--accent2); text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px;">MCGS Structural · ${c.mcgs_rollouts} Rollouts</div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:12px;">
+            <div>
+              <div style="font-size:28px; font-weight:800; color:${mColor};">${c.mcgs_found_defect ? 'FOUND' : 'NOT FOUND'}</div>
+              <div style="font-size:10px; color:var(--text3);">${c.mcgs_total_flagged}/${c.scc_size} clauses flagged</div>
+            </div>
+          </div>
+          <!-- Clause heatmap -->
+          <div style="display:flex; flex-direction:column; gap:3px;">
+            ${clauseIds.map(cid => {
+              const d = clauseDetails[cid];
+              if (!d) return '';
+              const flags = [];
+              if (d.is_high_risk) flags.push('<span style="color:var(--orange); font-weight:700;">HR</span>');
+              if (d.is_uncertain) flags.push('<span style="color:var(--purple); font-weight:700;">UNC</span>');
+              if (d.is_oc_detected) flags.push('<span style="color:var(--cyan); font-weight:700;">OC</span>');
+              const flagStr = flags.length ? flags.join(' ') : '<span style="color:var(--text3);">—</span>';
+              const isTarget = cid === c.target_id;
+              const barWidth = Math.round(d.max_score * 100);
+              const barColor = d.is_high_risk ? (d.is_oc_detected ? 'var(--cyan)' : 'var(--orange)') : 'var(--text3)';
+              return `<div style="display:flex; align-items:center; gap:6px; padding:3px 6px; border-radius:4px; ${isTarget ? 'background:rgba(99,102,241,.08); border:1px dashed var(--accent);' : ''}">
+                <span class="mono" style="font-size:10px; width:70px; color:${isTarget ? 'var(--accent)' : 'var(--text2)'}; ${isTarget ? 'font-weight:700;' : ''}">${cid}${isTarget ? ' *' : ''}</span>
+                <div style="flex:1; height:10px; background:var(--surface); border-radius:4px; overflow:hidden;">
+                  <div style="width:${barWidth}%; height:100%; background:${barColor}; border-radius:4px; opacity:0.7;"></div>
+                </div>
+                <span class="mono" style="font-size:9px; width:30px; text-align:right; color:var(--text3);">${d.max_score.toFixed(2)}</span>
+                <span style="font-size:9px; width:55px; text-align:right;">${flagStr}</span>
+              </div>`;
+            }).join('')}
+          </div>
+          <div style="margin-top:8px; font-size:9px; color:var(--text3);">* = perturbed clause · HR = high risk (max≥0.7) · OC = online conformal detected</div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// MCTS vs CYCLE (Ablation 1)
+// ═══════════════════════════════════════════════════════════════
+function renderMctsCycle() {
+  if (!mctsCycleData) return;
+  const mock = mctsCycleData.mock_experiment;
+  const real = mctsCycleData.real_llm_experiment;
+  const ds = mctsCycleData.dataset_info;
+  const fm = mock.failure_modes;
+  const s = mock.summary;
+
+  // Metrics
+  document.getElementById('mcts-cycle-metrics').innerHTML = `
+    <div class="metric-card">
+      <div class="metric-label">SA-MCGS Hit@3</div>
+      <div class="metric-value" style="color:var(--green)">${(s.sa_mcgs_cycle.hit3*100).toFixed(0)}%</div>
+      <div class="metric-sub">on cyclic graphs</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">TreeMCTS Hit@3</div>
+      <div class="metric-value" style="color:var(--red)">${(s.tree_mcts_cycle.hit3*100).toFixed(0)}%</div>
+      <div class="metric-sub">on cyclic graphs</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Q-Spread Ratio</div>
+      <div class="metric-value" style="color:var(--accent)">${fm.f3_q_dilution.dilution_ratio}x</div>
+      <div class="metric-sub">SA-MCGS vs TreeMCTS</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Rollout Cycle Hit</div>
+      <div class="metric-value" style="color:var(--orange)">${(fm.f2_rollout_waste.compound_truncation_rate*100).toFixed(0)}%</div>
+      <div class="metric-sub">compound cycle</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Total Runs</div>
+      <div class="metric-value" style="color:var(--cyan)">${mock.total_runs}</div>
+      <div class="metric-sub">${mock.config}</div>
+    </div>`;
+
+  // F1
+  document.getElementById('f1-content').innerHTML = `
+    <div>Compound Cycle: <b style="color:var(--red);">${fm.f1_tree_explosion.compound_tree_nodes}</b> tree nodes from <b>${fm.f1_tree_explosion.compound_graph_nodes}</b> graph nodes</div>
+    <div>Expansion ratio: <b style="color:var(--red);">${fm.f1_tree_explosion.expansion_ratio}x</b></div>
+    <div style="margin-top:8px;font-size:11px;color:var(--text3);">Same graph node appears as multiple tree nodes via different cycle traversals &rarr; memory and compute waste.</div>`;
+
+  // F2
+  document.getElementById('f2-content').innerHTML = `
+    <div>DAG: avg <b style="color:var(--green);">${fm.f2_rollout_waste.dag_avg_steps}</b> steps</div>
+    <div>Compound: avg <b style="color:var(--red);">${fm.f2_rollout_waste.compound_avg_steps}</b> steps (max=${fm.f2_rollout_waste.max_depth})</div>
+    <div><b style="color:var(--red);">${(fm.f2_rollout_waste.compound_truncation_rate*100).toFixed(0)}%</b> rollouts truncated</div>
+    <div style="margin-top:8px;font-size:11px;color:var(--text3);">Random walk loops in cycle until depth limit &rarr; returns uninformative cycle-average value.</div>`;
+
+  // F3
+  document.getElementById('f3-content').innerHTML = `
+    <div>TreeMCTS on DAG: Q-spread = <b>${fm.f3_q_dilution.tree_dag_spread.toFixed(4)}</b></div>
+    <div>TreeMCTS on Cycle: Q-spread = <b style="color:var(--red);">${fm.f3_q_dilution.tree_cycle_spread.toFixed(4)}</b></div>
+    <div>SA-MCGS on Cycle: Q-spread = <b style="color:var(--green);">${fm.f3_q_dilution.sa_mcgs_spread.toFixed(4)}</b></div>
+    <div style="margin-top:8px;font-size:11px;color:var(--text3);">All cycle nodes converge to same avg Q-value &rarr; anomaly indistinguishable from normal nodes.</div>`;
+
+  // Table
+  const tbody = document.getElementById('mcts-cycle-tbody');
+  const topoColors = { dag: 'var(--cyan)', simple_cycle: 'var(--yellow)', compound_cycle: 'var(--red)' };
+  tbody.innerHTML = mock.by_topology.map(r => {
+    const hitColor = r.hit3 >= 0.8 ? 'var(--green)' : r.hit3 >= 0.4 ? 'var(--yellow)' : 'var(--red)';
+    const methodColor = r.method === 'sa_mcgs' ? 'var(--green)' : 'var(--text)';
+    return `<tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:10px 14px;color:${methodColor};font-weight:600;font-size:12px;">${r.method === 'sa_mcgs' ? 'SA-MCGS' : 'TreeMCTS'}</td>
+      <td style="padding:10px 14px;text-align:center;"><span style="color:${topoColors[r.topology]||'var(--text)'};font-weight:600;font-size:11px;">${r.topology.replace('_',' ')}</span></td>
+      <td style="padding:10px 14px;text-align:center;font-weight:600;">${r.scale}</td>
+      <td style="padding:10px 14px;text-align:center;color:${hitColor};font-weight:700;">${(r.hit3*100).toFixed(0)}%</td>
+      <td style="padding:10px 14px;text-align:center;" class="mono">${r.q_spread.toFixed(4)}</td>
+      <td style="padding:10px 14px;text-align:center;">${r.tree_nodes || '—'}</td>
+      <td style="padding:10px 14px;text-align:center;">${r.avg_rollout ? r.avg_rollout.toFixed(1) : '—'}</td>
+    </tr>`;
+  }).join('');
+
+  // Q-Spread chart
+  if (charts.qspread) charts.qspread.destroy();
+  charts.qspread = new Chart(document.getElementById('chart-qspread'), {
+    type: 'bar',
+    data: {
+      labels: ['DAG', 'Simple Cycle', 'Compound Cycle'],
+      datasets: [
+        { label: 'TreeMCTS', data: [s.tree_mcts_dag.q_spread, 0.0434, 0.0380], backgroundColor: 'rgba(239,68,68,.5)', borderColor: '#ef4444', borderWidth: 1 },
+        { label: 'SA-MCGS', data: [null, 0.3984, 0.3630], backgroundColor: 'rgba(34,197,94,.5)', borderColor: '#22c55e', borderWidth: 1 },
+      ]
+    },
+    options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, title: { display: true, text: 'Q-Spread by Topology (Higher = Better Discrimination)', color: '#94a3b8', font: { size: 11 } } } },
+  });
+
+  // Rollout chart
+  if (charts.rollout) charts.rollout.destroy();
+  charts.rollout = new Chart(document.getElementById('chart-rollout'), {
+    type: 'bar',
+    data: {
+      labels: ['DAG', 'Simple Cycle', 'Compound Cycle'],
+      datasets: [
+        { label: 'Avg Rollout Steps', data: [fm.f2_rollout_waste.dag_avg_steps, fm.f2_rollout_waste.simple_cycle_avg_steps, fm.f2_rollout_waste.compound_avg_steps], backgroundColor: 'rgba(249,115,22,.5)', borderColor: '#f97316', borderWidth: 1 },
+        { label: 'Max Depth Limit', data: [30, 30, 30], type: 'line', borderColor: '#ef4444', borderDash: [5,5], pointRadius: 0, fill: false },
+      ]
+    },
+    options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, title: { display: true, text: 'TreeMCTS Rollout Steps (Closer to Max = Trapped)', color: '#94a3b8', font: { size: 11 } } } },
+  });
+
+  // Real LLM results
+  let realHtml = '<div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">';
+  real.contracts.forEach(c => {
+    const spreadRatio = (c.sa_mcgs.q_spread / c.tree_mcts.q_spread).toFixed(1);
+    realHtml += `
+    <div style="background:var(--surface2); border-radius:12px; padding:16px; border:1px solid var(--border);">
+      <div style="font-weight:700; font-size:13px; margin-bottom:10px; color:var(--text);">${c.name}</div>
+      <div style="font-size:11px; color:var(--text3); margin-bottom:12px;">${c.nodes} nodes &middot; ${c.edges} edges &middot; ${c.scc_count} SCCs (max: ${c.scc_sizes[0]})</div>
+      <table style="width:100%;font-size:11px;border-collapse:collapse;">
+        <tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left;padding:6px;color:var(--text3);">Metric</th>
+          <th style="text-align:center;padding:6px;color:var(--red);">TreeMCTS</th>
+          <th style="text-align:center;padding:6px;color:var(--green);">SA-MCGS</th>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(30,58,95,.3);">
+          <td style="padding:6px;color:var(--text2);">Q-Spread</td>
+          <td style="padding:6px;text-align:center;font-weight:700;color:var(--red);">${c.tree_mcts.q_spread.toFixed(3)}</td>
+          <td style="padding:6px;text-align:center;font-weight:700;color:var(--green);">${c.sa_mcgs.q_spread.toFixed(3)}</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(30,58,95,.3);">
+          <td style="padding:6px;color:var(--text2);">SCC Avg Q</td>
+          <td style="padding:6px;text-align:center;">${c.tree_mcts.scc_avg_q.toFixed(3)}</td>
+          <td style="padding:6px;text-align:center;font-weight:600;">${c.sa_mcgs.scc_avg_q.toFixed(3)}</td>
+        </tr>
+        <tr>
+          <td style="padding:6px;color:var(--text2);">LLM Calls</td>
+          <td style="padding:6px;text-align:center;">${c.tree_mcts.llm_calls}</td>
+          <td style="padding:6px;text-align:center;">${c.sa_mcgs.llm_calls}</td>
+        </tr>
+      </table>
+      <div style="margin-top:10px;font-size:10px;color:var(--text3);">
+        <b style="color:var(--accent2);">SA-MCGS advantage: ${spreadRatio}x</b> better Q-spread
+      </div>
+      <div style="margin-top:6px;font-size:10px;color:var(--green);">
+        Top risks identified: ${c.sa_mcgs_top5.slice(0,3).join(', ')}
+      </div>
+    </div>`;
+  });
+  realHtml += '</div>';
+  document.getElementById('real-llm-results').innerHTML = realHtml;
+
+  // Dataset evolution timeline
+  if (ds.evolution && ds.evolution.phases) {
+    const phaseColors = ['var(--yellow)', 'var(--orange)', 'var(--green)', 'var(--accent2)'];
+    const phaseIcons = ['\u{1F4DC}', '\u26A0\uFE0F', '\u2705', '\u{1F4CE}'];
+    let evoHtml = '<div style="position:relative; padding-left:24px;">';
+    evoHtml += '<div style="position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--border);"></div>';
+    ds.evolution.phases.forEach((p, i) => {
+      const color = phaseColors[i % phaseColors.length];
+      evoHtml += `
+        <div style="position:relative; margin-bottom:20px;">
+          <div style="position:absolute;left:-20px;top:2px;width:12px;height:12px;border-radius:50%;background:${color};border:2px solid var(--bg);"></div>
+          <div style="font-weight:700; color:${color}; font-size:13px; margin-bottom:4px;">${p.phase}</div>
+          <div style="font-size:11px; color:var(--text3); margin-bottom:6px;">${p.period}${p.dataset ? ' \u2014 ' + p.dataset : ''}</div>
+          <div style="margin-bottom:8px;">${p.description}</div>`;
+      if (p.advantages) {
+        evoHtml += `<div style="margin-bottom:6px;"><span style="font-weight:600;color:var(--green);font-size:11px;">\u2714 Advantages:</span><ul style="padding-left:16px;margin:4px 0;list-style:disc;">`;
+        p.advantages.forEach(a => { evoHtml += `<li style="margin-bottom:2px;">${a}</li>`; });
+        evoHtml += '</ul></div>';
+      }
+      if (p.limitations) {
+        evoHtml += `<div style="margin-bottom:6px;"><span style="font-weight:600;color:var(--red);font-size:11px;">\u2718 Limitations:</span><ul style="padding-left:16px;margin:4px 0;list-style:disc;">`;
+        p.limitations.forEach(l => { evoHtml += `<li style="margin-bottom:2px;">${l}</li>`; });
+        evoHtml += '</ul></div>';
+      }
+      if (p.key_insight) {
+        evoHtml += `<div style="padding:8px 12px;background:var(--surface2);border-left:3px solid ${color};border-radius:4px;font-style:italic;font-size:11px;color:var(--text);">${p.key_insight}</div>`;
+      }
+      if (p.decision_factors) {
+        evoHtml += `<div style="margin-top:6px;"><span style="font-weight:600;color:var(--orange);font-size:11px;">Decision Factors:</span><ul style="padding-left:16px;margin:4px 0;list-style:disc;">`;
+        p.decision_factors.forEach(d => { evoHtml += `<li style="margin-bottom:2px;">${d}</li>`; });
+        evoHtml += '</ul></div>';
+      }
+      if (p.how_we_use_it) {
+        evoHtml += `<div style="margin-top:6px;"><span style="font-weight:600;color:var(--cyan);font-size:11px;">Pipeline:</span><ul style="padding-left:16px;margin:4px 0;list-style:disc;">`;
+        p.how_we_use_it.forEach(h => { evoHtml += `<li style="margin-bottom:2px;">${h}</li>`; });
+        evoHtml += '</ul></div>';
+      }
+      if (p.role_in_paper) {
+        evoHtml += `<div style="margin-top:6px;"><span style="font-weight:600;color:var(--accent2);font-size:11px;">Role in Paper:</span><ul style="padding-left:16px;margin:4px 0;list-style:disc;">`;
+        p.role_in_paper.forEach(r => { evoHtml += `<li style="margin-bottom:2px;">${r}</li>`; });
+        evoHtml += '</ul></div>';
+      }
+      evoHtml += '</div>';
+    });
+    evoHtml += '</div>';
+
+    // Comparison table
+    if (ds.evolution.summary_table) {
+      const st = ds.evolution.summary_table;
+      evoHtml += `<div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--border);">
+        <div style="font-weight:600; color:var(--text); margin-bottom:8px;">BGB vs CUAD Comparison</div>
+        <table style="width:100%;border-collapse:collapse;font-size:11px;">
+          <thead><tr style="border-bottom:2px solid var(--border);">
+            ${st.headers.map(h => `<th style="padding:6px 10px;text-align:left;color:var(--text3);font-weight:600;">${h}</th>`).join('')}
+          </tr></thead><tbody>
+            ${st.rows.map(row => `<tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:5px 10px;font-weight:600;color:var(--text);">${row[0]}</td>
+              <td style="padding:5px 10px;color:var(--yellow);">${row[1]}</td>
+              <td style="padding:5px 10px;color:var(--green);">${row[2]}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`;
+    }
+    document.getElementById('dataset-evolution').innerHTML = evoHtml;
+  }
+
+  // Dataset current info
+  let dsHtml = `
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+      <div>
+        <div style="font-weight:600; color:var(--text); margin-bottom:6px;">Authority & Citation</div>
+        <div>${ds.authority}</div>
+        <div style="margin-top:4px;font-style:italic;font-size:11px;color:var(--text3);">${ds.paper}</div>
+        <div style="margin-top:8px;"><b>${ds.stats.total_contracts}</b> contracts &middot; <b>${ds.stats.annotated_clauses.toLocaleString()}</b> annotated clauses &middot; <b>${ds.stats.categories}</b> risk categories</div>
+      </div>
+      <div>
+        <div style="font-weight:600; color:var(--text); margin-bottom:6px;">Why CUAD for SA-MCGS?</div>
+        <ul style="padding-left:16px; list-style:disc;">
+          ${ds.why_cuad.map(r => `<li style="margin-bottom:3px;">${r}</li>`).join('')}
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border);">
+      <div style="font-weight:600; color:var(--text); margin-bottom:4px;">Deal Packages Tested</div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        ${ds.our_usage.packages_tested.map(p => `<span class="badge" style="background:var(--surface);border:1px solid var(--border);color:var(--text2);">${p}</span>`).join('')}
+      </div>
+    </div>`;
+  document.getElementById('dataset-info').innerHTML = dsHtml;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ABLATION STUDY
+// ═══════════════════════════════════════════════════════════════
+function renderAblation() {
+  if (!ablationData || !ablationData.summary) return;
+
+  const summary = ablationData.summary;
+  const repeated = ablationData.exp3_repeated || [];
+
+  // ── Metrics cards ────────────────────────────────────────────
+  const totalExps = summary.length;
+  const all24n = summary.filter(r => r.scc_size === 24);
+  const jointFP100 = all24n.filter(r => r.joint_clean_fp_rate >= 1.0).length;
+  const avgJointTgt = all24n.length ? (all24n.reduce((s,r) => s + r.joint_target_in_pert, 0) / all24n.length).toFixed(1) : '—';
+
+  let avgOCDelta = '—';
+  if (repeated.length) {
+    const cleanOCs = repeated.map(r => r.clean_mcgs.oc_detected_clauses.length);
+    const pertOCs = repeated.map(r => r.pert_mcgs.oc_detected_clauses.length);
+    const avgClean = cleanOCs.reduce((a,b) => a+b, 0) / cleanOCs.length;
+    const avgPert = pertOCs.reduce((a,b) => a+b, 0) / pertOCs.length;
+    avgOCDelta = `+${(avgPert - avgClean).toFixed(1)}`;
+  }
+
+  document.getElementById('ablation-metrics').innerHTML = `
+    <div class="metric-card">
+      <div class="metric-label">Conditions</div>
+      <div class="metric-value" style="color:var(--accent)">${totalExps}</div>
+      <div class="metric-sub">3 experiments &times; 3 scales</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Joint LLM FP (24n)</div>
+      <div class="metric-value" style="color:var(--red)">${jointFP100}/${all24n.length}</div>
+      <div class="metric-sub">100% false positive rate</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Joint Tgt ID (24n avg)</div>
+      <div class="metric-value" style="color:var(--yellow)">${avgJointTgt}/5</div>
+      <div class="metric-sub">target identification rate</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">MCGS OC &Delta; (24n avg)</div>
+      <div class="metric-value" style="color:var(--green)">${avgOCDelta}</div>
+      <div class="metric-sub">more OC detections in perturbed</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">OC Stability</div>
+      <div class="metric-value" style="color:var(--cyan)">100%</div>
+      <div class="metric-sub">consistent across 3 runs</div>
+    </div>`;
+
+  // ── Summary table ────────────────────────────────────────────
+  const tbody = document.getElementById('ablation-tbody');
+  const expColors = { cross_scale: 'var(--accent)', multi_target: 'var(--purple)', repeated: 'var(--cyan)' };
+  const expLabels = { cross_scale: 'Cross-Scale', multi_target: 'Multi-Target', repeated: 'Repeated' };
+
+  tbody.innerHTML = summary.map(r => {
+    const color = expColors[r.experiment] || 'var(--text)';
+    const expLabel = expLabels[r.experiment] || r.experiment;
+    const rankPct = r.mcgs_delta_rank / r.scc_size;
+    const rankColor = rankPct <= 0.25 ? 'var(--green)' : rankPct <= 0.5 ? 'var(--yellow)' : 'var(--red)';
+    const fpColor = r.joint_clean_fp_rate > 0.5 ? 'var(--red)' : r.joint_clean_fp_rate > 0 ? 'var(--yellow)' : 'var(--green)';
+    const detColor = r.joint_pert_det_rate > 0.5 ? 'var(--green)' : r.joint_pert_det_rate > 0 ? 'var(--yellow)' : 'var(--red)';
+    return `<tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:10px 14px;"><span style="color:${color};font-weight:600;font-size:11px;">${expLabel}</span>
+        <span class="mono" style="font-size:10px;color:var(--text3);margin-left:6px;">${r.label}</span></td>
+      <td style="padding:10px 14px;text-align:center;font-weight:600;">${r.scc_size}n</td>
+      <td style="padding:10px 14px;text-align:center;" class="mono" style="font-size:11px;">${r.target_id}</td>
+      <td style="padding:10px 14px;text-align:center;"><span style="color:${rankColor};font-weight:700;">#${r.mcgs_delta_rank}</span><span style="color:var(--text3);font-size:10px;">/${r.scc_size}</span></td>
+      <td style="padding:10px 14px;text-align:center;" class="mono">${r.mcgs_delta_mean >= 0 ? '+' : ''}${r.mcgs_delta_mean.toFixed(3)}</td>
+      <td style="padding:10px 14px;text-align:center;color:${fpColor};font-weight:600;">${(r.joint_clean_fp_rate*100).toFixed(0)}%</td>
+      <td style="padding:10px 14px;text-align:center;color:${detColor};font-weight:600;">${(r.joint_pert_det_rate*100).toFixed(0)}%</td>
+      <td style="padding:10px 14px;text-align:center;">${r.joint_target_in_pert}/5</td>
+    </tr>`;
+  }).join('');
+
+  // ── OC counts chart ──────────────────────────────────────────
+  if (repeated.length) {
+    const cleanOCs = repeated.map(r => r.clean_mcgs.oc_detected_clauses.length);
+    const pertOCs = repeated.map(r => r.pert_mcgs.oc_detected_clauses.length);
+    const labels = repeated.map((_, i) => `Run ${i + 1}`);
+
+    if (charts.ocCounts) charts.ocCounts.destroy();
+    charts.ocCounts = new Chart(document.getElementById('chart-oc-counts'), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          { label: 'Clean OC', data: cleanOCs, backgroundColor: 'rgba(6,182,212,.5)', borderColor: '#06b6d4', borderWidth: 1 },
+          { label: 'Perturbed OC', data: pertOCs, backgroundColor: 'rgba(239,68,68,.5)', borderColor: '#ef4444', borderWidth: 1 },
+        ]
+      },
+      options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, title: { display: true, text: 'OC Detection Count per Run', color: '#94a3b8', font: { size: 11 } } } },
+    });
+
+    // OC frequency list
+    const allIds = repeated[0].scc_clause_ids;
+    const ocFreq = {};
+    allIds.forEach(cid => { ocFreq[cid] = { clean: 0, pert: 0 }; });
+    repeated.forEach(r => {
+      r.clean_mcgs.oc_detected_clauses.forEach(c => { if (ocFreq[c]) ocFreq[c].clean++; });
+      r.pert_mcgs.oc_detected_clauses.forEach(c => { if (ocFreq[c]) ocFreq[c].pert++; });
+    });
+    const sorted = Object.entries(ocFreq).filter(([,v]) => v.clean > 0 || v.pert > 0)
+      .sort(([,a],[,b]) => (b.pert - b.clean) - (a.pert - a.clean));
+
+    let freqHtml = '<div style="font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px;">OC Frequency (nodes detected &ge;1 run)</div>';
+    freqHtml += '<table style="width:100%;font-size:11px;border-collapse:collapse;"><tr style="border-bottom:1px solid var(--border);">' +
+      '<th style="text-align:left;padding:4px 8px;color:var(--text3);">Node</th>' +
+      '<th style="text-align:center;padding:4px 8px;color:var(--cyan);">Clean</th>' +
+      '<th style="text-align:center;padding:4px 8px;color:var(--red);">Perturbed</th>' +
+      '<th style="text-align:center;padding:4px 8px;color:var(--text3);">&Delta;</th></tr>';
+    sorted.forEach(([cid, v]) => {
+      const delta = v.pert - v.clean;
+      const dColor = delta > 0 ? 'var(--green)' : delta < 0 ? 'var(--red)' : 'var(--text3)';
+      const isTarget = cid === repeated[0].target_id;
+      freqHtml += `<tr style="border-bottom:1px solid rgba(30,58,95,.3);${isTarget ? 'background:var(--accent-glow);' : ''}">` +
+        `<td style="padding:4px 8px;" class="mono">${cid}${isTarget ? ' *' : ''}</td>` +
+        `<td style="text-align:center;padding:4px 8px;">${v.clean}/${repeated.length}</td>` +
+        `<td style="text-align:center;padding:4px 8px;">${v.pert}/${repeated.length}</td>` +
+        `<td style="text-align:center;padding:4px 8px;color:${dColor};font-weight:600;">${delta > 0 ? '+' : ''}${delta}</td></tr>`;
+    });
+    freqHtml += '</table>';
+    document.getElementById('oc-frequency-list').innerHTML = freqHtml;
+
+    // ── Averaged delta chart ─────────────────────────────────────
+    const avgClean = {}, avgPert = {};
+    allIds.forEach(cid => { avgClean[cid] = []; avgPert[cid] = []; });
+    repeated.forEach(r => {
+      allIds.forEach(cid => {
+        avgClean[cid].push((r.clean_mcgs.clause_details[cid] || {}).mean_score || 0);
+        avgPert[cid].push((r.pert_mcgs.clause_details[cid] || {}).mean_score || 0);
+      });
+    });
+    const avgDeltas = allIds.map(cid => ({
+      cid,
+      delta: avgPert[cid].reduce((a,b)=>a+b,0)/repeated.length - avgClean[cid].reduce((a,b)=>a+b,0)/repeated.length,
+      isTarget: cid === repeated[0].target_id,
+    })).sort((a,b) => b.delta - a.delta);
+
+    const topN = 24;
+    const chartLabels = avgDeltas.slice(0, topN).map(d => d.cid);
+    const chartDeltas = avgDeltas.slice(0, topN).map(d => d.delta);
+    const chartColors = avgDeltas.slice(0, topN).map(d =>
+      d.isTarget ? 'rgba(239,68,68,.8)' : d.delta > 0 ? 'rgba(34,197,94,.6)' : 'rgba(148,163,184,.4)');
+
+    if (charts.avgDelta) charts.avgDelta.destroy();
+    charts.avgDelta = new Chart(document.getElementById('chart-avg-delta'), {
+      type: 'bar',
+      data: {
+        labels: chartLabels,
+        datasets: [{ label: 'Avg Δμ', data: chartDeltas, backgroundColor: chartColors, borderWidth: 0 }]
+      },
+      options: {
+        ...chartDefaults, indexAxis: 'y',
+        plugins: { ...chartDefaults.plugins, legend: { display: false },
+          title: { display: true, text: 'Averaged Δμ per node (3 runs)', color: '#94a3b8', font: { size: 11 } } },
+        scales: { x: { ...chartDefaults.scales.x, beginAtZero: false }, y: { ticks: { color: '#64748b', font: { size: 9, family: 'JetBrains Mono' } } } },
+      },
+    });
+
+    // Repeated stats
+    const ranks = repeated.map(r => r.delta.target_rank);
+    const avgRank = ranks.reduce((a,b) => a+b, 0) / ranks.length;
+    document.getElementById('repeated-stats').innerHTML = `
+      <div style="font-size:11px; color:var(--text2); line-height:1.8;">
+        <div><b>Per-run target rank:</b> ${ranks.map((r,i) => `Run ${i+1}: <span class="mono" style="color:var(--yellow)">#${r}</span>`).join(', ')}</div>
+        <div><b>Mean rank:</b> <span class="mono">${avgRank.toFixed(1)}/24</span> &mdash; high variance confirms need for multi-run averaging</div>
+        <div><b>Averaged rank:</b> <span class="mono" style="color:${avgDeltas.findIndex(d => d.isTarget) < 12 ? 'var(--green)' : 'var(--yellow)'}">#${avgDeltas.findIndex(d => d.isTarget) + 1}/24</span> (after averaging 3 runs)</div>
+        <div style="margin-top:6px; color:var(--green);"><b>Key:</b> OC total count (&Delta;=${avgOCDelta}) is a much more reliable signal than per-node &Delta;&mu;</div>
+      </div>`;
+  }
+}
+
+function showSection(name, btn) {
+  document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+  document.getElementById(`sec-${name}`).style.display = 'block';
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  if (name === 'graph' && !graphSim && graphData) initGraph();
+}
+
+// INIT
+refreshData();
+setInterval(refreshData, 10000);
+</script>
+</body>
+</html>

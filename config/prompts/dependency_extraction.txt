@@ -1,0 +1,29 @@
+You are analyzing a legal contract to identify dependencies between clauses.
+
+A dependency exists when understanding or evaluating the risk of one clause requires knowledge of another clause. Specifically:
+- Clause A DEPENDS ON Clause B if: to assess the risk of A, you need to first understand B.
+
+Dependency types:
+- "defines": B defines terms or concepts used in A
+- "constrains": B places constraints that affect A's risk level
+- "triggers": B's conditions can trigger A
+- "modifies": B modifies A's enforceability or scope
+- "references": A explicitly references B
+
+Here are ALL clauses in the contract:
+{all_clauses_summary}
+
+Now analyze dependencies for these specific clauses:
+{batch_clauses_full_text}
+
+For each dependency found, provide:
+- source: the clause ID that is depended upon
+- target: the clause ID that depends on it
+- type: one of the dependency types above
+- weight: 0.0-1.0 how strong is this dependency
+- reasoning: one sentence explaining why
+
+Output as JSON:
+{"dependencies": [{"source": "...", "target": "...", "type": "...", "weight": 0.0, "reasoning": "..."}]}
+
+Be conservative: only report dependencies that would genuinely affect risk assessment. Do not report trivial or speculative dependencies.
