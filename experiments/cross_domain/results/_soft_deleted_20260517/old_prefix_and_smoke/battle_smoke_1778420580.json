@@ -1,0 +1,787 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_7",
+    "scc_clause_ids": [
+      "node-babel-helper-define-polyfill-provider",
+      "node-babel-plugin-polyfill-corejs2",
+      "node-babel-plugin-polyfill-corejs3",
+      "node-babel-plugin-polyfill-regenerator",
+      "node-babel7"
+    ],
+    "llm_calls": 1,
+    "time": 19.646974086761475,
+    "scores": {
+      "node-babel-helper-define-polyfill-provider": 0.7,
+      "node-babel-plugin-polyfill-corejs2": 0.6,
+      "node-babel-plugin-polyfill-corejs3": 0.6,
+      "node-babel-plugin-polyfill-regenerator": 0.5,
+      "node-babel7": 0.8
+    },
+    "reasonings": {
+      "node-babel-helper-define-polyfill-provider": "Central hub in circular dependency with 3 packages depending on it; core polyfill functionality increases attack surface; any vulnerability here propagates to multiple babel plugins",
+      "node-babel-plugin-polyfill-corejs2": "Participates in mutual dependency with babel7; corejs polyfills are widely used; positioned to receive and propagate vulnerabilities from both helper and babel7",
+      "node-babel-plugin-polyfill-corejs3": "Similar risk profile to corejs2; modern corejs version increases usage; dependency chain creates bidirectional vulnerability flow",
+      "node-babel-plugin-polyfill-regenerator": "Dependent on helper but not in mutual dependency with babel7; regenerator functionality less critical than corejs; still part of circular chain",
+      "node-babel7": "Foundation package with highest usage; depends on all polyfill plugins creating tight coupling; any babel7 vulnerability locks entire ecosystem; critical cascading failure potential"
+    },
+    "ranking": [
+      [
+        "node-babel7",
+        0.8
+      ],
+      [
+        "node-babel-helper-define-polyfill-provider",
+        0.7
+      ],
+      [
+        "node-babel-plugin-polyfill-corejs2",
+        0.6
+      ],
+      [
+        "node-babel-plugin-polyfill-corejs3",
+        0.6
+      ],
+      [
+        "node-babel-plugin-polyfill-regenerator",
+        0.5
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "node-babel7",
+        "clause_b": "node-babel-plugin-polyfill-corejs2",
+        "description": "Mutual dependency creates version deadlock; security updates to either package could break the other"
+      },
+      {
+        "clause_a": "node-babel-helper-define-polyfill-provider",
+        "clause_b": "node-babel7",
+        "description": "Helper depends on babel7 while babel7 depends on plugins that use helper; creates circular build dependency"
+      },
+      {
+        "clause_a": "node-babel7",
+        "clause_b": "node-babel-plugin-polyfill-corejs3",
+        "description": "Bidirectional dependency prevents independent security patching; corejs3 vulnerabilities could compromise babel7"
+      }
+    ],
+    "score_spread": 0.30000000000000004,
+    "score_mean": 0.64,
+    "score_max": 0.8,
+    "node_names": {
+      "node-babel-helper-define-polyfill-provider": "node-babel-helper-define-polyfill-provider",
+      "node-babel-plugin-polyfill-corejs2": "node-babel-plugin-polyfill-corejs2",
+      "node-babel-plugin-polyfill-corejs3": "node-babel-plugin-polyfill-corejs3",
+      "node-babel-plugin-polyfill-regenerator": "node-babel-plugin-polyfill-regenerator",
+      "node-babel7": "node-babel7"
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_7",
+    "scc_clause_ids": [
+      "node-babel-helper-define-polyfill-provider",
+      "node-babel-plugin-polyfill-corejs2",
+      "node-babel-plugin-polyfill-corejs3",
+      "node-babel-plugin-polyfill-regenerator",
+      "node-babel7"
+    ],
+    "budget": 30,
+    "llm_calls": 11,
+    "tt_hits": 19,
+    "tt_hit_rate": 0.6333333333333333,
+    "time": 92.47505807876587,
+    "scores": {
+      "node-babel7": 0.767857142857143,
+      "node-babel-helper-define-polyfill-provider": 0.6461538461538461,
+      "node-babel-plugin-polyfill-corejs2": 0.6400000000000001,
+      "node-babel-plugin-polyfill-corejs3": 0.5599999999999998,
+      "node-babel-plugin-polyfill-regenerator": 0.4904761904761904
+    },
+    "ranking": [
+      [
+        "node-babel7",
+        0.767857142857143
+      ],
+      [
+        "node-babel-helper-define-polyfill-provider",
+        0.6461538461538461
+      ],
+      [
+        "node-babel-plugin-polyfill-corejs2",
+        0.6400000000000001
+      ],
+      [
+        "node-babel-plugin-polyfill-corejs3",
+        0.5599999999999998
+      ],
+      [
+        "node-babel-plugin-polyfill-regenerator",
+        0.4904761904761904
+      ]
+    ],
+    "oc_detected": [
+      "node-babel7"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.2773809523809526,
+    "score_mean": 0.620897435897436,
+    "score_max": 0.767857142857143,
+    "node_names": {
+      "node-babel-helper-define-polyfill-provider": "node-babel-helper-define-polyfill-provider",
+      "node-babel-plugin-polyfill-corejs2": "node-babel-plugin-polyfill-corejs2",
+      "node-babel-plugin-polyfill-corejs3": "node-babel-plugin-polyfill-corejs3",
+      "node-babel-plugin-polyfill-regenerator": "node-babel-plugin-polyfill-regenerator",
+      "node-babel7": "node-babel7"
+    },
+    "clause_details": {
+      "node-babel-helper-define-polyfill-provider": {
+        "mean_score": 0.6461538461538461,
+        "visit_count": 26,
+        "conflict_count": 42,
+        "risk_history": [
+          0.7,
+          0.6,
+          0.6,
+          0.6,
+          0.6,
+          0.6,
+          0.6,
+          0.7,
+          0.7,
+          0.6,
+          0.7,
+          0.7,
+          0.7,
+          0.6,
+          0.6,
+          0.7,
+          0.6,
+          0.7,
+          0.7,
+          0.6,
+          0.6,
+          0.7,
+          0.7,
+          0.6,
+          0.7,
+          0.6
+        ],
+        "is_oc_detected": false
+      },
+      "node-babel-plugin-polyfill-corejs2": {
+        "mean_score": 0.6400000000000001,
+        "visit_count": 25,
+        "conflict_count": 50,
+        "risk_history": [
+          0.6,
+          0.8,
+          0.8,
+          0.8,
+          0.6,
+          0.6,
+          0.8,
+          0.4,
+          0.7,
+          0.6,
+          0.7,
+          0.4,
+          0.3,
+          0.3,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.4,
+          0.4,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "node-babel-plugin-polyfill-corejs3": {
+        "mean_score": 0.5599999999999998,
+        "visit_count": 20,
+        "conflict_count": 26,
+        "risk_history": [
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.3,
+          0.6,
+          0.6,
+          0.3,
+          0.3,
+          0.3,
+          0.6,
+          0.3,
+          0.7,
+          0.3,
+          0.7,
+          0.6,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "node-babel-plugin-polyfill-regenerator": {
+        "mean_score": 0.4904761904761904,
+        "visit_count": 21,
+        "conflict_count": 17,
+        "risk_history": [
+          0.5,
+          0.7,
+          0.7,
+          0.7,
+          0.5,
+          0.5,
+          0.2,
+          0.5,
+          0.2,
+          0.3,
+          0.3,
+          0.5,
+          0.6,
+          0.6,
+          0.2,
+          0.7,
+          0.2,
+          0.7,
+          0.6,
+          0.6,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-babel7": {
+        "mean_score": 0.767857142857143,
+        "visit_count": 28,
+        "conflict_count": 65,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          0.8,
+          0.9,
+          0.6,
+          0.8,
+          0.8,
+          0.8,
+          0.6,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.6,
+          0.8,
+          0.6,
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.8
+        ],
+        "is_oc_detected": true
+      }
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_15",
+    "scc_clause_ids": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libecore-fb1",
+      "libecore-input1",
+      "libecore-wl2-1",
+      "libecore-x1",
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "llm_calls": 1,
+    "time": 23.48375701904297,
+    "scores": {
+      "libecore-drm2-1": 0.6,
+      "libecore-evas1": 0.8,
+      "libecore-fb1": 0.4,
+      "libecore-input1": 0.7,
+      "libecore-wl2-1": 0.5,
+      "libecore-x1": 0.6,
+      "libelput1": 0.5,
+      "libevas1": 0.9,
+      "libevas1-engines-drm": 0.6,
+      "libevas1-engines-fb": 0.4,
+      "libevas1-engines-wayland": 0.7,
+      "libevas1-engines-x": 0.6
+    },
+    "reasonings": {
+      "libecore-drm2-1": "Core DRM backend, depends on libelput1 which depends back through cycle, handles privileged graphics operations",
+      "libecore-evas1": "Central hub with 8 dependencies, connects multiple backends, high cascading failure potential",
+      "libecore-fb1": "Framebuffer backend, limited dependencies but part of input handling chain",
+      "libecore-input1": "Critical input subsystem, 5 packages depend on it, handles user input events",
+      "libecore-wl2-1": "Wayland backend, moderate risk due to modern protocol implementation",
+      "libecore-x1": "X11 backend, historically vulnerable display server interface",
+      "libelput1": "Input library that creates bidirectional dependency with ecore-input",
+      "libevas1": "Canvas engine core, 9 dependencies point to it, central to graphics pipeline",
+      "libevas1-engines-drm": "DRM rendering engine, completes cycle with libecore-drm2-1",
+      "libevas1-engines-fb": "Framebuffer engine, simpler implementation but still cyclic",
+      "libevas1-engines-wayland": "Wayland engine with 5 dependencies, complex protocol handling",
+      "libevas1-engines-x": "X11 engine, completes cycle with libecore-x1, X11 security history"
+    },
+    "ranking": [
+      [
+        "libevas1",
+        0.9
+      ],
+      [
+        "libecore-evas1",
+        0.8
+      ],
+      [
+        "libecore-input1",
+        0.7
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.7
+      ],
+      [
+        "libecore-drm2-1",
+        0.6
+      ],
+      [
+        "libecore-x1",
+        0.6
+      ],
+      [
+        "libevas1-engines-drm",
+        0.6
+      ],
+      [
+        "libevas1-engines-x",
+        0.6
+      ],
+      [
+        "libecore-wl2-1",
+        0.5
+      ],
+      [
+        "libelput1",
+        0.5
+      ],
+      [
+        "libecore-fb1",
+        0.4
+      ],
+      [
+        "libevas1-engines-fb",
+        0.4
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "libecore-evas1",
+        "clause_b": "libevas1",
+        "description": "Mutual dependency creates tight coupling between core canvas and display abstraction"
+      },
+      {
+        "clause_a": "libecore-input1",
+        "clause_b": "libelput1",
+        "description": "Bidirectional input subsystem dependency creates version lock risk"
+      },
+      {
+        "clause_a": "libevas1",
+        "clause_b": "libevas1-engines-wayland",
+        "description": "Engine depends on evas which depends back through multiple engines"
+      }
+    ],
+    "score_spread": 0.5,
+    "score_mean": 0.6083333333333333,
+    "score_max": 0.9,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libecore-x1": "libecore-x1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_15",
+    "scc_clause_ids": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libecore-fb1",
+      "libecore-input1",
+      "libecore-wl2-1",
+      "libecore-x1",
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "budget": 30,
+    "llm_calls": 29,
+    "tt_hits": 1,
+    "tt_hit_rate": 0.03333333333333333,
+    "time": 123.33601808547974,
+    "scores": {
+      "libevas1-engines-drm": 0.6249999999999999,
+      "libevas1": 0.6166666666666666,
+      "libevas1-engines-wayland": 0.5461538461538461,
+      "libevas1-engines-fb": 0.5399999999999999,
+      "libevas1-engines-x": 0.5222222222222221,
+      "libecore-evas1": 0.48749999999999993,
+      "libecore-input1": 0.44615384615384623,
+      "libecore-drm2-1": 0.4125,
+      "libecore-x1": 0.36666666666666664,
+      "libelput1": 0.36249999999999993,
+      "libecore-wl2-1": 0.3125,
+      "libecore-fb1": 0.26
+    },
+    "ranking": [
+      [
+        "libevas1-engines-drm",
+        0.6249999999999999
+      ],
+      [
+        "libevas1",
+        0.6166666666666666
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.5461538461538461
+      ],
+      [
+        "libevas1-engines-fb",
+        0.5399999999999999
+      ],
+      [
+        "libevas1-engines-x",
+        0.5222222222222221
+      ],
+      [
+        "libecore-evas1",
+        0.48749999999999993
+      ],
+      [
+        "libecore-input1",
+        0.44615384615384623
+      ],
+      [
+        "libecore-drm2-1",
+        0.4125
+      ],
+      [
+        "libecore-x1",
+        0.36666666666666664
+      ],
+      [
+        "libelput1",
+        0.36249999999999993
+      ],
+      [
+        "libecore-wl2-1",
+        0.3125
+      ],
+      [
+        "libecore-fb1",
+        0.26
+      ]
+    ],
+    "oc_detected": [
+      "libevas1-engines-drm"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.3649999999999999,
+    "score_mean": 0.45815527065527056,
+    "score_max": 0.6249999999999999,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libecore-x1": "libecore-x1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "clause_details": {
+      "libecore-drm2-1": {
+        "mean_score": 0.4125,
+        "visit_count": 8,
+        "conflict_count": 11,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.3,
+          0.5,
+          0.4,
+          0.7,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-evas1": {
+        "mean_score": 0.48749999999999993,
+        "visit_count": 16,
+        "conflict_count": 25,
+        "risk_history": [
+          0.6,
+          0.4,
+          0.5,
+          0.4,
+          0.4,
+          0.5,
+          0.4,
+          0.3,
+          0.4,
+          0.8,
+          0.4,
+          0.8,
+          0.6,
+          0.3,
+          0.4,
+          0.6
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-fb1": {
+        "mean_score": 0.26,
+        "visit_count": 5,
+        "conflict_count": 4,
+        "risk_history": [
+          0.3,
+          0.2,
+          0.3,
+          0.2,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-input1": {
+        "mean_score": 0.44615384615384623,
+        "visit_count": 13,
+        "conflict_count": 24,
+        "risk_history": [
+          0.4,
+          0.5,
+          0.5,
+          0.3,
+          0.4,
+          0.2,
+          0.5,
+          0.6,
+          0.7,
+          0.5,
+          0.3,
+          0.2,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-wl2-1": {
+        "mean_score": 0.3125,
+        "visit_count": 8,
+        "conflict_count": 8,
+        "risk_history": [
+          0.4,
+          0.3,
+          0.2,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-x1": {
+        "mean_score": 0.36666666666666664,
+        "visit_count": 9,
+        "conflict_count": 9,
+        "risk_history": [
+          0.3,
+          0.6,
+          0.2,
+          0.4,
+          0.4,
+          0.5,
+          0.3,
+          0.4,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "libelput1": {
+        "mean_score": 0.36249999999999993,
+        "visit_count": 8,
+        "conflict_count": 13,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.6,
+          0.4,
+          0.3,
+          0.4,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1": {
+        "mean_score": 0.6166666666666666,
+        "visit_count": 18,
+        "conflict_count": 35,
+        "risk_history": [
+          0.5,
+          0.2,
+          0.7,
+          0.8,
+          0.7,
+          0.5,
+          0.5,
+          0.7,
+          0.6,
+          0.7,
+          0.8,
+          0.4,
+          0.6,
+          0.7,
+          0.7,
+          0.7,
+          0.6,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-drm": {
+        "mean_score": 0.6249999999999999,
+        "visit_count": 8,
+        "conflict_count": 10,
+        "risk_history": [
+          0.6,
+          0.6,
+          0.8,
+          0.6,
+          0.5,
+          0.7,
+          0.6,
+          0.6
+        ],
+        "is_oc_detected": true
+      },
+      "libevas1-engines-fb": {
+        "mean_score": 0.5399999999999999,
+        "visit_count": 5,
+        "conflict_count": 5,
+        "risk_history": [
+          0.6,
+          0.6,
+          0.6,
+          0.3,
+          0.6
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-wayland": {
+        "mean_score": 0.5461538461538461,
+        "visit_count": 13,
+        "conflict_count": 23,
+        "risk_history": [
+          0.8,
+          0.7,
+          0.8,
+          0.3,
+          0.5,
+          0.5,
+          0.3,
+          0.3,
+          0.5,
+          0.5,
+          0.7,
+          0.4,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-x": {
+        "mean_score": 0.5222222222222221,
+        "visit_count": 9,
+        "conflict_count": 11,
+        "risk_history": [
+          0.5,
+          0.7,
+          0.6,
+          0.6,
+          0.2,
+          0.7,
+          0.3,
+          0.6,
+          0.5
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  }
+]

@@ -1,0 +1,300 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 8,
+    "scc_id": "synthetic_sec_ex21_8",
+    "scc_clause_ids": [
+      "synthetic_sec_ex21_8_node_01",
+      "synthetic_sec_ex21_8_node_02",
+      "synthetic_sec_ex21_8_node_03",
+      "synthetic_sec_ex21_8_node_04",
+      "synthetic_sec_ex21_8_node_05",
+      "synthetic_sec_ex21_8_node_08",
+      "synthetic_sec_ex21_8_node_06",
+      "synthetic_sec_ex21_8_node_07"
+    ],
+    "llm_calls": 1,
+    "time": 31.576740026474,
+    "scores": {
+      "synthetic_sec_ex21_8_node_01": 0.8,
+      "synthetic_sec_ex21_8_node_02": 0.6,
+      "synthetic_sec_ex21_8_node_03": 0.5,
+      "synthetic_sec_ex21_8_node_04": 0.7,
+      "synthetic_sec_ex21_8_node_05": 0.4,
+      "synthetic_sec_ex21_8_node_08": 0.9,
+      "synthetic_sec_ex21_8_node_06": 0.3,
+      "synthetic_sec_ex21_8_node_07": 0.2
+    },
+    "reasonings": {
+      "synthetic_sec_ex21_8_node_01": "Part of the cyclic dependency and amplifies structural concerns due to its high-impact position in the graph.",
+      "synthetic_sec_ex21_8_node_02": "Part of the cyclic dependency and contains underspecified content about amendment status.",
+      "synthetic_sec_ex21_8_node_03": "Part of the cyclic dependency and references Node 04, which has high-impact dependency concerns.",
+      "synthetic_sec_ex21_8_node_04": "Reserves a 20% outside interest but depends on Node 03, creating potential incompatibility with Node 08's amendment status.",
+      "synthetic_sec_ex21_8_node_05": "Part of the cyclic dependency but has relatively routine content compared to other nodes in the cycle.",
+      "synthetic_sec_ex21_8_node_08": "Part of the cyclic dependency and contains underspecified content about amendment status, creating ambiguity and structural inconsistency.",
+      "synthetic_sec_ex21_8_node_06": "Part of the cyclic dependency but does not introduce significant ambiguity or incompatibility in its content.",
+      "synthetic_sec_ex21_8_node_07": "Part of the cyclic dependency but has the least structural concern due to its routine content and position in the graph."
+    },
+    "ranking": [
+      [
+        "synthetic_sec_ex21_8_node_08",
+        0.9
+      ],
+      [
+        "synthetic_sec_ex21_8_node_01",
+        0.8
+      ],
+      [
+        "synthetic_sec_ex21_8_node_04",
+        0.7
+      ],
+      [
+        "synthetic_sec_ex21_8_node_02",
+        0.6
+      ],
+      [
+        "synthetic_sec_ex21_8_node_03",
+        0.5
+      ],
+      [
+        "synthetic_sec_ex21_8_node_05",
+        0.4
+      ],
+      [
+        "synthetic_sec_ex21_8_node_06",
+        0.3
+      ],
+      [
+        "synthetic_sec_ex21_8_node_07",
+        0.2
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_sec_ex21_8_node_08",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "cyclic_dependency",
+          "underspecified_content"
+        ],
+        "reasoning": "Node 08 is part of the cyclic dependency and contains underspecified content about the amendment status, which is critical for recognizing outside interest. This creates ambiguity and structural inconsistency."
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_sec_ex21_8_node_01",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "cyclic_dependency",
+          "high-impact_dependency"
+        ],
+        "reasoning": "Node 01 is part of the cyclic dependency and serves as the starting point of the graph. Its role in referencing Node 02 amplifies the impact of any issues in the cycle."
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_sec_ex21_8_node_04",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "high-impact_dependency",
+          "mutual_incompatibility"
+        ],
+        "reasoning": "Node 04 reserves a 20% outside interest but depends on Node 03, which is part of the cycle. This creates potential incompatibility with Node 08's amendment status."
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_sec_ex21_8_node_02",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "cyclic_dependency",
+          "underspecified_content"
+        ],
+        "reasoning": "Node 02 is part of the cyclic dependency and has vague content about amendment status, which may lead to misinterpretation in the graph."
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_sec_ex21_8_node_03",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node 03 is part of the cyclic dependency and references Node 04, which has high-impact dependency concerns. However, its content is less ambiguous than Node 08."
+      },
+      {
+        "rank": 6,
+        "clause_id": "synthetic_sec_ex21_8_node_05",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node 05 is part of the cyclic dependency but has relatively routine content compared to other nodes in the cycle."
+      },
+      {
+        "rank": 7,
+        "clause_id": "synthetic_sec_ex21_8_node_06",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node 06 is part of the cyclic dependency but does not introduce significant ambiguity or incompatibility in its content."
+      },
+      {
+        "rank": 8,
+        "clause_id": "synthetic_sec_ex21_8_node_07",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node 07 is part of the cyclic dependency but has the least structural concern due to its routine content and position in the graph."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures the risk introduced by the cyclic dependency in the graph structure, which can lead to structural inconsistency and ambiguity in record relationships."
+      },
+      {
+        "factor": "underspecified_content",
+        "importance_weight": 0.3,
+        "description": "Captures the risk of records with vague or incomplete descriptions that may lead to misinterpretation or operational errors."
+      },
+      {
+        "factor": "high-impact_dependency",
+        "importance_weight": 0.2,
+        "description": "Captures the risk of records that are central to the graph and have many dependencies, amplifying the impact of any issues in these records."
+      },
+      {
+        "factor": "mutual_incompatibility",
+        "importance_weight": 0.1,
+        "description": "Captures the risk of records with conflicting or incompatible constraints, which can lead to operational or audit failures."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 8,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_sec_ex21_8_node_04",
+        "clause_b": "synthetic_sec_ex21_8_node_08",
+        "description": "Node 04 reserves a 20% outside interest but depends on Node 08, which states that the amendment required for recognizing outside interest has not been filed. This creates a structural incompatibility."
+      }
+    ],
+    "score_spread": 0.7,
+    "ranking_score_spread": 0.7,
+    "score_mean": 0.55,
+    "score_max": 0.9,
+    "node_names": {
+      "synthetic_sec_ex21_8_node_01": "synthetic sec ex21 8 node 01",
+      "synthetic_sec_ex21_8_node_02": "synthetic sec ex21 8 node 02",
+      "synthetic_sec_ex21_8_node_03": "synthetic sec ex21 8 node 03",
+      "synthetic_sec_ex21_8_node_04": "synthetic sec ex21 8 node 04",
+      "synthetic_sec_ex21_8_node_05": "synthetic sec ex21 8 node 05",
+      "synthetic_sec_ex21_8_node_08": "synthetic sec ex21 8 node 08",
+      "synthetic_sec_ex21_8_node_06": "synthetic sec ex21 8 node 06",
+      "synthetic_sec_ex21_8_node_07": "synthetic sec ex21 8 node 07"
+    },
+    "ground_truth_nodes": [
+      "synthetic_sec_ex21_8_node_08"
+    ],
+    "gt_evidence": {
+      "synthetic_sec_ex21_8_node_08": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 750,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.308,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.31733333333333336,
+    "inject_mode": true,
+    "injected_node": "synthetic_sec_ex21_8_node_08",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_sec_ex21_8_node_04",
+    "injected_witness_distance": 4,
+    "injected_bridge_node": "synthetic_sec_ex21_8_node_02",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "synthetic_sec_ex21_8_node_08",
+      "synthetic_sec_ex21_8_node_04"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_sec_ex21_8_node_08",
+      "synthetic_sec_ex21_8_node_02",
+      "synthetic_sec_ex21_8_node_04"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_sec_ex21_8_node_01",
+      "synthetic_sec_ex21_8_node_05"
+    ],
+    "injected_conflict_family": "condition_trigger",
+    "injected_conflict_difficulty": "hard",
+    "injected_conflict_template": "sec_condition_trigger_unfiled_amendment",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_sec_ex21_8_node_08": 1,
+      "synthetic_sec_ex21_8_node_04": 3
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_sec_ex21_8_node_08": 1,
+      "synthetic_sec_ex21_8_node_02": 4,
+      "synthetic_sec_ex21_8_node_04": 3
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 4,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_sec_ex21_8_node_01": 2,
+      "synthetic_sec_ex21_8_node_05": 6
+    },
+    "affected_best_rank": 2,
+    "affected_worst_rank": 6,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "synthetic_sec_ex21_8_node_08": 1,
+      "synthetic_sec_ex21_8_node_04": 3,
+      "synthetic_sec_ex21_8_node_01": 2,
+      "synthetic_sec_ex21_8_node_05": 6
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 6,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 1,
+    "root_top1_hit": true,
+    "root_top3_hit": true
+  }
+]

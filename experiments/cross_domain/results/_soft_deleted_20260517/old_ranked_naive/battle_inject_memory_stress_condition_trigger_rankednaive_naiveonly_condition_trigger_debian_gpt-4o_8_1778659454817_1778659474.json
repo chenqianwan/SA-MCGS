@@ -1,0 +1,305 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 8,
+    "scc_id": "synthetic_debian_8",
+    "scc_clause_ids": [
+      "synthetic_debian_8_node_01",
+      "synthetic_debian_8_node_02",
+      "synthetic_debian_8_node_03",
+      "synthetic_debian_8_node_04",
+      "synthetic_debian_8_node_05",
+      "synthetic_debian_8_node_08",
+      "synthetic_debian_8_node_06",
+      "synthetic_debian_8_node_07"
+    ],
+    "llm_calls": 1,
+    "time": 18.79400110244751,
+    "scores": {
+      "synthetic_debian_8_node_01": 0.6,
+      "synthetic_debian_8_node_02": 0.8,
+      "synthetic_debian_8_node_03": 0.4,
+      "synthetic_debian_8_node_04": 0.7,
+      "synthetic_debian_8_node_05": 0.5,
+      "synthetic_debian_8_node_08": 0.9,
+      "synthetic_debian_8_node_06": 0.3,
+      "synthetic_debian_8_node_07": 0.2
+    },
+    "reasonings": {
+      "synthetic_debian_8_node_01": "Critical intermediary in the cycle and participates in dependency stress tests.",
+      "synthetic_debian_8_node_02": "Ambiguity in compatibility conditions and participation in the cycle.",
+      "synthetic_debian_8_node_03": "Part of the cycle but no additional structural concerns.",
+      "synthetic_debian_8_node_04": "Assumes compatibility conditions are satisfied without verification, introducing risk.",
+      "synthetic_debian_8_node_05": "Part of the cycle but does not introduce additional ambiguity.",
+      "synthetic_debian_8_node_08": "Underspecified compatibility conditions and participation in the cycle.",
+      "synthetic_debian_8_node_06": "Part of the cycle but has minimal structural impact.",
+      "synthetic_debian_8_node_07": "Least impactful node in the cycle."
+    },
+    "ranking": [
+      [
+        "synthetic_debian_8_node_08",
+        0.9
+      ],
+      [
+        "synthetic_debian_8_node_02",
+        0.8
+      ],
+      [
+        "synthetic_debian_8_node_04",
+        0.7
+      ],
+      [
+        "synthetic_debian_8_node_01",
+        0.6
+      ],
+      [
+        "synthetic_debian_8_node_05",
+        0.5
+      ],
+      [
+        "synthetic_debian_8_node_03",
+        0.4
+      ],
+      [
+        "synthetic_debian_8_node_06",
+        0.3
+      ],
+      [
+        "synthetic_debian_8_node_07",
+        0.2
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_debian_8_node_08",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "cyclic_dependency",
+          "underspecified_conditions"
+        ],
+        "reasoning": "Node 08 is part of the cycle and has underspecified conditions regarding compatibility notes, which can delay the new interface planning basis."
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_debian_8_node_02",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "cyclic_dependency",
+          "compatibility_conflicts"
+        ],
+        "reasoning": "Node 02 is part of the cycle and explicitly mentions preserving compatibility conditions without treating staged notes as completed, which introduces ambiguity."
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_debian_8_node_04",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "cyclic_dependency",
+          "compatibility_conflicts"
+        ],
+        "reasoning": "Node 04 assumes compatibility conditions are satisfied without verification, which can lead to structural inconsistencies in the cycle."
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_debian_8_node_01",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "cyclic_dependency",
+          "high-impact_dependency"
+        ],
+        "reasoning": "Node 01 is part of the cycle and serves as the starting point, making it a critical intermediary in the dependency chain."
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_debian_8_node_05",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node 05 is part of the cycle but does not introduce additional ambiguity or high-impact dependencies."
+      },
+      {
+        "rank": 6,
+        "clause_id": "synthetic_debian_8_node_03",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node 03 is part of the cycle but has no significant compatibility or underspecification concerns."
+      },
+      {
+        "rank": 7,
+        "clause_id": "synthetic_debian_8_node_06",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node 06 is part of the cycle but does not introduce structural risks beyond its participation in the cycle."
+      },
+      {
+        "rank": 8,
+        "clause_id": "synthetic_debian_8_node_07",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node 07 is part of the cycle but has the least structural impact compared to other nodes."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures the structural risk of nodes participating in a cycle, which can lead to deadlocks or unresolved dependencies."
+      },
+      {
+        "factor": "underspecified_conditions",
+        "importance_weight": 0.3,
+        "description": "Captures the risk of nodes with incomplete or ambiguous dependency conditions, which can lead to operational uncertainty."
+      },
+      {
+        "factor": "compatibility_conflicts",
+        "importance_weight": 0.2,
+        "description": "Captures the risk of nodes with conflicting compatibility assumptions or requirements."
+      },
+      {
+        "factor": "high-impact_dependency",
+        "importance_weight": 0.1,
+        "description": "Captures the risk of nodes that serve as critical intermediaries or bottlenecks in the graph structure."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 8,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_debian_8_node_02",
+        "clause_b": "synthetic_debian_8_node_08",
+        "description": "Node 02 preserves compatibility conditions without treating staged notes as completed, while Node 08 requires two independent compatibility notes to proceed, creating ambiguity in the cycle."
+      },
+      {
+        "clause_a": "synthetic_debian_8_node_04",
+        "clause_b": "synthetic_debian_8_node_08",
+        "description": "Node 04 assumes compatibility conditions are satisfied, while Node 08 explicitly requires two independent notes, leading to potential structural inconsistency."
+      }
+    ],
+    "score_spread": 0.7,
+    "ranking_score_spread": 0.7,
+    "score_mean": 0.55,
+    "score_max": 0.9,
+    "node_names": {
+      "synthetic_debian_8_node_01": "synthetic debian 8 node 01",
+      "synthetic_debian_8_node_02": "synthetic debian 8 node 02",
+      "synthetic_debian_8_node_03": "synthetic debian 8 node 03",
+      "synthetic_debian_8_node_04": "synthetic debian 8 node 04",
+      "synthetic_debian_8_node_05": "synthetic debian 8 node 05",
+      "synthetic_debian_8_node_08": "synthetic debian 8 node 08",
+      "synthetic_debian_8_node_06": "synthetic debian 8 node 06",
+      "synthetic_debian_8_node_07": "synthetic debian 8 node 07"
+    },
+    "ground_truth_nodes": [
+      "synthetic_debian_8_node_08"
+    ],
+    "gt_evidence": {
+      "synthetic_debian_8_node_08": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 733,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.3165075034106412,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3246930422919509,
+    "inject_mode": true,
+    "injected_node": "synthetic_debian_8_node_08",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_debian_8_node_04",
+    "injected_witness_distance": 4,
+    "injected_bridge_node": "synthetic_debian_8_node_02",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "synthetic_debian_8_node_08",
+      "synthetic_debian_8_node_04"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_debian_8_node_08",
+      "synthetic_debian_8_node_02",
+      "synthetic_debian_8_node_04"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_debian_8_node_01",
+      "synthetic_debian_8_node_05"
+    ],
+    "injected_conflict_family": "condition_trigger",
+    "injected_conflict_difficulty": "hard",
+    "injected_conflict_template": "debian_condition_trigger_partial_compatibility",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_debian_8_node_08": 1,
+      "synthetic_debian_8_node_04": 3
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_debian_8_node_08": 1,
+      "synthetic_debian_8_node_02": 2,
+      "synthetic_debian_8_node_04": 3
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_debian_8_node_01": 4,
+      "synthetic_debian_8_node_05": 5
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "synthetic_debian_8_node_08": 1,
+      "synthetic_debian_8_node_04": 3,
+      "synthetic_debian_8_node_01": 4,
+      "synthetic_debian_8_node_05": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 1,
+    "root_top1_hit": true,
+    "root_top3_hit": true
+  }
+]

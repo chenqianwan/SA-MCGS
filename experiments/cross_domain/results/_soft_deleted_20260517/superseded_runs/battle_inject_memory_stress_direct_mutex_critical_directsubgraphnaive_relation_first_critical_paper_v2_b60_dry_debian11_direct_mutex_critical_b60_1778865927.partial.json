@@ -1,0 +1,451 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+    "naive_profile": "direct_subgraph",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_23",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "llm_calls": 1,
+    "time": 28.318623065948486,
+    "scores": {
+      "libjs-util": 0.1,
+      "node-assert": 0.3,
+      "node-debbundle-es-to-primitive": 0.5,
+      "node-deep-equal": 0.9,
+      "node-define-properties": 0.4,
+      "node-es-abstract": 0.7,
+      "node-istanbul": 0.1,
+      "node-parse-json": 0.8,
+      "node-read-pkg": 0.2,
+      "node-tape": 0.6,
+      "node-util": 0.1
+    },
+    "reasonings": {
+      "libjs-util": "References node-deep-equal but has limited direct impact.",
+      "node-assert": "References node-util, which is indirectly affected by cycles.",
+      "node-debbundle-es-to-primitive": "Participates in cycles with node-deep-equal and node-es-abstract.",
+      "node-deep-equal": "Central node in ABI conflict and dependency cycles.",
+      "node-define-properties": "References node-es-abstract and node-deep-equal, contributing to cycles.",
+      "node-es-abstract": "Participates in multiple cycles and references high-risk nodes.",
+      "node-istanbul": "References node-read-pkg but does not directly contribute to cycles or ABI conflicts.",
+      "node-parse-json": "Maintains legacy ABI, conflicting with node-deep-equal's requirements.",
+      "node-read-pkg": "References node-parse-json, which is high-risk due to ABI conflicts.",
+      "node-tape": "References multiple high-risk nodes, contributing to cycles.",
+      "node-util": "Depends on libjs-util, which is indirectly affected by cycles."
+    },
+    "ranking": [
+      [
+        "node-deep-equal",
+        0.9
+      ],
+      [
+        "node-parse-json",
+        0.8
+      ],
+      [
+        "node-es-abstract",
+        0.7
+      ],
+      [
+        "node-tape",
+        0.6
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.5
+      ],
+      [
+        "node-define-properties",
+        0.4
+      ],
+      [
+        "node-assert",
+        0.3
+      ],
+      [
+        "node-read-pkg",
+        0.2
+      ],
+      [
+        "node-util",
+        0.1
+      ],
+      [
+        "libjs-util",
+        0.1
+      ],
+      [
+        "node-istanbul",
+        0.1
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "node-deep-equal",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "ABI compatibility",
+          "dependency cycles"
+        ],
+        "reasoning": "Conflicts with node-parse-json over ABI state and participates in multiple cycles."
+      },
+      {
+        "rank": 2,
+        "clause_id": "node-parse-json",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "ABI compatibility"
+        ],
+        "reasoning": "Maintains legacy ABI while node-deep-equal requires the new ABI, creating incompatibility."
+      },
+      {
+        "rank": 3,
+        "clause_id": "node-es-abstract",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "dependency cycles",
+          "high-impact dependencies"
+        ],
+        "reasoning": "Central node in multiple cycles and references high-risk nodes like node-deep-equal."
+      },
+      {
+        "rank": 4,
+        "clause_id": "node-tape",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "dependency cycles"
+        ],
+        "reasoning": "References multiple high-risk nodes, including node-deep-equal and node-es-abstract."
+      },
+      {
+        "rank": 5,
+        "clause_id": "node-debbundle-es-to-primitive",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "dependency cycles"
+        ],
+        "reasoning": "Participates in cycles with node-deep-equal and node-es-abstract."
+      },
+      {
+        "rank": 6,
+        "clause_id": "node-define-properties",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "dependency cycles"
+        ],
+        "reasoning": "References node-es-abstract and node-deep-equal, contributing to cycles."
+      },
+      {
+        "rank": 7,
+        "clause_id": "node-assert",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "underspecified dependencies"
+        ],
+        "reasoning": "References node-util, which has limited structural impact but is indirectly affected by cycles."
+      },
+      {
+        "rank": 8,
+        "clause_id": "node-read-pkg",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "high-impact dependencies"
+        ],
+        "reasoning": "References node-parse-json, which is high-risk due to ABI conflicts."
+      },
+      {
+        "rank": 9,
+        "clause_id": "node-util",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "underspecified dependencies"
+        ],
+        "reasoning": "Depends on libjs-util, which is structurally low-risk but indirectly affected by cycles."
+      },
+      {
+        "rank": 10,
+        "clause_id": "libjs-util",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "underspecified dependencies"
+        ],
+        "reasoning": "References node-deep-equal but has limited direct impact."
+      },
+      {
+        "rank": 11,
+        "clause_id": "node-istanbul",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "high-impact dependencies"
+        ],
+        "reasoning": "References node-read-pkg but does not directly contribute to cycles or ABI conflicts."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "ABI compatibility",
+        "importance_weight": 0.4,
+        "description": "Captures risks related to mismatched or conflicting ABI requirements."
+      },
+      {
+        "factor": "dependency cycles",
+        "importance_weight": 0.3,
+        "description": "Captures risks from circular dependencies that may lead to deadlocks or inconsistencies."
+      },
+      {
+        "factor": "underspecified dependencies",
+        "importance_weight": 0.2,
+        "description": "Captures risks from missing or ambiguous dependency constraints."
+      },
+      {
+        "factor": "high-impact dependencies",
+        "importance_weight": 0.1,
+        "description": "Captures risks from nodes that affect many downstream records."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "direct_risk_subgraph_nodes": [
+      "node-deep-equal",
+      "node-parse-json",
+      "node-es-abstract",
+      "node-tape",
+      "node-debbundle-es-to-primitive"
+    ],
+    "direct_risk_subgraph_size": 5,
+    "direct_compression_ratio": 0.5454545454545454,
+    "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+    "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+    "direct_risk_subgraph_rationale": "This subgraph captures the core structural risks, including ABI conflicts and dependency cycles. These nodes are directly involved in the most severe issues and are sufficient to explain and localize the risks without including unrelated nodes.",
+    "direct_risk_subgraph_edges": [
+      {
+        "source": "node-deep-equal",
+        "target": "node-parse-json",
+        "reason": "ABI conflict between legacy and new ABI states."
+      },
+      {
+        "source": "node-deep-equal",
+        "target": "node-es-abstract",
+        "reason": "Dependency cycle involving abstract operations."
+      },
+      {
+        "source": "node-es-abstract",
+        "target": "node-debbundle-es-to-primitive",
+        "reason": "Dependency cycle involving primitive operations."
+      },
+      {
+        "source": "node-tape",
+        "target": "node-deep-equal",
+        "reason": "References high-risk node in multiple cycles."
+      },
+      {
+        "source": "node-tape",
+        "target": "node-es-abstract",
+        "reason": "References high-risk node in multiple cycles."
+      }
+    ],
+    "direct_subgraph_raw": [
+      "node-deep-equal",
+      "node-parse-json",
+      "node-es-abstract",
+      "node-tape",
+      "node-debbundle-es-to-primitive"
+    ],
+    "direct_subgraph_invalid": [],
+    "direct_subgraph_duplicates": [],
+    "direct_subgraph_alias_resolutions": [],
+    "direct_subgraph_complete_parse": true,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 9,
+    "largest_tie_count": 3,
+    "tied_score_groups": [
+      {
+        "score": 0.1,
+        "count": 3,
+        "nodes": [
+          "libjs-util",
+          "node-istanbul",
+          "node-util"
+        ]
+      }
+    ],
+    "conflicts": [
+      {
+        "clause_a": "node-deep-equal",
+        "clause_b": "node-parse-json",
+        "description": "ABI conflict between legacy and new ABI states."
+      },
+      {
+        "clause_a": "node-deep-equal",
+        "clause_b": "node-es-abstract",
+        "description": "Dependency cycle involving abstract operations."
+      },
+      {
+        "clause_a": "node-es-abstract",
+        "clause_b": "node-debbundle-es-to-primitive",
+        "description": "Dependency cycle involving primitive operations."
+      }
+    ],
+    "score_spread": 0.8,
+    "ranking_score_spread": 0.8,
+    "score_mean": 0.4272727272727273,
+    "score_max": 0.9,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 1262,
+    "injected_title_occurrences_in_prompt": 9,
+    "injected_id_occurrences_in_prompt": 9,
+    "injected_title_first_word_ratio": 0.20839936608557844,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.4405705229793978,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "node-deep-equal",
+    "injected_witness_distance": 5,
+    "injected_bridge_node": null,
+    "injected_bridge_distance": null,
+    "injected_risk_nodes": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "injected_evidence_nodes": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "injected_affected_nodes": [
+      "node-read-pkg",
+      "node-debbundle-es-to-primitive"
+    ],
+    "injected_conflict_family": "direct_mutex",
+    "injected_conflict_difficulty": "obvious",
+    "injected_conflict_severity": "critical",
+    "injected_conflict_severity_label": "high_impact_no_fallback",
+    "injected_conflict_template": "debian_direct_legacy_vs_new_abi_critical",
+    "injected_rank": 2,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "node-parse-json": 2,
+      "node-deep-equal": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "node-parse-json": 2,
+      "node-deep-equal": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 2,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "node-read-pkg": 8,
+      "node-debbundle-es-to-primitive": 5
+    },
+    "affected_best_rank": 5,
+    "affected_worst_rank": 8,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "node-parse-json": 2,
+      "node-deep-equal": 1,
+      "node-read-pkg": 8,
+      "node-debbundle-es-to-primitive": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 8,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 2,
+    "root_top1_hit": false,
+    "root_top3_hit": true,
+    "direct_subgraph_nodes_retained": [
+      "node-deep-equal",
+      "node-parse-json",
+      "node-es-abstract",
+      "node-tape",
+      "node-debbundle-es-to-primitive"
+    ],
+    "direct_contains_injected_node": true,
+    "direct_contains_any_risk_node": true,
+    "direct_contains_all_risk_nodes": true,
+    "direct_risk_nodes_retained": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "direct_contains_any_evidence_node": true,
+    "direct_contains_all_evidence_nodes": true,
+    "direct_evidence_nodes_retained": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "direct_contains_any_affected_node": true,
+    "direct_contains_all_affected_nodes": false,
+    "direct_affected_nodes_retained": [
+      "node-debbundle-es-to-primitive"
+    ],
+    "direct_contains_any_valuable_node": true,
+    "direct_contains_all_valuable_nodes": false,
+    "direct_valuable_nodes_retained": [
+      "node-parse-json",
+      "node-deep-equal",
+      "node-debbundle-es-to-primitive"
+    ]
+  }
+]

@@ -1,0 +1,5114 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+    "naive_profile": "direct_subgraph",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_17",
+    "scc_clause_ids": [
+      "arctica-greeter",
+      "lightdm",
+      "lightdm-autologin-greeter",
+      "slick-greeter",
+      "x2gothinclient-minidesktop"
+    ],
+    "llm_calls": 1,
+    "time": 202.9366159439087,
+    "scores": {
+      "arctica-greeter": 0.9,
+      "lightdm": 0.8,
+      "lightdm-autologin-greeter": 0.4,
+      "slick-greeter": 0.6,
+      "x2gothinclient-minidesktop": 0.3
+    },
+    "reasonings": {
+      "arctica-greeter": "High risk due to participation in a cycle with 'lightdm' and a strict interface handoff requirement that may not align with other greeters.",
+      "lightdm": "High risk as a central node in the graph with multiple greeters providing overlapping functionality, and its involvement in a cycle with 'arctica-greeter'.",
+      "lightdm-autologin-greeter": "Lower risk but still notable due to redundant functionality with other greeters.",
+      "slick-greeter": "Moderate risk due to its use of a legacy interface class, which may not be compatible with the migration requirements of 'arctica-greeter'.",
+      "x2gothinclient-minidesktop": "Lowest risk as a pass-through node, but its dependency on 'lightdm' introduces potential fragility."
+    },
+    "ranking": [
+      [
+        "arctica-greeter",
+        0.9
+      ],
+      [
+        "lightdm",
+        0.8
+      ],
+      [
+        "slick-greeter",
+        0.6
+      ],
+      [
+        "lightdm-autologin-greeter",
+        0.4
+      ],
+      [
+        "x2gothinclient-minidesktop",
+        0.3
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "arctica-greeter",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "cyclic_dependency",
+          "interface_mismatch"
+        ],
+        "reasoning": "Participates in a cyclic dependency with 'lightdm' and has an interface handoff requirement that may not align with other greeters."
+      },
+      {
+        "rank": 2,
+        "clause_id": "lightdm",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "cyclic_dependency",
+          "redundant_provision"
+        ],
+        "reasoning": "Central node in the dependency graph with multiple greeters providing overlapping functionality, and participates in a cycle with 'arctica-greeter'."
+      },
+      {
+        "rank": 3,
+        "clause_id": "slick-greeter",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "interface_mismatch"
+        ],
+        "reasoning": "Uses a legacy interface class for handoff, which may not be compatible with the migration requirements of 'arctica-greeter'."
+      },
+      {
+        "rank": 4,
+        "clause_id": "lightdm-autologin-greeter",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "redundant_provision"
+        ],
+        "reasoning": "Provides overlapping functionality with other greeters, increasing the risk of conflicts."
+      },
+      {
+        "rank": 5,
+        "clause_id": "x2gothinclient-minidesktop",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "underspecified_dependency"
+        ],
+        "reasoning": "Acts as a pass-through node with minimal transformation, but its dependency on 'lightdm' introduces potential fragility."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures the presence of cycles in the dependency graph, which can lead to structural inconsistencies or deadlocks."
+      },
+      {
+        "factor": "interface_mismatch",
+        "importance_weight": 0.3,
+        "description": "Captures mismatches in interface handoff or conversion points, which can cause operational failures."
+      },
+      {
+        "factor": "underspecified_dependency",
+        "importance_weight": 0.2,
+        "description": "Captures dependencies that are ambiguous or insufficiently constrained, leading to potential runtime issues."
+      },
+      {
+        "factor": "redundant_provision",
+        "importance_weight": 0.1,
+        "description": "Captures cases where multiple records redundantly provide the same functionality, potentially causing conflicts."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "direct_risk_subgraph_nodes": [
+      "arctica-greeter",
+      "lightdm",
+      "slick-greeter"
+    ],
+    "direct_risk_subgraph_size": 3,
+    "direct_compression_ratio": 0.4,
+    "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+    "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+    "direct_risk_subgraph_rationale": "This subgraph captures the core structural risks: the cycle between 'arctica-greeter' and 'lightdm', and the interface mismatch involving 'slick-greeter'. Other nodes are peripheral to these primary concerns.",
+    "direct_risk_subgraph_edges": [
+      {
+        "source": "arctica-greeter",
+        "target": "lightdm",
+        "reason": "Part of a cyclic dependency that creates structural inconsistency."
+      },
+      {
+        "source": "lightdm",
+        "target": "arctica-greeter",
+        "reason": "Part of a cyclic dependency that creates structural inconsistency."
+      },
+      {
+        "source": "lightdm",
+        "target": "slick-greeter",
+        "reason": "Highlights the interface mismatch risk due to legacy handoff."
+      }
+    ],
+    "direct_subgraph_raw": [
+      "arctica-greeter",
+      "lightdm",
+      "slick-greeter"
+    ],
+    "direct_subgraph_invalid": [],
+    "direct_subgraph_duplicates": [],
+    "direct_subgraph_alias_resolutions": [],
+    "direct_subgraph_complete_parse": true,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 5,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "arctica-greeter",
+        "clause_b": "lightdm",
+        "description": "Cyclic dependency between 'arctica-greeter' and 'lightdm' creates structural inconsistency and potential deadlocks."
+      },
+      {
+        "clause_a": "arctica-greeter",
+        "clause_b": "slick-greeter",
+        "description": "Interface mismatch between 'arctica-greeter' (new interface class) and 'slick-greeter' (legacy interface class) may cause operational failures."
+      },
+      {
+        "clause_a": "lightdm",
+        "clause_b": "lightdm-autologin-greeter",
+        "description": "Redundant provision of 'lightdm-greeter' functionality increases the risk of conflicts."
+      }
+    ],
+    "score_spread": 0.6000000000000001,
+    "ranking_score_spread": 0.6000000000000001,
+    "score_mean": 0.6,
+    "score_max": 0.9,
+    "node_names": {
+      "arctica-greeter": "arctica-greeter",
+      "lightdm": "lightdm",
+      "lightdm-autologin-greeter": "lightdm-autologin-greeter",
+      "slick-greeter": "slick-greeter",
+      "x2gothinclient-minidesktop": "x2gothinclient-minidesktop"
+    },
+    "ground_truth_nodes": [
+      "slick-greeter"
+    ],
+    "gt_evidence": {
+      "slick-greeter": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 798,
+    "injected_title_occurrences_in_prompt": 7,
+    "injected_id_occurrences_in_prompt": 7,
+    "injected_title_first_word_ratio": 0.2781954887218045,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.2832080200501253,
+    "inject_mode": true,
+    "injected_node": "slick-greeter",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "arctica-greeter",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "x2gothinclient-minidesktop",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "slick-greeter",
+      "arctica-greeter"
+    ],
+    "injected_evidence_nodes": [
+      "slick-greeter",
+      "x2gothinclient-minidesktop",
+      "arctica-greeter"
+    ],
+    "injected_affected_nodes": [
+      "lightdm",
+      "lightdm-autologin-greeter"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "debian_handoff_invariant_abi_class",
+    "injected_rank": 3,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "slick-greeter": 3,
+      "arctica-greeter": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "slick-greeter": 3,
+      "x2gothinclient-minidesktop": 5,
+      "arctica-greeter": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 5,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "lightdm": 2,
+      "lightdm-autologin-greeter": 4
+    },
+    "affected_best_rank": 2,
+    "affected_worst_rank": 4,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "slick-greeter": 3,
+      "arctica-greeter": 1,
+      "lightdm": 2,
+      "lightdm-autologin-greeter": 4
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 4,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 3,
+    "root_top1_hit": false,
+    "root_top3_hit": true,
+    "direct_subgraph_nodes_retained": [
+      "arctica-greeter",
+      "lightdm",
+      "slick-greeter"
+    ],
+    "direct_contains_injected_node": true,
+    "direct_contains_any_risk_node": true,
+    "direct_contains_all_risk_nodes": true,
+    "direct_risk_nodes_retained": [
+      "slick-greeter",
+      "arctica-greeter"
+    ],
+    "direct_contains_any_evidence_node": true,
+    "direct_contains_all_evidence_nodes": false,
+    "direct_evidence_nodes_retained": [
+      "slick-greeter",
+      "arctica-greeter"
+    ],
+    "direct_contains_any_affected_node": true,
+    "direct_contains_all_affected_nodes": false,
+    "direct_affected_nodes_retained": [
+      "lightdm"
+    ],
+    "direct_contains_any_valuable_node": true,
+    "direct_contains_all_valuable_nodes": false,
+    "direct_valuable_nodes_retained": [
+      "slick-greeter",
+      "arctica-greeter",
+      "lightdm"
+    ]
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_17",
+    "scc_clause_ids": [
+      "arctica-greeter",
+      "lightdm",
+      "lightdm-autologin-greeter",
+      "slick-greeter",
+      "x2gothinclient-minidesktop"
+    ],
+    "budget": 30,
+    "llm_calls": 18,
+    "tt_hits": 12,
+    "tt_hit_rate": 0.4,
+    "time": 432.0365219116211,
+    "scores": {
+      "arctica-greeter": 0.5499999999999999,
+      "x2gothinclient-minidesktop": 0.52,
+      "lightdm": 0.46666666666666673,
+      "slick-greeter": 0.4416666666666667,
+      "lightdm-autologin-greeter": 0.30909090909090914
+    },
+    "ranking": [
+      [
+        "arctica-greeter",
+        0.5499999999999999
+      ],
+      [
+        "x2gothinclient-minidesktop",
+        0.52
+      ],
+      [
+        "lightdm",
+        0.46666666666666673
+      ],
+      [
+        "slick-greeter",
+        0.4416666666666667
+      ],
+      [
+        "lightdm-autologin-greeter",
+        0.30909090909090914
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.2409090909090908,
+    "score_mean": 0.4574848484848485,
+    "score_max": 0.5499999999999999,
+    "node_names": {
+      "arctica-greeter": "arctica-greeter",
+      "lightdm": "lightdm",
+      "lightdm-autologin-greeter": "lightdm-autologin-greeter",
+      "slick-greeter": "slick-greeter",
+      "x2gothinclient-minidesktop": "x2gothinclient-minidesktop"
+    },
+    "clause_details": {
+      "arctica-greeter": {
+        "mean_score": 0.5499999999999999,
+        "visit_count": 24,
+        "conflict_count": 42,
+        "risk_history": [
+          0.6,
+          0.8,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.4,
+          0.6,
+          0.5,
+          0.6,
+          0.5,
+          0.6,
+          0.7,
+          0.6,
+          0.6,
+          0.5,
+          0.7,
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "lightdm": {
+        "mean_score": 0.46666666666666673,
+        "visit_count": 30,
+        "conflict_count": 42,
+        "risk_history": [
+          0.3,
+          0.5,
+          0.5,
+          0.5,
+          0.3,
+          0.7,
+          0.3,
+          0.6,
+          0.7,
+          0.7,
+          0.6,
+          0.6,
+          0.5,
+          0.7,
+          0.5,
+          0.3,
+          0.5,
+          0.5,
+          0.6,
+          0.3,
+          0.5,
+          0.3,
+          0.4,
+          0.5,
+          0.3,
+          0.3,
+          0.2,
+          0.6,
+          0.4,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "lightdm-autologin-greeter": {
+        "mean_score": 0.30909090909090914,
+        "visit_count": 22,
+        "conflict_count": 17,
+        "risk_history": [
+          0.2,
+          0.2,
+          0.4,
+          0.2,
+          0.2,
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.2,
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.3,
+          0.4,
+          0.4,
+          0.1,
+          0.4,
+          0.2,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "slick-greeter": {
+        "mean_score": 0.4416666666666667,
+        "visit_count": 24,
+        "conflict_count": 41,
+        "risk_history": [
+          0.2,
+          0.3,
+          0.7,
+          0.4,
+          0.7,
+          0.6,
+          0.4,
+          0.4,
+          0.6,
+          0.6,
+          0.4,
+          0.4,
+          0.4,
+          0.6,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.2,
+          0.6,
+          0.3,
+          0.5,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "x2gothinclient-minidesktop": {
+        "mean_score": 0.52,
+        "visit_count": 20,
+        "conflict_count": 16,
+        "risk_history": [
+          0.7,
+          0.4,
+          0.7,
+          0.4,
+          0.4,
+          0.4,
+          0.7,
+          0.4,
+          0.3,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.3,
+          0.2,
+          0.3,
+          0.3,
+          0.7,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "local_risk_subgraph_counts": {
+      "x2gothinclient-minidesktop": 11,
+      "lightdm": 30,
+      "slick-greeter": 24,
+      "lightdm-autologin-greeter": 16,
+      "arctica-greeter": 24
+    },
+    "repair_entry_counts": {
+      "x2gothinclient-minidesktop": 10,
+      "slick-greeter": 18,
+      "lightdm-autologin-greeter": 5,
+      "arctica-greeter": 24,
+      "lightdm": 13
+    },
+    "local_conflict_edges": [
+      {
+        "source": "arctica-greeter",
+        "target": "lightdm",
+        "count": 22,
+        "explicit_count": 18,
+        "reasons": [
+          "'lightdm' references 'arctica-greeter' but does not enforce the new interface class required by 'arctica-greeter', leading to a potential structural mismatch.",
+          "'lightdm' references 'arctica-greeter' and may not enforce the new interface class required by 'arctica-greeter', leading to structural inconsistency.",
+          "LightDM's dependency on arctica-greeter introduces structural inconsistency due to conflicting interface class requirements with slick-greeter."
+        ]
+      },
+      {
+        "source": "arctica-greeter",
+        "target": "slick-greeter",
+        "count": 17,
+        "explicit_count": 17,
+        "reasons": [
+          "'arctica-greeter' requires the new interface class for its configuration, but 'slick-greeter' remains in the legacy interface class, creating a direct conflict in compatibility.",
+          "'arctica-greeter' requires the new interface class, but 'slick-greeter' remains in the legacy interface class, creating a potential incompatibility.",
+          "The interface class requirements of these two records are incompatible, leading to a conflict in the dependency graph."
+        ]
+      },
+      {
+        "source": "lightdm",
+        "target": "slick-greeter",
+        "count": 17,
+        "explicit_count": 15,
+        "reasons": [
+          "'lightdm' references 'slick-greeter', which remains in the legacy interface class, potentially causing issues if 'lightdm' expects a unified interface class.",
+          "'lightdm' references 'slick-greeter', which remains in the legacy interface class. This could lead to compatibility issues if 'lightdm' expects the new interface class.",
+          "LightDM's dependency on slick-greeter introduces structural inconsistency due to conflicting interface class requirements with arctica-greeter."
+        ]
+      },
+      {
+        "source": "lightdm",
+        "target": "x2gothinclient-minidesktop",
+        "count": 11,
+        "explicit_count": 7,
+        "reasons": [
+          "The `x2gothinclient-minidesktop` package depends on `lightdm` but also introduces potential conflicts due to its `Conflicts` and `Replaces` relationships with related packages.",
+          "The `x2gothinclient-minidesktop` package depends on `lightdm` but also has complex dependency relationships and conflicts (`Conflicts` and `Replaces`) that could destabilize the graph.",
+          "x2gothinclient-minidesktop depends on lightdm and provides lightdm-greeter, which may interfere with other greeter packages also providing the same functionality."
+        ]
+      },
+      {
+        "source": "lightdm",
+        "target": "lightdm-autologin-greeter",
+        "count": 7,
+        "explicit_count": 2,
+        "reasons": [
+          "lightdm-autologin-greeter provides lightdm-greeter, but there is no mechanism to ensure compatibility with other greeters, leading to potential conflicts.",
+          "lightdm references lightdm-autologin-greeter, which provides lightdm-greeter, creating potential conflicts with other greeters.",
+          "lightdm references lightdm-autologin-greeter, which provides lightdm-greeter, creating potential conflicts with other greeters."
+        ]
+      },
+      {
+        "source": "arctica-greeter",
+        "target": "lightdm-autologin-greeter",
+        "count": 6,
+        "explicit_count": 6,
+        "reasons": [
+          "Both provide lightdm-greeter, but there is no mechanism to ensure mutual compatibility, leading to potential conflicts in greeter functionality.",
+          "Both arctica-greeter and lightdm-autologin-greeter provide lightdm-greeter, which could lead to conflicts during installation or runtime.",
+          "Both arctica-greeter and lightdm-autologin-greeter provide lightdm-greeter, leading to potential conflicts during installation or runtime."
+        ]
+      },
+      {
+        "source": "lightdm-autologin-greeter",
+        "target": "slick-greeter",
+        "count": 5,
+        "explicit_count": 5,
+        "reasons": [
+          "Both `slick-greeter` and `lightdm-autologin-greeter` provide the `lightdm-greeter` interface, which could lead to runtime conflicts or misconfigurations.",
+          "Both `slick-greeter` and `lightdm-autologin-greeter` provide `lightdm-greeter`, which could lead to incompatibilities if both are installed simultaneously.",
+          "Both records provide lightdm-greeter functionality, leading to potential incompatibilities if both are installed."
+        ]
+      },
+      {
+        "source": "lightdm-autologin-greeter",
+        "target": "x2gothinclient-minidesktop",
+        "count": 4,
+        "explicit_count": 4,
+        "reasons": [
+          "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts.",
+          "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts.",
+          "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+        ]
+      },
+      {
+        "source": "slick-greeter",
+        "target": "x2gothinclient-minidesktop",
+        "count": 4,
+        "explicit_count": 4,
+        "reasons": [
+          "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts.",
+          "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts.",
+          "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+        ]
+      },
+      {
+        "source": "arctica-greeter",
+        "target": "x2gothinclient-minidesktop",
+        "count": 1,
+        "explicit_count": 1,
+        "reasons": [
+          "Both records provide 'lightdm-greeter' but have incompatible interface class handling requirements, which may cause runtime conflicts.",
+          "Both records provide 'lightdm-greeter' but have different interface class handling requirements, which may lead to runtime incompatibility."
+        ]
+      }
+    ],
+    "local_subgraph_signal": {
+      "arctica-greeter": 94,
+      "lightdm": 100,
+      "lightdm-autologin-greeter": 43,
+      "slick-greeter": 85,
+      "x2gothinclient-minidesktop": 41
+    },
+    "local_subgraph_candidate_nodes": [
+      "lightdm",
+      "arctica-greeter",
+      "slick-greeter",
+      "lightdm-autologin-greeter",
+      "x2gothinclient-minidesktop"
+    ],
+    "ranking_by_local_subgraph": [
+      [
+        "lightdm",
+        100
+      ],
+      [
+        "arctica-greeter",
+        94
+      ],
+      [
+        "slick-greeter",
+        85
+      ],
+      [
+        "lightdm-autologin-greeter",
+        43
+      ],
+      [
+        "x2gothinclient-minidesktop",
+        41
+      ]
+    ],
+    "evidence_node_scores": {
+      "arctica-greeter": {
+        "score": 0.9214035087719298,
+        "support_count": 5,
+        "components": {
+          "risk_surplus": 1.0,
+          "conflict_rate": 1.0,
+          "local_risk_subgraph": 0.8,
+          "repair_entry": 1.0,
+          "conflict_endpoint": 0.8070175438596491
+        },
+        "raw": {
+          "risk_surplus": 0.0833333333333332,
+          "conflict_rate": 1.75,
+          "local_risk_subgraph": 24,
+          "repair_entry": 24,
+          "conflict_endpoint": 46
+        }
+      },
+      "lightdm": {
+        "score": 0.6683333333333333,
+        "support_count": 4,
+        "components": {
+          "conflict_rate": 0.7999999999999999,
+          "local_risk_subgraph": 1.0,
+          "repair_entry": 0.5416666666666666,
+          "conflict_endpoint": 1.0
+        },
+        "raw": {
+          "conflict_rate": 1.4,
+          "local_risk_subgraph": 30,
+          "repair_entry": 13,
+          "conflict_endpoint": 57
+        }
+      },
+      "lightdm-autologin-greeter": {
+        "score": 0.313838004101162,
+        "support_count": 4,
+        "components": {
+          "conflict_rate": 0.44155844155844154,
+          "local_risk_subgraph": 0.5333333333333333,
+          "repair_entry": 0.20833333333333334,
+          "conflict_endpoint": 0.38596491228070173
+        },
+        "raw": {
+          "conflict_rate": 0.7727272727272727,
+          "local_risk_subgraph": 16,
+          "repair_entry": 5,
+          "conflict_endpoint": 22
+        }
+      },
+      "slick-greeter": {
+        "score": 0.6561152882205514,
+        "support_count": 4,
+        "components": {
+          "conflict_rate": 0.9761904761904762,
+          "local_risk_subgraph": 0.8,
+          "repair_entry": 0.75,
+          "conflict_endpoint": 0.7543859649122807
+        },
+        "raw": {
+          "conflict_rate": 1.7083333333333333,
+          "local_risk_subgraph": 24,
+          "repair_entry": 18,
+          "conflict_endpoint": 43
+        }
+      },
+      "x2gothinclient-minidesktop": {
+        "score": 0.4462706766917294,
+        "support_count": 5,
+        "components": {
+          "risk_surplus": 0.6400000000000005,
+          "conflict_rate": 0.4571428571428572,
+          "local_risk_subgraph": 0.36666666666666664,
+          "repair_entry": 0.4166666666666667,
+          "conflict_endpoint": 0.3508771929824561
+        },
+        "raw": {
+          "risk_surplus": 0.05333333333333329,
+          "conflict_rate": 0.8,
+          "local_risk_subgraph": 11,
+          "repair_entry": 10,
+          "conflict_endpoint": 20
+        }
+      }
+    },
+    "evidence_component_names": [
+      "risk_surplus",
+      "conflict_rate",
+      "local_risk_subgraph",
+      "repair_entry",
+      "conflict_endpoint"
+    ],
+    "evidence_component_policy": "dynamic per-SCC normalization over risk surplus, conflict rate, LLM-declared local subgraphs, repair entries, conflict endpoints, OC signals, and pair-level conflict memory",
+    "ranking_by_evidence": [
+      [
+        "arctica-greeter",
+        0.9214035087719298
+      ],
+      [
+        "lightdm",
+        0.6683333333333333
+      ],
+      [
+        "slick-greeter",
+        0.6561152882205514
+      ],
+      [
+        "x2gothinclient-minidesktop",
+        0.4462706766917294
+      ],
+      [
+        "lightdm-autologin-greeter",
+        0.313838004101162
+      ]
+    ],
+    "conflict_probability_matrix": [
+      {
+        "source": "arctica-greeter",
+        "target": "slick-greeter",
+        "count": 17,
+        "explicit_count": 17,
+        "probability_proxy": 0.7727272727272727,
+        "semantic_strength": 1.0,
+        "pair_score": 0.9490060809168037,
+        "reasons": [
+          "'arctica-greeter' requires the new interface class for its configuration, but 'slick-greeter' remains in the legacy interface class, creating a direct conflict in compatibility.",
+          "'arctica-greeter' requires the new interface class, but 'slick-greeter' remains in the legacy interface class, creating a potential incompatibility.",
+          "The interface class requirements of these two records are incompatible, leading to a conflict in the dependency graph."
+        ]
+      },
+      {
+        "source": "arctica-greeter",
+        "target": "lightdm",
+        "count": 22,
+        "explicit_count": 18,
+        "probability_proxy": 1.0,
+        "semantic_strength": 0.65,
+        "pair_score": 0.8117302631578949,
+        "reasons": [
+          "'lightdm' references 'arctica-greeter' but does not enforce the new interface class required by 'arctica-greeter', leading to a potential structural mismatch.",
+          "'lightdm' references 'arctica-greeter' and may not enforce the new interface class required by 'arctica-greeter', leading to structural inconsistency.",
+          "LightDM's dependency on arctica-greeter introduces structural inconsistency due to conflicting interface class requirements with slick-greeter."
+        ]
+      },
+      {
+        "source": "lightdm",
+        "target": "slick-greeter",
+        "count": 17,
+        "explicit_count": 15,
+        "probability_proxy": 0.7727272727272727,
+        "semantic_strength": 0.65,
+        "pair_score": 0.7645254457702371,
+        "reasons": [
+          "'lightdm' references 'slick-greeter', which remains in the legacy interface class, potentially causing issues if 'lightdm' expects a unified interface class.",
+          "'lightdm' references 'slick-greeter', which remains in the legacy interface class. This could lead to compatibility issues if 'lightdm' expects the new interface class.",
+          "LightDM's dependency on slick-greeter introduces structural inconsistency due to conflicting interface class requirements with arctica-greeter."
+        ]
+      },
+      {
+        "source": "lightdm",
+        "target": "x2gothinclient-minidesktop",
+        "count": 11,
+        "explicit_count": 7,
+        "probability_proxy": 0.5,
+        "semantic_strength": 0.75,
+        "pair_score": 0.7208424018393064,
+        "reasons": [
+          "The `x2gothinclient-minidesktop` package depends on `lightdm` but also introduces potential conflicts due to its `Conflicts` and `Replaces` relationships with related packages.",
+          "The `x2gothinclient-minidesktop` package depends on `lightdm` but also has complex dependency relationships and conflicts (`Conflicts` and `Replaces`) that could destabilize the graph.",
+          "x2gothinclient-minidesktop depends on lightdm and provides lightdm-greeter, which may interfere with other greeter packages also providing the same functionality."
+        ]
+      },
+      {
+        "source": "arctica-greeter",
+        "target": "x2gothinclient-minidesktop",
+        "count": 1,
+        "explicit_count": 1,
+        "probability_proxy": 0.045454545454545456,
+        "semantic_strength": 1.0,
+        "pair_score": 0.6438702924746028,
+        "reasons": [
+          "Both records provide 'lightdm-greeter' but have incompatible interface class handling requirements, which may cause runtime conflicts.",
+          "Both records provide 'lightdm-greeter' but have different interface class handling requirements, which may lead to runtime incompatibility."
+        ]
+      },
+      {
+        "source": "arctica-greeter",
+        "target": "lightdm-autologin-greeter",
+        "count": 6,
+        "explicit_count": 6,
+        "probability_proxy": 0.2727272727272727,
+        "semantic_strength": 0.65,
+        "pair_score": 0.6414398190598659,
+        "reasons": [
+          "Both provide lightdm-greeter, but there is no mechanism to ensure mutual compatibility, leading to potential conflicts in greeter functionality.",
+          "Both arctica-greeter and lightdm-autologin-greeter provide lightdm-greeter, which could lead to conflicts during installation or runtime.",
+          "Both arctica-greeter and lightdm-autologin-greeter provide lightdm-greeter, leading to potential conflicts during installation or runtime."
+        ]
+      },
+      {
+        "source": "slick-greeter",
+        "target": "x2gothinclient-minidesktop",
+        "count": 4,
+        "explicit_count": 4,
+        "probability_proxy": 0.18181818181818182,
+        "semantic_strength": 0.75,
+        "pair_score": 0.6321587425382119,
+        "reasons": [
+          "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts.",
+          "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts.",
+          "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+        ]
+      },
+      {
+        "source": "lightdm-autologin-greeter",
+        "target": "x2gothinclient-minidesktop",
+        "count": 4,
+        "explicit_count": 4,
+        "probability_proxy": 0.18181818181818182,
+        "semantic_strength": 0.75,
+        "pair_score": 0.6064879462292577,
+        "reasons": [
+          "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts.",
+          "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts.",
+          "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+        ]
+      },
+      {
+        "source": "lightdm-autologin-greeter",
+        "target": "slick-greeter",
+        "count": 5,
+        "explicit_count": 5,
+        "probability_proxy": 0.22727272727272727,
+        "semantic_strength": 0.65,
+        "pair_score": 0.6012399467777265,
+        "reasons": [
+          "Both `slick-greeter` and `lightdm-autologin-greeter` provide the `lightdm-greeter` interface, which could lead to runtime conflicts or misconfigurations.",
+          "Both `slick-greeter` and `lightdm-autologin-greeter` provide `lightdm-greeter`, which could lead to incompatibilities if both are installed simultaneously.",
+          "Both records provide lightdm-greeter functionality, leading to potential incompatibilities if both are installed."
+        ]
+      },
+      {
+        "source": "lightdm",
+        "target": "lightdm-autologin-greeter",
+        "count": 7,
+        "explicit_count": 2,
+        "probability_proxy": 0.3181818181818182,
+        "semantic_strength": 0.65,
+        "pair_score": 0.5734245479864168,
+        "reasons": [
+          "lightdm-autologin-greeter provides lightdm-greeter, but there is no mechanism to ensure compatibility with other greeters, leading to potential conflicts.",
+          "lightdm references lightdm-autologin-greeter, which provides lightdm-greeter, creating potential conflicts with other greeters.",
+          "lightdm references lightdm-autologin-greeter, which provides lightdm-greeter, creating potential conflicts with other greeters."
+        ]
+      }
+    ],
+    "evidence_pair_memory_nodes": [
+      "arctica-greeter",
+      "lightdm",
+      "lightdm-autologin-greeter",
+      "slick-greeter",
+      "x2gothinclient-minidesktop"
+    ],
+    "evidence_pair_memory_edges": [
+      {
+        "source": "arctica-greeter",
+        "target": "slick-greeter",
+        "count": 17,
+        "explicit_count": 17,
+        "probability_proxy": 0.7727272727272727,
+        "semantic_strength": 1.0,
+        "pair_score": 0.9490060809168037,
+        "reasons": [
+          "'arctica-greeter' requires the new interface class for its configuration, but 'slick-greeter' remains in the legacy interface class, creating a direct conflict in compatibility.",
+          "'arctica-greeter' requires the new interface class, but 'slick-greeter' remains in the legacy interface class, creating a potential incompatibility.",
+          "The interface class requirements of these two records are incompatible, leading to a conflict in the dependency graph."
+        ]
+      },
+      {
+        "source": "arctica-greeter",
+        "target": "lightdm",
+        "count": 22,
+        "explicit_count": 18,
+        "probability_proxy": 1.0,
+        "semantic_strength": 0.65,
+        "pair_score": 0.8117302631578949,
+        "reasons": [
+          "'lightdm' references 'arctica-greeter' but does not enforce the new interface class required by 'arctica-greeter', leading to a potential structural mismatch.",
+          "'lightdm' references 'arctica-greeter' and may not enforce the new interface class required by 'arctica-greeter', leading to structural inconsistency.",
+          "LightDM's dependency on arctica-greeter introduces structural inconsistency due to conflicting interface class requirements with slick-greeter."
+        ]
+      },
+      {
+        "source": "lightdm",
+        "target": "x2gothinclient-minidesktop",
+        "count": 11,
+        "explicit_count": 7,
+        "probability_proxy": 0.5,
+        "semantic_strength": 0.75,
+        "pair_score": 0.7208424018393064,
+        "reasons": [
+          "The `x2gothinclient-minidesktop` package depends on `lightdm` but also introduces potential conflicts due to its `Conflicts` and `Replaces` relationships with related packages.",
+          "The `x2gothinclient-minidesktop` package depends on `lightdm` but also has complex dependency relationships and conflicts (`Conflicts` and `Replaces`) that could destabilize the graph.",
+          "x2gothinclient-minidesktop depends on lightdm and provides lightdm-greeter, which may interfere with other greeter packages also providing the same functionality."
+        ]
+      },
+      {
+        "source": "arctica-greeter",
+        "target": "lightdm-autologin-greeter",
+        "count": 6,
+        "explicit_count": 6,
+        "probability_proxy": 0.2727272727272727,
+        "semantic_strength": 0.65,
+        "pair_score": 0.6414398190598659,
+        "reasons": [
+          "Both provide lightdm-greeter, but there is no mechanism to ensure mutual compatibility, leading to potential conflicts in greeter functionality.",
+          "Both arctica-greeter and lightdm-autologin-greeter provide lightdm-greeter, which could lead to conflicts during installation or runtime.",
+          "Both arctica-greeter and lightdm-autologin-greeter provide lightdm-greeter, leading to potential conflicts during installation or runtime."
+        ]
+      },
+      {
+        "source": "slick-greeter",
+        "target": "x2gothinclient-minidesktop",
+        "count": 4,
+        "explicit_count": 4,
+        "probability_proxy": 0.18181818181818182,
+        "semantic_strength": 0.75,
+        "pair_score": 0.6321587425382119,
+        "reasons": [
+          "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts.",
+          "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts.",
+          "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+        ]
+      },
+      {
+        "source": "lightdm-autologin-greeter",
+        "target": "x2gothinclient-minidesktop",
+        "count": 4,
+        "explicit_count": 4,
+        "probability_proxy": 0.18181818181818182,
+        "semantic_strength": 0.75,
+        "pair_score": 0.6064879462292577,
+        "reasons": [
+          "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts.",
+          "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts.",
+          "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+        ]
+      },
+      {
+        "source": "lightdm-autologin-greeter",
+        "target": "slick-greeter",
+        "count": 5,
+        "explicit_count": 5,
+        "probability_proxy": 0.22727272727272727,
+        "semantic_strength": 0.65,
+        "pair_score": 0.6012399467777265,
+        "reasons": [
+          "Both `slick-greeter` and `lightdm-autologin-greeter` provide the `lightdm-greeter` interface, which could lead to runtime conflicts or misconfigurations.",
+          "Both `slick-greeter` and `lightdm-autologin-greeter` provide `lightdm-greeter`, which could lead to incompatibilities if both are installed simultaneously.",
+          "Both records provide lightdm-greeter functionality, leading to potential incompatibilities if both are installed."
+        ]
+      }
+    ],
+    "evidence_risk_subgraph_nodes": [
+      "arctica-greeter",
+      "lightdm",
+      "lightdm-autologin-greeter",
+      "slick-greeter"
+    ],
+    "evidence_risk_subgraph_size": 4,
+    "evidence_compression_ratio": 0.19999999999999996,
+    "evidence_subgraph_policy": "blind dynamic evidence accumulator seeded by OC and rollout Conflict Probability Matrix with persistent pair-level evidence memory; capped by SCC size",
+    "evidence_subgraph_cap": 4,
+    "trace_events": [
+      {
+        "completion_index": 1,
+        "iteration": 6,
+        "window": [
+          "x2gothinclient-minidesktop",
+          "lightdm",
+          "slick-greeter",
+          "lightdm-autologin-greeter"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "x2gothinclient-minidesktop": 0.7,
+          "lightdm": 0.3,
+          "slick-greeter": 0.2,
+          "lightdm-autologin-greeter": 0.2
+        },
+        "local_risk_subgraph_nodes": [
+          "x2gothinclient-minidesktop",
+          "lightdm",
+          "slick-greeter",
+          "lightdm-autologin-greeter"
+        ],
+        "repair_entry_nodes": [
+          "x2gothinclient-minidesktop",
+          "slick-greeter",
+          "lightdm-autologin-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "lightdm",
+            "reason": "The `x2gothinclient-minidesktop` package depends on `lightdm` but also has complex dependency relationships and conflicts (`Conflicts` and `Replaces`) that could destabilize the graph."
+          },
+          {
+            "source": "slick-greeter",
+            "target": "lightdm-autologin-greeter",
+            "reason": "Both `slick-greeter` and `lightdm-autologin-greeter` provide `lightdm-greeter`, which could lead to incompatibilities if both are installed simultaneously."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "x2gothinclient-minidesktop",
+            "clause_b": "lightdm",
+            "description": "The `x2gothinclient-minidesktop` package depends on `lightdm` but also introduces potential conflicts due to its `Conflicts` and `Replaces` relationships with related packages."
+          },
+          {
+            "clause_a": "slick-greeter",
+            "clause_b": "lightdm-autologin-greeter",
+            "description": "Both `slick-greeter` and `lightdm-autologin-greeter` provide the `lightdm-greeter` interface, which could lead to runtime conflicts or misconfigurations."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.7,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.3,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.2,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.2,
+            "visit_count": 1
+          }
+        ]
+      },
+      {
+        "completion_index": 2,
+        "iteration": 7,
+        "window": [
+          "slick-greeter",
+          "lightdm",
+          "x2gothinclient-minidesktop",
+          "arctica-greeter"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "slick-greeter": 0.3,
+          "lightdm": 0.5,
+          "x2gothinclient-minidesktop": 0.4,
+          "arctica-greeter": 0.6
+        },
+        "local_risk_subgraph_nodes": [
+          "slick-greeter",
+          "lightdm",
+          "arctica-greeter"
+        ],
+        "repair_entry_nodes": [
+          "slick-greeter",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "arctica-greeter",
+            "target": "slick-greeter",
+            "reason": "'arctica-greeter' requires the new interface class, but 'slick-greeter' remains in the legacy interface class, creating a potential incompatibility."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "'lightdm' references 'arctica-greeter' and may not enforce the new interface class required by 'arctica-greeter', leading to structural inconsistency."
+          },
+          {
+            "source": "lightdm",
+            "target": "slick-greeter",
+            "reason": "'lightdm' references 'slick-greeter', which remains in the legacy interface class. This could lead to compatibility issues if 'lightdm' expects the new interface class."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "slick-greeter",
+            "description": "'arctica-greeter' requires the new interface class for its configuration, but 'slick-greeter' remains in the legacy interface class, creating a direct conflict in compatibility."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "arctica-greeter",
+            "description": "'lightdm' references 'arctica-greeter' but does not enforce the new interface class required by 'arctica-greeter', leading to a potential structural mismatch."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "slick-greeter",
+            "description": "'lightdm' references 'slick-greeter', which remains in the legacy interface class, potentially causing issues if 'lightdm' expects a unified interface class."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.6,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.55,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.4,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.25,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.2,
+            "visit_count": 1
+          }
+        ]
+      },
+      {
+        "completion_index": 3,
+        "iteration": 5,
+        "window": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "arctica-greeter": 0.8,
+          "lightdm": 0.5,
+          "lightdm-autologin-greeter": 0.2,
+          "slick-greeter": 0.7
+        },
+        "local_risk_subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter"
+        ],
+        "repair_entry_nodes": [
+          "arctica-greeter",
+          "slick-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "arctica-greeter",
+            "target": "slick-greeter",
+            "reason": "Arctica-greeter requires the new interface class for handoff, while slick-greeter remains in the legacy interface class, creating a direct incompatibility."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "LightDM references arctica-greeter, which depends on the new interface class, but also references slick-greeter, which uses the legacy interface class. This creates structural inconsistency in LightDM's dependency graph."
+          },
+          {
+            "source": "lightdm",
+            "target": "slick-greeter",
+            "reason": "LightDM references slick-greeter, which uses the legacy interface class, conflicting with arctica-greeter's requirement for the new interface class."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "slick-greeter",
+            "description": "The interface class requirements of these two records are incompatible, leading to a conflict in the dependency graph."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "arctica-greeter",
+            "description": "LightDM's dependency on arctica-greeter introduces structural inconsistency due to conflicting interface class requirements with slick-greeter."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "slick-greeter",
+            "description": "LightDM's dependency on slick-greeter introduces structural inconsistency due to conflicting interface class requirements with arctica-greeter."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.7,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.55,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.43333333333333335,
+            "visit_count": 3
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.39999999999999997,
+            "visit_count": 3
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.2,
+            "visit_count": 2
+          }
+        ]
+      },
+      {
+        "completion_index": 4,
+        "iteration": 8,
+        "window": [
+          "x2gothinclient-minidesktop",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "x2gothinclient-minidesktop": 0.7,
+          "lightdm": 0.5,
+          "lightdm-autologin-greeter": 0.4,
+          "slick-greeter": 0.4
+        },
+        "local_risk_subgraph_nodes": [
+          "x2gothinclient-minidesktop",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "repair_entry_nodes": [
+          "x2gothinclient-minidesktop",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "lightdm",
+            "reason": "x2gothinclient-minidesktop depends on lightdm and provides lightdm-greeter, which may interfere with other greeter packages also providing the same functionality."
+          },
+          {
+            "source": "lightdm-autologin-greeter",
+            "target": "slick-greeter",
+            "reason": "Both records provide lightdm-greeter, leading to potential conflicts if both are installed simultaneously."
+          },
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "lightdm-autologin-greeter",
+            "reason": "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+          },
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "slick-greeter",
+            "reason": "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "lightdm-autologin-greeter",
+            "clause_b": "slick-greeter",
+            "description": "Both records provide lightdm-greeter functionality, leading to potential incompatibilities if both are installed."
+          },
+          {
+            "clause_a": "x2gothinclient-minidesktop",
+            "clause_b": "lightdm-autologin-greeter",
+            "description": "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+          },
+          {
+            "clause_a": "x2gothinclient-minidesktop",
+            "clause_b": "slick-greeter",
+            "description": "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.7,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.6,
+            "visit_count": 3
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.45,
+            "visit_count": 4
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.4,
+            "visit_count": 4
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.26666666666666666,
+            "visit_count": 3
+          }
+        ]
+      },
+      {
+        "completion_index": 5,
+        "iteration": 3,
+        "window": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter",
+          "lightdm-autologin-greeter"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "arctica-greeter": 0.5,
+          "lightdm": 0.3,
+          "slick-greeter": 0.7,
+          "lightdm-autologin-greeter": 0.2
+        },
+        "local_risk_subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter"
+        ],
+        "repair_entry_nodes": [
+          "slick-greeter",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "arctica-greeter",
+            "target": "slick-greeter",
+            "reason": "arctica-greeter requires the new interface class for configuration, while slick-greeter operates in the legacy interface class, creating a direct incompatibility."
+          },
+          {
+            "source": "lightdm",
+            "target": "slick-greeter",
+            "reason": "LightDM references slick-greeter, which operates in the legacy interface class, potentially conflicting with its reference to arctica-greeter requiring the new interface class."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "slick-greeter",
+            "description": "arctica-greeter requires the new interface class for configuration, while slick-greeter explicitly remains in the legacy interface class, creating a structural incompatibility."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "slick-greeter",
+            "description": "LightDM references slick-greeter, which operates in the legacy interface class, potentially conflicting with its reference to arctica-greeter requiring the new interface class."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.6333333333333333,
+            "visit_count": 3
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.6,
+            "visit_count": 3
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.45999999999999996,
+            "visit_count": 5
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.42000000000000004,
+            "visit_count": 5
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.25,
+            "visit_count": 4
+          }
+        ]
+      },
+      {
+        "completion_index": 6,
+        "iteration": 1,
+        "window": [
+          "arctica-greeter",
+          "lightdm",
+          "x2gothinclient-minidesktop",
+          "slick-greeter"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "arctica-greeter": 0.5,
+          "lightdm": 0.7,
+          "x2gothinclient-minidesktop": 0.4,
+          "slick-greeter": 0.6
+        },
+        "local_risk_subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter"
+        ],
+        "repair_entry_nodes": [
+          "lightdm",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "arctica-greeter",
+            "target": "slick-greeter",
+            "reason": "Arctica-greeter requires the new interface class for configuration, while slick-greeter explicitly remains in the legacy interface class, creating a structural incompatibility."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "LightDM references arctica-greeter, which requires the new interface class, but LightDM also references slick-greeter, which stays in the legacy interface class. This dual dependency creates a conflict in interface class expectations."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "slick-greeter",
+            "description": "Arctica-greeter requires the new interface class for proper configuration, while slick-greeter remains in the legacy interface class, creating a direct incompatibility between these greeters."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "slick-greeter",
+            "description": "LightDM references slick-greeter, which remains in the legacy interface class, while LightDM also references arctica-greeter, which requires the new interface class. This creates conflicting expectations for interface class compatibility."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.6,
+            "visit_count": 4
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.55,
+            "visit_count": 4
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.48333333333333334,
+            "visit_count": 6
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.4666666666666666,
+            "visit_count": 6
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.25,
+            "visit_count": 4
+          }
+        ]
+      },
+      {
+        "completion_index": 7,
+        "iteration": 4,
+        "window": [
+          "lightdm",
+          "arctica-greeter",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "lightdm": 0.3,
+          "arctica-greeter": 0.5,
+          "lightdm-autologin-greeter": 0.2,
+          "slick-greeter": 0.4
+        },
+        "local_risk_subgraph_nodes": [
+          "lightdm",
+          "arctica-greeter",
+          "slick-greeter"
+        ],
+        "repair_entry_nodes": [
+          "arctica-greeter",
+          "slick-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "arctica-greeter",
+            "target": "slick-greeter",
+            "reason": "arctica-greeter requires the 'new interface class' for handoff, while slick-greeter explicitly remains in the 'legacy interface class,' creating a structural incompatibility."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "lightdm references arctica-greeter but does not enforce the 'new interface class' requirement, potentially leading to misconfiguration."
+          },
+          {
+            "source": "lightdm",
+            "target": "slick-greeter",
+            "reason": "lightdm references slick-greeter but does not account for its reliance on the 'legacy interface class,' which conflicts with arctica-greeter's requirements."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "slick-greeter",
+            "description": "arctica-greeter requires the 'new interface class,' while slick-greeter remains in the 'legacy interface class,' making them mutually incompatible."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "arctica-greeter",
+            "description": "lightdm references arctica-greeter but does not enforce its 'new interface class' requirement, leading to potential misconfiguration."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "slick-greeter",
+            "description": "lightdm references slick-greeter but does not account for its reliance on the 'legacy interface class,' which conflicts with arctica-greeter's requirements."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.58,
+            "visit_count": 5
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.55,
+            "visit_count": 4
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.4714285714285714,
+            "visit_count": 7
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.4428571428571428,
+            "visit_count": 7
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.24,
+            "visit_count": 5
+          }
+        ]
+      },
+      {
+        "completion_index": 8,
+        "iteration": 2,
+        "window": [
+          "lightdm-autologin-greeter",
+          "lightdm",
+          "slick-greeter",
+          "arctica-greeter"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "lightdm-autologin-greeter": 0.3,
+          "lightdm": 0.6,
+          "slick-greeter": 0.4,
+          "arctica-greeter": 0.5
+        },
+        "local_risk_subgraph_nodes": [
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter",
+          "arctica-greeter"
+        ],
+        "repair_entry_nodes": [
+          "lightdm",
+          "slick-greeter",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "lightdm",
+            "target": "slick-greeter",
+            "reason": "The legacy interface class used by 'slick-greeter' may conflict with the requirements of 'lightdm' or other greeters during migration."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "'arctica-greeter' requires the handoff to be in the new interface class, which may conflict with 'lightdm' or other greeters still using the legacy interface."
+          },
+          {
+            "source": "slick-greeter",
+            "target": "arctica-greeter",
+            "reason": "The legacy interface class used by 'slick-greeter' may conflict with the new interface class required by 'arctica-greeter'."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "slick-greeter",
+            "clause_b": "arctica-greeter",
+            "description": "'slick-greeter' relies on a legacy interface class, while 'arctica-greeter' requires the new interface class. This creates a direct incompatibility between the two greeters."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "arctica-greeter",
+            "description": "'arctica-greeter' requires the new interface class for handoff, but 'lightdm' does not enforce or specify the interface class, creating potential ambiguity or misconfiguration."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "slick-greeter",
+            "description": "'slick-greeter' uses a legacy interface class, which may not be fully compatible with 'lightdm' during migration to the new interface class."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5666666666666667,
+            "visit_count": 6
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.55,
+            "visit_count": 4
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.46249999999999997,
+            "visit_count": 8
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.46249999999999997,
+            "visit_count": 8
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.25,
+            "visit_count": 6
+          }
+        ]
+      },
+      {
+        "completion_index": 9,
+        "iteration": 9,
+        "window": [
+          "x2gothinclient-minidesktop",
+          "lightdm",
+          "slick-greeter",
+          "arctica-greeter"
+        ],
+        "is_tt_hit": true,
+        "scores": {
+          "arctica-greeter": 0.5,
+          "lightdm": 0.7,
+          "x2gothinclient-minidesktop": 0.4,
+          "slick-greeter": 0.6
+        },
+        "local_risk_subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter"
+        ],
+        "repair_entry_nodes": [
+          "lightdm",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "arctica-greeter",
+            "target": "slick-greeter",
+            "reason": "Arctica-greeter requires the new interface class for configuration, while slick-greeter explicitly remains in the legacy interface class, creating a structural incompatibility."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "LightDM references arctica-greeter, which requires the new interface class, but LightDM also references slick-greeter, which stays in the legacy interface class. This dual dependency creates a conflict in interface class expectations."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "slick-greeter",
+            "description": "Arctica-greeter requires the new interface class for proper configuration, while slick-greeter remains in the legacy interface class, creating a direct incompatibility between these greeters."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "slick-greeter",
+            "description": "LightDM references slick-greeter, which remains in the legacy interface class, while LightDM also references arctica-greeter, which requires the new interface class. This creates conflicting expectations for interface class compatibility."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5571428571428572,
+            "visit_count": 7
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.52,
+            "visit_count": 5
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.4888888888888888,
+            "visit_count": 9
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.47777777777777775,
+            "visit_count": 9
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.25,
+            "visit_count": 6
+          }
+        ]
+      },
+      {
+        "completion_index": 10,
+        "iteration": 10,
+        "window": [
+          "arctica-greeter",
+          "lightdm",
+          "x2gothinclient-minidesktop",
+          "slick-greeter"
+        ],
+        "is_tt_hit": true,
+        "scores": {
+          "arctica-greeter": 0.5,
+          "lightdm": 0.7,
+          "x2gothinclient-minidesktop": 0.4,
+          "slick-greeter": 0.6
+        },
+        "local_risk_subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter"
+        ],
+        "repair_entry_nodes": [
+          "lightdm",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "arctica-greeter",
+            "target": "slick-greeter",
+            "reason": "Arctica-greeter requires the new interface class for configuration, while slick-greeter explicitly remains in the legacy interface class, creating a structural incompatibility."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "LightDM references arctica-greeter, which requires the new interface class, but LightDM also references slick-greeter, which stays in the legacy interface class. This dual dependency creates a conflict in interface class expectations."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "slick-greeter",
+            "description": "Arctica-greeter requires the new interface class for proper configuration, while slick-greeter remains in the legacy interface class, creating a direct incompatibility between these greeters."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "slick-greeter",
+            "description": "LightDM references slick-greeter, which remains in the legacy interface class, while LightDM also references arctica-greeter, which requires the new interface class. This creates conflicting expectations for interface class compatibility."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.55,
+            "visit_count": 8
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.51,
+            "visit_count": 10
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5,
+            "visit_count": 6
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.48999999999999994,
+            "visit_count": 10
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.25,
+            "visit_count": 6
+          }
+        ]
+      },
+      {
+        "completion_index": 11,
+        "iteration": 11,
+        "window": [
+          "lightdm",
+          "slick-greeter",
+          "lightdm-autologin-greeter",
+          "arctica-greeter"
+        ],
+        "is_tt_hit": true,
+        "scores": {
+          "lightdm-autologin-greeter": 0.3,
+          "lightdm": 0.6,
+          "slick-greeter": 0.4,
+          "arctica-greeter": 0.5
+        },
+        "local_risk_subgraph_nodes": [
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter",
+          "arctica-greeter"
+        ],
+        "repair_entry_nodes": [
+          "lightdm",
+          "slick-greeter",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "lightdm",
+            "target": "slick-greeter",
+            "reason": "The legacy interface class used by 'slick-greeter' may conflict with the requirements of 'lightdm' or other greeters during migration."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "'arctica-greeter' requires the handoff to be in the new interface class, which may conflict with 'lightdm' or other greeters still using the legacy interface."
+          },
+          {
+            "source": "slick-greeter",
+            "target": "arctica-greeter",
+            "reason": "The legacy interface class used by 'slick-greeter' may conflict with the new interface class required by 'arctica-greeter'."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "slick-greeter",
+            "clause_b": "arctica-greeter",
+            "description": "'slick-greeter' relies on a legacy interface class, while 'arctica-greeter' requires the new interface class. This creates a direct incompatibility between the two greeters."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "arctica-greeter",
+            "description": "'arctica-greeter' requires the new interface class for handoff, but 'lightdm' does not enforce or specify the interface class, creating potential ambiguity or misconfiguration."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "slick-greeter",
+            "description": "'slick-greeter' uses a legacy interface class, which may not be fully compatible with 'lightdm' during migration to the new interface class."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5444444444444445,
+            "visit_count": 9
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.5181818181818181,
+            "visit_count": 11
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5,
+            "visit_count": 6
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.4818181818181818,
+            "visit_count": 11
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.2571428571428572,
+            "visit_count": 7
+          }
+        ]
+      },
+      {
+        "completion_index": 12,
+        "iteration": 12,
+        "window": [
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "arctica-greeter",
+          "slick-greeter"
+        ],
+        "is_tt_hit": true,
+        "scores": {
+          "lightdm-autologin-greeter": 0.3,
+          "lightdm": 0.6,
+          "slick-greeter": 0.4,
+          "arctica-greeter": 0.5
+        },
+        "local_risk_subgraph_nodes": [
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter",
+          "arctica-greeter"
+        ],
+        "repair_entry_nodes": [
+          "lightdm",
+          "slick-greeter",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "lightdm",
+            "target": "slick-greeter",
+            "reason": "The legacy interface class used by 'slick-greeter' may conflict with the requirements of 'lightdm' or other greeters during migration."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "'arctica-greeter' requires the handoff to be in the new interface class, which may conflict with 'lightdm' or other greeters still using the legacy interface."
+          },
+          {
+            "source": "slick-greeter",
+            "target": "arctica-greeter",
+            "reason": "The legacy interface class used by 'slick-greeter' may conflict with the new interface class required by 'arctica-greeter'."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "slick-greeter",
+            "clause_b": "arctica-greeter",
+            "description": "'slick-greeter' relies on a legacy interface class, while 'arctica-greeter' requires the new interface class. This creates a direct incompatibility between the two greeters."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "arctica-greeter",
+            "description": "'arctica-greeter' requires the new interface class for handoff, but 'lightdm' does not enforce or specify the interface class, creating potential ambiguity or misconfiguration."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "slick-greeter",
+            "description": "'slick-greeter' uses a legacy interface class, which may not be fully compatible with 'lightdm' during migration to the new interface class."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.54,
+            "visit_count": 10
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.5249999999999999,
+            "visit_count": 12
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5,
+            "visit_count": 6
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.47500000000000003,
+            "visit_count": 12
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.2625,
+            "visit_count": 8
+          }
+        ]
+      },
+      {
+        "completion_index": 13,
+        "iteration": 13,
+        "window": [
+          "x2gothinclient-minidesktop",
+          "lightdm",
+          "slick-greeter",
+          "lightdm-autologin-greeter"
+        ],
+        "is_tt_hit": true,
+        "scores": {
+          "x2gothinclient-minidesktop": 0.7,
+          "lightdm": 0.5,
+          "lightdm-autologin-greeter": 0.4,
+          "slick-greeter": 0.4
+        },
+        "local_risk_subgraph_nodes": [
+          "x2gothinclient-minidesktop",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "repair_entry_nodes": [
+          "x2gothinclient-minidesktop",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "lightdm",
+            "reason": "x2gothinclient-minidesktop depends on lightdm and provides lightdm-greeter, which may interfere with other greeter packages also providing the same functionality."
+          },
+          {
+            "source": "lightdm-autologin-greeter",
+            "target": "slick-greeter",
+            "reason": "Both records provide lightdm-greeter, leading to potential conflicts if both are installed simultaneously."
+          },
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "lightdm-autologin-greeter",
+            "reason": "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+          },
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "slick-greeter",
+            "reason": "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "lightdm-autologin-greeter",
+            "clause_b": "slick-greeter",
+            "description": "Both records provide lightdm-greeter functionality, leading to potential incompatibilities if both are installed."
+          },
+          {
+            "clause_a": "x2gothinclient-minidesktop",
+            "clause_b": "lightdm-autologin-greeter",
+            "description": "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+          },
+          {
+            "clause_a": "x2gothinclient-minidesktop",
+            "clause_b": "slick-greeter",
+            "description": "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.54,
+            "visit_count": 10
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5285714285714286,
+            "visit_count": 7
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.523076923076923,
+            "visit_count": 13
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.4692307692307693,
+            "visit_count": 13
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.2777777777777778,
+            "visit_count": 9
+          }
+        ]
+      },
+      {
+        "completion_index": 14,
+        "iteration": 14,
+        "window": [
+          "arctica-greeter",
+          "lightdm",
+          "x2gothinclient-minidesktop",
+          "slick-greeter"
+        ],
+        "is_tt_hit": true,
+        "scores": {
+          "arctica-greeter": 0.5,
+          "lightdm": 0.7,
+          "x2gothinclient-minidesktop": 0.4,
+          "slick-greeter": 0.6
+        },
+        "local_risk_subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter"
+        ],
+        "repair_entry_nodes": [
+          "lightdm",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "arctica-greeter",
+            "target": "slick-greeter",
+            "reason": "Arctica-greeter requires the new interface class for configuration, while slick-greeter explicitly remains in the legacy interface class, creating a structural incompatibility."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "LightDM references arctica-greeter, which requires the new interface class, but LightDM also references slick-greeter, which stays in the legacy interface class. This dual dependency creates a conflict in interface class expectations."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "slick-greeter",
+            "description": "Arctica-greeter requires the new interface class for proper configuration, while slick-greeter remains in the legacy interface class, creating a direct incompatibility between these greeters."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "slick-greeter",
+            "description": "LightDM references slick-greeter, which remains in the legacy interface class, while LightDM also references arctica-greeter, which requires the new interface class. This creates conflicting expectations for interface class compatibility."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5363636363636364,
+            "visit_count": 11
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.5357142857142857,
+            "visit_count": 14
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5125000000000001,
+            "visit_count": 8
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.4785714285714286,
+            "visit_count": 14
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.2777777777777778,
+            "visit_count": 9
+          }
+        ]
+      },
+      {
+        "completion_index": 15,
+        "iteration": 15,
+        "window": [
+          "lightdm-autologin-greeter",
+          "lightdm",
+          "arctica-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "lightdm-autologin-greeter": 0.2,
+          "lightdm": 0.5,
+          "arctica-greeter": 0.4,
+          "x2gothinclient-minidesktop": 0.3
+        },
+        "local_risk_subgraph_nodes": [
+          "lightdm",
+          "arctica-greeter",
+          "lightdm-autologin-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "repair_entry_nodes": [
+          "lightdm",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "arctica-greeter",
+            "target": "lightdm",
+            "reason": "arctica-greeter requires specific configuration ('handoff in the new interface class') that may not align with lightdm's expectations or other greeters."
+          },
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "lightdm",
+            "reason": "x2gothinclient-minidesktop provides lightdm-greeter but acts as a 'pass-through' record, which may lead to underspecification or conflicts with lightdm's requirements."
+          },
+          {
+            "source": "lightdm-autologin-greeter",
+            "target": "lightdm",
+            "reason": "lightdm-autologin-greeter provides lightdm-greeter, but there is no mechanism to ensure compatibility with other greeters, leading to potential conflicts."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "lightdm",
+            "description": "arctica-greeter's requirement for a specific 'handoff in the new interface class' may not align with lightdm's expectations or other greeters, creating a potential incompatibility."
+          },
+          {
+            "clause_a": "x2gothinclient-minidesktop",
+            "clause_b": "lightdm",
+            "description": "x2gothinclient-minidesktop's 'pass-through' nature may lead to underspecification or conflicts with lightdm's requirements for greeters."
+          },
+          {
+            "clause_a": "lightdm-autologin-greeter",
+            "clause_b": "arctica-greeter",
+            "description": "Both provide lightdm-greeter, but there is no mechanism to ensure mutual compatibility, leading to potential conflicts in greeter functionality."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.5333333333333333,
+            "visit_count": 15
+          },
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.525,
+            "visit_count": 12
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.48888888888888893,
+            "visit_count": 9
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.4785714285714286,
+            "visit_count": 14
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.27,
+            "visit_count": 10
+          }
+        ]
+      },
+      {
+        "completion_index": 16,
+        "iteration": 16,
+        "window": [
+          "x2gothinclient-minidesktop",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "arctica-greeter"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "x2gothinclient-minidesktop": 0.7,
+          "lightdm": 0.3,
+          "lightdm-autologin-greeter": 0.4,
+          "arctica-greeter": 0.6
+        },
+        "local_risk_subgraph_nodes": [
+          "x2gothinclient-minidesktop",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "arctica-greeter"
+        ],
+        "repair_entry_nodes": [
+          "x2gothinclient-minidesktop",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "lightdm",
+            "reason": "x2gothinclient-minidesktop depends on lightdm and provides lightdm-greeter, which could conflict with other greeters provided by lightdm."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "lightdm references arctica-greeter, which also provides lightdm-greeter, creating potential conflicts if multiple greeters are installed."
+          },
+          {
+            "source": "lightdm",
+            "target": "lightdm-autologin-greeter",
+            "reason": "lightdm references lightdm-autologin-greeter, which provides lightdm-greeter, creating potential conflicts with other greeters."
+          },
+          {
+            "source": "arctica-greeter",
+            "target": "lightdm-autologin-greeter",
+            "reason": "Both arctica-greeter and lightdm-autologin-greeter provide lightdm-greeter, leading to potential conflicts during installation or runtime."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "x2gothinclient-minidesktop",
+            "clause_b": "lightdm",
+            "description": "x2gothinclient-minidesktop depends on lightdm and provides lightdm-greeter, potentially conflicting with other greeters referenced by lightdm."
+          },
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "lightdm-autologin-greeter",
+            "description": "Both arctica-greeter and lightdm-autologin-greeter provide lightdm-greeter, which could lead to conflicts during installation or runtime."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "arctica-greeter",
+            "description": "lightdm references arctica-greeter, which provides lightdm-greeter, potentially leading to conflicts with other greeters."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5307692307692308,
+            "visit_count": 13
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.5187499999999999,
+            "visit_count": 16
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.51,
+            "visit_count": 10
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.4785714285714286,
+            "visit_count": 14
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.2818181818181818,
+            "visit_count": 11
+          }
+        ]
+      },
+      {
+        "completion_index": 17,
+        "iteration": 17,
+        "window": [
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "x2gothinclient-minidesktop",
+          "slick-greeter"
+        ],
+        "is_tt_hit": true,
+        "scores": {
+          "x2gothinclient-minidesktop": 0.7,
+          "lightdm": 0.5,
+          "lightdm-autologin-greeter": 0.4,
+          "slick-greeter": 0.4
+        },
+        "local_risk_subgraph_nodes": [
+          "x2gothinclient-minidesktop",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "repair_entry_nodes": [
+          "x2gothinclient-minidesktop",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "lightdm",
+            "reason": "x2gothinclient-minidesktop depends on lightdm and provides lightdm-greeter, which may interfere with other greeter packages also providing the same functionality."
+          },
+          {
+            "source": "lightdm-autologin-greeter",
+            "target": "slick-greeter",
+            "reason": "Both records provide lightdm-greeter, leading to potential conflicts if both are installed simultaneously."
+          },
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "lightdm-autologin-greeter",
+            "reason": "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+          },
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "slick-greeter",
+            "reason": "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "lightdm-autologin-greeter",
+            "clause_b": "slick-greeter",
+            "description": "Both records provide lightdm-greeter functionality, leading to potential incompatibilities if both are installed."
+          },
+          {
+            "clause_a": "x2gothinclient-minidesktop",
+            "clause_b": "lightdm-autologin-greeter",
+            "description": "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+          },
+          {
+            "clause_a": "x2gothinclient-minidesktop",
+            "clause_b": "slick-greeter",
+            "description": "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5307692307692308,
+            "visit_count": 13
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5272727272727273,
+            "visit_count": 11
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.5176470588235293,
+            "visit_count": 17
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.4733333333333334,
+            "visit_count": 15
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.2916666666666667,
+            "visit_count": 12
+          }
+        ]
+      },
+      {
+        "completion_index": 18,
+        "iteration": 20,
+        "window": [
+          "lightdm-autologin-greeter",
+          "lightdm",
+          "x2gothinclient-minidesktop",
+          "slick-greeter"
+        ],
+        "is_tt_hit": true,
+        "scores": {
+          "x2gothinclient-minidesktop": 0.7,
+          "lightdm": 0.5,
+          "lightdm-autologin-greeter": 0.4,
+          "slick-greeter": 0.4
+        },
+        "local_risk_subgraph_nodes": [
+          "x2gothinclient-minidesktop",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "repair_entry_nodes": [
+          "x2gothinclient-minidesktop",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "lightdm",
+            "reason": "x2gothinclient-minidesktop depends on lightdm and provides lightdm-greeter, which may interfere with other greeter packages also providing the same functionality."
+          },
+          {
+            "source": "lightdm-autologin-greeter",
+            "target": "slick-greeter",
+            "reason": "Both records provide lightdm-greeter, leading to potential conflicts if both are installed simultaneously."
+          },
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "lightdm-autologin-greeter",
+            "reason": "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+          },
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "slick-greeter",
+            "reason": "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "lightdm-autologin-greeter",
+            "clause_b": "slick-greeter",
+            "description": "Both records provide lightdm-greeter functionality, leading to potential incompatibilities if both are installed."
+          },
+          {
+            "clause_a": "x2gothinclient-minidesktop",
+            "clause_b": "lightdm-autologin-greeter",
+            "description": "x2gothinclient-minidesktop indirectly competes with lightdm-autologin-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+          },
+          {
+            "clause_a": "x2gothinclient-minidesktop",
+            "clause_b": "slick-greeter",
+            "description": "x2gothinclient-minidesktop indirectly competes with slick-greeter by providing lightdm-greeter, which could lead to configuration conflicts."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5416666666666667,
+            "visit_count": 12
+          },
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5307692307692308,
+            "visit_count": 13
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.5166666666666666,
+            "visit_count": 18
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.46875000000000006,
+            "visit_count": 16
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.3,
+            "visit_count": 13
+          }
+        ]
+      },
+      {
+        "completion_index": 19,
+        "iteration": 21,
+        "window": [
+          "lightdm-autologin-greeter",
+          "lightdm",
+          "slick-greeter",
+          "arctica-greeter"
+        ],
+        "is_tt_hit": true,
+        "scores": {
+          "lightdm-autologin-greeter": 0.3,
+          "lightdm": 0.6,
+          "slick-greeter": 0.4,
+          "arctica-greeter": 0.5
+        },
+        "local_risk_subgraph_nodes": [
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter",
+          "arctica-greeter"
+        ],
+        "repair_entry_nodes": [
+          "lightdm",
+          "slick-greeter",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "lightdm",
+            "target": "slick-greeter",
+            "reason": "The legacy interface class used by 'slick-greeter' may conflict with the requirements of 'lightdm' or other greeters during migration."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "'arctica-greeter' requires the handoff to be in the new interface class, which may conflict with 'lightdm' or other greeters still using the legacy interface."
+          },
+          {
+            "source": "slick-greeter",
+            "target": "arctica-greeter",
+            "reason": "The legacy interface class used by 'slick-greeter' may conflict with the new interface class required by 'arctica-greeter'."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "slick-greeter",
+            "clause_b": "arctica-greeter",
+            "description": "'slick-greeter' relies on a legacy interface class, while 'arctica-greeter' requires the new interface class. This creates a direct incompatibility between the two greeters."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "arctica-greeter",
+            "description": "'arctica-greeter' requires the new interface class for handoff, but 'lightdm' does not enforce or specify the interface class, creating potential ambiguity or misconfiguration."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "slick-greeter",
+            "description": "'slick-greeter' uses a legacy interface class, which may not be fully compatible with 'lightdm' during migration to the new interface class."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5416666666666667,
+            "visit_count": 12
+          },
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5285714285714286,
+            "visit_count": 14
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.5210526315789473,
+            "visit_count": 19
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.46470588235294125,
+            "visit_count": 17
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.3,
+            "visit_count": 14
+          }
+        ]
+      },
+      {
+        "completion_index": 20,
+        "iteration": 24,
+        "window": [
+          "x2gothinclient-minidesktop",
+          "lightdm",
+          "arctica-greeter",
+          "lightdm-autologin-greeter"
+        ],
+        "is_tt_hit": true,
+        "scores": {
+          "x2gothinclient-minidesktop": 0.7,
+          "lightdm": 0.3,
+          "lightdm-autologin-greeter": 0.4,
+          "arctica-greeter": 0.6
+        },
+        "local_risk_subgraph_nodes": [
+          "x2gothinclient-minidesktop",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "arctica-greeter"
+        ],
+        "repair_entry_nodes": [
+          "x2gothinclient-minidesktop",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "lightdm",
+            "reason": "x2gothinclient-minidesktop depends on lightdm and provides lightdm-greeter, which could conflict with other greeters provided by lightdm."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "lightdm references arctica-greeter, which also provides lightdm-greeter, creating potential conflicts if multiple greeters are installed."
+          },
+          {
+            "source": "lightdm",
+            "target": "lightdm-autologin-greeter",
+            "reason": "lightdm references lightdm-autologin-greeter, which provides lightdm-greeter, creating potential conflicts with other greeters."
+          },
+          {
+            "source": "arctica-greeter",
+            "target": "lightdm-autologin-greeter",
+            "reason": "Both arctica-greeter and lightdm-autologin-greeter provide lightdm-greeter, leading to potential conflicts during installation or runtime."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "x2gothinclient-minidesktop",
+            "clause_b": "lightdm",
+            "description": "x2gothinclient-minidesktop depends on lightdm and provides lightdm-greeter, potentially conflicting with other greeters referenced by lightdm."
+          },
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "lightdm-autologin-greeter",
+            "description": "Both arctica-greeter and lightdm-autologin-greeter provide lightdm-greeter, which could lead to conflicts during installation or runtime."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "arctica-greeter",
+            "description": "lightdm references arctica-greeter, which provides lightdm-greeter, potentially leading to conflicts with other greeters."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5538461538461539,
+            "visit_count": 13
+          },
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5333333333333333,
+            "visit_count": 15
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.51,
+            "visit_count": 20
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.46470588235294125,
+            "visit_count": 17
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.3066666666666667,
+            "visit_count": 15
+          }
+        ]
+      },
+      {
+        "completion_index": 21,
+        "iteration": 22,
+        "window": [
+          "lightdm-autologin-greeter",
+          "lightdm",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "lightdm-autologin-greeter": 0.3,
+          "lightdm": 0.5,
+          "slick-greeter": 0.4,
+          "x2gothinclient-minidesktop": 0.3
+        },
+        "local_risk_subgraph_nodes": [
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "repair_entry_nodes": [
+          "lightdm",
+          "slick-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "lightdm",
+            "target": "slick-greeter",
+            "reason": "Dependency on 'lightdm-greeter' is ambiguous, and slick-greeter does not act as a conversion point for interface migration, potentially causing compatibility issues."
+          },
+          {
+            "source": "lightdm",
+            "target": "lightdm-autologin-greeter",
+            "reason": "Circular dependency between 'lightdm' and 'lightdm-autologin-greeter' increases configuration complexity."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "lightdm",
+            "clause_b": "slick-greeter",
+            "description": "The ambiguity in 'lightdm' dependencies on 'lightdm-greeter' and the lack of interface conversion in 'slick-greeter' may lead to compatibility issues."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "lightdm-autologin-greeter",
+            "description": "The circular dependency between 'lightdm' and 'lightdm-autologin-greeter' increases the risk of misconfiguration."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5357142857142858,
+            "visit_count": 14
+          },
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5333333333333333,
+            "visit_count": 15
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.5095238095238095,
+            "visit_count": 21
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.46111111111111114,
+            "visit_count": 18
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.30625,
+            "visit_count": 16
+          }
+        ]
+      },
+      {
+        "completion_index": 22,
+        "iteration": 23,
+        "window": [
+          "lightdm",
+          "arctica-greeter",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "lightdm": 0.3,
+          "arctica-greeter": 0.5,
+          "slick-greeter": 0.4,
+          "x2gothinclient-minidesktop": 0.2
+        },
+        "local_risk_subgraph_nodes": [
+          "lightdm",
+          "arctica-greeter",
+          "slick-greeter"
+        ],
+        "repair_entry_nodes": [
+          "arctica-greeter",
+          "slick-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "arctica-greeter",
+            "target": "slick-greeter",
+            "reason": "Arctica-greeter requires the new interface class, while slick-greeter explicitly remains in the legacy interface class. This creates a structural incompatibility between the two greeters."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "slick-greeter",
+            "description": "Arctica-greeter requires the new interface class for its handoff, while slick-greeter explicitly operates in the legacy interface class. This mismatch could lead to runtime or configuration issues when both are used with LightDM."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.53125,
+            "visit_count": 16
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5133333333333334,
+            "visit_count": 15
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.5,
+            "visit_count": 22
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.4578947368421053,
+            "visit_count": 19
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.30625,
+            "visit_count": 16
+          }
+        ]
+      },
+      {
+        "completion_index": 23,
+        "iteration": 18,
+        "window": [
+          "slick-greeter",
+          "lightdm",
+          "arctica-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "slick-greeter": 0.2,
+          "lightdm": 0.4,
+          "arctica-greeter": 0.6,
+          "x2gothinclient-minidesktop": 0.3
+        },
+        "local_risk_subgraph_nodes": [
+          "slick-greeter",
+          "lightdm",
+          "arctica-greeter"
+        ],
+        "repair_entry_nodes": [
+          "lightdm",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "lightdm",
+            "target": "slick-greeter",
+            "reason": "LightDM references slick-greeter, which remains in the legacy interface class, potentially causing compatibility issues with other greeters requiring the new interface class."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "LightDM references arctica-greeter, which requires the new interface class, but LightDM may provide a legacy interface class due to its dependency on slick-greeter."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "slick-greeter",
+            "clause_b": "arctica-greeter",
+            "description": "Slick-greeter operates in the legacy interface class, while arctica-greeter requires the new interface class. This creates a structural incompatibility when both are referenced by LightDM."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "arctica-greeter",
+            "description": "LightDM may provide a legacy interface class due to its dependency on slick-greeter, which conflicts with arctica-greeter's requirement for the new interface class."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5352941176470588,
+            "visit_count": 17
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5000000000000001,
+            "visit_count": 16
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.4956521739130435,
+            "visit_count": 23
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.445,
+            "visit_count": 20
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.30625,
+            "visit_count": 16
+          }
+        ]
+      },
+      {
+        "completion_index": 24,
+        "iteration": 19,
+        "window": [
+          "arctica-greeter",
+          "lightdm",
+          "x2gothinclient-minidesktop",
+          "slick-greeter"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "arctica-greeter": 0.7,
+          "lightdm": 0.5,
+          "x2gothinclient-minidesktop": 0.3,
+          "slick-greeter": 0.6
+        },
+        "local_risk_subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter"
+        ],
+        "repair_entry_nodes": [
+          "arctica-greeter",
+          "slick-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "arctica-greeter",
+            "target": "lightdm",
+            "reason": "'arctica-greeter' requires the new interface class for configuration, but 'lightdm' interacts with greeters that maintain the legacy interface class, creating a potential mismatch."
+          },
+          {
+            "source": "lightdm",
+            "target": "slick-greeter",
+            "reason": "'lightdm' references 'slick-greeter', which explicitly maintains the legacy interface class, potentially conflicting with 'arctica-greeter's' requirement for the new interface class."
+          },
+          {
+            "source": "arctica-greeter",
+            "target": "slick-greeter",
+            "reason": "Direct conflict between 'arctica-greeter' (new interface class) and 'slick-greeter' (legacy interface class) with no conversion point in 'lightdm'."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "slick-greeter",
+            "description": "'arctica-greeter' requires the new interface class for configuration, while 'slick-greeter' explicitly maintains the legacy interface class. There is no intermediate conversion point in 'lightdm' to resolve this mismatch."
+          },
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "lightdm",
+            "description": "'arctica-greeter' depends on 'lightdm', but 'lightdm' interacts with greeters ('slick-greeter') that maintain the legacy interface class, creating a structural inconsistency."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5444444444444444,
+            "visit_count": 18
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.49583333333333335,
+            "visit_count": 24
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.4882352941176472,
+            "visit_count": 17
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.4523809523809524,
+            "visit_count": 21
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.30625,
+            "visit_count": 16
+          }
+        ]
+      },
+      {
+        "completion_index": 25,
+        "iteration": 25,
+        "window": [
+          "arctica-greeter",
+          "lightdm",
+          "x2gothinclient-minidesktop",
+          "lightdm-autologin-greeter"
+        ],
+        "is_tt_hit": true,
+        "scores": {
+          "x2gothinclient-minidesktop": 0.7,
+          "lightdm": 0.3,
+          "lightdm-autologin-greeter": 0.4,
+          "arctica-greeter": 0.6
+        },
+        "local_risk_subgraph_nodes": [
+          "x2gothinclient-minidesktop",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "arctica-greeter"
+        ],
+        "repair_entry_nodes": [
+          "x2gothinclient-minidesktop",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "lightdm",
+            "reason": "x2gothinclient-minidesktop depends on lightdm and provides lightdm-greeter, which could conflict with other greeters provided by lightdm."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "lightdm references arctica-greeter, which also provides lightdm-greeter, creating potential conflicts if multiple greeters are installed."
+          },
+          {
+            "source": "lightdm",
+            "target": "lightdm-autologin-greeter",
+            "reason": "lightdm references lightdm-autologin-greeter, which provides lightdm-greeter, creating potential conflicts with other greeters."
+          },
+          {
+            "source": "arctica-greeter",
+            "target": "lightdm-autologin-greeter",
+            "reason": "Both arctica-greeter and lightdm-autologin-greeter provide lightdm-greeter, leading to potential conflicts during installation or runtime."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "x2gothinclient-minidesktop",
+            "clause_b": "lightdm",
+            "description": "x2gothinclient-minidesktop depends on lightdm and provides lightdm-greeter, potentially conflicting with other greeters referenced by lightdm."
+          },
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "lightdm-autologin-greeter",
+            "description": "Both arctica-greeter and lightdm-autologin-greeter provide lightdm-greeter, which could lead to conflicts during installation or runtime."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "arctica-greeter",
+            "description": "lightdm references arctica-greeter, which provides lightdm-greeter, potentially leading to conflicts with other greeters."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5473684210526315,
+            "visit_count": 19
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5000000000000001,
+            "visit_count": 18
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.48800000000000004,
+            "visit_count": 25
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.4523809523809524,
+            "visit_count": 21
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.311764705882353,
+            "visit_count": 17
+          }
+        ]
+      },
+      {
+        "completion_index": 26,
+        "iteration": 28,
+        "window": [
+          "lightdm-autologin-greeter",
+          "lightdm",
+          "arctica-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "is_tt_hit": true,
+        "scores": {
+          "x2gothinclient-minidesktop": 0.7,
+          "lightdm": 0.3,
+          "lightdm-autologin-greeter": 0.4,
+          "arctica-greeter": 0.6
+        },
+        "local_risk_subgraph_nodes": [
+          "x2gothinclient-minidesktop",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "arctica-greeter"
+        ],
+        "repair_entry_nodes": [
+          "x2gothinclient-minidesktop",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "x2gothinclient-minidesktop",
+            "target": "lightdm",
+            "reason": "x2gothinclient-minidesktop depends on lightdm and provides lightdm-greeter, which could conflict with other greeters provided by lightdm."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "lightdm references arctica-greeter, which also provides lightdm-greeter, creating potential conflicts if multiple greeters are installed."
+          },
+          {
+            "source": "lightdm",
+            "target": "lightdm-autologin-greeter",
+            "reason": "lightdm references lightdm-autologin-greeter, which provides lightdm-greeter, creating potential conflicts with other greeters."
+          },
+          {
+            "source": "arctica-greeter",
+            "target": "lightdm-autologin-greeter",
+            "reason": "Both arctica-greeter and lightdm-autologin-greeter provide lightdm-greeter, leading to potential conflicts during installation or runtime."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "x2gothinclient-minidesktop",
+            "clause_b": "lightdm",
+            "description": "x2gothinclient-minidesktop depends on lightdm and provides lightdm-greeter, potentially conflicting with other greeters referenced by lightdm."
+          },
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "lightdm-autologin-greeter",
+            "description": "Both arctica-greeter and lightdm-autologin-greeter provide lightdm-greeter, which could lead to conflicts during installation or runtime."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "arctica-greeter",
+            "description": "lightdm references arctica-greeter, which provides lightdm-greeter, potentially leading to conflicts with other greeters."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5499999999999999,
+            "visit_count": 20
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5105263157894737,
+            "visit_count": 19
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.48076923076923084,
+            "visit_count": 26
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.4523809523809524,
+            "visit_count": 21
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.3166666666666667,
+            "visit_count": 18
+          }
+        ]
+      },
+      {
+        "completion_index": 27,
+        "iteration": 26,
+        "window": [
+          "slick-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "arctica-greeter"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "slick-greeter": 0.3,
+          "lightdm": 0.2,
+          "lightdm-autologin-greeter": 0.1,
+          "arctica-greeter": 0.5
+        },
+        "local_risk_subgraph_nodes": [
+          "slick-greeter",
+          "lightdm",
+          "arctica-greeter"
+        ],
+        "repair_entry_nodes": [
+          "slick-greeter",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "slick-greeter",
+            "target": "arctica-greeter",
+            "reason": "Slick-greeter uses the legacy interface class, while arctica-greeter requires the new interface class, creating an incompatibility."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "Lightdm references both slick-greeter and arctica-greeter, which are incompatible due to differing interface class requirements."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "slick-greeter",
+            "clause_b": "arctica-greeter",
+            "description": "Slick-greeter uses the legacy interface class, but arctica-greeter requires the new interface class. This creates a direct incompatibility between the two greeters."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "arctica-greeter",
+            "description": "Lightdm references both slick-greeter and arctica-greeter, creating a conflict because slick-greeter uses the legacy interface class while arctica-greeter requires the new interface class."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5476190476190476,
+            "visit_count": 21
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5105263157894737,
+            "visit_count": 19
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.4703703703703704,
+            "visit_count": 27
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.4454545454545455,
+            "visit_count": 22
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.3052631578947369,
+            "visit_count": 19
+          }
+        ]
+      },
+      {
+        "completion_index": 28,
+        "iteration": 27,
+        "window": [
+          "lightdm-autologin-greeter",
+          "lightdm",
+          "arctica-greeter",
+          "slick-greeter"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "lightdm-autologin-greeter": 0.4,
+          "lightdm": 0.6,
+          "arctica-greeter": 0.7,
+          "slick-greeter": 0.5
+        },
+        "local_risk_subgraph_nodes": [
+          "lightdm",
+          "arctica-greeter",
+          "slick-greeter"
+        ],
+        "repair_entry_nodes": [
+          "lightdm",
+          "arctica-greeter",
+          "slick-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "arctica-greeter",
+            "target": "slick-greeter",
+            "reason": "Arctica-greeter requires the new interface class for handoff, while slick-greeter remains in the legacy interface class, causing incompatibility."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "LightDM references arctica-greeter, which requires the new interface class, but LightDM also references slick-greeter, which operates in the legacy interface class. This creates structural inconsistency."
+          },
+          {
+            "source": "lightdm",
+            "target": "slick-greeter",
+            "reason": "LightDM references slick-greeter, which operates in the legacy interface class, potentially conflicting with arctica-greeter's requirements for the new interface class."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "slick-greeter",
+            "description": "Arctica-greeter requires the new interface class for configuration, but slick-greeter remains in the legacy interface class, leading to incompatibility during migration or runtime handoff."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "arctica-greeter",
+            "description": "LightDM references arctica-greeter, which requires the new interface class, but also references slick-greeter, which remains in the legacy interface class, creating structural inconsistency."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "slick-greeter",
+            "description": "LightDM references slick-greeter, which operates in the legacy interface class, potentially conflicting with arctica-greeter's requirements for the new interface class."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5545454545454545,
+            "visit_count": 22
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5105263157894737,
+            "visit_count": 19
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.47500000000000003,
+            "visit_count": 28
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.44782608695652176,
+            "visit_count": 23
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.31000000000000005,
+            "visit_count": 20
+          }
+        ]
+      },
+      {
+        "completion_index": 29,
+        "iteration": 30,
+        "window": [
+          "slick-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "arctica-greeter"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "slick-greeter": 0.3,
+          "lightdm": 0.4,
+          "lightdm-autologin-greeter": 0.2,
+          "arctica-greeter": 0.5
+        },
+        "local_risk_subgraph_nodes": [
+          "slick-greeter",
+          "lightdm",
+          "arctica-greeter"
+        ],
+        "repair_entry_nodes": [
+          "lightdm",
+          "arctica-greeter"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "LightDM references arctica-greeter, which requires the new interface class for handoff, but LightDM does not explicitly guarantee this compatibility."
+          },
+          {
+            "source": "lightdm",
+            "target": "slick-greeter",
+            "reason": "LightDM references slick-greeter, which remains in the legacy interface class, potentially causing compatibility issues during migration."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "lightdm",
+            "clause_b": "arctica-greeter",
+            "description": "Arctica-greeter requires the new interface class for handoff, but LightDM does not explicitly ensure this compatibility, leading to potential misconfiguration."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "slick-greeter",
+            "description": "Slick-greeter remains in the legacy interface class, while LightDM references it alongside other greeters that may require the new interface class, creating a migration risk."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5521739130434782,
+            "visit_count": 23
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.5105263157894737,
+            "visit_count": 19
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.47241379310344833,
+            "visit_count": 29
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.4416666666666667,
+            "visit_count": 24
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.30476190476190484,
+            "visit_count": 21
+          }
+        ]
+      },
+      {
+        "completion_index": 30,
+        "iteration": 29,
+        "window": [
+          "arctica-greeter",
+          "lightdm",
+          "x2gothinclient-minidesktop",
+          "lightdm-autologin-greeter"
+        ],
+        "is_tt_hit": false,
+        "scores": {
+          "arctica-greeter": 0.5,
+          "lightdm": 0.3,
+          "x2gothinclient-minidesktop": 0.7,
+          "lightdm-autologin-greeter": 0.4
+        },
+        "local_risk_subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "x2gothinclient-minidesktop",
+          "lightdm-autologin-greeter"
+        ],
+        "repair_entry_nodes": [
+          "arctica-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "arctica-greeter",
+            "target": "x2gothinclient-minidesktop",
+            "reason": "Both records provide 'lightdm-greeter' but have different interface class handling requirements, which may lead to runtime incompatibility."
+          },
+          {
+            "source": "arctica-greeter",
+            "target": "lightdm-autologin-greeter",
+            "reason": "Arctica-greeter's interface class requirement may conflict with the autologin behavior of lightdm-autologin-greeter, as the latter does not specify compatibility with interface classes."
+          },
+          {
+            "source": "lightdm",
+            "target": "arctica-greeter",
+            "reason": "LightDM references multiple greeters providing 'lightdm-greeter', including arctica-greeter, which has specific configuration requirements that may not align with other greeters."
+          },
+          {
+            "source": "lightdm",
+            "target": "x2gothinclient-minidesktop",
+            "reason": "LightDM references x2gothinclient-minidesktop, which provides 'lightdm-greeter' but is a pass-through maintenance record, potentially causing ambiguity in greeter selection."
+          },
+          {
+            "source": "lightdm",
+            "target": "lightdm-autologin-greeter",
+            "reason": "LightDM references lightdm-autologin-greeter, which provides 'lightdm-greeter', potentially conflicting with other greeters due to differing behaviors."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "x2gothinclient-minidesktop",
+            "description": "Both records provide 'lightdm-greeter' but have incompatible interface class handling requirements, which may cause runtime conflicts."
+          },
+          {
+            "clause_a": "arctica-greeter",
+            "clause_b": "lightdm-autologin-greeter",
+            "description": "Arctica-greeter's requirement for a new interface class may conflict with lightdm-autologin-greeter's autologin behavior, which does not specify compatibility with interface classes."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "arctica-greeter",
+            "description": "LightDM references arctica-greeter, which has specific configuration requirements that may not align with other greeters providing 'lightdm-greeter'."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "x2gothinclient-minidesktop",
+            "description": "LightDM references x2gothinclient-minidesktop, which provides 'lightdm-greeter' but is a pass-through maintenance record, potentially causing ambiguity in greeter selection."
+          },
+          {
+            "clause_a": "lightdm",
+            "clause_b": "lightdm-autologin-greeter",
+            "description": "LightDM references lightdm-autologin-greeter, which provides 'lightdm-greeter', potentially conflicting with other greeters due to differing behaviors."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "arctica-greeter",
+            "avg_risk": 0.5499999999999999,
+            "visit_count": 24
+          },
+          {
+            "clause_id": "x2gothinclient-minidesktop",
+            "avg_risk": 0.52,
+            "visit_count": 20
+          },
+          {
+            "clause_id": "lightdm",
+            "avg_risk": 0.46666666666666673,
+            "visit_count": 30
+          },
+          {
+            "clause_id": "slick-greeter",
+            "avg_risk": 0.4416666666666667,
+            "visit_count": 24
+          },
+          {
+            "clause_id": "lightdm-autologin-greeter",
+            "avg_risk": 0.30909090909090914,
+            "visit_count": 22
+          }
+        ]
+      }
+    ],
+    "ground_truth_nodes": [
+      "slick-greeter"
+    ],
+    "gt_evidence": {
+      "slick-greeter": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "inject_mode": true,
+    "injected_node": "slick-greeter",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "arctica-greeter",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "x2gothinclient-minidesktop",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "slick-greeter",
+      "arctica-greeter"
+    ],
+    "injected_evidence_nodes": [
+      "slick-greeter",
+      "x2gothinclient-minidesktop",
+      "arctica-greeter"
+    ],
+    "injected_affected_nodes": [
+      "lightdm",
+      "lightdm-autologin-greeter"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "debian_handoff_invariant_abi_class",
+    "injected_rank": 4,
+    "top1_margin": 0.029999999999999916,
+    "risk_node_ranks": {
+      "slick-greeter": 4,
+      "arctica-greeter": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 4,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "slick-greeter": 4,
+      "x2gothinclient-minidesktop": 2,
+      "arctica-greeter": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 4,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "lightdm": 3,
+      "lightdm-autologin-greeter": 5
+    },
+    "affected_best_rank": 3,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "slick-greeter": 4,
+      "arctica-greeter": 1,
+      "lightdm": 3,
+      "lightdm-autologin-greeter": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 4,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "risk_subgraph_nodes": [
+      "arctica-greeter",
+      "lightdm",
+      "lightdm-autologin-greeter",
+      "slick-greeter",
+      "x2gothinclient-minidesktop"
+    ],
+    "risk_subgraph_size": 5,
+    "compression_ratio": 0.0,
+    "contains_injected_node": true,
+    "contains_any_evidence_node": true,
+    "contains_all_evidence_nodes": true,
+    "evidence_nodes_retained": [
+      "slick-greeter",
+      "x2gothinclient-minidesktop",
+      "arctica-greeter"
+    ],
+    "contains_any_risk_node": true,
+    "contains_all_risk_nodes": true,
+    "contains_any_affected_node": true,
+    "subgraph_type": "posthoc_gt_anchored",
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors",
+    "blind_risk_subgraph_nodes": [
+      "arctica-greeter",
+      "lightdm",
+      "x2gothinclient-minidesktop"
+    ],
+    "blind_risk_subgraph_size": 3,
+    "blind_compression_ratio": 0.4,
+    "blind_contains_injected_node": false,
+    "blind_contains_any_evidence_node": true,
+    "blind_contains_all_evidence_nodes": false,
+    "blind_evidence_nodes_retained": [
+      "x2gothinclient-minidesktop",
+      "arctica-greeter"
+    ],
+    "blind_contains_any_risk_node": true,
+    "blind_contains_all_risk_nodes": false,
+    "blind_contains_any_affected_node": true,
+    "blind_subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC anchors only",
+    "local_declared_risk_subgraph_nodes": [
+      "arctica-greeter",
+      "lightdm",
+      "slick-greeter",
+      "x2gothinclient-minidesktop"
+    ],
+    "local_declared_risk_subgraph_size": 4,
+    "local_declared_compression_ratio": 0.19999999999999996,
+    "local_declared_subgraph_policy": "aggregate LLM-declared local_risk_subgraph_nodes, repair_entry_nodes, local conflict endpoints, and OC nodes; cap by SCC size",
+    "local_declared_contains_any_risk_node": true,
+    "local_declared_contains_all_risk_nodes": true,
+    "local_declared_risk_nodes_retained": [
+      "slick-greeter",
+      "arctica-greeter"
+    ],
+    "local_declared_risk_coverage": 1.0,
+    "local_declared_contains_any_evidence_node": true,
+    "local_declared_contains_all_evidence_nodes": true,
+    "local_declared_evidence_nodes_retained": [
+      "slick-greeter",
+      "x2gothinclient-minidesktop",
+      "arctica-greeter"
+    ],
+    "local_declared_evidence_coverage": 1.0,
+    "local_declared_contains_any_affected_node": true,
+    "local_declared_contains_all_affected_nodes": false,
+    "local_declared_affected_nodes_retained": [
+      "lightdm"
+    ],
+    "local_declared_contains_any_valuable_node": true,
+    "local_declared_contains_all_valuable_nodes": false,
+    "local_declared_valuable_nodes_retained": [
+      "slick-greeter",
+      "arctica-greeter",
+      "lightdm"
+    ],
+    "local_declared_valuable_coverage": 0.75,
+    "core_evidence_risk_subgraph_nodes": [
+      "arctica-greeter",
+      "lightdm",
+      "lightdm-autologin-greeter",
+      "slick-greeter"
+    ],
+    "core_evidence_risk_subgraph_size": 4,
+    "core_evidence_compression_ratio": 0.19999999999999996,
+    "core_evidence_contains_any_risk_node": true,
+    "core_evidence_contains_all_risk_nodes": true,
+    "core_evidence_risk_nodes_retained": [
+      "slick-greeter",
+      "arctica-greeter"
+    ],
+    "core_evidence_risk_coverage": 1.0,
+    "core_evidence_contains_any_evidence_node": true,
+    "core_evidence_contains_all_evidence_nodes": false,
+    "core_evidence_evidence_nodes_retained": [
+      "slick-greeter",
+      "arctica-greeter"
+    ],
+    "core_evidence_evidence_coverage": 0.6666666666666666,
+    "core_evidence_contains_any_affected_node": true,
+    "core_evidence_contains_all_affected_nodes": true,
+    "core_evidence_affected_nodes_retained": [
+      "lightdm",
+      "lightdm-autologin-greeter"
+    ],
+    "core_evidence_contains_any_valuable_node": true,
+    "core_evidence_contains_all_valuable_nodes": true,
+    "core_evidence_valuable_nodes_retained": [
+      "slick-greeter",
+      "arctica-greeter",
+      "lightdm",
+      "lightdm-autologin-greeter"
+    ],
+    "core_evidence_valuable_coverage": 1.0,
+    "convergence_trace": [
+      {
+        "rollout": 1,
+        "llm_calls": 1,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 0.5,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 0.75,
+        "risk_any": true,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 0.0
+      },
+      {
+        "rollout": 2,
+        "llm_calls": 2,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 0.6
+      },
+      {
+        "rollout": 3,
+        "llm_calls": 3,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 4,
+        "llm_calls": 4,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 0.5,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 0.75,
+        "risk_any": true,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 0.6
+      },
+      {
+        "rollout": 5,
+        "llm_calls": 5,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm-autologin-greeter",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 1.0,
+        "valuable_coverage": 0.75,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": true,
+        "effective_oc": false,
+        "jaccard_prev": 0.6
+      },
+      {
+        "rollout": 6,
+        "llm_calls": 6,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 1.0,
+        "valuable_coverage": 0.75,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": true,
+        "effective_oc": false,
+        "jaccard_prev": 0.6
+      },
+      {
+        "rollout": 7,
+        "llm_calls": 7,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 1.0,
+        "valuable_coverage": 0.75,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": true,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 8,
+        "llm_calls": 8,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 1.0,
+        "valuable_coverage": 0.75,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": true,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 9,
+        "llm_calls": 8,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 1.0,
+        "valuable_coverage": 0.75,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": true,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 10,
+        "llm_calls": 8,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 1.0,
+        "valuable_coverage": 0.75,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": true,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 11,
+        "llm_calls": 8,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 1.0,
+        "valuable_coverage": 0.75,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": true,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 12,
+        "llm_calls": 8,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 1.0,
+        "valuable_coverage": 0.75,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": true,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 13,
+        "llm_calls": 8,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 1.0,
+        "valuable_coverage": 0.75,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": true,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 14,
+        "llm_calls": 8,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 1.0,
+        "valuable_coverage": 0.75,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": true,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 15,
+        "llm_calls": 9,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 0.6
+      },
+      {
+        "rollout": 16,
+        "llm_calls": 10,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 17,
+        "llm_calls": 10,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 18,
+        "llm_calls": 10,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 19,
+        "llm_calls": 10,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 20,
+        "llm_calls": 10,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 21,
+        "llm_calls": 11,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 22,
+        "llm_calls": 12,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 23,
+        "llm_calls": 13,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 24,
+        "llm_calls": 14,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 25,
+        "llm_calls": 14,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 26,
+        "llm_calls": 14,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 27,
+        "llm_calls": 15,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 28,
+        "llm_calls": 16,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 29,
+        "llm_calls": 17,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      {
+        "rollout": 30,
+        "llm_calls": 18,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      }
+    ],
+    "convergence_points": {
+      "1": {
+        "rollout": 1,
+        "llm_calls": 1,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 0.5,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 0.75,
+        "risk_any": true,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 0.0
+      },
+      "2": {
+        "rollout": 2,
+        "llm_calls": 2,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 0.6
+      },
+      "4": {
+        "rollout": 4,
+        "llm_calls": 4,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 0.5,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 0.75,
+        "risk_any": true,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 0.6
+      },
+      "8": {
+        "rollout": 8,
+        "llm_calls": 8,
+        "window_risk_any": true,
+        "window_risk_all": true,
+        "local_risk_any": true,
+        "local_risk_all": true,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "slick-greeter",
+          "x2gothinclient-minidesktop"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 1.0,
+        "valuable_coverage": 0.75,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": true,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      "16": {
+        "rollout": 16,
+        "llm_calls": 10,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      },
+      "30": {
+        "rollout": 30,
+        "llm_calls": 18,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "arctica-greeter",
+          "lightdm",
+          "lightdm-autologin-greeter",
+          "slick-greeter"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.19999999999999996,
+        "risk_coverage": 1.0,
+        "evidence_coverage": 0.6666666666666666,
+        "valuable_coverage": 1.0,
+        "risk_any": true,
+        "risk_all": true,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      }
+    },
+    "convergence_auc_risk_coverage": 0.9666666666666667,
+    "convergence_mean_stability": 0.9310344827586207,
+    "convergence_final_risk_coverage": 1.0,
+    "convergence_final_evidence_coverage": 0.6666666666666666,
+    "convergence_final_valuable_coverage": 1.0,
+    "convergence_final_subgraph_size": 4,
+    "convergence_final_compression_ratio": 0.19999999999999996,
+    "first_window_risk_any_rollout": 1,
+    "first_window_risk_all_rollout": 2,
+    "first_local_risk_any_rollout": 1,
+    "first_local_risk_all_rollout": 2,
+    "first_subgraph_risk_any_rollout": 1,
+    "first_subgraph_risk_all_rollout": 2,
+    "first_effective_oc_rollout": null
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+    "naive_profile": "direct_subgraph",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 7,
+    "scc_id": "scc_49",
+    "scc_clause_ids": [
+      "libasedrive-serial",
+      "libasedrive-usb",
+      "libgcr410",
+      "libgempc410",
+      "libifd-cyberjack6",
+      "libgempc430",
+      "pcscd"
+    ],
+    "llm_calls": 1,
+    "time": 36.371742963790894,
+    "scores": {
+      "libasedrive-serial": 0.5,
+      "libasedrive-usb": 0.9,
+      "libgcr410": 0.1,
+      "libgempc410": 0.3,
+      "libifd-cyberjack6": 0.8,
+      "libgempc430": 0.2,
+      "pcscd": 0.7
+    },
+    "reasonings": {
+      "libasedrive-serial": "Underspecified handoff behavior creates ambiguity in its role in the dependency graph.",
+      "libasedrive-usb": "Requires the new interface class but depends on pcscd, which interacts with legacy interface class records.",
+      "libgcr410": "Minimal structural risk due to lack of additional ambiguity or conflicts.",
+      "libgempc410": "Dependency on pcscd without specifying interface class behavior creates a minor risk.",
+      "libifd-cyberjack6": "Explicitly remains in the legacy interface class, conflicting with libasedrive-usb's requirements.",
+      "libgempc430": "Similar to libgempc410 but with lower impact due to fewer dependencies.",
+      "pcscd": "Central to the graph, involved in cyclic dependencies, and must manage both legacy and new interface classes."
+    },
+    "ranking": [
+      [
+        "libasedrive-usb",
+        0.9
+      ],
+      [
+        "libifd-cyberjack6",
+        0.8
+      ],
+      [
+        "pcscd",
+        0.7
+      ],
+      [
+        "libasedrive-serial",
+        0.5
+      ],
+      [
+        "libgempc410",
+        0.3
+      ],
+      [
+        "libgempc430",
+        0.2
+      ],
+      [
+        "libgcr410",
+        0.1
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "libasedrive-usb",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "interface_class_transition",
+          "dependency_mismatch"
+        ],
+        "reasoning": "This record explicitly requires the handoff to be in the new interface class, but it depends on pcscd, which interacts with other records that remain in the legacy interface class. This creates a high risk of incompatibility."
+      },
+      {
+        "rank": 2,
+        "clause_id": "libifd-cyberjack6",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "interface_class_transition"
+        ],
+        "reasoning": "This record explicitly states that it remains in the legacy interface class, which conflicts with the requirements of libasedrive-usb for the new interface class."
+      },
+      {
+        "rank": 3,
+        "clause_id": "pcscd",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "cyclic_dependency",
+          "dependency_mismatch"
+        ],
+        "reasoning": "pcscd is central to the graph and interacts with all other nodes. It is involved in a cyclic dependency and must manage both legacy and new interface classes, increasing the risk of structural inconsistency."
+      },
+      {
+        "rank": 4,
+        "clause_id": "libasedrive-serial",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "underspecified_handoff"
+        ],
+        "reasoning": "This record acts as a pass-through maintenance record but does not specify whether it supports legacy or new interface classes, creating ambiguity in its role."
+      },
+      {
+        "rank": 5,
+        "clause_id": "libgempc410",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "dependency_mismatch"
+        ],
+        "reasoning": "This record depends on pcscd but does not specify any interface class transition behavior, which could lead to compatibility issues."
+      },
+      {
+        "rank": 6,
+        "clause_id": "libgempc430",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "dependency_mismatch"
+        ],
+        "reasoning": "Similar to libgempc410, this record depends on pcscd without specifying interface class behavior, but its impact is lower due to fewer dependencies."
+      },
+      {
+        "rank": 7,
+        "clause_id": "libgcr410",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "dependency_mismatch"
+        ],
+        "reasoning": "This record has the least structural risk, as it depends on pcscd but does not introduce additional ambiguity or conflicts."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "dependency_mismatch",
+        "importance_weight": 0.4,
+        "description": "Captures mismatches or inconsistencies in dependency versions or requirements."
+      },
+      {
+        "factor": "interface_class_transition",
+        "importance_weight": 0.3,
+        "description": "Captures issues related to interface class transitions, such as legacy vs. new interface compatibility."
+      },
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.2,
+        "description": "Captures structural risks from cycles in the dependency graph."
+      },
+      {
+        "factor": "underspecified_handoff",
+        "importance_weight": 0.1,
+        "description": "Captures risks from records with ambiguous or underspecified handoff behavior."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "direct_risk_subgraph_nodes": [
+      "libasedrive-usb",
+      "libifd-cyberjack6",
+      "pcscd"
+    ],
+    "direct_risk_subgraph_size": 3,
+    "direct_compression_ratio": 0.5714285714285714,
+    "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+    "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+    "direct_risk_subgraph_rationale": "This subgraph captures the core structural inconsistency: the conflict between libasedrive-usb's requirement for the new interface class, libifd-cyberjack6's adherence to the legacy interface class, and pcscd's central role in managing these dependencies. Including other nodes would not add meaningful evidence or help localize the risk further.",
+    "direct_risk_subgraph_edges": [
+      {
+        "source": "libasedrive-usb",
+        "target": "pcscd",
+        "reason": "libasedrive-usb depends on pcscd and requires the new interface class."
+      },
+      {
+        "source": "libifd-cyberjack6",
+        "target": "pcscd",
+        "reason": "libifd-cyberjack6 depends on pcscd and remains in the legacy interface class."
+      },
+      {
+        "source": "pcscd",
+        "target": "libasedrive-usb",
+        "reason": "pcscd references libasedrive-usb, creating a cyclic dependency."
+      },
+      {
+        "source": "pcscd",
+        "target": "libifd-cyberjack6",
+        "reason": "pcscd references libifd-cyberjack6, creating a cyclic dependency."
+      }
+    ],
+    "direct_subgraph_raw": [
+      "libasedrive-usb",
+      "libifd-cyberjack6",
+      "pcscd"
+    ],
+    "direct_subgraph_invalid": [],
+    "direct_subgraph_duplicates": [],
+    "direct_subgraph_alias_resolutions": [],
+    "direct_subgraph_complete_parse": true,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 7,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "libasedrive-usb",
+        "clause_b": "libifd-cyberjack6",
+        "description": "libasedrive-usb requires the new interface class, while libifd-cyberjack6 remains in the legacy interface class, creating a structural incompatibility."
+      },
+      {
+        "clause_a": "libasedrive-usb",
+        "clause_b": "pcscd",
+        "description": "libasedrive-usb depends on pcscd, which interacts with both legacy and new interface class records, creating a risk of inconsistency."
+      }
+    ],
+    "score_spread": 0.8,
+    "ranking_score_spread": 0.8,
+    "score_mean": 0.5,
+    "score_max": 0.9,
+    "node_names": {
+      "libasedrive-serial": "libasedrive-serial",
+      "libasedrive-usb": "libasedrive-usb",
+      "libgcr410": "libgcr410",
+      "libgempc410": "libgempc410",
+      "libifd-cyberjack6": "libifd-cyberjack6",
+      "libgempc430": "libgempc430",
+      "pcscd": "pcscd"
+    },
+    "ground_truth_nodes": [
+      "libifd-cyberjack6"
+    ],
+    "gt_evidence": {
+      "libifd-cyberjack6": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 808,
+    "injected_title_occurrences_in_prompt": 7,
+    "injected_id_occurrences_in_prompt": 7,
+    "injected_title_first_word_ratio": 0.3032178217821782,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.30816831683168316,
+    "inject_mode": true,
+    "injected_node": "libifd-cyberjack6",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "libasedrive-usb",
+    "injected_witness_distance": 3,
+    "injected_bridge_node": "libasedrive-serial",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "libifd-cyberjack6",
+      "libasedrive-usb"
+    ],
+    "injected_evidence_nodes": [
+      "libifd-cyberjack6",
+      "libasedrive-serial",
+      "libasedrive-usb"
+    ],
+    "injected_affected_nodes": [
+      "pcscd",
+      "libgcr410"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "debian_handoff_invariant_abi_class",
+    "injected_rank": 2,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "libifd-cyberjack6": 2,
+      "libasedrive-usb": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "libifd-cyberjack6": 2,
+      "libasedrive-serial": 4,
+      "libasedrive-usb": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 4,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "pcscd": 3,
+      "libgcr410": 7
+    },
+    "affected_best_rank": 3,
+    "affected_worst_rank": 7,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "libifd-cyberjack6": 2,
+      "libasedrive-usb": 1,
+      "pcscd": 3,
+      "libgcr410": 7
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 7,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 2,
+    "root_top1_hit": false,
+    "root_top3_hit": true,
+    "direct_subgraph_nodes_retained": [
+      "libasedrive-usb",
+      "libifd-cyberjack6",
+      "pcscd"
+    ],
+    "direct_contains_injected_node": true,
+    "direct_contains_any_risk_node": true,
+    "direct_contains_all_risk_nodes": true,
+    "direct_risk_nodes_retained": [
+      "libifd-cyberjack6",
+      "libasedrive-usb"
+    ],
+    "direct_contains_any_evidence_node": true,
+    "direct_contains_all_evidence_nodes": false,
+    "direct_evidence_nodes_retained": [
+      "libifd-cyberjack6",
+      "libasedrive-usb"
+    ],
+    "direct_contains_any_affected_node": true,
+    "direct_contains_all_affected_nodes": false,
+    "direct_affected_nodes_retained": [
+      "pcscd"
+    ],
+    "direct_contains_any_valuable_node": true,
+    "direct_contains_all_valuable_nodes": false,
+    "direct_valuable_nodes_retained": [
+      "libifd-cyberjack6",
+      "libasedrive-usb",
+      "pcscd"
+    ]
+  }
+]

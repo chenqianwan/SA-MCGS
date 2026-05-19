@@ -1,0 +1,446 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+    "naive_profile": "direct_subgraph",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_8",
+    "scc_clause_ids": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libecore-fb1",
+      "libecore-input1",
+      "libecore-wl2-1",
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libecore-x1",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "llm_calls": 1,
+    "time": 11.215780019760132,
+    "scores": {
+      "libecore-drm2-1": 0.7,
+      "libecore-evas1": 1.0,
+      "libecore-fb1": 0.1,
+      "libecore-input1": 0.5,
+      "libecore-wl2-1": 0.3,
+      "libelput1": 0.2,
+      "libevas1": 0.9,
+      "libevas1-engines-drm": 0.8,
+      "libecore-x1": 0.0,
+      "libevas1-engines-fb": 0.1,
+      "libevas1-engines-wayland": 0.6,
+      "libevas1-engines-x": 0.4
+    },
+    "reasonings": {
+      "libecore-drm2-1": "Part of a dependency cycle with libevas1 and libevas1-engines-drm.",
+      "libecore-evas1": "High dependency degree and part of a dependency cycle with libecore-drm2-1 and libevas1.",
+      "libecore-fb1": "Low dependency degree and no structural inconsistencies.",
+      "libecore-input1": "High number of incoming edges, indicating a high dependency degree.",
+      "libecore-wl2-1": "Moderate number of outgoing edges, indicating a moderate dependency degree.",
+      "libelput1": "Moderate number of outgoing edges, indicating a moderate dependency degree.",
+      "libevas1": "Central node with multiple outgoing edges and part of a dependency cycle with libevas1-engines-drm and libecore-drm2-1.",
+      "libevas1-engines-drm": "Part of a dependency cycle with libevas1 and libecore-drm2-1.",
+      "libecore-x1": "No significant structural concerns or high dependency degree.",
+      "libevas1-engines-fb": "Low dependency degree and no structural inconsistencies.",
+      "libevas1-engines-wayland": "High number of outgoing edges, indicating a high dependency degree.",
+      "libevas1-engines-x": "High number of outgoing edges, indicating a high dependency degree."
+    },
+    "ranking": [
+      [
+        "libecore-evas1",
+        1.0
+      ],
+      [
+        "libevas1",
+        0.9
+      ],
+      [
+        "libevas1-engines-drm",
+        0.8
+      ],
+      [
+        "libecore-drm2-1",
+        0.7
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.6
+      ],
+      [
+        "libecore-input1",
+        0.5
+      ],
+      [
+        "libevas1-engines-x",
+        0.4
+      ],
+      [
+        "libecore-wl2-1",
+        0.3
+      ],
+      [
+        "libelput1",
+        0.2
+      ],
+      [
+        "libecore-fb1",
+        0.1
+      ],
+      [
+        "libevas1-engines-fb",
+        0.1
+      ],
+      [
+        "libecore-x1",
+        0.0
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "libecore-evas1",
+        "risk_score": 1.0,
+        "risk_factors": [
+          "dependency_cycle",
+          "high_dependency_degree"
+        ],
+        "reasoning": "libecore-evas1 has the highest number of outgoing edges, creating a high dependency degree. It also references libecore-drm2-1, which is part of a cycle involving libevas1-engines-drm and libevas1."
+      },
+      {
+        "rank": 2,
+        "clause_id": "libevas1",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "dependency_cycle",
+          "high_dependency_degree"
+        ],
+        "reasoning": "libevas1 is a central node with multiple outgoing edges and is part of a cycle involving libevas1-engines-drm and libecore-drm2-1."
+      },
+      {
+        "rank": 3,
+        "clause_id": "libevas1-engines-drm",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "dependency_cycle"
+        ],
+        "reasoning": "libevas1-engines-drm is part of a cycle with libevas1 and libecore-drm2-1, creating a structural inconsistency."
+      },
+      {
+        "rank": 4,
+        "clause_id": "libecore-drm2-1",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "dependency_cycle"
+        ],
+        "reasoning": "libecore-drm2-1 is part of a cycle with libevas1 and libevas1-engines-drm, creating a structural inconsistency."
+      },
+      {
+        "rank": 5,
+        "clause_id": "libevas1-engines-wayland",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "high_dependency_degree"
+        ],
+        "reasoning": "libevas1-engines-wayland has a high number of outgoing edges, indicating a high dependency degree."
+      },
+      {
+        "rank": 6,
+        "clause_id": "libecore-input1",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "high_dependency_degree"
+        ],
+        "reasoning": "libecore-input1 has a high number of incoming edges, indicating a high dependency degree."
+      },
+      {
+        "rank": 7,
+        "clause_id": "libevas1-engines-x",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "high_dependency_degree"
+        ],
+        "reasoning": "libevas1-engines-x has a high number of outgoing edges, indicating a high dependency degree."
+      },
+      {
+        "rank": 8,
+        "clause_id": "libecore-wl2-1",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "high_dependency_degree"
+        ],
+        "reasoning": "libecore-wl2-1 has a moderate number of outgoing edges, indicating a moderate dependency degree."
+      },
+      {
+        "rank": 9,
+        "clause_id": "libelput1",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "high_dependency_degree"
+        ],
+        "reasoning": "libelput1 has a moderate number of outgoing edges, indicating a moderate dependency degree."
+      },
+      {
+        "rank": 10,
+        "clause_id": "libecore-fb1",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "high_dependency_degree"
+        ],
+        "reasoning": "libecore-fb1 has a low number of outgoing edges, indicating a low dependency degree."
+      },
+      {
+        "rank": 11,
+        "clause_id": "libevas1-engines-fb",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "high_dependency_degree"
+        ],
+        "reasoning": "libevas1-engines-fb has a low number of outgoing edges, indicating a low dependency degree."
+      },
+      {
+        "rank": 12,
+        "clause_id": "libecore-x1",
+        "risk_score": 0.0,
+        "risk_factors": [],
+        "reasoning": "libecore-x1 has no significant structural concerns or high dependency degree."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "dependency_cycle",
+        "importance_weight": 0.5,
+        "description": "Indicates whether a node is part of a dependency cycle, which can lead to structural inconsistencies."
+      },
+      {
+        "factor": "underspecified_dependency",
+        "importance_weight": 0.3,
+        "description": "Indicates whether a node has dependencies that are not fully specified or have ambiguous states."
+      },
+      {
+        "factor": "high_dependency_degree",
+        "importance_weight": 0.2,
+        "description": "Indicates whether a node has a high number of incoming or outgoing edges, which increases its impact on the graph."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "direct_risk_subgraph_nodes": [
+      "libecore-evas1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libecore-drm2-1"
+    ],
+    "direct_risk_subgraph_size": 4,
+    "direct_compression_ratio": 0.6666666666666667,
+    "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+    "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+    "direct_risk_subgraph_rationale": "This subgraph captures the smallest set of nodes involved in the dependency cycle between libecore-evas1, libevas1, libevas1-engines-drm, and libecore-drm2-1. These nodes are structurally inconsistent due to the cycle, and their removal or modification would resolve the issue.",
+    "direct_risk_subgraph_edges": [
+      {
+        "source": "libecore-evas1",
+        "target": "libecore-drm2-1",
+        "reason": "libecore-evas1 references libecore-drm2-1, forming part of the cycle."
+      },
+      {
+        "source": "libevas1",
+        "target": "libevas1-engines-drm",
+        "reason": "libevas1 references libevas1-engines-drm, forming part of the cycle."
+      },
+      {
+        "source": "libevas1-engines-drm",
+        "target": "libecore-drm2-1",
+        "reason": "libevas1-engines-drm references libecore-drm2-1, forming part of the cycle."
+      },
+      {
+        "source": "libecore-drm2-1",
+        "target": "libelput1",
+        "reason": "libecore-drm2-1 references libelput1, which is indirectly involved in the cycle."
+      }
+    ],
+    "direct_subgraph_raw": [
+      "libecore-evas1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libecore-drm2-1"
+    ],
+    "direct_subgraph_invalid": [],
+    "direct_subgraph_duplicates": [],
+    "direct_subgraph_alias_resolutions": [],
+    "direct_subgraph_complete_parse": true,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 11,
+    "largest_tie_count": 2,
+    "tied_score_groups": [
+      {
+        "score": 0.1,
+        "count": 2,
+        "nodes": [
+          "libecore-fb1",
+          "libevas1-engines-fb"
+        ]
+      }
+    ],
+    "conflicts": [
+      {
+        "clause_a": "libecore-evas1",
+        "clause_b": "libevas1",
+        "description": "libecore-evas1 references libevas1, which is part of a dependency cycle involving libevas1-engines-drm and libecore-drm2-1."
+      },
+      {
+        "clause_a": "libevas1",
+        "clause_b": "libevas1-engines-drm",
+        "description": "libevas1 references libevas1-engines-drm, which is part of a dependency cycle involving libecore-drm2-1."
+      },
+      {
+        "clause_a": "libevas1-engines-drm",
+        "clause_b": "libecore-drm2-1",
+        "description": "libevas1-engines-drm references libecore-drm2-1, which is part of a dependency cycle involving libevas1."
+      }
+    ],
+    "score_spread": 1.0,
+    "ranking_score_spread": 1.0,
+    "score_mean": 0.4666666666666666,
+    "score_max": 1.0,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libecore-x1": "libecore-x1",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "ground_truth_nodes": [
+      "libecore-x1"
+    ],
+    "gt_evidence": {
+      "libecore-x1": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "prompt_word_count": 1369,
+    "injected_title_occurrences_in_prompt": 14,
+    "injected_id_occurrences_in_prompt": 14,
+    "injected_title_first_word_ratio": 0.08984660336011688,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3725346968590212,
+    "inject_mode": true,
+    "injected_node": "libecore-x1",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "libecore-input1",
+    "injected_witness_distance": 6,
+    "injected_bridge_node": "libevas1-engines-x",
+    "injected_bridge_distance": 3,
+    "injected_risk_nodes": [
+      "libecore-x1",
+      "libecore-input1"
+    ],
+    "injected_evidence_nodes": [
+      "libecore-x1",
+      "libevas1-engines-x",
+      "libecore-input1"
+    ],
+    "injected_affected_nodes": [
+      "libevas1-engines-fb",
+      "libevas1"
+    ],
+    "injected_conflict_family": "condition_trigger",
+    "injected_conflict_difficulty": "hard",
+    "injected_conflict_severity": "critical",
+    "injected_conflict_severity_label": "high_impact_no_fallback",
+    "injected_conflict_template": "debian_condition_trigger_partial_compatibility_critical",
+    "injected_rank": 12,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "libecore-x1": 12,
+      "libecore-input1": 6
+    },
+    "risk_best_rank": 6,
+    "risk_worst_rank": 12,
+    "risk_top1_hit": false,
+    "risk_top3_hit": false,
+    "risk_top5_hit": false,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": false,
+    "evidence_node_ranks": {
+      "libecore-x1": 12,
+      "libevas1-engines-x": 7,
+      "libecore-input1": 6
+    },
+    "evidence_best_rank": 6,
+    "evidence_worst_rank": 12,
+    "evidence_top1_hit": false,
+    "evidence_top3_hit": false,
+    "evidence_top5_hit": false,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "libevas1-engines-fb": 11,
+      "libevas1": 2
+    },
+    "affected_best_rank": 2,
+    "affected_worst_rank": 11,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "libecore-x1": 12,
+      "libecore-input1": 6,
+      "libevas1-engines-fb": 11,
+      "libevas1": 2
+    },
+    "valuable_best_rank": 2,
+    "valuable_worst_rank": 12,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 12,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "direct_subgraph_nodes_retained": [
+      "libecore-evas1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libecore-drm2-1"
+    ],
+    "direct_contains_injected_node": false,
+    "direct_contains_any_risk_node": false,
+    "direct_contains_all_risk_nodes": false,
+    "direct_risk_nodes_retained": [],
+    "direct_contains_any_evidence_node": false,
+    "direct_contains_all_evidence_nodes": false,
+    "direct_evidence_nodes_retained": [],
+    "direct_contains_any_affected_node": true,
+    "direct_contains_all_affected_nodes": false,
+    "direct_affected_nodes_retained": [
+      "libevas1"
+    ],
+    "direct_contains_any_valuable_node": true,
+    "direct_contains_all_valuable_nodes": false,
+    "direct_valuable_nodes_retained": [
+      "libevas1"
+    ]
+  }
+]

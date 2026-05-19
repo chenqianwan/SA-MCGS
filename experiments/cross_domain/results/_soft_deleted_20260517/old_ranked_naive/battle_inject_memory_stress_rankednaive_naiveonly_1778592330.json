@@ -1,0 +1,1174 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_23",
+    "scc_clause_ids": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libecore-fb1",
+      "libecore-input1",
+      "libecore-wl2-1",
+      "libecore-x1",
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "llm_calls": 1,
+    "time": 48.1933159828186,
+    "scores": {
+      "libecore-drm2-1": 0.55,
+      "libecore-evas1": 0.7,
+      "libecore-fb1": 0.25,
+      "libecore-input1": 0.65,
+      "libecore-wl2-1": 0.4,
+      "libecore-x1": 0.35,
+      "libelput1": 0.5,
+      "libevas1": 0.75,
+      "libevas1-engines-drm": 0.85,
+      "libevas1-engines-fb": 0.3,
+      "libevas1-engines-wayland": 0.6,
+      "libevas1-engines-x": 0.45
+    },
+    "reasonings": {
+      "libecore-drm2-1": "Central dependency with historical warnings in transitive libraries.",
+      "libecore-evas1": "Highly central with multiple dependencies and historical warnings.",
+      "libecore-fb1": "Minor role in the cycle with limited impact.",
+      "libecore-input1": "Key dependency for several packages, increasing centrality.",
+      "libecore-wl2-1": "Dependency for libevas1-engines-wayland but less critical overall.",
+      "libecore-x1": "Dependency for libevas1-engines-x with limited impact.",
+      "libelput1": "Dependency for libecore-drm2-1 and other packages, contributing to centrality.",
+      "libevas1": "Central node with multiple dependencies, exacerbating update blockage.",
+      "libevas1-engines-drm": "Direct evidence of a live security incident and critical role in update blockage.",
+      "libevas1-engines-fb": "Potential exposure to CVE propagation but less central to the cycle.",
+      "libevas1-engines-wayland": "Contributes to version-lock issues and has potential CVE exposure.",
+      "libevas1-engines-x": "Potential CVE exposure but less central to the cycle."
+    },
+    "ranking": [
+      [
+        "libevas1-engines-drm",
+        0.85
+      ],
+      [
+        "libevas1",
+        0.75
+      ],
+      [
+        "libecore-evas1",
+        0.7
+      ],
+      [
+        "libecore-input1",
+        0.65
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.6
+      ],
+      [
+        "libecore-drm2-1",
+        0.55
+      ],
+      [
+        "libelput1",
+        0.5
+      ],
+      [
+        "libevas1-engines-x",
+        0.45
+      ],
+      [
+        "libecore-wl2-1",
+        0.4
+      ],
+      [
+        "libecore-x1",
+        0.35
+      ],
+      [
+        "libevas1-engines-fb",
+        0.3
+      ],
+      [
+        "libecore-fb1",
+        0.25
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "libevas1-engines-drm",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "direct high-severity security or accident evidence",
+          "update blockage or circular version-lock severity"
+        ],
+        "reasoning": "This package has direct evidence of a live security incident where its postinst check fails due to circular dependencies, leaving a vulnerable shared object active. It also plays a critical role in blocking updates for the entire cycle."
+      },
+      {
+        "rank": 2,
+        "clause_id": "libevas1",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "update blockage or circular version-lock severity",
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "As a central node with multiple dependencies, libevas1 is critical to the cycle. Its dependency on libevas1-engines-drm exacerbates the update blockage issue."
+      },
+      {
+        "rank": 3,
+        "clause_id": "libecore-evas1",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential",
+          "CVE propagation / attack surface exposure"
+        ],
+        "reasoning": "This package depends on multiple other packages in the cycle, increasing its centrality and potential for cascading failures. It also has historical warnings in transitive libraries."
+      },
+      {
+        "rank": 4,
+        "clause_id": "libecore-input1",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential",
+          "CVE propagation / attack surface exposure"
+        ],
+        "reasoning": "libecore-input1 is a key dependency for several other packages, making it central to the cycle. It also has historical warnings in transitive libraries."
+      },
+      {
+        "rank": 5,
+        "clause_id": "libevas1-engines-wayland",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "CVE propagation / attack surface exposure",
+          "update blockage or circular version-lock severity"
+        ],
+        "reasoning": "This package depends on multiple other packages in the cycle, contributing to version-lock issues. It also has potential exposure to CVE propagation."
+      },
+      {
+        "rank": 6,
+        "clause_id": "libecore-drm2-1",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "CVE propagation / attack surface exposure",
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "libecore-drm2-1 is a dependency for several other packages, increasing its centrality. It also has historical warnings in transitive libraries."
+      },
+      {
+        "rank": 7,
+        "clause_id": "libelput1",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "libelput1 is a dependency for libecore-drm2-1 and other packages, contributing to its centrality in the cycle."
+      },
+      {
+        "rank": 8,
+        "clause_id": "libevas1-engines-x",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "CVE propagation / attack surface exposure"
+        ],
+        "reasoning": "This package has potential exposure to CVE propagation but is less central to the cycle compared to other packages."
+      },
+      {
+        "rank": 9,
+        "clause_id": "libecore-wl2-1",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "libecore-wl2-1 is a dependency for libevas1-engines-wayland and other packages, but its role is less critical compared to higher-ranked packages."
+      },
+      {
+        "rank": 10,
+        "clause_id": "libecore-x1",
+        "risk_score": 0.35,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "libecore-x1 is a dependency for libevas1-engines-x and other packages, but its impact on the cycle is relatively limited."
+      },
+      {
+        "rank": 11,
+        "clause_id": "libevas1-engines-fb",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "CVE propagation / attack surface exposure"
+        ],
+        "reasoning": "This package has potential exposure to CVE propagation but is less central to the cycle compared to other packages."
+      },
+      {
+        "rank": 12,
+        "clause_id": "libecore-fb1",
+        "risk_score": 0.25,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "libecore-fb1 is a dependency for libecore-evas1 but has a relatively minor role in the cycle."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "direct high-severity security or accident evidence",
+        "importance_weight": 0.4,
+        "description": "Captures whether the package has direct evidence of unresolved CVEs, security incidents, or critical failures."
+      },
+      {
+        "factor": "update blockage or circular version-lock severity",
+        "importance_weight": 0.25,
+        "description": "Measures the severity of the package's role in blocking updates or causing version-lock issues in the circular dependency."
+      },
+      {
+        "factor": "CVE propagation / attack surface exposure",
+        "importance_weight": 0.2,
+        "description": "Assesses the package's exposure to CVE propagation and its role as a potential attack surface."
+      },
+      {
+        "factor": "dependency centrality and cascading failure potential",
+        "importance_weight": 0.15,
+        "description": "Evaluates the package's centrality in the dependency graph and its potential to cause cascading failures."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "distinct_score_count": 12,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "libevas1-engines-drm",
+        "clause_b": "libevas1",
+        "description": "libevas1-engines-drm's postinst check fails due to circular dependencies, leaving a vulnerable shared object active."
+      },
+      {
+        "clause_a": "libevas1",
+        "clause_b": "libecore-evas1",
+        "description": "libevas1's centrality exacerbates update blockage issues caused by libecore-evas1."
+      }
+    ],
+    "score_spread": 0.6,
+    "ranking_score_spread": 0.6,
+    "score_mean": 0.5291666666666667,
+    "score_max": 0.85,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libecore-x1": "libecore-x1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "ground_truth_nodes": [
+      "libevas1-engines-drm"
+    ],
+    "gt_evidence": {
+      "libevas1-engines-drm": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "libevas1-engines-drm",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_23",
+    "scc_clause_ids": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libecore-fb1",
+      "libecore-input1",
+      "libecore-wl2-1",
+      "libecore-x1",
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "llm_calls": 1,
+    "time": 55.7732138633728,
+    "scores": {
+      "libecore-drm2-1": 0.65,
+      "libecore-evas1": 0.72,
+      "libecore-fb1": 0.42,
+      "libecore-input1": 0.68,
+      "libecore-wl2-1": 0.52,
+      "libecore-x1": 0.55,
+      "libelput1": 0.58,
+      "libevas1": 0.78,
+      "libevas1-engines-drm": 0.92,
+      "libevas1-engines-fb": 0.38,
+      "libevas1-engines-wayland": 0.62,
+      "libevas1-engines-x": 0.48
+    },
+    "reasonings": {
+      "libecore-drm2-1": "Critical participant in documented security incident, moderate dependency centrality",
+      "libecore-evas1": "High dependency centrality with 7 dependencies and key position in cycle",
+      "libecore-fb1": "Low centrality with only one dependency and one dependent in cycle",
+      "libecore-input1": "High centrality as dependency for 6 packages including critical nodes",
+      "libecore-wl2-1": "Moderate centrality with one dependency and one dependent",
+      "libecore-x1": "Moderate centrality with one dependency and multiple dependents",
+      "libelput1": "Moderate centrality with bidirectional coupling to critical packages",
+      "libevas1": "Highest centrality as core dependency for all engines and multiple ecore packages",
+      "libevas1-engines-drm": "Documented security update blockage with network-facing vulnerable code paths",
+      "libevas1-engines-fb": "Lowest risk with minimal cycle dependencies and no dependents",
+      "libevas1-engines-wayland": "High dependency count with 5 cycle dependencies",
+      "libevas1-engines-x": "Moderate risk with bidirectional dependency to evas1"
+    },
+    "ranking": [
+      [
+        "libevas1-engines-drm",
+        0.92
+      ],
+      [
+        "libevas1",
+        0.78
+      ],
+      [
+        "libecore-evas1",
+        0.72
+      ],
+      [
+        "libecore-input1",
+        0.68
+      ],
+      [
+        "libecore-drm2-1",
+        0.65
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.62
+      ],
+      [
+        "libelput1",
+        0.58
+      ],
+      [
+        "libecore-x1",
+        0.55
+      ],
+      [
+        "libecore-wl2-1",
+        0.52
+      ],
+      [
+        "libevas1-engines-x",
+        0.48
+      ],
+      [
+        "libecore-fb1",
+        0.42
+      ],
+      [
+        "libevas1-engines-fb",
+        0.38
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "libevas1-engines-drm",
+        "risk_score": 0.92,
+        "risk_factors": [
+          "security_update_blockage",
+          "dependency_centrality",
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Documented security incident where updates cannot activate due to circular dependency, network-facing code path with vulnerable object remaining active"
+      },
+      {
+        "rank": 2,
+        "clause_id": "libevas1",
+        "risk_score": 0.78,
+        "risk_factors": [
+          "dependency_centrality",
+          "cascading_failure_potential",
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Core dependency for all engine packages and multiple ecore packages, central hub in the cycle with high propagation risk"
+      },
+      {
+        "rank": 3,
+        "clause_id": "libecore-evas1",
+        "risk_score": 0.72,
+        "risk_factors": [
+          "dependency_centrality",
+          "cascading_failure_potential"
+        ],
+        "reasoning": "Depends on 7 other packages in the cycle and is depended on by wayland engine, making it a critical junction"
+      },
+      {
+        "rank": 4,
+        "clause_id": "libecore-input1",
+        "risk_score": 0.68,
+        "risk_factors": [
+          "dependency_centrality",
+          "cascading_failure_potential"
+        ],
+        "reasoning": "Required by 6 other packages including libelput1 and multiple engines, positioned as a dependency hub"
+      },
+      {
+        "rank": 5,
+        "clause_id": "libecore-drm2-1",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "dependency_centrality",
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Directly involved in the documented security incident, depends on libelput1 and depended on by multiple packages"
+      },
+      {
+        "rank": 6,
+        "clause_id": "libevas1-engines-wayland",
+        "risk_score": 0.62,
+        "risk_factors": [
+          "dependency_centrality",
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Depends on 5 other cycle packages including critical ecore-evas1 and ecore-input1"
+      },
+      {
+        "rank": 7,
+        "clause_id": "libelput1",
+        "risk_score": 0.58,
+        "risk_factors": [
+          "dependency_centrality"
+        ],
+        "reasoning": "Depends on ecore-input1 and is depended on by ecore-drm2-1 and ecore-evas1, creating bidirectional coupling"
+      },
+      {
+        "rank": 8,
+        "clause_id": "libecore-x1",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "dependency_centrality"
+        ],
+        "reasoning": "Depends on ecore-input1 and is depended on by multiple engines, moderate centrality"
+      },
+      {
+        "rank": 9,
+        "clause_id": "libecore-wl2-1",
+        "risk_score": 0.52,
+        "risk_factors": [
+          "dependency_centrality"
+        ],
+        "reasoning": "Depends on ecore-input1 and is depended on by wayland engine, moderate propagation risk"
+      },
+      {
+        "rank": 10,
+        "clause_id": "libevas1-engines-x",
+        "risk_score": 0.48,
+        "risk_factors": [
+          "dependency_centrality"
+        ],
+        "reasoning": "Depends on ecore-x1 and evas1, and is depended on by evas1, creating tight coupling"
+      },
+      {
+        "rank": 11,
+        "clause_id": "libecore-fb1",
+        "risk_score": 0.42,
+        "risk_factors": [
+          "dependency_centrality"
+        ],
+        "reasoning": "Only depends on ecore-input1 and is only depended on by ecore-evas1, lower propagation risk"
+      },
+      {
+        "rank": 12,
+        "clause_id": "libevas1-engines-fb",
+        "risk_score": 0.38,
+        "risk_factors": [
+          "dependency_centrality"
+        ],
+        "reasoning": "Only depends on evas1 and has no dependents within the cycle, lowest propagation risk"
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "security_update_blockage",
+        "importance_weight": 0.35,
+        "description": "Evidence that security updates cannot be properly installed due to circular dependency issues"
+      },
+      {
+        "factor": "dependency_centrality",
+        "importance_weight": 0.25,
+        "description": "Number of dependencies and dependents within the cycle, indicating propagation risk"
+      },
+      {
+        "factor": "attack_surface_exposure",
+        "importance_weight": 0.2,
+        "description": "Network-facing code paths and historical vulnerability patterns"
+      },
+      {
+        "factor": "cascading_failure_potential",
+        "importance_weight": 0.15,
+        "description": "Likelihood that failures in this package would propagate widely"
+      },
+      {
+        "factor": "specific_incident_evidence",
+        "importance_weight": 0.05,
+        "description": "Documented incidents or specific warnings beyond generic dependency issues"
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "distinct_score_count": 12,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "libevas1-engines-drm",
+        "clause_b": "libecore-drm2-1",
+        "description": "Security update blockage: postinst requires newer ABI from dependencies while dependencies refuse to configure until this package provides fixed interface"
+      },
+      {
+        "clause_a": "libevas1",
+        "clause_b": "libevas1-engines-x",
+        "description": "Bidirectional dependency creates tight coupling that prevents independent updates"
+      },
+      {
+        "clause_a": "libecore-evas1",
+        "clause_b": "libevas1",
+        "description": "Core bidirectional dependency at heart of the circular structure"
+      }
+    ],
+    "score_spread": 0.54,
+    "ranking_score_spread": 0.54,
+    "score_mean": 0.6083333333333333,
+    "score_max": 0.92,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libecore-x1": "libecore-x1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "ground_truth_nodes": [
+      "libevas1-engines-drm"
+    ],
+    "gt_evidence": {
+      "libevas1-engines-drm": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "libevas1-engines-drm",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.14
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_15",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "llm_calls": 1,
+    "time": 50.8444390296936,
+    "scores": {
+      "libjs-util": 0.4,
+      "node-assert": 0.2,
+      "node-debbundle-es-to-primitive": 0.3,
+      "node-deep-equal": 0.6,
+      "node-define-properties": 0.25,
+      "node-es-abstract": 0.55,
+      "node-istanbul": 0.35,
+      "node-parse-json": 0.85,
+      "node-read-pkg": 0.7,
+      "node-tape": 0.5,
+      "node-util": 0.15
+    },
+    "reasonings": {
+      "libjs-util": "Medium-priority package with historical warnings but rebuildable independently.",
+      "node-assert": "Minimal direct risk and weak involvement in the circular dependency.",
+      "node-debbundle-es-to-primitive": "Moderate coupling but not directly involved in critical circular dependency issues.",
+      "node-deep-equal": "Highly central package with multiple dependencies, increasing cascading failure risk.",
+      "node-define-properties": "Low direct risk but contributes to overall coupling in the dependency graph.",
+      "node-es-abstract": "Significant coupling and key participant in the circular dependency.",
+      "node-istanbul": "Moderate coupling and depends on node-read-pkg, part of the critical circular dependency.",
+      "node-parse-json": "Live security incident with critical CVE exposure due to circular dependency.",
+      "node-read-pkg": "Directly involved in critical circular dependency, blocking security updates.",
+      "node-tape": "Depends on multiple high-risk packages, increasing cascading failure risk.",
+      "node-util": "Lowest risk due to limited involvement in the circular dependency and low coupling."
+    },
+    "ranking": [
+      [
+        "node-parse-json",
+        0.85
+      ],
+      [
+        "node-read-pkg",
+        0.7
+      ],
+      [
+        "node-deep-equal",
+        0.6
+      ],
+      [
+        "node-es-abstract",
+        0.55
+      ],
+      [
+        "node-tape",
+        0.5
+      ],
+      [
+        "libjs-util",
+        0.4
+      ],
+      [
+        "node-istanbul",
+        0.35
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.3
+      ],
+      [
+        "node-define-properties",
+        0.25
+      ],
+      [
+        "node-assert",
+        0.2
+      ],
+      [
+        "node-util",
+        0.15
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "node-parse-json",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "direct high-severity security or accident evidence",
+          "update blockage or circular version-lock severity"
+        ],
+        "reasoning": "Node-parse-json has a live security incident where a patched binary cannot be activated due to circular dependencies. This creates a critical risk of CVE exposure in a network-facing code path."
+      },
+      {
+        "rank": 2,
+        "clause_id": "node-read-pkg",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "update blockage or circular version-lock severity",
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "Node-read-pkg is directly involved in the circular dependency with node-parse-json, contributing to the inability to apply security updates. It also has high coupling with other packages."
+      },
+      {
+        "rank": 3,
+        "clause_id": "node-deep-equal",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential",
+          "CVE propagation / attack surface exposure"
+        ],
+        "reasoning": "Node-deep-equal is a highly central package with multiple dependencies, increasing the risk of cascading failures and CVE propagation."
+      },
+      {
+        "rank": 4,
+        "clause_id": "node-es-abstract",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential",
+          "CVE propagation / attack surface exposure"
+        ],
+        "reasoning": "Node-es-abstract has significant coupling with other packages and is a key participant in the circular dependency, increasing its risk profile."
+      },
+      {
+        "rank": 5,
+        "clause_id": "node-tape",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "Node-tape depends on multiple high-risk packages, including node-deep-equal and node-es-abstract, making it vulnerable to cascading failures."
+      },
+      {
+        "rank": 6,
+        "clause_id": "libjs-util",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "CVE propagation / attack surface exposure"
+        ],
+        "reasoning": "Libjs-util is a medium-priority package with historical warnings in transitive libraries, but it can be rebuilt independently, reducing its overall risk."
+      },
+      {
+        "rank": 7,
+        "clause_id": "node-istanbul",
+        "risk_score": 0.35,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "Node-istanbul has moderate coupling and depends on node-read-pkg, which is part of the critical circular dependency."
+      },
+      {
+        "rank": 8,
+        "clause_id": "node-debbundle-es-to-primitive",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "Node-debbundle-es-to-primitive has moderate coupling but does not directly contribute to the most critical circular dependency issues."
+      },
+      {
+        "rank": 9,
+        "clause_id": "node-define-properties",
+        "risk_score": 0.25,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "Node-define-properties has low direct risk but contributes to the overall coupling in the dependency graph."
+      },
+      {
+        "rank": 10,
+        "clause_id": "node-assert",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "CVE propagation / attack surface exposure"
+        ],
+        "reasoning": "Node-assert has minimal direct risk and is only weakly involved in the circular dependency."
+      },
+      {
+        "rank": 11,
+        "clause_id": "node-util",
+        "risk_score": 0.15,
+        "risk_factors": [
+          "CVE propagation / attack surface exposure"
+        ],
+        "reasoning": "Node-util has the lowest risk due to its limited involvement in the circular dependency and low coupling."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "direct high-severity security or accident evidence",
+        "importance_weight": 0.4,
+        "description": "Captures whether the package has direct evidence of CVEs, unresolved security issues, or incidents that block updates."
+      },
+      {
+        "factor": "update blockage or circular version-lock severity",
+        "importance_weight": 0.25,
+        "description": "Measures the severity of circular dependency issues, including version-locks and inability to apply security updates."
+      },
+      {
+        "factor": "CVE propagation / attack surface exposure",
+        "importance_weight": 0.2,
+        "description": "Assesses the potential for vulnerabilities to propagate through the dependency graph or expose attack surfaces."
+      },
+      {
+        "factor": "dependency centrality and cascading failure potential",
+        "importance_weight": 0.15,
+        "description": "Evaluates the degree of coupling and the potential for cascading failures if the package is compromised or fails."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "distinct_score_count": 11,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "node-parse-json",
+        "clause_b": "node-read-pkg",
+        "description": "Critical circular dependency prevents security updates from being applied, exposing a live CVE risk."
+      },
+      {
+        "clause_a": "node-deep-equal",
+        "clause_b": "node-es-abstract",
+        "description": "High coupling between these packages increases the risk of cascading failures."
+      }
+    ],
+    "score_spread": 0.7,
+    "ranking_score_spread": 0.7,
+    "score_mean": 0.44090909090909086,
+    "score_max": 0.85,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.15000000000000002
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_15",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "llm_calls": 1,
+    "time": 43.808324098587036,
+    "scores": {
+      "libjs-util": 0.42,
+      "node-assert": 0.38,
+      "node-debbundle-es-to-primitive": 0.68,
+      "node-deep-equal": 0.78,
+      "node-define-properties": 0.58,
+      "node-es-abstract": 0.75,
+      "node-istanbul": 0.52,
+      "node-parse-json": 0.92,
+      "node-read-pkg": 0.48,
+      "node-tape": 0.62,
+      "node-util": 0.45
+    },
+    "reasonings": {
+      "libjs-util": "Bridge package with moderate centrality, connects JavaScript and Node.js components but limited direct security impact",
+      "node-assert": "Edge package with assertion functionality but minimal centrality in the cycle",
+      "node-debbundle-es-to-primitive": "Highly central with multiple dependency paths, critical for graph connectivity",
+      "node-deep-equal": "Most central package in the cycle with 6 dependency relationships, major cascading failure risk",
+      "node-define-properties": "Moderately central with dependencies from multiple core packages",
+      "node-es-abstract": "Core abstraction layer with high centrality and multiple dependency chains",
+      "node-istanbul": "Testing tool with security implications but limited to one dependency relationship",
+      "node-parse-json": "Critical security risk due to documented update blockage causing active security incidents",
+      "node-read-pkg": "Involved in security incident chain but with limited centrality",
+      "node-tape": "Testing framework with broad dependencies affecting development security",
+      "node-util": "Utility library with bridge functionality but moderate risk profile"
+    },
+    "ranking": [
+      [
+        "node-parse-json",
+        0.92
+      ],
+      [
+        "node-deep-equal",
+        0.78
+      ],
+      [
+        "node-es-abstract",
+        0.75
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.68
+      ],
+      [
+        "node-tape",
+        0.62
+      ],
+      [
+        "node-define-properties",
+        0.58
+      ],
+      [
+        "node-istanbul",
+        0.52
+      ],
+      [
+        "node-read-pkg",
+        0.48
+      ],
+      [
+        "node-util",
+        0.45
+      ],
+      [
+        "libjs-util",
+        0.42
+      ],
+      [
+        "node-assert",
+        0.38
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "node-parse-json",
+        "risk_score": 0.92,
+        "risk_factors": [
+          "security_update_blockage",
+          "specific_incident_evidence",
+          "dependency_centrality"
+        ],
+        "reasoning": "Documented security incident where security updates cannot be activated due to circular dependency - patched binary present but not activated on hosts, causing service crashes and rollback to vulnerable code"
+      },
+      {
+        "rank": 2,
+        "clause_id": "node-deep-equal",
+        "risk_score": 0.78,
+        "risk_factors": [
+          "dependency_centrality",
+          "graph_position_criticality",
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Highly central package with 6 dependencies within the cycle (libjs-util, node-debbundle-es-to-primitive, node-es-abstract, node-tape, and multiple from node-es-abstract), making it critical for cascading failures"
+      },
+      {
+        "rank": 3,
+        "clause_id": "node-es-abstract",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "dependency_centrality",
+          "graph_position_criticality",
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Core dependency for 4 packages (node-deep-equal, node-define-properties, node-tape) with multiple dependency links, positioned as a bottleneck in the graph"
+      },
+      {
+        "rank": 4,
+        "clause_id": "node-debbundle-es-to-primitive",
+        "risk_score": 0.68,
+        "risk_factors": [
+          "dependency_centrality",
+          "graph_position_criticality"
+        ],
+        "reasoning": "Critical node with dependencies from node-deep-equal, node-es-abstract, and node-tape, creating multiple dependency paths through the cycle"
+      },
+      {
+        "rank": 5,
+        "clause_id": "node-tape",
+        "risk_score": 0.62,
+        "risk_factors": [
+          "dependency_centrality",
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Testing framework with broad dependencies (5 packages) that could affect development and CI/CD pipelines if compromised"
+      },
+      {
+        "rank": 6,
+        "clause_id": "node-define-properties",
+        "risk_score": 0.58,
+        "risk_factors": [
+          "dependency_centrality",
+          "graph_position_criticality"
+        ],
+        "reasoning": "Depended on by 3 packages (node-debbundle-es-to-primitive, node-deep-equal, node-es-abstract) and positioned in multiple dependency chains"
+      },
+      {
+        "rank": 7,
+        "clause_id": "node-istanbul",
+        "risk_score": 0.52,
+        "risk_factors": [
+          "dependency_centrality",
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Code coverage tool depended on by node-tape, with potential security implications for testing infrastructure"
+      },
+      {
+        "rank": 8,
+        "clause_id": "node-read-pkg",
+        "risk_score": 0.48,
+        "risk_factors": [
+          "dependency_centrality",
+          "specific_incident_evidence"
+        ],
+        "reasoning": "Part of the documented security incident chain through node-istanbul dependency, though less central than others"
+      },
+      {
+        "rank": 9,
+        "clause_id": "node-util",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "dependency_centrality",
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Utility library depended on by node-assert and depending on libjs-util, creating bridge between JavaScript and Node.js components"
+      },
+      {
+        "rank": 10,
+        "clause_id": "libjs-util",
+        "risk_score": 0.42,
+        "risk_factors": [
+          "dependency_centrality"
+        ],
+        "reasoning": "Bridge package between JavaScript and Node.js ecosystems, depended on by node-util and depending on node-deep-equal"
+      },
+      {
+        "rank": 11,
+        "clause_id": "node-assert",
+        "risk_score": 0.38,
+        "risk_factors": [
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Assertion library with security relevance but only one dependency (node-util) and positioned at edge of dependency graph"
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "security_update_blockage",
+        "importance_weight": 0.35,
+        "description": "Evidence that security updates cannot be properly installed due to circular dependency issues"
+      },
+      {
+        "factor": "dependency_centrality",
+        "importance_weight": 0.25,
+        "description": "Number of packages that depend on this package within the cycle, indicating cascading failure potential"
+      },
+      {
+        "factor": "attack_surface_exposure",
+        "importance_weight": 0.2,
+        "description": "Likelihood of being used in security-sensitive contexts or having known vulnerability history"
+      },
+      {
+        "factor": "graph_position_criticality",
+        "importance_weight": 0.15,
+        "description": "Position in dependency graph that makes it a bottleneck or single point of failure"
+      },
+      {
+        "factor": "specific_incident_evidence",
+        "importance_weight": 0.05,
+        "description": "Specific documented incidents or warnings beyond generic dependency issues"
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "distinct_score_count": 11,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "node-parse-json",
+        "clause_b": "node-read-pkg",
+        "description": "Mutual dependency creates security update blockage where postinst checks require co-installed cycle partners with newer ABI"
+      },
+      {
+        "clause_a": "node-deep-equal",
+        "clause_b": "node-debbundle-es-to-primitive",
+        "description": "Mutual dependency creates tight coupling that amplifies cascading failure risk"
+      },
+      {
+        "clause_a": "node-es-abstract",
+        "clause_b": "node-deep-equal",
+        "description": "Multiple dependency links create reinforced circularity that resists update propagation"
+      }
+    ],
+    "score_spread": 0.54,
+    "ranking_score_spread": 0.54,
+    "score_mean": 0.5981818181818181,
+    "score_max": 0.92,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.14
+  }
+]

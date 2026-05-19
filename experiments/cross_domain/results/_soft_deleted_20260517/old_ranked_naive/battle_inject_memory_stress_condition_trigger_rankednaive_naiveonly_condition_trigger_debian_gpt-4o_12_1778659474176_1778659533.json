@@ -1,0 +1,383 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "synthetic_debian_12",
+    "scc_clause_ids": [
+      "synthetic_debian_12_node_01",
+      "synthetic_debian_12_node_02",
+      "synthetic_debian_12_node_03",
+      "synthetic_debian_12_node_04",
+      "synthetic_debian_12_node_05",
+      "synthetic_debian_12_node_06",
+      "synthetic_debian_12_node_07",
+      "synthetic_debian_12_node_08",
+      "synthetic_debian_12_node_09",
+      "synthetic_debian_12_node_10",
+      "synthetic_debian_12_node_11",
+      "synthetic_debian_12_node_12"
+    ],
+    "llm_calls": 1,
+    "time": 59.13189697265625,
+    "scores": {
+      "synthetic_debian_12_node_01": 0.7,
+      "synthetic_debian_12_node_02": 0.5,
+      "synthetic_debian_12_node_03": 0.6,
+      "synthetic_debian_12_node_04": 0.1,
+      "synthetic_debian_12_node_05": 0.1,
+      "synthetic_debian_12_node_06": 0.1,
+      "synthetic_debian_12_node_07": 0.1,
+      "synthetic_debian_12_node_08": 0.4,
+      "synthetic_debian_12_node_09": 0.8,
+      "synthetic_debian_12_node_10": 0.2,
+      "synthetic_debian_12_node_11": 0.3,
+      "synthetic_debian_12_node_12": 0.9
+    },
+    "reasonings": {
+      "synthetic_debian_12_node_01": "Initiates the cycle and a long dependency chain, increasing structural risk.",
+      "synthetic_debian_12_node_02": "Part of the long dependency chain and references Node 3, which has compatibility ambiguity.",
+      "synthetic_debian_12_node_03": "Assumes compatibility conditions are satisfied without explicit evidence, introducing ambiguity.",
+      "synthetic_debian_12_node_04": "Part of the long dependency chain but does not introduce ambiguity or staged note issues.",
+      "synthetic_debian_12_node_05": "Part of the long dependency chain but does not introduce ambiguity or staged note issues.",
+      "synthetic_debian_12_node_06": "Part of the long dependency chain but does not introduce ambiguity or staged note issues.",
+      "synthetic_debian_12_node_07": "Part of the long dependency chain but does not introduce ambiguity or staged note issues.",
+      "synthetic_debian_12_node_08": "Part of the long dependency chain and directly references Node 9, which has staged note incompletion.",
+      "synthetic_debian_12_node_09": "Requires two independent compatibility notes but only stages one, leaving the second unresolved.",
+      "synthetic_debian_12_node_10": "Part of the long dependency chain but does not introduce additional ambiguity.",
+      "synthetic_debian_12_node_11": "Part of the cycle but does not introduce additional ambiguity or unresolved conditions.",
+      "synthetic_debian_12_node_12": "Part of the cycle and explicitly preserves compatibility conditions without resolving staged notes, creating ambiguity and structural risk."
+    },
+    "ranking": [
+      [
+        "synthetic_debian_12_node_12",
+        0.9
+      ],
+      [
+        "synthetic_debian_12_node_09",
+        0.8
+      ],
+      [
+        "synthetic_debian_12_node_01",
+        0.7
+      ],
+      [
+        "synthetic_debian_12_node_03",
+        0.6
+      ],
+      [
+        "synthetic_debian_12_node_02",
+        0.5
+      ],
+      [
+        "synthetic_debian_12_node_08",
+        0.4
+      ],
+      [
+        "synthetic_debian_12_node_11",
+        0.3
+      ],
+      [
+        "synthetic_debian_12_node_10",
+        0.2
+      ],
+      [
+        "synthetic_debian_12_node_04",
+        0.1
+      ],
+      [
+        "synthetic_debian_12_node_05",
+        0.1
+      ],
+      [
+        "synthetic_debian_12_node_06",
+        0.1
+      ],
+      [
+        "synthetic_debian_12_node_07",
+        0.1
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_debian_12_node_12",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "cyclic_dependency",
+          "compatibility_condition_ambiguity"
+        ],
+        "reasoning": "Node 12 is part of the cycle and explicitly preserves compatibility conditions without resolving staged notes, creating ambiguity and structural risk."
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_debian_12_node_09",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "compatibility_condition_ambiguity",
+          "staged_note_incompletion"
+        ],
+        "reasoning": "Node 9 introduces ambiguity by requiring two independent compatibility notes but only staging one, leaving the second unresolved."
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_debian_12_node_01",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "cyclic_dependency",
+          "dependency_chain_length"
+        ],
+        "reasoning": "Node 1 is part of the cycle and initiates a long dependency chain, increasing structural risk."
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_debian_12_node_03",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "compatibility_condition_ambiguity"
+        ],
+        "reasoning": "Node 3 assumes compatibility conditions are satisfied without explicit evidence, introducing ambiguity."
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_debian_12_node_02",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "dependency_chain_length"
+        ],
+        "reasoning": "Node 2 is part of the long dependency chain and references Node 3, which has compatibility ambiguity."
+      },
+      {
+        "rank": 6,
+        "clause_id": "synthetic_debian_12_node_08",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "dependency_chain_length"
+        ],
+        "reasoning": "Node 8 is part of the long dependency chain and directly references Node 9, which has staged note incompletion."
+      },
+      {
+        "rank": 7,
+        "clause_id": "synthetic_debian_12_node_11",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node 11 is part of the cycle but does not introduce additional ambiguity or unresolved conditions."
+      },
+      {
+        "rank": 8,
+        "clause_id": "synthetic_debian_12_node_10",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "dependency_chain_length"
+        ],
+        "reasoning": "Node 10 is part of the long dependency chain but does not introduce additional ambiguity."
+      },
+      {
+        "rank": 9,
+        "clause_id": "synthetic_debian_12_node_04",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "dependency_chain_length"
+        ],
+        "reasoning": "Node 4 is part of the long dependency chain but does not introduce ambiguity or staged note issues."
+      },
+      {
+        "rank": 10,
+        "clause_id": "synthetic_debian_12_node_05",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "dependency_chain_length"
+        ],
+        "reasoning": "Node 5 is part of the long dependency chain but does not introduce ambiguity or staged note issues."
+      },
+      {
+        "rank": 11,
+        "clause_id": "synthetic_debian_12_node_06",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "dependency_chain_length"
+        ],
+        "reasoning": "Node 6 is part of the long dependency chain but does not introduce ambiguity or staged note issues."
+      },
+      {
+        "rank": 12,
+        "clause_id": "synthetic_debian_12_node_07",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "dependency_chain_length"
+        ],
+        "reasoning": "Node 7 is part of the long dependency chain but does not introduce ambiguity or staged note issues."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures the structural risk introduced by the cyclic dependency in the graph, which can lead to infinite loops or unresolved dependencies."
+      },
+      {
+        "factor": "compatibility_condition_ambiguity",
+        "importance_weight": 0.3,
+        "description": "Captures the risk of underspecified or ambiguous compatibility conditions, which can lead to misinterpretation or failure to meet requirements."
+      },
+      {
+        "factor": "dependency_chain_length",
+        "importance_weight": 0.2,
+        "description": "Captures the risk associated with long dependency chains, which increase the likelihood of cascading failures or delays."
+      },
+      {
+        "factor": "staged_note_incompletion",
+        "importance_weight": 0.1,
+        "description": "Captures the risk of incomplete staged notes, which can block progress or create uncertainty in planning."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 9,
+    "largest_tie_count": 4,
+    "tied_score_groups": [
+      {
+        "score": 0.1,
+        "count": 4,
+        "nodes": [
+          "synthetic_debian_12_node_04",
+          "synthetic_debian_12_node_05",
+          "synthetic_debian_12_node_06",
+          "synthetic_debian_12_node_07"
+        ]
+      }
+    ],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_debian_12_node_12",
+        "clause_b": "synthetic_debian_12_node_09",
+        "description": "Node 12 preserves compatibility conditions without resolving staged notes, while Node 9 requires two independent compatibility notes but leaves one unresolved."
+      },
+      {
+        "clause_a": "synthetic_debian_12_node_01",
+        "clause_b": "synthetic_debian_12_node_12",
+        "description": "Node 1 initiates the cycle, which includes Node 12, creating structural risk due to cyclic dependencies."
+      }
+    ],
+    "score_spread": 0.8,
+    "ranking_score_spread": 0.8,
+    "score_mean": 0.39999999999999997,
+    "score_max": 0.9,
+    "node_names": {
+      "synthetic_debian_12_node_01": "synthetic debian 12 node 01",
+      "synthetic_debian_12_node_02": "synthetic debian 12 node 02",
+      "synthetic_debian_12_node_03": "synthetic debian 12 node 03",
+      "synthetic_debian_12_node_04": "synthetic debian 12 node 04",
+      "synthetic_debian_12_node_05": "synthetic debian 12 node 05",
+      "synthetic_debian_12_node_06": "synthetic debian 12 node 06",
+      "synthetic_debian_12_node_07": "synthetic debian 12 node 07",
+      "synthetic_debian_12_node_08": "synthetic debian 12 node 08",
+      "synthetic_debian_12_node_09": "synthetic debian 12 node 09",
+      "synthetic_debian_12_node_10": "synthetic debian 12 node 10",
+      "synthetic_debian_12_node_11": "synthetic debian 12 node 11",
+      "synthetic_debian_12_node_12": "synthetic debian 12 node 12"
+    },
+    "ground_truth_nodes": [
+      "synthetic_debian_12_node_09"
+    ],
+    "gt_evidence": {
+      "synthetic_debian_12_node_09": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 933,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.3558413719185423,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.36227224008574493,
+    "inject_mode": true,
+    "injected_node": "synthetic_debian_12_node_09",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_debian_12_node_03",
+    "injected_witness_distance": 6,
+    "injected_bridge_node": "synthetic_debian_12_node_12",
+    "injected_bridge_distance": 3,
+    "injected_risk_nodes": [
+      "synthetic_debian_12_node_09",
+      "synthetic_debian_12_node_03"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_debian_12_node_09",
+      "synthetic_debian_12_node_12",
+      "synthetic_debian_12_node_03"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_debian_12_node_10",
+      "synthetic_debian_12_node_04"
+    ],
+    "injected_conflict_family": "condition_trigger",
+    "injected_conflict_difficulty": "hard",
+    "injected_conflict_template": "debian_condition_trigger_partial_compatibility",
+    "injected_rank": 2,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_debian_12_node_09": 2,
+      "synthetic_debian_12_node_03": 4
+    },
+    "risk_best_rank": 2,
+    "risk_worst_rank": 4,
+    "risk_top1_hit": false,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_debian_12_node_09": 2,
+      "synthetic_debian_12_node_12": 1,
+      "synthetic_debian_12_node_03": 4
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 4,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_debian_12_node_10": 8,
+      "synthetic_debian_12_node_04": 9
+    },
+    "affected_best_rank": 8,
+    "affected_worst_rank": 9,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": false,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "synthetic_debian_12_node_09": 2,
+      "synthetic_debian_12_node_03": 4,
+      "synthetic_debian_12_node_10": 8,
+      "synthetic_debian_12_node_04": 9
+    },
+    "valuable_best_rank": 2,
+    "valuable_worst_rank": 9,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 2,
+    "root_top1_hit": false,
+    "root_top3_hit": true
+  }
+]

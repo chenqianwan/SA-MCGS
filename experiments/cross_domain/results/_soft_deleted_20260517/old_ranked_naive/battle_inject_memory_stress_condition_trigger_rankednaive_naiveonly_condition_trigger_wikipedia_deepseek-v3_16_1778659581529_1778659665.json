@@ -1,0 +1,450 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (wikipedia); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "wikipedia",
+    "scc_size": 16,
+    "scc_id": "synthetic_wikipedia_16",
+    "scc_clause_ids": [
+      "synthetic_wikipedia_16_node_01",
+      "synthetic_wikipedia_16_node_02",
+      "synthetic_wikipedia_16_node_03",
+      "synthetic_wikipedia_16_node_04",
+      "synthetic_wikipedia_16_node_05",
+      "synthetic_wikipedia_16_node_06",
+      "synthetic_wikipedia_16_node_07",
+      "synthetic_wikipedia_16_node_08",
+      "synthetic_wikipedia_16_node_09",
+      "synthetic_wikipedia_16_node_10",
+      "synthetic_wikipedia_16_node_16",
+      "synthetic_wikipedia_16_node_11",
+      "synthetic_wikipedia_16_node_12",
+      "synthetic_wikipedia_16_node_13",
+      "synthetic_wikipedia_16_node_14",
+      "synthetic_wikipedia_16_node_15"
+    ],
+    "llm_calls": 1,
+    "time": 83.61935019493103,
+    "scores": {
+      "synthetic_wikipedia_16_node_01": 0.75,
+      "synthetic_wikipedia_16_node_02": 0.7,
+      "synthetic_wikipedia_16_node_03": 0.65,
+      "synthetic_wikipedia_16_node_04": 0.85,
+      "synthetic_wikipedia_16_node_05": 0.55,
+      "synthetic_wikipedia_16_node_06": 0.45,
+      "synthetic_wikipedia_16_node_07": 0.35,
+      "synthetic_wikipedia_16_node_08": 0.8,
+      "synthetic_wikipedia_16_node_09": 0.15,
+      "synthetic_wikipedia_16_node_10": 0.2,
+      "synthetic_wikipedia_16_node_16": 0.95,
+      "synthetic_wikipedia_16_node_11": 0.25,
+      "synthetic_wikipedia_16_node_12": 0.3,
+      "synthetic_wikipedia_16_node_13": 0.4,
+      "synthetic_wikipedia_16_node_14": 0.5,
+      "synthetic_wikipedia_16_node_15": 0.6
+    },
+    "reasonings": {
+      "synthetic_wikipedia_16_node_01": "Cycle start point receiving circular dependency from node 16",
+      "synthetic_wikipedia_16_node_02": "Early cycle participant propagating hierarchy inconsistency",
+      "synthetic_wikipedia_16_node_03": "Links to status transition handler node 04",
+      "synthetic_wikipedia_16_node_04": "Handles status transitions without inferring closing sources from cleanup",
+      "synthetic_wikipedia_16_node_05": "Continues cycle propagation after status transition handling",
+      "synthetic_wikipedia_16_node_06": "Mid-chain cycle participant",
+      "synthetic_wikipedia_16_node_07": "Links to cleanup batch processor node 08",
+      "synthetic_wikipedia_16_node_08": "Processes pages as historical via cleanup batches without explicit validation",
+      "synthetic_wikipedia_16_node_09": "Standard category node with minimal additional risk",
+      "synthetic_wikipedia_16_node_10": "Standard category node in middle of chain",
+      "synthetic_wikipedia_16_node_16": "Defines rule requiring explicit source while having blank source field - fundamental contradiction",
+      "synthetic_wikipedia_16_node_11": "Standard category node in middle of chain",
+      "synthetic_wikipedia_16_node_12": "Standard category node in middle of chain",
+      "synthetic_wikipedia_16_node_13": "Late-chain cycle participant",
+      "synthetic_wikipedia_16_node_14": "Links to node 15 which connects to source validation gap",
+      "synthetic_wikipedia_16_node_15": "Directly references node 16 with source validation gap"
+    },
+    "ranking": [
+      [
+        "synthetic_wikipedia_16_node_16",
+        0.95
+      ],
+      [
+        "synthetic_wikipedia_16_node_04",
+        0.85
+      ],
+      [
+        "synthetic_wikipedia_16_node_08",
+        0.8
+      ],
+      [
+        "synthetic_wikipedia_16_node_01",
+        0.75
+      ],
+      [
+        "synthetic_wikipedia_16_node_02",
+        0.7
+      ],
+      [
+        "synthetic_wikipedia_16_node_03",
+        0.65
+      ],
+      [
+        "synthetic_wikipedia_16_node_15",
+        0.6
+      ],
+      [
+        "synthetic_wikipedia_16_node_05",
+        0.55
+      ],
+      [
+        "synthetic_wikipedia_16_node_14",
+        0.5
+      ],
+      [
+        "synthetic_wikipedia_16_node_06",
+        0.45
+      ],
+      [
+        "synthetic_wikipedia_16_node_13",
+        0.4
+      ],
+      [
+        "synthetic_wikipedia_16_node_07",
+        0.35
+      ],
+      [
+        "synthetic_wikipedia_16_node_12",
+        0.3
+      ],
+      [
+        "synthetic_wikipedia_16_node_11",
+        0.25
+      ],
+      [
+        "synthetic_wikipedia_16_node_10",
+        0.2
+      ],
+      [
+        "synthetic_wikipedia_16_node_09",
+        0.15
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_wikipedia_16_node_16",
+        "risk_score": 0.95,
+        "risk_factors": [
+          "cycle_participation",
+          "source_validation_gap"
+        ],
+        "reasoning": "Explicitly states source field is blank while defining rule that requires explicit closing source for status transitions - creates fundamental contradiction"
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_wikipedia_16_node_04",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "cycle_participation",
+          "status_transition_ambiguity"
+        ],
+        "reasoning": "Preserves cited-source status but doesn't infer closing source from cleanup, creating ambiguity in the cycle"
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_wikipedia_16_node_08",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "cycle_participation",
+          "cleanup_batch_processing"
+        ],
+        "reasoning": "Treats incoming pages as historical because they appeared in cleanup batch, bypassing explicit source validation"
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_wikipedia_16_node_01",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Starting point of the problematic hierarchy cycle, receives circular dependency from node 16"
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_wikipedia_16_node_02",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Early participant in the circular dependency chain, propagating the hierarchy inconsistency"
+      },
+      {
+        "rank": 6,
+        "clause_id": "synthetic_wikipedia_16_node_03",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Links to node 04 which handles status transitions, amplifying the cycle risk"
+      },
+      {
+        "rank": 7,
+        "clause_id": "synthetic_wikipedia_16_node_15",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Directly references node 16 which has the explicit source validation gap"
+      },
+      {
+        "rank": 8,
+        "clause_id": "synthetic_wikipedia_16_node_05",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Continues propagation of the circular dependency after status transition handling"
+      },
+      {
+        "rank": 9,
+        "clause_id": "synthetic_wikipedia_16_node_14",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Links to node 15 which connects to the problematic source validation node"
+      },
+      {
+        "rank": 10,
+        "clause_id": "synthetic_wikipedia_16_node_06",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Mid-chain participant in the circular dependency"
+      },
+      {
+        "rank": 11,
+        "clause_id": "synthetic_wikipedia_16_node_13",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Late-chain participant in the circular dependency"
+      },
+      {
+        "rank": 12,
+        "clause_id": "synthetic_wikipedia_16_node_07",
+        "risk_score": 0.35,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Links to node 08 which handles cleanup batch processing"
+      },
+      {
+        "rank": 13,
+        "clause_id": "synthetic_wikipedia_16_node_12",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Standard category node in the middle of the dependency chain"
+      },
+      {
+        "rank": 14,
+        "clause_id": "synthetic_wikipedia_16_node_11",
+        "risk_score": 0.25,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Standard category node in the middle of the dependency chain"
+      },
+      {
+        "rank": 15,
+        "clause_id": "synthetic_wikipedia_16_node_10",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Standard category node in the middle of the dependency chain"
+      },
+      {
+        "rank": 16,
+        "clause_id": "synthetic_wikipedia_16_node_09",
+        "risk_score": 0.15,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Standard category node linking to node 10, minimal additional risk factors"
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cycle_participation",
+        "importance_weight": 0.35,
+        "description": "Participation in the circular dependency that creates logical inconsistency in the taxonomy hierarchy"
+      },
+      {
+        "factor": "status_transition_ambiguity",
+        "importance_weight": 0.25,
+        "description": "Records that handle status transitions (current to historical) without proper source validation"
+      },
+      {
+        "factor": "source_validation_gap",
+        "importance_weight": 0.25,
+        "description": "Missing or blank source fields that should validate status changes"
+      },
+      {
+        "factor": "cleanup_batch_processing",
+        "importance_weight": 0.15,
+        "description": "Records that process pages through cleanup batches without explicit validation"
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 16,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_wikipedia_16_node_16",
+        "clause_b": "synthetic_wikipedia_16_node_04",
+        "description": "Node 16 requires explicit closing source for status transitions, but node 04 preserves cited-source status without inferring closing sources from cleanup"
+      },
+      {
+        "clause_a": "synthetic_wikipedia_16_node_16",
+        "clause_b": "synthetic_wikipedia_16_node_08",
+        "description": "Node 16 requires explicit closing source, but node 08 treats pages as historical based on cleanup batch appearance alone"
+      },
+      {
+        "clause_a": "synthetic_wikipedia_16_node_04",
+        "clause_b": "synthetic_wikipedia_16_node_08",
+        "description": "Node 04 preserves cited-source status while node 08 processes cleanup batches as historical without explicit validation"
+      },
+      {
+        "clause_a": "synthetic_wikipedia_16_node_01",
+        "clause_b": "synthetic_wikipedia_16_node_16",
+        "description": "Circular dependency creates logical inconsistency in taxonomy hierarchy across the entire chain"
+      }
+    ],
+    "score_spread": 0.7999999999999999,
+    "ranking_score_spread": 0.7999999999999999,
+    "score_mean": 0.528125,
+    "score_max": 0.95,
+    "node_names": {
+      "synthetic_wikipedia_16_node_01": "synthetic wikipedia 16 node 01",
+      "synthetic_wikipedia_16_node_02": "synthetic wikipedia 16 node 02",
+      "synthetic_wikipedia_16_node_03": "synthetic wikipedia 16 node 03",
+      "synthetic_wikipedia_16_node_04": "synthetic wikipedia 16 node 04",
+      "synthetic_wikipedia_16_node_05": "synthetic wikipedia 16 node 05",
+      "synthetic_wikipedia_16_node_06": "synthetic wikipedia 16 node 06",
+      "synthetic_wikipedia_16_node_07": "synthetic wikipedia 16 node 07",
+      "synthetic_wikipedia_16_node_08": "synthetic wikipedia 16 node 08",
+      "synthetic_wikipedia_16_node_09": "synthetic wikipedia 16 node 09",
+      "synthetic_wikipedia_16_node_10": "synthetic wikipedia 16 node 10",
+      "synthetic_wikipedia_16_node_16": "synthetic wikipedia 16 node 16",
+      "synthetic_wikipedia_16_node_11": "synthetic wikipedia 16 node 11",
+      "synthetic_wikipedia_16_node_12": "synthetic wikipedia 16 node 12",
+      "synthetic_wikipedia_16_node_13": "synthetic wikipedia 16 node 13",
+      "synthetic_wikipedia_16_node_14": "synthetic wikipedia 16 node 14",
+      "synthetic_wikipedia_16_node_15": "synthetic wikipedia 16 node 15"
+    },
+    "ground_truth_nodes": [
+      "synthetic_wikipedia_16_node_16"
+    ],
+    "gt_evidence": {
+      "synthetic_wikipedia_16_node_16": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 1180,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.3694915254237288,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.37457627118644066,
+    "inject_mode": true,
+    "injected_node": "synthetic_wikipedia_16_node_16",
+    "inject_type": "type_a_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_wikipedia_16_node_08",
+    "injected_witness_distance": 8,
+    "injected_bridge_node": "synthetic_wikipedia_16_node_04",
+    "injected_bridge_distance": 4,
+    "injected_risk_nodes": [
+      "synthetic_wikipedia_16_node_16",
+      "synthetic_wikipedia_16_node_08"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_wikipedia_16_node_16",
+      "synthetic_wikipedia_16_node_04",
+      "synthetic_wikipedia_16_node_08"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_wikipedia_16_node_01",
+      "synthetic_wikipedia_16_node_09"
+    ],
+    "injected_conflict_family": "condition_trigger",
+    "injected_conflict_difficulty": "hard",
+    "injected_conflict_template": "wikipedia_condition_trigger_missing_source",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_wikipedia_16_node_16": 1,
+      "synthetic_wikipedia_16_node_08": 3
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_wikipedia_16_node_16": 1,
+      "synthetic_wikipedia_16_node_04": 2,
+      "synthetic_wikipedia_16_node_08": 3
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_wikipedia_16_node_01": 4,
+      "synthetic_wikipedia_16_node_09": 16
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 16,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "synthetic_wikipedia_16_node_16": 1,
+      "synthetic_wikipedia_16_node_08": 3,
+      "synthetic_wikipedia_16_node_01": 4,
+      "synthetic_wikipedia_16_node_09": 16
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 16,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 1,
+    "root_top1_hit": true,
+    "root_top3_hit": true
+  }
+]

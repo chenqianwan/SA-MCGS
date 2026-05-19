@@ -1,0 +1,252 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 3,
+    "scc_id": "scc_1",
+    "scc_clause_ids": [
+      "libnode108",
+      "node-acorn",
+      "nodejs"
+    ],
+    "llm_calls": 1,
+    "time": 15.186950922012329,
+    "scores": {
+      "libnode108": 0.7,
+      "node-acorn": 0.6,
+      "nodejs": 0.9
+    },
+    "reasonings": {
+      "libnode108": "Core Node.js library with broad dependency exposure; acts as bridge between nodejs and node-acorn in cycle; CVEs in libnode108 could propagate to both dependent packages",
+      "node-acorn": "JavaScript parser with known CVE history; dual dependency on nodejs creates tight coupling; parser components are common attack surface for code injection",
+      "nodejs": "Critical circular dependency lock point; runtime environment with high CVE density and broad attack surface; cannot be updated independently due to circular constraints; cascading failure risk affects entire JavaScript ecosystem"
+    },
+    "ranking": [
+      [
+        "nodejs",
+        0.9
+      ],
+      [
+        "libnode108",
+        0.7
+      ],
+      [
+        "node-acorn",
+        0.6
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "nodejs",
+        "clause_b": "libnode108",
+        "description": "Mutual dependency creates unresolvable version deadlock; nodejs requires libnode108 while libnode108 depends on packages that require nodejs"
+      },
+      {
+        "clause_a": "node-acorn",
+        "clause_b": "nodejs",
+        "description": "Dual dependency relationship creates bootstrap impossibility; node-acorn cannot function without nodejs, but nodejs update blocked by circular constraints"
+      },
+      {
+        "clause_a": "libnode108",
+        "clause_b": "node-acorn",
+        "description": "Dependency chain propagates vulnerabilities; security issues in either package immediately affect the other due to tight circular coupling"
+      }
+    ],
+    "score_spread": 0.30000000000000004,
+    "score_mean": 0.7333333333333334,
+    "score_max": 0.9,
+    "node_names": {
+      "libnode108": "libnode108",
+      "node-acorn": "node-acorn",
+      "nodejs": "nodejs"
+    },
+    "ground_truth_nodes": [
+      "nodejs"
+    ],
+    "gt_evidence": {
+      "nodejs": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "nodejs",
+    "inject_type": "type_b_cross"
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 3,
+    "scc_id": "scc_1",
+    "scc_clause_ids": [
+      "libnode108",
+      "node-acorn",
+      "nodejs"
+    ],
+    "budget": 30,
+    "llm_calls": 10,
+    "tt_hits": 20,
+    "tt_hit_rate": 0.6666666666666666,
+    "time": 81.23211598396301,
+    "scores": {
+      "nodejs": 0.9099999999999997,
+      "libnode108": 0.7700000000000002,
+      "node-acorn": 0.7666666666666669
+    },
+    "ranking": [
+      [
+        "nodejs",
+        0.9099999999999997
+      ],
+      [
+        "libnode108",
+        0.7700000000000002
+      ],
+      [
+        "node-acorn",
+        0.7666666666666669
+      ]
+    ],
+    "oc_detected": [
+      "nodejs"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.14333333333333276,
+    "score_mean": 0.8155555555555556,
+    "score_max": 0.9099999999999997,
+    "node_names": {
+      "libnode108": "libnode108",
+      "node-acorn": "node-acorn",
+      "nodejs": "nodejs"
+    },
+    "clause_details": {
+      "libnode108": {
+        "mean_score": 0.7700000000000002,
+        "visit_count": 30,
+        "conflict_count": 60,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "node-acorn": {
+        "mean_score": 0.7666666666666669,
+        "visit_count": 30,
+        "conflict_count": 60,
+        "risk_history": [
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "nodejs": {
+        "mean_score": 0.9099999999999997,
+        "visit_count": 30,
+        "conflict_count": 60,
+        "risk_history": [
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "is_oc_detected": true
+      }
+    },
+    "ground_truth_nodes": [
+      "nodejs"
+    ],
+    "gt_evidence": {
+      "nodejs": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "nodejs",
+    "inject_type": "type_b_cross"
+  }
+]

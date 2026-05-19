@@ -1,0 +1,260 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (wikipedia); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "synthetic_wikipedia_5",
+    "scc_clause_ids": [
+      "synthetic_wikipedia_5_node_01",
+      "synthetic_wikipedia_5_node_02",
+      "synthetic_wikipedia_5_node_03",
+      "synthetic_wikipedia_5_node_04",
+      "synthetic_wikipedia_5_node_05"
+    ],
+    "llm_calls": 1,
+    "time": 31.085410833358765,
+    "scores": {
+      "synthetic_wikipedia_5_node_01": 0.9,
+      "synthetic_wikipedia_5_node_02": 0.6,
+      "synthetic_wikipedia_5_node_03": 0.5,
+      "synthetic_wikipedia_5_node_04": 0.8,
+      "synthetic_wikipedia_5_node_05": 0.7
+    },
+    "reasonings": {
+      "synthetic_wikipedia_5_node_01": "This node is the entry point of the cycle and references historical entries without a clear resolution mechanism, making it highly risky.",
+      "synthetic_wikipedia_5_node_02": "This node is part of the cycle and references a problematic taxonomy hierarchy, which could propagate errors.",
+      "synthetic_wikipedia_5_node_03": "This node is part of the cycle and references a problematic taxonomy hierarchy, but its position in the chain reduces its impact.",
+      "synthetic_wikipedia_5_node_04": "This node is part of the cycle and explicitly mentions the lack of a closing source, increasing its risk.",
+      "synthetic_wikipedia_5_node_05": "This node is part of the cycle and relays lifecycle labels without adding closure, propagating unresolved states."
+    },
+    "ranking": [
+      [
+        "synthetic_wikipedia_5_node_01",
+        0.9
+      ],
+      [
+        "synthetic_wikipedia_5_node_04",
+        0.8
+      ],
+      [
+        "synthetic_wikipedia_5_node_05",
+        0.7
+      ],
+      [
+        "synthetic_wikipedia_5_node_02",
+        0.6
+      ],
+      [
+        "synthetic_wikipedia_5_node_03",
+        0.5
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_wikipedia_5_node_01",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "cyclic_dependency",
+          "underspecified_closing_source"
+        ],
+        "reasoning": "This node participates in a cycle and is the entry point for the cyclic dependency. It also references historical entries but lacks a clear resolution mechanism."
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_wikipedia_5_node_04",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "cyclic_dependency",
+          "underspecified_closing_source"
+        ],
+        "reasoning": "This node is part of the cycle and explicitly mentions that no closing source has been attached, which exacerbates the ambiguity."
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_wikipedia_5_node_05",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "cyclic_dependency",
+          "relay_without_closure"
+        ],
+        "reasoning": "This node is part of the cycle and relays lifecycle labels without adding a closing source, propagating unresolved states."
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_wikipedia_5_node_02",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "cyclic_dependency",
+          "taxonomy_hierarchy_problem"
+        ],
+        "reasoning": "This node is part of the cycle and references a controlled taxonomy cycle, which could propagate hierarchy-related issues."
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_wikipedia_5_node_03",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "cyclic_dependency",
+          "taxonomy_hierarchy_problem"
+        ],
+        "reasoning": "This node is part of the cycle and references a controlled taxonomy cycle, but its position in the chain makes it slightly less impactful than node 02."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures the structural risk of nodes participating in a cycle, which can lead to logical inconsistencies or infinite loops."
+      },
+      {
+        "factor": "underspecified_closing_source",
+        "importance_weight": 0.3,
+        "description": "Captures the risk of records that lack clear closing sources or resolution mechanisms, leading to ambiguity in the graph."
+      },
+      {
+        "factor": "taxonomy_hierarchy_problem",
+        "importance_weight": 0.2,
+        "description": "Captures the risk of records that reference problematic or long hierarchy chains, which can propagate errors or inconsistencies."
+      },
+      {
+        "factor": "relay_without_closure",
+        "importance_weight": 0.1,
+        "description": "Captures the risk of records that relay lifecycle labels without adding closure, potentially propagating unresolved states."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 5,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_wikipedia_5_node_01",
+        "clause_b": "synthetic_wikipedia_5_node_05",
+        "description": "These nodes are part of a cycle, creating a structural inconsistency where no clear resolution or termination is possible."
+      },
+      {
+        "clause_a": "synthetic_wikipedia_5_node_04",
+        "clause_b": "synthetic_wikipedia_5_node_05",
+        "description": "Node 04 explicitly states that no closing source is attached, while Node 05 relays lifecycle labels without adding closure, compounding the ambiguity."
+      },
+      {
+        "clause_a": "synthetic_wikipedia_5_node_02",
+        "clause_b": "synthetic_wikipedia_5_node_03",
+        "description": "Both nodes reference a problematic taxonomy hierarchy, which could propagate errors across the cycle."
+      }
+    ],
+    "score_spread": 0.4,
+    "ranking_score_spread": 0.4,
+    "score_mean": 0.7,
+    "score_max": 0.9,
+    "node_names": {
+      "synthetic_wikipedia_5_node_01": "synthetic wikipedia 5 node 01",
+      "synthetic_wikipedia_5_node_02": "synthetic wikipedia 5 node 02",
+      "synthetic_wikipedia_5_node_03": "synthetic wikipedia 5 node 03",
+      "synthetic_wikipedia_5_node_04": "synthetic wikipedia 5 node 04",
+      "synthetic_wikipedia_5_node_05": "synthetic wikipedia 5 node 05"
+    },
+    "ground_truth_nodes": [
+      "synthetic_wikipedia_5_node_04"
+    ],
+    "gt_evidence": {
+      "synthetic_wikipedia_5_node_04": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 579,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.2815198618307427,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.2918825561312608,
+    "inject_mode": true,
+    "injected_node": "synthetic_wikipedia_5_node_04",
+    "inject_type": "type_a_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_wikipedia_5_node_01",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "synthetic_wikipedia_5_node_05",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "synthetic_wikipedia_5_node_04",
+      "synthetic_wikipedia_5_node_01"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_wikipedia_5_node_04",
+      "synthetic_wikipedia_5_node_05",
+      "synthetic_wikipedia_5_node_01"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_wikipedia_5_node_02",
+      "synthetic_wikipedia_5_node_03"
+    ],
+    "injected_conflict_family": "temporal_gate",
+    "injected_conflict_difficulty": "subtle",
+    "injected_conflict_template": "wikipedia_temporal_closing_source_gate",
+    "injected_rank": 2,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_wikipedia_5_node_04": 2,
+      "synthetic_wikipedia_5_node_01": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_wikipedia_5_node_04": 2,
+      "synthetic_wikipedia_5_node_05": 3,
+      "synthetic_wikipedia_5_node_01": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_wikipedia_5_node_02": 4,
+      "synthetic_wikipedia_5_node_03": 5
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "synthetic_wikipedia_5_node_04": 2,
+      "synthetic_wikipedia_5_node_01": 1,
+      "synthetic_wikipedia_5_node_02": 4,
+      "synthetic_wikipedia_5_node_03": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 2,
+    "root_top1_hit": false,
+    "root_top3_hit": true
+  }
+]

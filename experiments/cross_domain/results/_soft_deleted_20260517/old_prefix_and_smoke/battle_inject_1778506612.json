@@ -1,0 +1,2351 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 3,
+    "scc_id": "scc_21",
+    "scc_clause_ids": [
+      "libnode108",
+      "node-acorn",
+      "nodejs"
+    ],
+    "llm_calls": 1,
+    "time": 8.131752014160156,
+    "scores": {
+      "libnode108": 0.7,
+      "node-acorn": 0.8,
+      "nodejs": 1.0
+    },
+    "reasonings": {
+      "libnode108": "libnode108 is tightly coupled to node-acorn and nodejs, forming part of the circular dependency. While it does not act as the lock point, its dependency on node-acorn increases the risk of cascading failures. Additionally, its exposure to CVE propagation is moderate due to its role in the cycle.",
+      "node-acorn": "node-acorn is a critical intermediary in the cycle, depending on nodejs and being depended upon by libnode108. Its position amplifies the risk of cascading failures and CVE propagation. Furthermore, as a JavaScript parser, it is a common attack surface for supply chain vulnerabilities.",
+      "nodejs": "nodejs is the critical lock point in the circular dependency, creating an unresolvable bootstrapping deadlock. It has a high degree of coupling, being a foundational package in the ecosystem, and is a frequent target for attackers due to its widespread use and exposure. The CVSS score of 8.1 further underscores its critical risk level."
+    },
+    "ranking": [
+      [
+        "nodejs",
+        1.0
+      ],
+      [
+        "node-acorn",
+        0.8
+      ],
+      [
+        "libnode108",
+        0.7
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "nodejs",
+        "clause_b": "libnode108",
+        "description": "nodejs depends on libnode108, creating a circular version constraint that prevents independent updates and increases the risk of cascading failures."
+      },
+      {
+        "clause_a": "libnode108",
+        "clause_b": "node-acorn",
+        "description": "libnode108 depends on node-acorn, contributing to the circular dependency and amplifying CVE propagation risks."
+      },
+      {
+        "clause_a": "node-acorn",
+        "clause_b": "nodejs",
+        "description": "node-acorn depends on nodejs, reinforcing the circular dependency and exacerbating the bootstrapping deadlock."
+      }
+    ],
+    "score_spread": 0.30000000000000004,
+    "score_mean": 0.8333333333333334,
+    "score_max": 1.0,
+    "node_names": {
+      "libnode108": "libnode108",
+      "node-acorn": "node-acorn",
+      "nodejs": "nodejs"
+    },
+    "ground_truth_nodes": [
+      "nodejs"
+    ],
+    "gt_evidence": {
+      "nodejs": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "nodejs",
+    "inject_type": "type_b_cross"
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 3,
+    "scc_id": "scc_21",
+    "scc_clause_ids": [
+      "libnode108",
+      "node-acorn",
+      "nodejs"
+    ],
+    "budget": 30,
+    "llm_calls": 10,
+    "tt_hits": 20,
+    "tt_hit_rate": 0.6666666666666666,
+    "time": 70.6767270565033,
+    "scores": {
+      "nodejs": 1.0,
+      "libnode108": 0.7700000000000002,
+      "node-acorn": 0.7433333333333331
+    },
+    "ranking": [
+      [
+        "nodejs",
+        1.0
+      ],
+      [
+        "libnode108",
+        0.7700000000000002
+      ],
+      [
+        "node-acorn",
+        0.7433333333333331
+      ]
+    ],
+    "oc_detected": [
+      "nodejs"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.25666666666666693,
+    "score_mean": 0.8377777777777777,
+    "score_max": 1.0,
+    "node_names": {
+      "libnode108": "libnode108",
+      "node-acorn": "node-acorn",
+      "nodejs": "nodejs"
+    },
+    "clause_details": {
+      "libnode108": {
+        "mean_score": 0.7700000000000002,
+        "visit_count": 30,
+        "conflict_count": 60,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "node-acorn": {
+        "mean_score": 0.7433333333333331,
+        "visit_count": 30,
+        "conflict_count": 60,
+        "risk_history": [
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "nodejs": {
+        "mean_score": 1.0,
+        "visit_count": 30,
+        "conflict_count": 60,
+        "risk_history": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "is_oc_detected": true
+      }
+    },
+    "ground_truth_nodes": [
+      "nodejs"
+    ],
+    "gt_evidence": {
+      "nodejs": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "nodejs",
+    "inject_type": "type_b_cross"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 3,
+    "scc_id": "scc_21",
+    "scc_clause_ids": [
+      "libnode108",
+      "node-acorn",
+      "nodejs"
+    ],
+    "llm_calls": 1,
+    "time": 11.806429862976074,
+    "scores": {
+      "libnode108": 0.7,
+      "node-acorn": 0.6,
+      "nodejs": 0.9
+    },
+    "reasonings": {
+      "libnode108": "Core Node.js library with broad dependency exposure; acts as bridge between nodejs and node-acorn in cycle, amplifying CVE propagation risk across JavaScript ecosystem",
+      "node-acorn": "JavaScript parser with known CVE history; dual dependency on nodejs creates tight coupling, but narrower scope than core packages",
+      "nodejs": "Critical circular dependency lock point; high CVE exposure as JavaScript runtime; widespread dependency across Debian ecosystem creates cascading failure potential"
+    },
+    "ranking": [
+      [
+        "nodejs",
+        0.9
+      ],
+      [
+        "libnode108",
+        0.7
+      ],
+      [
+        "node-acorn",
+        0.6
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "nodejs",
+        "clause_b": "libnode108",
+        "description": "Mutual version deadlock: nodejs requires libnode108 while libnode108 depends on node-acorn which requires nodejs"
+      },
+      {
+        "clause_a": "node-acorn",
+        "clause_b": "nodejs",
+        "description": "Dual dependency chain creates unresolvable bootstrapping scenario for security updates"
+      }
+    ],
+    "score_spread": 0.30000000000000004,
+    "score_mean": 0.7333333333333334,
+    "score_max": 0.9,
+    "node_names": {
+      "libnode108": "libnode108",
+      "node-acorn": "node-acorn",
+      "nodejs": "nodejs"
+    },
+    "ground_truth_nodes": [
+      "nodejs"
+    ],
+    "gt_evidence": {
+      "nodejs": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "nodejs",
+    "inject_type": "type_b_cross"
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 3,
+    "scc_id": "scc_21",
+    "scc_clause_ids": [
+      "libnode108",
+      "node-acorn",
+      "nodejs"
+    ],
+    "budget": 30,
+    "llm_calls": 10,
+    "tt_hits": 20,
+    "tt_hit_rate": 0.6666666666666666,
+    "time": 88.76272892951965,
+    "scores": {
+      "nodejs": 0.8966666666666662,
+      "libnode108": 0.7933333333333336,
+      "node-acorn": 0.7099999999999997
+    },
+    "ranking": [
+      [
+        "nodejs",
+        0.8966666666666662
+      ],
+      [
+        "libnode108",
+        0.7933333333333336
+      ],
+      [
+        "node-acorn",
+        0.7099999999999997
+      ]
+    ],
+    "oc_detected": [
+      "nodejs"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.18666666666666643,
+    "score_mean": 0.7999999999999998,
+    "score_max": 0.8966666666666662,
+    "node_names": {
+      "libnode108": "libnode108",
+      "node-acorn": "node-acorn",
+      "nodejs": "nodejs"
+    },
+    "clause_details": {
+      "libnode108": {
+        "mean_score": 0.7933333333333336,
+        "visit_count": 30,
+        "conflict_count": 60,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "node-acorn": {
+        "mean_score": 0.7099999999999997,
+        "visit_count": 30,
+        "conflict_count": 60,
+        "risk_history": [
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "nodejs": {
+        "mean_score": 0.8966666666666662,
+        "visit_count": 30,
+        "conflict_count": 60,
+        "risk_history": [
+          1.0,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.85,
+          0.85,
+          0.85,
+          0.85,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9
+        ],
+        "is_oc_detected": true
+      }
+    },
+    "ground_truth_nodes": [
+      "nodejs"
+    ],
+    "gt_evidence": {
+      "nodejs": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "nodejs",
+    "inject_type": "type_b_cross"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 3,
+    "scc_id": "scc_20",
+    "scc_clause_ids": [
+      "ocaml",
+      "ocaml-compiler-libs",
+      "ocaml-interp"
+    ],
+    "llm_calls": 1,
+    "time": 8.964385986328125,
+    "scores": {
+      "ocaml": 0.7,
+      "ocaml-compiler-libs": 0.6,
+      "ocaml-interp": 1.0
+    },
+    "reasonings": {
+      "ocaml": "ocaml is a foundational package in the Debian ecosystem and has a moderate CVE history. It is highly coupled with other packages, including ocaml-interp and ocaml-compiler-libs, which increases its risk of cascading failures. While not a direct attack surface, its criticality in the dependency chain elevates its risk.",
+      "ocaml-compiler-libs": "ocaml-compiler-libs is tightly coupled with ocaml and ocaml-interp, forming part of the circular dependency. It has a lower CVE exposure compared to ocaml but contributes significantly to the bootstrapping deadlock. Its role in compiler functionality makes it a potential vector for cascading failures.",
+      "ocaml-interp": "ocaml-interp is the critical lock point in the circular dependency and directly responsible for the unresolvable bootstrapping deadlock. It has the highest risk due to its role in propagating CVEs and its inability to be updated independently. Its position in the cycle makes it a significant attack surface and a primary vector for cascading failures."
+    },
+    "ranking": [
+      [
+        "ocaml-interp",
+        1.0
+      ],
+      [
+        "ocaml",
+        0.7
+      ],
+      [
+        "ocaml-compiler-libs",
+        0.6
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "ocaml",
+        "clause_b": "ocaml-interp",
+        "description": "ocaml depends on ocaml-interp, creating a circular dependency that prevents independent updates and increases the risk of cascading failures."
+      },
+      {
+        "clause_a": "ocaml-compiler-libs",
+        "clause_b": "ocaml",
+        "description": "ocaml-compiler-libs depends on ocaml, contributing to the circular dependency and increasing the risk of CVE propagation."
+      },
+      {
+        "clause_a": "ocaml-interp",
+        "clause_b": "ocaml-compiler-libs",
+        "description": "ocaml-interp depends on ocaml-compiler-libs, completing the circular dependency and creating a bootstrapping deadlock that elevates security risks."
+      }
+    ],
+    "score_spread": 0.4,
+    "score_mean": 0.7666666666666666,
+    "score_max": 1.0,
+    "node_names": {
+      "ocaml": "ocaml",
+      "ocaml-compiler-libs": "ocaml-compiler-libs",
+      "ocaml-interp": "ocaml-interp"
+    },
+    "ground_truth_nodes": [
+      "ocaml-interp"
+    ],
+    "gt_evidence": {
+      "ocaml-interp": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "ocaml-interp",
+    "inject_type": "type_b_cross"
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 3,
+    "scc_id": "scc_20",
+    "scc_clause_ids": [
+      "ocaml",
+      "ocaml-compiler-libs",
+      "ocaml-interp"
+    ],
+    "budget": 30,
+    "llm_calls": 10,
+    "tt_hits": 20,
+    "tt_hit_rate": 0.6666666666666666,
+    "time": 79.03943490982056,
+    "scores": {
+      "ocaml-interp": 1.0,
+      "ocaml": 0.7833333333333333,
+      "ocaml-compiler-libs": 0.7666666666666668
+    },
+    "ranking": [
+      [
+        "ocaml-interp",
+        1.0
+      ],
+      [
+        "ocaml",
+        0.7833333333333333
+      ],
+      [
+        "ocaml-compiler-libs",
+        0.7666666666666668
+      ]
+    ],
+    "oc_detected": [
+      "ocaml-interp"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.23333333333333317,
+    "score_mean": 0.8500000000000001,
+    "score_max": 1.0,
+    "node_names": {
+      "ocaml": "ocaml",
+      "ocaml-compiler-libs": "ocaml-compiler-libs",
+      "ocaml-interp": "ocaml-interp"
+    },
+    "clause_details": {
+      "ocaml": {
+        "mean_score": 0.7833333333333333,
+        "visit_count": 30,
+        "conflict_count": 60,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "ocaml-compiler-libs": {
+        "mean_score": 0.7666666666666668,
+        "visit_count": 30,
+        "conflict_count": 60,
+        "risk_history": [
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "ocaml-interp": {
+        "mean_score": 1.0,
+        "visit_count": 30,
+        "conflict_count": 60,
+        "risk_history": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "is_oc_detected": true
+      }
+    },
+    "ground_truth_nodes": [
+      "ocaml-interp"
+    ],
+    "gt_evidence": {
+      "ocaml-interp": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "ocaml-interp",
+    "inject_type": "type_b_cross"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 3,
+    "scc_id": "scc_20",
+    "scc_clause_ids": [
+      "ocaml",
+      "ocaml-compiler-libs",
+      "ocaml-interp"
+    ],
+    "llm_calls": 1,
+    "time": 11.138408899307251,
+    "scores": {
+      "ocaml": 0.7,
+      "ocaml-compiler-libs": 0.6,
+      "ocaml-interp": 0.9
+    },
+    "reasonings": {
+      "ocaml": "Core OCaml compiler with broad dependency tree; circular dependency prevents security updates from propagating, creating systemic risk across OCaml ecosystem",
+      "ocaml-compiler-libs": "Compiler libraries with moderate attack surface; circular lock with ocaml-interp prevents patching of compiler-level vulnerabilities",
+      "ocaml-interp": "Critical circular dependency lock point; creates unresolvable bootstrapping deadlock that blocks all security updates in the cycle, high CVE propagation risk"
+    },
+    "ranking": [
+      [
+        "ocaml-interp",
+        0.9
+      ],
+      [
+        "ocaml",
+        0.7
+      ],
+      [
+        "ocaml-compiler-libs",
+        0.6
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "ocaml-interp",
+        "clause_b": "ocaml-compiler-libs",
+        "description": "Mutual dependency creates unresolvable version lock preventing independent security updates"
+      },
+      {
+        "clause_a": "ocaml-compiler-libs",
+        "clause_b": "ocaml",
+        "description": "Compiler libraries depend on core compiler, creating transitive circular dependency chain"
+      },
+      {
+        "clause_a": "ocaml",
+        "clause_b": "ocaml-interp",
+        "description": "Core compiler requires interpreter, completing the circular dependency that blocks all package updates"
+      }
+    ],
+    "score_spread": 0.30000000000000004,
+    "score_mean": 0.7333333333333334,
+    "score_max": 0.9,
+    "node_names": {
+      "ocaml": "ocaml",
+      "ocaml-compiler-libs": "ocaml-compiler-libs",
+      "ocaml-interp": "ocaml-interp"
+    },
+    "ground_truth_nodes": [
+      "ocaml-interp"
+    ],
+    "gt_evidence": {
+      "ocaml-interp": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "ocaml-interp",
+    "inject_type": "type_b_cross"
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 3,
+    "scc_id": "scc_20",
+    "scc_clause_ids": [
+      "ocaml",
+      "ocaml-compiler-libs",
+      "ocaml-interp"
+    ],
+    "budget": 30,
+    "llm_calls": 10,
+    "tt_hits": 20,
+    "tt_hit_rate": 0.6666666666666666,
+    "time": 86.08968091011047,
+    "scores": {
+      "ocaml-interp": 0.9349999999999998,
+      "ocaml-compiler-libs": 0.7916666666666671,
+      "ocaml": 0.7800000000000001
+    },
+    "ranking": [
+      [
+        "ocaml-interp",
+        0.9349999999999998
+      ],
+      [
+        "ocaml-compiler-libs",
+        0.7916666666666671
+      ],
+      [
+        "ocaml",
+        0.7800000000000001
+      ]
+    ],
+    "oc_detected": [
+      "ocaml-interp"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.1549999999999997,
+    "score_mean": 0.8355555555555556,
+    "score_max": 0.9349999999999998,
+    "node_names": {
+      "ocaml": "ocaml",
+      "ocaml-compiler-libs": "ocaml-compiler-libs",
+      "ocaml-interp": "ocaml-interp"
+    },
+    "clause_details": {
+      "ocaml": {
+        "mean_score": 0.7800000000000001,
+        "visit_count": 30,
+        "conflict_count": 60,
+        "risk_history": [
+          0.8,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "ocaml-compiler-libs": {
+        "mean_score": 0.7916666666666671,
+        "visit_count": 30,
+        "conflict_count": 60,
+        "risk_history": [
+          0.8,
+          0.75,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "ocaml-interp": {
+        "mean_score": 0.9349999999999998,
+        "visit_count": 30,
+        "conflict_count": 60,
+        "risk_history": [
+          1.0,
+          0.85,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.85,
+          0.85,
+          0.85,
+          0.85,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9
+        ],
+        "is_oc_detected": true
+      }
+    },
+    "ground_truth_nodes": [
+      "ocaml-interp"
+    ],
+    "gt_evidence": {
+      "ocaml-interp": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "ocaml-interp",
+    "inject_type": "type_b_cross"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_41",
+    "scc_clause_ids": [
+      "nova-compute",
+      "nova-compute-ironic",
+      "nova-compute-kvm",
+      "nova-compute-lxc",
+      "nova-compute-qemu"
+    ],
+    "llm_calls": 1,
+    "time": 5.0112152099609375,
+    "scores": {
+      "nova-compute": 1.0,
+      "nova-compute-ironic": 0.8,
+      "nova-compute-kvm": 0.8,
+      "nova-compute-lxc": 0.8,
+      "nova-compute-qemu": 0.8
+    },
+    "reasonings": {
+      "nova-compute": "nova-compute is the critical lock point in the circular dependency cluster, creating an unresolvable bootstrapping deadlock. It has the highest degree of coupling, as all other packages in the cycle depend on it. This makes it the primary CVE propagation vector and a significant risk for cascading failures.",
+      "nova-compute-ironic": "nova-compute-ironic directly depends on nova-compute, inheriting its vulnerabilities and contributing to the circular dependency. It is tightly coupled with the cluster and has a moderate potential for cascading failures.",
+      "nova-compute-kvm": "nova-compute-kvm directly depends on nova-compute, inheriting its vulnerabilities and contributing to the circular dependency. It is tightly coupled with the cluster and has a moderate potential for cascading failures.",
+      "nova-compute-lxc": "nova-compute-lxc directly depends on nova-compute, inheriting its vulnerabilities and contributing to the circular dependency. It is tightly coupled with the cluster and has a moderate potential for cascading failures.",
+      "nova-compute-qemu": "nova-compute-qemu directly depends on nova-compute, inheriting its vulnerabilities and contributing to the circular dependency. It is tightly coupled with the cluster and has a moderate potential for cascading failures."
+    },
+    "ranking": [
+      [
+        "nova-compute",
+        1.0
+      ],
+      [
+        "nova-compute-ironic",
+        0.8
+      ],
+      [
+        "nova-compute-kvm",
+        0.8
+      ],
+      [
+        "nova-compute-lxc",
+        0.8
+      ],
+      [
+        "nova-compute-qemu",
+        0.8
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "nova-compute",
+        "clause_b": "nova-compute-ironic",
+        "description": "Circular dependency between nova-compute and nova-compute-ironic creates a version lock, preventing independent updates."
+      },
+      {
+        "clause_a": "nova-compute",
+        "clause_b": "nova-compute-kvm",
+        "description": "Circular dependency between nova-compute and nova-compute-kvm creates a version lock, preventing independent updates."
+      },
+      {
+        "clause_a": "nova-compute",
+        "clause_b": "nova-compute-lxc",
+        "description": "Circular dependency between nova-compute and nova-compute-lxc creates a version lock, preventing independent updates."
+      },
+      {
+        "clause_a": "nova-compute",
+        "clause_b": "nova-compute-qemu",
+        "description": "Circular dependency between nova-compute and nova-compute-qemu creates a version lock, preventing independent updates."
+      },
+      {
+        "clause_a": "nova-compute-ironic",
+        "clause_b": "nova-compute",
+        "description": "Circular dependency between nova-compute-ironic and nova-compute creates a version lock, preventing independent updates."
+      },
+      {
+        "clause_a": "nova-compute-kvm",
+        "clause_b": "nova-compute",
+        "description": "Circular dependency between nova-compute-kvm and nova-compute creates a version lock, preventing independent updates."
+      },
+      {
+        "clause_a": "nova-compute-lxc",
+        "clause_b": "nova-compute",
+        "description": "Circular dependency between nova-compute-lxc and nova-compute creates a version lock, preventing independent updates."
+      },
+      {
+        "clause_a": "nova-compute-qemu",
+        "clause_b": "nova-compute",
+        "description": "Circular dependency between nova-compute-qemu and nova-compute creates a version lock, preventing independent updates."
+      }
+    ],
+    "score_spread": 0.19999999999999996,
+    "score_mean": 0.8400000000000001,
+    "score_max": 1.0,
+    "node_names": {
+      "nova-compute": "nova-compute",
+      "nova-compute-ironic": "nova-compute-ironic",
+      "nova-compute-kvm": "nova-compute-kvm",
+      "nova-compute-lxc": "nova-compute-lxc",
+      "nova-compute-qemu": "nova-compute-qemu"
+    },
+    "ground_truth_nodes": [
+      "nova-compute"
+    ],
+    "gt_evidence": {
+      "nova-compute": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "nova-compute",
+    "inject_type": "type_b_cross"
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_41",
+    "scc_clause_ids": [
+      "nova-compute",
+      "nova-compute-ironic",
+      "nova-compute-kvm",
+      "nova-compute-lxc",
+      "nova-compute-qemu"
+    ],
+    "budget": 30,
+    "llm_calls": 11,
+    "tt_hits": 19,
+    "tt_hit_rate": 0.6333333333333333,
+    "time": 90.99059295654297,
+    "scores": {
+      "nova-compute": 1.0,
+      "nova-compute-qemu": 0.8315789473684213,
+      "nova-compute-ironic": 0.7916666666666669,
+      "nova-compute-kvm": 0.7888888888888891,
+      "nova-compute-lxc": 0.7850000000000003
+    },
+    "ranking": [
+      [
+        "nova-compute",
+        1.0
+      ],
+      [
+        "nova-compute-qemu",
+        0.8315789473684213
+      ],
+      [
+        "nova-compute-ironic",
+        0.7916666666666669
+      ],
+      [
+        "nova-compute-kvm",
+        0.7888888888888891
+      ],
+      [
+        "nova-compute-lxc",
+        0.7850000000000003
+      ]
+    ],
+    "oc_detected": [
+      "nova-compute"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.21499999999999975,
+    "score_mean": 0.8394269005847954,
+    "score_max": 1.0,
+    "node_names": {
+      "nova-compute": "nova-compute",
+      "nova-compute-ironic": "nova-compute-ironic",
+      "nova-compute-kvm": "nova-compute-kvm",
+      "nova-compute-lxc": "nova-compute-lxc",
+      "nova-compute-qemu": "nova-compute-qemu"
+    },
+    "clause_details": {
+      "nova-compute": {
+        "mean_score": 1.0,
+        "visit_count": 30,
+        "conflict_count": 90,
+        "risk_history": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "is_oc_detected": true
+      },
+      "nova-compute-ironic": {
+        "mean_score": 0.7916666666666669,
+        "visit_count": 24,
+        "conflict_count": 67,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.8,
+          0.9,
+          0.7,
+          0.9,
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.7,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "nova-compute-kvm": {
+        "mean_score": 0.7888888888888891,
+        "visit_count": 27,
+        "conflict_count": 81,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.8,
+          0.9,
+          0.7,
+          0.9,
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.6,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "nova-compute-lxc": {
+        "mean_score": 0.7850000000000003,
+        "visit_count": 20,
+        "conflict_count": 55,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.6,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "nova-compute-qemu": {
+        "mean_score": 0.8315789473684213,
+        "visit_count": 19,
+        "conflict_count": 57,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "nova-compute"
+    ],
+    "gt_evidence": {
+      "nova-compute": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "nova-compute",
+    "inject_type": "type_b_cross"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_41",
+    "scc_clause_ids": [
+      "nova-compute",
+      "nova-compute-ironic",
+      "nova-compute-kvm",
+      "nova-compute-lxc",
+      "nova-compute-qemu"
+    ],
+    "llm_calls": 1,
+    "time": 18.348352909088135,
+    "scores": {
+      "nova-compute": 0.9,
+      "nova-compute-ironic": 0.7,
+      "nova-compute-kvm": 0.8,
+      "nova-compute-lxc": 0.6,
+      "nova-compute-qemu": 0.8
+    },
+    "reasonings": {
+      "nova-compute": "Critical circular dependency lock point; all 4 compute variants depend on it while it depends on all of them. High attack surface as core OpenStack compute service. Known CVE history in OpenStack Nova components.",
+      "nova-compute-ironic": "Bare-metal provisioning variant; depends on nova-compute creating circular lock. Moderate risk due to specialized deployment scenarios and hardware interaction surface.",
+      "nova-compute-kvm": "Primary virtualization backend; high deployment frequency creates broad attack surface. Circular dependency with nova-compute increases CVE propagation risk across KVM deployments.",
+      "nova-compute-lxc": "Container-based compute variant; lower deployment frequency but container escape vulnerabilities possible. Circular dependency still presents propagation risk.",
+      "nova-compute-qemu": "QEMU-based virtualization; inherits QEMU's substantial CVE history. High-risk due to emulator attack surface and circular dependency amplifying vulnerability impact."
+    },
+    "ranking": [
+      [
+        "nova-compute",
+        0.9
+      ],
+      [
+        "nova-compute-kvm",
+        0.8
+      ],
+      [
+        "nova-compute-qemu",
+        0.8
+      ],
+      [
+        "nova-compute-ironic",
+        0.7
+      ],
+      [
+        "nova-compute-lxc",
+        0.6
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "nova-compute",
+        "clause_b": "nova-compute-kvm",
+        "description": "Mutual dependency creates unresolvable update deadlock; KVM backend cannot update without nova-compute and vice versa"
+      },
+      {
+        "clause_a": "nova-compute",
+        "clause_b": "nova-compute-qemu",
+        "description": "QEMU emulator security updates blocked by circular dependency, preventing critical hypervisor patches"
+      },
+      {
+        "clause_a": "nova-compute",
+        "clause_b": "nova-compute-ironic",
+        "description": "Bare-metal provisioning security isolated by dependency cycle, hindering hardware-level vulnerability mitigation"
+      },
+      {
+        "clause_a": "nova-compute-kvm",
+        "clause_b": "nova-compute-qemu",
+        "description": "Both virtualization backends compete for nova-compute dependency resolution during security updates"
+      }
+    ],
+    "score_spread": 0.30000000000000004,
+    "score_mean": 0.76,
+    "score_max": 0.9,
+    "node_names": {
+      "nova-compute": "nova-compute",
+      "nova-compute-ironic": "nova-compute-ironic",
+      "nova-compute-kvm": "nova-compute-kvm",
+      "nova-compute-lxc": "nova-compute-lxc",
+      "nova-compute-qemu": "nova-compute-qemu"
+    },
+    "ground_truth_nodes": [
+      "nova-compute"
+    ],
+    "gt_evidence": {
+      "nova-compute": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "nova-compute",
+    "inject_type": "type_b_cross"
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_41",
+    "scc_clause_ids": [
+      "nova-compute",
+      "nova-compute-ironic",
+      "nova-compute-kvm",
+      "nova-compute-lxc",
+      "nova-compute-qemu"
+    ],
+    "budget": 30,
+    "llm_calls": 11,
+    "tt_hits": 19,
+    "tt_hit_rate": 0.6333333333333333,
+    "time": 84.80136299133301,
+    "scores": {
+      "nova-compute": 0.943333333333333,
+      "nova-compute-kvm": 0.8000000000000003,
+      "nova-compute-qemu": 0.7920000000000003,
+      "nova-compute-ironic": 0.791666666666667,
+      "nova-compute-lxc": 0.7882352941176473
+    },
+    "ranking": [
+      [
+        "nova-compute",
+        0.943333333333333
+      ],
+      [
+        "nova-compute-kvm",
+        0.8000000000000003
+      ],
+      [
+        "nova-compute-qemu",
+        0.7920000000000003
+      ],
+      [
+        "nova-compute-ironic",
+        0.791666666666667
+      ],
+      [
+        "nova-compute-lxc",
+        0.7882352941176473
+      ]
+    ],
+    "oc_detected": [
+      "nova-compute"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.15509803921568577,
+    "score_mean": 0.8230470588235296,
+    "score_max": 0.943333333333333,
+    "node_names": {
+      "nova-compute": "nova-compute",
+      "nova-compute-ironic": "nova-compute-ironic",
+      "nova-compute-kvm": "nova-compute-kvm",
+      "nova-compute-lxc": "nova-compute-lxc",
+      "nova-compute-qemu": "nova-compute-qemu"
+    },
+    "clause_details": {
+      "nova-compute": {
+        "mean_score": 0.943333333333333,
+        "visit_count": 30,
+        "conflict_count": 90,
+        "risk_history": [
+          0.85,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          0.9,
+          0.85,
+          1.0,
+          0.9,
+          0.85,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.85,
+          1.0,
+          1.0,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          1.0,
+          1.0
+        ],
+        "is_oc_detected": true
+      },
+      "nova-compute-ironic": {
+        "mean_score": 0.791666666666667,
+        "visit_count": 24,
+        "conflict_count": 48,
+        "risk_history": [
+          0.75,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.75,
+          0.8,
+          0.75,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.75,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "nova-compute-kvm": {
+        "mean_score": 0.8000000000000003,
+        "visit_count": 24,
+        "conflict_count": 63,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "nova-compute-lxc": {
+        "mean_score": 0.7882352941176473,
+        "visit_count": 17,
+        "conflict_count": 40,
+        "risk_history": [
+          0.75,
+          0.8,
+          0.8,
+          0.8,
+          0.75,
+          0.8,
+          0.75,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.75,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "nova-compute-qemu": {
+        "mean_score": 0.7920000000000003,
+        "visit_count": 25,
+        "conflict_count": 47,
+        "risk_history": [
+          0.75,
+          0.8,
+          0.8,
+          0.75,
+          0.8,
+          0.8,
+          0.75,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.75,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "nova-compute"
+    ],
+    "gt_evidence": {
+      "nova-compute": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "nova-compute",
+    "inject_type": "type_b_cross"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_23",
+    "scc_clause_ids": [
+      "node-babel-helper-define-polyfill-provider",
+      "node-babel-plugin-polyfill-corejs2",
+      "node-babel-plugin-polyfill-corejs3",
+      "node-babel-plugin-polyfill-regenerator",
+      "node-babel7"
+    ],
+    "llm_calls": 1,
+    "time": 23.156859874725342,
+    "scores": {
+      "node-babel-helper-define-polyfill-provider": 0.9,
+      "node-babel-plugin-polyfill-corejs2": 0.7,
+      "node-babel-plugin-polyfill-corejs3": 0.7,
+      "node-babel-plugin-polyfill-regenerator": 0.6,
+      "node-babel7": 0.8
+    },
+    "reasonings": {
+      "node-babel-helper-define-polyfill-provider": "This package is the critical lock point in the circular dependency cluster, creating an unresolvable bootstrapping deadlock. It has the highest degree of coupling, as all other packages depend on it either directly or indirectly. Its role as the primary CVE propagation vector significantly increases its risk.",
+      "node-babel-plugin-polyfill-corejs2": "This package is tightly coupled with node-babel-helper-define-polyfill-provider and node-babel7, contributing to the circular dependency. It is a potential CVE propagation vector due to its dependency links and exposure to cascading failures.",
+      "node-babel-plugin-polyfill-corejs3": "Similar to node-babel-plugin-polyfill-corejs2, this package is tightly coupled with node-babel-helper-define-polyfill-provider and node-babel7. It also contributes to the circular dependency and is exposed to cascading failures.",
+      "node-babel-plugin-polyfill-regenerator": "This package is part of the circular dependency but has slightly less coupling compared to corejs2 and corejs3. However, it still depends on node-babel-helper-define-polyfill-provider, making it vulnerable to cascading failures.",
+      "node-babel7": "This package is central to the circular dependency, as it is both a dependency of node-babel-helper-define-polyfill-provider and a dependent of multiple other packages in the cycle. Its high degree of coupling and exposure to cascading failures increase its risk."
+    },
+    "ranking": [
+      [
+        "node-babel-helper-define-polyfill-provider",
+        0.9
+      ],
+      [
+        "node-babel7",
+        0.8
+      ],
+      [
+        "node-babel-plugin-polyfill-corejs2",
+        0.7
+      ],
+      [
+        "node-babel-plugin-polyfill-corejs3",
+        0.7
+      ],
+      [
+        "node-babel-plugin-polyfill-regenerator",
+        0.6
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "node-babel-helper-define-polyfill-provider",
+        "clause_b": "node-babel7",
+        "description": "node-babel-helper-define-polyfill-provider depends on node-babel7, while node-babel7 depends on node-babel-helper-define-polyfill-provider indirectly through other packages, creating a circular dependency lock."
+      },
+      {
+        "clause_a": "node-babel-helper-define-polyfill-provider",
+        "clause_b": "node-babel-plugin-polyfill-corejs2",
+        "description": "node-babel-helper-define-polyfill-provider depends on node-babel-plugin-polyfill-corejs2, which in turn depends on node-babel-helper-define-polyfill-provider, contributing to the circular dependency."
+      },
+      {
+        "clause_a": "node-babel-helper-define-polyfill-provider",
+        "clause_b": "node-babel-plugin-polyfill-corejs3",
+        "description": "node-babel-helper-define-polyfill-provider depends on node-babel-plugin-polyfill-corejs3, which in turn depends on node-babel-helper-define-polyfill-provider, contributing to the circular dependency."
+      },
+      {
+        "clause_a": "node-babel-helper-define-polyfill-provider",
+        "clause_b": "node-babel-plugin-polyfill-regenerator",
+        "description": "node-babel-helper-define-polyfill-provider depends on node-babel-plugin-polyfill-regenerator, which in turn depends on node-babel-helper-define-polyfill-provider, contributing to the circular dependency."
+      },
+      {
+        "clause_a": "node-babel7",
+        "clause_b": "node-babel-plugin-polyfill-corejs2",
+        "description": "node-babel7 depends on node-babel-plugin-polyfill-corejs2, which depends on node-babel-helper-define-polyfill-provider, creating indirect circular dependencies."
+      },
+      {
+        "clause_a": "node-babel7",
+        "clause_b": "node-babel-plugin-polyfill-corejs3",
+        "description": "node-babel7 depends on node-babel-plugin-polyfill-corejs3, which depends on node-babel-helper-define-polyfill-provider, creating indirect circular dependencies."
+      },
+      {
+        "clause_a": "node-babel7",
+        "clause_b": "node-babel-plugin-polyfill-regenerator",
+        "description": "node-babel7 depends on node-babel-plugin-polyfill-regenerator, which depends on node-babel-helper-define-polyfill-provider, creating indirect circular dependencies."
+      }
+    ],
+    "score_spread": 0.30000000000000004,
+    "score_mean": 0.74,
+    "score_max": 0.9,
+    "node_names": {
+      "node-babel-helper-define-polyfill-provider": "node-babel-helper-define-polyfill-provider",
+      "node-babel-plugin-polyfill-corejs2": "node-babel-plugin-polyfill-corejs2",
+      "node-babel-plugin-polyfill-corejs3": "node-babel-plugin-polyfill-corejs3",
+      "node-babel-plugin-polyfill-regenerator": "node-babel-plugin-polyfill-regenerator",
+      "node-babel7": "node-babel7"
+    },
+    "ground_truth_nodes": [
+      "node-babel-helper-define-polyfill-provider"
+    ],
+    "gt_evidence": {
+      "node-babel-helper-define-polyfill-provider": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "node-babel-helper-define-polyfill-provider",
+    "inject_type": "type_b_cross"
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_23",
+    "scc_clause_ids": [
+      "node-babel-helper-define-polyfill-provider",
+      "node-babel-plugin-polyfill-corejs2",
+      "node-babel-plugin-polyfill-corejs3",
+      "node-babel-plugin-polyfill-regenerator",
+      "node-babel7"
+    ],
+    "budget": 30,
+    "llm_calls": 12,
+    "tt_hits": 18,
+    "tt_hit_rate": 0.6,
+    "time": 129.44268202781677,
+    "scores": {
+      "node-babel-helper-define-polyfill-provider": 1.0,
+      "node-babel7": 0.7857142857142857,
+      "node-babel-plugin-polyfill-corejs2": 0.7684210526315789,
+      "node-babel-plugin-polyfill-regenerator": 0.7571428571428571,
+      "node-babel-plugin-polyfill-corejs3": 0.7272727272727271
+    },
+    "ranking": [
+      [
+        "node-babel-helper-define-polyfill-provider",
+        1.0
+      ],
+      [
+        "node-babel7",
+        0.7857142857142857
+      ],
+      [
+        "node-babel-plugin-polyfill-corejs2",
+        0.7684210526315789
+      ],
+      [
+        "node-babel-plugin-polyfill-regenerator",
+        0.7571428571428571
+      ],
+      [
+        "node-babel-plugin-polyfill-corejs3",
+        0.7272727272727271
+      ]
+    ],
+    "oc_detected": [
+      "node-babel-helper-define-polyfill-provider"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.27272727272727293,
+    "score_mean": 0.8077101845522897,
+    "score_max": 1.0,
+    "node_names": {
+      "node-babel-helper-define-polyfill-provider": "node-babel-helper-define-polyfill-provider",
+      "node-babel-plugin-polyfill-corejs2": "node-babel-plugin-polyfill-corejs2",
+      "node-babel-plugin-polyfill-corejs3": "node-babel-plugin-polyfill-corejs3",
+      "node-babel-plugin-polyfill-regenerator": "node-babel-plugin-polyfill-regenerator",
+      "node-babel7": "node-babel7"
+    },
+    "clause_details": {
+      "node-babel-helper-define-polyfill-provider": {
+        "mean_score": 1.0,
+        "visit_count": 30,
+        "conflict_count": 90,
+        "risk_history": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "is_oc_detected": true
+      },
+      "node-babel-plugin-polyfill-corejs2": {
+        "mean_score": 0.7684210526315789,
+        "visit_count": 19,
+        "conflict_count": 40,
+        "risk_history": [
+          0.7,
+          0.8,
+          0.9,
+          0.7,
+          0.9,
+          0.9,
+          0.7,
+          0.9,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.7,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "node-babel-plugin-polyfill-corejs3": {
+        "mean_score": 0.7272727272727271,
+        "visit_count": 22,
+        "conflict_count": 46,
+        "risk_history": [
+          0.7,
+          0.8,
+          0.7,
+          0.7,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "node-babel-plugin-polyfill-regenerator": {
+        "mean_score": 0.7571428571428571,
+        "visit_count": 21,
+        "conflict_count": 44,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "node-babel7": {
+        "mean_score": 0.7857142857142857,
+        "visit_count": 28,
+        "conflict_count": 84,
+        "risk_history": [
+          0.8,
+          0.7,
+          0.9,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.7,
+          0.8,
+          0.9,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.7,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.9,
+          0.8
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "node-babel-helper-define-polyfill-provider"
+    ],
+    "gt_evidence": {
+      "node-babel-helper-define-polyfill-provider": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "node-babel-helper-define-polyfill-provider",
+    "inject_type": "type_b_cross"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_23",
+    "scc_clause_ids": [
+      "node-babel-helper-define-polyfill-provider",
+      "node-babel-plugin-polyfill-corejs2",
+      "node-babel-plugin-polyfill-corejs3",
+      "node-babel-plugin-polyfill-regenerator",
+      "node-babel7"
+    ],
+    "llm_calls": 1,
+    "time": 17.07611918449402,
+    "scores": {
+      "node-babel-helper-define-polyfill-provider": 0.85,
+      "node-babel-plugin-polyfill-corejs2": 0.65,
+      "node-babel-plugin-polyfill-corejs3": 0.6,
+      "node-babel-plugin-polyfill-regenerator": 0.55,
+      "node-babel7": 0.75
+    },
+    "reasonings": {
+      "node-babel-helper-define-polyfill-provider": "Critical lock point in circular dependency; 3 packages depend directly on it; acts as CVE propagation vector for entire cluster; high coupling creates unresolvable bootstrapping deadlock",
+      "node-babel-plugin-polyfill-corejs2": "Mutual dependency with both node-babel7 and node-babel-helper-define-polyfill-provider; positioned in critical path of circular chain; polyfill functionality represents common attack surface",
+      "node-babel-plugin-polyfill-corejs3": "Direct dependency on circular lock point; corejs polyfills historically targeted for supply chain attacks; moderate coupling within cycle",
+      "node-babel-plugin-polyfill-regenerator": "Direct dependency on circular lock point; regenerator functionality less critical than corejs but still part of propagation chain",
+      "node-babel7": "Central hub with dependencies on all three polyfill packages; foundational babel package with broad impact; creates reverse dependency chain back to lock point"
+    },
+    "ranking": [
+      [
+        "node-babel-helper-define-polyfill-provider",
+        0.85
+      ],
+      [
+        "node-babel7",
+        0.75
+      ],
+      [
+        "node-babel-plugin-polyfill-corejs2",
+        0.65
+      ],
+      [
+        "node-babel-plugin-polyfill-corejs3",
+        0.6
+      ],
+      [
+        "node-babel-plugin-polyfill-regenerator",
+        0.55
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "node-babel-helper-define-polyfill-provider",
+        "clause_b": "node-babel7",
+        "description": "Mutual dependency creates unresolvable circular version constraint - neither can update independently"
+      },
+      {
+        "clause_a": "node-babel7",
+        "clause_b": "node-babel-plugin-polyfill-corejs2",
+        "description": "Bidirectional dependency prevents isolated security updates to polyfill components"
+      },
+      {
+        "clause_a": "node-babel-helper-define-polyfill-provider",
+        "clause_b": "node-babel-plugin-polyfill-corejs2",
+        "description": "Helper depends on babel7 which depends on polyfill which depends back on helper - complete circular lock"
+      }
+    ],
+    "score_spread": 0.29999999999999993,
+    "score_mean": 0.6799999999999999,
+    "score_max": 0.85,
+    "node_names": {
+      "node-babel-helper-define-polyfill-provider": "node-babel-helper-define-polyfill-provider",
+      "node-babel-plugin-polyfill-corejs2": "node-babel-plugin-polyfill-corejs2",
+      "node-babel-plugin-polyfill-corejs3": "node-babel-plugin-polyfill-corejs3",
+      "node-babel-plugin-polyfill-regenerator": "node-babel-plugin-polyfill-regenerator",
+      "node-babel7": "node-babel7"
+    },
+    "ground_truth_nodes": [
+      "node-babel-helper-define-polyfill-provider"
+    ],
+    "gt_evidence": {
+      "node-babel-helper-define-polyfill-provider": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "node-babel-helper-define-polyfill-provider",
+    "inject_type": "type_b_cross"
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_23",
+    "scc_clause_ids": [
+      "node-babel-helper-define-polyfill-provider",
+      "node-babel-plugin-polyfill-corejs2",
+      "node-babel-plugin-polyfill-corejs3",
+      "node-babel-plugin-polyfill-regenerator",
+      "node-babel7"
+    ],
+    "budget": 30,
+    "llm_calls": 11,
+    "tt_hits": 19,
+    "tt_hit_rate": 0.6333333333333333,
+    "time": 108.09905672073364,
+    "scores": {
+      "node-babel-helper-define-polyfill-provider": 0.9703703703703702,
+      "node-babel7": 0.825,
+      "node-babel-plugin-polyfill-corejs2": 0.7520000000000003,
+      "node-babel-plugin-polyfill-corejs3": 0.7285714285714289,
+      "node-babel-plugin-polyfill-regenerator": 0.7
+    },
+    "ranking": [
+      [
+        "node-babel-helper-define-polyfill-provider",
+        0.9703703703703702
+      ],
+      [
+        "node-babel7",
+        0.825
+      ],
+      [
+        "node-babel-plugin-polyfill-corejs2",
+        0.7520000000000003
+      ],
+      [
+        "node-babel-plugin-polyfill-corejs3",
+        0.7285714285714289
+      ],
+      [
+        "node-babel-plugin-polyfill-regenerator",
+        0.7
+      ]
+    ],
+    "oc_detected": [
+      "node-babel-helper-define-polyfill-provider"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.27037037037037026,
+    "score_mean": 0.7951883597883599,
+    "score_max": 0.9703703703703702,
+    "node_names": {
+      "node-babel-helper-define-polyfill-provider": "node-babel-helper-define-polyfill-provider",
+      "node-babel-plugin-polyfill-corejs2": "node-babel-plugin-polyfill-corejs2",
+      "node-babel-plugin-polyfill-corejs3": "node-babel-plugin-polyfill-corejs3",
+      "node-babel-plugin-polyfill-regenerator": "node-babel-plugin-polyfill-regenerator",
+      "node-babel7": "node-babel7"
+    },
+    "clause_details": {
+      "node-babel-helper-define-polyfill-provider": {
+        "mean_score": 0.9703703703703702,
+        "visit_count": 27,
+        "conflict_count": 77,
+        "risk_history": [
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          0.9,
+          0.9,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          0.9,
+          0.9,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "is_oc_detected": true
+      },
+      "node-babel-plugin-polyfill-corejs2": {
+        "mean_score": 0.7520000000000003,
+        "visit_count": 25,
+        "conflict_count": 45,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.4,
+          0.8,
+          0.8,
+          0.4,
+          0.4,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "node-babel-plugin-polyfill-corejs3": {
+        "mean_score": 0.7285714285714289,
+        "visit_count": 21,
+        "conflict_count": 33,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.3,
+          0.8,
+          0.8,
+          0.8,
+          0.3,
+          0.3,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "node-babel-plugin-polyfill-regenerator": {
+        "mean_score": 0.7,
+        "visit_count": 19,
+        "conflict_count": 24,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.3,
+          0.8,
+          0.8,
+          0.8,
+          0.3,
+          0.3,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "node-babel7": {
+        "mean_score": 0.825,
+        "visit_count": 28,
+        "conflict_count": 75,
+        "risk_history": [
+          0.9,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.9,
+          0.6,
+          0.9,
+          0.8,
+          0.9,
+          0.9,
+          0.6,
+          0.6,
+          0.8,
+          0.9,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "node-babel-helper-define-polyfill-provider"
+    ],
+    "gt_evidence": {
+      "node-babel-helper-define-polyfill-provider": "injected defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "node-babel-helper-define-polyfill-provider",
+    "inject_type": "type_b_cross"
+  }
+]

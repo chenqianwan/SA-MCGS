@@ -1,0 +1,5465 @@
+[
+  {
+    "method": "naive",
+    "model": "claude-3-5-sonnet",
+    "domain": "debian",
+    "scc_id": "scc_23",
+    "scc_size": 11,
+    "error": "Error code: 503 - {'error': {'message': '\u5206\u7ec4 \u7eafAZ \u4e0b\u6a21\u578b claude-3-5-sonnet-20241022 \u65e0\u53ef\u7528\u6e20\u9053\uff08distributor\uff09 (request id: 20260517092049820557514hmpiHSKK) (request id: 20260517092042828377294Ru9jDwki)', 'type': 'openai_error', 'param': '', 'code': '<nil>'}}",
+    "naive_profile": "direct_subgraph",
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "node-deep-equal",
+    "injected_witness_distance": 5,
+    "injected_bridge_node": null,
+    "injected_bridge_distance": null,
+    "injected_risk_nodes": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "injected_evidence_nodes": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "injected_affected_nodes": [
+      "node-read-pkg",
+      "node-debbundle-es-to-primitive"
+    ],
+    "injected_conflict_family": "direct_mutex",
+    "injected_conflict_difficulty": "obvious",
+    "injected_conflict_severity": "critical",
+    "injected_conflict_severity_label": "high_impact_no_fallback",
+    "injected_conflict_template": "debian_direct_legacy_vs_new_abi_critical"
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "claude-3-5-sonnet",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_23",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "budget": 4,
+    "llm_calls": 4,
+    "tt_hits": 0,
+    "tt_hit_rate": 0.0,
+    "time": 69.32523488998413,
+    "scores": {
+      "libjs-util": 0.5,
+      "node-assert": 0.5,
+      "node-debbundle-es-to-primitive": 0.5,
+      "node-deep-equal": 0.5,
+      "node-define-properties": 0.5,
+      "node-es-abstract": 0.5,
+      "node-istanbul": 0.5,
+      "node-parse-json": 0.5,
+      "node-read-pkg": 0.5,
+      "node-tape": 0.5,
+      "node-util": 0.5
+    },
+    "ranking": [
+      [
+        "libjs-util",
+        0.5
+      ],
+      [
+        "node-assert",
+        0.5
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.5
+      ],
+      [
+        "node-deep-equal",
+        0.5
+      ],
+      [
+        "node-define-properties",
+        0.5
+      ],
+      [
+        "node-es-abstract",
+        0.5
+      ],
+      [
+        "node-istanbul",
+        0.5
+      ],
+      [
+        "node-parse-json",
+        0.5
+      ],
+      [
+        "node-read-pkg",
+        0.5
+      ],
+      [
+        "node-tape",
+        0.5
+      ],
+      [
+        "node-util",
+        0.5
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.0,
+    "score_mean": 0.5,
+    "score_max": 0.5,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "clause_details": {
+      "libjs-util": {
+        "mean_score": 0.5,
+        "visit_count": 2,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-assert": {
+        "mean_score": 0.5,
+        "visit_count": 2,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-debbundle-es-to-primitive": {
+        "mean_score": 0.5,
+        "visit_count": 1,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-deep-equal": {
+        "mean_score": 0.5,
+        "visit_count": 2,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-define-properties": {
+        "mean_score": 0.5,
+        "visit_count": 1,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-es-abstract": {
+        "mean_score": 0.5,
+        "visit_count": 1,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-istanbul": {
+        "mean_score": 0.5,
+        "visit_count": 1,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-parse-json": {
+        "mean_score": 0.5,
+        "visit_count": 2,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-read-pkg": {
+        "mean_score": 0.5,
+        "visit_count": 1,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-tape": {
+        "mean_score": 0.5,
+        "visit_count": 1,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-util": {
+        "mean_score": 0.5,
+        "visit_count": 2,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "local_risk_subgraph_counts": {},
+    "repair_entry_counts": {},
+    "local_conflict_edges": [],
+    "local_subgraph_signal": {
+      "libjs-util": 0,
+      "node-assert": 0,
+      "node-debbundle-es-to-primitive": 0,
+      "node-deep-equal": 0,
+      "node-define-properties": 0,
+      "node-es-abstract": 0,
+      "node-istanbul": 0,
+      "node-parse-json": 0,
+      "node-read-pkg": 0,
+      "node-tape": 0,
+      "node-util": 0
+    },
+    "local_subgraph_candidate_nodes": [],
+    "ranking_by_local_subgraph": [
+      [
+        "libjs-util",
+        0
+      ],
+      [
+        "node-assert",
+        0
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0
+      ],
+      [
+        "node-deep-equal",
+        0
+      ],
+      [
+        "node-define-properties",
+        0
+      ],
+      [
+        "node-es-abstract",
+        0
+      ],
+      [
+        "node-istanbul",
+        0
+      ],
+      [
+        "node-parse-json",
+        0
+      ],
+      [
+        "node-read-pkg",
+        0
+      ],
+      [
+        "node-tape",
+        0
+      ],
+      [
+        "node-util",
+        0
+      ]
+    ],
+    "amaf_node_evidence": {},
+    "amaf_edge_evidence": {},
+    "path_fragment_evidence": {},
+    "relation_node_raw_scores": {
+      "libjs-util": 0.0,
+      "node-assert": 0.0,
+      "node-debbundle-es-to-primitive": 0.0,
+      "node-deep-equal": 0.0,
+      "node-define-properties": 0.0,
+      "node-es-abstract": 0.0,
+      "node-istanbul": 0.0,
+      "node-parse-json": 0.0,
+      "node-read-pkg": 0.0,
+      "node-tape": 0.0,
+      "node-util": 0.0
+    },
+    "relation_probe_history": [],
+    "relation_probe_count": 0,
+    "selection_events": [
+      {
+        "mode": "ucb_relation_bias",
+        "seed": "libjs-util",
+        "seed_relation_prior": 0.0,
+        "expansion_trace": [
+          {
+            "edge": [
+              "libjs-util",
+              "node-deep-equal"
+            ],
+            "added_node": "node-deep-equal",
+            "relation_prior": 0.0,
+            "ucb": 15611.536929643877
+          },
+          {
+            "edge": [
+              "node-es-abstract",
+              "node-deep-equal"
+            ],
+            "added_node": "node-es-abstract",
+            "relation_prior": 0.0,
+            "ucb": 15611.083805295519
+          },
+          {
+            "edge": [
+              "node-util",
+              "libjs-util"
+            ],
+            "added_node": "node-util",
+            "relation_prior": 0.0,
+            "ucb": 15611.155306115219
+          }
+        ],
+        "iteration": 1,
+        "window": [
+          "libjs-util",
+          "node-deep-equal",
+          "node-es-abstract",
+          "node-util"
+        ]
+      },
+      {
+        "mode": "ucb_relation_bias",
+        "seed": "node-assert",
+        "seed_relation_prior": 0.0,
+        "expansion_trace": [
+          {
+            "edge": [
+              "node-assert",
+              "node-util"
+            ],
+            "added_node": "node-util",
+            "relation_prior": 0.0,
+            "ucb": 15611.446058640955
+          },
+          {
+            "edge": [
+              "node-parse-json",
+              "node-assert"
+            ],
+            "added_node": "node-parse-json",
+            "relation_prior": 0.0,
+            "ucb": 15611.648785445821
+          },
+          {
+            "edge": [
+              "node-util",
+              "libjs-util"
+            ],
+            "added_node": "libjs-util",
+            "relation_prior": 0.0,
+            "ucb": 15611.557880550488
+          }
+        ],
+        "iteration": 2,
+        "window": [
+          "node-assert",
+          "node-util",
+          "node-parse-json",
+          "libjs-util"
+        ]
+      },
+      {
+        "mode": "ucb_relation_bias",
+        "seed": "node-debbundle-es-to-primitive",
+        "seed_relation_prior": 0.0,
+        "expansion_trace": [
+          {
+            "edge": [
+              "node-debbundle-es-to-primitive",
+              "node-define-properties"
+            ],
+            "added_node": "node-define-properties",
+            "relation_prior": 0.0,
+            "ucb": 13350.789469257097
+          },
+          {
+            "edge": [
+              "node-tape",
+              "node-define-properties"
+            ],
+            "added_node": "node-tape",
+            "relation_prior": 0.0,
+            "ucb": 13350.979978656102
+          },
+          {
+            "edge": [
+              "node-deep-equal",
+              "node-define-properties"
+            ],
+            "added_node": "node-deep-equal",
+            "relation_prior": 0.0,
+            "ucb": 13350.768730776224
+          }
+        ],
+        "iteration": 3,
+        "window": [
+          "node-debbundle-es-to-primitive",
+          "node-define-properties",
+          "node-tape",
+          "node-deep-equal"
+        ]
+      },
+      {
+        "mode": "ucb_relation_bias",
+        "seed": "node-istanbul",
+        "seed_relation_prior": 0.0,
+        "expansion_trace": [
+          {
+            "edge": [
+              "node-istanbul",
+              "node-read-pkg"
+            ],
+            "added_node": "node-read-pkg",
+            "relation_prior": 0.0,
+            "ucb": 8830.136387461367
+          },
+          {
+            "edge": [
+              "node-read-pkg",
+              "node-parse-json"
+            ],
+            "added_node": "node-parse-json",
+            "relation_prior": 0.0,
+            "ucb": 8830.348530335197
+          },
+          {
+            "edge": [
+              "node-parse-json",
+              "node-assert"
+            ],
+            "added_node": "node-assert",
+            "relation_prior": 0.0,
+            "ucb": 8830.480645007943
+          }
+        ],
+        "iteration": 4,
+        "window": [
+          "node-istanbul",
+          "node-read-pkg",
+          "node-parse-json",
+          "node-assert"
+        ]
+      }
+    ],
+    "relation_first_enabled": true,
+    "relation_evidence_policy": "search selection uses progressive bias from relation evidence; probe windows revisit high-value pair/path frontiers without requiring endpoints to be individually high-risk",
+    "evidence_node_scores": {
+      "libjs-util": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-assert": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-debbundle-es-to-primitive": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-deep-equal": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-define-properties": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-es-abstract": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-istanbul": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-parse-json": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-read-pkg": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-tape": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-util": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      }
+    },
+    "evidence_component_names": [],
+    "evidence_component_policy": "dynamic per-SCC normalization over risk surplus, conflict rate, LLM-declared local subgraphs, repair entries, conflict endpoints, OC signals, AMAF/RAVE-style node evidence, path-fragment evidence, and pair-level conflict memory",
+    "ranking_by_evidence": [],
+    "conflict_probability_matrix": [],
+    "evidence_pair_memory_nodes": [],
+    "evidence_pair_memory_edges": [],
+    "critical_pair_ledger_rows": [],
+    "critical_pair_locked_edges": [],
+    "critical_pair_candidate_edges": [],
+    "critical_pair_revisit_history": [],
+    "critical_pair_policy": "persistent critical-pair ledger with same-path severity features, hysteresis, evidence-guided revisits, and protected final-core coverage for locked pairs",
+    "mcgs_compression_profile": "balanced",
+    "mcgs_compression_params": {
+      "subgraph_max_ratio": 0.35,
+      "subgraph_min_nodes": 3,
+      "core_min_nodes": 2,
+      "core_min_relative_score": 0.58,
+      "core_stop_gap": 0.1,
+      "core_min_score": 0.14,
+      "critical_pair_core_min_score": 0.72,
+      "core_tail_relative_score": 0.38,
+      "critical_pair_core_max_edge_ratio": 0.5
+    },
+    "evidence_risk_subgraph_nodes": [
+      "libjs-util"
+    ],
+    "evidence_risk_subgraph_size": 1,
+    "evidence_compression_ratio": 0.9090909090909091,
+    "context_evidence_risk_subgraph_nodes": [
+      "libjs-util"
+    ],
+    "context_evidence_risk_subgraph_size": 1,
+    "context_evidence_compression_ratio": 0.9090909090909091,
+    "dynamic_core_priority_rows": [],
+    "dynamic_core_hit_cap": false,
+    "evidence_subgraph_policy": "blind relation-first evidence accumulator with a dynamically maintained core risk subgraph. The core stops when marginal evidence drops, while context_evidence_* retains the older cap-bounded explanation subgraph.",
+    "evidence_subgraph_cap": 4,
+    "trace_events": [
+      {
+        "completion_index": 1,
+        "iteration": 2,
+        "window": [
+          "node-assert",
+          "node-util",
+          "node-parse-json",
+          "libjs-util"
+        ],
+        "is_tt_hit": false,
+        "selection": {
+          "mode": "ucb_relation_bias",
+          "seed": "node-istanbul",
+          "seed_relation_prior": 0.0,
+          "expansion_trace": [
+            {
+              "edge": [
+                "node-istanbul",
+                "node-read-pkg"
+              ],
+              "added_node": "node-read-pkg",
+              "relation_prior": 0.0,
+              "ucb": 8830.136387461367
+            },
+            {
+              "edge": [
+                "node-read-pkg",
+                "node-parse-json"
+              ],
+              "added_node": "node-parse-json",
+              "relation_prior": 0.0,
+              "ucb": 8830.348530335197
+            },
+            {
+              "edge": [
+                "node-parse-json",
+                "node-assert"
+              ],
+              "added_node": "node-assert",
+              "relation_prior": 0.0,
+              "ucb": 8830.480645007943
+            }
+          ]
+        },
+        "scores": {
+          "node-assert": 0.5,
+          "node-util": 0.5,
+          "node-parse-json": 0.5,
+          "libjs-util": 0.5
+        },
+        "local_risk_subgraph_nodes": [],
+        "repair_entry_nodes": [],
+        "local_conflict_edges": [],
+        "conflicts": [],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "libjs-util",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-assert",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-parse-json",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-util",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          }
+        ],
+        "top_relation_evidence_so_far": [],
+        "top_critical_pairs_so_far": []
+      },
+      {
+        "completion_index": 2,
+        "iteration": 4,
+        "window": [
+          "node-istanbul",
+          "node-read-pkg",
+          "node-parse-json",
+          "node-assert"
+        ],
+        "is_tt_hit": false,
+        "selection": {
+          "mode": "ucb_relation_bias",
+          "seed": "node-istanbul",
+          "seed_relation_prior": 0.0,
+          "expansion_trace": [
+            {
+              "edge": [
+                "node-istanbul",
+                "node-read-pkg"
+              ],
+              "added_node": "node-read-pkg",
+              "relation_prior": 0.0,
+              "ucb": 8830.136387461367
+            },
+            {
+              "edge": [
+                "node-read-pkg",
+                "node-parse-json"
+              ],
+              "added_node": "node-parse-json",
+              "relation_prior": 0.0,
+              "ucb": 8830.348530335197
+            },
+            {
+              "edge": [
+                "node-parse-json",
+                "node-assert"
+              ],
+              "added_node": "node-assert",
+              "relation_prior": 0.0,
+              "ucb": 8830.480645007943
+            }
+          ]
+        },
+        "scores": {
+          "node-istanbul": 0.5,
+          "node-read-pkg": 0.5,
+          "node-parse-json": 0.5,
+          "node-assert": 0.5
+        },
+        "local_risk_subgraph_nodes": [],
+        "repair_entry_nodes": [],
+        "local_conflict_edges": [],
+        "conflicts": [],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "libjs-util",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-assert",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-istanbul",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-parse-json",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-read-pkg",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-util",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          }
+        ],
+        "top_relation_evidence_so_far": [],
+        "top_critical_pairs_so_far": []
+      },
+      {
+        "completion_index": 3,
+        "iteration": 1,
+        "window": [
+          "libjs-util",
+          "node-deep-equal",
+          "node-es-abstract",
+          "node-util"
+        ],
+        "is_tt_hit": false,
+        "selection": {
+          "mode": "ucb_relation_bias",
+          "seed": "node-istanbul",
+          "seed_relation_prior": 0.0,
+          "expansion_trace": [
+            {
+              "edge": [
+                "node-istanbul",
+                "node-read-pkg"
+              ],
+              "added_node": "node-read-pkg",
+              "relation_prior": 0.0,
+              "ucb": 8830.136387461367
+            },
+            {
+              "edge": [
+                "node-read-pkg",
+                "node-parse-json"
+              ],
+              "added_node": "node-parse-json",
+              "relation_prior": 0.0,
+              "ucb": 8830.348530335197
+            },
+            {
+              "edge": [
+                "node-parse-json",
+                "node-assert"
+              ],
+              "added_node": "node-assert",
+              "relation_prior": 0.0,
+              "ucb": 8830.480645007943
+            }
+          ]
+        },
+        "scores": {
+          "libjs-util": 0.5,
+          "node-deep-equal": 0.5,
+          "node-es-abstract": 0.5,
+          "node-util": 0.5
+        },
+        "local_risk_subgraph_nodes": [],
+        "repair_entry_nodes": [],
+        "local_conflict_edges": [],
+        "conflicts": [],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "libjs-util",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-assert",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-deep-equal",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-es-abstract",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-istanbul",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-parse-json",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-read-pkg",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-util",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          }
+        ],
+        "top_relation_evidence_so_far": [],
+        "top_critical_pairs_so_far": []
+      },
+      {
+        "completion_index": 4,
+        "iteration": 3,
+        "window": [
+          "node-debbundle-es-to-primitive",
+          "node-define-properties",
+          "node-tape",
+          "node-deep-equal"
+        ],
+        "is_tt_hit": false,
+        "selection": {
+          "mode": "ucb_relation_bias",
+          "seed": "node-istanbul",
+          "seed_relation_prior": 0.0,
+          "expansion_trace": [
+            {
+              "edge": [
+                "node-istanbul",
+                "node-read-pkg"
+              ],
+              "added_node": "node-read-pkg",
+              "relation_prior": 0.0,
+              "ucb": 8830.136387461367
+            },
+            {
+              "edge": [
+                "node-read-pkg",
+                "node-parse-json"
+              ],
+              "added_node": "node-parse-json",
+              "relation_prior": 0.0,
+              "ucb": 8830.348530335197
+            },
+            {
+              "edge": [
+                "node-parse-json",
+                "node-assert"
+              ],
+              "added_node": "node-assert",
+              "relation_prior": 0.0,
+              "ucb": 8830.480645007943
+            }
+          ]
+        },
+        "scores": {
+          "node-debbundle-es-to-primitive": 0.5,
+          "node-define-properties": 0.5,
+          "node-tape": 0.5,
+          "node-deep-equal": 0.5
+        },
+        "local_risk_subgraph_nodes": [],
+        "repair_entry_nodes": [],
+        "local_conflict_edges": [],
+        "conflicts": [],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "libjs-util",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-assert",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-debbundle-es-to-primitive",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-deep-equal",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-define-properties",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-es-abstract",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-istanbul",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-parse-json",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          }
+        ],
+        "top_relation_evidence_so_far": [],
+        "top_critical_pairs_so_far": []
+      }
+    ],
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "node-deep-equal",
+    "injected_witness_distance": 5,
+    "injected_bridge_node": null,
+    "injected_bridge_distance": null,
+    "injected_risk_nodes": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "injected_evidence_nodes": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "injected_affected_nodes": [
+      "node-read-pkg",
+      "node-debbundle-es-to-primitive"
+    ],
+    "injected_conflict_family": "direct_mutex",
+    "injected_conflict_difficulty": "obvious",
+    "injected_conflict_severity": "critical",
+    "injected_conflict_severity_label": "high_impact_no_fallback",
+    "injected_conflict_template": "debian_direct_legacy_vs_new_abi_critical",
+    "injected_rank": 8,
+    "top1_margin": 0.0,
+    "risk_node_ranks": {
+      "node-parse-json": 8,
+      "node-deep-equal": 4
+    },
+    "risk_best_rank": 4,
+    "risk_worst_rank": 8,
+    "risk_top1_hit": false,
+    "risk_top3_hit": false,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": false,
+    "evidence_node_ranks": {
+      "node-parse-json": 8,
+      "node-deep-equal": 4
+    },
+    "evidence_best_rank": 4,
+    "evidence_worst_rank": 8,
+    "evidence_top1_hit": false,
+    "evidence_top3_hit": false,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "node-read-pkg": 9,
+      "node-debbundle-es-to-primitive": 3
+    },
+    "affected_best_rank": 3,
+    "affected_worst_rank": 9,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "node-parse-json": 8,
+      "node-deep-equal": 4,
+      "node-read-pkg": 9,
+      "node-debbundle-es-to-primitive": 3
+    },
+    "valuable_best_rank": 3,
+    "valuable_worst_rank": 9,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 8,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "risk_subgraph_nodes": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-util"
+    ],
+    "risk_subgraph_size": 7,
+    "compression_ratio": 0.36363636363636365,
+    "contains_injected_node": true,
+    "contains_any_evidence_node": true,
+    "contains_all_evidence_nodes": false,
+    "evidence_nodes_retained": [
+      "node-parse-json"
+    ],
+    "contains_any_risk_node": true,
+    "contains_all_risk_nodes": false,
+    "contains_any_affected_node": true,
+    "subgraph_type": "posthoc_gt_anchored",
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors",
+    "blind_risk_subgraph_nodes": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-util"
+    ],
+    "blind_risk_subgraph_size": 4,
+    "blind_compression_ratio": 0.6363636363636364,
+    "blind_contains_injected_node": false,
+    "blind_contains_any_evidence_node": false,
+    "blind_contains_all_evidence_nodes": false,
+    "blind_evidence_nodes_retained": [],
+    "blind_contains_any_risk_node": false,
+    "blind_contains_all_risk_nodes": false,
+    "blind_contains_any_affected_node": true,
+    "blind_subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC anchors only",
+    "local_declared_risk_subgraph_nodes": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal"
+    ],
+    "local_declared_risk_subgraph_size": 4,
+    "local_declared_compression_ratio": 0.6363636363636364,
+    "local_declared_subgraph_policy": "aggregate LLM-declared local_risk_subgraph_nodes, repair_entry_nodes, local conflict endpoints, and OC nodes; cap by SCC size",
+    "local_declared_contains_any_risk_node": true,
+    "local_declared_contains_all_risk_nodes": false,
+    "local_declared_risk_nodes_retained": [
+      "node-deep-equal"
+    ],
+    "local_declared_risk_coverage": 0.5,
+    "local_declared_contains_any_evidence_node": true,
+    "local_declared_contains_all_evidence_nodes": false,
+    "local_declared_evidence_nodes_retained": [
+      "node-deep-equal"
+    ],
+    "local_declared_evidence_coverage": 0.5,
+    "local_declared_contains_any_affected_node": true,
+    "local_declared_contains_all_affected_nodes": false,
+    "local_declared_affected_nodes_retained": [
+      "node-debbundle-es-to-primitive"
+    ],
+    "local_declared_contains_any_valuable_node": true,
+    "local_declared_contains_all_valuable_nodes": false,
+    "local_declared_valuable_nodes_retained": [
+      "node-deep-equal",
+      "node-debbundle-es-to-primitive"
+    ],
+    "local_declared_valuable_coverage": 0.5,
+    "core_evidence_risk_subgraph_nodes": [
+      "libjs-util"
+    ],
+    "core_evidence_risk_subgraph_size": 1,
+    "core_evidence_compression_ratio": 0.9090909090909091,
+    "core_evidence_hit_cap": false,
+    "core_evidence_contains_any_risk_node": false,
+    "core_evidence_contains_all_risk_nodes": false,
+    "core_evidence_risk_nodes_retained": [],
+    "core_evidence_risk_coverage": 0.0,
+    "core_evidence_contains_any_evidence_node": false,
+    "core_evidence_contains_all_evidence_nodes": false,
+    "core_evidence_evidence_nodes_retained": [],
+    "core_evidence_evidence_coverage": 0.0,
+    "core_evidence_contains_any_affected_node": false,
+    "core_evidence_contains_all_affected_nodes": false,
+    "core_evidence_affected_nodes_retained": [],
+    "core_evidence_contains_any_valuable_node": false,
+    "core_evidence_contains_all_valuable_nodes": false,
+    "core_evidence_valuable_nodes_retained": [],
+    "core_evidence_valuable_coverage": 0.0,
+    "context_evidence_contains_any_risk_node": false,
+    "context_evidence_contains_all_risk_nodes": false,
+    "convergence_trace": [
+      {
+        "rollout": 1,
+        "llm_calls": 1,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": false,
+        "local_risk_all": false,
+        "subgraph_nodes": [],
+        "subgraph_size": 0,
+        "compression_ratio": 1.0,
+        "context_subgraph_nodes": [],
+        "context_subgraph_size": 0,
+        "context_compression_ratio": 1.0,
+        "core_hit_cap": false,
+        "core_stop_reason": "fallback",
+        "risk_coverage": 0.0,
+        "evidence_coverage": 0.0,
+        "valuable_coverage": 0.0,
+        "risk_any": false,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": null
+      },
+      {
+        "rollout": 2,
+        "llm_calls": 2,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": false,
+        "local_risk_all": false,
+        "subgraph_nodes": [],
+        "subgraph_size": 0,
+        "compression_ratio": 1.0,
+        "context_subgraph_nodes": [],
+        "context_subgraph_size": 0,
+        "context_compression_ratio": 1.0,
+        "core_hit_cap": false,
+        "core_stop_reason": "fallback",
+        "risk_coverage": 0.0,
+        "evidence_coverage": 0.0,
+        "valuable_coverage": 0.0,
+        "risk_any": false,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": null
+      },
+      {
+        "rollout": 3,
+        "llm_calls": 3,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": false,
+        "local_risk_all": false,
+        "subgraph_nodes": [],
+        "subgraph_size": 0,
+        "compression_ratio": 1.0,
+        "context_subgraph_nodes": [],
+        "context_subgraph_size": 0,
+        "context_compression_ratio": 1.0,
+        "core_hit_cap": false,
+        "core_stop_reason": "fallback",
+        "risk_coverage": 0.0,
+        "evidence_coverage": 0.0,
+        "valuable_coverage": 0.0,
+        "risk_any": false,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": null
+      },
+      {
+        "rollout": 4,
+        "llm_calls": 4,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": false,
+        "local_risk_all": false,
+        "subgraph_nodes": [],
+        "subgraph_size": 0,
+        "compression_ratio": 1.0,
+        "context_subgraph_nodes": [],
+        "context_subgraph_size": 0,
+        "context_compression_ratio": 1.0,
+        "core_hit_cap": false,
+        "core_stop_reason": "fallback",
+        "risk_coverage": 0.0,
+        "evidence_coverage": 0.0,
+        "valuable_coverage": 0.0,
+        "risk_any": false,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": null
+      }
+    ],
+    "convergence_points": {
+      "1": {
+        "rollout": 1,
+        "llm_calls": 1,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": false,
+        "local_risk_all": false,
+        "subgraph_nodes": [],
+        "subgraph_size": 0,
+        "compression_ratio": 1.0,
+        "context_subgraph_nodes": [],
+        "context_subgraph_size": 0,
+        "context_compression_ratio": 1.0,
+        "core_hit_cap": false,
+        "core_stop_reason": "fallback",
+        "risk_coverage": 0.0,
+        "evidence_coverage": 0.0,
+        "valuable_coverage": 0.0,
+        "risk_any": false,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": null
+      },
+      "2": {
+        "rollout": 2,
+        "llm_calls": 2,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": false,
+        "local_risk_all": false,
+        "subgraph_nodes": [],
+        "subgraph_size": 0,
+        "compression_ratio": 1.0,
+        "context_subgraph_nodes": [],
+        "context_subgraph_size": 0,
+        "context_compression_ratio": 1.0,
+        "core_hit_cap": false,
+        "core_stop_reason": "fallback",
+        "risk_coverage": 0.0,
+        "evidence_coverage": 0.0,
+        "valuable_coverage": 0.0,
+        "risk_any": false,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": null
+      },
+      "4": {
+        "rollout": 4,
+        "llm_calls": 4,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": false,
+        "local_risk_all": false,
+        "subgraph_nodes": [],
+        "subgraph_size": 0,
+        "compression_ratio": 1.0,
+        "context_subgraph_nodes": [],
+        "context_subgraph_size": 0,
+        "context_compression_ratio": 1.0,
+        "core_hit_cap": false,
+        "core_stop_reason": "fallback",
+        "risk_coverage": 0.0,
+        "evidence_coverage": 0.0,
+        "valuable_coverage": 0.0,
+        "risk_any": false,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": null
+      }
+    },
+    "convergence_auc_risk_coverage": 0.0,
+    "convergence_mean_stability": null,
+    "convergence_final_risk_coverage": 0.0,
+    "convergence_final_evidence_coverage": 0.0,
+    "convergence_final_valuable_coverage": 0.0,
+    "convergence_final_subgraph_size": 0,
+    "convergence_final_compression_ratio": 1.0,
+    "convergence_final_context_subgraph_size": 0,
+    "convergence_final_context_compression_ratio": 1.0,
+    "convergence_final_core_hit_cap": false,
+    "convergence_final_core_stop_reason": "fallback",
+    "first_window_risk_any_rollout": 1,
+    "first_window_risk_all_rollout": null,
+    "first_local_risk_any_rollout": null,
+    "first_local_risk_all_rollout": null,
+    "first_subgraph_risk_any_rollout": null,
+    "first_subgraph_risk_all_rollout": null,
+    "first_effective_oc_rollout": null
+  },
+  {
+    "method": "naive",
+    "model": "qwen2.5-72b",
+    "domain": "debian",
+    "scc_id": "scc_23",
+    "scc_size": 11,
+    "error": "Error code: 400 - {'error': {'message': '<400> InternalError.Algo.InvalidParameter: Range of max_tokens should be [1, 8192] (request id: 202605170922064385040294knqtmwC)', 'type': 'openai_error', 'param': '', 'code': 'invalid_parameter_error'}}",
+    "naive_profile": "direct_subgraph",
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "node-deep-equal",
+    "injected_witness_distance": 5,
+    "injected_bridge_node": null,
+    "injected_bridge_distance": null,
+    "injected_risk_nodes": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "injected_evidence_nodes": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "injected_affected_nodes": [
+      "node-read-pkg",
+      "node-debbundle-es-to-primitive"
+    ],
+    "injected_conflict_family": "direct_mutex",
+    "injected_conflict_difficulty": "obvious",
+    "injected_conflict_severity": "critical",
+    "injected_conflict_severity_label": "high_impact_no_fallback",
+    "injected_conflict_template": "debian_direct_legacy_vs_new_abi_critical"
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "qwen2.5-72b",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_23",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "budget": 4,
+    "llm_calls": 4,
+    "tt_hits": 0,
+    "tt_hit_rate": 0.0,
+    "time": 22.592896938323975,
+    "scores": {
+      "node-es-abstract": 0.4,
+      "node-deep-equal": 0.375,
+      "libjs-util": 0.3,
+      "node-util": 0.3,
+      "node-assert": 0.2,
+      "node-define-properties": 0.2,
+      "node-debbundle-es-to-primitive": 0.16666666666666666,
+      "node-tape": 0.15,
+      "node-istanbul": 0.0,
+      "node-parse-json": 0.0,
+      "node-read-pkg": 0.0
+    },
+    "ranking": [
+      [
+        "node-es-abstract",
+        0.4
+      ],
+      [
+        "node-deep-equal",
+        0.375
+      ],
+      [
+        "libjs-util",
+        0.3
+      ],
+      [
+        "node-util",
+        0.3
+      ],
+      [
+        "node-assert",
+        0.2
+      ],
+      [
+        "node-define-properties",
+        0.2
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.16666666666666666
+      ],
+      [
+        "node-tape",
+        0.15
+      ],
+      [
+        "node-istanbul",
+        0.0
+      ],
+      [
+        "node-parse-json",
+        0.0
+      ],
+      [
+        "node-read-pkg",
+        0.0
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.4,
+    "score_mean": 0.19015151515151515,
+    "score_max": 0.4,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "clause_details": {
+      "libjs-util": {
+        "mean_score": 0.3,
+        "visit_count": 1,
+        "conflict_count": 1,
+        "risk_history": [
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "node-assert": {
+        "mean_score": 0.2,
+        "visit_count": 1,
+        "conflict_count": 0,
+        "risk_history": [
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "node-debbundle-es-to-primitive": {
+        "mean_score": 0.16666666666666666,
+        "visit_count": 3,
+        "conflict_count": 1,
+        "risk_history": [
+          0.3,
+          0.2,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "node-deep-equal": {
+        "mean_score": 0.375,
+        "visit_count": 4,
+        "conflict_count": 3,
+        "risk_history": [
+          0.5,
+          0.5,
+          0.5,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "node-define-properties": {
+        "mean_score": 0.2,
+        "visit_count": 1,
+        "conflict_count": 0,
+        "risk_history": [
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "node-es-abstract": {
+        "mean_score": 0.4,
+        "visit_count": 2,
+        "conflict_count": 2,
+        "risk_history": [
+          0.4,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "node-istanbul": {
+        "mean_score": 0.0,
+        "visit_count": 1,
+        "conflict_count": 0,
+        "risk_history": [
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "node-parse-json": {
+        "mean_score": 0.0,
+        "visit_count": 0,
+        "conflict_count": 0,
+        "risk_history": [],
+        "is_oc_detected": false
+      },
+      "node-read-pkg": {
+        "mean_score": 0.0,
+        "visit_count": 0,
+        "conflict_count": 0,
+        "risk_history": [],
+        "is_oc_detected": false
+      },
+      "node-tape": {
+        "mean_score": 0.15,
+        "visit_count": 2,
+        "conflict_count": 0,
+        "risk_history": [
+          0.3,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "node-util": {
+        "mean_score": 0.3,
+        "visit_count": 1,
+        "conflict_count": 1,
+        "risk_history": [
+          0.3
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "local_risk_subgraph_counts": {
+      "node-deep-equal": 3,
+      "node-es-abstract": 2,
+      "libjs-util": 1,
+      "node-util": 1,
+      "node-debbundle-es-to-primitive": 1,
+      "node-tape": 1
+    },
+    "repair_entry_counts": {
+      "node-deep-equal": 2,
+      "libjs-util": 1,
+      "node-util": 1,
+      "node-es-abstract": 1
+    },
+    "local_conflict_edges": [
+      {
+        "source": "node-deep-equal",
+        "target": "node-es-abstract",
+        "count": 2,
+        "explicit_count": 2,
+        "reasons": [
+          "The ABI exposure condition in node-deep-equal could cause blocking inconsistencies with node-es-abstract.",
+          "Both packages have complex dependencies and the ABI exposure condition in node-deep-equal could cause blocking inconsistencies.; critical_pair: Same-path severe incompatibility due to ABI exposure condition in node-deep-equal.",
+          "Multiple references from `node-es-abstract` to `node-deep-equal` suggest a possible redundancy or circular dependency, which could lead to structural inconsistencies."
+        ]
+      },
+      {
+        "source": "libjs-util",
+        "target": "node-util",
+        "count": 1,
+        "explicit_count": 1,
+        "reasons": [
+          "Circular dependency between libjs-util and node-util can cause installation or runtime issues.",
+          "Circular dependency can cause installation or runtime issues.; critical_pair: Same-path severe incompatibility due to circular dependency.",
+          "Circular dependency can cause installation or runtime issues."
+        ]
+      },
+      {
+        "source": "node-debbundle-es-to-primitive",
+        "target": "node-deep-equal",
+        "count": 1,
+        "explicit_count": 1,
+        "reasons": [
+          "The description of `node-deep-equal` mentions a potential blocking inconsistency related to `node-debbundle-es-to-primitive`, which could cause issues if not resolved.",
+          "The description of `node-deep-equal` mentions a potential blocking inconsistency related to `node-debbundle-es-to-primitive`.; critical_pair: same-path severe incompatibility"
+        ]
+      }
+    ],
+    "local_subgraph_signal": {
+      "libjs-util": 3,
+      "node-assert": 0,
+      "node-debbundle-es-to-primitive": 2,
+      "node-deep-equal": 8,
+      "node-define-properties": 0,
+      "node-es-abstract": 5,
+      "node-istanbul": 0,
+      "node-parse-json": 0,
+      "node-read-pkg": 0,
+      "node-tape": 1,
+      "node-util": 3
+    },
+    "local_subgraph_candidate_nodes": [
+      "node-deep-equal",
+      "node-es-abstract",
+      "libjs-util",
+      "node-util",
+      "node-debbundle-es-to-primitive",
+      "node-tape"
+    ],
+    "ranking_by_local_subgraph": [
+      [
+        "node-deep-equal",
+        8
+      ],
+      [
+        "node-es-abstract",
+        5
+      ],
+      [
+        "libjs-util",
+        3
+      ],
+      [
+        "node-util",
+        3
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        2
+      ],
+      [
+        "node-tape",
+        1
+      ],
+      [
+        "node-assert",
+        0
+      ],
+      [
+        "node-define-properties",
+        0
+      ],
+      [
+        "node-istanbul",
+        0
+      ],
+      [
+        "node-parse-json",
+        0
+      ],
+      [
+        "node-read-pkg",
+        0
+      ]
+    ],
+    "amaf_node_evidence": {
+      "node-deep-equal": 12.35,
+      "node-es-abstract": 7.4,
+      "libjs-util": 5.75,
+      "node-util": 5.75,
+      "node-debbundle-es-to-primitive": 4.05,
+      "node-tape": 0.65
+    },
+    "amaf_edge_evidence": {
+      "node-deep-equal->node-es-abstract": 4.65,
+      "node-es-abstract->node-deep-equal": 4.300000000000001,
+      "node-debbundle-es-to-primitive->node-deep-equal": 2.125,
+      "node-deep-equal->node-debbundle-es-to-primitive": 3.9499999999999997,
+      "libjs-util->node-util": 4.125,
+      "node-util->libjs-util": 2.975,
+      "node-util->node-deep-equal": 0.25,
+      "node-deep-equal->node-util": 0.15,
+      "node-deep-equal->node-assert": 0.25,
+      "node-assert->node-deep-equal": 0.15,
+      "node-es-abstract->node-tape": 0.25,
+      "node-tape->node-es-abstract": 0.15
+    },
+    "path_fragment_evidence": {
+      "node-deep-equal": 4.7,
+      "node-es-abstract": 2.75,
+      "node-debbundle-es-to-primitive": 1.0999999999999999,
+      "libjs-util": 2.0,
+      "node-util": 2.15,
+      "node-assert": 0.15,
+      "node-tape": 0.6
+    },
+    "relation_node_raw_scores": {
+      "libjs-util": 10.4625,
+      "node-assert": 0.11249999999999999,
+      "node-debbundle-es-to-primitive": 7.4975,
+      "node-deep-equal": 25.032500000000002,
+      "node-define-properties": 0.0,
+      "node-es-abstract": 15.167499999999999,
+      "node-istanbul": 0.0,
+      "node-parse-json": 0.0,
+      "node-read-pkg": 0.0,
+      "node-tape": 1.805,
+      "node-util": 10.575000000000001
+    },
+    "relation_probe_history": [],
+    "relation_probe_count": 0,
+    "selection_events": [
+      {
+        "mode": "ucb_relation_bias",
+        "seed": "libjs-util",
+        "seed_relation_prior": 0.0,
+        "expansion_trace": [
+          {
+            "edge": [
+              "node-util",
+              "libjs-util"
+            ],
+            "added_node": "node-util",
+            "relation_prior": 0.0,
+            "ucb": 15611.3077024769
+          },
+          {
+            "edge": [
+              "libjs-util",
+              "node-deep-equal"
+            ],
+            "added_node": "node-deep-equal",
+            "relation_prior": 0.0,
+            "ucb": 15611.590332397454
+          },
+          {
+            "edge": [
+              "node-assert",
+              "node-util"
+            ],
+            "added_node": "node-assert",
+            "relation_prior": 0.0,
+            "ucb": 15611.008645127227
+          }
+        ],
+        "iteration": 1,
+        "window": [
+          "libjs-util",
+          "node-util",
+          "node-deep-equal",
+          "node-assert"
+        ]
+      },
+      {
+        "mode": "ucb_relation_bias",
+        "seed": "node-debbundle-es-to-primitive",
+        "seed_relation_prior": 0.0,
+        "expansion_trace": [
+          {
+            "edge": [
+              "node-debbundle-es-to-primitive",
+              "node-deep-equal"
+            ],
+            "added_node": "node-deep-equal",
+            "relation_prior": 0.0,
+            "ucb": 15610.819828763417
+          },
+          {
+            "edge": [
+              "node-es-abstract",
+              "node-debbundle-es-to-primitive"
+            ],
+            "added_node": "node-es-abstract",
+            "relation_prior": 0.0,
+            "ucb": 15611.007185948149
+          },
+          {
+            "edge": [
+              "node-tape",
+              "node-deep-equal"
+            ],
+            "added_node": "node-tape",
+            "relation_prior": 0.0,
+            "ucb": 15611.063657968429
+          }
+        ],
+        "iteration": 2,
+        "window": [
+          "node-debbundle-es-to-primitive",
+          "node-deep-equal",
+          "node-es-abstract",
+          "node-tape"
+        ]
+      },
+      {
+        "mode": "ucb_relation_bias",
+        "seed": "node-define-properties",
+        "seed_relation_prior": 0.0,
+        "expansion_trace": [
+          {
+            "edge": [
+              "node-debbundle-es-to-primitive",
+              "node-define-properties"
+            ],
+            "added_node": "node-debbundle-es-to-primitive",
+            "relation_prior": 0.0,
+            "ucb": 13350.869145637622
+          },
+          {
+            "edge": [
+              "node-deep-equal",
+              "node-define-properties"
+            ],
+            "added_node": "node-deep-equal",
+            "relation_prior": 0.0,
+            "ucb": 13350.482946987751
+          },
+          {
+            "edge": [
+              "node-es-abstract",
+              "node-debbundle-es-to-primitive"
+            ],
+            "added_node": "node-es-abstract",
+            "relation_prior": 0.0,
+            "ucb": 13350.44917292851
+          }
+        ],
+        "iteration": 3,
+        "window": [
+          "node-define-properties",
+          "node-debbundle-es-to-primitive",
+          "node-deep-equal",
+          "node-es-abstract"
+        ]
+      },
+      {
+        "mode": "ucb_relation_bias",
+        "seed": "node-istanbul",
+        "seed_relation_prior": 0.0,
+        "expansion_trace": [
+          {
+            "edge": [
+              "node-tape",
+              "node-istanbul"
+            ],
+            "added_node": "node-tape",
+            "relation_prior": 0.0,
+            "ucb": 8830.439963052308
+          },
+          {
+            "edge": [
+              "node-tape",
+              "node-debbundle-es-to-primitive"
+            ],
+            "added_node": "node-debbundle-es-to-primitive",
+            "relation_prior": 0.0,
+            "ucb": 8829.925960480787
+          },
+          {
+            "edge": [
+              "node-tape",
+              "node-deep-equal"
+            ],
+            "added_node": "node-deep-equal",
+            "relation_prior": 0.0,
+            "ucb": 8829.459200081701
+          }
+        ],
+        "iteration": 4,
+        "window": [
+          "node-istanbul",
+          "node-tape",
+          "node-debbundle-es-to-primitive",
+          "node-deep-equal"
+        ]
+      }
+    ],
+    "relation_first_enabled": true,
+    "relation_evidence_policy": "search selection uses progressive bias from relation evidence; probe windows revisit high-value pair/path frontiers without requiring endpoints to be individually high-risk",
+    "evidence_node_scores": {
+      "libjs-util": {
+        "score": 0.49010094146358363,
+        "support_count": 9,
+        "components": {
+          "risk_surplus": 0.4999999999999999,
+          "conflict_rate": 1.0,
+          "local_risk_subgraph": 0.3333333333333333,
+          "repair_entry": 0.5,
+          "conflict_endpoint": 0.3333333333333333,
+          "amaf_node_evidence": 0.46558704453441296,
+          "path_fragment_evidence": 0.425531914893617,
+          "relation_evidence_prior": 0.4179566563467492,
+          "critical_pair_endpoint": 0.4351661907308064
+        },
+        "raw": {
+          "risk_surplus": 0.09999999999999998,
+          "conflict_rate": 1.0,
+          "local_risk_subgraph": 1,
+          "repair_entry": 1,
+          "conflict_endpoint": 1,
+          "amaf_node_evidence": 5.75,
+          "path_fragment_evidence": 2.0,
+          "relation_evidence_prior": 10.4625,
+          "critical_pair_endpoint": 0.8711545466144719
+        }
+      },
+      "node-assert": {
+        "score": 0.0040454501346830676,
+        "support_count": 2,
+        "components": {
+          "path_fragment_evidence": 0.031914893617021274,
+          "relation_evidence_prior": 0.004494157595126335
+        },
+        "raw": {
+          "path_fragment_evidence": 0.15,
+          "relation_evidence_prior": 0.11249999999999999
+        }
+      },
+      "node-debbundle-es-to-primitive": {
+        "score": 0.2551838447519261,
+        "support_count": 7,
+        "components": {
+          "conflict_rate": 0.3333333333333333,
+          "local_risk_subgraph": 0.3333333333333333,
+          "conflict_endpoint": 0.3333333333333333,
+          "amaf_node_evidence": 0.32793522267206476,
+          "path_fragment_evidence": 0.2340425531914893,
+          "relation_evidence_prior": 0.2995106361729751,
+          "critical_pair_endpoint": 0.4351661907308064
+        },
+        "raw": {
+          "conflict_rate": 0.3333333333333333,
+          "local_risk_subgraph": 1,
+          "conflict_endpoint": 1,
+          "amaf_node_evidence": 4.05,
+          "path_fragment_evidence": 1.0999999999999999,
+          "relation_evidence_prior": 7.4975,
+          "critical_pair_endpoint": 0.8711545466144719
+        }
+      },
+      "node-deep-equal": {
+        "score": 0.9583333333333334,
+        "support_count": 9,
+        "components": {
+          "risk_surplus": 0.8749999999999999,
+          "conflict_rate": 0.75,
+          "local_risk_subgraph": 1.0,
+          "repair_entry": 1.0,
+          "conflict_endpoint": 1.0,
+          "amaf_node_evidence": 1.0,
+          "path_fragment_evidence": 1.0,
+          "relation_evidence_prior": 1.0,
+          "critical_pair_endpoint": 1.0
+        },
+        "raw": {
+          "risk_surplus": 0.175,
+          "conflict_rate": 0.75,
+          "local_risk_subgraph": 3,
+          "repair_entry": 2,
+          "conflict_endpoint": 3,
+          "amaf_node_evidence": 12.35,
+          "path_fragment_evidence": 4.7,
+          "relation_evidence_prior": 25.032500000000002,
+          "critical_pair_endpoint": 2.0018893130265436
+        }
+      },
+      "node-define-properties": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-es-abstract": {
+        "score": 0.6875973469970967,
+        "support_count": 9,
+        "components": {
+          "risk_surplus": 1.0,
+          "conflict_rate": 1.0,
+          "local_risk_subgraph": 0.6666666666666666,
+          "repair_entry": 0.5,
+          "conflict_endpoint": 0.6666666666666666,
+          "amaf_node_evidence": 0.5991902834008097,
+          "path_fragment_evidence": 0.5851063829787234,
+          "relation_evidence_prior": 0.6059123139918106,
+          "critical_pair_endpoint": 0.5648338092691936
+        },
+        "raw": {
+          "risk_surplus": 0.2,
+          "conflict_rate": 1.0,
+          "local_risk_subgraph": 2,
+          "repair_entry": 1,
+          "conflict_endpoint": 2,
+          "amaf_node_evidence": 7.4,
+          "path_fragment_evidence": 2.75,
+          "relation_evidence_prior": 15.167499999999999,
+          "critical_pair_endpoint": 1.1307347664120717
+        }
+      },
+      "node-istanbul": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-parse-json": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-read-pkg": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-tape": {
+        "score": 0.06508119428981882,
+        "support_count": 4,
+        "components": {
+          "local_risk_subgraph": 0.3333333333333333,
+          "amaf_node_evidence": 0.052631578947368425,
+          "path_fragment_evidence": 0.1276595744680851,
+          "relation_evidence_prior": 0.07210626185958253
+        },
+        "raw": {
+          "local_risk_subgraph": 1,
+          "amaf_node_evidence": 0.65,
+          "path_fragment_evidence": 0.6,
+          "relation_evidence_prior": 1.805
+        }
+      },
+      "node-util": {
+        "score": 0.4941463915982667,
+        "support_count": 9,
+        "components": {
+          "risk_surplus": 0.4999999999999999,
+          "conflict_rate": 1.0,
+          "local_risk_subgraph": 0.3333333333333333,
+          "repair_entry": 0.5,
+          "conflict_endpoint": 0.3333333333333333,
+          "amaf_node_evidence": 0.46558704453441296,
+          "path_fragment_evidence": 0.45744680851063824,
+          "relation_evidence_prior": 0.42245081394187556,
+          "critical_pair_endpoint": 0.4351661907308064
+        },
+        "raw": {
+          "risk_surplus": 0.09999999999999998,
+          "conflict_rate": 1.0,
+          "local_risk_subgraph": 1,
+          "repair_entry": 1,
+          "conflict_endpoint": 1,
+          "amaf_node_evidence": 5.75,
+          "path_fragment_evidence": 2.15,
+          "relation_evidence_prior": 10.575000000000001,
+          "critical_pair_endpoint": 0.8711545466144719
+        }
+      }
+    },
+    "evidence_component_names": [
+      "risk_surplus",
+      "conflict_rate",
+      "local_risk_subgraph",
+      "repair_entry",
+      "conflict_endpoint",
+      "amaf_node_evidence",
+      "path_fragment_evidence",
+      "relation_evidence_prior",
+      "critical_pair_endpoint"
+    ],
+    "evidence_component_policy": "dynamic per-SCC normalization over risk surplus, conflict rate, LLM-declared local subgraphs, repair entries, conflict endpoints, OC signals, AMAF/RAVE-style node evidence, path-fragment evidence, and pair-level conflict memory",
+    "ranking_by_evidence": [
+      [
+        "node-deep-equal",
+        0.9583333333333334
+      ],
+      [
+        "node-es-abstract",
+        0.6875973469970967
+      ],
+      [
+        "node-util",
+        0.4941463915982667
+      ],
+      [
+        "libjs-util",
+        0.49010094146358363
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.2551838447519261
+      ],
+      [
+        "node-tape",
+        0.06508119428981882
+      ],
+      [
+        "node-assert",
+        0.0040454501346830676
+      ]
+    ],
+    "conflict_probability_matrix": [
+      {
+        "source": "node-deep-equal",
+        "target": "node-es-abstract",
+        "count": 2,
+        "explicit_count": 2,
+        "probability_proxy": 1.0,
+        "semantic_strength": 1.0,
+        "pair_score": 0.9734448010247824,
+        "reasons": [
+          "The ABI exposure condition in node-deep-equal could cause blocking inconsistencies with node-es-abstract.",
+          "Both packages have complex dependencies and the ABI exposure condition in node-deep-equal could cause blocking inconsistencies.; critical_pair: Same-path severe incompatibility due to ABI exposure condition in node-deep-equal.",
+          "Multiple references from `node-es-abstract` to `node-deep-equal` suggest a possible redundancy or circular dependency, which could lead to structural inconsistencies.",
+          "Multiple references from `node-es-abstract` to `node-deep-equal` suggest a possible redundancy or circular dependency."
+        ],
+        "critical_pair_score": 0.9045878131296573,
+        "critical_state": "locked",
+        "critical_support_count": 2,
+        "critical_revisit_count": 0,
+        "severity_strength": 1.0,
+        "same_path_strength": 0.8,
+        "no_fallback_strength": 1.0
+      },
+      {
+        "source": "libjs-util",
+        "target": "node-util",
+        "count": 1,
+        "explicit_count": 1,
+        "probability_proxy": 0.5,
+        "semantic_strength": 1.0,
+        "pair_score": 0.8711545466144719,
+        "reasons": [
+          "Circular dependency between libjs-util and node-util can cause installation or runtime issues.",
+          "Circular dependency can cause installation or runtime issues.; critical_pair: Same-path severe incompatibility due to circular dependency.",
+          "Circular dependency can cause installation or runtime issues."
+        ],
+        "critical_pair_score": 0.8711545466144719,
+        "critical_state": "candidate",
+        "critical_support_count": 1,
+        "critical_revisit_count": 0,
+        "severity_strength": 1.0,
+        "same_path_strength": 0.8,
+        "no_fallback_strength": 1.0
+      },
+      {
+        "source": "node-debbundle-es-to-primitive",
+        "target": "node-deep-equal",
+        "count": 1,
+        "explicit_count": 1,
+        "probability_proxy": 0.5,
+        "semantic_strength": 1.0,
+        "pair_score": 0.8711545466144719,
+        "reasons": [
+          "The description of `node-deep-equal` mentions a potential blocking inconsistency related to `node-debbundle-es-to-primitive`, which could cause issues if not resolved.",
+          "The description of `node-deep-equal` mentions a potential blocking inconsistency related to `node-debbundle-es-to-primitive`.; critical_pair: same-path severe incompatibility"
+        ],
+        "critical_pair_score": 0.8711545466144719,
+        "critical_state": "candidate",
+        "critical_support_count": 1,
+        "critical_revisit_count": 0,
+        "severity_strength": 1.0,
+        "same_path_strength": 0.8,
+        "no_fallback_strength": 1.0
+      }
+    ],
+    "evidence_pair_memory_nodes": [
+      "libjs-util",
+      "node-deep-equal",
+      "node-es-abstract",
+      "node-util"
+    ],
+    "evidence_pair_memory_edges": [
+      {
+        "source": "node-deep-equal",
+        "target": "node-es-abstract",
+        "count": 2,
+        "explicit_count": 2,
+        "probability_proxy": 1.0,
+        "semantic_strength": 1.0,
+        "pair_score": 0.9734448010247824,
+        "reasons": [
+          "The ABI exposure condition in node-deep-equal could cause blocking inconsistencies with node-es-abstract.",
+          "Both packages have complex dependencies and the ABI exposure condition in node-deep-equal could cause blocking inconsistencies.; critical_pair: Same-path severe incompatibility due to ABI exposure condition in node-deep-equal.",
+          "Multiple references from `node-es-abstract` to `node-deep-equal` suggest a possible redundancy or circular dependency, which could lead to structural inconsistencies.",
+          "Multiple references from `node-es-abstract` to `node-deep-equal` suggest a possible redundancy or circular dependency."
+        ],
+        "critical_pair_score": 0.9045878131296573,
+        "critical_state": "locked",
+        "critical_support_count": 2,
+        "critical_revisit_count": 0,
+        "severity_strength": 1.0,
+        "same_path_strength": 0.8,
+        "no_fallback_strength": 1.0
+      },
+      {
+        "source": "libjs-util",
+        "target": "node-util",
+        "count": 1,
+        "explicit_count": 1,
+        "probability_proxy": 0.5,
+        "semantic_strength": 1.0,
+        "pair_score": 0.8711545466144719,
+        "reasons": [
+          "Circular dependency between libjs-util and node-util can cause installation or runtime issues.",
+          "Circular dependency can cause installation or runtime issues.; critical_pair: Same-path severe incompatibility due to circular dependency.",
+          "Circular dependency can cause installation or runtime issues."
+        ],
+        "critical_pair_score": 0.8711545466144719,
+        "critical_state": "candidate",
+        "critical_support_count": 1,
+        "critical_revisit_count": 0,
+        "severity_strength": 1.0,
+        "same_path_strength": 0.8,
+        "no_fallback_strength": 1.0
+      }
+    ],
+    "critical_pair_ledger_rows": [
+      {
+        "source": "node-deep-equal",
+        "target": "node-es-abstract",
+        "state": "locked",
+        "critical_pair_score": 0.9045878131296573,
+        "support_count": 2,
+        "explicit_count": 2,
+        "local_count": 2,
+        "revisit_count": 0,
+        "semantic_strength": 1.0,
+        "severity_strength": 1.0,
+        "same_path_strength": 0.8,
+        "no_fallback_strength": 1.0,
+        "first_seen": 1,
+        "last_seen": 3,
+        "reasons": [
+          "The ABI exposure condition in node-deep-equal could cause blocking inconsistencies with node-es-abstract.",
+          "Both packages have complex dependencies and the ABI exposure condition in node-deep-equal could cause blocking inconsistencies.; critical_pair: Same-path severe incompatibility due to ABI exposure condition in node-deep-equal.",
+          "Multiple references from `node-es-abstract` to `node-deep-equal` suggest a possible redundancy or circular dependency, which could lead to structural inconsistencies.",
+          "Multiple references from `node-es-abstract` to `node-deep-equal` suggest a possible redundancy or circular dependency."
+        ]
+      },
+      {
+        "source": "libjs-util",
+        "target": "node-util",
+        "state": "candidate",
+        "critical_pair_score": 0.8711545466144719,
+        "support_count": 1,
+        "explicit_count": 1,
+        "local_count": 2,
+        "revisit_count": 0,
+        "semantic_strength": 1.0,
+        "severity_strength": 1.0,
+        "same_path_strength": 0.8,
+        "no_fallback_strength": 1.0,
+        "first_seen": 2,
+        "last_seen": 2,
+        "reasons": [
+          "Circular dependency between libjs-util and node-util can cause installation or runtime issues.",
+          "Circular dependency can cause installation or runtime issues.; critical_pair: Same-path severe incompatibility due to circular dependency.",
+          "Circular dependency can cause installation or runtime issues."
+        ]
+      },
+      {
+        "source": "node-debbundle-es-to-primitive",
+        "target": "node-deep-equal",
+        "state": "candidate",
+        "critical_pair_score": 0.8711545466144719,
+        "support_count": 1,
+        "explicit_count": 1,
+        "local_count": 1,
+        "revisit_count": 0,
+        "semantic_strength": 1.0,
+        "severity_strength": 1.0,
+        "same_path_strength": 0.8,
+        "no_fallback_strength": 1.0,
+        "first_seen": 3,
+        "last_seen": 3,
+        "reasons": [
+          "The description of `node-deep-equal` mentions a potential blocking inconsistency related to `node-debbundle-es-to-primitive`, which could cause issues if not resolved.",
+          "The description of `node-deep-equal` mentions a potential blocking inconsistency related to `node-debbundle-es-to-primitive`.; critical_pair: same-path severe incompatibility"
+        ]
+      }
+    ],
+    "critical_pair_locked_edges": [
+      {
+        "source": "node-deep-equal",
+        "target": "node-es-abstract",
+        "state": "locked",
+        "critical_pair_score": 0.9045878131296573,
+        "support_count": 2,
+        "explicit_count": 2,
+        "local_count": 2,
+        "revisit_count": 0,
+        "semantic_strength": 1.0,
+        "severity_strength": 1.0,
+        "same_path_strength": 0.8,
+        "no_fallback_strength": 1.0,
+        "first_seen": 1,
+        "last_seen": 3,
+        "reasons": [
+          "The ABI exposure condition in node-deep-equal could cause blocking inconsistencies with node-es-abstract.",
+          "Both packages have complex dependencies and the ABI exposure condition in node-deep-equal could cause blocking inconsistencies.; critical_pair: Same-path severe incompatibility due to ABI exposure condition in node-deep-equal.",
+          "Multiple references from `node-es-abstract` to `node-deep-equal` suggest a possible redundancy or circular dependency, which could lead to structural inconsistencies.",
+          "Multiple references from `node-es-abstract` to `node-deep-equal` suggest a possible redundancy or circular dependency."
+        ]
+      }
+    ],
+    "critical_pair_candidate_edges": [
+      {
+        "source": "libjs-util",
+        "target": "node-util",
+        "state": "candidate",
+        "critical_pair_score": 0.8711545466144719,
+        "support_count": 1,
+        "explicit_count": 1,
+        "local_count": 2,
+        "revisit_count": 0,
+        "semantic_strength": 1.0,
+        "severity_strength": 1.0,
+        "same_path_strength": 0.8,
+        "no_fallback_strength": 1.0,
+        "first_seen": 2,
+        "last_seen": 2,
+        "reasons": [
+          "Circular dependency between libjs-util and node-util can cause installation or runtime issues.",
+          "Circular dependency can cause installation or runtime issues.; critical_pair: Same-path severe incompatibility due to circular dependency.",
+          "Circular dependency can cause installation or runtime issues."
+        ]
+      },
+      {
+        "source": "node-debbundle-es-to-primitive",
+        "target": "node-deep-equal",
+        "state": "candidate",
+        "critical_pair_score": 0.8711545466144719,
+        "support_count": 1,
+        "explicit_count": 1,
+        "local_count": 1,
+        "revisit_count": 0,
+        "semantic_strength": 1.0,
+        "severity_strength": 1.0,
+        "same_path_strength": 0.8,
+        "no_fallback_strength": 1.0,
+        "first_seen": 3,
+        "last_seen": 3,
+        "reasons": [
+          "The description of `node-deep-equal` mentions a potential blocking inconsistency related to `node-debbundle-es-to-primitive`, which could cause issues if not resolved.",
+          "The description of `node-deep-equal` mentions a potential blocking inconsistency related to `node-debbundle-es-to-primitive`.; critical_pair: same-path severe incompatibility"
+        ]
+      }
+    ],
+    "critical_pair_revisit_history": [],
+    "critical_pair_policy": "persistent critical-pair ledger with same-path severity features, hysteresis, evidence-guided revisits, and protected final-core coverage for locked pairs",
+    "mcgs_compression_profile": "balanced",
+    "mcgs_compression_params": {
+      "subgraph_max_ratio": 0.35,
+      "subgraph_min_nodes": 3,
+      "core_min_nodes": 2,
+      "core_min_relative_score": 0.58,
+      "core_stop_gap": 0.1,
+      "core_min_score": 0.14,
+      "critical_pair_core_min_score": 0.72,
+      "core_tail_relative_score": 0.38,
+      "critical_pair_core_max_edge_ratio": 0.5
+    },
+    "evidence_risk_subgraph_nodes": [
+      "node-deep-equal",
+      "node-es-abstract"
+    ],
+    "evidence_risk_subgraph_size": 2,
+    "evidence_compression_ratio": 0.8181818181818181,
+    "context_evidence_risk_subgraph_nodes": [
+      "libjs-util",
+      "node-deep-equal",
+      "node-es-abstract",
+      "node-util"
+    ],
+    "context_evidence_risk_subgraph_size": 4,
+    "context_evidence_compression_ratio": 0.6363636363636364,
+    "dynamic_core_priority_rows": [
+      {
+        "policy": "dynamic_core_subgraph",
+        "stop_reason": "score_gap",
+        "cap": 4,
+        "core_size": 2,
+        "context_size": 7,
+        "hit_cap": false,
+        "min_relative_score": 0.58,
+        "tail_relative_score": 0.38,
+        "stop_gap": 0.1,
+        "protected_critical_edge_candidates": 1,
+        "protected_critical_edge_cap_ratio": 0.5,
+        "protected_critical_edge_cap": 1,
+        "protected_critical_nodes": [
+          "node-deep-equal",
+          "node-es-abstract"
+        ],
+        "protected_critical_edges": [
+          {
+            "source": "node-deep-equal",
+            "target": "node-es-abstract",
+            "critical_pair_score": 0.9045878131296573,
+            "critical_state": "locked"
+          }
+        ]
+      },
+      {
+        "clause_id": "node-deep-equal",
+        "priority": 1.1919600855792811,
+        "evidence_score": 0.9583333333333334,
+        "pair_score": 0.9734448010247824,
+        "pair_endpoint_count": 2,
+        "support_count": 9,
+        "oc": false,
+        "selected": true,
+        "relative_priority": 1.0
+      },
+      {
+        "clause_id": "node-es-abstract",
+        "priority": 0.9212240992430445,
+        "evidence_score": 0.6875973469970967,
+        "pair_score": 0.9734448010247824,
+        "pair_endpoint_count": 1,
+        "support_count": 9,
+        "oc": false,
+        "selected": true,
+        "relative_priority": 0.7728648890078718
+      },
+      {
+        "clause_id": "node-util",
+        "priority": 0.70322348278574,
+        "evidence_score": 0.4941463915982667,
+        "pair_score": 0.8711545466144719,
+        "pair_endpoint_count": 1,
+        "support_count": 9,
+        "oc": false,
+        "selected": false,
+        "relative_priority": 0.589972341602345
+      },
+      {
+        "clause_id": "libjs-util",
+        "priority": 0.6991780326510568,
+        "evidence_score": 0.49010094146358363,
+        "pair_score": 0.8711545466144719,
+        "pair_endpoint_count": 1,
+        "support_count": 9,
+        "oc": false,
+        "selected": false,
+        "relative_priority": 0.5865783939495449
+      },
+      {
+        "clause_id": "node-debbundle-es-to-primitive",
+        "priority": 0.4642609359393994,
+        "evidence_score": 0.2551838447519261,
+        "pair_score": 0.8711545466144719,
+        "pair_endpoint_count": 1,
+        "support_count": 7,
+        "oc": false,
+        "selected": false,
+        "relative_priority": 0.3894936932504523
+      },
+      {
+        "clause_id": "node-tape",
+        "priority": 0.06508119428981882,
+        "evidence_score": 0.06508119428981882,
+        "pair_score": 0.0,
+        "pair_endpoint_count": 0,
+        "support_count": 4,
+        "oc": false,
+        "selected": false,
+        "relative_priority": 0.05460014565688245
+      },
+      {
+        "clause_id": "node-assert",
+        "priority": 0.0040454501346830676,
+        "evidence_score": 0.0040454501346830676,
+        "pair_score": 0.0,
+        "pair_endpoint_count": 0,
+        "support_count": 2,
+        "oc": false,
+        "selected": false,
+        "relative_priority": 0.0033939476527999825
+      }
+    ],
+    "dynamic_core_hit_cap": false,
+    "evidence_subgraph_policy": "blind relation-first evidence accumulator with a dynamically maintained core risk subgraph. The core stops when marginal evidence drops, while context_evidence_* retains the older cap-bounded explanation subgraph.",
+    "evidence_subgraph_cap": 4,
+    "trace_events": [
+      {
+        "completion_index": 1,
+        "iteration": 3,
+        "window": [
+          "node-define-properties",
+          "node-debbundle-es-to-primitive",
+          "node-deep-equal",
+          "node-es-abstract"
+        ],
+        "is_tt_hit": false,
+        "selection": {
+          "mode": "ucb_relation_bias",
+          "seed": "node-istanbul",
+          "seed_relation_prior": 0.0,
+          "expansion_trace": [
+            {
+              "edge": [
+                "node-tape",
+                "node-istanbul"
+              ],
+              "added_node": "node-tape",
+              "relation_prior": 0.0,
+              "ucb": 8830.439963052308
+            },
+            {
+              "edge": [
+                "node-tape",
+                "node-debbundle-es-to-primitive"
+              ],
+              "added_node": "node-debbundle-es-to-primitive",
+              "relation_prior": 0.0,
+              "ucb": 8829.925960480787
+            },
+            {
+              "edge": [
+                "node-tape",
+                "node-deep-equal"
+              ],
+              "added_node": "node-deep-equal",
+              "relation_prior": 0.0,
+              "ucb": 8829.459200081701
+            }
+          ]
+        },
+        "scores": {
+          "node-define-properties": 0.2,
+          "node-debbundle-es-to-primitive": 0.3,
+          "node-deep-equal": 0.5,
+          "node-es-abstract": 0.4
+        },
+        "local_risk_subgraph_nodes": [
+          "node-deep-equal",
+          "node-es-abstract"
+        ],
+        "repair_entry_nodes": [
+          "node-deep-equal"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "node-deep-equal",
+            "target": "node-es-abstract",
+            "reason": "Both packages have complex dependencies and the ABI exposure condition in node-deep-equal could cause blocking inconsistencies.; critical_pair: Same-path severe incompatibility due to ABI exposure condition in node-deep-equal.",
+            "same_path_score": 0.8,
+            "mutual_incompatibility_score": 0.7,
+            "severity_score": 0.9,
+            "no_fallback": true,
+            "critical_pair": true
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "node-deep-equal",
+            "clause_b": "node-es-abstract",
+            "description": "The ABI exposure condition in node-deep-equal could cause blocking inconsistencies with node-es-abstract."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "node-deep-equal",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-es-abstract",
+            "avg_risk": 0.4,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-debbundle-es-to-primitive",
+            "avg_risk": 0.3,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-define-properties",
+            "avg_risk": 0.2,
+            "visit_count": 1
+          }
+        ],
+        "top_relation_evidence_so_far": [
+          {
+            "clause_id": "node-deep-equal",
+            "raw_evidence": 9.2975,
+            "prior": 1.0
+          },
+          {
+            "clause_id": "node-es-abstract",
+            "raw_evidence": 6.93,
+            "prior": 0.7453616563592363
+          },
+          {
+            "clause_id": "node-debbundle-es-to-primitive",
+            "raw_evidence": 0.11249999999999999,
+            "prior": 0.012100026888948642
+          }
+        ],
+        "top_critical_pairs_so_far": [
+          {
+            "source": "node-deep-equal",
+            "target": "node-es-abstract",
+            "state": "candidate",
+            "critical_pair_score": 0.8711545466144719,
+            "support_count": 1,
+            "explicit_count": 1,
+            "local_count": 1,
+            "revisit_count": 0,
+            "semantic_strength": 1.0,
+            "severity_strength": 1.0,
+            "same_path_strength": 0.8,
+            "no_fallback_strength": 1.0,
+            "first_seen": 1,
+            "last_seen": 1,
+            "reasons": [
+              "The ABI exposure condition in node-deep-equal could cause blocking inconsistencies with node-es-abstract.",
+              "Both packages have complex dependencies and the ABI exposure condition in node-deep-equal could cause blocking inconsistencies.; critical_pair: Same-path severe incompatibility due to ABI exposure condition in node-deep-equal."
+            ]
+          }
+        ]
+      },
+      {
+        "completion_index": 2,
+        "iteration": 1,
+        "window": [
+          "libjs-util",
+          "node-util",
+          "node-deep-equal",
+          "node-assert"
+        ],
+        "is_tt_hit": false,
+        "selection": {
+          "mode": "ucb_relation_bias",
+          "seed": "node-istanbul",
+          "seed_relation_prior": 0.0,
+          "expansion_trace": [
+            {
+              "edge": [
+                "node-tape",
+                "node-istanbul"
+              ],
+              "added_node": "node-tape",
+              "relation_prior": 0.0,
+              "ucb": 8830.439963052308
+            },
+            {
+              "edge": [
+                "node-tape",
+                "node-debbundle-es-to-primitive"
+              ],
+              "added_node": "node-debbundle-es-to-primitive",
+              "relation_prior": 0.0,
+              "ucb": 8829.925960480787
+            },
+            {
+              "edge": [
+                "node-tape",
+                "node-deep-equal"
+              ],
+              "added_node": "node-deep-equal",
+              "relation_prior": 0.0,
+              "ucb": 8829.459200081701
+            }
+          ]
+        },
+        "scores": {
+          "libjs-util": 0.3,
+          "node-util": 0.3,
+          "node-deep-equal": 0.5,
+          "node-assert": 0.2
+        },
+        "local_risk_subgraph_nodes": [
+          "libjs-util",
+          "node-util",
+          "node-deep-equal"
+        ],
+        "repair_entry_nodes": [
+          "libjs-util",
+          "node-util"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "libjs-util",
+            "target": "node-util",
+            "reason": "Circular dependency can cause installation or runtime issues.; critical_pair: Same-path severe incompatibility due to circular dependency.",
+            "same_path_score": 0.8,
+            "mutual_incompatibility_score": 0.8,
+            "severity_score": 0.8,
+            "no_fallback": true,
+            "critical_pair": true
+          },
+          {
+            "source": "node-util",
+            "target": "libjs-util",
+            "reason": "Circular dependency can cause installation or runtime issues."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "libjs-util",
+            "clause_b": "node-util",
+            "description": "Circular dependency between libjs-util and node-util can cause installation or runtime issues."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "node-deep-equal",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-es-abstract",
+            "avg_risk": 0.4,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "libjs-util",
+            "avg_risk": 0.3,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-debbundle-es-to-primitive",
+            "avg_risk": 0.3,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-util",
+            "avg_risk": 0.3,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-assert",
+            "avg_risk": 0.2,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-define-properties",
+            "avg_risk": 0.2,
+            "visit_count": 1
+          }
+        ],
+        "top_relation_evidence_so_far": [
+          {
+            "clause_id": "node-deep-equal",
+            "raw_evidence": 11.215,
+            "prior": 1.0
+          },
+          {
+            "clause_id": "node-util",
+            "raw_evidence": 10.575000000000001,
+            "prior": 0.9429335711101204
+          },
+          {
+            "clause_id": "libjs-util",
+            "raw_evidence": 10.4625,
+            "prior": 0.9329023629068213
+          },
+          {
+            "clause_id": "node-es-abstract",
+            "raw_evidence": 6.93,
+            "prior": 0.6179224253232278
+          },
+          {
+            "clause_id": "node-assert",
+            "raw_evidence": 0.11249999999999999,
+            "prior": 0.010031208203299152
+          },
+          {
+            "clause_id": "node-debbundle-es-to-primitive",
+            "raw_evidence": 0.11249999999999999,
+            "prior": 0.010031208203299152
+          }
+        ],
+        "top_critical_pairs_so_far": [
+          {
+            "source": "libjs-util",
+            "target": "node-util",
+            "state": "candidate",
+            "critical_pair_score": 0.8711545466144719,
+            "support_count": 1,
+            "explicit_count": 1,
+            "local_count": 2,
+            "revisit_count": 0,
+            "semantic_strength": 1.0,
+            "severity_strength": 1.0,
+            "same_path_strength": 0.8,
+            "no_fallback_strength": 1.0,
+            "first_seen": 2,
+            "last_seen": 2,
+            "reasons": [
+              "Circular dependency between libjs-util and node-util can cause installation or runtime issues.",
+              "Circular dependency can cause installation or runtime issues.; critical_pair: Same-path severe incompatibility due to circular dependency.",
+              "Circular dependency can cause installation or runtime issues."
+            ]
+          },
+          {
+            "source": "node-deep-equal",
+            "target": "node-es-abstract",
+            "state": "candidate",
+            "critical_pair_score": 0.8711545466144719,
+            "support_count": 1,
+            "explicit_count": 1,
+            "local_count": 1,
+            "revisit_count": 0,
+            "semantic_strength": 1.0,
+            "severity_strength": 1.0,
+            "same_path_strength": 0.8,
+            "no_fallback_strength": 1.0,
+            "first_seen": 1,
+            "last_seen": 1,
+            "reasons": [
+              "The ABI exposure condition in node-deep-equal could cause blocking inconsistencies with node-es-abstract.",
+              "Both packages have complex dependencies and the ABI exposure condition in node-deep-equal could cause blocking inconsistencies.; critical_pair: Same-path severe incompatibility due to ABI exposure condition in node-deep-equal."
+            ]
+          }
+        ]
+      },
+      {
+        "completion_index": 3,
+        "iteration": 2,
+        "window": [
+          "node-debbundle-es-to-primitive",
+          "node-deep-equal",
+          "node-es-abstract",
+          "node-tape"
+        ],
+        "is_tt_hit": false,
+        "selection": {
+          "mode": "ucb_relation_bias",
+          "seed": "node-istanbul",
+          "seed_relation_prior": 0.0,
+          "expansion_trace": [
+            {
+              "edge": [
+                "node-tape",
+                "node-istanbul"
+              ],
+              "added_node": "node-tape",
+              "relation_prior": 0.0,
+              "ucb": 8830.439963052308
+            },
+            {
+              "edge": [
+                "node-tape",
+                "node-debbundle-es-to-primitive"
+              ],
+              "added_node": "node-debbundle-es-to-primitive",
+              "relation_prior": 0.0,
+              "ucb": 8829.925960480787
+            },
+            {
+              "edge": [
+                "node-tape",
+                "node-deep-equal"
+              ],
+              "added_node": "node-deep-equal",
+              "relation_prior": 0.0,
+              "ucb": 8829.459200081701
+            }
+          ]
+        },
+        "scores": {
+          "node-debbundle-es-to-primitive": 0.2,
+          "node-deep-equal": 0.5,
+          "node-es-abstract": 0.4,
+          "node-tape": 0.3
+        },
+        "local_risk_subgraph_nodes": [
+          "node-debbundle-es-to-primitive",
+          "node-deep-equal",
+          "node-es-abstract",
+          "node-tape"
+        ],
+        "repair_entry_nodes": [
+          "node-deep-equal",
+          "node-es-abstract"
+        ],
+        "local_conflict_edges": [
+          {
+            "source": "node-deep-equal",
+            "target": "node-debbundle-es-to-primitive",
+            "reason": "The description of `node-deep-equal` mentions a potential blocking inconsistency related to `node-debbundle-es-to-primitive`.; critical_pair: same-path severe incompatibility",
+            "same_path_score": 0.8,
+            "mutual_incompatibility_score": 0.7,
+            "severity_score": 0.75,
+            "no_fallback": true,
+            "critical_pair": true
+          },
+          {
+            "source": "node-es-abstract",
+            "target": "node-deep-equal",
+            "reason": "Multiple references from `node-es-abstract` to `node-deep-equal` suggest a possible redundancy or circular dependency."
+          }
+        ],
+        "conflicts": [
+          {
+            "clause_a": "node-deep-equal",
+            "clause_b": "node-debbundle-es-to-primitive",
+            "description": "The description of `node-deep-equal` mentions a potential blocking inconsistency related to `node-debbundle-es-to-primitive`, which could cause issues if not resolved."
+          },
+          {
+            "clause_a": "node-es-abstract",
+            "clause_b": "node-deep-equal",
+            "description": "Multiple references from `node-es-abstract` to `node-deep-equal` suggest a possible redundancy or circular dependency, which could lead to structural inconsistencies."
+          }
+        ],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "node-deep-equal",
+            "avg_risk": 0.5,
+            "visit_count": 3
+          },
+          {
+            "clause_id": "node-es-abstract",
+            "avg_risk": 0.4,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "libjs-util",
+            "avg_risk": 0.3,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-tape",
+            "avg_risk": 0.3,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-util",
+            "avg_risk": 0.3,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-debbundle-es-to-primitive",
+            "avg_risk": 0.25,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-assert",
+            "avg_risk": 0.2,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-define-properties",
+            "avg_risk": 0.2,
+            "visit_count": 1
+          }
+        ],
+        "top_relation_evidence_so_far": [
+          {
+            "clause_id": "node-deep-equal",
+            "raw_evidence": 25.032500000000002,
+            "prior": 1.0
+          },
+          {
+            "clause_id": "node-es-abstract",
+            "raw_evidence": 15.167499999999999,
+            "prior": 0.6059123139918106
+          },
+          {
+            "clause_id": "node-util",
+            "raw_evidence": 10.575000000000001,
+            "prior": 0.42245081394187556
+          },
+          {
+            "clause_id": "libjs-util",
+            "raw_evidence": 10.4625,
+            "prior": 0.4179566563467492
+          },
+          {
+            "clause_id": "node-debbundle-es-to-primitive",
+            "raw_evidence": 7.4975,
+            "prior": 0.2995106361729751
+          },
+          {
+            "clause_id": "node-tape",
+            "raw_evidence": 1.805,
+            "prior": 0.07210626185958253
+          },
+          {
+            "clause_id": "node-assert",
+            "raw_evidence": 0.11249999999999999,
+            "prior": 0.004494157595126335
+          }
+        ],
+        "top_critical_pairs_so_far": [
+          {
+            "source": "node-deep-equal",
+            "target": "node-es-abstract",
+            "state": "locked",
+            "critical_pair_score": 0.9045878131296573,
+            "support_count": 2,
+            "explicit_count": 2,
+            "local_count": 2,
+            "revisit_count": 0,
+            "semantic_strength": 1.0,
+            "severity_strength": 1.0,
+            "same_path_strength": 0.8,
+            "no_fallback_strength": 1.0,
+            "first_seen": 1,
+            "last_seen": 3,
+            "reasons": [
+              "The ABI exposure condition in node-deep-equal could cause blocking inconsistencies with node-es-abstract.",
+              "Both packages have complex dependencies and the ABI exposure condition in node-deep-equal could cause blocking inconsistencies.; critical_pair: Same-path severe incompatibility due to ABI exposure condition in node-deep-equal.",
+              "Multiple references from `node-es-abstract` to `node-deep-equal` suggest a possible redundancy or circular dependency, which could lead to structural inconsistencies.",
+              "Multiple references from `node-es-abstract` to `node-deep-equal` suggest a possible redundancy or circular dependency."
+            ]
+          },
+          {
+            "source": "libjs-util",
+            "target": "node-util",
+            "state": "candidate",
+            "critical_pair_score": 0.8711545466144719,
+            "support_count": 1,
+            "explicit_count": 1,
+            "local_count": 2,
+            "revisit_count": 0,
+            "semantic_strength": 1.0,
+            "severity_strength": 1.0,
+            "same_path_strength": 0.8,
+            "no_fallback_strength": 1.0,
+            "first_seen": 2,
+            "last_seen": 2,
+            "reasons": [
+              "Circular dependency between libjs-util and node-util can cause installation or runtime issues.",
+              "Circular dependency can cause installation or runtime issues.; critical_pair: Same-path severe incompatibility due to circular dependency.",
+              "Circular dependency can cause installation or runtime issues."
+            ]
+          },
+          {
+            "source": "node-debbundle-es-to-primitive",
+            "target": "node-deep-equal",
+            "state": "candidate",
+            "critical_pair_score": 0.8711545466144719,
+            "support_count": 1,
+            "explicit_count": 1,
+            "local_count": 1,
+            "revisit_count": 0,
+            "semantic_strength": 1.0,
+            "severity_strength": 1.0,
+            "same_path_strength": 0.8,
+            "no_fallback_strength": 1.0,
+            "first_seen": 3,
+            "last_seen": 3,
+            "reasons": [
+              "The description of `node-deep-equal` mentions a potential blocking inconsistency related to `node-debbundle-es-to-primitive`, which could cause issues if not resolved.",
+              "The description of `node-deep-equal` mentions a potential blocking inconsistency related to `node-debbundle-es-to-primitive`.; critical_pair: same-path severe incompatibility"
+            ]
+          }
+        ]
+      },
+      {
+        "completion_index": 4,
+        "iteration": 4,
+        "window": [
+          "node-istanbul",
+          "node-tape",
+          "node-debbundle-es-to-primitive",
+          "node-deep-equal"
+        ],
+        "is_tt_hit": false,
+        "selection": {
+          "mode": "ucb_relation_bias",
+          "seed": "node-istanbul",
+          "seed_relation_prior": 0.0,
+          "expansion_trace": [
+            {
+              "edge": [
+                "node-tape",
+                "node-istanbul"
+              ],
+              "added_node": "node-tape",
+              "relation_prior": 0.0,
+              "ucb": 8830.439963052308
+            },
+            {
+              "edge": [
+                "node-tape",
+                "node-debbundle-es-to-primitive"
+              ],
+              "added_node": "node-debbundle-es-to-primitive",
+              "relation_prior": 0.0,
+              "ucb": 8829.925960480787
+            },
+            {
+              "edge": [
+                "node-tape",
+                "node-deep-equal"
+              ],
+              "added_node": "node-deep-equal",
+              "relation_prior": 0.0,
+              "ucb": 8829.459200081701
+            }
+          ]
+        },
+        "scores": {
+          "node-istanbul": 0.0,
+          "node-tape": 0.0,
+          "node-debbundle-es-to-primitive": 0.0,
+          "node-deep-equal": 0.0
+        },
+        "local_risk_subgraph_nodes": [],
+        "repair_entry_nodes": [],
+        "local_conflict_edges": [],
+        "conflicts": [],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "node-es-abstract",
+            "avg_risk": 0.4,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-deep-equal",
+            "avg_risk": 0.375,
+            "visit_count": 4
+          },
+          {
+            "clause_id": "libjs-util",
+            "avg_risk": 0.3,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-util",
+            "avg_risk": 0.3,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-assert",
+            "avg_risk": 0.2,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-define-properties",
+            "avg_risk": 0.2,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-debbundle-es-to-primitive",
+            "avg_risk": 0.16666666666666666,
+            "visit_count": 3
+          },
+          {
+            "clause_id": "node-tape",
+            "avg_risk": 0.15,
+            "visit_count": 2
+          }
+        ],
+        "top_relation_evidence_so_far": [
+          {
+            "clause_id": "node-deep-equal",
+            "raw_evidence": 25.032500000000002,
+            "prior": 1.0
+          },
+          {
+            "clause_id": "node-es-abstract",
+            "raw_evidence": 15.167499999999999,
+            "prior": 0.6059123139918106
+          },
+          {
+            "clause_id": "node-util",
+            "raw_evidence": 10.575000000000001,
+            "prior": 0.42245081394187556
+          },
+          {
+            "clause_id": "libjs-util",
+            "raw_evidence": 10.4625,
+            "prior": 0.4179566563467492
+          },
+          {
+            "clause_id": "node-debbundle-es-to-primitive",
+            "raw_evidence": 7.4975,
+            "prior": 0.2995106361729751
+          },
+          {
+            "clause_id": "node-tape",
+            "raw_evidence": 1.805,
+            "prior": 0.07210626185958253
+          },
+          {
+            "clause_id": "node-assert",
+            "raw_evidence": 0.11249999999999999,
+            "prior": 0.004494157595126335
+          }
+        ],
+        "top_critical_pairs_so_far": [
+          {
+            "source": "node-deep-equal",
+            "target": "node-es-abstract",
+            "state": "locked",
+            "critical_pair_score": 0.9045878131296573,
+            "support_count": 2,
+            "explicit_count": 2,
+            "local_count": 2,
+            "revisit_count": 0,
+            "semantic_strength": 1.0,
+            "severity_strength": 1.0,
+            "same_path_strength": 0.8,
+            "no_fallback_strength": 1.0,
+            "first_seen": 1,
+            "last_seen": 3,
+            "reasons": [
+              "The ABI exposure condition in node-deep-equal could cause blocking inconsistencies with node-es-abstract.",
+              "Both packages have complex dependencies and the ABI exposure condition in node-deep-equal could cause blocking inconsistencies.; critical_pair: Same-path severe incompatibility due to ABI exposure condition in node-deep-equal.",
+              "Multiple references from `node-es-abstract` to `node-deep-equal` suggest a possible redundancy or circular dependency, which could lead to structural inconsistencies.",
+              "Multiple references from `node-es-abstract` to `node-deep-equal` suggest a possible redundancy or circular dependency."
+            ]
+          },
+          {
+            "source": "libjs-util",
+            "target": "node-util",
+            "state": "candidate",
+            "critical_pair_score": 0.8711545466144719,
+            "support_count": 1,
+            "explicit_count": 1,
+            "local_count": 2,
+            "revisit_count": 0,
+            "semantic_strength": 1.0,
+            "severity_strength": 1.0,
+            "same_path_strength": 0.8,
+            "no_fallback_strength": 1.0,
+            "first_seen": 2,
+            "last_seen": 2,
+            "reasons": [
+              "Circular dependency between libjs-util and node-util can cause installation or runtime issues.",
+              "Circular dependency can cause installation or runtime issues.; critical_pair: Same-path severe incompatibility due to circular dependency.",
+              "Circular dependency can cause installation or runtime issues."
+            ]
+          },
+          {
+            "source": "node-debbundle-es-to-primitive",
+            "target": "node-deep-equal",
+            "state": "candidate",
+            "critical_pair_score": 0.8711545466144719,
+            "support_count": 1,
+            "explicit_count": 1,
+            "local_count": 1,
+            "revisit_count": 0,
+            "semantic_strength": 1.0,
+            "severity_strength": 1.0,
+            "same_path_strength": 0.8,
+            "no_fallback_strength": 1.0,
+            "first_seen": 3,
+            "last_seen": 3,
+            "reasons": [
+              "The description of `node-deep-equal` mentions a potential blocking inconsistency related to `node-debbundle-es-to-primitive`, which could cause issues if not resolved.",
+              "The description of `node-deep-equal` mentions a potential blocking inconsistency related to `node-debbundle-es-to-primitive`.; critical_pair: same-path severe incompatibility"
+            ]
+          }
+        ]
+      }
+    ],
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "node-deep-equal",
+    "injected_witness_distance": 5,
+    "injected_bridge_node": null,
+    "injected_bridge_distance": null,
+    "injected_risk_nodes": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "injected_evidence_nodes": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "injected_affected_nodes": [
+      "node-read-pkg",
+      "node-debbundle-es-to-primitive"
+    ],
+    "injected_conflict_family": "direct_mutex",
+    "injected_conflict_difficulty": "obvious",
+    "injected_conflict_severity": "critical",
+    "injected_conflict_severity_label": "high_impact_no_fallback",
+    "injected_conflict_template": "debian_direct_legacy_vs_new_abi_critical",
+    "injected_rank": 10,
+    "top1_margin": 0.025000000000000022,
+    "risk_node_ranks": {
+      "node-parse-json": 10,
+      "node-deep-equal": 2
+    },
+    "risk_best_rank": 2,
+    "risk_worst_rank": 10,
+    "risk_top1_hit": false,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": false,
+    "evidence_node_ranks": {
+      "node-parse-json": 10,
+      "node-deep-equal": 2
+    },
+    "evidence_best_rank": 2,
+    "evidence_worst_rank": 10,
+    "evidence_top1_hit": false,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "node-read-pkg": 11,
+      "node-debbundle-es-to-primitive": 7
+    },
+    "affected_best_rank": 7,
+    "affected_worst_rank": 11,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": false,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "node-parse-json": 10,
+      "node-deep-equal": 2,
+      "node-read-pkg": 11,
+      "node-debbundle-es-to-primitive": 7
+    },
+    "valuable_best_rank": 2,
+    "valuable_worst_rank": 11,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 10,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "risk_subgraph_nodes": [
+      "libjs-util",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg"
+    ],
+    "risk_subgraph_size": 7,
+    "compression_ratio": 0.36363636363636365,
+    "contains_injected_node": true,
+    "contains_any_evidence_node": true,
+    "contains_all_evidence_nodes": true,
+    "evidence_nodes_retained": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "contains_any_risk_node": true,
+    "contains_all_risk_nodes": true,
+    "contains_any_affected_node": true,
+    "subgraph_type": "posthoc_gt_anchored",
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors",
+    "blind_risk_subgraph_nodes": [
+      "libjs-util",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul"
+    ],
+    "blind_risk_subgraph_size": 5,
+    "blind_compression_ratio": 0.5454545454545454,
+    "blind_contains_injected_node": false,
+    "blind_contains_any_evidence_node": true,
+    "blind_contains_all_evidence_nodes": false,
+    "blind_evidence_nodes_retained": [
+      "node-deep-equal"
+    ],
+    "blind_contains_any_risk_node": true,
+    "blind_contains_all_risk_nodes": false,
+    "blind_contains_any_affected_node": false,
+    "blind_subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC anchors only",
+    "local_declared_risk_subgraph_nodes": [
+      "libjs-util",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-es-abstract",
+      "node-util"
+    ],
+    "local_declared_risk_subgraph_size": 5,
+    "local_declared_compression_ratio": 0.5454545454545454,
+    "local_declared_subgraph_policy": "aggregate LLM-declared local_risk_subgraph_nodes, repair_entry_nodes, local conflict endpoints, and OC nodes; cap by SCC size",
+    "local_declared_contains_any_risk_node": true,
+    "local_declared_contains_all_risk_nodes": false,
+    "local_declared_risk_nodes_retained": [
+      "node-deep-equal"
+    ],
+    "local_declared_risk_coverage": 0.5,
+    "local_declared_contains_any_evidence_node": true,
+    "local_declared_contains_all_evidence_nodes": false,
+    "local_declared_evidence_nodes_retained": [
+      "node-deep-equal"
+    ],
+    "local_declared_evidence_coverage": 0.5,
+    "local_declared_contains_any_affected_node": true,
+    "local_declared_contains_all_affected_nodes": false,
+    "local_declared_affected_nodes_retained": [
+      "node-debbundle-es-to-primitive"
+    ],
+    "local_declared_contains_any_valuable_node": true,
+    "local_declared_contains_all_valuable_nodes": false,
+    "local_declared_valuable_nodes_retained": [
+      "node-deep-equal",
+      "node-debbundle-es-to-primitive"
+    ],
+    "local_declared_valuable_coverage": 0.5,
+    "core_evidence_risk_subgraph_nodes": [
+      "node-deep-equal",
+      "node-es-abstract"
+    ],
+    "core_evidence_risk_subgraph_size": 2,
+    "core_evidence_compression_ratio": 0.8181818181818181,
+    "core_evidence_hit_cap": false,
+    "core_evidence_contains_any_risk_node": true,
+    "core_evidence_contains_all_risk_nodes": false,
+    "core_evidence_risk_nodes_retained": [
+      "node-deep-equal"
+    ],
+    "core_evidence_risk_coverage": 0.5,
+    "core_evidence_contains_any_evidence_node": true,
+    "core_evidence_contains_all_evidence_nodes": false,
+    "core_evidence_evidence_nodes_retained": [
+      "node-deep-equal"
+    ],
+    "core_evidence_evidence_coverage": 0.5,
+    "core_evidence_contains_any_affected_node": false,
+    "core_evidence_contains_all_affected_nodes": false,
+    "core_evidence_affected_nodes_retained": [],
+    "core_evidence_contains_any_valuable_node": true,
+    "core_evidence_contains_all_valuable_nodes": false,
+    "core_evidence_valuable_nodes_retained": [
+      "node-deep-equal"
+    ],
+    "core_evidence_valuable_coverage": 0.25,
+    "context_evidence_contains_any_risk_node": true,
+    "context_evidence_contains_all_risk_nodes": false,
+    "convergence_trace": [
+      {
+        "rollout": 1,
+        "llm_calls": 1,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "node-deep-equal",
+          "node-es-abstract"
+        ],
+        "subgraph_size": 2,
+        "compression_ratio": 0.8181818181818181,
+        "context_subgraph_nodes": [
+          "node-deep-equal",
+          "node-es-abstract"
+        ],
+        "context_subgraph_size": 2,
+        "context_compression_ratio": 0.8181818181818181,
+        "core_hit_cap": false,
+        "core_stop_reason": "exhausted_candidates",
+        "risk_coverage": 0.5,
+        "evidence_coverage": 0.5,
+        "valuable_coverage": 0.25,
+        "risk_any": true,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 0.0
+      },
+      {
+        "rollout": 2,
+        "llm_calls": 2,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "libjs-util",
+          "node-deep-equal",
+          "node-es-abstract",
+          "node-util"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.6363636363636364,
+        "context_subgraph_nodes": [
+          "libjs-util",
+          "node-deep-equal",
+          "node-es-abstract",
+          "node-util"
+        ],
+        "context_subgraph_size": 4,
+        "context_compression_ratio": 0.6363636363636364,
+        "core_hit_cap": false,
+        "core_stop_reason": "score_gap",
+        "risk_coverage": 0.5,
+        "evidence_coverage": 0.5,
+        "valuable_coverage": 0.25,
+        "risk_any": true,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 0.5
+      },
+      {
+        "rollout": 3,
+        "llm_calls": 3,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "node-deep-equal",
+          "node-es-abstract"
+        ],
+        "subgraph_size": 2,
+        "compression_ratio": 0.8181818181818181,
+        "context_subgraph_nodes": [
+          "libjs-util",
+          "node-debbundle-es-to-primitive",
+          "node-deep-equal",
+          "node-es-abstract",
+          "node-util"
+        ],
+        "context_subgraph_size": 5,
+        "context_compression_ratio": 0.5454545454545454,
+        "core_hit_cap": false,
+        "core_stop_reason": "score_gap",
+        "risk_coverage": 0.5,
+        "evidence_coverage": 0.5,
+        "valuable_coverage": 0.25,
+        "risk_any": true,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 0.5
+      },
+      {
+        "rollout": 4,
+        "llm_calls": 4,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": false,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "node-deep-equal",
+          "node-es-abstract"
+        ],
+        "subgraph_size": 2,
+        "compression_ratio": 0.8181818181818181,
+        "context_subgraph_nodes": [
+          "libjs-util",
+          "node-debbundle-es-to-primitive",
+          "node-deep-equal",
+          "node-es-abstract",
+          "node-util"
+        ],
+        "context_subgraph_size": 5,
+        "context_compression_ratio": 0.5454545454545454,
+        "core_hit_cap": false,
+        "core_stop_reason": "score_gap",
+        "risk_coverage": 0.5,
+        "evidence_coverage": 0.5,
+        "valuable_coverage": 0.25,
+        "risk_any": true,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      }
+    ],
+    "convergence_points": {
+      "1": {
+        "rollout": 1,
+        "llm_calls": 1,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "node-deep-equal",
+          "node-es-abstract"
+        ],
+        "subgraph_size": 2,
+        "compression_ratio": 0.8181818181818181,
+        "context_subgraph_nodes": [
+          "node-deep-equal",
+          "node-es-abstract"
+        ],
+        "context_subgraph_size": 2,
+        "context_compression_ratio": 0.8181818181818181,
+        "core_hit_cap": false,
+        "core_stop_reason": "exhausted_candidates",
+        "risk_coverage": 0.5,
+        "evidence_coverage": 0.5,
+        "valuable_coverage": 0.25,
+        "risk_any": true,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 0.0
+      },
+      "2": {
+        "rollout": 2,
+        "llm_calls": 2,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": true,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "libjs-util",
+          "node-deep-equal",
+          "node-es-abstract",
+          "node-util"
+        ],
+        "subgraph_size": 4,
+        "compression_ratio": 0.6363636363636364,
+        "context_subgraph_nodes": [
+          "libjs-util",
+          "node-deep-equal",
+          "node-es-abstract",
+          "node-util"
+        ],
+        "context_subgraph_size": 4,
+        "context_compression_ratio": 0.6363636363636364,
+        "core_hit_cap": false,
+        "core_stop_reason": "score_gap",
+        "risk_coverage": 0.5,
+        "evidence_coverage": 0.5,
+        "valuable_coverage": 0.25,
+        "risk_any": true,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 0.5
+      },
+      "4": {
+        "rollout": 4,
+        "llm_calls": 4,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": false,
+        "local_risk_all": false,
+        "subgraph_nodes": [
+          "node-deep-equal",
+          "node-es-abstract"
+        ],
+        "subgraph_size": 2,
+        "compression_ratio": 0.8181818181818181,
+        "context_subgraph_nodes": [
+          "libjs-util",
+          "node-debbundle-es-to-primitive",
+          "node-deep-equal",
+          "node-es-abstract",
+          "node-util"
+        ],
+        "context_subgraph_size": 5,
+        "context_compression_ratio": 0.5454545454545454,
+        "core_hit_cap": false,
+        "core_stop_reason": "score_gap",
+        "risk_coverage": 0.5,
+        "evidence_coverage": 0.5,
+        "valuable_coverage": 0.25,
+        "risk_any": true,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": 1.0
+      }
+    },
+    "convergence_auc_risk_coverage": 0.5,
+    "convergence_mean_stability": 0.6666666666666666,
+    "convergence_final_risk_coverage": 0.5,
+    "convergence_final_evidence_coverage": 0.5,
+    "convergence_final_valuable_coverage": 0.25,
+    "convergence_final_subgraph_size": 2,
+    "convergence_final_compression_ratio": 0.8181818181818181,
+    "convergence_final_context_subgraph_size": 5,
+    "convergence_final_context_compression_ratio": 0.5454545454545454,
+    "convergence_final_core_hit_cap": false,
+    "convergence_final_core_stop_reason": "score_gap",
+    "first_window_risk_any_rollout": 1,
+    "first_window_risk_all_rollout": null,
+    "first_local_risk_any_rollout": 1,
+    "first_local_risk_all_rollout": null,
+    "first_subgraph_risk_any_rollout": 1,
+    "first_subgraph_risk_all_rollout": null,
+    "first_effective_oc_rollout": null
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+    "naive_profile": "direct_subgraph",
+    "model": "gemini-2.5-flash",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_23",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "llm_calls": 1,
+    "time": 39.6027410030365,
+    "scores": {
+      "libjs-util": 0.15,
+      "node-assert": 0.3,
+      "node-debbundle-es-to-primitive": 0.4,
+      "node-deep-equal": 0.9,
+      "node-define-properties": 0.1,
+      "node-es-abstract": 0.7,
+      "node-istanbul": 0.45,
+      "node-parse-json": 0.85,
+      "node-read-pkg": 0.5,
+      "node-tape": 0.65,
+      "node-util": 0.2
+    },
+    "reasonings": {
+      "libjs-util": "Depends on node-deep-equal, inheriting risk from this highly problematic node.",
+      "node-assert": "Depends on node-parse-json, linking it indirectly to the ABI conflict, but less critically than other nodes.",
+      "node-debbundle-es-to-primitive": "Involved in cycles with node-deep-equal and node-tape, indicating structural fragility.",
+      "node-deep-equal": "Description explicitly states 'blocking inconsistency' and 'opposite state', indicating a severe internal or external conflict. Central node involved in cycles.",
+      "node-define-properties": "Involved in cycles with node-deep-equal and node-es-abstract, but its structural risk is less central than the primary conflicting nodes.",
+      "node-es-abstract": "Forms a direct cycle with node-deep-equal and is a dependency for node-tape. Its risk is amplified by its structural relationship with node-deep-equal and its centrality.",
+      "node-istanbul": "Depends on node-read-pkg, placing it further down the ABI conflict propagation path. Inherits risk from its dependency.",
+      "node-parse-json": "Description warns of 'simultaneously allowed and barred' states due to 'contrary downstream state' during ABI migration. Directly implies structural inconsistency.",
+      "node-read-pkg": "Directly depends on node-parse-json, placing it on the path where node-parse-json's ABI management rules and potential conflicts apply.",
+      "node-tape": "Acts as a nexus, depending on both sides of the ABI conflict path (node-deep-equal directly, node-parse-json indirectly). Involved in multiple cycles, making it a critical point for risk manifestation.",
+      "node-util": "Moderate risk due to its position in the graph and dependency on libjs-util, which in turn depends on the high-risk node-deep-equal."
+    },
+    "ranking": [
+      [
+        "node-deep-equal",
+        0.9
+      ],
+      [
+        "node-parse-json",
+        0.85
+      ],
+      [
+        "node-es-abstract",
+        0.7
+      ],
+      [
+        "node-tape",
+        0.65
+      ],
+      [
+        "node-read-pkg",
+        0.5
+      ],
+      [
+        "node-istanbul",
+        0.45
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.4
+      ],
+      [
+        "node-assert",
+        0.3
+      ],
+      [
+        "node-util",
+        0.2
+      ],
+      [
+        "libjs-util",
+        0.15
+      ],
+      [
+        "node-define-properties",
+        0.1
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "node-deep-equal",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "Conflicting ABI State Management",
+          "Circular Dependencies",
+          "High Centrality/Impact"
+        ],
+        "reasoning": "Highest risk due to its description of 'blocking inconsistency' and 'opposite state', directly implying a severe structural flaw. It is central, involved in cycles, and its description potentially conflicts with node-parse-json."
+      },
+      {
+        "rank": 2,
+        "clause_id": "node-parse-json",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "Conflicting ABI State Management"
+        ],
+        "reasoning": "High risk due to its description of managing a migration window and the consequence of a 'contrary downstream state' leading to being 'simultaneously allowed and barred'. This directly implies a severe structural inconsistency, especially when contrasted with node-deep-equal."
+      },
+      {
+        "rank": 3,
+        "clause_id": "node-es-abstract",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "Circular Dependencies",
+          "High Centrality/Impact"
+        ],
+        "reasoning": "Involved in direct cycles with node-deep-equal and is a dependency for node-tape. Its risk is elevated due to its close structural relationship with node-deep-equal and its centrality."
+      },
+      {
+        "rank": 4,
+        "clause_id": "node-tape",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "High Centrality/Impact",
+          "Circular Dependencies"
+        ],
+        "reasoning": "Acts as a nexus, depending on node-deep-equal and indirectly on node-parse-json (via node-istanbul -> node-read-pkg). It's also involved in multiple cycles. This makes it a critical point where the ABI conflict might manifest and where structural issues propagate."
+      },
+      {
+        "rank": 5,
+        "clause_id": "node-read-pkg",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "Conflicting ABI State Management"
+        ],
+        "reasoning": "Directly depends on node-parse-json and is part of the ABI conflict propagation path. Its risk is derived from its dependency on node-parse-json and its position in the conflict chain."
+      },
+      {
+        "rank": 6,
+        "clause_id": "node-istanbul",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "Conflicting ABI State Management"
+        ],
+        "reasoning": "Depends on node-read-pkg, placing it further down the ABI conflict propagation path. Its risk is inherited from its dependency on node-read-pkg."
+      },
+      {
+        "rank": 7,
+        "clause_id": "node-debbundle-es-to-primitive",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "Circular Dependencies"
+        ],
+        "reasoning": "Involved in cycles with node-deep-equal and node-tape. Its risk is primarily structural due to these cyclic dependencies."
+      },
+      {
+        "rank": 8,
+        "clause_id": "node-assert",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "Conflicting ABI State Management"
+        ],
+        "reasoning": "Depends on node-parse-json, linking it to the ABI issue, though less directly than node-read-pkg. Its risk is moderate due to this indirect connection."
+      },
+      {
+        "rank": 9,
+        "clause_id": "node-util",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "High Centrality/Impact"
+        ],
+        "reasoning": "Depends on libjs-util and is depended upon by node-assert. Its risk is moderate due to its position in the graph and its dependency on libjs-util which depends on node-deep-equal."
+      },
+      {
+        "rank": 10,
+        "clause_id": "libjs-util",
+        "risk_score": 0.15,
+        "risk_factors": [
+          "High Centrality/Impact"
+        ],
+        "reasoning": "Depends on node-deep-equal. Its risk is derived from its dependency on node-deep-equal, a highly risky node."
+      },
+      {
+        "rank": 11,
+        "clause_id": "node-define-properties",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "Circular Dependencies"
+        ],
+        "reasoning": "Involved in cycles with node-deep-equal and node-es-abstract. Its risk is structural but less central than node-deep-equal or node-es-abstract."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "Conflicting ABI State Management",
+        "importance_weight": 0.8,
+        "description": "Captures explicit textual contradictions in record descriptions regarding Application Binary Interface (ABI) versions, migration windows, and resulting states (e.g., blocking inconsistency vs. simultaneously allowed/barred), indicating severe structural inconsistency."
+      },
+      {
+        "factor": "Circular Dependencies",
+        "importance_weight": 0.5,
+        "description": "Identifies structural cycles in the dependency graph (e.g., A depends on B, and B depends on A), which can lead to build order issues, infinite recursion, or complex resolution problems."
+      },
+      {
+        "factor": "High Centrality/Impact",
+        "importance_weight": 0.4,
+        "description": "Highlights nodes that are depended upon by many others or depend on many others, meaning issues in these nodes can propagate widely throughout the graph."
+      }
+    ],
+    "risk_factor_weight_sum": 1.7000000000000002,
+    "direct_risk_subgraph_nodes": [
+      "node-deep-equal",
+      "node-parse-json",
+      "node-es-abstract",
+      "node-read-pkg",
+      "node-istanbul",
+      "node-tape"
+    ],
+    "direct_risk_subgraph_size": 6,
+    "direct_compression_ratio": 0.4545454545454546,
+    "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+    "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+    "direct_risk_subgraph_rationale": "The subgraph includes node-deep-equal and node-parse-json as they are the primary sources of explicit textual conflict regarding ABI states and migration. node-es-abstract is included because it forms a direct cycle with node-deep-equal, highlighting structural fragility around one of the conflicting nodes. node-read-pkg is included as it directly depends on node-parse-json and is part of the path where node-parse-json's ABI management rules apply. node-istanbul is included as it depends on node-read-pkg and is thus further along the path influenced by node-parse-json. node-tape is included as it acts as a nexus, depending directly on node-deep-equal and indirectly on node-parse-json (via node-istanbul -> node-read-pkg), thus connecting the two conflicting elements and serving as a point where the inconsistency could manifest. This set is minimal because removing any node would break the representation of the direct textual conflict, the structural cycles involving the conflicting nodes, or the connection between the two conflicting nodes and their respective dependency paths.",
+    "direct_risk_subgraph_edges": [
+      {
+        "source": "node-deep-equal",
+        "target": "node-es-abstract",
+        "reason": "Forms a direct cycle with node-es-abstract, indicating structural fragility and contributing to the risk around node-deep-equal."
+      },
+      {
+        "source": "node-es-abstract",
+        "target": "node-deep-equal",
+        "reason": "Forms a direct cycle with node-deep-equal, indicating structural fragility and contributing to the risk around node-deep-equal."
+      },
+      {
+        "source": "node-deep-equal",
+        "target": "node-tape",
+        "reason": "Connects the primary source of ABI conflict (node-deep-equal) to the nexus node (node-tape) where the conflict might manifest."
+      },
+      {
+        "source": "node-parse-json",
+        "target": "node-read-pkg",
+        "reason": "Represents the direct downstream path managed by node-parse-json's ABI rules, crucial for understanding the conflict propagation."
+      },
+      {
+        "source": "node-read-pkg",
+        "target": "node-istanbul",
+        "reason": "Continues the downstream path from node-parse-json, linking it further towards the nexus node (node-tape)."
+      },
+      {
+        "source": "node-istanbul",
+        "target": "node-tape",
+        "reason": "Connects the node-parse-json side of the conflict path (via node-read-pkg) to the nexus node (node-tape)."
+      }
+    ],
+    "direct_subgraph_raw": [
+      "node-deep-equal",
+      "node-parse-json",
+      "node-es-abstract",
+      "node-read-pkg",
+      "node-istanbul",
+      "node-tape"
+    ],
+    "direct_subgraph_invalid": [],
+    "direct_subgraph_duplicates": [],
+    "direct_subgraph_alias_resolutions": [],
+    "direct_subgraph_complete_parse": true,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 11,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "node-deep-equal",
+        "clause_b": "node-parse-json",
+        "description": "The descriptions of node-deep-equal and node-parse-json present conflicting requirements and states regarding ABI migration and consistency. node-deep-equal describes a 'blocking inconsistency' and 'opposite state', while node-parse-json describes a mandatory legacy ABI for dependents during a migration window, leading to a 'simultaneously allowed and barred' state if contradicted. This suggests a fundamental incompatibility in how these packages manage ABI states or their own operational status."
+      }
+    ],
+    "score_spread": 0.8,
+    "ranking_score_spread": 0.8,
+    "score_mean": 0.4727272727272727,
+    "score_max": 0.9,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 1262,
+    "injected_title_occurrences_in_prompt": 9,
+    "injected_id_occurrences_in_prompt": 9,
+    "injected_title_first_word_ratio": 0.20839936608557844,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.4405705229793978,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "node-deep-equal",
+    "injected_witness_distance": 5,
+    "injected_bridge_node": null,
+    "injected_bridge_distance": null,
+    "injected_risk_nodes": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "injected_evidence_nodes": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "injected_affected_nodes": [
+      "node-read-pkg",
+      "node-debbundle-es-to-primitive"
+    ],
+    "injected_conflict_family": "direct_mutex",
+    "injected_conflict_difficulty": "obvious",
+    "injected_conflict_severity": "critical",
+    "injected_conflict_severity_label": "high_impact_no_fallback",
+    "injected_conflict_template": "debian_direct_legacy_vs_new_abi_critical",
+    "injected_rank": 2,
+    "top1_margin": 0.050000000000000044,
+    "risk_node_ranks": {
+      "node-parse-json": 2,
+      "node-deep-equal": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "node-parse-json": 2,
+      "node-deep-equal": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 2,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "node-read-pkg": 5,
+      "node-debbundle-es-to-primitive": 7
+    },
+    "affected_best_rank": 5,
+    "affected_worst_rank": 7,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "node-parse-json": 2,
+      "node-deep-equal": 1,
+      "node-read-pkg": 5,
+      "node-debbundle-es-to-primitive": 7
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 7,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 2,
+    "root_top1_hit": false,
+    "root_top3_hit": true,
+    "direct_subgraph_nodes_retained": [
+      "node-deep-equal",
+      "node-parse-json",
+      "node-es-abstract",
+      "node-read-pkg",
+      "node-istanbul",
+      "node-tape"
+    ],
+    "direct_contains_injected_node": true,
+    "direct_contains_any_risk_node": true,
+    "direct_contains_all_risk_nodes": true,
+    "direct_risk_nodes_retained": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "direct_contains_any_evidence_node": true,
+    "direct_contains_all_evidence_nodes": true,
+    "direct_evidence_nodes_retained": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "direct_contains_any_affected_node": true,
+    "direct_contains_all_affected_nodes": false,
+    "direct_affected_nodes_retained": [
+      "node-read-pkg"
+    ],
+    "direct_contains_any_valuable_node": true,
+    "direct_contains_all_valuable_nodes": false,
+    "direct_valuable_nodes_retained": [
+      "node-parse-json",
+      "node-deep-equal",
+      "node-read-pkg"
+    ]
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gemini-2.5-flash",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_23",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "budget": 4,
+    "llm_calls": 4,
+    "tt_hits": 0,
+    "tt_hit_rate": 0.0,
+    "time": 37.37225413322449,
+    "scores": {
+      "libjs-util": 0.5,
+      "node-assert": 0.5,
+      "node-debbundle-es-to-primitive": 0.5,
+      "node-deep-equal": 0.5,
+      "node-define-properties": 0.5,
+      "node-es-abstract": 0.5,
+      "node-istanbul": 0.5,
+      "node-parse-json": 0.5,
+      "node-read-pkg": 0.5,
+      "node-tape": 0.5,
+      "node-util": 0.5
+    },
+    "ranking": [
+      [
+        "libjs-util",
+        0.5
+      ],
+      [
+        "node-assert",
+        0.5
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.5
+      ],
+      [
+        "node-deep-equal",
+        0.5
+      ],
+      [
+        "node-define-properties",
+        0.5
+      ],
+      [
+        "node-es-abstract",
+        0.5
+      ],
+      [
+        "node-istanbul",
+        0.5
+      ],
+      [
+        "node-parse-json",
+        0.5
+      ],
+      [
+        "node-read-pkg",
+        0.5
+      ],
+      [
+        "node-tape",
+        0.5
+      ],
+      [
+        "node-util",
+        0.5
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.0,
+    "score_mean": 0.5,
+    "score_max": 0.5,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "clause_details": {
+      "libjs-util": {
+        "mean_score": 0.5,
+        "visit_count": 1,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-assert": {
+        "mean_score": 0.5,
+        "visit_count": 1,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-debbundle-es-to-primitive": {
+        "mean_score": 0.5,
+        "visit_count": 2,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-deep-equal": {
+        "mean_score": 0.5,
+        "visit_count": 2,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-define-properties": {
+        "mean_score": 0.5,
+        "visit_count": 2,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-es-abstract": {
+        "mean_score": 0.5,
+        "visit_count": 2,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-istanbul": {
+        "mean_score": 0.5,
+        "visit_count": 1,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-parse-json": {
+        "mean_score": 0.5,
+        "visit_count": 1,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-read-pkg": {
+        "mean_score": 0.5,
+        "visit_count": 1,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-tape": {
+        "mean_score": 0.5,
+        "visit_count": 2,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-util": {
+        "mean_score": 0.5,
+        "visit_count": 1,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "local_risk_subgraph_counts": {},
+    "repair_entry_counts": {},
+    "local_conflict_edges": [],
+    "local_subgraph_signal": {
+      "libjs-util": 0,
+      "node-assert": 0,
+      "node-debbundle-es-to-primitive": 0,
+      "node-deep-equal": 0,
+      "node-define-properties": 0,
+      "node-es-abstract": 0,
+      "node-istanbul": 0,
+      "node-parse-json": 0,
+      "node-read-pkg": 0,
+      "node-tape": 0,
+      "node-util": 0
+    },
+    "local_subgraph_candidate_nodes": [],
+    "ranking_by_local_subgraph": [
+      [
+        "libjs-util",
+        0
+      ],
+      [
+        "node-assert",
+        0
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0
+      ],
+      [
+        "node-deep-equal",
+        0
+      ],
+      [
+        "node-define-properties",
+        0
+      ],
+      [
+        "node-es-abstract",
+        0
+      ],
+      [
+        "node-istanbul",
+        0
+      ],
+      [
+        "node-parse-json",
+        0
+      ],
+      [
+        "node-read-pkg",
+        0
+      ],
+      [
+        "node-tape",
+        0
+      ],
+      [
+        "node-util",
+        0
+      ]
+    ],
+    "amaf_node_evidence": {},
+    "amaf_edge_evidence": {},
+    "path_fragment_evidence": {},
+    "relation_node_raw_scores": {
+      "libjs-util": 0.0,
+      "node-assert": 0.0,
+      "node-debbundle-es-to-primitive": 0.0,
+      "node-deep-equal": 0.0,
+      "node-define-properties": 0.0,
+      "node-es-abstract": 0.0,
+      "node-istanbul": 0.0,
+      "node-parse-json": 0.0,
+      "node-read-pkg": 0.0,
+      "node-tape": 0.0,
+      "node-util": 0.0
+    },
+    "relation_probe_history": [],
+    "relation_probe_count": 0,
+    "selection_events": [
+      {
+        "mode": "ucb_relation_bias",
+        "seed": "libjs-util",
+        "seed_relation_prior": 0.0,
+        "expansion_trace": [
+          {
+            "edge": [
+              "node-util",
+              "libjs-util"
+            ],
+            "added_node": "node-util",
+            "relation_prior": 0.0,
+            "ucb": 15611.648894708902
+          },
+          {
+            "edge": [
+              "libjs-util",
+              "node-deep-equal"
+            ],
+            "added_node": "node-deep-equal",
+            "relation_prior": 0.0,
+            "ucb": 15611.63994647154
+          },
+          {
+            "edge": [
+              "node-es-abstract",
+              "node-deep-equal"
+            ],
+            "added_node": "node-es-abstract",
+            "relation_prior": 0.0,
+            "ucb": 15610.796767649863
+          }
+        ],
+        "iteration": 1,
+        "window": [
+          "libjs-util",
+          "node-util",
+          "node-deep-equal",
+          "node-es-abstract"
+        ]
+      },
+      {
+        "mode": "ucb_relation_bias",
+        "seed": "node-assert",
+        "seed_relation_prior": 0.0,
+        "expansion_trace": [
+          {
+            "edge": [
+              "node-parse-json",
+              "node-assert"
+            ],
+            "added_node": "node-parse-json",
+            "relation_prior": 0.0,
+            "ucb": 15611.43136967669
+          },
+          {
+            "edge": [
+              "node-read-pkg",
+              "node-parse-json"
+            ],
+            "added_node": "node-read-pkg",
+            "relation_prior": 0.0,
+            "ucb": 15611.464775989318
+          },
+          {
+            "edge": [
+              "node-istanbul",
+              "node-read-pkg"
+            ],
+            "added_node": "node-istanbul",
+            "relation_prior": 0.0,
+            "ucb": 15611.639421282422
+          }
+        ],
+        "iteration": 2,
+        "window": [
+          "node-assert",
+          "node-parse-json",
+          "node-read-pkg",
+          "node-istanbul"
+        ]
+      },
+      {
+        "mode": "ucb_relation_bias",
+        "seed": "node-debbundle-es-to-primitive",
+        "seed_relation_prior": 0.0,
+        "expansion_trace": [
+          {
+            "edge": [
+              "node-debbundle-es-to-primitive",
+              "node-define-properties"
+            ],
+            "added_node": "node-define-properties",
+            "relation_prior": 0.0,
+            "ucb": 13350.708251117123
+          },
+          {
+            "edge": [
+              "node-debbundle-es-to-primitive",
+              "node-deep-equal"
+            ],
+            "added_node": "node-deep-equal",
+            "relation_prior": 0.0,
+            "ucb": 13350.633397205653
+          },
+          {
+            "edge": [
+              "node-tape",
+              "node-deep-equal"
+            ],
+            "added_node": "node-tape",
+            "relation_prior": 0.0,
+            "ucb": 13350.343321494627
+          }
+        ],
+        "iteration": 3,
+        "window": [
+          "node-debbundle-es-to-primitive",
+          "node-define-properties",
+          "node-deep-equal",
+          "node-tape"
+        ]
+      },
+      {
+        "mode": "ucb_relation_bias",
+        "seed": "node-es-abstract",
+        "seed_relation_prior": 0.0,
+        "expansion_trace": [
+          {
+            "edge": [
+              "node-define-properties",
+              "node-es-abstract"
+            ],
+            "added_node": "node-define-properties",
+            "relation_prior": 0.0,
+            "ucb": 8829.527035188288
+          },
+          {
+            "edge": [
+              "node-tape",
+              "node-es-abstract"
+            ],
+            "added_node": "node-tape",
+            "relation_prior": 0.0,
+            "ucb": 8829.266092613301
+          },
+          {
+            "edge": [
+              "node-es-abstract",
+              "node-debbundle-es-to-primitive"
+            ],
+            "added_node": "node-debbundle-es-to-primitive",
+            "relation_prior": 0.0,
+            "ucb": 8829.353177047607
+          }
+        ],
+        "iteration": 4,
+        "window": [
+          "node-es-abstract",
+          "node-define-properties",
+          "node-tape",
+          "node-debbundle-es-to-primitive"
+        ]
+      }
+    ],
+    "relation_first_enabled": true,
+    "relation_evidence_policy": "search selection uses progressive bias from relation evidence; probe windows revisit high-value pair/path frontiers without requiring endpoints to be individually high-risk",
+    "evidence_node_scores": {
+      "libjs-util": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-assert": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-debbundle-es-to-primitive": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-deep-equal": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-define-properties": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-es-abstract": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-istanbul": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-parse-json": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-read-pkg": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-tape": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      },
+      "node-util": {
+        "score": 0.0,
+        "support_count": 0,
+        "components": {},
+        "raw": {}
+      }
+    },
+    "evidence_component_names": [],
+    "evidence_component_policy": "dynamic per-SCC normalization over risk surplus, conflict rate, LLM-declared local subgraphs, repair entries, conflict endpoints, OC signals, AMAF/RAVE-style node evidence, path-fragment evidence, and pair-level conflict memory",
+    "ranking_by_evidence": [],
+    "conflict_probability_matrix": [],
+    "evidence_pair_memory_nodes": [],
+    "evidence_pair_memory_edges": [],
+    "critical_pair_ledger_rows": [],
+    "critical_pair_locked_edges": [],
+    "critical_pair_candidate_edges": [],
+    "critical_pair_revisit_history": [],
+    "critical_pair_policy": "persistent critical-pair ledger with same-path severity features, hysteresis, evidence-guided revisits, and protected final-core coverage for locked pairs",
+    "mcgs_compression_profile": "balanced",
+    "mcgs_compression_params": {
+      "subgraph_max_ratio": 0.35,
+      "subgraph_min_nodes": 3,
+      "core_min_nodes": 2,
+      "core_min_relative_score": 0.58,
+      "core_stop_gap": 0.1,
+      "core_min_score": 0.14,
+      "critical_pair_core_min_score": 0.72,
+      "core_tail_relative_score": 0.38,
+      "critical_pair_core_max_edge_ratio": 0.5
+    },
+    "evidence_risk_subgraph_nodes": [
+      "libjs-util"
+    ],
+    "evidence_risk_subgraph_size": 1,
+    "evidence_compression_ratio": 0.9090909090909091,
+    "context_evidence_risk_subgraph_nodes": [
+      "libjs-util"
+    ],
+    "context_evidence_risk_subgraph_size": 1,
+    "context_evidence_compression_ratio": 0.9090909090909091,
+    "dynamic_core_priority_rows": [],
+    "dynamic_core_hit_cap": false,
+    "evidence_subgraph_policy": "blind relation-first evidence accumulator with a dynamically maintained core risk subgraph. The core stops when marginal evidence drops, while context_evidence_* retains the older cap-bounded explanation subgraph.",
+    "evidence_subgraph_cap": 4,
+    "trace_events": [
+      {
+        "completion_index": 1,
+        "iteration": 3,
+        "window": [
+          "node-debbundle-es-to-primitive",
+          "node-define-properties",
+          "node-deep-equal",
+          "node-tape"
+        ],
+        "is_tt_hit": false,
+        "selection": {
+          "mode": "ucb_relation_bias",
+          "seed": "node-es-abstract",
+          "seed_relation_prior": 0.0,
+          "expansion_trace": [
+            {
+              "edge": [
+                "node-define-properties",
+                "node-es-abstract"
+              ],
+              "added_node": "node-define-properties",
+              "relation_prior": 0.0,
+              "ucb": 8829.527035188288
+            },
+            {
+              "edge": [
+                "node-tape",
+                "node-es-abstract"
+              ],
+              "added_node": "node-tape",
+              "relation_prior": 0.0,
+              "ucb": 8829.266092613301
+            },
+            {
+              "edge": [
+                "node-es-abstract",
+                "node-debbundle-es-to-primitive"
+              ],
+              "added_node": "node-debbundle-es-to-primitive",
+              "relation_prior": 0.0,
+              "ucb": 8829.353177047607
+            }
+          ]
+        },
+        "scores": {
+          "node-debbundle-es-to-primitive": 0.5,
+          "node-define-properties": 0.5,
+          "node-deep-equal": 0.5,
+          "node-tape": 0.5
+        },
+        "local_risk_subgraph_nodes": [],
+        "repair_entry_nodes": [],
+        "local_conflict_edges": [],
+        "conflicts": [],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "node-debbundle-es-to-primitive",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-deep-equal",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-define-properties",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-tape",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          }
+        ],
+        "top_relation_evidence_so_far": [],
+        "top_critical_pairs_so_far": []
+      },
+      {
+        "completion_index": 2,
+        "iteration": 1,
+        "window": [
+          "libjs-util",
+          "node-util",
+          "node-deep-equal",
+          "node-es-abstract"
+        ],
+        "is_tt_hit": false,
+        "selection": {
+          "mode": "ucb_relation_bias",
+          "seed": "node-es-abstract",
+          "seed_relation_prior": 0.0,
+          "expansion_trace": [
+            {
+              "edge": [
+                "node-define-properties",
+                "node-es-abstract"
+              ],
+              "added_node": "node-define-properties",
+              "relation_prior": 0.0,
+              "ucb": 8829.527035188288
+            },
+            {
+              "edge": [
+                "node-tape",
+                "node-es-abstract"
+              ],
+              "added_node": "node-tape",
+              "relation_prior": 0.0,
+              "ucb": 8829.266092613301
+            },
+            {
+              "edge": [
+                "node-es-abstract",
+                "node-debbundle-es-to-primitive"
+              ],
+              "added_node": "node-debbundle-es-to-primitive",
+              "relation_prior": 0.0,
+              "ucb": 8829.353177047607
+            }
+          ]
+        },
+        "scores": {
+          "libjs-util": 0.5,
+          "node-util": 0.5,
+          "node-deep-equal": 0.5,
+          "node-es-abstract": 0.5
+        },
+        "local_risk_subgraph_nodes": [],
+        "repair_entry_nodes": [],
+        "local_conflict_edges": [],
+        "conflicts": [],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "libjs-util",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-debbundle-es-to-primitive",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-deep-equal",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-define-properties",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-es-abstract",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-tape",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-util",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          }
+        ],
+        "top_relation_evidence_so_far": [],
+        "top_critical_pairs_so_far": []
+      },
+      {
+        "completion_index": 3,
+        "iteration": 4,
+        "window": [
+          "node-es-abstract",
+          "node-define-properties",
+          "node-tape",
+          "node-debbundle-es-to-primitive"
+        ],
+        "is_tt_hit": false,
+        "selection": {
+          "mode": "ucb_relation_bias",
+          "seed": "node-es-abstract",
+          "seed_relation_prior": 0.0,
+          "expansion_trace": [
+            {
+              "edge": [
+                "node-define-properties",
+                "node-es-abstract"
+              ],
+              "added_node": "node-define-properties",
+              "relation_prior": 0.0,
+              "ucb": 8829.527035188288
+            },
+            {
+              "edge": [
+                "node-tape",
+                "node-es-abstract"
+              ],
+              "added_node": "node-tape",
+              "relation_prior": 0.0,
+              "ucb": 8829.266092613301
+            },
+            {
+              "edge": [
+                "node-es-abstract",
+                "node-debbundle-es-to-primitive"
+              ],
+              "added_node": "node-debbundle-es-to-primitive",
+              "relation_prior": 0.0,
+              "ucb": 8829.353177047607
+            }
+          ]
+        },
+        "scores": {
+          "node-es-abstract": 0.5,
+          "node-define-properties": 0.5,
+          "node-tape": 0.5,
+          "node-debbundle-es-to-primitive": 0.5
+        },
+        "local_risk_subgraph_nodes": [],
+        "repair_entry_nodes": [],
+        "local_conflict_edges": [],
+        "conflicts": [],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "libjs-util",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-debbundle-es-to-primitive",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-deep-equal",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-define-properties",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-es-abstract",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-tape",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-util",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          }
+        ],
+        "top_relation_evidence_so_far": [],
+        "top_critical_pairs_so_far": []
+      },
+      {
+        "completion_index": 4,
+        "iteration": 2,
+        "window": [
+          "node-assert",
+          "node-parse-json",
+          "node-read-pkg",
+          "node-istanbul"
+        ],
+        "is_tt_hit": false,
+        "selection": {
+          "mode": "ucb_relation_bias",
+          "seed": "node-es-abstract",
+          "seed_relation_prior": 0.0,
+          "expansion_trace": [
+            {
+              "edge": [
+                "node-define-properties",
+                "node-es-abstract"
+              ],
+              "added_node": "node-define-properties",
+              "relation_prior": 0.0,
+              "ucb": 8829.527035188288
+            },
+            {
+              "edge": [
+                "node-tape",
+                "node-es-abstract"
+              ],
+              "added_node": "node-tape",
+              "relation_prior": 0.0,
+              "ucb": 8829.266092613301
+            },
+            {
+              "edge": [
+                "node-es-abstract",
+                "node-debbundle-es-to-primitive"
+              ],
+              "added_node": "node-debbundle-es-to-primitive",
+              "relation_prior": 0.0,
+              "ucb": 8829.353177047607
+            }
+          ]
+        },
+        "scores": {
+          "node-assert": 0.5,
+          "node-parse-json": 0.5,
+          "node-read-pkg": 0.5,
+          "node-istanbul": 0.5
+        },
+        "local_risk_subgraph_nodes": [],
+        "repair_entry_nodes": [],
+        "local_conflict_edges": [],
+        "conflicts": [],
+        "oc_detected_so_far": [],
+        "top_risk_so_far": [
+          {
+            "clause_id": "libjs-util",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-assert",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-debbundle-es-to-primitive",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-deep-equal",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-define-properties",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-es-abstract",
+            "avg_risk": 0.5,
+            "visit_count": 2
+          },
+          {
+            "clause_id": "node-istanbul",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          },
+          {
+            "clause_id": "node-parse-json",
+            "avg_risk": 0.5,
+            "visit_count": 1
+          }
+        ],
+        "top_relation_evidence_so_far": [],
+        "top_critical_pairs_so_far": []
+      }
+    ],
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "node-deep-equal",
+    "injected_witness_distance": 5,
+    "injected_bridge_node": null,
+    "injected_bridge_distance": null,
+    "injected_risk_nodes": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "injected_evidence_nodes": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "injected_affected_nodes": [
+      "node-read-pkg",
+      "node-debbundle-es-to-primitive"
+    ],
+    "injected_conflict_family": "direct_mutex",
+    "injected_conflict_difficulty": "obvious",
+    "injected_conflict_severity": "critical",
+    "injected_conflict_severity_label": "high_impact_no_fallback",
+    "injected_conflict_template": "debian_direct_legacy_vs_new_abi_critical",
+    "injected_rank": 8,
+    "top1_margin": 0.0,
+    "risk_node_ranks": {
+      "node-parse-json": 8,
+      "node-deep-equal": 4
+    },
+    "risk_best_rank": 4,
+    "risk_worst_rank": 8,
+    "risk_top1_hit": false,
+    "risk_top3_hit": false,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": false,
+    "evidence_node_ranks": {
+      "node-parse-json": 8,
+      "node-deep-equal": 4
+    },
+    "evidence_best_rank": 4,
+    "evidence_worst_rank": 8,
+    "evidence_top1_hit": false,
+    "evidence_top3_hit": false,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "node-read-pkg": 9,
+      "node-debbundle-es-to-primitive": 3
+    },
+    "affected_best_rank": 3,
+    "affected_worst_rank": 9,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "node-parse-json": 8,
+      "node-deep-equal": 4,
+      "node-read-pkg": 9,
+      "node-debbundle-es-to-primitive": 3
+    },
+    "valuable_best_rank": 3,
+    "valuable_worst_rank": 9,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 8,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "risk_subgraph_nodes": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-util"
+    ],
+    "risk_subgraph_size": 7,
+    "compression_ratio": 0.36363636363636365,
+    "contains_injected_node": true,
+    "contains_any_evidence_node": true,
+    "contains_all_evidence_nodes": false,
+    "evidence_nodes_retained": [
+      "node-parse-json"
+    ],
+    "contains_any_risk_node": true,
+    "contains_all_risk_nodes": false,
+    "contains_any_affected_node": true,
+    "subgraph_type": "posthoc_gt_anchored",
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors",
+    "blind_risk_subgraph_nodes": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-util"
+    ],
+    "blind_risk_subgraph_size": 4,
+    "blind_compression_ratio": 0.6363636363636364,
+    "blind_contains_injected_node": false,
+    "blind_contains_any_evidence_node": false,
+    "blind_contains_all_evidence_nodes": false,
+    "blind_evidence_nodes_retained": [],
+    "blind_contains_any_risk_node": false,
+    "blind_contains_all_risk_nodes": false,
+    "blind_contains_any_affected_node": true,
+    "blind_subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC anchors only",
+    "local_declared_risk_subgraph_nodes": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal"
+    ],
+    "local_declared_risk_subgraph_size": 4,
+    "local_declared_compression_ratio": 0.6363636363636364,
+    "local_declared_subgraph_policy": "aggregate LLM-declared local_risk_subgraph_nodes, repair_entry_nodes, local conflict endpoints, and OC nodes; cap by SCC size",
+    "local_declared_contains_any_risk_node": true,
+    "local_declared_contains_all_risk_nodes": false,
+    "local_declared_risk_nodes_retained": [
+      "node-deep-equal"
+    ],
+    "local_declared_risk_coverage": 0.5,
+    "local_declared_contains_any_evidence_node": true,
+    "local_declared_contains_all_evidence_nodes": false,
+    "local_declared_evidence_nodes_retained": [
+      "node-deep-equal"
+    ],
+    "local_declared_evidence_coverage": 0.5,
+    "local_declared_contains_any_affected_node": true,
+    "local_declared_contains_all_affected_nodes": false,
+    "local_declared_affected_nodes_retained": [
+      "node-debbundle-es-to-primitive"
+    ],
+    "local_declared_contains_any_valuable_node": true,
+    "local_declared_contains_all_valuable_nodes": false,
+    "local_declared_valuable_nodes_retained": [
+      "node-deep-equal",
+      "node-debbundle-es-to-primitive"
+    ],
+    "local_declared_valuable_coverage": 0.5,
+    "core_evidence_risk_subgraph_nodes": [
+      "libjs-util"
+    ],
+    "core_evidence_risk_subgraph_size": 1,
+    "core_evidence_compression_ratio": 0.9090909090909091,
+    "core_evidence_hit_cap": false,
+    "core_evidence_contains_any_risk_node": false,
+    "core_evidence_contains_all_risk_nodes": false,
+    "core_evidence_risk_nodes_retained": [],
+    "core_evidence_risk_coverage": 0.0,
+    "core_evidence_contains_any_evidence_node": false,
+    "core_evidence_contains_all_evidence_nodes": false,
+    "core_evidence_evidence_nodes_retained": [],
+    "core_evidence_evidence_coverage": 0.0,
+    "core_evidence_contains_any_affected_node": false,
+    "core_evidence_contains_all_affected_nodes": false,
+    "core_evidence_affected_nodes_retained": [],
+    "core_evidence_contains_any_valuable_node": false,
+    "core_evidence_contains_all_valuable_nodes": false,
+    "core_evidence_valuable_nodes_retained": [],
+    "core_evidence_valuable_coverage": 0.0,
+    "context_evidence_contains_any_risk_node": false,
+    "context_evidence_contains_all_risk_nodes": false,
+    "convergence_trace": [
+      {
+        "rollout": 1,
+        "llm_calls": 1,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": false,
+        "local_risk_all": false,
+        "subgraph_nodes": [],
+        "subgraph_size": 0,
+        "compression_ratio": 1.0,
+        "context_subgraph_nodes": [],
+        "context_subgraph_size": 0,
+        "context_compression_ratio": 1.0,
+        "core_hit_cap": false,
+        "core_stop_reason": "fallback",
+        "risk_coverage": 0.0,
+        "evidence_coverage": 0.0,
+        "valuable_coverage": 0.0,
+        "risk_any": false,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": null
+      },
+      {
+        "rollout": 2,
+        "llm_calls": 2,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": false,
+        "local_risk_all": false,
+        "subgraph_nodes": [],
+        "subgraph_size": 0,
+        "compression_ratio": 1.0,
+        "context_subgraph_nodes": [],
+        "context_subgraph_size": 0,
+        "context_compression_ratio": 1.0,
+        "core_hit_cap": false,
+        "core_stop_reason": "fallback",
+        "risk_coverage": 0.0,
+        "evidence_coverage": 0.0,
+        "valuable_coverage": 0.0,
+        "risk_any": false,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": null
+      },
+      {
+        "rollout": 3,
+        "llm_calls": 3,
+        "window_risk_any": false,
+        "window_risk_all": false,
+        "local_risk_any": false,
+        "local_risk_all": false,
+        "subgraph_nodes": [],
+        "subgraph_size": 0,
+        "compression_ratio": 1.0,
+        "context_subgraph_nodes": [],
+        "context_subgraph_size": 0,
+        "context_compression_ratio": 1.0,
+        "core_hit_cap": false,
+        "core_stop_reason": "fallback",
+        "risk_coverage": 0.0,
+        "evidence_coverage": 0.0,
+        "valuable_coverage": 0.0,
+        "risk_any": false,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": null
+      },
+      {
+        "rollout": 4,
+        "llm_calls": 4,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": false,
+        "local_risk_all": false,
+        "subgraph_nodes": [],
+        "subgraph_size": 0,
+        "compression_ratio": 1.0,
+        "context_subgraph_nodes": [],
+        "context_subgraph_size": 0,
+        "context_compression_ratio": 1.0,
+        "core_hit_cap": false,
+        "core_stop_reason": "fallback",
+        "risk_coverage": 0.0,
+        "evidence_coverage": 0.0,
+        "valuable_coverage": 0.0,
+        "risk_any": false,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": null
+      }
+    ],
+    "convergence_points": {
+      "1": {
+        "rollout": 1,
+        "llm_calls": 1,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": false,
+        "local_risk_all": false,
+        "subgraph_nodes": [],
+        "subgraph_size": 0,
+        "compression_ratio": 1.0,
+        "context_subgraph_nodes": [],
+        "context_subgraph_size": 0,
+        "context_compression_ratio": 1.0,
+        "core_hit_cap": false,
+        "core_stop_reason": "fallback",
+        "risk_coverage": 0.0,
+        "evidence_coverage": 0.0,
+        "valuable_coverage": 0.0,
+        "risk_any": false,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": null
+      },
+      "2": {
+        "rollout": 2,
+        "llm_calls": 2,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": false,
+        "local_risk_all": false,
+        "subgraph_nodes": [],
+        "subgraph_size": 0,
+        "compression_ratio": 1.0,
+        "context_subgraph_nodes": [],
+        "context_subgraph_size": 0,
+        "context_compression_ratio": 1.0,
+        "core_hit_cap": false,
+        "core_stop_reason": "fallback",
+        "risk_coverage": 0.0,
+        "evidence_coverage": 0.0,
+        "valuable_coverage": 0.0,
+        "risk_any": false,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": null
+      },
+      "4": {
+        "rollout": 4,
+        "llm_calls": 4,
+        "window_risk_any": true,
+        "window_risk_all": false,
+        "local_risk_any": false,
+        "local_risk_all": false,
+        "subgraph_nodes": [],
+        "subgraph_size": 0,
+        "compression_ratio": 1.0,
+        "context_subgraph_nodes": [],
+        "context_subgraph_size": 0,
+        "context_compression_ratio": 1.0,
+        "core_hit_cap": false,
+        "core_stop_reason": "fallback",
+        "risk_coverage": 0.0,
+        "evidence_coverage": 0.0,
+        "valuable_coverage": 0.0,
+        "risk_any": false,
+        "risk_all": false,
+        "evidence_all": false,
+        "effective_oc": false,
+        "jaccard_prev": null
+      }
+    },
+    "convergence_auc_risk_coverage": 0.0,
+    "convergence_mean_stability": null,
+    "convergence_final_risk_coverage": 0.0,
+    "convergence_final_evidence_coverage": 0.0,
+    "convergence_final_valuable_coverage": 0.0,
+    "convergence_final_subgraph_size": 0,
+    "convergence_final_compression_ratio": 1.0,
+    "convergence_final_context_subgraph_size": 0,
+    "convergence_final_context_compression_ratio": 1.0,
+    "convergence_final_core_hit_cap": false,
+    "convergence_final_core_stop_reason": "fallback",
+    "first_window_risk_any_rollout": 1,
+    "first_window_risk_all_rollout": null,
+    "first_local_risk_any_rollout": null,
+    "first_local_risk_all_rollout": null,
+    "first_subgraph_risk_any_rollout": null,
+    "first_subgraph_risk_all_rollout": null,
+    "first_effective_oc_rollout": null
+  }
+]

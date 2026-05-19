@@ -1,0 +1,320 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 8,
+    "scc_id": "synthetic_debian_8",
+    "scc_clause_ids": [
+      "synthetic_debian_8_node_01",
+      "synthetic_debian_8_node_02",
+      "synthetic_debian_8_node_03",
+      "synthetic_debian_8_node_04",
+      "synthetic_debian_8_node_05",
+      "synthetic_debian_8_node_08",
+      "synthetic_debian_8_node_06",
+      "synthetic_debian_8_node_07"
+    ],
+    "llm_calls": 1,
+    "time": 44.54870009422302,
+    "scores": {
+      "synthetic_debian_8_node_01": 0.65,
+      "synthetic_debian_8_node_02": 0.78,
+      "synthetic_debian_8_node_03": 0.38,
+      "synthetic_debian_8_node_04": 0.85,
+      "synthetic_debian_8_node_05": 0.45,
+      "synthetic_debian_8_node_08": 0.92,
+      "synthetic_debian_8_node_06": 0.52,
+      "synthetic_debian_8_node_07": 0.58
+    },
+    "reasonings": {
+      "synthetic_debian_8_node_01": "Cycle completion point receiving from highest-risk node_08, stress test participant",
+      "synthetic_debian_8_node_02": "Ambiguous status handoff without date change, could propagate unstable states through cycle",
+      "synthetic_debian_8_node_03": "Early in dependency chain, stress test participant but before major timing conflicts",
+      "synthetic_debian_8_node_04": "Assumes pre-freeze transition receipt conflicting with node_08's post-freeze timing",
+      "synthetic_debian_8_node_05": "Stress test participant in circular dependency, positioned before major timing conflicts",
+      "synthetic_debian_8_node_08": "Explicit freeze timing conflict - transition receipt after configuration freeze, creating release blocking risk",
+      "synthetic_debian_8_node_06": "Stress test participant in circular dependency, positioned between multiple stress test nodes",
+      "synthetic_debian_8_node_07": "Directly references highest-risk node_08, stress test participant"
+    },
+    "ranking": [
+      [
+        "synthetic_debian_8_node_08",
+        0.92
+      ],
+      [
+        "synthetic_debian_8_node_04",
+        0.85
+      ],
+      [
+        "synthetic_debian_8_node_02",
+        0.78
+      ],
+      [
+        "synthetic_debian_8_node_01",
+        0.65
+      ],
+      [
+        "synthetic_debian_8_node_07",
+        0.58
+      ],
+      [
+        "synthetic_debian_8_node_06",
+        0.52
+      ],
+      [
+        "synthetic_debian_8_node_05",
+        0.45
+      ],
+      [
+        "synthetic_debian_8_node_03",
+        0.38
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_debian_8_node_08",
+        "risk_score": 0.92,
+        "risk_factors": [
+          "circular_dependency_risk",
+          "freeze_timing_conflict",
+          "dependency_chain_position"
+        ],
+        "reasoning": "Highest risk due to explicit freeze timing conflict - transition receipt scheduled after configuration freeze, creating potential release blocking condition while being part of the circular dependency"
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_debian_8_node_04",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "freeze_timing_conflict",
+          "circular_dependency_risk"
+        ],
+        "reasoning": "High risk from assuming transition receipt arrived before freeze when this conflicts with node_08's timing, creating inconsistent freeze assumptions within the cycle"
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_debian_8_node_02",
+        "risk_score": 0.78,
+        "risk_factors": [
+          "handoff_ambiguity",
+          "circular_dependency_risk"
+        ],
+        "reasoning": "Significant risk from ambiguous status handoff - forwards receipt status without changing date, potentially propagating unstable states through the circular dependency"
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_debian_8_node_01",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "circular_dependency_risk",
+          "stress_test_participation"
+        ],
+        "reasoning": "High circular dependency risk as the cycle completion point, receiving dependencies from node_08 while being part of stress test"
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_debian_8_node_07",
+        "risk_score": 0.58,
+        "risk_factors": [
+          "circular_dependency_risk",
+          "stress_test_participation"
+        ],
+        "reasoning": "Directly references the highest-risk node_08, propagating timing conflicts while being part of stress test"
+      },
+      {
+        "rank": 6,
+        "clause_id": "synthetic_debian_8_node_06",
+        "risk_score": 0.52,
+        "risk_factors": [
+          "circular_dependency_risk",
+          "stress_test_participation"
+        ],
+        "reasoning": "Part of circular dependency chain and stress test, positioned between multiple stress test participants"
+      },
+      {
+        "rank": 7,
+        "clause_id": "synthetic_debian_8_node_05",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "circular_dependency_risk",
+          "stress_test_participation"
+        ],
+        "reasoning": "Part of circular dependency and stress test, but positioned earlier in chain before major timing conflicts emerge"
+      },
+      {
+        "rank": 8,
+        "clause_id": "synthetic_debian_8_node_03",
+        "risk_score": 0.38,
+        "risk_factors": [
+          "circular_dependency_risk",
+          "stress_test_participation"
+        ],
+        "reasoning": "Lowest risk in cycle - part of stress test and circular dependency but positioned early in chain before major timing conflicts"
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "circular_dependency_risk",
+        "importance_weight": 0.35,
+        "description": "Risk from being part of a complete dependency cycle that could create unresolvable dependency chains or deadlocks"
+      },
+      {
+        "factor": "freeze_timing_conflict",
+        "importance_weight": 0.25,
+        "description": "Risk from conflicting timing around configuration freezes and transition receipts that could block releases"
+      },
+      {
+        "factor": "handoff_ambiguity",
+        "importance_weight": 0.2,
+        "description": "Risk from ambiguous status handoffs where downstream packages inherit potentially unstable states"
+      },
+      {
+        "factor": "dependency_chain_position",
+        "importance_weight": 0.15,
+        "description": "Risk based on position in the dependency chain, with nodes that could propagate issues more widely having higher risk"
+      },
+      {
+        "factor": "stress_test_participation",
+        "importance_weight": 0.05,
+        "description": "Risk from explicit participation in dependency stress tests indicating potential instability"
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 8,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_debian_8_node_04",
+        "clause_b": "synthetic_debian_8_node_08",
+        "description": "Direct timing conflict: node_04 assumes transition receipt arrived before freeze, while node_08 schedules receipt after freeze"
+      },
+      {
+        "clause_a": "synthetic_debian_8_node_02",
+        "clause_b": "synthetic_debian_8_node_08",
+        "description": "Status propagation conflict: node_02 forwards receipt status without date change, but node_08's timing creates ambiguous status inheritance"
+      },
+      {
+        "clause_a": "synthetic_debian_8_node_01",
+        "clause_b": "synthetic_debian_8_node_08",
+        "description": "Circular dependency creates unresolvable chain when combined with node_08's freeze timing conflict"
+      }
+    ],
+    "score_spread": 0.54,
+    "ranking_score_spread": 0.54,
+    "score_mean": 0.64125,
+    "score_max": 0.92,
+    "node_names": {
+      "synthetic_debian_8_node_01": "synthetic debian 8 node 01",
+      "synthetic_debian_8_node_02": "synthetic debian 8 node 02",
+      "synthetic_debian_8_node_03": "synthetic debian 8 node 03",
+      "synthetic_debian_8_node_04": "synthetic debian 8 node 04",
+      "synthetic_debian_8_node_05": "synthetic debian 8 node 05",
+      "synthetic_debian_8_node_08": "synthetic debian 8 node 08",
+      "synthetic_debian_8_node_06": "synthetic debian 8 node 06",
+      "synthetic_debian_8_node_07": "synthetic debian 8 node 07"
+    },
+    "ground_truth_nodes": [
+      "synthetic_debian_8_node_08"
+    ],
+    "gt_evidence": {
+      "synthetic_debian_8_node_08": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 742,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.330188679245283,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.33827493261455527,
+    "inject_mode": true,
+    "injected_node": "synthetic_debian_8_node_08",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_debian_8_node_04",
+    "injected_witness_distance": 4,
+    "injected_bridge_node": "synthetic_debian_8_node_02",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "synthetic_debian_8_node_08",
+      "synthetic_debian_8_node_04"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_debian_8_node_08",
+      "synthetic_debian_8_node_02",
+      "synthetic_debian_8_node_04"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_debian_8_node_01",
+      "synthetic_debian_8_node_05"
+    ],
+    "injected_conflict_family": "temporal_gate",
+    "injected_conflict_difficulty": "subtle",
+    "injected_conflict_template": "debian_temporal_receipt_gate",
+    "injected_rank": 1,
+    "top1_margin": 0.07000000000000006,
+    "risk_node_ranks": {
+      "synthetic_debian_8_node_08": 1,
+      "synthetic_debian_8_node_04": 2
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_debian_8_node_08": 1,
+      "synthetic_debian_8_node_02": 3,
+      "synthetic_debian_8_node_04": 2
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_debian_8_node_01": 4,
+      "synthetic_debian_8_node_05": 7
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 7,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "synthetic_debian_8_node_08": 1,
+      "synthetic_debian_8_node_04": 2,
+      "synthetic_debian_8_node_01": 4,
+      "synthetic_debian_8_node_05": 7
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 7,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 1,
+    "root_top1_hit": true,
+    "root_top3_hit": true
+  }
+]

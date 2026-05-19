@@ -1,0 +1,740 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (wikipedia); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 16,
+    "scc_id": "synthetic_wikipedia_16",
+    "scc_clause_ids": [
+      "synthetic_wikipedia_16_node_01",
+      "synthetic_wikipedia_16_node_02",
+      "synthetic_wikipedia_16_node_03",
+      "synthetic_wikipedia_16_node_04",
+      "synthetic_wikipedia_16_node_05",
+      "synthetic_wikipedia_16_node_06",
+      "synthetic_wikipedia_16_node_07",
+      "synthetic_wikipedia_16_node_08",
+      "synthetic_wikipedia_16_node_09",
+      "synthetic_wikipedia_16_node_10",
+      "synthetic_wikipedia_16_node_16",
+      "synthetic_wikipedia_16_node_11",
+      "synthetic_wikipedia_16_node_12",
+      "synthetic_wikipedia_16_node_13",
+      "synthetic_wikipedia_16_node_14",
+      "synthetic_wikipedia_16_node_15"
+    ],
+    "llm_calls": 1,
+    "time": 21.48222589492798,
+    "scores": {
+      "synthetic_wikipedia_16_node_01": 0.85,
+      "synthetic_wikipedia_16_node_02": 0.65,
+      "synthetic_wikipedia_16_node_03": 0.55,
+      "synthetic_wikipedia_16_node_04": 0.45,
+      "synthetic_wikipedia_16_node_05": 0.35,
+      "synthetic_wikipedia_16_node_06": 0.25,
+      "synthetic_wikipedia_16_node_07": 0.15,
+      "synthetic_wikipedia_16_node_08": 0.05,
+      "synthetic_wikipedia_16_node_09": 0.1,
+      "synthetic_wikipedia_16_node_10": 0.2,
+      "synthetic_wikipedia_16_node_16": 1.0,
+      "synthetic_wikipedia_16_node_11": 0.3,
+      "synthetic_wikipedia_16_node_12": 0.4,
+      "synthetic_wikipedia_16_node_13": 0.5,
+      "synthetic_wikipedia_16_node_14": 0.6,
+      "synthetic_wikipedia_16_node_15": 0.75
+    },
+    "reasonings": {
+      "synthetic_wikipedia_16_node_01": "Ambiguous parent-child relationship with node 16 contributes to traversal confusion.",
+      "synthetic_wikipedia_16_node_02": "Near the start of the cycle with ambiguous parent choices.",
+      "synthetic_wikipedia_16_node_03": "Ambiguous parent choices contribute to the cycle's propagation.",
+      "synthetic_wikipedia_16_node_04": "Ambiguous parent choices contribute to traversal confusion.",
+      "synthetic_wikipedia_16_node_05": "Ambiguous parent choices contribute to traversal confusion.",
+      "synthetic_wikipedia_16_node_06": "Ambiguous parent choices contribute to traversal confusion.",
+      "synthetic_wikipedia_16_node_07": "Ambiguous parent choices contribute to traversal confusion.",
+      "synthetic_wikipedia_16_node_08": "Ambiguous parent choices but less central to the cycle.",
+      "synthetic_wikipedia_16_node_09": "Generality mismatch with parent node 10.",
+      "synthetic_wikipedia_16_node_10": "Generality mismatch with parent node 11.",
+      "synthetic_wikipedia_16_node_16": "Directly reverses the hierarchy by placing a broad ancestor (node 01) as its subcategory.",
+      "synthetic_wikipedia_16_node_11": "Generality mismatch with parent node 12.",
+      "synthetic_wikipedia_16_node_12": "Generality mismatch with parent node 13.",
+      "synthetic_wikipedia_16_node_13": "Generality mismatch with parent node 14.",
+      "synthetic_wikipedia_16_node_14": "Generality mismatch with parent node 15.",
+      "synthetic_wikipedia_16_node_15": "Adjacent to node 16 and propagates the cycle."
+    },
+    "ranking": [
+      [
+        "synthetic_wikipedia_16_node_16",
+        1.0
+      ],
+      [
+        "synthetic_wikipedia_16_node_01",
+        0.85
+      ],
+      [
+        "synthetic_wikipedia_16_node_15",
+        0.75
+      ],
+      [
+        "synthetic_wikipedia_16_node_02",
+        0.65
+      ],
+      [
+        "synthetic_wikipedia_16_node_14",
+        0.6
+      ],
+      [
+        "synthetic_wikipedia_16_node_03",
+        0.55
+      ],
+      [
+        "synthetic_wikipedia_16_node_13",
+        0.5
+      ],
+      [
+        "synthetic_wikipedia_16_node_04",
+        0.45
+      ],
+      [
+        "synthetic_wikipedia_16_node_12",
+        0.4
+      ],
+      [
+        "synthetic_wikipedia_16_node_05",
+        0.35
+      ],
+      [
+        "synthetic_wikipedia_16_node_11",
+        0.3
+      ],
+      [
+        "synthetic_wikipedia_16_node_06",
+        0.25
+      ],
+      [
+        "synthetic_wikipedia_16_node_10",
+        0.2
+      ],
+      [
+        "synthetic_wikipedia_16_node_07",
+        0.15
+      ],
+      [
+        "synthetic_wikipedia_16_node_09",
+        0.1
+      ],
+      [
+        "synthetic_wikipedia_16_node_08",
+        0.05
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_wikipedia_16_node_16",
+        "risk_score": 1.0,
+        "risk_factors": [
+          "semantic_misplacement",
+          "cycle_breaking_potential",
+          "graph_position_in_cycle"
+        ],
+        "reasoning": "Node 16 is the most problematic because it reverses the hierarchy by placing a broad ancestor (node 01) as its subcategory, directly causing the cycle."
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_wikipedia_16_node_01",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "semantic_misplacement",
+          "cycle_breaking_potential"
+        ],
+        "reasoning": "Node 01 is implicated in the cycle due to its ambiguous parent-child relationship with node 16, contributing to traversal confusion."
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_wikipedia_16_node_15",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "hierarchical_specificity_mismatch",
+          "cycle_breaking_potential"
+        ],
+        "reasoning": "Node 15 is adjacent to node 16 and propagates the cycle, with a broad-to-narrow mismatch in its placement."
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_wikipedia_16_node_02",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "semantic_misplacement",
+          "graph_position_in_cycle"
+        ],
+        "reasoning": "Node 02 is near the start of the cycle and has ambiguous parent choices, contributing to traversal confusion."
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_wikipedia_16_node_14",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "hierarchical_specificity_mismatch"
+        ],
+        "reasoning": "Node 14 is part of the cycle and exhibits a generality mismatch with its parent node 15."
+      },
+      {
+        "rank": 6,
+        "clause_id": "synthetic_wikipedia_16_node_03",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "semantic_misplacement"
+        ],
+        "reasoning": "Node 03 has ambiguous parent choices and contributes to the cycle's propagation."
+      },
+      {
+        "rank": 7,
+        "clause_id": "synthetic_wikipedia_16_node_13",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "hierarchical_specificity_mismatch"
+        ],
+        "reasoning": "Node 13 is part of the cycle and exhibits a generality mismatch with its parent node 14."
+      },
+      {
+        "rank": 8,
+        "clause_id": "synthetic_wikipedia_16_node_04",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "semantic_misplacement"
+        ],
+        "reasoning": "Node 04 has ambiguous parent choices and contributes to traversal confusion."
+      },
+      {
+        "rank": 9,
+        "clause_id": "synthetic_wikipedia_16_node_12",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "hierarchical_specificity_mismatch"
+        ],
+        "reasoning": "Node 12 is part of the cycle and exhibits a generality mismatch with its parent node 13."
+      },
+      {
+        "rank": 10,
+        "clause_id": "synthetic_wikipedia_16_node_05",
+        "risk_score": 0.35,
+        "risk_factors": [
+          "semantic_misplacement"
+        ],
+        "reasoning": "Node 05 has ambiguous parent choices and contributes to traversal confusion."
+      },
+      {
+        "rank": 11,
+        "clause_id": "synthetic_wikipedia_16_node_11",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "hierarchical_specificity_mismatch"
+        ],
+        "reasoning": "Node 11 is part of the cycle and exhibits a generality mismatch with its parent node 12."
+      },
+      {
+        "rank": 12,
+        "clause_id": "synthetic_wikipedia_16_node_06",
+        "risk_score": 0.25,
+        "risk_factors": [
+          "semantic_misplacement"
+        ],
+        "reasoning": "Node 06 has ambiguous parent choices and contributes to traversal confusion."
+      },
+      {
+        "rank": 13,
+        "clause_id": "synthetic_wikipedia_16_node_10",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "hierarchical_specificity_mismatch"
+        ],
+        "reasoning": "Node 10 is part of the cycle and exhibits a generality mismatch with its parent node 11."
+      },
+      {
+        "rank": 14,
+        "clause_id": "synthetic_wikipedia_16_node_07",
+        "risk_score": 0.15,
+        "risk_factors": [
+          "semantic_misplacement"
+        ],
+        "reasoning": "Node 07 has ambiguous parent choices and contributes to traversal confusion."
+      },
+      {
+        "rank": 15,
+        "clause_id": "synthetic_wikipedia_16_node_09",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "hierarchical_specificity_mismatch"
+        ],
+        "reasoning": "Node 09 is part of the cycle and exhibits a generality mismatch with its parent node 10."
+      },
+      {
+        "rank": 16,
+        "clause_id": "synthetic_wikipedia_16_node_08",
+        "risk_score": 0.05,
+        "risk_factors": [
+          "semantic_misplacement"
+        ],
+        "reasoning": "Node 08 has ambiguous parent choices but is less central to the cycle."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "semantic_misplacement",
+        "importance_weight": 0.35,
+        "description": "Direct evidence that the category is semantically misplaced based on its description and parent-child relationships."
+      },
+      {
+        "factor": "cycle_breaking_potential",
+        "importance_weight": 0.3,
+        "description": "Whether removing an adjacent link plausibly breaks the taxonomy cycle and resolves traversal issues."
+      },
+      {
+        "factor": "hierarchical_specificity_mismatch",
+        "importance_weight": 0.2,
+        "description": "Mismatch between the hierarchical specificity or generality of the category and its placement in the graph."
+      },
+      {
+        "factor": "graph_position_in_cycle",
+        "importance_weight": 0.1,
+        "description": "The local graph position of the category in the cyclic chain, with nodes closer to the cycle's root or reversal point being more risky."
+      },
+      {
+        "factor": "textual_accident_evidence",
+        "importance_weight": 0.05,
+        "description": "Specific textual evidence of accidental or ambiguous link creation, such as bot-generated edits or vague descriptions."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 16,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_wikipedia_16_node_16",
+        "clause_b": "synthetic_wikipedia_16_node_01",
+        "description": "Node 16 places node 01, a broad ancestor, as its subcategory, directly causing the cycle."
+      }
+    ],
+    "score_spread": 0.95,
+    "ranking_score_spread": 0.95,
+    "score_mean": 0.446875,
+    "score_max": 1.0,
+    "node_names": {
+      "synthetic_wikipedia_16_node_01": "synthetic wikipedia 16 node 01",
+      "synthetic_wikipedia_16_node_02": "synthetic wikipedia 16 node 02",
+      "synthetic_wikipedia_16_node_03": "synthetic wikipedia 16 node 03",
+      "synthetic_wikipedia_16_node_04": "synthetic wikipedia 16 node 04",
+      "synthetic_wikipedia_16_node_05": "synthetic wikipedia 16 node 05",
+      "synthetic_wikipedia_16_node_06": "synthetic wikipedia 16 node 06",
+      "synthetic_wikipedia_16_node_07": "synthetic wikipedia 16 node 07",
+      "synthetic_wikipedia_16_node_08": "synthetic wikipedia 16 node 08",
+      "synthetic_wikipedia_16_node_09": "synthetic wikipedia 16 node 09",
+      "synthetic_wikipedia_16_node_10": "synthetic wikipedia 16 node 10",
+      "synthetic_wikipedia_16_node_16": "synthetic wikipedia 16 node 16",
+      "synthetic_wikipedia_16_node_11": "synthetic wikipedia 16 node 11",
+      "synthetic_wikipedia_16_node_12": "synthetic wikipedia 16 node 12",
+      "synthetic_wikipedia_16_node_13": "synthetic wikipedia 16 node 13",
+      "synthetic_wikipedia_16_node_14": "synthetic wikipedia 16 node 14",
+      "synthetic_wikipedia_16_node_15": "synthetic wikipedia 16 node 15"
+    },
+    "ground_truth_nodes": [
+      "synthetic_wikipedia_16_node_16"
+    ],
+    "gt_evidence": {
+      "synthetic_wikipedia_16_node_16": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 2310,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.4640692640692641,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.4666666666666667,
+    "inject_mode": true,
+    "injected_node": "synthetic_wikipedia_16_node_16",
+    "inject_type": "type_a_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "injected_rank": 1,
+    "top1_margin": 0.15000000000000002
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (wikipedia); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "wikipedia",
+    "scc_size": 16,
+    "scc_id": "synthetic_wikipedia_16",
+    "scc_clause_ids": [
+      "synthetic_wikipedia_16_node_01",
+      "synthetic_wikipedia_16_node_02",
+      "synthetic_wikipedia_16_node_03",
+      "synthetic_wikipedia_16_node_04",
+      "synthetic_wikipedia_16_node_05",
+      "synthetic_wikipedia_16_node_06",
+      "synthetic_wikipedia_16_node_07",
+      "synthetic_wikipedia_16_node_08",
+      "synthetic_wikipedia_16_node_09",
+      "synthetic_wikipedia_16_node_10",
+      "synthetic_wikipedia_16_node_16",
+      "synthetic_wikipedia_16_node_11",
+      "synthetic_wikipedia_16_node_12",
+      "synthetic_wikipedia_16_node_13",
+      "synthetic_wikipedia_16_node_14",
+      "synthetic_wikipedia_16_node_15"
+    ],
+    "llm_calls": 1,
+    "time": 104.5001118183136,
+    "scores": {
+      "synthetic_wikipedia_16_node_01": 0.65,
+      "synthetic_wikipedia_16_node_02": 0.45,
+      "synthetic_wikipedia_16_node_03": 0.35,
+      "synthetic_wikipedia_16_node_04": 0.25,
+      "synthetic_wikipedia_16_node_05": 0.2,
+      "synthetic_wikipedia_16_node_06": 0.15,
+      "synthetic_wikipedia_16_node_07": 0.1,
+      "synthetic_wikipedia_16_node_08": 0.08,
+      "synthetic_wikipedia_16_node_09": 0.12,
+      "synthetic_wikipedia_16_node_10": 0.3,
+      "synthetic_wikipedia_16_node_16": 0.95,
+      "synthetic_wikipedia_16_node_11": 0.28,
+      "synthetic_wikipedia_16_node_12": 0.23,
+      "synthetic_wikipedia_16_node_13": 0.18,
+      "synthetic_wikipedia_16_node_14": 0.4,
+      "synthetic_wikipedia_16_node_15": 0.55
+    },
+    "reasonings": {
+      "synthetic_wikipedia_16_node_01": "Cycle completion point receiving problematic link from node 16",
+      "synthetic_wikipedia_16_node_02": "Early cycle position with connections to critical nodes",
+      "synthetic_wikipedia_16_node_03": "Early cycle position but less critical than immediate neighbors of problem node",
+      "synthetic_wikipedia_16_node_04": "Early cycle position with moderate distance from conceptual reversal",
+      "synthetic_wikipedia_16_node_05": "Early-mid cycle position with decreasing centrality",
+      "synthetic_wikipedia_16_node_06": "Mid-cycle position distant from conceptual reversal",
+      "synthetic_wikipedia_16_node_07": "Mid-cycle position with minimal connection to problematic section",
+      "synthetic_wikipedia_16_node_08": "Most distant from conceptual reversal in cycle",
+      "synthetic_wikipedia_16_node_09": "Late cycle position not part of critical section",
+      "synthetic_wikipedia_16_node_10": "Mid-cycle connector between early and late sections",
+      "synthetic_wikipedia_16_node_16": "Clear conceptual reversal evidence causing persistent cycle and bot recategorization issues",
+      "synthetic_wikipedia_16_node_11": "Mid-cycle position similar to node 10 but later in chain",
+      "synthetic_wikipedia_16_node_12": "Mid-to-late cycle position with moderate centrality",
+      "synthetic_wikipedia_16_node_13": "Late cycle position not adjacent to conceptual reversal",
+      "synthetic_wikipedia_16_node_14": "Immediately before problematic section, strategically important",
+      "synthetic_wikipedia_16_node_15": "Directly connects to most problematic node, critical for cycle resolution"
+    },
+    "ranking": [
+      [
+        "synthetic_wikipedia_16_node_16",
+        0.95
+      ],
+      [
+        "synthetic_wikipedia_16_node_01",
+        0.65
+      ],
+      [
+        "synthetic_wikipedia_16_node_15",
+        0.55
+      ],
+      [
+        "synthetic_wikipedia_16_node_02",
+        0.45
+      ],
+      [
+        "synthetic_wikipedia_16_node_14",
+        0.4
+      ],
+      [
+        "synthetic_wikipedia_16_node_03",
+        0.35
+      ],
+      [
+        "synthetic_wikipedia_16_node_10",
+        0.3
+      ],
+      [
+        "synthetic_wikipedia_16_node_11",
+        0.28
+      ],
+      [
+        "synthetic_wikipedia_16_node_04",
+        0.25
+      ],
+      [
+        "synthetic_wikipedia_16_node_12",
+        0.23
+      ],
+      [
+        "synthetic_wikipedia_16_node_05",
+        0.2
+      ],
+      [
+        "synthetic_wikipedia_16_node_13",
+        0.18
+      ],
+      [
+        "synthetic_wikipedia_16_node_06",
+        0.15
+      ],
+      [
+        "synthetic_wikipedia_16_node_09",
+        0.12
+      ],
+      [
+        "synthetic_wikipedia_16_node_07",
+        0.1
+      ],
+      [
+        "synthetic_wikipedia_16_node_08",
+        0.08
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_wikipedia_16_node_16",
+        "risk_score": 0.95,
+        "risk_factors": [
+          "conceptual_reversal_evidence",
+          "cycle_persistence_impact",
+          "specificity_generality_mismatch",
+          "maintenance_history_severity"
+        ],
+        "reasoning": "This node has explicit evidence of conceptual reversal where a narrow child incorrectly includes a broad ancestor, causing persistent cycle issues with bot recategorization loops. The maintenance log shows this keeps the hierarchy non-acyclic even when other categories are normalized."
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_wikipedia_16_node_01",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "cycle_persistence_impact",
+          "graph_position_centrality"
+        ],
+        "reasoning": "As the cycle completion point (receiving subcategory link from node 16), this node's position makes it critical for cycle persistence. Removing its parent link from node 16 would break the cycle."
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_wikipedia_16_node_15",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "cycle_persistence_impact",
+          "graph_position_centrality"
+        ],
+        "reasoning": "Directly connects to the most problematic node (16), making it strategically important for cycle resolution. Its position immediately before the conceptual reversal increases its risk."
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_wikipedia_16_node_02",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "graph_position_centrality"
+        ],
+        "reasoning": "Early in the cycle chain and directly connected to the cycle completion point, making it more central to the cycle structure than middle nodes."
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_wikipedia_16_node_14",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "graph_position_centrality"
+        ],
+        "reasoning": "Positioned immediately before the most problematic section of the cycle (nodes 15-16-01), increasing its strategic importance for cycle resolution."
+      },
+      {
+        "rank": 6,
+        "clause_id": "synthetic_wikipedia_16_node_03",
+        "risk_score": 0.35,
+        "risk_factors": [
+          "graph_position_centrality"
+        ],
+        "reasoning": "Early in the cycle with multiple connections to other central nodes, though less critical than immediate neighbors of the problem node."
+      },
+      {
+        "rank": 7,
+        "clause_id": "synthetic_wikipedia_16_node_10",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "graph_position_centrality"
+        ],
+        "reasoning": "Mid-cycle position that connects early and late sections, but less central than nodes adjacent to the conceptual reversal."
+      },
+      {
+        "rank": 8,
+        "clause_id": "synthetic_wikipedia_16_node_11",
+        "risk_score": 0.28,
+        "risk_factors": [
+          "graph_position_centrality"
+        ],
+        "reasoning": "Similar mid-cycle position as node 10, but slightly later in the chain and thus less critical for cycle persistence."
+      },
+      {
+        "rank": 9,
+        "clause_id": "synthetic_wikipedia_16_node_04",
+        "risk_score": 0.25,
+        "risk_factors": [
+          "graph_position_centrality"
+        ],
+        "reasoning": "Early cycle position but with sufficient distance from the conceptual reversal to be less critical than closer nodes."
+      },
+      {
+        "rank": 10,
+        "clause_id": "synthetic_wikipedia_16_node_12",
+        "risk_score": 0.23,
+        "risk_factors": [
+          "graph_position_centrality"
+        ],
+        "reasoning": "Mid-to-late cycle position with moderate centrality, but not adjacent to the most problematic relationships."
+      },
+      {
+        "rank": 11,
+        "clause_id": "synthetic_wikipedia_16_node_05",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "graph_position_centrality"
+        ],
+        "reasoning": "Early-mid cycle position with decreasing centrality as distance from the conceptual reversal increases."
+      },
+      {
+        "rank": 12,
+        "clause_id": "synthetic_wikipedia_16_node_13",
+        "risk_score": 0.18,
+        "risk_factors": [
+          "graph_position_centrality"
+        ],
+        "reasoning": "Late cycle position but not immediately adjacent to the conceptual reversal, making it less critical."
+      },
+      {
+        "rank": 13,
+        "clause_id": "synthetic_wikipedia_16_node_06",
+        "risk_score": 0.15,
+        "risk_factors": [
+          "graph_position_centrality"
+        ],
+        "reasoning": "Mid-cycle position with sufficient distance from both ends of the conceptual reversal to be less risky."
+      },
+      {
+        "rank": 14,
+        "clause_id": "synthetic_wikipedia_16_node_09",
+        "risk_score": 0.12,
+        "risk_factors": [
+          "graph_position_centrality"
+        ],
+        "reasoning": "Late cycle position but not part of the critical section containing the conceptual reversal."
+      },
+      {
+        "rank": 15,
+        "clause_id": "synthetic_wikipedia_16_node_07",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "graph_position_centrality"
+        ],
+        "reasoning": "Mid-cycle position with minimal connection to the problematic conceptual reversal section."
+      },
+      {
+        "rank": 16,
+        "clause_id": "synthetic_wikipedia_16_node_08",
+        "risk_score": 0.08,
+        "risk_factors": [
+          "graph_position_centrality"
+        ],
+        "reasoning": "Most distant from the conceptual reversal in both directions of the cycle, making it the least critical node for cycle persistence."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "conceptual_reversal_evidence",
+        "importance_weight": 0.35,
+        "description": "Direct evidence that a category is semantically misplaced, particularly when a narrow child concept incorrectly includes a broad ancestor"
+      },
+      {
+        "factor": "cycle_persistence_impact",
+        "importance_weight": 0.25,
+        "description": "Whether removing the node/link would break the cycle and prevent automated traversal issues"
+      },
+      {
+        "factor": "specificity_generality_mismatch",
+        "importance_weight": 0.2,
+        "description": "Mismatch between category scope (broad vs narrow) and its hierarchical position"
+      },
+      {
+        "factor": "maintenance_history_severity",
+        "importance_weight": 0.15,
+        "description": "Evidence of persistent problems in maintenance logs, bot recategorization issues, or known problematic behavior"
+      },
+      {
+        "factor": "graph_position_centrality",
+        "importance_weight": 0.05,
+        "description": "Position in the cyclic chain that makes the node more critical to cycle persistence"
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 16,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_wikipedia_16_node_16",
+        "clause_b": "synthetic_wikipedia_16_node_01",
+        "description": "This link represents a conceptual reversal where a narrow child category (node 16) incorrectly includes a broad ancestor (node 01) as its subcategory, causing the persistent cycle and automated traversal issues documented in maintenance logs"
+      }
+    ],
+    "score_spread": 0.87,
+    "ranking_score_spread": 0.87,
+    "score_mean": 0.3275,
+    "score_max": 0.95,
+    "node_names": {
+      "synthetic_wikipedia_16_node_01": "synthetic wikipedia 16 node 01",
+      "synthetic_wikipedia_16_node_02": "synthetic wikipedia 16 node 02",
+      "synthetic_wikipedia_16_node_03": "synthetic wikipedia 16 node 03",
+      "synthetic_wikipedia_16_node_04": "synthetic wikipedia 16 node 04",
+      "synthetic_wikipedia_16_node_05": "synthetic wikipedia 16 node 05",
+      "synthetic_wikipedia_16_node_06": "synthetic wikipedia 16 node 06",
+      "synthetic_wikipedia_16_node_07": "synthetic wikipedia 16 node 07",
+      "synthetic_wikipedia_16_node_08": "synthetic wikipedia 16 node 08",
+      "synthetic_wikipedia_16_node_09": "synthetic wikipedia 16 node 09",
+      "synthetic_wikipedia_16_node_10": "synthetic wikipedia 16 node 10",
+      "synthetic_wikipedia_16_node_16": "synthetic wikipedia 16 node 16",
+      "synthetic_wikipedia_16_node_11": "synthetic wikipedia 16 node 11",
+      "synthetic_wikipedia_16_node_12": "synthetic wikipedia 16 node 12",
+      "synthetic_wikipedia_16_node_13": "synthetic wikipedia 16 node 13",
+      "synthetic_wikipedia_16_node_14": "synthetic wikipedia 16 node 14",
+      "synthetic_wikipedia_16_node_15": "synthetic wikipedia 16 node 15"
+    },
+    "ground_truth_nodes": [
+      "synthetic_wikipedia_16_node_16"
+    ],
+    "gt_evidence": {
+      "synthetic_wikipedia_16_node_16": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 2310,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.4640692640692641,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.4666666666666667,
+    "inject_mode": true,
+    "injected_node": "synthetic_wikipedia_16_node_16",
+    "inject_type": "type_a_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "injected_rank": 1,
+    "top1_margin": 0.29999999999999993
+  }
+]

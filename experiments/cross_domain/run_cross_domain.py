@@ -9,10 +9,12 @@ import asyncio
 import gzip
 import json
 import os
+import random
 import re
 import sys
 import time
 import urllib.request
+import urllib.parse
 from collections import defaultdict
 from pathlib import Path
 
@@ -28,6 +30,12 @@ RESULTS_DIR = Path(__file__).parent / "results"
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 XHUB_BASE_URL = "https://api3.xhub.chat/v1"
+DEBIAN_DATA_DIR = Path(__file__).parent / "20241027.cards.debian_pkgs"
+DEBIAN_DEPS_FILE = DEBIAN_DATA_DIR / "20241027.debian_pkgs.deps.gz"
+DEBIAN_PACKAGES_FILE = DEBIAN_DATA_DIR / "20241027.debian_pkgs.packages.txt.gz"
+WIKIPEDIA_MAX_CYCLES = int(os.environ.get("SA_MCGS_WIKIPEDIA_MAX_CYCLES", "48"))
+WIKIPEDIA_MIN_CYCLE_LEN = int(os.environ.get("SA_MCGS_WIKIPEDIA_MIN_CYCLE_LEN", "5"))
+WIKIPEDIA_MAX_CYCLE_LEN = int(os.environ.get("SA_MCGS_WIKIPEDIA_MAX_CYCLE_LEN", "60"))
 
 LLM_CONFIG = {
     "provider": "openai",
@@ -172,11 +180,57 @@ def _sec_prompt(self, window: list[str]) -> str:
 
 # ─── Data loaders ────────────────────────────────────────────────────
 
+def _read_debian_package_records(packages_file: Path) -> dict[str, dict[str, str]]:
+    """Read original Debian Packages.gz stanzas keyed by package name."""
+    if not packages_file.exists():
+        raise FileNotFoundError(
+            f"Original Debian Packages.gz-derived file not found: {packages_file}. "
+            "Run experiments/cross_domain/20241027.cards.debian_pkgs/build_dataset.fish "
+            "or place 20241027.debian_pkgs.packages.txt.gz there before formal runs."
+        )
+
+    records: dict[str, dict[str, str]] = {}
+    current: dict[str, str] = {}
+    current_key: str | None = None
+
+    def flush() -> None:
+        if current.get("Package"):
+            records[current["Package"]] = dict(current)
+
+    with gzip.open(packages_file, "rt", encoding="utf-8", errors="replace") as f:
+        for raw_line in f:
+            line = raw_line.rstrip("\n")
+            if not line:
+                flush()
+                current = {}
+                current_key = None
+                continue
+            if line.startswith(" ") and current_key:
+                continuation = line[1:]
+                current[current_key] = current.get(current_key, "") + "\n" + continuation
+                continue
+            if ": " not in line:
+                continue
+            key, val = line.split(": ", 1)
+            current[key] = val
+            current_key = key
+    flush()
+    return records
+
+
+def _debian_record_content(record: dict[str, str]) -> str:
+    fields = [
+        "Package", "Version", "Architecture", "Source", "Depends", "Pre-Depends",
+        "Breaks", "Conflicts", "Replaces", "Provides", "Description",
+    ]
+    return "\n".join(f"{field}: {record[field]}" for field in fields if record.get(field))
+
 def load_debian_graph() -> DependencyGraph:
     """Build DependencyGraph from Debian CARDS .deps.gz file."""
-    deps_file = Path(__file__).parent / "20241027.cards.debian_pkgs" / "20241027.debian_pkgs.deps.gz"
+    deps_file = DEBIAN_DEPS_FILE
     if not deps_file.exists():
         raise FileNotFoundError(f"Debian CARDS data not found at {deps_file}")
+    package_records = _read_debian_package_records(DEBIAN_PACKAGES_FILE)
 
     print(f"  [Debian] Loading from CARDS deps.gz...")
     clauses: dict[str, Clause] = {}
@@ -200,16 +254,94 @@ def load_debian_graph() -> DependencyGraph:
                         weight=0.8,
                     ))
 
-    for pkg in all_pkgs:
+    missing_records = 0
+    for pkg in sorted(all_pkgs):
+        record = package_records.get(pkg)
+        if not record:
+            missing_records += 1
+            continue
         clauses[pkg] = Clause(
             id=pkg, title=pkg,
-            content=f"Debian package: {pkg}. This is a software package in the Debian Bookworm distribution.",
+            content=_debian_record_content(record),
             clause_type=ClauseType.OTHER,
+            metadata={"source": "debian_packages_gz", "original_record": True},
         )
 
     valid_edges = [e for e in edges if e.source in clauses and e.target in clauses]
-    print(f"  [Debian] {len(clauses)} packages, {len(valid_edges)} edges")
+    print(
+        f"  [Debian] {len(clauses)} packages with original stanzas, "
+        f"{len(valid_edges)} edges; skipped {missing_records} nodes without original records"
+    )
     return DependencyGraph(clauses=clauses, edges=valid_edges)
+
+
+def _extract_revision_wikitext(page: dict) -> str:
+    revisions = page.get("revisions") or []
+    if not revisions:
+        return ""
+    revision = revisions[0]
+    slots = revision.get("slots")
+    if isinstance(slots, dict):
+        main = slots.get("main", {})
+        if isinstance(main, dict):
+            return (main.get("*") or main.get("content") or "").strip()
+    return (revision.get("*") or revision.get("content") or "").strip()
+
+
+def _fetch_wikipedia_category_texts(categories: list[str]) -> dict[str, str]:
+    """Fetch original Category page raw wikitext from MediaWiki."""
+    texts: dict[str, str] = {}
+    titles = [f"Category:{cat}" for cat in categories]
+    for i in range(0, len(titles), 40):
+        batch = titles[i:i + 40]
+        query = urllib.parse.urlencode({
+            "action": "query",
+            "prop": "revisions",
+            "rvprop": "content",
+            "rvslots": "main",
+            "format": "json",
+            "redirects": "1",
+            "titles": "|".join(batch),
+        })
+        url = f"https://en.wikipedia.org/w/api.php?{query}"
+        req = urllib.request.Request(url, headers={'User-Agent': 'SA-MCGS-Research/1.0'})
+        resp = urllib.request.urlopen(req, timeout=20)
+        data = json.loads(resp.read().decode())
+        pages = data.get("query", {}).get("pages", {})
+        for page in pages.values():
+            title = page.get("title", "")
+            if not title.startswith("Category:"):
+                continue
+            cat = title.removeprefix("Category:")
+            wikitext = _extract_revision_wikitext(page)
+            if wikitext:
+                texts[cat] = wikitext
+        time.sleep(0.2)
+    return texts
+
+
+def _select_wikipedia_cycles(cycles: list[list[str]], max_select: int) -> list[list[str]]:
+    """Choose a size-diverse subset of real category cycles."""
+    if len(cycles) <= max_select:
+        return cycles
+
+    selected: list[list[str]] = []
+    anchors = [5, 8, 12, 16, 20, 24]
+    for anchor in anchors:
+        if len(selected) >= max_select:
+            break
+        eligible = [c for c in cycles if c not in selected]
+        if not eligible:
+            break
+        selected.append(min(eligible, key=lambda c: (abs(len(c) - anchor), -len(c), c)))
+
+    for cycle in sorted(cycles, key=lambda c: (-len(c), c)):
+        if len(selected) >= max_select:
+            break
+        if cycle not in selected:
+            selected.append(cycle)
+
+    return selected
 
 
 def load_wikipedia_graph() -> DependencyGraph:
@@ -236,38 +368,59 @@ def load_wikipedia_graph() -> DependencyGraph:
         except Exception as e:
             print(f"    Page {page_num}: {e}")
 
-    target_cycles = [c for c in all_cycles if 5 <= len(c) <= 15]
+    target_cycles = [
+        c for c in all_cycles
+        if WIKIPEDIA_MIN_CYCLE_LEN <= len(c) <= WIKIPEDIA_MAX_CYCLE_LEN
+    ]
     if not target_cycles:
         target_cycles = [c for c in all_cycles if len(c) >= 3]
 
-    selected = target_cycles[:8]
+    selected = _select_wikipedia_cycles(target_cycles, WIKIPEDIA_MAX_CYCLES)
     print(f"  [Wikipedia] {len(all_cycles)} total cycles, selected {len(selected)} for experiment")
+    category_names = sorted({cat for cycle in selected for cat in cycle})
+    category_texts = _fetch_wikipedia_category_texts(category_names)
+    missing_texts = sorted(set(category_names) - set(category_texts))
+    if missing_texts:
+        print(
+            f"  [Wikipedia] WARNING: {len(missing_texts)} category pages have no "
+            "raw wikitext; edges touching them will be skipped"
+        )
 
     clauses: dict[str, Clause] = {}
     edges: list[Edge] = []
 
     for cycle in selected:
+        for cat in cycle:
+            cid = cat.replace(' ', '_')
+            if cid in clauses:
+                continue
+            page_text = category_texts.get(cat)
+            if not page_text:
+                continue
+            clauses[cid] = Clause(
+                id=cid, title=cat,
+                content=page_text,
+                clause_type=ClauseType.OTHER,
+                metadata={
+                    "source": "wikipedia_category_raw_wikitext",
+                    "original_record": True,
+                    "page_title": f"Category:{cat}",
+                },
+            )
+
+    for cycle in selected:
         for i, cat in enumerate(cycle):
             cid = cat.replace(' ', '_')
-            if cid not in clauses:
-                clauses[cid] = Clause(
-                    id=cid, title=cat,
-                    content=(
-                        f"Wikipedia category: {cat}. "
-                        f"This category is part of the Wikipedia category hierarchy. "
-                        f"It should follow a directed acyclic structure (subcategory → parent)."
-                    ),
-                    clause_type=ClauseType.OTHER,
-                )
             next_cat = cycle[(i + 1) % len(cycle)].replace(' ', '_')
-            edges.append(Edge(
-                source=cid, target=next_cat,
-                dependency_type=DependencyType.REFERENCES,
-                weight=0.8,
-                reasoning=f"{cat} is subcategory of {cycle[(i+1) % len(cycle)]}",
-            ))
+            if cid in clauses and next_cat in clauses:
+                edges.append(Edge(
+                    source=cid, target=next_cat,
+                    dependency_type=DependencyType.REFERENCES,
+                    weight=0.8,
+                    reasoning=f"{cat} is subcategory of {cycle[(i+1) % len(cycle)]}",
+                ))
 
-    print(f"  [Wikipedia] {len(clauses)} categories, {len(edges)} edges")
+    print(f"  [Wikipedia] {len(clauses)} categories with raw wikitext, {len(edges)} edges")
     return DependencyGraph(clauses=clauses, edges=edges)
 
 
@@ -276,15 +429,22 @@ def load_sec_graph() -> DependencyGraph:
     data_file = Path(__file__).parent / "finance_blockchain" / "corpwatch" / "entities.ftm.json.gz"
     if not data_file.exists():
         data_file = Path(__file__).parent / "finance_blockchain" / "corpwatch" / "entities.ftm.json"
-    # The file was saved without .gz extension despite the name
-    actual_file = Path(__file__).parent / "finance_blockchain" / "corpwatch" / "entities.ftm.json.gz"
+    if not data_file.exists():
+        raise FileNotFoundError(
+            "SEC EX-21 source entity file not found. Formal runs require the original "
+            f"OpenSanctions/CorpWatch source at {data_file} or the .json.gz variant."
+        )
+    actual_file = data_file
 
     print(f"  [SEC EX-21] Loading from {actual_file.name}...")
 
     companies: dict[str, dict] = {}
     ownership_edges: list[tuple[str, str]] = []
 
-    with open(actual_file, 'r') as f:
+    with open(actual_file, "rb") as probe:
+        is_gzip = probe.read(2) == b"\x1f\x8b"
+    opener = gzip.open if is_gzip else open
+    with opener(actual_file, 'rt', encoding="utf-8", errors="replace") as f:
         for line in f:
             try:
                 ent = json.loads(line.strip())
@@ -293,6 +453,7 @@ def load_sec_graph() -> DependencyGraph:
                     companies[ent['id']] = {
                         'name': ent.get('caption', ent['id']),
                         'country': ent.get('properties', {}).get('country', ['unknown'])[0],
+                        'properties': ent.get('properties', {}),
                     }
                 elif schema == 'Ownership':
                     props = ent.get('properties', {})
@@ -313,6 +474,7 @@ def load_sec_graph() -> DependencyGraph:
         all_nodes.add(dst)
 
     # Tarjan for SCC detection (fast, to select SCCs)
+    random.seed(42)
     idx_counter = [0]
     stack = []
     on_stack = set()
@@ -320,10 +482,10 @@ def load_sec_graph() -> DependencyGraph:
     low_map = {}
     sccs_raw = []
 
-    for start in all_nodes:
+    for start in sorted(all_nodes):
         if start in idx_map:
             continue
-        work = [(start, iter(graph_adj.get(start, set())), True)]
+        work = [(start, iter(sorted(graph_adj.get(start, set()))), True)]
         idx_map[start] = low_map[start] = idx_counter[0]
         idx_counter[0] += 1
         stack.append(start)
@@ -338,7 +500,7 @@ def load_sec_graph() -> DependencyGraph:
                     idx_counter[0] += 1
                     stack.append(w)
                     on_stack.add(w)
-                    work.append((w, iter(graph_adj.get(w, set())), True))
+                    work.append((w, iter(sorted(graph_adj.get(w, set()))), True))
                     found = True
                     break
                 elif w in on_stack:
@@ -357,11 +519,14 @@ def load_sec_graph() -> DependencyGraph:
                 if work:
                     low_map[work[-1][0]] = min(low_map[work[-1][0]], low_map[v])
 
-    target_sccs = [s for s in sccs_raw if 5 <= len(s) <= 15]
-    if len(target_sccs) > 6:
-        target_sccs = target_sccs[:6]
+    target_sccs = sorted(
+        [s for s in sccs_raw if 5 <= len(s) <= 24],
+        key=lambda s: (-len(s), sorted(s)),
+    )
+    if len(target_sccs) > 8:
+        target_sccs = target_sccs[:8]
 
-    print(f"  [SEC EX-21] Selected {len(target_sccs)} SCCs (size 5-15)")
+    print(f"  [SEC EX-21] Selected {len(target_sccs)} SCCs (size 5-24)")
 
     clauses: dict[str, Clause] = {}
     edges: list[Edge] = []
@@ -369,17 +534,28 @@ def load_sec_graph() -> DependencyGraph:
     for scc in target_sccs:
         needed_nodes.update(scc)
 
+    missing_records = 0
     for node_id in needed_nodes:
         info = companies.get(node_id, {'name': node_id, 'country': 'unknown'})
+        if node_id not in companies:
+            missing_records += 1
+            continue
+        properties = info.get("properties", {})
+        source_fields = []
+        for key in sorted(properties):
+            values = properties.get(key)
+            if isinstance(values, list) and values:
+                source_fields.append(f"{key}: {'; '.join(str(v) for v in values)}")
+        if not source_fields:
+            source_fields = [
+                f"name: {info['name']}",
+                f"country: {info['country']}",
+            ]
         clauses[node_id] = Clause(
             id=node_id, title=info['name'],
-            content=(
-                f"Company: {info['name']}. "
-                f"Country: {info['country']}. "
-                f"This entity appears in SEC 10-K Exhibit 21 subsidiary filings. "
-                f"It is part of a circular ownership structure."
-            ),
+            content="\n".join(source_fields),
             clause_type=ClauseType.OTHER,
+            metadata={"source": "opensanctions_entity_properties", "original_record": True},
         )
 
     for src, dst in ownership_edges:
@@ -391,7 +567,10 @@ def load_sec_graph() -> DependencyGraph:
                 reasoning=f"{companies.get(src, {}).get('name', src)} owns {companies.get(dst, {}).get('name', dst)}",
             ))
 
-    print(f"  [SEC EX-21] Graph: {len(clauses)} companies, {len(edges)} edges")
+    print(
+        f"  [SEC EX-21] Graph: {len(clauses)} companies with source properties, "
+        f"{len(edges)} edges; skipped {missing_records} nodes without company records"
+    )
     return DependencyGraph(clauses=clauses, edges=edges)
 
 

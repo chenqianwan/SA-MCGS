@@ -1,0 +1,248 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 5,
+    "scc_id": "synthetic_sec_ex21_5",
+    "scc_clause_ids": [
+      "synthetic_sec_ex21_5_node_01",
+      "synthetic_sec_ex21_5_node_02",
+      "synthetic_sec_ex21_5_node_03",
+      "synthetic_sec_ex21_5_node_04",
+      "synthetic_sec_ex21_5_node_05"
+    ],
+    "llm_calls": 1,
+    "time": 33.457568407058716,
+    "scores": {
+      "synthetic_sec_ex21_5_node_01": 0.9,
+      "synthetic_sec_ex21_5_node_02": 0.6,
+      "synthetic_sec_ex21_5_node_03": 0.5,
+      "synthetic_sec_ex21_5_node_04": 0.7,
+      "synthetic_sec_ex21_5_node_05": 0.8
+    },
+    "reasonings": {
+      "synthetic_sec_ex21_5_node_01": "Node 01 introduces ambiguity in the retained minority interest and is the origin of the cyclic dependency, amplifying structural risk.",
+      "synthetic_sec_ex21_5_node_02": "Node 02 is part of the cycle and lacks specificity in its description of the controlled ownership cycle, which could lead to audit issues.",
+      "synthetic_sec_ex21_5_node_03": "Node 03 is part of the cycle but has less impact on the quarter-close schedule compared to other nodes. Its content is routine and medium-priority.",
+      "synthetic_sec_ex21_5_node_04": "Node 04 affects the quarter-close schedule by maintaining the prior full-control basis after ownership change, introducing potential timing misalignment.",
+      "synthetic_sec_ex21_5_node_05": "Node 05 propagates the quarter-close basis upstream without changing the effective date, which could lead to timing conflicts. Its position in the cycle amplifies structural risk."
+    },
+    "ranking": [
+      [
+        "synthetic_sec_ex21_5_node_01",
+        0.9
+      ],
+      [
+        "synthetic_sec_ex21_5_node_05",
+        0.8
+      ],
+      [
+        "synthetic_sec_ex21_5_node_04",
+        0.7
+      ],
+      [
+        "synthetic_sec_ex21_5_node_02",
+        0.6
+      ],
+      [
+        "synthetic_sec_ex21_5_node_03",
+        0.5
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_sec_ex21_5_node_01",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "cyclic_dependency",
+          "impact_on_quarter_close"
+        ],
+        "reasoning": "Node 01 is part of a cyclic dependency and directly references downstream records affecting the quarter-close schedule. Its content is underspecified regarding the retained minority interest, increasing ambiguity."
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_sec_ex21_5_node_05",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "cyclic_dependency",
+          "impact_on_quarter_close"
+        ],
+        "reasoning": "Node 05 is part of the cycle and propagates the quarter-close basis upstream without changing the effective date, which could lead to timing conflicts. Its position in the cycle amplifies structural risk."
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_sec_ex21_5_node_04",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "impact_on_quarter_close"
+        ],
+        "reasoning": "Node 04 affects the quarter-close schedule by maintaining the prior full-control basis after ownership change. While it is not the cycle's origin, its content introduces potential timing misalignment."
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_sec_ex21_5_node_02",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "cyclic_dependency",
+          "underspecified_content"
+        ],
+        "reasoning": "Node 02 is part of the cycle and references routine consolidation notes, but its content lacks specificity about the controlled ownership cycle, which could lead to audit follow-up issues."
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_sec_ex21_5_node_03",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node 03 is part of the cycle but has relatively lower impact on the quarter-close schedule compared to other nodes. Its content is similar to Node 02 but less ambiguous."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures the risk introduced by the cyclic structure of the graph, which can lead to structural inconsistencies or logical contradictions."
+      },
+      {
+        "factor": "underspecified_content",
+        "importance_weight": 0.3,
+        "description": "Measures the risk of ambiguity or lack of clarity in the record content, which can lead to misinterpretation or errors in downstream processes."
+      },
+      {
+        "factor": "impact_on_quarter_close",
+        "importance_weight": 0.3,
+        "description": "Evaluates the risk of records affecting the quarter-close schedule, which is a critical financial process and prone to high-impact errors."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 5,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_sec_ex21_5_node_01",
+        "clause_b": "synthetic_sec_ex21_5_node_05",
+        "description": "Cyclic dependency between Node 01 and Node 05 creates structural inconsistency, as the quarter-close basis is propagated upstream without resolving timing ambiguities."
+      },
+      {
+        "clause_a": "synthetic_sec_ex21_5_node_04",
+        "clause_b": "synthetic_sec_ex21_5_node_05",
+        "description": "Node 04 maintains the prior full-control basis after ownership change, which conflicts with Node 05's propagation of the quarter-close basis upstream."
+      }
+    ],
+    "score_spread": 0.4,
+    "ranking_score_spread": 0.4,
+    "score_mean": 0.7,
+    "score_max": 0.9,
+    "node_names": {
+      "synthetic_sec_ex21_5_node_01": "synthetic sec ex21 5 node 01",
+      "synthetic_sec_ex21_5_node_02": "synthetic sec ex21 5 node 02",
+      "synthetic_sec_ex21_5_node_03": "synthetic sec ex21 5 node 03",
+      "synthetic_sec_ex21_5_node_04": "synthetic sec ex21 5 node 04",
+      "synthetic_sec_ex21_5_node_05": "synthetic sec ex21 5 node 05"
+    },
+    "ground_truth_nodes": [
+      "synthetic_sec_ex21_5_node_04"
+    ],
+    "gt_evidence": {
+      "synthetic_sec_ex21_5_node_04": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 581,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.270223752151463,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.2822719449225473,
+    "inject_mode": true,
+    "injected_node": "synthetic_sec_ex21_5_node_04",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_sec_ex21_5_node_01",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "synthetic_sec_ex21_5_node_05",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "synthetic_sec_ex21_5_node_04",
+      "synthetic_sec_ex21_5_node_01"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_sec_ex21_5_node_04",
+      "synthetic_sec_ex21_5_node_05",
+      "synthetic_sec_ex21_5_node_01"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_sec_ex21_5_node_02",
+      "synthetic_sec_ex21_5_node_03"
+    ],
+    "injected_conflict_family": "temporal_gate",
+    "injected_conflict_difficulty": "subtle",
+    "injected_conflict_template": "sec_temporal_quarter_close_gate",
+    "injected_rank": 3,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_sec_ex21_5_node_04": 3,
+      "synthetic_sec_ex21_5_node_01": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_sec_ex21_5_node_04": 3,
+      "synthetic_sec_ex21_5_node_05": 2,
+      "synthetic_sec_ex21_5_node_01": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_sec_ex21_5_node_02": 4,
+      "synthetic_sec_ex21_5_node_03": 5
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "synthetic_sec_ex21_5_node_04": 3,
+      "synthetic_sec_ex21_5_node_01": 1,
+      "synthetic_sec_ex21_5_node_02": 4,
+      "synthetic_sec_ex21_5_node_03": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 3,
+    "root_top1_hit": false,
+    "root_top3_hit": true
+  }
+]

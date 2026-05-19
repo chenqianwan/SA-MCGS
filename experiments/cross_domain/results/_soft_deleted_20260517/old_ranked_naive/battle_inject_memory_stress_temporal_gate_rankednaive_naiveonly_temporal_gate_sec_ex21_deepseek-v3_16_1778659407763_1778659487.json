@@ -1,0 +1,469 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "sec_ex21",
+    "scc_size": 16,
+    "scc_id": "synthetic_sec_ex21_16",
+    "scc_clause_ids": [
+      "synthetic_sec_ex21_16_node_01",
+      "synthetic_sec_ex21_16_node_02",
+      "synthetic_sec_ex21_16_node_03",
+      "synthetic_sec_ex21_16_node_04",
+      "synthetic_sec_ex21_16_node_05",
+      "synthetic_sec_ex21_16_node_06",
+      "synthetic_sec_ex21_16_node_07",
+      "synthetic_sec_ex21_16_node_08",
+      "synthetic_sec_ex21_16_node_09",
+      "synthetic_sec_ex21_16_node_10",
+      "synthetic_sec_ex21_16_node_16",
+      "synthetic_sec_ex21_16_node_11",
+      "synthetic_sec_ex21_16_node_12",
+      "synthetic_sec_ex21_16_node_13",
+      "synthetic_sec_ex21_16_node_14",
+      "synthetic_sec_ex21_16_node_15"
+    ],
+    "llm_calls": 1,
+    "time": 79.1691381931305,
+    "scores": {
+      "synthetic_sec_ex21_16_node_01": 0.75,
+      "synthetic_sec_ex21_16_node_02": 0.65,
+      "synthetic_sec_ex21_16_node_03": 0.6,
+      "synthetic_sec_ex21_16_node_04": 0.85,
+      "synthetic_sec_ex21_16_node_05": 0.35,
+      "synthetic_sec_ex21_16_node_06": 0.4,
+      "synthetic_sec_ex21_16_node_07": 0.5,
+      "synthetic_sec_ex21_16_node_08": 0.8,
+      "synthetic_sec_ex21_16_node_09": 0.15,
+      "synthetic_sec_ex21_16_node_10": 0.2,
+      "synthetic_sec_ex21_16_node_16": 0.95,
+      "synthetic_sec_ex21_16_node_11": 0.25,
+      "synthetic_sec_ex21_16_node_12": 0.3,
+      "synthetic_sec_ex21_16_node_13": 0.45,
+      "synthetic_sec_ex21_16_node_14": 0.55,
+      "synthetic_sec_ex21_16_node_15": 0.7
+    },
+    "reasonings": {
+      "synthetic_sec_ex21_16_node_01": "Cycle origin with audit items, critical structural position",
+      "synthetic_sec_ex21_16_node_02": "Early cycle position with audit items, propagates dependencies",
+      "synthetic_sec_ex21_16_node_03": "Feeds into timing-problematic node, critical junction",
+      "synthetic_sec_ex21_16_node_04": "Explicit timing conflict: carries quarter-close basis without changing effective date",
+      "synthetic_sec_ex21_16_node_05": "Receives from timing-problematic node but no additional specific risks",
+      "synthetic_sec_ex21_16_node_06": "Standard cycle member with routine consolidation handling",
+      "synthetic_sec_ex21_16_node_07": "Feeds into minority-interest node, propagates control basis issues",
+      "synthetic_sec_ex21_16_node_08": "Minority interest conflicts with full-control assumptions in ownership cycle",
+      "synthetic_sec_ex21_16_node_09": "Receives from problematic node but shows no additional specific conflicts",
+      "synthetic_sec_ex21_16_node_10": "Standard cycle member with routine consolidation handling",
+      "synthetic_sec_ex21_16_node_16": "Creates cycle closure with explicit timing and control basis conflicts",
+      "synthetic_sec_ex21_16_node_11": "Standard cycle member with routine consolidation handling",
+      "synthetic_sec_ex21_16_node_12": "Standard cycle member with routine consolidation handling",
+      "synthetic_sec_ex21_16_node_13": "Mid-cycle with audit items, structurally important",
+      "synthetic_sec_ex21_16_node_14": "Feeds into cycle-closure path with audit items",
+      "synthetic_sec_ex21_16_node_15": "Directly feeds into most problematic node, amplifies cycle closure risks"
+    },
+    "ranking": [
+      [
+        "synthetic_sec_ex21_16_node_16",
+        0.95
+      ],
+      [
+        "synthetic_sec_ex21_16_node_04",
+        0.85
+      ],
+      [
+        "synthetic_sec_ex21_16_node_08",
+        0.8
+      ],
+      [
+        "synthetic_sec_ex21_16_node_01",
+        0.75
+      ],
+      [
+        "synthetic_sec_ex21_16_node_15",
+        0.7
+      ],
+      [
+        "synthetic_sec_ex21_16_node_02",
+        0.65
+      ],
+      [
+        "synthetic_sec_ex21_16_node_03",
+        0.6
+      ],
+      [
+        "synthetic_sec_ex21_16_node_14",
+        0.55
+      ],
+      [
+        "synthetic_sec_ex21_16_node_07",
+        0.5
+      ],
+      [
+        "synthetic_sec_ex21_16_node_13",
+        0.45
+      ],
+      [
+        "synthetic_sec_ex21_16_node_06",
+        0.4
+      ],
+      [
+        "synthetic_sec_ex21_16_node_05",
+        0.35
+      ],
+      [
+        "synthetic_sec_ex21_16_node_12",
+        0.3
+      ],
+      [
+        "synthetic_sec_ex21_16_node_11",
+        0.25
+      ],
+      [
+        "synthetic_sec_ex21_16_node_10",
+        0.2
+      ],
+      [
+        "synthetic_sec_ex21_16_node_09",
+        0.15
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_sec_ex21_16_node_16",
+        "risk_score": 0.95,
+        "risk_factors": [
+          "ownership_cycle_closure",
+          "quarter_close_timing_conflicts",
+          "control_basis_ambiguity"
+        ],
+        "reasoning": "Creates the cycle closure while having explicit timing conflict: ownership change approved after quarter close but path remains under prior full-control basis, creating consolidation paradox"
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_sec_ex21_16_node_04",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "quarter_close_timing_conflicts",
+          "control_basis_ambiguity"
+        ],
+        "reasoning": "Carries quarter-close basis from upstream without changing effective date, creating potential timing mismatch in the dependency chain"
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_sec_ex21_16_node_08",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "control_basis_ambiguity",
+          "quarter_close_timing_conflicts"
+        ],
+        "reasoning": "Records retained minority interest as effective inside same quarter-close schedule, conflicting with full-control basis assumptions in cycle"
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_sec_ex21_16_node_01",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "ownership_cycle_closure",
+          "audit_follow_up_priority"
+        ],
+        "reasoning": "Cycle origin point with medium-priority audit items, critical for cycle integrity and consolidation consistency"
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_sec_ex21_16_node_15",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "ownership_cycle_closure",
+          "audit_follow_up_priority"
+        ],
+        "reasoning": "Directly feeds into the problematic node_16, amplifying cycle closure risks with audit follow-up items"
+      },
+      {
+        "rank": 6,
+        "clause_id": "synthetic_sec_ex21_16_node_02",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "ownership_cycle_closure",
+          "audit_follow_up_priority"
+        ],
+        "reasoning": "Early in cycle with audit items, positioned to propagate timing inconsistencies from node_01"
+      },
+      {
+        "rank": 7,
+        "clause_id": "synthetic_sec_ex21_16_node_03",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "ownership_cycle_closure",
+          "audit_follow_up_priority"
+        ],
+        "reasoning": "Feeds directly into timing-problematic node_04, critical junction in the dependency chain"
+      },
+      {
+        "rank": 8,
+        "clause_id": "synthetic_sec_ex21_16_node_14",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "ownership_cycle_closure",
+          "audit_follow_up_priority"
+        ],
+        "reasoning": "Feeds into cycle-closure path through node_15, with audit items requiring resolution"
+      },
+      {
+        "rank": 9,
+        "clause_id": "synthetic_sec_ex21_16_node_07",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "ownership_cycle_closure",
+          "audit_follow_up_priority"
+        ],
+        "reasoning": "Feeds into minority-interest node_08, positioned to propagate control basis inconsistencies"
+      },
+      {
+        "rank": 10,
+        "clause_id": "synthetic_sec_ex21_16_node_13",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "ownership_cycle_closure",
+          "audit_follow_up_priority"
+        ],
+        "reasoning": "Mid-cycle node with audit items, structurally important for dependency propagation"
+      },
+      {
+        "rank": 11,
+        "clause_id": "synthetic_sec_ex21_16_node_06",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "ownership_cycle_closure",
+          "audit_follow_up_priority"
+        ],
+        "reasoning": "Standard cycle member with routine consolidation notes and audit items"
+      },
+      {
+        "rank": 12,
+        "clause_id": "synthetic_sec_ex21_16_node_05",
+        "risk_score": 0.35,
+        "risk_factors": [
+          "ownership_cycle_closure",
+          "audit_follow_up_priority"
+        ],
+        "reasoning": "Receives from timing-problematic node_04 but shows no additional specific risks"
+      },
+      {
+        "rank": 13,
+        "clause_id": "synthetic_sec_ex21_16_node_12",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "ownership_cycle_closure",
+          "audit_follow_up_priority"
+        ],
+        "reasoning": "Standard cycle member with routine consolidation handling"
+      },
+      {
+        "rank": 14,
+        "clause_id": "synthetic_sec_ex21_16_node_11",
+        "risk_score": 0.25,
+        "risk_factors": [
+          "ownership_cycle_closure",
+          "audit_follow_up_priority"
+        ],
+        "reasoning": "Standard cycle member with routine consolidation handling"
+      },
+      {
+        "rank": 15,
+        "clause_id": "synthetic_sec_ex21_16_node_10",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "ownership_cycle_closure",
+          "audit_follow_up_priority"
+        ],
+        "reasoning": "Standard cycle member with routine consolidation handling"
+      },
+      {
+        "rank": 16,
+        "clause_id": "synthetic_sec_ex21_16_node_09",
+        "risk_score": 0.15,
+        "risk_factors": [
+          "ownership_cycle_closure",
+          "audit_follow_up_priority"
+        ],
+        "reasoning": "Receives from minority-interest node_08 but shows no additional specific timing or control conflicts"
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "ownership_cycle_closure",
+        "importance_weight": 0.35,
+        "description": "Circular dependencies in ownership structures that create potential consolidation paradoxes and audit trail conflicts"
+      },
+      {
+        "factor": "quarter_close_timing_conflicts",
+        "importance_weight": 0.25,
+        "description": "Inconsistencies between effective dates, quarter-close schedules, and ownership change approvals"
+      },
+      {
+        "factor": "control_basis_ambiguity",
+        "description": "Unclear or conflicting control basis determinations affecting consolidation accounting",
+        "importance_weight": 0.2
+      },
+      {
+        "factor": "audit_follow_up_priority",
+        "description": "Presence and severity of audit follow-up items requiring resolution",
+        "importance_weight": 0.15
+      },
+      {
+        "factor": "graph_position_criticality",
+        "description": "Structural importance within the dependency graph for propagation of inconsistencies",
+        "importance_weight": 0.05
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 16,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_sec_ex21_16_node_16",
+        "clause_b": "synthetic_sec_ex21_16_node_01",
+        "description": "Circular dependency creates ownership cycle where node_16's post-quarter-close approval conflicts with node_01's quarter-close consolidation assumptions"
+      },
+      {
+        "clause_a": "synthetic_sec_ex21_16_node_04",
+        "clause_b": "synthetic_sec_ex21_16_node_05",
+        "description": "Node_04 carries quarter-close basis without changing effective date, creating potential timing mismatch when node_05 references it"
+      },
+      {
+        "clause_a": "synthetic_sec_ex21_16_node_08",
+        "clause_b": "synthetic_sec_ex21_16_node_09",
+        "description": "Node_08's retained minority interest conflicts with the controlled ownership cycle's full-control basis assumption when node_09 references it"
+      },
+      {
+        "clause_a": "synthetic_sec_ex21_16_node_16",
+        "clause_b": "synthetic_sec_ex21_16_node_15",
+        "description": "Node_16's ownership change approval timing conflicts with node_15's quarter-close schedule dependency, creating control basis ambiguity"
+      }
+    ],
+    "score_spread": 0.7999999999999999,
+    "ranking_score_spread": 0.7999999999999999,
+    "score_mean": 0.528125,
+    "score_max": 0.95,
+    "node_names": {
+      "synthetic_sec_ex21_16_node_01": "synthetic sec ex21 16 node 01",
+      "synthetic_sec_ex21_16_node_02": "synthetic sec ex21 16 node 02",
+      "synthetic_sec_ex21_16_node_03": "synthetic sec ex21 16 node 03",
+      "synthetic_sec_ex21_16_node_04": "synthetic sec ex21 16 node 04",
+      "synthetic_sec_ex21_16_node_05": "synthetic sec ex21 16 node 05",
+      "synthetic_sec_ex21_16_node_06": "synthetic sec ex21 16 node 06",
+      "synthetic_sec_ex21_16_node_07": "synthetic sec ex21 16 node 07",
+      "synthetic_sec_ex21_16_node_08": "synthetic sec ex21 16 node 08",
+      "synthetic_sec_ex21_16_node_09": "synthetic sec ex21 16 node 09",
+      "synthetic_sec_ex21_16_node_10": "synthetic sec ex21 16 node 10",
+      "synthetic_sec_ex21_16_node_16": "synthetic sec ex21 16 node 16",
+      "synthetic_sec_ex21_16_node_11": "synthetic sec ex21 16 node 11",
+      "synthetic_sec_ex21_16_node_12": "synthetic sec ex21 16 node 12",
+      "synthetic_sec_ex21_16_node_13": "synthetic sec ex21 16 node 13",
+      "synthetic_sec_ex21_16_node_14": "synthetic sec ex21 16 node 14",
+      "synthetic_sec_ex21_16_node_15": "synthetic sec ex21 16 node 15"
+    },
+    "ground_truth_nodes": [
+      "synthetic_sec_ex21_16_node_16"
+    ],
+    "gt_evidence": {
+      "synthetic_sec_ex21_16_node_16": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 1153,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.34865568083261056,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3547267996530789,
+    "inject_mode": true,
+    "injected_node": "synthetic_sec_ex21_16_node_16",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_sec_ex21_16_node_08",
+    "injected_witness_distance": 8,
+    "injected_bridge_node": "synthetic_sec_ex21_16_node_04",
+    "injected_bridge_distance": 4,
+    "injected_risk_nodes": [
+      "synthetic_sec_ex21_16_node_16",
+      "synthetic_sec_ex21_16_node_08"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_sec_ex21_16_node_16",
+      "synthetic_sec_ex21_16_node_04",
+      "synthetic_sec_ex21_16_node_08"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_sec_ex21_16_node_01",
+      "synthetic_sec_ex21_16_node_09"
+    ],
+    "injected_conflict_family": "temporal_gate",
+    "injected_conflict_difficulty": "subtle",
+    "injected_conflict_template": "sec_temporal_quarter_close_gate",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_sec_ex21_16_node_16": 1,
+      "synthetic_sec_ex21_16_node_08": 3
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_sec_ex21_16_node_16": 1,
+      "synthetic_sec_ex21_16_node_04": 2,
+      "synthetic_sec_ex21_16_node_08": 3
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_sec_ex21_16_node_01": 4,
+      "synthetic_sec_ex21_16_node_09": 16
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 16,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "synthetic_sec_ex21_16_node_16": 1,
+      "synthetic_sec_ex21_16_node_08": 3,
+      "synthetic_sec_ex21_16_node_01": 4,
+      "synthetic_sec_ex21_16_node_09": 16
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 16,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 1,
+    "root_top1_hit": true,
+    "root_top3_hit": true
+  }
+]

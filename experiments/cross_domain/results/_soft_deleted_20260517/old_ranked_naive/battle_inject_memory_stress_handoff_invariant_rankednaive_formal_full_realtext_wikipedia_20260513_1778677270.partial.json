@@ -1,0 +1,878 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (wikipedia); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_0",
+    "scc_clause_ids": [
+      "Abiy_Ahmed",
+      "Ethiopian_civil_conflict_(2018\u2013present)",
+      "Politicians_of_the_Tigray_war",
+      "People_of_the_Tigray_war",
+      "Tigray_war"
+    ],
+    "llm_calls": 1,
+    "time": 26.258655071258545,
+    "scores": {
+      "Abiy_Ahmed": 0.9,
+      "Ethiopian_civil_conflict_(2018\u2013present)": 0.4,
+      "Politicians_of_the_Tigray_war": 0.8,
+      "People_of_the_Tigray_war": 0.7,
+      "Tigray_war": 0.5
+    },
+    "reasonings": {
+      "Abiy_Ahmed": "This node is central to the cycle and has high structural impact due to its references and dependencies.",
+      "Ethiopian_civil_conflict_(2018\u2013present)": "This node is part of the cycle but has fewer lifecycle or categorization issues compared to other nodes.",
+      "Politicians_of_the_Tigray_war": "This node is part of the cycle and has an ambiguous lifecycle description, creating potential for misinterpretation.",
+      "People_of_the_Tigray_war": "This node is part of the cycle and has a lifecycle description that conflicts with the cyclic dependency.",
+      "Tigray_war": "This node is part of the cycle and has category inheritance issues due to its broad categorization and references to multiple conflicts."
+    },
+    "ranking": [
+      [
+        "Abiy_Ahmed",
+        0.9
+      ],
+      [
+        "Politicians_of_the_Tigray_war",
+        0.8
+      ],
+      [
+        "People_of_the_Tigray_war",
+        0.7
+      ],
+      [
+        "Tigray_war",
+        0.5
+      ],
+      [
+        "Ethiopian_civil_conflict_(2018\u2013present)",
+        0.4
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "Abiy_Ahmed",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "cyclic_dependency",
+          "high_dependency_centrality"
+        ],
+        "reasoning": "This node is part of a cycle and has high centrality, as it both references and is referenced by other nodes. Its structural inconsistency impacts the entire graph."
+      },
+      {
+        "rank": 2,
+        "clause_id": "Politicians_of_the_Tigray_war",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "cyclic_dependency",
+          "underspecified_lifecycle"
+        ],
+        "reasoning": "This node is part of the cycle and has an ambiguous lifecycle description ('forwards that label unchanged'), which creates potential for misinterpretation."
+      },
+      {
+        "rank": 3,
+        "clause_id": "People_of_the_Tigray_war",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "cyclic_dependency",
+          "underspecified_lifecycle"
+        ],
+        "reasoning": "This node is part of the cycle and has a lifecycle description ('maintained as current-status material') that conflicts with the cyclic dependency."
+      },
+      {
+        "rank": 4,
+        "clause_id": "Tigray_war",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "cyclic_dependency",
+          "category_inheritance_conflict"
+        ],
+        "reasoning": "This node is part of the cycle and has category inheritance issues due to its broad categorization and references to multiple conflicts."
+      },
+      {
+        "rank": 5,
+        "clause_id": "Ethiopian_civil_conflict_(2018\u2013present)",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "This node is part of the cycle but has fewer lifecycle or categorization issues compared to other nodes."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures the presence of cycles in the graph, which indicate structural inconsistency or mutual incompatibility."
+      },
+      {
+        "factor": "underspecified_lifecycle",
+        "importance_weight": 0.3,
+        "description": "Captures records with ambiguous or conflicting lifecycle descriptions, which can lead to unclear or inconsistent categorization."
+      },
+      {
+        "factor": "high_dependency_centrality",
+        "importance_weight": 0.2,
+        "description": "Captures nodes with high centrality in the graph, as they are more impactful and any issues in these nodes propagate widely."
+      },
+      {
+        "factor": "category_inheritance_conflict",
+        "importance_weight": 0.1,
+        "description": "Captures conflicts in category inheritance or propagation, where lifecycle or categorization rules are not consistently applied."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 5,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "Abiy_Ahmed",
+        "clause_b": "Politicians_of_the_Tigray_war",
+        "description": "These nodes are part of a cycle, creating structural inconsistency and mutual dependency."
+      },
+      {
+        "clause_a": "Politicians_of_the_Tigray_war",
+        "clause_b": "People_of_the_Tigray_war",
+        "description": "These nodes are part of a cycle, and the lifecycle description in 'Politicians_of_the_Tigray_war' is ambiguous."
+      },
+      {
+        "clause_a": "People_of_the_Tigray_war",
+        "clause_b": "Tigray_war",
+        "description": "These nodes are part of a cycle, and the lifecycle description in 'People_of_the_Tigray_war' conflicts with the cyclic dependency."
+      },
+      {
+        "clause_a": "Tigray_war",
+        "clause_b": "Ethiopian_civil_conflict_(2018\u2013present)",
+        "description": "These nodes are part of a cycle, and 'Tigray_war' has category inheritance issues due to its broad categorization."
+      },
+      {
+        "clause_a": "Ethiopian_civil_conflict_(2018\u2013present)",
+        "clause_b": "Abiy_Ahmed",
+        "description": "These nodes are part of a cycle, creating structural inconsistency and mutual dependency."
+      }
+    ],
+    "score_spread": 0.5,
+    "ranking_score_spread": 0.5,
+    "score_mean": 0.6599999999999999,
+    "score_max": 0.9,
+    "node_names": {
+      "Abiy_Ahmed": "Abiy Ahmed",
+      "Ethiopian_civil_conflict_(2018\u2013present)": "Ethiopian civil conflict (2018\u2013present)",
+      "Politicians_of_the_Tigray_war": "Politicians of the Tigray war",
+      "People_of_the_Tigray_war": "People of the Tigray war",
+      "Tigray_war": "Tigray war"
+    },
+    "ground_truth_nodes": [
+      "People_of_the_Tigray_war"
+    ],
+    "gt_evidence": {
+      "People_of_the_Tigray_war": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 660,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.26515151515151514,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3212121212121212,
+    "inject_mode": true,
+    "injected_node": "People_of_the_Tigray_war",
+    "inject_type": "type_a_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "Abiy_Ahmed",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "Politicians_of_the_Tigray_war",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "People_of_the_Tigray_war",
+      "Abiy_Ahmed"
+    ],
+    "injected_evidence_nodes": [
+      "People_of_the_Tigray_war",
+      "Politicians_of_the_Tigray_war",
+      "Abiy_Ahmed"
+    ],
+    "injected_affected_nodes": [
+      "Ethiopian_civil_conflict_(2018\u2013present)",
+      "Tigray_war"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "wikipedia_handoff_invariant_lifecycle_label",
+    "injected_rank": 3,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Abiy_Ahmed": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Politicians_of_the_Tigray_war": 2,
+      "Abiy_Ahmed": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "Ethiopian_civil_conflict_(2018\u2013present)": 5,
+      "Tigray_war": 4
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Abiy_Ahmed": 1,
+      "Ethiopian_civil_conflict_(2018\u2013present)": 5,
+      "Tigray_war": 4
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 3,
+    "root_top1_hit": false,
+    "root_top3_hit": true
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_0",
+    "scc_clause_ids": [
+      "Abiy_Ahmed",
+      "Ethiopian_civil_conflict_(2018\u2013present)",
+      "Politicians_of_the_Tigray_war",
+      "People_of_the_Tigray_war",
+      "Tigray_war"
+    ],
+    "budget": 30,
+    "llm_calls": 10,
+    "tt_hits": 20,
+    "tt_hit_rate": 0.6666666666666666,
+    "time": 90.61261105537415,
+    "scores": {
+      "Abiy_Ahmed": 0.15999999999999998,
+      "Politicians_of_the_Tigray_war": 0.11111111111111109,
+      "People_of_the_Tigray_war": 0.07037037037037036,
+      "Ethiopian_civil_conflict_(2018\u2013present)": 0.06521739130434782,
+      "Tigray_war": 0.027777777777777776
+    },
+    "ranking": [
+      [
+        "Abiy_Ahmed",
+        0.15999999999999998
+      ],
+      [
+        "Politicians_of_the_Tigray_war",
+        0.11111111111111109
+      ],
+      [
+        "People_of_the_Tigray_war",
+        0.07037037037037036
+      ],
+      [
+        "Ethiopian_civil_conflict_(2018\u2013present)",
+        0.06521739130434782
+      ],
+      [
+        "Tigray_war",
+        0.027777777777777776
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.13222222222222219,
+    "score_mean": 0.08689533011272141,
+    "score_max": 0.15999999999999998,
+    "node_names": {
+      "Abiy_Ahmed": "Abiy Ahmed",
+      "Ethiopian_civil_conflict_(2018\u2013present)": "Ethiopian civil conflict (2018\u2013present)",
+      "Politicians_of_the_Tigray_war": "Politicians of the Tigray war",
+      "People_of_the_Tigray_war": "People of the Tigray war",
+      "Tigray_war": "Tigray war"
+    },
+    "clause_details": {
+      "Abiy_Ahmed": {
+        "mean_score": 0.15999999999999998,
+        "visit_count": 25,
+        "conflict_count": 11,
+        "risk_history": [
+          0.0,
+          0.3,
+          0.4,
+          0.4,
+          0.0,
+          0.0,
+          0.4,
+          0.4,
+          0.3,
+          0.3,
+          0.0,
+          0.0,
+          0.3,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.4,
+          0.0,
+          0.4,
+          0.0,
+          0.0,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "Ethiopian_civil_conflict_(2018\u2013present)": {
+        "mean_score": 0.06521739130434782,
+        "visit_count": 23,
+        "conflict_count": 5,
+        "risk_history": [
+          0.0,
+          0.0,
+          0.3,
+          0.3,
+          0.0,
+          0.0,
+          0.3,
+          0.3,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.3,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Politicians_of_the_Tigray_war": {
+        "mean_score": 0.11111111111111109,
+        "visit_count": 27,
+        "conflict_count": 19,
+        "risk_history": [
+          0.0,
+          0.2,
+          0.0,
+          0.3,
+          0.3,
+          0.0,
+          0.3,
+          0.3,
+          0.0,
+          0.2,
+          0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.3,
+          0.0,
+          0.1,
+          0.3,
+          0.0,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "People_of_the_Tigray_war": {
+        "mean_score": 0.07037037037037036,
+        "visit_count": 27,
+        "conflict_count": 12,
+        "risk_history": [
+          0.1,
+          0.0,
+          0.2,
+          0.2,
+          0.0,
+          0.2,
+          0.2,
+          0.0,
+          0.1,
+          0.1,
+          0.0,
+          0.0,
+          0.1,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          0.0,
+          0.1,
+          0.2,
+          0.0,
+          0.0,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "Tigray_war": {
+        "mean_score": 0.027777777777777776,
+        "visit_count": 18,
+        "conflict_count": 1,
+        "risk_history": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.1,
+          0.2,
+          0.1,
+          0.0,
+          0.1
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "People_of_the_Tigray_war"
+    ],
+    "gt_evidence": {
+      "People_of_the_Tigray_war": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "People_of_the_Tigray_war",
+    "inject_type": "type_a_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "Abiy_Ahmed",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "Politicians_of_the_Tigray_war",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "People_of_the_Tigray_war",
+      "Abiy_Ahmed"
+    ],
+    "injected_evidence_nodes": [
+      "People_of_the_Tigray_war",
+      "Politicians_of_the_Tigray_war",
+      "Abiy_Ahmed"
+    ],
+    "injected_affected_nodes": [
+      "Ethiopian_civil_conflict_(2018\u2013present)",
+      "Tigray_war"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "wikipedia_handoff_invariant_lifecycle_label",
+    "injected_rank": 3,
+    "top1_margin": 0.048888888888888885,
+    "risk_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Abiy_Ahmed": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Politicians_of_the_Tigray_war": 2,
+      "Abiy_Ahmed": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "Ethiopian_civil_conflict_(2018\u2013present)": 4,
+      "Tigray_war": 5
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Abiy_Ahmed": 1,
+      "Ethiopian_civil_conflict_(2018\u2013present)": 4,
+      "Tigray_war": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 3,
+    "root_top1_hit": false,
+    "root_top3_hit": true,
+    "risk_subgraph_nodes": [
+      "Abiy_Ahmed",
+      "Ethiopian_civil_conflict_(2018\u2013present)",
+      "Politicians_of_the_Tigray_war",
+      "People_of_the_Tigray_war",
+      "Tigray_war"
+    ],
+    "risk_subgraph_size": 5,
+    "compression_ratio": 0.0,
+    "contains_injected_node": true,
+    "contains_any_evidence_node": true,
+    "contains_all_evidence_nodes": true,
+    "evidence_nodes_retained": [
+      "People_of_the_Tigray_war",
+      "Politicians_of_the_Tigray_war",
+      "Abiy_Ahmed"
+    ],
+    "contains_any_risk_node": true,
+    "contains_all_risk_nodes": true,
+    "contains_any_affected_node": true,
+    "subgraph_type": "posthoc_gt_anchored",
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors",
+    "blind_risk_subgraph_nodes": [
+      "Abiy_Ahmed",
+      "Ethiopian_civil_conflict_(2018\u2013present)",
+      "Politicians_of_the_Tigray_war",
+      "People_of_the_Tigray_war",
+      "Tigray_war"
+    ],
+    "blind_risk_subgraph_size": 5,
+    "blind_compression_ratio": 0.0,
+    "blind_contains_injected_node": true,
+    "blind_contains_any_evidence_node": true,
+    "blind_contains_all_evidence_nodes": true,
+    "blind_evidence_nodes_retained": [
+      "People_of_the_Tigray_war",
+      "Politicians_of_the_Tigray_war",
+      "Abiy_Ahmed"
+    ],
+    "blind_contains_any_risk_node": true,
+    "blind_contains_all_risk_nodes": true,
+    "blind_contains_any_affected_node": true,
+    "blind_subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC anchors only"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (wikipedia); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_0",
+    "scc_clause_ids": [
+      "Abiy_Ahmed",
+      "Ethiopian_civil_conflict_(2018\u2013present)",
+      "Politicians_of_the_Tigray_war",
+      "People_of_the_Tigray_war",
+      "Tigray_war"
+    ],
+    "llm_calls": 1,
+    "time": 119.61036419868469,
+    "scores": {
+      "Abiy_Ahmed": 0.95,
+      "Ethiopian_civil_conflict_(2018\u2013present)": 0.65,
+      "Politicians_of_the_Tigray_war": 0.85,
+      "People_of_the_Tigray_war": 0.75,
+      "Tigray_war": 0.55
+    },
+    "reasonings": {
+      "Abiy_Ahmed": "Highest risk due to being in circular dependency cycle while explicitly labeled as historical/inactive material, conflicting with ongoing conflict connections",
+      "Ethiopian_civil_conflict_(2018\u2013present)": "Part of circular dependency with temporal scope that creates ambiguity relative to more specific conflict timelines",
+      "Politicians_of_the_Tigray_war": "Critical node completing circular reference and explicitly inheriting lifecycle labels without resolving the historical/current status conflict",
+      "People_of_the_Tigray_war": "Direct lifecycle contradiction - maintains current-status while connected to historical/inactive nodes through the dependency chain",
+      "Tigray_war": "Relatively lower risk due to specific temporal boundaries, but still part of the dependency cycle"
+    },
+    "ranking": [
+      [
+        "Abiy_Ahmed",
+        0.95
+      ],
+      [
+        "Politicians_of_the_Tigray_war",
+        0.85
+      ],
+      [
+        "People_of_the_Tigray_war",
+        0.75
+      ],
+      [
+        "Ethiopian_civil_conflict_(2018\u2013present)",
+        0.65
+      ],
+      [
+        "Tigray_war",
+        0.55
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "Abiy_Ahmed",
+        "risk_score": 0.95,
+        "risk_factors": [
+          "circular_dependency",
+          "lifecycle_conflict",
+          "centrality_impact"
+        ],
+        "reasoning": "Central node in the circular dependency cycle with explicit 'historical or inactive material' label conflicting with its connection to ongoing conflicts"
+      },
+      {
+        "rank": 2,
+        "clause_id": "Politicians_of_the_Tigray_war",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "circular_dependency",
+          "lifecycle_conflict"
+        ],
+        "reasoning": "Completes the circular reference cycle while explicitly stating it 'inherits lifecycle label from incoming branch' without resolving the historical/current conflict"
+      },
+      {
+        "rank": 3,
+        "clause_id": "People_of_the_Tigray_war",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "lifecycle_conflict",
+          "scope_ambiguity"
+        ],
+        "reasoning": "Explicitly maintains 'current-status material' while being connected to historical/inactive nodes, creating direct lifecycle contradiction"
+      },
+      {
+        "rank": 4,
+        "clause_id": "Ethiopian_civil_conflict_(2018\u2013present)",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "circular_dependency",
+          "scope_ambiguity"
+        ],
+        "reasoning": "Part of circular dependency and has temporal scope (2018\u2013present) that overlaps but doesn't precisely align with connected conflict timelines"
+      },
+      {
+        "rank": 5,
+        "clause_id": "Tigray_war",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "scope_ambiguity"
+        ],
+        "reasoning": "Most specific temporal boundaries (2020-2022) but still part of the dependency cycle, though with clearer scope than broader conflicts"
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "circular_dependency",
+        "importance_weight": 0.4,
+        "description": "Cycles in the dependency graph that create logical contradictions and infinite reference loops"
+      },
+      {
+        "factor": "lifecycle_conflict",
+        "importance_weight": 0.3,
+        "description": "Incompatible status labels (historical/inactive vs current-status) across connected records"
+      },
+      {
+        "factor": "scope_ambiguity",
+        "importance_weight": 0.2,
+        "description": "Underspecified temporal or categorical boundaries that create classification uncertainty"
+      },
+      {
+        "factor": "centrality_impact",
+        "importance_weight": 0.1,
+        "description": "Position in graph structure that amplifies the consequences of inconsistencies"
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 5,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "Abiy_Ahmed",
+        "clause_b": "People_of_the_Tigray_war",
+        "description": "Direct lifecycle conflict: Abiy_Ahmed states 'receiving category accepts the branch only as historical or inactive material' while People_of_the_Tigray_war states 'incoming branch is maintained as current-status material'"
+      },
+      {
+        "clause_a": "Abiy_Ahmed",
+        "clause_b": "Politicians_of_the_Tigray_war",
+        "description": "Circular dependency creates infinite reference loop: Abiy_Ahmed \u2192 Ethiopian_civil_conflict \u2192 Tigray_war \u2192 People_of_the_Tigray_war \u2192 Politicians_of_the_Tigray_war \u2192 Abiy_Ahmed"
+      },
+      {
+        "clause_a": "Ethiopian_civil_conflict_(2018\u2013present)",
+        "clause_b": "Tigray_war",
+        "description": "Temporal scope ambiguity: Ethiopian civil conflict spans 2018\u2013present while Tigray war appears limited to 2020-2022, creating classification uncertainty"
+      }
+    ],
+    "score_spread": 0.3999999999999999,
+    "ranking_score_spread": 0.3999999999999999,
+    "score_mean": 0.75,
+    "score_max": 0.95,
+    "node_names": {
+      "Abiy_Ahmed": "Abiy Ahmed",
+      "Ethiopian_civil_conflict_(2018\u2013present)": "Ethiopian civil conflict (2018\u2013present)",
+      "Politicians_of_the_Tigray_war": "Politicians of the Tigray war",
+      "People_of_the_Tigray_war": "People of the Tigray war",
+      "Tigray_war": "Tigray war"
+    },
+    "ground_truth_nodes": [
+      "People_of_the_Tigray_war"
+    ],
+    "gt_evidence": {
+      "People_of_the_Tigray_war": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 660,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.26515151515151514,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3212121212121212,
+    "inject_mode": true,
+    "injected_node": "People_of_the_Tigray_war",
+    "inject_type": "type_a_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "Abiy_Ahmed",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "Politicians_of_the_Tigray_war",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "People_of_the_Tigray_war",
+      "Abiy_Ahmed"
+    ],
+    "injected_evidence_nodes": [
+      "People_of_the_Tigray_war",
+      "Politicians_of_the_Tigray_war",
+      "Abiy_Ahmed"
+    ],
+    "injected_affected_nodes": [
+      "Ethiopian_civil_conflict_(2018\u2013present)",
+      "Tigray_war"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "wikipedia_handoff_invariant_lifecycle_label",
+    "injected_rank": 3,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Abiy_Ahmed": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Politicians_of_the_Tigray_war": 2,
+      "Abiy_Ahmed": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "Ethiopian_civil_conflict_(2018\u2013present)": 4,
+      "Tigray_war": 5
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Abiy_Ahmed": 1,
+      "Ethiopian_civil_conflict_(2018\u2013present)": 4,
+      "Tigray_war": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 3,
+    "root_top1_hit": false,
+    "root_top3_hit": true
+  }
+]

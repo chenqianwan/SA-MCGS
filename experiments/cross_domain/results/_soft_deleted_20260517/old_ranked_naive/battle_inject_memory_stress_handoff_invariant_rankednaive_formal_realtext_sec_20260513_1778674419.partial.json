@@ -1,0 +1,4230 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 9,
+    "scc_id": "scc_0",
+    "scc_clause_ids": [
+      "us-cw-1017834",
+      "us-cw-3674429",
+      "us-cw-3682211",
+      "us-cw-3682213",
+      "us-cw-3682810",
+      "us-cw-3682811",
+      "us-cw-3682212",
+      "us-cw-3684902",
+      "us-cw-617657"
+    ],
+    "llm_calls": 1,
+    "time": 23.89165687561035,
+    "scores": {
+      "us-cw-1017834": 0.3,
+      "us-cw-3674429": 0.2,
+      "us-cw-3682211": 0.5,
+      "us-cw-3682213": 0.7,
+      "us-cw-3682810": 0.8,
+      "us-cw-3682811": 0.9,
+      "us-cw-3682212": 0.6,
+      "us-cw-3684902": 0.4,
+      "us-cw-617657": 1.0
+    },
+    "reasonings": {
+      "us-cw-1017834": "High centrality but no significant content issues or cyclic dependencies.",
+      "us-cw-3674429": "No significant structural or content issues, and low centrality in the graph.",
+      "us-cw-3682211": "Contains ambiguous text about control basis and carve-outs, but is less central than other nodes.",
+      "us-cw-3682213": "Has high centrality and ambiguous text about control basis and carve-outs, which could lead to misinterpretation.",
+      "us-cw-3682810": "Part of a cycle and lacks detailed content, making its role in the graph unclear.",
+      "us-cw-3682811": "Part of a cycle and has high centrality, being referenced by and referencing other critical nodes.",
+      "us-cw-3682212": "Contains ambiguous text about control basis and carve-outs, which could lead to structural misunderstandings.",
+      "us-cw-3684902": "Has high centrality but no significant content issues or cyclic dependencies.",
+      "us-cw-617657": "Part of a cycle, contains conflicting country data (US and IE), and has ambiguous registrationNumber and sector fields."
+    },
+    "ranking": [
+      [
+        "us-cw-617657",
+        1.0
+      ],
+      [
+        "us-cw-3682811",
+        0.9
+      ],
+      [
+        "us-cw-3682810",
+        0.8
+      ],
+      [
+        "us-cw-3682213",
+        0.7
+      ],
+      [
+        "us-cw-3682212",
+        0.6
+      ],
+      [
+        "us-cw-3682211",
+        0.5
+      ],
+      [
+        "us-cw-3684902",
+        0.4
+      ],
+      [
+        "us-cw-1017834",
+        0.3
+      ],
+      [
+        "us-cw-3674429",
+        0.2
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "us-cw-617657",
+        "risk_score": 1.0,
+        "risk_factors": [
+          "cyclic_dependency",
+          "underspecified_data",
+          "cross_country_inconsistency"
+        ],
+        "reasoning": "Part of a cycle, contains conflicting country data (US and IE), and has ambiguous registrationNumber and sector fields."
+      },
+      {
+        "rank": 2,
+        "clause_id": "us-cw-3682811",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "cyclic_dependency",
+          "high_dependency_centrality"
+        ],
+        "reasoning": "Part of a cycle and has high centrality, being referenced by and referencing other critical nodes."
+      },
+      {
+        "rank": 3,
+        "clause_id": "us-cw-3682810",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "cyclic_dependency",
+          "underspecified_data"
+        ],
+        "reasoning": "Part of a cycle and lacks detailed content, making its role in the graph unclear."
+      },
+      {
+        "rank": 4,
+        "clause_id": "us-cw-3682213",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "high_dependency_centrality",
+          "underspecified_data"
+        ],
+        "reasoning": "Has high centrality and ambiguous text about control basis and carve-outs, which could lead to misinterpretation."
+      },
+      {
+        "rank": 5,
+        "clause_id": "us-cw-3682212",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "underspecified_data"
+        ],
+        "reasoning": "Contains ambiguous text about control basis and carve-outs, which could lead to structural misunderstandings."
+      },
+      {
+        "rank": 6,
+        "clause_id": "us-cw-3682211",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "underspecified_data"
+        ],
+        "reasoning": "Contains ambiguous text about control basis and carve-outs, but is less central than other nodes."
+      },
+      {
+        "rank": 7,
+        "clause_id": "us-cw-3684902",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "high_dependency_centrality"
+        ],
+        "reasoning": "Has high centrality but no significant content issues or cyclic dependencies."
+      },
+      {
+        "rank": 8,
+        "clause_id": "us-cw-1017834",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "high_dependency_centrality"
+        ],
+        "reasoning": "Has high centrality but no significant content issues or cyclic dependencies."
+      },
+      {
+        "rank": 9,
+        "clause_id": "us-cw-3674429",
+        "risk_score": 0.2,
+        "risk_factors": [],
+        "reasoning": "No significant structural or content issues, and low centrality in the graph."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures the presence of cycles in the graph, which indicate structural inconsistencies or mutual dependencies that cannot be resolved."
+      },
+      {
+        "factor": "underspecified_data",
+        "importance_weight": 0.3,
+        "description": "Captures records with missing, ambiguous, or conflicting information in their content fields."
+      },
+      {
+        "factor": "high_dependency_centrality",
+        "importance_weight": 0.2,
+        "description": "Captures nodes with high in-degree or out-degree, indicating they are critical to the graph structure and any issues with them propagate widely."
+      },
+      {
+        "factor": "cross_country_inconsistency",
+        "importance_weight": 0.1,
+        "description": "Captures records with conflicting or unclear country information, which may indicate regulatory or jurisdictional risks."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 9,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "us-cw-617657",
+        "clause_b": "us-cw-3684902",
+        "description": "Cyclic dependency involving SSI Investments II Limited and other nodes, creating structural inconsistency."
+      },
+      {
+        "clause_a": "us-cw-3682811",
+        "clause_b": "us-cw-3682810",
+        "description": "Cyclic dependency between Software Luxembourg Intermediate S.a r.l. and Software Luxembourg Acquisition S.a r.l."
+      },
+      {
+        "clause_a": "us-cw-617657",
+        "clause_b": "us-cw-1017834",
+        "description": "Cyclic dependency involving SSI Investments II Limited and SkillSoft Corporation."
+      },
+      {
+        "clause_a": "us-cw-617657",
+        "clause_b": "us-cw-3674429",
+        "description": "Conflicting country data (US and IE) in SSI Investments II Limited, which references Pointwell Limited."
+      }
+    ],
+    "score_spread": 0.8,
+    "ranking_score_spread": 0.8,
+    "score_mean": 0.6000000000000001,
+    "score_max": 1.0,
+    "node_names": {
+      "us-cw-1017834": "SkillSoft Corporation",
+      "us-cw-3674429": "Pointwell Limited",
+      "us-cw-3682211": "Skillsoft Finance I Inc",
+      "us-cw-3682213": "Skillsoft Finance II Inc",
+      "us-cw-3682810": "Software Luxembourg Acquisition S.a r.l.",
+      "us-cw-3682811": "Software Luxembourg Intermediate S.a r.l.",
+      "us-cw-3682212": "Skillsoft Finance I LLC",
+      "us-cw-3684902": "SSI Investments I Limited",
+      "us-cw-617657": "SSI Investments II Limited"
+    },
+    "ground_truth_nodes": [
+      "us-cw-3682212"
+    ],
+    "gt_evidence": {
+      "us-cw-3682212": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "prompt_word_count": 678,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.2831858407079646,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.29056047197640117,
+    "inject_mode": true,
+    "injected_node": "us-cw-3682212",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "us-cw-3682811",
+    "injected_witness_distance": 4,
+    "injected_bridge_node": "us-cw-3682211",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "us-cw-3682212",
+      "us-cw-3682811"
+    ],
+    "injected_evidence_nodes": [
+      "us-cw-3682212",
+      "us-cw-3682211",
+      "us-cw-3682811"
+    ],
+    "injected_affected_nodes": [
+      "us-cw-1017834",
+      "us-cw-3682810"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "sec_handoff_invariant_control_basis",
+    "injected_rank": 5,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "us-cw-3682212": 5,
+      "us-cw-3682811": 2
+    },
+    "risk_best_rank": 2,
+    "risk_worst_rank": 5,
+    "risk_top1_hit": false,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "us-cw-3682212": 5,
+      "us-cw-3682211": 6,
+      "us-cw-3682811": 2
+    },
+    "evidence_best_rank": 2,
+    "evidence_worst_rank": 6,
+    "evidence_top1_hit": false,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "us-cw-1017834": 8,
+      "us-cw-3682810": 3
+    },
+    "affected_best_rank": 3,
+    "affected_worst_rank": 8,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "us-cw-3682212": 5,
+      "us-cw-3682811": 2,
+      "us-cw-1017834": 8,
+      "us-cw-3682810": 3
+    },
+    "valuable_best_rank": 2,
+    "valuable_worst_rank": 8,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 5,
+    "root_top1_hit": false,
+    "root_top3_hit": false
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 9,
+    "scc_id": "scc_0",
+    "scc_clause_ids": [
+      "us-cw-1017834",
+      "us-cw-3674429",
+      "us-cw-3682211",
+      "us-cw-3682213",
+      "us-cw-3682810",
+      "us-cw-3682811",
+      "us-cw-3682212",
+      "us-cw-3684902",
+      "us-cw-617657"
+    ],
+    "budget": 30,
+    "llm_calls": 14,
+    "tt_hits": 16,
+    "tt_hit_rate": 0.5333333333333333,
+    "time": 66.13311100006104,
+    "scores": {
+      "us-cw-617657": 0.45999999999999996,
+      "us-cw-3682810": 0.3181818181818182,
+      "us-cw-3682811": 0.3076923076923077,
+      "us-cw-3682213": 0.3,
+      "us-cw-3684902": 0.2692307692307692,
+      "us-cw-3682211": 0.25000000000000006,
+      "us-cw-3674429": 0.25,
+      "us-cw-1017834": 0.21176470588235297,
+      "us-cw-3682212": 0.17272727272727276
+    },
+    "ranking": [
+      [
+        "us-cw-617657",
+        0.45999999999999996
+      ],
+      [
+        "us-cw-3682810",
+        0.3181818181818182
+      ],
+      [
+        "us-cw-3682811",
+        0.3076923076923077
+      ],
+      [
+        "us-cw-3682213",
+        0.3
+      ],
+      [
+        "us-cw-3684902",
+        0.2692307692307692
+      ],
+      [
+        "us-cw-3682211",
+        0.25000000000000006
+      ],
+      [
+        "us-cw-3674429",
+        0.25
+      ],
+      [
+        "us-cw-1017834",
+        0.21176470588235297
+      ],
+      [
+        "us-cw-3682212",
+        0.17272727272727276
+      ]
+    ],
+    "oc_detected": [
+      "us-cw-617657"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.28727272727272724,
+    "score_mean": 0.28217743041272453,
+    "score_max": 0.45999999999999996,
+    "node_names": {
+      "us-cw-1017834": "SkillSoft Corporation",
+      "us-cw-3674429": "Pointwell Limited",
+      "us-cw-3682211": "Skillsoft Finance I Inc",
+      "us-cw-3682213": "Skillsoft Finance II Inc",
+      "us-cw-3682810": "Software Luxembourg Acquisition S.a r.l.",
+      "us-cw-3682811": "Software Luxembourg Intermediate S.a r.l.",
+      "us-cw-3682212": "Skillsoft Finance I LLC",
+      "us-cw-3684902": "SSI Investments I Limited",
+      "us-cw-617657": "SSI Investments II Limited"
+    },
+    "clause_details": {
+      "us-cw-1017834": {
+        "mean_score": 0.21176470588235297,
+        "visit_count": 17,
+        "conflict_count": 3,
+        "risk_history": [
+          0.5,
+          0.5,
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          0.0,
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          0.5,
+          0.5,
+          0.0,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3674429": {
+        "mean_score": 0.25,
+        "visit_count": 12,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3682211": {
+        "mean_score": 0.25000000000000006,
+        "visit_count": 14,
+        "conflict_count": 7,
+        "risk_history": [
+          0.5,
+          0.5,
+          0.0,
+          0.3,
+          0.1,
+          0.5,
+          0.0,
+          0.1,
+          0.5,
+          0.1,
+          0.5,
+          0.2,
+          0.1,
+          0.1
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3682213": {
+        "mean_score": 0.3,
+        "visit_count": 14,
+        "conflict_count": 4,
+        "risk_history": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.0,
+          0.5,
+          0.0,
+          0.5,
+          0.0,
+          0.0,
+          0.3,
+          0.1,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3682810": {
+        "mean_score": 0.3181818181818182,
+        "visit_count": 11,
+        "conflict_count": 0,
+        "risk_history": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.0,
+          0.0,
+          0.5,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3682811": {
+        "mean_score": 0.3076923076923077,
+        "visit_count": 13,
+        "conflict_count": 6,
+        "risk_history": [
+          0.5,
+          0.5,
+          0.5,
+          0.7,
+          0.0,
+          0.3,
+          0.5,
+          0.3,
+          0.2,
+          0.0,
+          0.0,
+          0.3,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3682212": {
+        "mean_score": 0.17272727272727276,
+        "visit_count": 11,
+        "conflict_count": 7,
+        "risk_history": [
+          0.5,
+          0.5,
+          0.0,
+          0.1,
+          0.2,
+          0.0,
+          0.2,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3684902": {
+        "mean_score": 0.2692307692307692,
+        "visit_count": 13,
+        "conflict_count": 3,
+        "risk_history": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.5,
+          0.0,
+          0.5,
+          0.0,
+          0.0,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-617657": {
+        "mean_score": 0.45999999999999996,
+        "visit_count": 15,
+        "conflict_count": 12,
+        "risk_history": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.3,
+          0.5,
+          0.5,
+          0.3,
+          0.5,
+          0.5,
+          0.3
+        ],
+        "is_oc_detected": true
+      }
+    },
+    "ground_truth_nodes": [
+      "us-cw-3682212"
+    ],
+    "gt_evidence": {
+      "us-cw-3682212": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "inject_mode": true,
+    "injected_node": "us-cw-3682212",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "us-cw-3682811",
+    "injected_witness_distance": 4,
+    "injected_bridge_node": "us-cw-3682211",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "us-cw-3682212",
+      "us-cw-3682811"
+    ],
+    "injected_evidence_nodes": [
+      "us-cw-3682212",
+      "us-cw-3682211",
+      "us-cw-3682811"
+    ],
+    "injected_affected_nodes": [
+      "us-cw-1017834",
+      "us-cw-3682810"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "sec_handoff_invariant_control_basis",
+    "injected_rank": 9,
+    "top1_margin": 0.1418181818181818,
+    "risk_node_ranks": {
+      "us-cw-3682212": 9,
+      "us-cw-3682811": 3
+    },
+    "risk_best_rank": 3,
+    "risk_worst_rank": 9,
+    "risk_top1_hit": false,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": false,
+    "evidence_node_ranks": {
+      "us-cw-3682212": 9,
+      "us-cw-3682211": 6,
+      "us-cw-3682811": 3
+    },
+    "evidence_best_rank": 3,
+    "evidence_worst_rank": 9,
+    "evidence_top1_hit": false,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "us-cw-1017834": 8,
+      "us-cw-3682810": 2
+    },
+    "affected_best_rank": 2,
+    "affected_worst_rank": 8,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "us-cw-3682212": 9,
+      "us-cw-3682811": 3,
+      "us-cw-1017834": 8,
+      "us-cw-3682810": 2
+    },
+    "valuable_best_rank": 2,
+    "valuable_worst_rank": 9,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 9,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "risk_subgraph_nodes": [
+      "us-cw-1017834",
+      "us-cw-3682810",
+      "us-cw-3682811",
+      "us-cw-3682212",
+      "us-cw-3684902",
+      "us-cw-617657"
+    ],
+    "risk_subgraph_size": 6,
+    "compression_ratio": 0.33333333333333337,
+    "contains_injected_node": true,
+    "contains_any_evidence_node": true,
+    "contains_all_evidence_nodes": false,
+    "evidence_nodes_retained": [
+      "us-cw-3682212",
+      "us-cw-3682811"
+    ],
+    "contains_any_risk_node": true,
+    "contains_all_risk_nodes": true,
+    "contains_any_affected_node": true,
+    "subgraph_type": "posthoc_gt_anchored",
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors",
+    "blind_risk_subgraph_nodes": [
+      "us-cw-1017834",
+      "us-cw-3682810",
+      "us-cw-3682811",
+      "us-cw-3684902",
+      "us-cw-617657"
+    ],
+    "blind_risk_subgraph_size": 5,
+    "blind_compression_ratio": 0.4444444444444444,
+    "blind_contains_injected_node": false,
+    "blind_contains_any_evidence_node": true,
+    "blind_contains_all_evidence_nodes": false,
+    "blind_evidence_nodes_retained": [
+      "us-cw-3682811"
+    ],
+    "blind_contains_any_risk_node": true,
+    "blind_contains_all_risk_nodes": false,
+    "blind_contains_any_affected_node": true,
+    "blind_subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC anchors only"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "sec_ex21",
+    "scc_size": 9,
+    "scc_id": "scc_0",
+    "scc_clause_ids": [
+      "us-cw-1017834",
+      "us-cw-3674429",
+      "us-cw-3682211",
+      "us-cw-3682213",
+      "us-cw-3682810",
+      "us-cw-3682811",
+      "us-cw-3682212",
+      "us-cw-3684902",
+      "us-cw-617657"
+    ],
+    "llm_calls": 1,
+    "time": 59.967883825302124,
+    "scores": {
+      "us-cw-1017834": 0.95,
+      "us-cw-3674429": 0.25,
+      "us-cw-3682211": 0.65,
+      "us-cw-3682213": 0.45,
+      "us-cw-3682810": 0.35,
+      "us-cw-3682811": 0.8,
+      "us-cw-3682212": 0.7,
+      "us-cw-3684902": 0.55,
+      "us-cw-617657": 0.9
+    },
+    "reasonings": {
+      "us-cw-1017834": "Central to circular dependency with SSI Investments II Limited, creating structural inconsistency",
+      "us-cw-3674429": "Ireland entity in complex chain but minimal explicit risk factors",
+      "us-cw-3682211": "Intermediary claiming to forward control basis without carve-out",
+      "us-cw-3682213": "Receives from both Finance I entities, references Luxembourg Intermediate",
+      "us-cw-3682810": "Luxembourg entity in circular chain with Ireland reference",
+      "us-cw-3682811": "Mentions 20% outside interest in circular Luxembourg chain",
+      "us-cw-3682212": "Claims full-control basis but positioned in chain with partial interests",
+      "us-cw-3684902": "Ireland entity connecting Luxembourg and US chains",
+      "us-cw-617657": "Completes circular dependency, dual jurisdiction, registration number 0"
+    },
+    "ranking": [
+      [
+        "us-cw-1017834",
+        0.95
+      ],
+      [
+        "us-cw-617657",
+        0.9
+      ],
+      [
+        "us-cw-3682811",
+        0.8
+      ],
+      [
+        "us-cw-3682212",
+        0.7
+      ],
+      [
+        "us-cw-3682211",
+        0.65
+      ],
+      [
+        "us-cw-3684902",
+        0.55
+      ],
+      [
+        "us-cw-3682213",
+        0.45
+      ],
+      [
+        "us-cw-3682810",
+        0.35
+      ],
+      [
+        "us-cw-3674429",
+        0.25
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "us-cw-1017834",
+        "risk_score": 0.95,
+        "risk_factors": [
+          "cycle_participation",
+          "jurisdictional_complexity"
+        ],
+        "reasoning": "Central node in major circular dependency (with SSI Investments II Limited), creating infinite reference loop. As parent company, this structural inconsistency affects entire corporate group."
+      },
+      {
+        "rank": 2,
+        "clause_id": "us-cw-617657",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "cycle_participation",
+          "jurisdictional_complexity",
+          "documentation_gaps"
+        ],
+        "reasoning": "Completes circular dependency back to SkillSoft Corporation. Dual US/Ireland jurisdiction and registrationNumber: 0 indicate potential documentation issues."
+      },
+      {
+        "rank": 3,
+        "clause_id": "us-cw-3682811",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "control_basis_ambiguity",
+          "jurisdictional_complexity"
+        ],
+        "reasoning": "Mentions '20 percent outside interest' but positioned in circular Luxembourg chain. Creates ambiguity about actual control percentages."
+      },
+      {
+        "rank": 4,
+        "clause_id": "us-cw-3682212",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "control_basis_ambiguity",
+          "intermediary_role"
+        ],
+        "reasoning": "Claims 'full-control basis' but positioned between SkillSoft Corporation and Skillsoft Finance II Inc, creating potential contradiction with downstream partial interests."
+      },
+      {
+        "rank": 5,
+        "clause_id": "us-cw-3682211",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "intermediary_role",
+          "control_basis_ambiguity"
+        ],
+        "reasoning": "Explicitly states it 'forwards the same control basis' without introducing carve-out, but positioned in complex chain with potential control inconsistencies."
+      },
+      {
+        "rank": 6,
+        "clause_id": "us-cw-3684902",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "jurisdictional_complexity",
+          "intermediary_role"
+        ],
+        "reasoning": "Ireland-based entity in chain connecting Luxembourg entities to US entities, creating cross-border complexity."
+      },
+      {
+        "rank": 7,
+        "clause_id": "us-cw-3682213",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "intermediary_role"
+        ],
+        "reasoning": "Receives references from both Finance I entities and references Luxembourg Intermediate, but no explicit control statements."
+      },
+      {
+        "rank": 8,
+        "clause_id": "us-cw-3682810",
+        "risk_score": 0.35,
+        "risk_factors": [
+          "jurisdictional_complexity"
+        ],
+        "reasoning": "Luxembourg entity referencing Ireland entity, but positioned in circular chain with minimal explicit risk factors."
+      },
+      {
+        "rank": 9,
+        "clause_id": "us-cw-3674429",
+        "risk_score": 0.25,
+        "risk_factors": [
+          "jurisdictional_complexity"
+        ],
+        "reasoning": "Ireland entity with minimal explicit risk factors, though positioned in complex international chain."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cycle_participation",
+        "importance_weight": 0.35,
+        "description": "Participation in circular dependencies that create logical contradictions and infinite loops"
+      },
+      {
+        "factor": "control_basis_ambiguity",
+        "importance_weight": 0.25,
+        "description": "Unclear ownership or control relationships that could indicate incomplete disclosure"
+      },
+      {
+        "factor": "jurisdictional_complexity",
+        "importance_weight": 0.2,
+        "description": "Multiple countries involved in ownership chains, increasing regulatory risk"
+      },
+      {
+        "factor": "intermediary_role",
+        "importance_weight": 0.15,
+        "description": "Entities that forward control without clear independent substance"
+      },
+      {
+        "factor": "documentation_gaps",
+        "importance_weight": 0.05,
+        "description": "Missing or incomplete registration details and identifiers"
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 9,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "us-cw-1017834",
+        "clause_b": "us-cw-617657",
+        "description": "Circular dependency: SkillSoft Corporation references Finance entities that eventually lead back to itself through SSI Investments II Limited"
+      },
+      {
+        "clause_a": "us-cw-3682212",
+        "clause_b": "us-cw-3682811",
+        "description": "Control basis contradiction: Skillsoft Finance I LLC claims 'full-control basis' while Software Luxembourg Intermediate mentions '20 percent outside interest' on same path"
+      },
+      {
+        "clause_a": "us-cw-3682810",
+        "clause_b": "us-cw-3682811",
+        "description": "Luxembourg circular chain: Software Luxembourg entities reference each other, creating local circularity within broader cycle"
+      }
+    ],
+    "score_spread": 0.7,
+    "ranking_score_spread": 0.7,
+    "score_mean": 0.6222222222222222,
+    "score_max": 0.95,
+    "node_names": {
+      "us-cw-1017834": "SkillSoft Corporation",
+      "us-cw-3674429": "Pointwell Limited",
+      "us-cw-3682211": "Skillsoft Finance I Inc",
+      "us-cw-3682213": "Skillsoft Finance II Inc",
+      "us-cw-3682810": "Software Luxembourg Acquisition S.a r.l.",
+      "us-cw-3682811": "Software Luxembourg Intermediate S.a r.l.",
+      "us-cw-3682212": "Skillsoft Finance I LLC",
+      "us-cw-3684902": "SSI Investments I Limited",
+      "us-cw-617657": "SSI Investments II Limited"
+    },
+    "ground_truth_nodes": [
+      "us-cw-3682212"
+    ],
+    "gt_evidence": {
+      "us-cw-3682212": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "prompt_word_count": 678,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.2831858407079646,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.29056047197640117,
+    "inject_mode": true,
+    "injected_node": "us-cw-3682212",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "us-cw-3682811",
+    "injected_witness_distance": 4,
+    "injected_bridge_node": "us-cw-3682211",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "us-cw-3682212",
+      "us-cw-3682811"
+    ],
+    "injected_evidence_nodes": [
+      "us-cw-3682212",
+      "us-cw-3682211",
+      "us-cw-3682811"
+    ],
+    "injected_affected_nodes": [
+      "us-cw-1017834",
+      "us-cw-3682810"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "sec_handoff_invariant_control_basis",
+    "injected_rank": 4,
+    "top1_margin": 0.04999999999999993,
+    "risk_node_ranks": {
+      "us-cw-3682212": 4,
+      "us-cw-3682811": 3
+    },
+    "risk_best_rank": 3,
+    "risk_worst_rank": 4,
+    "risk_top1_hit": false,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "us-cw-3682212": 4,
+      "us-cw-3682211": 5,
+      "us-cw-3682811": 3
+    },
+    "evidence_best_rank": 3,
+    "evidence_worst_rank": 5,
+    "evidence_top1_hit": false,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "us-cw-1017834": 1,
+      "us-cw-3682810": 8
+    },
+    "affected_best_rank": 1,
+    "affected_worst_rank": 8,
+    "affected_top1_hit": true,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "us-cw-3682212": 4,
+      "us-cw-3682811": 3,
+      "us-cw-1017834": 1,
+      "us-cw-3682810": 8
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 8,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 4,
+    "root_top1_hit": false,
+    "root_top3_hit": false
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "sec_ex21",
+    "scc_size": 9,
+    "scc_id": "scc_0",
+    "scc_clause_ids": [
+      "us-cw-1017834",
+      "us-cw-3674429",
+      "us-cw-3682211",
+      "us-cw-3682213",
+      "us-cw-3682810",
+      "us-cw-3682811",
+      "us-cw-3682212",
+      "us-cw-3684902",
+      "us-cw-617657"
+    ],
+    "budget": 30,
+    "llm_calls": 14,
+    "tt_hits": 16,
+    "tt_hit_rate": 0.5333333333333333,
+    "time": 85.18740701675415,
+    "scores": {
+      "us-cw-3682811": 0.6300000000000001,
+      "us-cw-617657": 0.6277777777777778,
+      "us-cw-3682213": 0.4545454545454545,
+      "us-cw-3682212": 0.425,
+      "us-cw-1017834": 0.36666666666666664,
+      "us-cw-3682810": 0.31818181818181823,
+      "us-cw-3682211": 0.3090909090909091,
+      "us-cw-3684902": 0.3058823529411765,
+      "us-cw-3674429": 0.26666666666666666
+    },
+    "ranking": [
+      [
+        "us-cw-3682811",
+        0.6300000000000001
+      ],
+      [
+        "us-cw-617657",
+        0.6277777777777778
+      ],
+      [
+        "us-cw-3682213",
+        0.4545454545454545
+      ],
+      [
+        "us-cw-3682212",
+        0.425
+      ],
+      [
+        "us-cw-1017834",
+        0.36666666666666664
+      ],
+      [
+        "us-cw-3682810",
+        0.31818181818181823
+      ],
+      [
+        "us-cw-3682211",
+        0.3090909090909091
+      ],
+      [
+        "us-cw-3684902",
+        0.3058823529411765
+      ],
+      [
+        "us-cw-3674429",
+        0.26666666666666666
+      ]
+    ],
+    "oc_detected": [
+      "us-cw-3682811",
+      "us-cw-617657"
+    ],
+    "oc_count": 2,
+    "score_spread": 0.36333333333333345,
+    "score_mean": 0.4115346273189411,
+    "score_max": 0.6300000000000001,
+    "node_names": {
+      "us-cw-1017834": "SkillSoft Corporation",
+      "us-cw-3674429": "Pointwell Limited",
+      "us-cw-3682211": "Skillsoft Finance I Inc",
+      "us-cw-3682213": "Skillsoft Finance II Inc",
+      "us-cw-3682810": "Software Luxembourg Acquisition S.a r.l.",
+      "us-cw-3682811": "Software Luxembourg Intermediate S.a r.l.",
+      "us-cw-3682212": "Skillsoft Finance I LLC",
+      "us-cw-3684902": "SSI Investments I Limited",
+      "us-cw-617657": "SSI Investments II Limited"
+    },
+    "clause_details": {
+      "us-cw-1017834": {
+        "mean_score": 0.36666666666666664,
+        "visit_count": 18,
+        "conflict_count": 14,
+        "risk_history": [
+          0.3,
+          0.1,
+          0.1,
+          0.4,
+          0.3,
+          0.4,
+          0.2,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.7,
+          0.2,
+          0.6,
+          0.3,
+          0.3,
+          0.7,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3674429": {
+        "mean_score": 0.26666666666666666,
+        "visit_count": 12,
+        "conflict_count": 10,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.1,
+          0.1,
+          0.3,
+          0.1,
+          0.3,
+          0.5,
+          0.1,
+          0.3,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3682211": {
+        "mean_score": 0.3090909090909091,
+        "visit_count": 11,
+        "conflict_count": 9,
+        "risk_history": [
+          0.2,
+          0.4,
+          0.4,
+          0.6,
+          0.2,
+          0.2,
+          0.3,
+          0.4,
+          0.2,
+          0.2,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3682213": {
+        "mean_score": 0.4545454545454545,
+        "visit_count": 11,
+        "conflict_count": 3,
+        "risk_history": [
+          0.7,
+          0.5,
+          0.7,
+          0.3,
+          0.4,
+          0.3,
+          0.7,
+          0.3,
+          0.5,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3682810": {
+        "mean_score": 0.31818181818181823,
+        "visit_count": 11,
+        "conflict_count": 5,
+        "risk_history": [
+          0.2,
+          0.4,
+          0.2,
+          0.2,
+          0.3,
+          0.2,
+          0.2,
+          0.4,
+          0.6,
+          0.2,
+          0.6
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3682811": {
+        "mean_score": 0.6300000000000001,
+        "visit_count": 10,
+        "conflict_count": 9,
+        "risk_history": [
+          0.6,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.7,
+          0.6,
+          0.7,
+          0.4,
+          0.4
+        ],
+        "is_oc_detected": true
+      },
+      "us-cw-3682212": {
+        "mean_score": 0.425,
+        "visit_count": 12,
+        "conflict_count": 13,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.6,
+          0.4,
+          0.6,
+          0.6,
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.6,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3684902": {
+        "mean_score": 0.3058823529411765,
+        "visit_count": 17,
+        "conflict_count": 17,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.2,
+          0.2,
+          0.2,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-617657": {
+        "mean_score": 0.6277777777777778,
+        "visit_count": 18,
+        "conflict_count": 38,
+        "risk_history": [
+          0.4,
+          0.7,
+          0.7,
+          0.7,
+          0.4,
+          0.7,
+          0.7,
+          0.6,
+          0.6,
+          0.6,
+          0.7,
+          0.8,
+          0.7,
+          0.4,
+          0.4,
+          0.8,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": true
+      }
+    },
+    "ground_truth_nodes": [
+      "us-cw-3682212"
+    ],
+    "gt_evidence": {
+      "us-cw-3682212": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "inject_mode": true,
+    "injected_node": "us-cw-3682212",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "us-cw-3682811",
+    "injected_witness_distance": 4,
+    "injected_bridge_node": "us-cw-3682211",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "us-cw-3682212",
+      "us-cw-3682811"
+    ],
+    "injected_evidence_nodes": [
+      "us-cw-3682212",
+      "us-cw-3682211",
+      "us-cw-3682811"
+    ],
+    "injected_affected_nodes": [
+      "us-cw-1017834",
+      "us-cw-3682810"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "sec_handoff_invariant_control_basis",
+    "injected_rank": 4,
+    "top1_margin": 0.0022222222222223476,
+    "risk_node_ranks": {
+      "us-cw-3682212": 4,
+      "us-cw-3682811": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 4,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "us-cw-3682212": 4,
+      "us-cw-3682211": 7,
+      "us-cw-3682811": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 7,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "us-cw-1017834": 5,
+      "us-cw-3682810": 6
+    },
+    "affected_best_rank": 5,
+    "affected_worst_rank": 6,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "us-cw-3682212": 4,
+      "us-cw-3682811": 1,
+      "us-cw-1017834": 5,
+      "us-cw-3682810": 6
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 6,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 4,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "risk_subgraph_nodes": [
+      "us-cw-1017834",
+      "us-cw-3682213",
+      "us-cw-3682810",
+      "us-cw-3682811",
+      "us-cw-3682212",
+      "us-cw-3684902",
+      "us-cw-617657"
+    ],
+    "risk_subgraph_size": 7,
+    "compression_ratio": 0.2222222222222222,
+    "contains_injected_node": true,
+    "contains_any_evidence_node": true,
+    "contains_all_evidence_nodes": false,
+    "evidence_nodes_retained": [
+      "us-cw-3682212",
+      "us-cw-3682811"
+    ],
+    "contains_any_risk_node": true,
+    "contains_all_risk_nodes": true,
+    "contains_any_affected_node": true,
+    "subgraph_type": "posthoc_gt_anchored",
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors",
+    "blind_risk_subgraph_nodes": [
+      "us-cw-1017834",
+      "us-cw-3682213",
+      "us-cw-3682810",
+      "us-cw-3682811",
+      "us-cw-3682212",
+      "us-cw-3684902",
+      "us-cw-617657"
+    ],
+    "blind_risk_subgraph_size": 7,
+    "blind_compression_ratio": 0.2222222222222222,
+    "blind_contains_injected_node": true,
+    "blind_contains_any_evidence_node": true,
+    "blind_contains_all_evidence_nodes": false,
+    "blind_evidence_nodes_retained": [
+      "us-cw-3682212",
+      "us-cw-3682811"
+    ],
+    "blind_contains_any_risk_node": true,
+    "blind_contains_all_risk_nodes": true,
+    "blind_contains_any_affected_node": true,
+    "blind_subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC anchors only"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 10,
+    "scc_id": "scc_6",
+    "scc_clause_ids": [
+      "us-cw-1011764",
+      "us-cw-1020294",
+      "us-cw-121873",
+      "us-cw-515912",
+      "us-cw-712455",
+      "us-cw-749749",
+      "us-cw-515909",
+      "us-cw-749750",
+      "us-cw-749751",
+      "us-cw-997003"
+    ],
+    "llm_calls": 1,
+    "time": 24.216025829315186,
+    "scores": {
+      "us-cw-1011764": 0.9,
+      "us-cw-1020294": 1.0,
+      "us-cw-121873": 0.1,
+      "us-cw-515912": 0.4,
+      "us-cw-712455": 0.3,
+      "us-cw-749749": 0.2,
+      "us-cw-515909": 0.5,
+      "us-cw-749750": 0.8,
+      "us-cw-749751": 0.7,
+      "us-cw-997003": 0.6
+    },
+    "reasonings": {
+      "us-cw-1011764": "Part of a cycle with us-cw-1020294 and central to the graph structure.",
+      "us-cw-1020294": "Part of a cycle with us-cw-1011764 and has multiple outgoing edges, amplifying structural risk.",
+      "us-cw-121873": "Referenced by us-cw-749749 but has minimal impact on the overall graph structure.",
+      "us-cw-515912": "References us-cw-997003 and is referenced by us-cw-712455, making it moderately impactful.",
+      "us-cw-712455": "References us-cw-515912 but lacks detailed context about its role in the graph.",
+      "us-cw-749749": "Referenced by us-cw-749751 but does not introduce significant structural concerns.",
+      "us-cw-515909": "References us-cw-712455 but introduces ambiguity due to lack of clarity in its intermediate role.",
+      "us-cw-749750": "Has multiple outgoing edges, including to us-cw-749751, and is referenced by us-cw-1020294, making it structurally significant.",
+      "us-cw-749751": "References us-cw-749749 but lacks detailed context about its role in the graph, introducing ambiguity.",
+      "us-cw-997003": "Has outgoing edges to us-cw-1020294 and is referenced by us-cw-515912, making it structurally impactful."
+    },
+    "ranking": [
+      [
+        "us-cw-1020294",
+        1.0
+      ],
+      [
+        "us-cw-1011764",
+        0.9
+      ],
+      [
+        "us-cw-749750",
+        0.8
+      ],
+      [
+        "us-cw-749751",
+        0.7
+      ],
+      [
+        "us-cw-997003",
+        0.6
+      ],
+      [
+        "us-cw-515909",
+        0.5
+      ],
+      [
+        "us-cw-515912",
+        0.4
+      ],
+      [
+        "us-cw-712455",
+        0.3
+      ],
+      [
+        "us-cw-749749",
+        0.2
+      ],
+      [
+        "us-cw-121873",
+        0.1
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "us-cw-1020294",
+        "risk_score": 1.0,
+        "risk_factors": [
+          "cyclic_dependency",
+          "high-impact_dependency"
+        ],
+        "reasoning": "Part of a cycle with us-cw-1011764 and has multiple outgoing edges, including to us-cw-749750, amplifying structural risk."
+      },
+      {
+        "rank": 2,
+        "clause_id": "us-cw-1011764",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "cyclic_dependency",
+          "high-impact_dependency"
+        ],
+        "reasoning": "Part of a cycle with us-cw-1020294 and has a high-impact relationship due to its centrality in the graph."
+      },
+      {
+        "rank": 3,
+        "clause_id": "us-cw-749750",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "high-impact_dependency"
+        ],
+        "reasoning": "Has multiple outgoing edges, including to us-cw-749751, and is referenced by us-cw-1020294, making it structurally significant."
+      },
+      {
+        "rank": 4,
+        "clause_id": "us-cw-749751",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "underspecified_relationship"
+        ],
+        "reasoning": "References us-cw-749749 but lacks detailed context about its role in the graph, introducing ambiguity."
+      },
+      {
+        "rank": 5,
+        "clause_id": "us-cw-997003",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "high-impact_dependency"
+        ],
+        "reasoning": "Has outgoing edges to us-cw-1020294 and is referenced by us-cw-515912, making it structurally impactful."
+      },
+      {
+        "rank": 6,
+        "clause_id": "us-cw-515909",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "underspecified_relationship"
+        ],
+        "reasoning": "References us-cw-712455 but introduces ambiguity due to lack of clarity in its intermediate role."
+      },
+      {
+        "rank": 7,
+        "clause_id": "us-cw-515912",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "high-impact_dependency"
+        ],
+        "reasoning": "References us-cw-997003 and is referenced by us-cw-712455, making it moderately impactful."
+      },
+      {
+        "rank": 8,
+        "clause_id": "us-cw-712455",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "underspecified_relationship"
+        ],
+        "reasoning": "References us-cw-515912 but lacks detailed context about its role in the graph."
+      },
+      {
+        "rank": 9,
+        "clause_id": "us-cw-749749",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "underspecified_relationship"
+        ],
+        "reasoning": "Referenced by us-cw-749751 but does not introduce significant structural concerns."
+      },
+      {
+        "rank": 10,
+        "clause_id": "us-cw-121873",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "underspecified_relationship"
+        ],
+        "reasoning": "Referenced by us-cw-749749 but has minimal impact on the overall graph structure."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures the presence of cycles in the graph, which indicate structural inconsistency or mutual incompatibility."
+      },
+      {
+        "factor": "underspecified_relationship",
+        "importance_weight": 0.3,
+        "description": "Captures records with vague or incomplete descriptions of their relationships, leading to ambiguity in dependency resolution."
+      },
+      {
+        "factor": "high-impact_dependency",
+        "importance_weight": 0.3,
+        "description": "Captures records that are central to the graph structure and have many incoming or outgoing edges, amplifying the impact of any inconsistency."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 10,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "us-cw-1011764",
+        "clause_b": "us-cw-1020294",
+        "description": "Forms a cycle, indicating mutual incompatibility and structural inconsistency."
+      }
+    ],
+    "score_spread": 0.9,
+    "ranking_score_spread": 0.9,
+    "score_mean": 0.55,
+    "score_max": 1.0,
+    "node_names": {
+      "us-cw-1011764": "The Nielsen Company (US) LLC",
+      "us-cw-1020294": "TNC (US) Holdings Inc",
+      "us-cw-121873": "NetRatings Australia Pty. Ltd",
+      "us-cw-515912": "Nielsen Co (Singapore) Pte. Ltd",
+      "us-cw-712455": "PT. The Nielsen Co Indonesia",
+      "us-cw-749749": "Nielsen Co Ltd",
+      "us-cw-515909": "Nielsen Co (Mauritius) Ltd",
+      "us-cw-749750": "Nielsen Innovate Fund LP",
+      "us-cw-749751": "Nielsen Innovate Ltd",
+      "us-cw-997003": "Buzzmetrics Ltd"
+    },
+    "ground_truth_nodes": [
+      "us-cw-515909"
+    ],
+    "gt_evidence": {
+      "us-cw-515909": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "prompt_word_count": 710,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.30422535211267604,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3112676056338028,
+    "inject_mode": true,
+    "injected_node": "us-cw-515909",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "us-cw-1020294",
+    "injected_witness_distance": 5,
+    "injected_bridge_node": "us-cw-515912",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "us-cw-515909",
+      "us-cw-1020294"
+    ],
+    "injected_evidence_nodes": [
+      "us-cw-515909",
+      "us-cw-515912",
+      "us-cw-1020294"
+    ],
+    "injected_affected_nodes": [
+      "us-cw-712455",
+      "us-cw-749750"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "sec_handoff_invariant_control_basis",
+    "injected_rank": 6,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "us-cw-515909": 6,
+      "us-cw-1020294": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 6,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": false,
+    "evidence_node_ranks": {
+      "us-cw-515909": 6,
+      "us-cw-515912": 7,
+      "us-cw-1020294": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 7,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "us-cw-712455": 8,
+      "us-cw-749750": 3
+    },
+    "affected_best_rank": 3,
+    "affected_worst_rank": 8,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "us-cw-515909": 6,
+      "us-cw-1020294": 1,
+      "us-cw-712455": 8,
+      "us-cw-749750": 3
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 8,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 6,
+    "root_top1_hit": false,
+    "root_top3_hit": false
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 10,
+    "scc_id": "scc_6",
+    "scc_clause_ids": [
+      "us-cw-1011764",
+      "us-cw-1020294",
+      "us-cw-121873",
+      "us-cw-515912",
+      "us-cw-712455",
+      "us-cw-749749",
+      "us-cw-515909",
+      "us-cw-749750",
+      "us-cw-749751",
+      "us-cw-997003"
+    ],
+    "budget": 30,
+    "llm_calls": 13,
+    "tt_hits": 17,
+    "tt_hit_rate": 0.5666666666666667,
+    "time": 78.15408730506897,
+    "scores": {
+      "us-cw-749749": 0.3727272727272727,
+      "us-cw-749751": 0.35000000000000003,
+      "us-cw-1020294": 0.30769230769230765,
+      "us-cw-712455": 0.2333333333333334,
+      "us-cw-515912": 0.22499999999999998,
+      "us-cw-515909": 0.20000000000000004,
+      "us-cw-997003": 0.19090909090909092,
+      "us-cw-749750": 0.18666666666666665,
+      "us-cw-1011764": 0.17142857142857146,
+      "us-cw-121873": 0.1142857142857143
+    },
+    "ranking": [
+      [
+        "us-cw-749749",
+        0.3727272727272727
+      ],
+      [
+        "us-cw-749751",
+        0.35000000000000003
+      ],
+      [
+        "us-cw-1020294",
+        0.30769230769230765
+      ],
+      [
+        "us-cw-712455",
+        0.2333333333333334
+      ],
+      [
+        "us-cw-515912",
+        0.22499999999999998
+      ],
+      [
+        "us-cw-515909",
+        0.20000000000000004
+      ],
+      [
+        "us-cw-997003",
+        0.19090909090909092
+      ],
+      [
+        "us-cw-749750",
+        0.18666666666666665
+      ],
+      [
+        "us-cw-1011764",
+        0.17142857142857146
+      ],
+      [
+        "us-cw-121873",
+        0.1142857142857143
+      ]
+    ],
+    "oc_detected": [
+      "us-cw-1020294"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.25844155844155836,
+    "score_mean": 0.23520429570429574,
+    "score_max": 0.3727272727272727,
+    "node_names": {
+      "us-cw-1011764": "The Nielsen Company (US) LLC",
+      "us-cw-1020294": "TNC (US) Holdings Inc",
+      "us-cw-121873": "NetRatings Australia Pty. Ltd",
+      "us-cw-515912": "Nielsen Co (Singapore) Pte. Ltd",
+      "us-cw-712455": "PT. The Nielsen Co Indonesia",
+      "us-cw-749749": "Nielsen Co Ltd",
+      "us-cw-515909": "Nielsen Co (Mauritius) Ltd",
+      "us-cw-749750": "Nielsen Innovate Fund LP",
+      "us-cw-749751": "Nielsen Innovate Ltd",
+      "us-cw-997003": "Buzzmetrics Ltd"
+    },
+    "clause_details": {
+      "us-cw-1011764": {
+        "mean_score": 0.17142857142857146,
+        "visit_count": 7,
+        "conflict_count": 5,
+        "risk_history": [
+          0.2,
+          0.2,
+          0.2,
+          0.0,
+          0.2,
+          0.4,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-1020294": {
+        "mean_score": 0.30769230769230765,
+        "visit_count": 13,
+        "conflict_count": 14,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.5,
+          0.3,
+          0.0,
+          0.4,
+          0.0,
+          0.4,
+          0.4,
+          0.0
+        ],
+        "is_oc_detected": true
+      },
+      "us-cw-121873": {
+        "mean_score": 0.1142857142857143,
+        "visit_count": 14,
+        "conflict_count": 10,
+        "risk_history": [
+          0.0,
+          0.2,
+          0.3,
+          0.1,
+          0.0,
+          0.1,
+          0.1,
+          0.0,
+          0.1,
+          0.3,
+          0.0,
+          0.2,
+          0.1,
+          0.1
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-515912": {
+        "mean_score": 0.22499999999999998,
+        "visit_count": 12,
+        "conflict_count": 7,
+        "risk_history": [
+          0.0,
+          0.5,
+          0.5,
+          0.0,
+          0.5,
+          0.4,
+          0.0,
+          0.0,
+          0.3,
+          0.3,
+          0.0,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-712455": {
+        "mean_score": 0.2333333333333334,
+        "visit_count": 12,
+        "conflict_count": 10,
+        "risk_history": [
+          0.0,
+          0.7,
+          0.7,
+          0.1,
+          0.0,
+          0.7,
+          0.1,
+          0.0,
+          0.1,
+          0.0,
+          0.2,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-749749": {
+        "mean_score": 0.3727272727272727,
+        "visit_count": 11,
+        "conflict_count": 12,
+        "risk_history": [
+          0.3,
+          0.1,
+          0.2,
+          0.1,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.2,
+          0.3,
+          0.1
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-515909": {
+        "mean_score": 0.20000000000000004,
+        "visit_count": 13,
+        "conflict_count": 9,
+        "risk_history": [
+          0.0,
+          0.1,
+          0.4,
+          0.4,
+          0.4,
+          0.0,
+          0.4,
+          0.0,
+          0.4,
+          0.0,
+          0.1,
+          0.2,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-749750": {
+        "mean_score": 0.18666666666666665,
+        "visit_count": 15,
+        "conflict_count": 15,
+        "risk_history": [
+          0.1,
+          0.1,
+          0.3,
+          0.1,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.0,
+          0.1,
+          0.0,
+          0.3,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-749751": {
+        "mean_score": 0.35000000000000003,
+        "visit_count": 12,
+        "conflict_count": 14,
+        "risk_history": [
+          0.2,
+          0.2,
+          0.2,
+          0.4,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.0,
+          0.2,
+          0.2,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-997003": {
+        "mean_score": 0.19090909090909092,
+        "visit_count": 11,
+        "conflict_count": 4,
+        "risk_history": [
+          0.1,
+          0.3,
+          0.1,
+          0.3,
+          0.1,
+          0.3,
+          0.3,
+          0.2,
+          0.1,
+          0.0,
+          0.3
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "us-cw-515909"
+    ],
+    "gt_evidence": {
+      "us-cw-515909": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "inject_mode": true,
+    "injected_node": "us-cw-515909",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "us-cw-1020294",
+    "injected_witness_distance": 5,
+    "injected_bridge_node": "us-cw-515912",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "us-cw-515909",
+      "us-cw-1020294"
+    ],
+    "injected_evidence_nodes": [
+      "us-cw-515909",
+      "us-cw-515912",
+      "us-cw-1020294"
+    ],
+    "injected_affected_nodes": [
+      "us-cw-712455",
+      "us-cw-749750"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "sec_handoff_invariant_control_basis",
+    "injected_rank": 6,
+    "top1_margin": 0.02272727272727265,
+    "risk_node_ranks": {
+      "us-cw-515909": 6,
+      "us-cw-1020294": 3
+    },
+    "risk_best_rank": 3,
+    "risk_worst_rank": 6,
+    "risk_top1_hit": false,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": false,
+    "evidence_node_ranks": {
+      "us-cw-515909": 6,
+      "us-cw-515912": 5,
+      "us-cw-1020294": 3
+    },
+    "evidence_best_rank": 3,
+    "evidence_worst_rank": 6,
+    "evidence_top1_hit": false,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "us-cw-712455": 4,
+      "us-cw-749750": 8
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 8,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "us-cw-515909": 6,
+      "us-cw-1020294": 3,
+      "us-cw-712455": 4,
+      "us-cw-749750": 8
+    },
+    "valuable_best_rank": 3,
+    "valuable_worst_rank": 8,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 6,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "risk_subgraph_nodes": [
+      "us-cw-1011764",
+      "us-cw-1020294",
+      "us-cw-121873",
+      "us-cw-749749",
+      "us-cw-515909",
+      "us-cw-749750",
+      "us-cw-749751"
+    ],
+    "risk_subgraph_size": 7,
+    "compression_ratio": 0.30000000000000004,
+    "contains_injected_node": true,
+    "contains_any_evidence_node": true,
+    "contains_all_evidence_nodes": false,
+    "evidence_nodes_retained": [
+      "us-cw-515909",
+      "us-cw-1020294"
+    ],
+    "contains_any_risk_node": true,
+    "contains_all_risk_nodes": true,
+    "contains_any_affected_node": true,
+    "subgraph_type": "posthoc_gt_anchored",
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors",
+    "blind_risk_subgraph_nodes": [
+      "us-cw-1011764",
+      "us-cw-1020294",
+      "us-cw-121873",
+      "us-cw-749749",
+      "us-cw-749751"
+    ],
+    "blind_risk_subgraph_size": 5,
+    "blind_compression_ratio": 0.5,
+    "blind_contains_injected_node": false,
+    "blind_contains_any_evidence_node": true,
+    "blind_contains_all_evidence_nodes": false,
+    "blind_evidence_nodes_retained": [
+      "us-cw-1020294"
+    ],
+    "blind_contains_any_risk_node": true,
+    "blind_contains_all_risk_nodes": false,
+    "blind_contains_any_affected_node": false,
+    "blind_subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC anchors only"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "sec_ex21",
+    "scc_size": 10,
+    "scc_id": "scc_6",
+    "scc_clause_ids": [
+      "us-cw-1011764",
+      "us-cw-1020294",
+      "us-cw-121873",
+      "us-cw-515912",
+      "us-cw-712455",
+      "us-cw-749749",
+      "us-cw-515909",
+      "us-cw-749750",
+      "us-cw-749751",
+      "us-cw-997003"
+    ],
+    "llm_calls": 1,
+    "time": 68.43573212623596,
+    "scores": {
+      "us-cw-1011764": 0.85,
+      "us-cw-1020294": 0.95,
+      "us-cw-121873": 0.3,
+      "us-cw-515912": 0.65,
+      "us-cw-712455": 0.6,
+      "us-cw-749749": 0.4,
+      "us-cw-515909": 0.2,
+      "us-cw-749750": 0.55,
+      "us-cw-749751": 0.45,
+      "us-cw-997003": 0.75
+    },
+    "reasonings": {
+      "us-cw-1011764": "Primary US entity in unresolvable circular dependency with holding company",
+      "us-cw-1020294": "Hub entity in multiple circular paths with ambiguous control language",
+      "us-cw-121873": "Linear reference to Mauritius entity, moderate jurisdictional complexity",
+      "us-cw-515912": "Singapore entity in circular dependency with Indonesia, references Israel",
+      "us-cw-712455": "Indonesian entity in circular dependency with Singapore",
+      "us-cw-749749": "Japanese entity referencing Australia, part of complex chain",
+      "us-cw-515909": "Mauritius entity with clear control language, linear path",
+      "us-cw-749750": "Israeli fund referenced by US holdings, unclear control basis",
+      "us-cw-749751": "Guadeloupe entity in control chain between Israel and Japan",
+      "us-cw-997003": "Israeli entity creating circular path back to US holdings"
+    },
+    "ranking": [
+      [
+        "us-cw-1020294",
+        0.95
+      ],
+      [
+        "us-cw-1011764",
+        0.85
+      ],
+      [
+        "us-cw-997003",
+        0.75
+      ],
+      [
+        "us-cw-515912",
+        0.65
+      ],
+      [
+        "us-cw-712455",
+        0.6
+      ],
+      [
+        "us-cw-749750",
+        0.55
+      ],
+      [
+        "us-cw-749751",
+        0.45
+      ],
+      [
+        "us-cw-749749",
+        0.4
+      ],
+      [
+        "us-cw-121873",
+        0.3
+      ],
+      [
+        "us-cw-515909",
+        0.2
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "us-cw-1020294",
+        "risk_score": 0.95,
+        "risk_factors": [
+          "circular_dependencies",
+          "centrality_in_cycles",
+          "control_flow_ambiguity"
+        ],
+        "reasoning": "Central node in multiple circular dependencies (with us-cw-1011764 and via us-cw-997003), contains ambiguous '20 percent outside interest' language, and connects US entities to offshore structures"
+      },
+      {
+        "rank": 2,
+        "clause_id": "us-cw-1011764",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "circular_dependencies",
+          "centrality_in_cycles"
+        ],
+        "reasoning": "Mutual circular reference with us-cw-1020294 creates unresolvable dependency loop between primary US entities"
+      },
+      {
+        "rank": 3,
+        "clause_id": "us-cw-997003",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "circular_dependencies",
+          "cross_jurisdictional_complexity"
+        ],
+        "reasoning": "Israeli entity that creates circular path back to US holdings via us-cw-1020294, spanning multiple jurisdictions"
+      },
+      {
+        "rank": 4,
+        "clause_id": "us-cw-515912",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "circular_dependencies",
+          "cross_jurisdictional_complexity"
+        ],
+        "reasoning": "Singapore entity in circular dependency with Indonesian entity (us-cw-712455) while referencing Israeli entity, creating complex cross-border loop"
+      },
+      {
+        "rank": 5,
+        "clause_id": "us-cw-712455",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "circular_dependencies",
+          "cross_jurisdictional_complexity"
+        ],
+        "reasoning": "Indonesian entity in circular dependency with Singapore entity, part of Asian regional cycle"
+      },
+      {
+        "rank": 6,
+        "clause_id": "us-cw-749750",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "control_flow_ambiguity",
+          "cross_jurisdictional_complexity"
+        ],
+        "reasoning": "Israeli LP fund referenced by US holdings but with unclear control basis, creates path to Japanese entity via complex chain"
+      },
+      {
+        "rank": 7,
+        "clause_id": "us-cw-749751",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "control_flow_ambiguity",
+          "cross_jurisdictional_complexity"
+        ],
+        "reasoning": "Guadeloupe entity in control chain between Israeli fund and Japanese company, jurisdictionally ambiguous"
+      },
+      {
+        "rank": 8,
+        "clause_id": "us-cw-749749",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "control_flow_ambiguity",
+          "cross_jurisdictional_complexity"
+        ],
+        "reasoning": "Japanese company referencing Australian entity, part of complex control chain but not in direct circular dependency"
+      },
+      {
+        "rank": 9,
+        "clause_id": "us-cw-121873",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "cross_jurisdictional_complexity"
+        ],
+        "reasoning": "Australian entity referencing Mauritius entity, cross-jurisdictional but linear dependency path"
+      },
+      {
+        "rank": 10,
+        "clause_id": "us-cw-515909",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "control_flow_ambiguity"
+        ],
+        "reasoning": "Mauritius entity with clear 'full-control basis' language, linear path to Indonesia, minimal structural concerns"
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "circular_dependencies",
+        "importance_weight": 0.35,
+        "description": "Cycles in the dependency graph that create logical contradictions and unresolvable constraints"
+      },
+      {
+        "factor": "control_flow_ambiguity",
+        "importance_weight": 0.25,
+        "description": "Unclear control or ownership paths where entities reference partial interests without clear carve-outs"
+      },
+      {
+        "factor": "cross_jurisdictional_complexity",
+        "importance_weight": 0.2,
+        "description": "Dependencies spanning multiple countries with potential regulatory conflicts"
+      },
+      {
+        "factor": "centrality_in_cycles",
+        "importance_weight": 0.15,
+        "description": "Nodes that appear in multiple dependency cycles or serve as hubs for circular references"
+      },
+      {
+        "factor": "underspecified_relationships",
+        "importance_weight": 0.05,
+        "description": "References without clear operational meaning or ambiguous control implications"
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 10,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "us-cw-1011764",
+        "clause_b": "us-cw-1020294",
+        "description": "Mutual circular reference creates unresolvable dependency loop between primary US entities"
+      },
+      {
+        "clause_a": "us-cw-515912",
+        "clause_b": "us-cw-712455",
+        "description": "Circular dependency between Singapore and Indonesian entities creates regional control ambiguity"
+      },
+      {
+        "clause_a": "us-cw-997003",
+        "clause_b": "us-cw-1020294",
+        "description": "Israeli entity references US holdings, creating indirect circular path through the dependency graph"
+      },
+      {
+        "clause_a": "us-cw-1020294",
+        "clause_b": "us-cw-749750",
+        "description": "US holdings reference Israeli fund with ambiguous '20 percent outside interest' creating control flow uncertainty"
+      }
+    ],
+    "score_spread": 0.75,
+    "ranking_score_spread": 0.75,
+    "score_mean": 0.5700000000000001,
+    "score_max": 0.95,
+    "node_names": {
+      "us-cw-1011764": "The Nielsen Company (US) LLC",
+      "us-cw-1020294": "TNC (US) Holdings Inc",
+      "us-cw-121873": "NetRatings Australia Pty. Ltd",
+      "us-cw-515912": "Nielsen Co (Singapore) Pte. Ltd",
+      "us-cw-712455": "PT. The Nielsen Co Indonesia",
+      "us-cw-749749": "Nielsen Co Ltd",
+      "us-cw-515909": "Nielsen Co (Mauritius) Ltd",
+      "us-cw-749750": "Nielsen Innovate Fund LP",
+      "us-cw-749751": "Nielsen Innovate Ltd",
+      "us-cw-997003": "Buzzmetrics Ltd"
+    },
+    "ground_truth_nodes": [
+      "us-cw-515909"
+    ],
+    "gt_evidence": {
+      "us-cw-515909": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "prompt_word_count": 710,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.30422535211267604,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3112676056338028,
+    "inject_mode": true,
+    "injected_node": "us-cw-515909",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "us-cw-1020294",
+    "injected_witness_distance": 5,
+    "injected_bridge_node": "us-cw-515912",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "us-cw-515909",
+      "us-cw-1020294"
+    ],
+    "injected_evidence_nodes": [
+      "us-cw-515909",
+      "us-cw-515912",
+      "us-cw-1020294"
+    ],
+    "injected_affected_nodes": [
+      "us-cw-712455",
+      "us-cw-749750"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "sec_handoff_invariant_control_basis",
+    "injected_rank": 10,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "us-cw-515909": 10,
+      "us-cw-1020294": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 10,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": false,
+    "evidence_node_ranks": {
+      "us-cw-515909": 10,
+      "us-cw-515912": 4,
+      "us-cw-1020294": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 10,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "us-cw-712455": 5,
+      "us-cw-749750": 6
+    },
+    "affected_best_rank": 5,
+    "affected_worst_rank": 6,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "us-cw-515909": 10,
+      "us-cw-1020294": 1,
+      "us-cw-712455": 5,
+      "us-cw-749750": 6
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 10,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 10,
+    "root_top1_hit": false,
+    "root_top3_hit": false
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "sec_ex21",
+    "scc_size": 10,
+    "scc_id": "scc_6",
+    "scc_clause_ids": [
+      "us-cw-1011764",
+      "us-cw-1020294",
+      "us-cw-121873",
+      "us-cw-515912",
+      "us-cw-712455",
+      "us-cw-749749",
+      "us-cw-515909",
+      "us-cw-749750",
+      "us-cw-749751",
+      "us-cw-997003"
+    ],
+    "budget": 30,
+    "llm_calls": 12,
+    "tt_hits": 18,
+    "tt_hit_rate": 0.6,
+    "time": 841.9778461456299,
+    "scores": {
+      "us-cw-1020294": 0.6142857142857142,
+      "us-cw-121873": 0.52,
+      "us-cw-712455": 0.5125,
+      "us-cw-1011764": 0.5,
+      "us-cw-997003": 0.5,
+      "us-cw-515912": 0.4818181818181818,
+      "us-cw-749751": 0.4727272727272727,
+      "us-cw-749750": 0.37142857142857144,
+      "us-cw-515909": 0.3692307692307692,
+      "us-cw-749749": 0.35454545454545455
+    },
+    "ranking": [
+      [
+        "us-cw-1020294",
+        0.6142857142857142
+      ],
+      [
+        "us-cw-121873",
+        0.52
+      ],
+      [
+        "us-cw-712455",
+        0.5125
+      ],
+      [
+        "us-cw-1011764",
+        0.5
+      ],
+      [
+        "us-cw-997003",
+        0.5
+      ],
+      [
+        "us-cw-515912",
+        0.4818181818181818
+      ],
+      [
+        "us-cw-749751",
+        0.4727272727272727
+      ],
+      [
+        "us-cw-749750",
+        0.37142857142857144
+      ],
+      [
+        "us-cw-515909",
+        0.3692307692307692
+      ],
+      [
+        "us-cw-749749",
+        0.35454545454545455
+      ]
+    ],
+    "oc_detected": [
+      "us-cw-1020294"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.25974025974025966,
+    "score_mean": 0.4696535964035964,
+    "score_max": 0.6142857142857142,
+    "node_names": {
+      "us-cw-1011764": "The Nielsen Company (US) LLC",
+      "us-cw-1020294": "TNC (US) Holdings Inc",
+      "us-cw-121873": "NetRatings Australia Pty. Ltd",
+      "us-cw-515912": "Nielsen Co (Singapore) Pte. Ltd",
+      "us-cw-712455": "PT. The Nielsen Co Indonesia",
+      "us-cw-749749": "Nielsen Co Ltd",
+      "us-cw-515909": "Nielsen Co (Mauritius) Ltd",
+      "us-cw-749750": "Nielsen Innovate Fund LP",
+      "us-cw-749751": "Nielsen Innovate Ltd",
+      "us-cw-997003": "Buzzmetrics Ltd"
+    },
+    "clause_details": {
+      "us-cw-1011764": {
+        "mean_score": 0.5,
+        "visit_count": 8,
+        "conflict_count": 8,
+        "risk_history": [
+          0.3,
+          0.6,
+          0.6,
+          0.3,
+          0.3,
+          0.6,
+          0.6,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-1020294": {
+        "mean_score": 0.6142857142857142,
+        "visit_count": 14,
+        "conflict_count": 18,
+        "risk_history": [
+          0.7,
+          0.5,
+          0.7,
+          0.7,
+          0.5,
+          0.7,
+          0.7,
+          0.5,
+          0.5,
+          0.5,
+          0.7,
+          0.5,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": true
+      },
+      "us-cw-121873": {
+        "mean_score": 0.52,
+        "visit_count": 10,
+        "conflict_count": 6,
+        "risk_history": [
+          0.3,
+          0.9,
+          0.3,
+          0.3,
+          0.9,
+          0.9,
+          0.3,
+          0.5,
+          0.3,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-515912": {
+        "mean_score": 0.4818181818181818,
+        "visit_count": 11,
+        "conflict_count": 18,
+        "risk_history": [
+          0.7,
+          0.3,
+          0.7,
+          0.3,
+          0.2,
+          0.3,
+          0.7,
+          0.7,
+          0.2,
+          0.6,
+          0.6
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-712455": {
+        "mean_score": 0.5125,
+        "visit_count": 16,
+        "conflict_count": 15,
+        "risk_history": [
+          0.6,
+          0.6,
+          0.6,
+          0.6,
+          0.4,
+          0.6,
+          0.4,
+          0.6,
+          0.3,
+          0.4,
+          0.6,
+          0.6,
+          0.2,
+          0.3,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-749749": {
+        "mean_score": 0.35454545454545455,
+        "visit_count": 11,
+        "conflict_count": 7,
+        "risk_history": [
+          0.2,
+          0.7,
+          0.2,
+          0.2,
+          0.7,
+          0.7,
+          0.2,
+          0.2,
+          0.2,
+          0.4,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-515909": {
+        "mean_score": 0.3692307692307692,
+        "visit_count": 13,
+        "conflict_count": 14,
+        "risk_history": [
+          0.4,
+          0.3,
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.4,
+          0.3,
+          0.3,
+          0.6,
+          0.4,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-749750": {
+        "mean_score": 0.37142857142857144,
+        "visit_count": 14,
+        "conflict_count": 17,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.3,
+          0.3,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-749751": {
+        "mean_score": 0.4727272727272727,
+        "visit_count": 11,
+        "conflict_count": 13,
+        "risk_history": [
+          0.8,
+          0.4,
+          0.4,
+          0.8,
+          0.8,
+          0.3,
+          0.3,
+          0.4,
+          0.3,
+          0.4,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-997003": {
+        "mean_score": 0.5,
+        "visit_count": 12,
+        "conflict_count": 2,
+        "risk_history": [
+          0.8,
+          0.2,
+          0.2,
+          0.8,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "us-cw-515909"
+    ],
+    "gt_evidence": {
+      "us-cw-515909": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "inject_mode": true,
+    "injected_node": "us-cw-515909",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "us-cw-1020294",
+    "injected_witness_distance": 5,
+    "injected_bridge_node": "us-cw-515912",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "us-cw-515909",
+      "us-cw-1020294"
+    ],
+    "injected_evidence_nodes": [
+      "us-cw-515909",
+      "us-cw-515912",
+      "us-cw-1020294"
+    ],
+    "injected_affected_nodes": [
+      "us-cw-712455",
+      "us-cw-749750"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "sec_handoff_invariant_control_basis",
+    "injected_rank": 9,
+    "top1_margin": 0.0942857142857142,
+    "risk_node_ranks": {
+      "us-cw-515909": 9,
+      "us-cw-1020294": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 9,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": false,
+    "evidence_node_ranks": {
+      "us-cw-515909": 9,
+      "us-cw-515912": 6,
+      "us-cw-1020294": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 9,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "us-cw-712455": 3,
+      "us-cw-749750": 8
+    },
+    "affected_best_rank": 3,
+    "affected_worst_rank": 8,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "us-cw-515909": 9,
+      "us-cw-1020294": 1,
+      "us-cw-712455": 3,
+      "us-cw-749750": 8
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 9,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 9,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "risk_subgraph_nodes": [
+      "us-cw-1011764",
+      "us-cw-1020294",
+      "us-cw-121873",
+      "us-cw-712455",
+      "us-cw-749749",
+      "us-cw-515909",
+      "us-cw-749750"
+    ],
+    "risk_subgraph_size": 7,
+    "compression_ratio": 0.30000000000000004,
+    "contains_injected_node": true,
+    "contains_any_evidence_node": true,
+    "contains_all_evidence_nodes": false,
+    "evidence_nodes_retained": [
+      "us-cw-515909",
+      "us-cw-1020294"
+    ],
+    "contains_any_risk_node": true,
+    "contains_all_risk_nodes": true,
+    "contains_any_affected_node": true,
+    "subgraph_type": "posthoc_gt_anchored",
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors",
+    "blind_risk_subgraph_nodes": [
+      "us-cw-1011764",
+      "us-cw-1020294",
+      "us-cw-121873",
+      "us-cw-712455"
+    ],
+    "blind_risk_subgraph_size": 4,
+    "blind_compression_ratio": 0.6,
+    "blind_contains_injected_node": false,
+    "blind_contains_any_evidence_node": true,
+    "blind_contains_all_evidence_nodes": false,
+    "blind_evidence_nodes_retained": [
+      "us-cw-1020294"
+    ],
+    "blind_contains_any_risk_node": true,
+    "blind_contains_all_risk_nodes": false,
+    "blind_contains_any_affected_node": true,
+    "blind_subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC anchors only"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 12,
+    "scc_id": "scc_4",
+    "scc_clause_ids": [
+      "us-cw-1055194",
+      "us-cw-502062",
+      "us-cw-502091",
+      "us-cw-652416",
+      "us-cw-705648",
+      "us-cw-708557",
+      "us-cw-708560",
+      "us-cw-748266",
+      "us-cw-708556",
+      "us-cw-748274",
+      "us-cw-7565",
+      "us-cw-911364"
+    ],
+    "llm_calls": 1,
+    "time": 45.29067397117615,
+    "scores": {
+      "us-cw-1055194": 0.2,
+      "us-cw-502062": 0.95,
+      "us-cw-502091": 0.85,
+      "us-cw-652416": 0.65,
+      "us-cw-705648": 0.4,
+      "us-cw-708557": 0.5,
+      "us-cw-708560": 0.8,
+      "us-cw-748266": 0.75,
+      "us-cw-708556": 0.6,
+      "us-cw-748274": 0.7,
+      "us-cw-7565": 0.9,
+      "us-cw-911364": 0.3
+    },
+    "reasonings": {
+      "us-cw-1055194": "Peripheral node with minimal dependencies and no significant structural concerns.",
+      "us-cw-502062": "Highly central node with multiple incoming and outgoing edges, creating a complex dependency chain. Conflicts with 'us-cw-502091' and 'us-cw-708560' due to ambiguous downstream schedule references.",
+      "us-cw-502091": "Part of a complex dependency chain and conflicts with 'us-cw-502062' over downstream schedule references.",
+      "us-cw-652416": "References multiple nodes, but with less centrality compared to higher-ranked nodes.",
+      "us-cw-705648": "Content is underspecified, but its graph position reduces its overall impact.",
+      "us-cw-708557": "Content is underspecified, particularly regarding its role in the dependency chain.",
+      "us-cw-708560": "Central node with multiple dependencies and conflicts with 'us-cw-502062' over downstream schedule references.",
+      "us-cw-748266": "High fan-out node with multiple references, increasing the risk of cascading issues.",
+      "us-cw-708556": "Moderate fan-in and fan-out, contributing to dependency chain complexity.",
+      "us-cw-748274": "References multiple nodes, creating a moderately complex dependency chain.",
+      "us-cw-7565": "Root node with the highest number of outgoing edges, influencing nearly all other nodes. Any issue here propagates widely.",
+      "us-cw-911364": "Peripheral node with limited influence on the overall graph structure."
+    },
+    "ranking": [
+      [
+        "us-cw-502062",
+        0.95
+      ],
+      [
+        "us-cw-7565",
+        0.9
+      ],
+      [
+        "us-cw-502091",
+        0.85
+      ],
+      [
+        "us-cw-708560",
+        0.8
+      ],
+      [
+        "us-cw-748266",
+        0.75
+      ],
+      [
+        "us-cw-748274",
+        0.7
+      ],
+      [
+        "us-cw-652416",
+        0.65
+      ],
+      [
+        "us-cw-708556",
+        0.6
+      ],
+      [
+        "us-cw-708557",
+        0.5
+      ],
+      [
+        "us-cw-705648",
+        0.4
+      ],
+      [
+        "us-cw-911364",
+        0.3
+      ],
+      [
+        "us-cw-1055194",
+        0.2
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "us-cw-502062",
+        "risk_score": 0.95,
+        "risk_factors": [
+          "dependency_chain_complexity",
+          "mutual_incompatibility"
+        ],
+        "reasoning": "Highly central node with multiple incoming and outgoing edges, creating a complex dependency chain. Conflicts with 'us-cw-502091' and 'us-cw-708560' due to ambiguous downstream schedule references."
+      },
+      {
+        "rank": 2,
+        "clause_id": "us-cw-7565",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "dependency_chain_complexity",
+          "graph_position_impact"
+        ],
+        "reasoning": "Root node with the highest number of outgoing edges, influencing nearly all other nodes. Any issue here propagates widely."
+      },
+      {
+        "rank": 3,
+        "clause_id": "us-cw-502091",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "dependency_chain_complexity",
+          "mutual_incompatibility"
+        ],
+        "reasoning": "Part of a complex dependency chain and conflicts with 'us-cw-502062' over downstream schedule references."
+      },
+      {
+        "rank": 4,
+        "clause_id": "us-cw-708560",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "dependency_chain_complexity",
+          "mutual_incompatibility"
+        ],
+        "reasoning": "Central node with multiple dependencies and conflicts with 'us-cw-502062' over downstream schedule references."
+      },
+      {
+        "rank": 5,
+        "clause_id": "us-cw-748266",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "dependency_chain_complexity"
+        ],
+        "reasoning": "High fan-out node with multiple references, increasing the risk of cascading issues."
+      },
+      {
+        "rank": 6,
+        "clause_id": "us-cw-748274",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "dependency_chain_complexity"
+        ],
+        "reasoning": "References multiple nodes, creating a moderately complex dependency chain."
+      },
+      {
+        "rank": 7,
+        "clause_id": "us-cw-652416",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "dependency_chain_complexity"
+        ],
+        "reasoning": "References multiple nodes, but with less centrality compared to higher-ranked nodes."
+      },
+      {
+        "rank": 8,
+        "clause_id": "us-cw-708556",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "dependency_chain_complexity"
+        ],
+        "reasoning": "Moderate fan-in and fan-out, contributing to dependency chain complexity."
+      },
+      {
+        "rank": 9,
+        "clause_id": "us-cw-708557",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "underspecified_content"
+        ],
+        "reasoning": "Content is underspecified, particularly regarding its role in the dependency chain."
+      },
+      {
+        "rank": 10,
+        "clause_id": "us-cw-705648",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "underspecified_content"
+        ],
+        "reasoning": "Content is underspecified, but its graph position reduces its overall impact."
+      },
+      {
+        "rank": 11,
+        "clause_id": "us-cw-911364",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "graph_position_impact"
+        ],
+        "reasoning": "Peripheral node with limited influence on the overall graph structure."
+      },
+      {
+        "rank": 12,
+        "clause_id": "us-cw-1055194",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "graph_position_impact"
+        ],
+        "reasoning": "Peripheral node with minimal dependencies and no significant structural concerns."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "dependency_chain_complexity",
+        "importance_weight": 0.4,
+        "description": "Measures the structural complexity of a node's dependency chain, including cycles, long paths, and high fan-in or fan-out."
+      },
+      {
+        "factor": "underspecified_content",
+        "importance_weight": 0.3,
+        "description": "Captures the degree to which a record's content is incomplete, ambiguous, or lacks critical details."
+      },
+      {
+        "factor": "mutual_incompatibility",
+        "importance_weight": 0.2,
+        "description": "Identifies conflicts or inconsistencies between records that reference or depend on each other."
+      },
+      {
+        "factor": "graph_position_impact",
+        "importance_weight": 0.1,
+        "description": "Evaluates the centrality or influence of a node in the graph, with higher impact nodes being riskier."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 12,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "us-cw-502062",
+        "clause_b": "us-cw-502091",
+        "description": "Ambiguous downstream schedule references create a conflict in dependency interpretation."
+      },
+      {
+        "clause_a": "us-cw-502062",
+        "clause_b": "us-cw-708560",
+        "description": "Ambiguous downstream schedule references create a conflict in dependency interpretation."
+      }
+    ],
+    "score_spread": 0.75,
+    "ranking_score_spread": 0.75,
+    "score_mean": 0.6333333333333333,
+    "score_max": 0.95,
+    "node_names": {
+      "us-cw-1055194": "Proservia Polska z.o.o.",
+      "us-cw-502062": "Manpower Professional & Executive Recruitment Co Ltd",
+      "us-cw-502091": "Manpower Tunisie International Sarl",
+      "us-cw-652416": "Right Management Inc",
+      "us-cw-705648": "HR Power Solution Co. Ltd.",
+      "us-cw-708557": "Manpower Business Services Tunisie S.A.R.L.",
+      "us-cw-708560": "Manpower Middle East FZ LLC",
+      "us-cw-748266": "Manpower Professional Singapore Pte Ltd",
+      "us-cw-708556": "Manpower Borderless Talent Solution Limited",
+      "us-cw-748274": "ManpowerGroup Portugal - SGPS, S.A.",
+      "us-cw-7565": "ManpowerGroup Inc",
+      "us-cw-911364": "Right Management Consulting Taiwan"
+    },
+    "ground_truth_nodes": [
+      "us-cw-708556"
+    ],
+    "gt_evidence": {
+      "us-cw-708556": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "prompt_word_count": 1114,
+    "injected_title_occurrences_in_prompt": 6,
+    "injected_id_occurrences_in_prompt": 5,
+    "injected_title_first_word_ratio": 0.21454219030520646,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.2199281867145422,
+    "inject_mode": true,
+    "injected_node": "us-cw-708556",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "us-cw-502062",
+    "injected_witness_distance": 6,
+    "injected_bridge_node": "us-cw-911364",
+    "injected_bridge_distance": 3,
+    "injected_risk_nodes": [
+      "us-cw-708556",
+      "us-cw-502062"
+    ],
+    "injected_evidence_nodes": [
+      "us-cw-708556",
+      "us-cw-911364",
+      "us-cw-502062"
+    ],
+    "injected_affected_nodes": [
+      "us-cw-708557",
+      "us-cw-502091"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "sec_handoff_invariant_control_basis",
+    "injected_rank": 8,
+    "top1_margin": 0.04999999999999993,
+    "risk_node_ranks": {
+      "us-cw-708556": 8,
+      "us-cw-502062": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 8,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": false,
+    "evidence_node_ranks": {
+      "us-cw-708556": 8,
+      "us-cw-911364": 11,
+      "us-cw-502062": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 11,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "us-cw-708557": 9,
+      "us-cw-502091": 3
+    },
+    "affected_best_rank": 3,
+    "affected_worst_rank": 9,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "us-cw-708556": 8,
+      "us-cw-502062": 1,
+      "us-cw-708557": 9,
+      "us-cw-502091": 3
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 9,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 8,
+    "root_top1_hit": false,
+    "root_top3_hit": false
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 12,
+    "scc_id": "scc_4",
+    "scc_clause_ids": [
+      "us-cw-1055194",
+      "us-cw-502062",
+      "us-cw-502091",
+      "us-cw-652416",
+      "us-cw-705648",
+      "us-cw-708557",
+      "us-cw-708560",
+      "us-cw-748266",
+      "us-cw-708556",
+      "us-cw-748274",
+      "us-cw-7565",
+      "us-cw-911364"
+    ],
+    "budget": 30,
+    "llm_calls": 29,
+    "tt_hits": 1,
+    "tt_hit_rate": 0.03333333333333333,
+    "time": 121.4288740158081,
+    "scores": {
+      "us-cw-7565": 0.18947368421052632,
+      "us-cw-652416": 0.13333333333333333,
+      "us-cw-911364": 0.125,
+      "us-cw-502091": 0.12222222222222223,
+      "us-cw-708557": 0.08,
+      "us-cw-705648": 0.07272727272727274,
+      "us-cw-708556": 0.06666666666666667,
+      "us-cw-502062": 0.06,
+      "us-cw-708560": 0.044444444444444446,
+      "us-cw-748274": 0.03571428571428571,
+      "us-cw-748266": 0.018181818181818184,
+      "us-cw-1055194": 0.0
+    },
+    "ranking": [
+      [
+        "us-cw-7565",
+        0.18947368421052632
+      ],
+      [
+        "us-cw-652416",
+        0.13333333333333333
+      ],
+      [
+        "us-cw-911364",
+        0.125
+      ],
+      [
+        "us-cw-502091",
+        0.12222222222222223
+      ],
+      [
+        "us-cw-708557",
+        0.08
+      ],
+      [
+        "us-cw-705648",
+        0.07272727272727274
+      ],
+      [
+        "us-cw-708556",
+        0.06666666666666667
+      ],
+      [
+        "us-cw-502062",
+        0.06
+      ],
+      [
+        "us-cw-708560",
+        0.044444444444444446
+      ],
+      [
+        "us-cw-748274",
+        0.03571428571428571
+      ],
+      [
+        "us-cw-748266",
+        0.018181818181818184
+      ],
+      [
+        "us-cw-1055194",
+        0.0
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.18947368421052632,
+    "score_mean": 0.07898031062504747,
+    "score_max": 0.18947368421052632,
+    "node_names": {
+      "us-cw-1055194": "Proservia Polska z.o.o.",
+      "us-cw-502062": "Manpower Professional & Executive Recruitment Co Ltd",
+      "us-cw-502091": "Manpower Tunisie International Sarl",
+      "us-cw-652416": "Right Management Inc",
+      "us-cw-705648": "HR Power Solution Co. Ltd.",
+      "us-cw-708557": "Manpower Business Services Tunisie S.A.R.L.",
+      "us-cw-708560": "Manpower Middle East FZ LLC",
+      "us-cw-748266": "Manpower Professional Singapore Pte Ltd",
+      "us-cw-708556": "Manpower Borderless Talent Solution Limited",
+      "us-cw-748274": "ManpowerGroup Portugal - SGPS, S.A.",
+      "us-cw-7565": "ManpowerGroup Inc",
+      "us-cw-911364": "Right Management Consulting Taiwan"
+    },
+    "clause_details": {
+      "us-cw-1055194": {
+        "mean_score": 0.0,
+        "visit_count": 6,
+        "conflict_count": 0,
+        "risk_history": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-502062": {
+        "mean_score": 0.06,
+        "visit_count": 10,
+        "conflict_count": 2,
+        "risk_history": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.3,
+          0.0,
+          0.3,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-502091": {
+        "mean_score": 0.12222222222222223,
+        "visit_count": 9,
+        "conflict_count": 4,
+        "risk_history": [
+          0.0,
+          0.2,
+          0.0,
+          0.0,
+          0.2,
+          0.1,
+          0.0,
+          0.2,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-652416": {
+        "mean_score": 0.13333333333333333,
+        "visit_count": 9,
+        "conflict_count": 5,
+        "risk_history": [
+          0.3,
+          0.0,
+          0.1,
+          0.1,
+          0.2,
+          0.0,
+          0.3,
+          0.0,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-705648": {
+        "mean_score": 0.07272727272727274,
+        "visit_count": 11,
+        "conflict_count": 7,
+        "risk_history": [
+          0.1,
+          0.0,
+          0.0,
+          0.0,
+          0.3,
+          0.0,
+          0.1,
+          0.1,
+          0.0,
+          0.0,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-708557": {
+        "mean_score": 0.08,
+        "visit_count": 5,
+        "conflict_count": 1,
+        "risk_history": [
+          0.0,
+          0.0,
+          0.1,
+          0.0,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-708560": {
+        "mean_score": 0.044444444444444446,
+        "visit_count": 9,
+        "conflict_count": 2,
+        "risk_history": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          0.0,
+          0.0,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-748266": {
+        "mean_score": 0.018181818181818184,
+        "visit_count": 11,
+        "conflict_count": 0,
+        "risk_history": [
+          0.1,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.1,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-708556": {
+        "mean_score": 0.06666666666666667,
+        "visit_count": 9,
+        "conflict_count": 3,
+        "risk_history": [
+          0.0,
+          0.0,
+          0.0,
+          0.3,
+          0.0,
+          0.2,
+          0.1,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-748274": {
+        "mean_score": 0.03571428571428571,
+        "visit_count": 14,
+        "conflict_count": 0,
+        "risk_history": [
+          0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.1,
+          0.0,
+          0.1,
+          0.0,
+          0.1,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-7565": {
+        "mean_score": 0.18947368421052632,
+        "visit_count": 19,
+        "conflict_count": 15,
+        "risk_history": [
+          0.0,
+          0.0,
+          0.4,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          0.2,
+          0.0,
+          0.3,
+          0.0,
+          0.3,
+          0.4,
+          0.5,
+          0.4,
+          0.0,
+          0.0,
+          0.4,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-911364": {
+        "mean_score": 0.125,
+        "visit_count": 8,
+        "conflict_count": 3,
+        "risk_history": [
+          0.0,
+          0.3,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          0.2,
+          0.3
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "us-cw-708556"
+    ],
+    "gt_evidence": {
+      "us-cw-708556": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "inject_mode": true,
+    "injected_node": "us-cw-708556",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "us-cw-502062",
+    "injected_witness_distance": 6,
+    "injected_bridge_node": "us-cw-911364",
+    "injected_bridge_distance": 3,
+    "injected_risk_nodes": [
+      "us-cw-708556",
+      "us-cw-502062"
+    ],
+    "injected_evidence_nodes": [
+      "us-cw-708556",
+      "us-cw-911364",
+      "us-cw-502062"
+    ],
+    "injected_affected_nodes": [
+      "us-cw-708557",
+      "us-cw-502091"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "sec_handoff_invariant_control_basis",
+    "injected_rank": 7,
+    "top1_margin": 0.05614035087719299,
+    "risk_node_ranks": {
+      "us-cw-708556": 7,
+      "us-cw-502062": 8
+    },
+    "risk_best_rank": 7,
+    "risk_worst_rank": 8,
+    "risk_top1_hit": false,
+    "risk_top3_hit": false,
+    "risk_top5_hit": false,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": false,
+    "evidence_node_ranks": {
+      "us-cw-708556": 7,
+      "us-cw-911364": 3,
+      "us-cw-502062": 8
+    },
+    "evidence_best_rank": 3,
+    "evidence_worst_rank": 8,
+    "evidence_top1_hit": false,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "us-cw-708557": 5,
+      "us-cw-502091": 4
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "us-cw-708556": 7,
+      "us-cw-502062": 8,
+      "us-cw-708557": 5,
+      "us-cw-502091": 4
+    },
+    "valuable_best_rank": 4,
+    "valuable_worst_rank": 8,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": false,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 7,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "risk_subgraph_nodes": [
+      "us-cw-652416",
+      "us-cw-748266",
+      "us-cw-708556",
+      "us-cw-748274",
+      "us-cw-7565",
+      "us-cw-911364"
+    ],
+    "risk_subgraph_size": 6,
+    "compression_ratio": 0.5,
+    "contains_injected_node": true,
+    "contains_any_evidence_node": true,
+    "contains_all_evidence_nodes": false,
+    "evidence_nodes_retained": [
+      "us-cw-708556",
+      "us-cw-911364"
+    ],
+    "contains_any_risk_node": true,
+    "contains_all_risk_nodes": false,
+    "contains_any_affected_node": false,
+    "subgraph_type": "posthoc_gt_anchored",
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors",
+    "blind_risk_subgraph_nodes": [
+      "us-cw-652416",
+      "us-cw-748274",
+      "us-cw-7565",
+      "us-cw-911364"
+    ],
+    "blind_risk_subgraph_size": 4,
+    "blind_compression_ratio": 0.6666666666666667,
+    "blind_contains_injected_node": false,
+    "blind_contains_any_evidence_node": true,
+    "blind_contains_all_evidence_nodes": false,
+    "blind_evidence_nodes_retained": [
+      "us-cw-911364"
+    ],
+    "blind_contains_any_risk_node": false,
+    "blind_contains_all_risk_nodes": false,
+    "blind_contains_any_affected_node": false,
+    "blind_subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC anchors only"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "sec_ex21",
+    "scc_size": 12,
+    "scc_id": "scc_4",
+    "scc_clause_ids": [
+      "us-cw-1055194",
+      "us-cw-502062",
+      "us-cw-502091",
+      "us-cw-652416",
+      "us-cw-705648",
+      "us-cw-708557",
+      "us-cw-708560",
+      "us-cw-748266",
+      "us-cw-708556",
+      "us-cw-748274",
+      "us-cw-7565",
+      "us-cw-911364"
+    ],
+    "llm_calls": 1,
+    "time": 59.88356113433838,
+    "scores": {
+      "us-cw-1055194": 0.8,
+      "us-cw-502062": 0.7,
+      "us-cw-502091": 0.25,
+      "us-cw-652416": 0.6,
+      "us-cw-705648": 0.15,
+      "us-cw-708557": 0.05,
+      "us-cw-708560": 0.35,
+      "us-cw-748266": 0.45,
+      "us-cw-708556": 0.65,
+      "us-cw-748274": 0.85,
+      "us-cw-7565": 0.95,
+      "us-cw-911364": 0.55
+    },
+    "reasonings": {
+      "us-cw-1055194": "Participates in circular dependency cycle with us-cw-748274 and us-cw-7565",
+      "us-cw-502062": "High in-degree with conflicting control basis descriptions from different sources",
+      "us-cw-502091": "Low outgoing dependencies, primarily referenced by others",
+      "us-cw-652416": "References central hub and multiple entities, moderate impact position",
+      "us-cw-705648": "Minimal dependencies, limited systemic risk",
+      "us-cw-708557": "Structurally isolated with single dependency",
+      "us-cw-708560": "Multiple incoming references but unidirectional dependencies",
+      "us-cw-748266": "Moderate out-degree affecting several entities",
+      "us-cw-708556": "Full-control statement conflicts with partial ownership implications from referencing entities",
+      "us-cw-748274": "Central position in circular dependency cycle with high out-degree",
+      "us-cw-7565": "Hub node with bidirectional dependencies creating multiple cycles, highest systemic impact",
+      "us-cw-911364": "Control basis forwarding statement may conflict with referenced entity models"
+    },
+    "ranking": [
+      [
+        "us-cw-7565",
+        0.95
+      ],
+      [
+        "us-cw-748274",
+        0.85
+      ],
+      [
+        "us-cw-1055194",
+        0.8
+      ],
+      [
+        "us-cw-502062",
+        0.7
+      ],
+      [
+        "us-cw-708556",
+        0.65
+      ],
+      [
+        "us-cw-652416",
+        0.6
+      ],
+      [
+        "us-cw-911364",
+        0.55
+      ],
+      [
+        "us-cw-748266",
+        0.45
+      ],
+      [
+        "us-cw-708560",
+        0.35
+      ],
+      [
+        "us-cw-502091",
+        0.25
+      ],
+      [
+        "us-cw-705648",
+        0.15
+      ],
+      [
+        "us-cw-708557",
+        0.05
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "us-cw-7565",
+        "risk_score": 0.95,
+        "risk_factors": [
+          "circular_dependencies",
+          "centrality_and_impact"
+        ],
+        "reasoning": "Central hub with bidirectional dependencies creating cycles (e.g., us-cw-7565 \u2194 us-cw-748274, us-cw-7565 \u2194 us-cw-1055194), highest connectivity affecting all other nodes"
+      },
+      {
+        "rank": 2,
+        "clause_id": "us-cw-748274",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "circular_dependencies",
+          "centrality_and_impact"
+        ],
+        "reasoning": "Participates in bidirectional cycle with us-cw-7565 and us-cw-1055194, high out-degree affecting multiple Asian entities"
+      },
+      {
+        "rank": 3,
+        "clause_id": "us-cw-1055194",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "circular_dependencies"
+        ],
+        "reasoning": "Forms complete cycle: us-cw-1055194 \u2192 us-cw-748274 \u2192 us-cw-7565 \u2192 us-cw-1055194, creating unresolvable dependency loop"
+      },
+      {
+        "rank": 4,
+        "clause_id": "us-cw-502062",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "inconsistent_path_statements",
+          "centrality_and_impact"
+        ],
+        "reasoning": "Receives dependencies from multiple sources with conflicting control basis descriptions (20% outside interest vs full control), high in-degree"
+      },
+      {
+        "rank": 5,
+        "clause_id": "us-cw-708556",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "control_basis_ambiguity"
+        ],
+        "reasoning": "Explicitly states 'full-control basis' and 'no carve-out' while being referenced by entities that may imply partial ownership paths"
+      },
+      {
+        "rank": 6,
+        "clause_id": "us-cw-652416",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "centrality_and_impact"
+        ],
+        "reasoning": "References multiple entities including the central hub us-cw-7565, positioned in middle of dependency chains"
+      },
+      {
+        "rank": 7,
+        "clause_id": "us-cw-911364",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "inconsistent_path_statements"
+        ],
+        "reasoning": "States it 'forwards the same control basis from upstream' while referencing entities with potentially conflicting ownership models"
+      },
+      {
+        "rank": 8,
+        "clause_id": "us-cw-748266",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "centrality_and_impact"
+        ],
+        "reasoning": "Moderate out-degree affecting multiple entities, but no direct circular dependencies"
+      },
+      {
+        "rank": 9,
+        "clause_id": "us-cw-708560",
+        "risk_score": 0.35,
+        "risk_factors": [
+          "centrality_and_impact"
+        ],
+        "reasoning": "Referenced by multiple entities but dependencies are unidirectional toward us-cw-7565"
+      },
+      {
+        "rank": 10,
+        "clause_id": "us-cw-502091",
+        "risk_score": 0.25,
+        "risk_factors": [
+          "leaf_node_isolation"
+        ],
+        "reasoning": "Primarily referenced by others with minimal outgoing dependencies, limited systemic impact"
+      },
+      {
+        "rank": 11,
+        "clause_id": "us-cw-705648",
+        "risk_score": 0.15,
+        "risk_factors": [
+          "leaf_node_isolation"
+        ],
+        "reasoning": "Minimal dependencies, single outgoing reference to us-cw-708556"
+      },
+      {
+        "rank": 12,
+        "clause_id": "us-cw-708557",
+        "risk_score": 0.05,
+        "risk_factors": [
+          "leaf_node_isolation"
+        ],
+        "reasoning": "Single outgoing dependency to us-cw-502091, structurally isolated with minimal risk propagation"
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "circular_dependencies",
+        "importance_weight": 0.35,
+        "description": "Cycles in the dependency graph that create logical contradictions and unresolvable constraints"
+      },
+      {
+        "factor": "centrality_and_impact",
+        "importance_weight": 0.25,
+        "description": "Nodes with high in-degree or out-degree that affect many other records and amplify risk propagation"
+      },
+      {
+        "factor": "control_basis_ambiguity",
+        "importance_weight": 0.2,
+        "description": "Conflicting statements about full control vs partial ownership or carve-out treatments"
+      },
+      {
+        "factor": "inconsistent_path_statements",
+        "importance_weight": 0.15,
+        "description": "Contradictory descriptions of the same dependency path across different records"
+      },
+      {
+        "factor": "leaf_node_isolation",
+        "importance_weight": 0.05,
+        "description": "Nodes with minimal dependencies that pose limited systemic risk"
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 12,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "us-cw-1055194",
+        "clause_b": "us-cw-748274",
+        "description": "Circular dependency: us-cw-1055194 \u2192 us-cw-748274 \u2192 us-cw-7565 \u2192 us-cw-1055194 creates unresolvable constraint loop"
+      },
+      {
+        "clause_a": "us-cw-502062",
+        "clause_b": "us-cw-708556",
+        "description": "Conflicting control basis: us-cw-502062 mentions '20 percent outside interest' while us-cw-708556 states 'full-control basis, no carve-out'"
+      },
+      {
+        "clause_a": "us-cw-7565",
+        "clause_b": "us-cw-748274",
+        "description": "Bidirectional dependency creates logical contradiction in dependency resolution"
+      }
+    ],
+    "score_spread": 0.8999999999999999,
+    "ranking_score_spread": 0.8999999999999999,
+    "score_mean": 0.5291666666666667,
+    "score_max": 0.95,
+    "node_names": {
+      "us-cw-1055194": "Proservia Polska z.o.o.",
+      "us-cw-502062": "Manpower Professional & Executive Recruitment Co Ltd",
+      "us-cw-502091": "Manpower Tunisie International Sarl",
+      "us-cw-652416": "Right Management Inc",
+      "us-cw-705648": "HR Power Solution Co. Ltd.",
+      "us-cw-708557": "Manpower Business Services Tunisie S.A.R.L.",
+      "us-cw-708560": "Manpower Middle East FZ LLC",
+      "us-cw-748266": "Manpower Professional Singapore Pte Ltd",
+      "us-cw-708556": "Manpower Borderless Talent Solution Limited",
+      "us-cw-748274": "ManpowerGroup Portugal - SGPS, S.A.",
+      "us-cw-7565": "ManpowerGroup Inc",
+      "us-cw-911364": "Right Management Consulting Taiwan"
+    },
+    "ground_truth_nodes": [
+      "us-cw-708556"
+    ],
+    "gt_evidence": {
+      "us-cw-708556": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "prompt_word_count": 1114,
+    "injected_title_occurrences_in_prompt": 6,
+    "injected_id_occurrences_in_prompt": 5,
+    "injected_title_first_word_ratio": 0.21454219030520646,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.2199281867145422,
+    "inject_mode": true,
+    "injected_node": "us-cw-708556",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "us-cw-502062",
+    "injected_witness_distance": 6,
+    "injected_bridge_node": "us-cw-911364",
+    "injected_bridge_distance": 3,
+    "injected_risk_nodes": [
+      "us-cw-708556",
+      "us-cw-502062"
+    ],
+    "injected_evidence_nodes": [
+      "us-cw-708556",
+      "us-cw-911364",
+      "us-cw-502062"
+    ],
+    "injected_affected_nodes": [
+      "us-cw-708557",
+      "us-cw-502091"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "sec_handoff_invariant_control_basis",
+    "injected_rank": 5,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "us-cw-708556": 5,
+      "us-cw-502062": 4
+    },
+    "risk_best_rank": 4,
+    "risk_worst_rank": 5,
+    "risk_top1_hit": false,
+    "risk_top3_hit": false,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "us-cw-708556": 5,
+      "us-cw-911364": 7,
+      "us-cw-502062": 4
+    },
+    "evidence_best_rank": 4,
+    "evidence_worst_rank": 7,
+    "evidence_top1_hit": false,
+    "evidence_top3_hit": false,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "us-cw-708557": 12,
+      "us-cw-502091": 10
+    },
+    "affected_best_rank": 10,
+    "affected_worst_rank": 12,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": false,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "us-cw-708556": 5,
+      "us-cw-502062": 4,
+      "us-cw-708557": 12,
+      "us-cw-502091": 10
+    },
+    "valuable_best_rank": 4,
+    "valuable_worst_rank": 12,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": false,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 5,
+    "root_top1_hit": false,
+    "root_top3_hit": false
+  }
+]

@@ -1,0 +1,2004 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_10",
+    "scc_clause_ids": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libecore-fb1",
+      "libecore-input1",
+      "libecore-wl2-1",
+      "libecore-x1",
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "llm_calls": 1,
+    "time": 17.29346776008606,
+    "scores": {
+      "libecore-drm2-1": 0.6,
+      "libecore-evas1": 0.7,
+      "libecore-fb1": 0.5,
+      "libecore-input1": 0.8,
+      "libecore-wl2-1": 0.6,
+      "libecore-x1": 0.6,
+      "libelput1": 0.5,
+      "libevas1": 0.9,
+      "libevas1-engines-drm": 0.7,
+      "libevas1-engines-fb": 0.6,
+      "libevas1-engines-wayland": 0.7,
+      "libevas1-engines-x": 0.7
+    },
+    "reasonings": {
+      "libecore-drm2-1": "Moderate coupling with libelput1 and libevas1-engines-drm, historical warnings in transitive libraries, and potential for cascading failures due to its role in graphics rendering.",
+      "libecore-evas1": "High coupling with multiple packages (libecore-drm2-1, libecore-fb1, libecore-input1, libecore-wl2-1, libecore-x1, libelput1, libevas1), increasing risk of cascading failures and version conflicts.",
+      "libecore-fb1": "Moderate coupling with libecore-input1 and libecore-evas1, but lower exposure compared to other packages in the cycle.",
+      "libecore-input1": "Critical coupling with libevas1 and multiple other packages, making it a central node in the cycle with high potential for cascading failures.",
+      "libecore-wl2-1": "Moderate coupling with libecore-input1 and libevas1-engines-wayland, with potential for cascading failures in Wayland-based environments.",
+      "libecore-x1": "Moderate coupling with libecore-input1 and libevas1-engines-x, with potential for cascading failures in X11-based environments.",
+      "libelput1": "Moderate coupling with libecore-input1 and libecore-drm2-1, but lower exposure compared to other packages in the cycle.",
+      "libevas1": "High coupling with libevas1-engines-* packages and libecore-input1, making it a critical node in the cycle with significant risk of cascading failures and CVE propagation.",
+      "libevas1-engines-drm": "Coupling with libecore-drm2-1 and libevas1, with potential for cascading failures in DRM-based rendering environments.",
+      "libevas1-engines-fb": "Coupling with libevas1, with moderate risk of cascading failures in framebuffer-based rendering environments.",
+      "libevas1-engines-wayland": "Coupling with libecore-evas1, libecore-input1, libecore-wl2-1, and libevas1, with potential for cascading failures in Wayland-based environments.",
+      "libevas1-engines-x": "Coupling with libecore-x1 and libevas1, with potential for cascading failures in X11-based environments."
+    },
+    "ranking": [
+      [
+        "libevas1",
+        0.9
+      ],
+      [
+        "libecore-input1",
+        0.8
+      ],
+      [
+        "libecore-evas1",
+        0.7
+      ],
+      [
+        "libevas1-engines-drm",
+        0.7
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.7
+      ],
+      [
+        "libevas1-engines-x",
+        0.7
+      ],
+      [
+        "libecore-drm2-1",
+        0.6
+      ],
+      [
+        "libecore-wl2-1",
+        0.6
+      ],
+      [
+        "libecore-x1",
+        0.6
+      ],
+      [
+        "libevas1-engines-fb",
+        0.6
+      ],
+      [
+        "libecore-fb1",
+        0.5
+      ],
+      [
+        "libelput1",
+        0.5
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "libevas1",
+        "clause_b": "libevas1-engines-drm",
+        "description": "Security-only updates for libevas1-engines-drm cannot be activated due to dependency cycle, leaving vulnerable shared objects exposed."
+      },
+      {
+        "clause_a": "libecore-evas1",
+        "clause_b": "libecore-input1",
+        "description": "High coupling between these packages increases risk of cascading failures during partial upgrades or dependency resolution."
+      },
+      {
+        "clause_a": "libevas1",
+        "clause_b": "libevas1-engines-wayland",
+        "description": "Dependency cycle prevents coordinated updates, increasing risk of CVE propagation in Wayland environments."
+      },
+      {
+        "clause_a": "libevas1",
+        "clause_b": "libevas1-engines-x",
+        "description": "Dependency cycle prevents coordinated updates, increasing risk of CVE propagation in X11 environments."
+      }
+    ],
+    "score_spread": 0.4,
+    "score_mean": 0.6583333333333333,
+    "score_max": 0.9,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libecore-x1": "libecore-x1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "ground_truth_nodes": [
+      "libevas1-engines-drm"
+    ],
+    "gt_evidence": {
+      "libevas1-engines-drm": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "inject_mode": true,
+    "injected_node": "libevas1-engines-drm",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 4,
+    "top1_margin": 0.09999999999999998
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_10",
+    "scc_clause_ids": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libecore-fb1",
+      "libecore-input1",
+      "libecore-wl2-1",
+      "libecore-x1",
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "budget": 30,
+    "llm_calls": 25,
+    "tt_hits": 5,
+    "tt_hit_rate": 0.16666666666666666,
+    "time": 129.07669520378113,
+    "scores": {
+      "libevas1-engines-drm": 0.8428571428571427,
+      "libevas1-engines-wayland": 0.4125000000000001,
+      "libevas1": 0.40714285714285714,
+      "libecore-evas1": 0.39411764705882346,
+      "libecore-input1": 0.3571428571428572,
+      "libelput1": 0.35,
+      "libevas1-engines-fb": 0.35,
+      "libevas1-engines-x": 0.34285714285714286,
+      "libecore-fb1": 0.3333333333333333,
+      "libecore-x1": 0.3111111111111111,
+      "libecore-drm2-1": 0.3,
+      "libecore-wl2-1": 0.3
+    },
+    "ranking": [
+      [
+        "libevas1-engines-drm",
+        0.8428571428571427
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.4125000000000001
+      ],
+      [
+        "libevas1",
+        0.40714285714285714
+      ],
+      [
+        "libecore-evas1",
+        0.39411764705882346
+      ],
+      [
+        "libecore-input1",
+        0.3571428571428572
+      ],
+      [
+        "libelput1",
+        0.35
+      ],
+      [
+        "libevas1-engines-fb",
+        0.35
+      ],
+      [
+        "libevas1-engines-x",
+        0.34285714285714286
+      ],
+      [
+        "libecore-fb1",
+        0.3333333333333333
+      ],
+      [
+        "libecore-x1",
+        0.3111111111111111
+      ],
+      [
+        "libecore-drm2-1",
+        0.3
+      ],
+      [
+        "libecore-wl2-1",
+        0.3
+      ]
+    ],
+    "oc_detected": [
+      "libevas1-engines-drm"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.5428571428571427,
+    "score_mean": 0.39175517429193896,
+    "score_max": 0.8428571428571427,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libecore-x1": "libecore-x1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "clause_details": {
+      "libecore-drm2-1": {
+        "mean_score": 0.3,
+        "visit_count": 9,
+        "conflict_count": 10,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.2,
+          0.2,
+          0.2,
+          0.5,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-evas1": {
+        "mean_score": 0.39411764705882346,
+        "visit_count": 17,
+        "conflict_count": 38,
+        "risk_history": [
+          0.4,
+          0.6,
+          0.2,
+          0.4,
+          0.4,
+          0.5,
+          0.4,
+          0.4,
+          0.3,
+          0.6,
+          0.3,
+          0.3,
+          0.4,
+          0.3,
+          0.5,
+          0.4,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-fb1": {
+        "mean_score": 0.3333333333333333,
+        "visit_count": 6,
+        "conflict_count": 8,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.3,
+          0.4,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-input1": {
+        "mean_score": 0.3571428571428572,
+        "visit_count": 14,
+        "conflict_count": 30,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.5,
+          0.3,
+          0.4,
+          0.5,
+          0.5,
+          0.3,
+          0.3,
+          0.2,
+          0.4,
+          0.2,
+          0.4,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-wl2-1": {
+        "mean_score": 0.3,
+        "visit_count": 9,
+        "conflict_count": 15,
+        "risk_history": [
+          0.3,
+          0.2,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-x1": {
+        "mean_score": 0.3111111111111111,
+        "visit_count": 9,
+        "conflict_count": 17,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.2,
+          0.4,
+          0.4,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libelput1": {
+        "mean_score": 0.35,
+        "visit_count": 8,
+        "conflict_count": 13,
+        "risk_history": [
+          0.2,
+          0.5,
+          0.3,
+          0.3,
+          0.5,
+          0.3,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1": {
+        "mean_score": 0.40714285714285714,
+        "visit_count": 14,
+        "conflict_count": 29,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.3,
+          0.4,
+          0.5,
+          0.4,
+          0.4,
+          0.4,
+          0.5,
+          0.5,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-drm": {
+        "mean_score": 0.8428571428571427,
+        "visit_count": 7,
+        "conflict_count": 12,
+        "risk_history": [
+          0.9,
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": true
+      },
+      "libevas1-engines-fb": {
+        "mean_score": 0.35,
+        "visit_count": 4,
+        "conflict_count": 4,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.4,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-wayland": {
+        "mean_score": 0.4125000000000001,
+        "visit_count": 16,
+        "conflict_count": 34,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.5,
+          0.4,
+          0.5,
+          0.5,
+          0.4,
+          0.5,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-x": {
+        "mean_score": 0.34285714285714286,
+        "visit_count": 7,
+        "conflict_count": 10,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.2,
+          0.3,
+          0.4,
+          0.4,
+          0.3
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "libevas1-engines-drm"
+    ],
+    "gt_evidence": {
+      "libevas1-engines-drm": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "libevas1-engines-drm",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.43035714285714266,
+    "risk_subgraph_nodes": [
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland"
+    ],
+    "risk_subgraph_size": 4,
+    "compression_ratio": 0.6666666666666667,
+    "contains_injected_node": true,
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_10",
+    "scc_clause_ids": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libecore-fb1",
+      "libecore-input1",
+      "libecore-wl2-1",
+      "libecore-x1",
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "llm_calls": 1,
+    "time": 30.866161108016968,
+    "scores": {
+      "libecore-drm2-1": 0.6,
+      "libecore-evas1": 0.7,
+      "libecore-fb1": 0.3,
+      "libecore-input1": 0.8,
+      "libecore-wl2-1": 0.5,
+      "libecore-x1": 0.6,
+      "libelput1": 0.4,
+      "libevas1": 0.9,
+      "libevas1-engines-drm": 0.8,
+      "libevas1-engines-fb": 0.4,
+      "libevas1-engines-wayland": 0.7,
+      "libevas1-engines-x": 0.6
+    },
+    "reasonings": {
+      "libecore-drm2-1": "Core dependency in cycle, participates in security incident with libevas1-engines-drm, network-facing code path affected",
+      "libecore-evas1": "Highly connected hub with 7 dependencies, central to multiple engine packages, creates broad attack surface",
+      "libecore-fb1": "Limited dependencies, no specific security incidents noted, lower coupling",
+      "libecore-input1": "Critical hub with 5 packages depending on it, creates single point of failure, input handling surface",
+      "libecore-wl2-1": "Wayland protocol implementation, moderate connectivity, no specific security incidents",
+      "libecore-x1": "X11 backend implementation, used by multiple engines, display server attack surface",
+      "libelput1": "Input library, moderate connectivity, historical warnings in transitive libraries",
+      "libevas1": "Core canvas library with 5 engine dependencies, central to entire graphics stack, creates cascading failure risk",
+      "libevas1-engines-drm": "Documented security incident where patches cannot activate due to cycle, DRM backend creates privileged access risk",
+      "libevas1-engines-fb": "Framebuffer engine, limited connectivity, no specific security incidents",
+      "libevas1-engines-wayland": "Complex dependency on 5 packages, Wayland protocol implementation, creates broad attack surface",
+      "libevas1-engines-x": "X11 engine, moderate connectivity, display server attack surface"
+    },
+    "ranking": [
+      [
+        "libevas1",
+        0.9
+      ],
+      [
+        "libecore-input1",
+        0.8
+      ],
+      [
+        "libevas1-engines-drm",
+        0.8
+      ],
+      [
+        "libecore-evas1",
+        0.7
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.7
+      ],
+      [
+        "libecore-drm2-1",
+        0.6
+      ],
+      [
+        "libecore-x1",
+        0.6
+      ],
+      [
+        "libevas1-engines-x",
+        0.6
+      ],
+      [
+        "libecore-wl2-1",
+        0.5
+      ],
+      [
+        "libelput1",
+        0.4
+      ],
+      [
+        "libevas1-engines-fb",
+        0.4
+      ],
+      [
+        "libecore-fb1",
+        0.3
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "libevas1-engines-drm",
+        "clause_b": "libecore-drm2-1",
+        "description": "Security update deadlock: postinst requires newer ABI from cycle partners while partners refuse to configure until this package provides fixed interface"
+      },
+      {
+        "clause_a": "libevas1",
+        "clause_b": "libecore-input1",
+        "description": "Mutual dependency creates core graphics stack deadlock affecting all input and rendering operations"
+      },
+      {
+        "clause_a": "libecore-evas1",
+        "clause_b": "libevas1",
+        "description": "Core graphics infrastructure circular dependency prevents independent security updates"
+      }
+    ],
+    "score_spread": 0.6000000000000001,
+    "score_mean": 0.6083333333333333,
+    "score_max": 0.9,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libecore-x1": "libecore-x1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "ground_truth_nodes": [
+      "libevas1-engines-drm"
+    ],
+    "gt_evidence": {
+      "libevas1-engines-drm": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "libevas1-engines-drm",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 3,
+    "top1_margin": 0.09999999999999998
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_10",
+    "scc_clause_ids": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libecore-fb1",
+      "libecore-input1",
+      "libecore-wl2-1",
+      "libecore-x1",
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "budget": 30,
+    "llm_calls": 29,
+    "tt_hits": 1,
+    "tt_hit_rate": 0.03333333333333333,
+    "time": 136.16513919830322,
+    "scores": {
+      "libevas1-engines-drm": 0.8200000000000001,
+      "libevas1": 0.4421052631578948,
+      "libecore-drm2-1": 0.4111111111111111,
+      "libevas1-engines-wayland": 0.41,
+      "libevas1-engines-x": 0.3777777777777777,
+      "libecore-evas1": 0.37692307692307697,
+      "libevas1-engines-fb": 0.37499999999999994,
+      "libecore-input1": 0.3692307692307692,
+      "libecore-x1": 0.32999999999999996,
+      "libelput1": 0.31666666666666665,
+      "libecore-wl2-1": 0.3,
+      "libecore-fb1": 0.28750000000000003
+    },
+    "ranking": [
+      [
+        "libevas1-engines-drm",
+        0.8200000000000001
+      ],
+      [
+        "libevas1",
+        0.4421052631578948
+      ],
+      [
+        "libecore-drm2-1",
+        0.4111111111111111
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.41
+      ],
+      [
+        "libevas1-engines-x",
+        0.3777777777777777
+      ],
+      [
+        "libecore-evas1",
+        0.37692307692307697
+      ],
+      [
+        "libevas1-engines-fb",
+        0.37499999999999994
+      ],
+      [
+        "libecore-input1",
+        0.3692307692307692
+      ],
+      [
+        "libecore-x1",
+        0.32999999999999996
+      ],
+      [
+        "libelput1",
+        0.31666666666666665
+      ],
+      [
+        "libecore-wl2-1",
+        0.3
+      ],
+      [
+        "libecore-fb1",
+        0.28750000000000003
+      ]
+    ],
+    "oc_detected": [
+      "libevas1-engines-drm"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.5325,
+    "score_mean": 0.401359555405608,
+    "score_max": 0.8200000000000001,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libecore-x1": "libecore-x1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "clause_details": {
+      "libecore-drm2-1": {
+        "mean_score": 0.4111111111111111,
+        "visit_count": 9,
+        "conflict_count": 10,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.3,
+          0.7,
+          0.4,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-evas1": {
+        "mean_score": 0.37692307692307697,
+        "visit_count": 13,
+        "conflict_count": 25,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.3,
+          0.4,
+          0.5,
+          0.4,
+          0.3,
+          0.4,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-fb1": {
+        "mean_score": 0.28750000000000003,
+        "visit_count": 8,
+        "conflict_count": 6,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-input1": {
+        "mean_score": 0.3692307692307692,
+        "visit_count": 13,
+        "conflict_count": 21,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.3,
+          0.3,
+          0.5,
+          0.2,
+          0.3,
+          0.5,
+          0.3,
+          0.4,
+          0.5,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-wl2-1": {
+        "mean_score": 0.3,
+        "visit_count": 5,
+        "conflict_count": 6,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-x1": {
+        "mean_score": 0.32999999999999996,
+        "visit_count": 10,
+        "conflict_count": 12,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "libelput1": {
+        "mean_score": 0.31666666666666665,
+        "visit_count": 6,
+        "conflict_count": 10,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.2,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1": {
+        "mean_score": 0.4421052631578948,
+        "visit_count": 19,
+        "conflict_count": 35,
+        "risk_history": [
+          0.4,
+          0.3,
+          0.5,
+          0.4,
+          0.5,
+          0.4,
+          0.3,
+          0.5,
+          0.4,
+          0.4,
+          0.7,
+          0.3,
+          0.4,
+          0.6,
+          0.5,
+          0.4,
+          0.6,
+          0.4,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-drm": {
+        "mean_score": 0.8200000000000001,
+        "visit_count": 10,
+        "conflict_count": 24,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": true
+      },
+      "libevas1-engines-fb": {
+        "mean_score": 0.37499999999999994,
+        "visit_count": 8,
+        "conflict_count": 7,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-wayland": {
+        "mean_score": 0.41,
+        "visit_count": 10,
+        "conflict_count": 18,
+        "risk_history": [
+          0.4,
+          0.5,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-x": {
+        "mean_score": 0.3777777777777777,
+        "visit_count": 9,
+        "conflict_count": 12,
+        "risk_history": [
+          0.3,
+          0.5,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.3
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "libevas1-engines-drm"
+    ],
+    "gt_evidence": {
+      "libevas1-engines-drm": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "libevas1-engines-drm",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.3778947368421053,
+    "risk_subgraph_nodes": [
+      "libecore-drm2-1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-fb"
+    ],
+    "risk_subgraph_size": 4,
+    "compression_ratio": 0.6666666666666667,
+    "contains_injected_node": true,
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_28",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "llm_calls": 1,
+    "time": 14.142639875411987,
+    "scores": {
+      "libjs-util": 0.4,
+      "node-assert": 0.3,
+      "node-debbundle-es-to-primitive": 0.5,
+      "node-deep-equal": 0.6,
+      "node-define-properties": 0.4,
+      "node-es-abstract": 0.5,
+      "node-istanbul": 0.3,
+      "node-parse-json": 0.7,
+      "node-read-pkg": 0.4,
+      "node-tape": 0.5,
+      "node-util": 0.4
+    },
+    "reasonings": {
+      "libjs-util": "Medium coupling due to its dependency on node-deep-equal and node-util. No direct CVE exposure, but its position in the cycle increases the risk of cascading failures during upgrades.",
+      "node-assert": "Low coupling with only one dependency (node-util). No known CVE history, but its role in the cycle contributes to potential version-skew issues.",
+      "node-debbundle-es-to-primitive": "High coupling with multiple dependencies (node-deep-equal, node-define-properties). Its central role in the cycle increases the risk of cascading failures and upgrade blockers.",
+      "node-deep-equal": "Critical coupling with multiple dependencies and dependents. Its position in the cycle makes it a key node for potential cascading failures. Historical warnings in transitive libraries add to its risk.",
+      "node-define-properties": "Medium coupling with dependencies on node-es-abstract and node-deep-equal. No direct CVE exposure, but its role in the cycle contributes to upgrade complexity.",
+      "node-es-abstract": "High coupling with multiple dependencies and dependents. Its central role in the cycle increases the risk of cascading failures and upgrade blockers.",
+      "node-istanbul": "Low coupling with a single dependency (node-read-pkg). No direct CVE exposure, but its role in the cycle contributes to upgrade complexity.",
+      "node-parse-json": "Critical risk due to its dependency on node-assert and its role in blocking security updates during the cycle. Known issues with postinst checks and dynamic loader behavior increase its exposure.",
+      "node-read-pkg": "Medium coupling with dependencies on node-parse-json. No direct CVE exposure, but its role in the cycle contributes to upgrade complexity.",
+      "node-tape": "High coupling with multiple dependencies (node-debbundle-es-to-primitive, node-deep-equal, node-define-properties, node-es-abstract, node-istanbul). Its central role in the cycle increases the risk of cascading failures.",
+      "node-util": "Medium coupling due to its dependency on libjs-util. No direct CVE exposure, but its role in the cycle contributes to upgrade complexity."
+    },
+    "ranking": [
+      [
+        "node-parse-json",
+        0.7
+      ],
+      [
+        "node-deep-equal",
+        0.6
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.5
+      ],
+      [
+        "node-es-abstract",
+        0.5
+      ],
+      [
+        "node-tape",
+        0.5
+      ],
+      [
+        "libjs-util",
+        0.4
+      ],
+      [
+        "node-define-properties",
+        0.4
+      ],
+      [
+        "node-read-pkg",
+        0.4
+      ],
+      [
+        "node-util",
+        0.4
+      ],
+      [
+        "node-assert",
+        0.3
+      ],
+      [
+        "node-istanbul",
+        0.3
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "node-parse-json",
+        "clause_b": "node-read-pkg",
+        "description": "Security updates for node-parse-json are blocked due to dependency order issues with node-read-pkg, leading to potential exposure of vulnerable objects during upgrades."
+      },
+      {
+        "clause_a": "node-deep-equal",
+        "clause_b": "node-es-abstract",
+        "description": "Both packages depend on each other, creating a high-risk loop that complicates rebuilds and increases the potential for cascading failures."
+      },
+      {
+        "clause_a": "node-debbundle-es-to-primitive",
+        "clause_b": "node-deep-equal",
+        "description": "Circular dependency between these packages increases the risk of version conflicts and upgrade blockers."
+      },
+      {
+        "clause_a": "node-tape",
+        "clause_b": "node-debbundle-es-to-primitive",
+        "description": "Dependency loop involving node-tape and node-debbundle-es-to-primitive contributes to cascading failures during archive rebuilds."
+      },
+      {
+        "clause_a": "libjs-util",
+        "clause_b": "node-util",
+        "description": "Dependency chain between libjs-util and node-util increases the risk of noisy version-skew messages during partial upgrades."
+      }
+    ],
+    "score_spread": 0.39999999999999997,
+    "score_mean": 0.45454545454545453,
+    "score_max": 0.7,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_28",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "budget": 30,
+    "llm_calls": 14,
+    "tt_hits": 16,
+    "tt_hit_rate": 0.5333333333333333,
+    "time": 91.12243890762329,
+    "scores": {
+      "node-parse-json": 0.7727272727272727,
+      "node-es-abstract": 0.4583333333333333,
+      "node-deep-equal": 0.41875,
+      "node-debbundle-es-to-primitive": 0.35,
+      "node-tape": 0.3466666666666666,
+      "node-assert": 0.33749999999999997,
+      "node-istanbul": 0.32999999999999996,
+      "node-read-pkg": 0.3230769230769231,
+      "node-define-properties": 0.30000000000000004,
+      "libjs-util": 0.3,
+      "node-util": 0.2875
+    },
+    "ranking": [
+      [
+        "node-parse-json",
+        0.7727272727272727
+      ],
+      [
+        "node-es-abstract",
+        0.4583333333333333
+      ],
+      [
+        "node-deep-equal",
+        0.41875
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.35
+      ],
+      [
+        "node-tape",
+        0.3466666666666666
+      ],
+      [
+        "node-assert",
+        0.33749999999999997
+      ],
+      [
+        "node-istanbul",
+        0.32999999999999996
+      ],
+      [
+        "node-read-pkg",
+        0.3230769230769231
+      ],
+      [
+        "node-define-properties",
+        0.30000000000000004
+      ],
+      [
+        "libjs-util",
+        0.3
+      ],
+      [
+        "node-util",
+        0.2875
+      ]
+    ],
+    "oc_detected": [
+      "node-deep-equal",
+      "node-es-abstract",
+      "node-parse-json"
+    ],
+    "oc_count": 3,
+    "score_spread": 0.48522727272727273,
+    "score_mean": 0.384050381436745,
+    "score_max": 0.7727272727272727,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "clause_details": {
+      "libjs-util": {
+        "mean_score": 0.3,
+        "visit_count": 8,
+        "conflict_count": 9,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "node-assert": {
+        "mean_score": 0.33749999999999997,
+        "visit_count": 8,
+        "conflict_count": 11,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "node-debbundle-es-to-primitive": {
+        "mean_score": 0.35,
+        "visit_count": 10,
+        "conflict_count": 20,
+        "risk_history": [
+          0.3,
+          0.2,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "node-deep-equal": {
+        "mean_score": 0.41875,
+        "visit_count": 16,
+        "conflict_count": 31,
+        "risk_history": [
+          0.4,
+          0.5,
+          0.3,
+          0.4,
+          0.5,
+          0.5,
+          0.4,
+          0.4,
+          0.3,
+          0.5,
+          0.3,
+          0.4,
+          0.4,
+          0.4,
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": true
+      },
+      "node-define-properties": {
+        "mean_score": 0.30000000000000004,
+        "visit_count": 9,
+        "conflict_count": 20,
+        "risk_history": [
+          0.2,
+          0.4,
+          0.3,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.2,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "node-es-abstract": {
+        "mean_score": 0.4583333333333333,
+        "visit_count": 12,
+        "conflict_count": 25,
+        "risk_history": [
+          0.5,
+          0.5,
+          0.5,
+          0.4,
+          0.4,
+          0.5,
+          0.5,
+          0.4,
+          0.5,
+          0.4,
+          0.4,
+          0.5
+        ],
+        "is_oc_detected": true
+      },
+      "node-istanbul": {
+        "mean_score": 0.32999999999999996,
+        "visit_count": 10,
+        "conflict_count": 20,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "node-parse-json": {
+        "mean_score": 0.7727272727272727,
+        "visit_count": 11,
+        "conflict_count": 24,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": true
+      },
+      "node-read-pkg": {
+        "mean_score": 0.3230769230769231,
+        "visit_count": 13,
+        "conflict_count": 19,
+        "risk_history": [
+          0.4,
+          0.3,
+          0.4,
+          0.2,
+          0.3,
+          0.4,
+          0.3,
+          0.2,
+          0.2,
+          0.4,
+          0.3,
+          0.4,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "node-tape": {
+        "mean_score": 0.3466666666666666,
+        "visit_count": 15,
+        "conflict_count": 27,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.4,
+          0.3,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "node-util": {
+        "mean_score": 0.2875,
+        "visit_count": 8,
+        "conflict_count": 8,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.2,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.3143939393939394,
+    "risk_subgraph_nodes": [
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg"
+    ],
+    "risk_subgraph_size": 7,
+    "compression_ratio": 0.36363636363636365,
+    "contains_injected_node": true,
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_28",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "llm_calls": 1,
+    "time": 25.01057004928589,
+    "scores": {
+      "libjs-util": 0.4,
+      "node-assert": 0.5,
+      "node-debbundle-es-to-primitive": 0.7,
+      "node-deep-equal": 0.8,
+      "node-define-properties": 0.6,
+      "node-es-abstract": 0.9,
+      "node-istanbul": 0.3,
+      "node-parse-json": 0.8,
+      "node-read-pkg": 0.4,
+      "node-tape": 0.5,
+      "node-util": 0.6
+    },
+    "reasonings": {
+      "libjs-util": "Core utility library with moderate coupling; depends on node-deep-equal and depended on by node-util, creating browser/server bridge",
+      "node-assert": "Testing assertion library depended on by node-parse-json; common testing surface with potential for injection if assertions are compromised",
+      "node-debbundle-es-to-primitive": "Highly central in cycle; depended on by 4 packages including node-deep-equal and node-es-abstract; type conversion logic is common attack surface",
+      "node-deep-equal": "Critical hub with 6 dependencies; depended on by 5 packages; deep comparison operations historically vulnerable to prototype pollution and DoS",
+      "node-define-properties": "Property definition utility; depended on by 3 packages including node-deep-equal; property manipulation can lead to prototype pollution",
+      "node-es-abstract": "ECMAScript abstract operations; depended on by 3 packages and depends on 4; low-level language operations are high-risk attack surface",
+      "node-istanbul": "Code coverage tool; only depended on by node-tape; limited attack surface in testing context",
+      "node-parse-json": "JSON parsing library with documented security incident; depended on by node-read-pkg; JSON parsing is common injection vector",
+      "node-read-pkg": "Package.json reader; only depends on node-parse-json; limited functionality but depends on vulnerable parser",
+      "node-tape": "Testing framework with 5 dependencies; testing tools can be leveraged for supply chain attacks",
+      "node-util": "Node.js util module polyfill; depended on by node-assert and depends on libjs-util; core utility functions are common attack surface"
+    },
+    "ranking": [
+      [
+        "node-es-abstract",
+        0.9
+      ],
+      [
+        "node-deep-equal",
+        0.8
+      ],
+      [
+        "node-parse-json",
+        0.8
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.7
+      ],
+      [
+        "node-define-properties",
+        0.6
+      ],
+      [
+        "node-util",
+        0.6
+      ],
+      [
+        "node-assert",
+        0.5
+      ],
+      [
+        "node-tape",
+        0.5
+      ],
+      [
+        "libjs-util",
+        0.4
+      ],
+      [
+        "node-read-pkg",
+        0.4
+      ],
+      [
+        "node-istanbul",
+        0.3
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "node-parse-json",
+        "clause_b": "node-assert",
+        "description": "Security update blocking: parse-json postinst requires newer assert ABI, but assert refuses to configure until parse-json provides fixed interface"
+      },
+      {
+        "clause_a": "node-deep-equal",
+        "clause_b": "node-debbundle-es-to-primitive",
+        "description": "Mutual dependency creates unresolvable build order; both are central to the cycle"
+      },
+      {
+        "clause_a": "node-es-abstract",
+        "clause_b": "node-deep-equal",
+        "description": "Multiple dependency links create tight coupling; ES abstract operations depend on deep comparison which depends back on ES abstractions"
+      },
+      {
+        "clause_a": "libjs-util",
+        "clause_b": "node-util",
+        "description": "Browser/server bridge creates cross-environment dependency that complicates security updates"
+      }
+    ],
+    "score_spread": 0.6000000000000001,
+    "score_mean": 0.5909090909090909,
+    "score_max": 0.9,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 3,
+    "top1_margin": 0.09999999999999998
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_28",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "budget": 30,
+    "llm_calls": 18,
+    "tt_hits": 12,
+    "tt_hit_rate": 0.4,
+    "time": 110.79136085510254,
+    "scores": {
+      "node-parse-json": 0.8400000000000001,
+      "node-es-abstract": 0.5285714285714285,
+      "node-deep-equal": 0.4352941176470588,
+      "node-debbundle-es-to-primitive": 0.4181818181818182,
+      "node-define-properties": 0.39999999999999997,
+      "node-tape": 0.3538461538461538,
+      "node-assert": 0.3333333333333333,
+      "libjs-util": 0.32857142857142857,
+      "node-read-pkg": 0.3272727272727272,
+      "node-util": 0.32000000000000006,
+      "node-istanbul": 0.3166666666666666
+    },
+    "ranking": [
+      [
+        "node-parse-json",
+        0.8400000000000001
+      ],
+      [
+        "node-es-abstract",
+        0.5285714285714285
+      ],
+      [
+        "node-deep-equal",
+        0.4352941176470588
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.4181818181818182
+      ],
+      [
+        "node-define-properties",
+        0.39999999999999997
+      ],
+      [
+        "node-tape",
+        0.3538461538461538
+      ],
+      [
+        "node-assert",
+        0.3333333333333333
+      ],
+      [
+        "libjs-util",
+        0.32857142857142857
+      ],
+      [
+        "node-read-pkg",
+        0.3272727272727272
+      ],
+      [
+        "node-util",
+        0.32000000000000006
+      ],
+      [
+        "node-istanbul",
+        0.3166666666666666
+      ]
+    ],
+    "oc_detected": [
+      "node-es-abstract",
+      "node-parse-json"
+    ],
+    "oc_count": 2,
+    "score_spread": 0.5233333333333334,
+    "score_mean": 0.4183397885536923,
+    "score_max": 0.8400000000000001,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "clause_details": {
+      "libjs-util": {
+        "mean_score": 0.32857142857142857,
+        "visit_count": 7,
+        "conflict_count": 6,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "node-assert": {
+        "mean_score": 0.3333333333333333,
+        "visit_count": 9,
+        "conflict_count": 10,
+        "risk_history": [
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "node-debbundle-es-to-primitive": {
+        "mean_score": 0.4181818181818182,
+        "visit_count": 11,
+        "conflict_count": 22,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.4,
+          0.5,
+          0.2,
+          0.6,
+          0.5,
+          0.4,
+          0.4,
+          0.4,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "node-deep-equal": {
+        "mean_score": 0.4352941176470588,
+        "visit_count": 17,
+        "conflict_count": 33,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.5,
+          0.4,
+          0.4,
+          0.3,
+          0.6,
+          0.4,
+          0.6,
+          0.5,
+          0.5,
+          0.3,
+          0.5,
+          0.5,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "node-define-properties": {
+        "mean_score": 0.39999999999999997,
+        "visit_count": 11,
+        "conflict_count": 12,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "node-es-abstract": {
+        "mean_score": 0.5285714285714285,
+        "visit_count": 14,
+        "conflict_count": 28,
+        "risk_history": [
+          0.5,
+          0.4,
+          0.5,
+          0.6,
+          0.5,
+          0.3,
+          0.7,
+          0.5,
+          0.6,
+          0.5,
+          0.6,
+          0.6,
+          0.6,
+          0.5
+        ],
+        "is_oc_detected": true
+      },
+      "node-istanbul": {
+        "mean_score": 0.3166666666666666,
+        "visit_count": 12,
+        "conflict_count": 13,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "node-parse-json": {
+        "mean_score": 0.8400000000000001,
+        "visit_count": 10,
+        "conflict_count": 21,
+        "risk_history": [
+          0.9,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": true
+      },
+      "node-read-pkg": {
+        "mean_score": 0.3272727272727272,
+        "visit_count": 11,
+        "conflict_count": 19,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "node-tape": {
+        "mean_score": 0.3538461538461538,
+        "visit_count": 13,
+        "conflict_count": 15,
+        "risk_history": [
+          0.4,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.4,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "node-util": {
+        "mean_score": 0.32000000000000006,
+        "visit_count": 5,
+        "conflict_count": 5,
+        "risk_history": [
+          0.2,
+          0.4,
+          0.3,
+          0.4,
+          0.3
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.3114285714285716,
+    "risk_subgraph_nodes": [
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg"
+    ],
+    "risk_subgraph_size": 6,
+    "compression_ratio": 0.4545454545454546,
+    "contains_injected_node": true,
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors"
+  }
+]

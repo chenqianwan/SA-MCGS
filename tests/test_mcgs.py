@@ -4,6 +4,7 @@ from __future__ import annotations
 from src.models.clause import ClauseEvaluation, RiskDimension
 from src.models.graph import DependencyGraph, DependencyType, Edge, SCCInfo, Clause
 from src.models.search_tree import SCCBranch, SearchTree, SearchTreeNode
+from src.modules.alphago_mcgs import AlphaGoMCGS
 from src.modules.mcgs import MCGS
 
 
@@ -86,3 +87,48 @@ class TestMCGS:
         }
         reward = MCGS._compute_reward(evals)
         assert 0 < reward <= 1.0
+
+    def test_relation_first_probe_uses_pair_evidence_without_node_risk(self):
+        clauses = {
+            cid: Clause(id=cid, title=cid, content=f"neutral content {cid}")
+            for cid in ("a", "b", "c", "d")
+        }
+        edges = [
+            Edge(source="a", target="b", dependency_type=DependencyType.REFERENCES),
+            Edge(source="b", target="c", dependency_type=DependencyType.REFERENCES),
+            Edge(source="c", target="d", dependency_type=DependencyType.REFERENCES),
+            Edge(source="d", target="a", dependency_type=DependencyType.REFERENCES),
+        ]
+        graph = DependencyGraph(clauses=clauses, edges=edges)
+        scc = SCCInfo(id="scc", clause_ids=["a", "b", "c", "d"], size=4)
+
+        mcgs = AlphaGoMCGS(
+            llm_client=object(),
+            config={
+                "alphago_mcgs": {
+                    "budget": 8,
+                    "window_size": 3,
+                    "evidence": {
+                        "relation_first": True,
+                        "probe_fraction": 1.0,
+                        "probe_min_rollouts": 1,
+                        "probe_min_score": 0.1,
+                    },
+                }
+            },
+        )
+        mcgs._init_state(graph, scc)
+        pair = mcgs._pair_key("a", "c")
+        mcgs._local_conflict_pair_counts[pair] = 2
+        mcgs._explicit_conflict_pair_counts[pair] = 1
+        mcgs._local_conflict_pair_reasons[pair].append(
+            "a and c are inconsistent when considered through the dependency path"
+        )
+
+        window = mcgs._select_relation_probe_window(iteration=2)
+
+        assert window is not None
+        assert {"a", "c"}.issubset(set(window))
+        assert mcgs._relation_probe_history
+        assert mcgs._relation_node_prior("a") > 0
+        assert mcgs._relation_node_prior("c") > 0

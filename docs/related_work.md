@@ -343,11 +343,58 @@ Gated GRPO 相比 non-gated GRPO F1 提升 6 倍。
 
 ---
 
-### 4.4 AlphaGo / AlphaZero (Silver et al., 2016/2017)
+### 4.4 Relation-first Evidence Memory for Conflict Subgraph Extraction (Implementation Note)
+
+**对应文献脉络**: Kocsis & Szepesvári (UCT), Gelly & Silver (RAVE/AMAF), Czech et al. (Monte-Carlo Graph Search for AlphaZero), Chaslot et al. (progressive strategies for MCTS), Moerland et al. (loops and second type uncertainty), Silver et al. (AlphaGo/AlphaZero MCTS).
+
+#### 为什么需要记录这一点
+
+当前 cross-domain structural-simple 实验暴露出一个关键现象：在真实 SCC 中，风险往往不是单节点属性，而是**多轮 rollout 累积出来的关系证据**。它可以是 pair/edge conflict，也可以是 repair entry、bridge node、path fragment、OC signal。一个节点单看可能并不异常，但如果前序窗口已经提供足够证据说明它参与风险传播或修复入口，它就应被视为风险区域的一部分。
+
+如果最终 risk subgraph 只按节点平均风险、节点出现频率、OC 命中等 node-level signal 排序，就会出现一个问题：
+
+- 高频但较弱的真实数据噪声会反复累积；
+- 低频但关键的 root-witness 冲突边可能只出现一次；
+- 固定容量的 compressed risk subgraph 会把关键 root 端点挤出。
+- 搜索过程本身仍会停留在 node-risk-first，而不是被已经发现的 relation evidence 牵引。
+
+这与 MCGS/MCTS 文献中的几个思想一致：
+
+1. **Graph search 的价值不只在访问节点，而在重复 rollout 中累积关系证据。** Czech et al. 将 tree search 推广到 graph search，核心收益来自跨路径共享状态；SA-MCGS 的 SCC 内搜索进一步需要跨窗口共享 relation/path evidence。
+2. **环结构不能简单截断，否则会丢失环内信息。** Moerland et al. 说明 loops 会导致标准 MCTS 展开失效；SA-MCGS 不应只 block loop，而应把环内反复发现的冲突边压缩成可解释证据。
+3. **AMAF/RAVE-style reuse 可以把任意 rollout 中发现的有效动作经验复用到其他相关路径。** 对 SA-MCGS 来说，动作经验不是 Go move，而是 node、edge、pair、repair entry、path fragment 参与过有效风险证据。
+4. **Progressive bias/probe widening 允许启发式证据影响早期搜索，但随着局部采样增多而衰减。** 这适合把 LLM 局部窗口中发现的 relation evidence 作为后续 rollout 的先验，而不是硬编码 ground truth。
+
+#### 对 SA-MCGS 的实现启发
+
+在 Conflict Probability Matrix 之外，加入 **relation-first evidence memory**：
+
+- 将 LLM 在 rollout 中明确报告的 `conflicts` 作为高质量 evidence edge；
+- 将 `local_conflict_edges` 作为局部结构证据；
+- 将 `local_risk_subgraph_nodes`、`repair_entry_nodes` 和 OC 节点作为 path/repair evidence；
+- 对 node、edge、pair、path fragment 做 AMAF/RAVE-style 跨 rollout 复用；
+- 在 UCB selection 和 window expansion 中加入 progressive relation bias；
+- 定期生成 relation probe window，主动回到高价值 evidence frontier；
+- 最终压缩子图时先保留 relation/path evidence 区域，再补 node-level risk。
+
+#### 与论文主张的关系
+
+这可以支撑论文中 “OC + 风险子图解释/压缩” 的主张：SA-MCGS 的优势不只是 Top-k 排名，而是把多轮局部窗口中出现的**历史证据**收敛成一个可检查、可修复的风险区域。这里的风险区域不要求每个节点单看都高风险；只要它被 relation/path/repair/OC evidence 证明参与事故链，就应被保留。
+
+#### 可引用论点
+
+- "Risk in cyclic document graphs is often edge-localized: the dangerous object is a conflict pair, not an isolated node."
+- "A node can be a risk node because accumulated rollout evidence proves its role in a risky relation or path, even when its local text is not suspicious."
+- "A compressed risk subgraph should preserve high-value conflict edges even when their endpoints are not both high-scoring as individual nodes."
+- "SA-MCGS extends MCGS-style state sharing from node/state statistics to relation/path evidence accumulated across local rollouts."
+
+---
+
+### 4.5 AlphaGo / AlphaZero (Silver et al., 2016/2017)
 
 > TODO: MCTS 经典方法
 
-### 4.5 MCTS for NLP / LLM Reasoning (RAP, etc.)
+### 4.6 MCTS for NLP / LLM Reasoning (RAP, etc.)
 
 > TODO: MCTS 在 NLP 推理中的应用 (Hao et al., 2023 - RAP)
 

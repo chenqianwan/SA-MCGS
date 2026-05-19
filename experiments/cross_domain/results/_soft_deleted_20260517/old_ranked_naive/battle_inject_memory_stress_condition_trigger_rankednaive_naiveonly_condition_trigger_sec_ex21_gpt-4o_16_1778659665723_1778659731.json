@@ -1,0 +1,448 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 16,
+    "scc_id": "synthetic_sec_ex21_16",
+    "scc_clause_ids": [
+      "synthetic_sec_ex21_16_node_01",
+      "synthetic_sec_ex21_16_node_02",
+      "synthetic_sec_ex21_16_node_03",
+      "synthetic_sec_ex21_16_node_04",
+      "synthetic_sec_ex21_16_node_05",
+      "synthetic_sec_ex21_16_node_06",
+      "synthetic_sec_ex21_16_node_07",
+      "synthetic_sec_ex21_16_node_08",
+      "synthetic_sec_ex21_16_node_09",
+      "synthetic_sec_ex21_16_node_10",
+      "synthetic_sec_ex21_16_node_16",
+      "synthetic_sec_ex21_16_node_11",
+      "synthetic_sec_ex21_16_node_12",
+      "synthetic_sec_ex21_16_node_13",
+      "synthetic_sec_ex21_16_node_14",
+      "synthetic_sec_ex21_16_node_15"
+    ],
+    "llm_calls": 1,
+    "time": 65.73210716247559,
+    "scores": {
+      "synthetic_sec_ex21_16_node_01": 0.7,
+      "synthetic_sec_ex21_16_node_02": 0.6,
+      "synthetic_sec_ex21_16_node_03": 0.55,
+      "synthetic_sec_ex21_16_node_04": 0.75,
+      "synthetic_sec_ex21_16_node_05": 0.5,
+      "synthetic_sec_ex21_16_node_06": 0.45,
+      "synthetic_sec_ex21_16_node_07": 0.4,
+      "synthetic_sec_ex21_16_node_08": 0.85,
+      "synthetic_sec_ex21_16_node_09": 0.35,
+      "synthetic_sec_ex21_16_node_10": 0.3,
+      "synthetic_sec_ex21_16_node_16": 0.95,
+      "synthetic_sec_ex21_16_node_11": 0.25,
+      "synthetic_sec_ex21_16_node_12": 0.2,
+      "synthetic_sec_ex21_16_node_13": 0.15,
+      "synthetic_sec_ex21_16_node_14": 0.1,
+      "synthetic_sec_ex21_16_node_15": 0.65
+    },
+    "reasonings": {
+      "synthetic_sec_ex21_16_node_01": "Part of the cyclic dependency and initiates the chain of references.",
+      "synthetic_sec_ex21_16_node_02": "Early in the dependency chain and references Node 3.",
+      "synthetic_sec_ex21_16_node_03": "References Node 4, which has amendment-related ambiguity.",
+      "synthetic_sec_ex21_16_node_04": "Carries amendment status without converting it into a filed amendment.",
+      "synthetic_sec_ex21_16_node_05": "Part of the controlled ownership cycle and references Node 6.",
+      "synthetic_sec_ex21_16_node_06": "References Node 7 and is part of the controlled ownership cycle.",
+      "synthetic_sec_ex21_16_node_07": "References Node 8, which has ownership ambiguity.",
+      "synthetic_sec_ex21_16_node_08": "Introduces a 20% outside interest in the consolidation path.",
+      "synthetic_sec_ex21_16_node_09": "References Node 10 and is part of the controlled ownership cycle.",
+      "synthetic_sec_ex21_16_node_10": "References Node 11 and is part of the controlled ownership cycle.",
+      "synthetic_sec_ex21_16_node_16": "Part of the cyclic dependency and explicitly states that a control amendment has not been filed.",
+      "synthetic_sec_ex21_16_node_11": "References Node 12 and is part of the controlled ownership cycle.",
+      "synthetic_sec_ex21_16_node_12": "References Node 13 and is part of the controlled ownership cycle.",
+      "synthetic_sec_ex21_16_node_13": "References Node 14 and is part of the controlled ownership cycle.",
+      "synthetic_sec_ex21_16_node_14": "References Node 15 and is part of the controlled ownership cycle.",
+      "synthetic_sec_ex21_16_node_15": "Directly connected to Node 16 in the cyclic dependency."
+    },
+    "ranking": [
+      [
+        "synthetic_sec_ex21_16_node_16",
+        0.95
+      ],
+      [
+        "synthetic_sec_ex21_16_node_08",
+        0.85
+      ],
+      [
+        "synthetic_sec_ex21_16_node_04",
+        0.75
+      ],
+      [
+        "synthetic_sec_ex21_16_node_01",
+        0.7
+      ],
+      [
+        "synthetic_sec_ex21_16_node_15",
+        0.65
+      ],
+      [
+        "synthetic_sec_ex21_16_node_02",
+        0.6
+      ],
+      [
+        "synthetic_sec_ex21_16_node_03",
+        0.55
+      ],
+      [
+        "synthetic_sec_ex21_16_node_05",
+        0.5
+      ],
+      [
+        "synthetic_sec_ex21_16_node_06",
+        0.45
+      ],
+      [
+        "synthetic_sec_ex21_16_node_07",
+        0.4
+      ],
+      [
+        "synthetic_sec_ex21_16_node_09",
+        0.35
+      ],
+      [
+        "synthetic_sec_ex21_16_node_10",
+        0.3
+      ],
+      [
+        "synthetic_sec_ex21_16_node_11",
+        0.25
+      ],
+      [
+        "synthetic_sec_ex21_16_node_12",
+        0.2
+      ],
+      [
+        "synthetic_sec_ex21_16_node_13",
+        0.15
+      ],
+      [
+        "synthetic_sec_ex21_16_node_14",
+        0.1
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_sec_ex21_16_node_16",
+        "risk_score": 0.95,
+        "risk_factors": [
+          "cyclic dependency",
+          "underspecified amendment status",
+          "ownership ambiguity"
+        ],
+        "reasoning": "Node 16 is part of the cyclic dependency and explicitly states that a control amendment has not been filed, which creates ambiguity in ownership and consolidation processes."
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_sec_ex21_16_node_08",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "ownership ambiguity",
+          "graph position impact"
+        ],
+        "reasoning": "Node 8 introduces a 20% outside interest in the consolidation path, which is ambiguous without further clarification. It is also central in the graph structure."
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_sec_ex21_16_node_04",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "underspecified amendment status",
+          "graph position impact"
+        ],
+        "reasoning": "Node 4 carries amendment status without converting it into a filed amendment, creating uncertainty in audit follow-ups. It is also positioned early in the dependency chain."
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_sec_ex21_16_node_01",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "cyclic dependency",
+          "graph position impact"
+        ],
+        "reasoning": "Node 1 is part of the cyclic dependency and initiates the chain of references, making its structural role critical."
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_sec_ex21_16_node_15",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "cyclic dependency",
+          "graph position impact"
+        ],
+        "reasoning": "Node 15 is directly connected to Node 16 in the cyclic dependency and is positioned near the end of the chain, amplifying its structural risk."
+      },
+      {
+        "rank": 6,
+        "clause_id": "synthetic_sec_ex21_16_node_02",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "graph position impact"
+        ],
+        "reasoning": "Node 2 is early in the dependency chain and references Node 3, making its structural role significant."
+      },
+      {
+        "rank": 7,
+        "clause_id": "synthetic_sec_ex21_16_node_03",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "graph position impact"
+        ],
+        "reasoning": "Node 3 references Node 4, which has amendment-related ambiguity, increasing its structural importance."
+      },
+      {
+        "rank": 8,
+        "clause_id": "synthetic_sec_ex21_16_node_05",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "graph position impact"
+        ],
+        "reasoning": "Node 5 is part of the controlled ownership cycle and references Node 6, contributing to the dependency chain."
+      },
+      {
+        "rank": 9,
+        "clause_id": "synthetic_sec_ex21_16_node_06",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "graph position impact"
+        ],
+        "reasoning": "Node 6 references Node 7 and is part of the controlled ownership cycle, making its structural role moderately important."
+      },
+      {
+        "rank": 10,
+        "clause_id": "synthetic_sec_ex21_16_node_07",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "graph position impact"
+        ],
+        "reasoning": "Node 7 references Node 8, which has ownership ambiguity, increasing its structural importance."
+      },
+      {
+        "rank": 11,
+        "clause_id": "synthetic_sec_ex21_16_node_09",
+        "risk_score": 0.35,
+        "risk_factors": [
+          "graph position impact"
+        ],
+        "reasoning": "Node 9 references Node 10 and is part of the controlled ownership cycle, contributing to the dependency chain."
+      },
+      {
+        "rank": 12,
+        "clause_id": "synthetic_sec_ex21_16_node_10",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "graph position impact"
+        ],
+        "reasoning": "Node 10 references Node 11 and is part of the controlled ownership cycle, making its structural role less critical."
+      },
+      {
+        "rank": 13,
+        "clause_id": "synthetic_sec_ex21_16_node_11",
+        "risk_score": 0.25,
+        "risk_factors": [
+          "graph position impact"
+        ],
+        "reasoning": "Node 11 references Node 12 and is part of the controlled ownership cycle, contributing minimally to structural risk."
+      },
+      {
+        "rank": 14,
+        "clause_id": "synthetic_sec_ex21_16_node_12",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "graph position impact"
+        ],
+        "reasoning": "Node 12 references Node 13 and is part of the controlled ownership cycle, with low structural impact."
+      },
+      {
+        "rank": 15,
+        "clause_id": "synthetic_sec_ex21_16_node_13",
+        "risk_score": 0.15,
+        "risk_factors": [
+          "graph position impact"
+        ],
+        "reasoning": "Node 13 references Node 14 and is part of the controlled ownership cycle, contributing minimally to structural risk."
+      },
+      {
+        "rank": 16,
+        "clause_id": "synthetic_sec_ex21_16_node_14",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "graph position impact"
+        ],
+        "reasoning": "Node 14 references Node 15 and is part of the controlled ownership cycle, with the least structural impact."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic dependency",
+        "importance_weight": 0.4,
+        "description": "Captures the risk introduced by the cyclic dependency in the graph structure, which can lead to structural inconsistency and ambiguity in record relationships."
+      },
+      {
+        "factor": "underspecified amendment status",
+        "importance_weight": 0.3,
+        "description": "Captures the risk of records with unclear or incomplete amendment statuses, which can impact audit and consolidation processes."
+      },
+      {
+        "factor": "ownership ambiguity",
+        "importance_weight": 0.2,
+        "description": "Captures the risk of records with ambiguous ownership details, such as outside interest percentages or control amendments."
+      },
+      {
+        "factor": "graph position impact",
+        "importance_weight": 0.1,
+        "description": "Captures the risk associated with a node's position in the graph, such as being central to dependencies or having many incoming/outgoing edges."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 16,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_sec_ex21_16_node_16",
+        "clause_b": "synthetic_sec_ex21_16_node_01",
+        "description": "Cyclic dependency creates structural inconsistency and ambiguity in record relationships."
+      },
+      {
+        "clause_a": "synthetic_sec_ex21_16_node_08",
+        "clause_b": "synthetic_sec_ex21_16_node_16",
+        "description": "Ownership ambiguity in Node 8 interacts with the lack of a filed control amendment in Node 16, creating consolidation uncertainty."
+      },
+      {
+        "clause_a": "synthetic_sec_ex21_16_node_04",
+        "clause_b": "synthetic_sec_ex21_16_node_08",
+        "description": "Node 4's underspecified amendment status interacts with Node 8's ownership ambiguity, complicating audit follow-ups."
+      }
+    ],
+    "score_spread": 0.85,
+    "ranking_score_spread": 0.85,
+    "score_mean": 0.484375,
+    "score_max": 0.95,
+    "node_names": {
+      "synthetic_sec_ex21_16_node_01": "synthetic sec ex21 16 node 01",
+      "synthetic_sec_ex21_16_node_02": "synthetic sec ex21 16 node 02",
+      "synthetic_sec_ex21_16_node_03": "synthetic sec ex21 16 node 03",
+      "synthetic_sec_ex21_16_node_04": "synthetic sec ex21 16 node 04",
+      "synthetic_sec_ex21_16_node_05": "synthetic sec ex21 16 node 05",
+      "synthetic_sec_ex21_16_node_06": "synthetic sec ex21 16 node 06",
+      "synthetic_sec_ex21_16_node_07": "synthetic sec ex21 16 node 07",
+      "synthetic_sec_ex21_16_node_08": "synthetic sec ex21 16 node 08",
+      "synthetic_sec_ex21_16_node_09": "synthetic sec ex21 16 node 09",
+      "synthetic_sec_ex21_16_node_10": "synthetic sec ex21 16 node 10",
+      "synthetic_sec_ex21_16_node_16": "synthetic sec ex21 16 node 16",
+      "synthetic_sec_ex21_16_node_11": "synthetic sec ex21 16 node 11",
+      "synthetic_sec_ex21_16_node_12": "synthetic sec ex21 16 node 12",
+      "synthetic_sec_ex21_16_node_13": "synthetic sec ex21 16 node 13",
+      "synthetic_sec_ex21_16_node_14": "synthetic sec ex21 16 node 14",
+      "synthetic_sec_ex21_16_node_15": "synthetic sec ex21 16 node 15"
+    },
+    "ground_truth_nodes": [
+      "synthetic_sec_ex21_16_node_16"
+    ],
+    "gt_evidence": {
+      "synthetic_sec_ex21_16_node_16": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 1166,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.3481989708404803,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3542024013722127,
+    "inject_mode": true,
+    "injected_node": "synthetic_sec_ex21_16_node_16",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_sec_ex21_16_node_08",
+    "injected_witness_distance": 8,
+    "injected_bridge_node": "synthetic_sec_ex21_16_node_04",
+    "injected_bridge_distance": 4,
+    "injected_risk_nodes": [
+      "synthetic_sec_ex21_16_node_16",
+      "synthetic_sec_ex21_16_node_08"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_sec_ex21_16_node_16",
+      "synthetic_sec_ex21_16_node_04",
+      "synthetic_sec_ex21_16_node_08"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_sec_ex21_16_node_01",
+      "synthetic_sec_ex21_16_node_09"
+    ],
+    "injected_conflict_family": "condition_trigger",
+    "injected_conflict_difficulty": "hard",
+    "injected_conflict_template": "sec_condition_trigger_unfiled_amendment",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_sec_ex21_16_node_16": 1,
+      "synthetic_sec_ex21_16_node_08": 2
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_sec_ex21_16_node_16": 1,
+      "synthetic_sec_ex21_16_node_04": 3,
+      "synthetic_sec_ex21_16_node_08": 2
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_sec_ex21_16_node_01": 4,
+      "synthetic_sec_ex21_16_node_09": 11
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 11,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "synthetic_sec_ex21_16_node_16": 1,
+      "synthetic_sec_ex21_16_node_08": 2,
+      "synthetic_sec_ex21_16_node_01": 4,
+      "synthetic_sec_ex21_16_node_09": 11
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 11,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 1,
+    "root_top1_hit": true,
+    "root_top3_hit": true
+  }
+]

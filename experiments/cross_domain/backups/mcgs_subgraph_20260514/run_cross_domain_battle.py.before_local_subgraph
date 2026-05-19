@@ -1,0 +1,1849 @@
+"""Cross-domain Battle: Naive Prompting vs SA-MCGS
+
+Runs face-to-face comparison using the SAME LLM models on the SAME SCCs:
+  1. Naive Prompting — feed entire SCC to LLM in one shot (baseline paper approach)
+  2. SA-MCGS — iterative structured search with windowed evaluation
+
+Prompting policy:
+  - Formal injected runs use a generic directed-graph consistency/risk prompt
+    for both Naive and SA-MCGS.
+  - Domain names and domain-specific error types are kept out of the task prompt
+    so the methods remain general.
+
+Ground truth for binary evaluation:
+  - Debian: packages with known CVEs (ruby3.1 ~48 CVE, mono ~52 CVE)
+  - Wikipedia: injected semantic contradictions (literature-backed)
+  - SEC: circular ownership anomaly detection (expert labels TBD)
+
+IMPORTANT: This script does NOT modify any existing results or configs.
+Results are saved with "battle_v2_" or "battle_inject_" prefixes.
+"""
+from __future__ import annotations
+
+import argparse
+import asyncio
+import copy
+import json
+import os
+import re
+import sys
+import time
+from pathlib import Path
+from typing import Any, Optional
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).resolve().parents[2] / ".env")
+except ImportError:
+    pass
+
+from src.models.clause import Clause, ClauseType
+from src.models.graph import DependencyGraph, DependencyType, Edge, SCCInfo
+from src.modules.tarjan import TarjanSCCDetector
+from src.modules.alphago_mcgs import AlphaGoMCGS
+from src.llm.openai_client import OpenAIClient
+
+try:
+    from run_cross_domain import (
+        load_debian_graph,
+        load_wikipedia_graph,
+        load_sec_graph,
+    )
+except ImportError:
+    from experiments.cross_domain.run_cross_domain import (
+        load_debian_graph,
+        load_wikipedia_graph,
+        load_sec_graph,
+    )
+
+try:
+    try:
+        from inject_defect import (
+            DEFAULT_MEMORY_CONFLICT_TEMPLATE,
+            DOMAIN_INJECT_TYPE,
+            SUPPORTED_INJECT_PROFILES,
+            SUPPORTED_MEMORY_CONFLICT_TEMPLATES,
+            get_injected_node,
+            inject_defect,
+        )
+    except ImportError:
+        from experiments.cross_domain.inject_defect import (
+            DEFAULT_MEMORY_CONFLICT_TEMPLATE,
+            DOMAIN_INJECT_TYPE,
+            SUPPORTED_INJECT_PROFILES,
+            SUPPORTED_MEMORY_CONFLICT_TEMPLATES,
+            get_injected_node,
+            inject_defect,
+        )
+    _INJECT_AVAILABLE = True
+except ImportError:
+    DEFAULT_MEMORY_CONFLICT_TEMPLATE = "handoff_invariant"
+    DOMAIN_INJECT_TYPE = {}
+    SUPPORTED_INJECT_PROFILES = {"explicit"}
+    SUPPORTED_MEMORY_CONFLICT_TEMPLATES = {"handoff_invariant"}
+    _INJECT_AVAILABLE = False
+
+RESULTS_DIR = Path(__file__).parent / "results"
+RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+
+XHUB_BASE_URL = "https://api3.xhub.chat/v1"
+
+# ─── Models to test (all via XHub) ────────────────────────────────────
+BATTLE_MODELS = [
+    {"name": "gpt-4o",        "model_id": "gpt-4o"},
+    {"name": "deepseek-v3",   "model_id": "deepseek-chat"},
+]
+
+# ─── SA-MCGS configs per domain ──────────────────────────────────────
+MCGS_DEFAULT = {
+    "alphago_mcgs": {
+        "budget": 30, "window_size": 4, "concurrency": 4,
+        "ucb_exploration_weight": 1.414, "ucb_exploration_init": 2.5,
+        "temperature": 0.4, "max_tokens": 2048, "tt_max_reuse": 3,
+    },
+    "detection": {"alpha": 0.1, "min_rollouts": 6},
+}
+
+MCGS_WIKI = {
+    "alphago_mcgs": {**MCGS_DEFAULT["alphago_mcgs"], "budget": 60},
+    "detection": {"alpha": 0.1, "min_rollouts": 6},
+}
+
+NAIVE_PROFILES = {"basic", "ranked", "direct_subgraph"}
+
+
+def save_results(path: Path, results: list[dict]) -> None:
+    with open(path, "w") as f:
+        json.dump(results, f, indent=2, default=str)
+
+
+def runtime_mcgs_config(domain: str, args: argparse.Namespace) -> dict:
+    cfg = copy.deepcopy(MCGS_WIKI if domain == "wikipedia" else MCGS_DEFAULT)
+    if getattr(args, "mcgs_concurrency", None):
+        cfg["alphago_mcgs"]["concurrency"] = args.mcgs_concurrency
+    if getattr(args, "mcgs_budget", None):
+        cfg["alphago_mcgs"]["budget"] = args.mcgs_budget
+    if domain == "wikipedia" and getattr(args, "wiki_mcgs_budget", None):
+        cfg["alphago_mcgs"]["budget"] = args.wiki_mcgs_budget
+    return cfg
+
+# ─── Ground Truth: known defective nodes per domain ──────────────────
+# EXACT_MATCH_KEYS use exact equality (case-insensitive), not substring.
+# Others use substring. This prevents "ruby" from matching "libruby".
+GROUND_TRUTH = {
+    "debian": {
+        "ruby-sdbm": "structural propagation hub (Debian Bug #1055352): orphaned C ext creates version lock, makes entire SCC unresolvable",
+        "ruby3.1": "~48 CVEs (NVD), primary CVE carrier in ruby SCC (Debian Bug #1055352)",
+        "libmono-system-core4.0-cil": "mono .NET core runtime, base dependency for all libmono CVE propagation (Debian Bug #775878)",
+    },
+    "wikipedia": {},
+    "sec_ex21": {
+        "Baker Hughes EHO": "special-purpose entity causing circular ownership (4/4 model consensus across gpt-4o+deepseek-v3)",
+    },
+}
+
+_GT_EXACT_MATCH = {
+    "ruby-sdbm",
+    "ruby3.1",
+    "libmono-system-core4.0-cil",
+}
+
+
+def is_ground_truth_node(node_id: str, domain: str) -> bool:
+    """Check if a node matches any ground truth defect pattern."""
+    gt = GROUND_TRUTH.get(domain, {})
+    node_lower = node_id.lower()
+    for pattern in gt:
+        p_lower = pattern.lower()
+        if p_lower in _GT_EXACT_MATCH:
+            if p_lower == node_lower:
+                return True
+        elif p_lower in node_lower:
+            return True
+    return False
+
+
+def get_gt_evidence(node_id: str, domain: str) -> str:
+    """Get the evidence string for a ground truth match."""
+    gt = GROUND_TRUTH.get(domain, {})
+    node_lower = node_id.lower()
+    for pattern, evidence in gt.items():
+        p_lower = pattern.lower()
+        if p_lower in _GT_EXACT_MATCH and p_lower == node_lower:
+            return evidence
+        if p_lower not in _GT_EXACT_MATCH and p_lower in node_lower:
+            return evidence
+    return ""
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#  NAIVE PROMPTS — adapted from baseline paper methodologies
+# ═══════════════════════════════════════════════════════════════════════
+
+def _basic_naive_output_spec(scc_ids: list[str], id_label: str, issue_label: str) -> str:
+    return (
+        "Output STRICTLY as JSON:\n"
+        '{"clause_evaluations": {\n'
+        + ",\n".join(
+            f'  "{cid}": {{"risk_score": 0.0, "reasoning": "brief explanation"}}'
+            for cid in scc_ids
+        )
+        + f'\n}},\n"conflicts": [\n'
+        f'  {{"clause_a": "{id_label}", "clause_b": "{id_label}", "description": "{issue_label}"}}\n'
+        "]}"
+    )
+
+
+def _ranked_naive_output_spec(
+    scc_ids: list[str],
+    id_label: str = "record_id",
+    issue_label: str = "specific concern",
+) -> str:
+    return (
+        "## Ranking Requirements\n"
+        "You must produce a complete global risk ordering, not just independent scores. "
+        "The ranking is the primary output used for evaluation.\n\n"
+        "First identify the major risk factors and assign their relative importance. "
+        "The importance_weight values should sum to approximately 1.0. "
+        "Infer the factors only from the record texts and directed edges; do not assume "
+        "a pre-defined error type.\n\n"
+        "Then rank every node from most risky to least risky. If several nodes have "
+        "similar numeric scores, you must still break ties using evidence strength, "
+        "specificity, graph position, and incident severity. Do not leave a large tied "
+        "block as the final answer.\n\n"
+        "Use the exact ID field from the node list for every clause_id. "
+        "Do not use titles, natural-language names, or invented IDs.\n\n"
+        "Output STRICTLY as JSON with these top-level fields:\n"
+        "{\n"
+        '  "risk_factor_distribution": [\n'
+        '    {"factor": "factor name", "importance_weight": 0.0, "description": "what this factor captures"}\n'
+        "  ],\n"
+        '  "global_ranking": [\n'
+        '    {"rank": 1, "clause_id": "node id from the cycle", "risk_score": 0.0, '
+        '"risk_factors": ["factor name"], "reasoning": "why this node has this rank"}\n'
+        "  ],\n"
+        '  "clause_evaluations": {\n'
+        '    "node id from the cycle": {"risk_score": 0.0, "reasoning": "brief explanation"}\n'
+        "  },\n"
+        '  "conflicts": [\n'
+        f'    {{"clause_a": "{id_label}", "clause_b": "{id_label}", "description": "{issue_label}"}}\n'
+        "  ]\n"
+        "}\n\n"
+        f"Rules: global_ranking MUST contain exactly {len(scc_ids)} entries, one for "
+        "each listed node id, with ranks 1..N and no duplicate node ids. "
+        "Do not copy the input order unless the evidence supports that ordering."
+    )
+
+
+def _direct_subgraph_naive_output_spec(
+    scc_ids: list[str],
+    id_label: str = "record_id",
+    issue_label: str = "specific concern",
+) -> str:
+    return (
+        "## Direct Risk-Subgraph Requirements\n"
+        "You must directly output the smallest subgraph that you believe preserves "
+        "the structurally inconsistent, mutually incompatible, or high-risk region. "
+        "This is not a request to merely list the top-scoring records. Include a "
+        "node only when its text or graph position is needed to explain, localize, "
+        "or repair the risk. It is acceptable for the subgraph to contain one node "
+        "when one record is clearly sufficient, or several nodes when the risk is "
+        "distributed across records.\n\n"
+        "Also produce a complete global risk ordering so the subgraph can be compared "
+        "with rank-based baselines. If several nodes have similar scores, still break "
+        "ties using evidence strength, specificity, graph position, and incident "
+        "severity.\n\n"
+        "Use exact node IDs from the input. Do not use titles, natural-language names, "
+        "or invented IDs.\n\n"
+        "Output STRICTLY as JSON with these top-level fields:\n"
+        "{\n"
+        '  "risk_factor_distribution": [\n'
+        '    {"factor": "factor name", "importance_weight": 0.0, "description": "what this factor captures"}\n'
+        "  ],\n"
+        '  "global_ranking": [\n'
+        '    {"rank": 1, "clause_id": "node id from the cycle", "risk_score": 0.0, '
+        '"risk_factors": ["factor name"], "reasoning": "why this node has this rank"}\n'
+        "  ],\n"
+        '  "risk_subgraph_nodes": [\n'
+        '    "node id from the cycle"\n'
+        "  ],\n"
+        '  "risk_subgraph_rationale": "why this exact set is sufficient and minimal",\n'
+        '  "risk_subgraph_edges": [\n'
+        '    {"source": "node id from the cycle", "target": "node id from the cycle", '
+        '"reason": "why this edge matters"}\n'
+        "  ],\n"
+        '  "clause_evaluations": {\n'
+        '    "node id from the cycle": {"risk_score": 0.0, "reasoning": "brief explanation"}\n'
+        "  },\n"
+        '  "conflicts": [\n'
+        f'    {{"clause_a": "{id_label}", "clause_b": "{id_label}", "description": "{issue_label}"}}\n'
+        "  ]\n"
+        "}\n\n"
+        f"Rules: global_ranking MUST contain exactly {len(scc_ids)} entries, one for "
+        "each listed node id, with ranks 1..N and no duplicate node ids. "
+        "risk_subgraph_nodes MUST contain only exact listed node ids, no duplicates, "
+        "and should be smaller than the full graph unless the whole graph is truly "
+        "needed. Do not copy the input order unless the evidence supports that ordering."
+    )
+
+
+def _format_record_section(
+    clauses: dict[str, Clause],
+    scc_ids: list[str],
+) -> str:
+    return "\n".join(
+        f"- ID: {cid}\n  Title: {clauses[cid].title}\n  Content: {clauses[cid].content}"
+        for cid in scc_ids if cid in clauses
+    )
+
+
+def _format_edge_section(
+    clauses: dict[str, Clause],
+    edges: list[Edge],
+    scc_ids: list[str],
+) -> str:
+    scc_set = set(scc_ids)
+    all_edges = [e for e in edges if e.source in scc_set and e.target in scc_set]
+    return "\n".join(
+        f"- {e.source} ({clauses.get(e.source, Clause(id=e.source, title=e.source, content='')).title}) "
+        f"-> {e.target} ({clauses.get(e.target, Clause(id=e.target, title=e.target, content='')).title}); "
+        f"relation={e.dependency_type.value}"
+        for e in all_edges
+    ) or "No directed edges listed."
+
+
+def _build_generic_naive_prompt(
+    clauses: dict[str, Clause],
+    edges: list[Edge],
+    scc_ids: list[str],
+    ranked: bool = False,
+    direct_subgraph: bool = False,
+) -> str:
+    record_section = _format_record_section(clauses, scc_ids)
+    edge_section = _format_edge_section(clauses, edges, scc_ids)
+    return (
+        "You are analyzing a directed graph of interdependent records.\n\n"
+        "Each node contains a record. Each directed edge indicates that one record "
+        "depends on, constrains, references, modifies, or otherwise affects another "
+        "record. Your task is to reason over both the record text and the graph "
+        "structure.\n\n"
+        f"## Records ({len(scc_ids)} nodes)\n{record_section}\n\n"
+        f"## Directed Edges\n{edge_section}\n\n"
+        "## Task\n"
+        "Identify structurally inconsistent, mutually incompatible, underspecified, "
+        "or high-impact records. For each record, assign a risk_score from 0.0 "
+        "(no meaningful structural concern) to 1.0 (severe structural concern). "
+        "Explain any concrete conflict using record IDs and evidence from the input.\n\n"
+        + (
+            _direct_subgraph_naive_output_spec(scc_ids)
+            if direct_subgraph else
+            _ranked_naive_output_spec(scc_ids)
+            if ranked else
+            _basic_naive_output_spec(scc_ids, "record_id", "specific concern")
+        )
+    )
+
+
+def build_naive_prompt_debian(
+    clauses: dict[str, Clause],
+    edges: list[Edge],
+    scc_ids: list[str],
+    ranked: bool = False,
+    direct_subgraph: bool = False,
+) -> str:
+    """Naive one-shot prompt for Debian using the generic graph-risk task."""
+    return _build_generic_naive_prompt(
+        clauses, edges, scc_ids, ranked=ranked, direct_subgraph=direct_subgraph
+    )
+
+
+def build_naive_prompt_wikipedia(
+    clauses: dict[str, Clause],
+    edges: list[Edge],
+    scc_ids: list[str],
+    ranked: bool = False,
+    direct_subgraph: bool = False,
+) -> str:
+    """Naive one-shot prompt for Wikipedia using the generic graph-risk task."""
+    return _build_generic_naive_prompt(
+        clauses, edges, scc_ids, ranked=ranked, direct_subgraph=direct_subgraph
+    )
+
+
+def build_naive_prompt_sec(
+    clauses: dict[str, Clause],
+    edges: list[Edge],
+    scc_ids: list[str],
+    ranked: bool = False,
+    direct_subgraph: bool = False,
+) -> str:
+    """Naive one-shot prompt for SEC using the generic graph-risk task."""
+    return _build_generic_naive_prompt(
+        clauses, edges, scc_ids, ranked=ranked, direct_subgraph=direct_subgraph
+    )
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#  SA-MCGS PROMPTS — windowed versions (reused from run_cross_domain.py)
+# ═══════════════════════════════════════════════════════════════════════
+
+def _mcgs_generic_prompt(self, window: list[str]) -> str:
+    clauses_fmt = "\n\n".join(
+        f"### ID: {cid}\nTitle: {self._clauses[cid].title}\nContent: {self._clauses[cid].content}"
+        for cid in window if cid in self._clauses
+    )
+    window_set = set(window)
+    relevant_edges = [
+        e for e in self._internal_edges
+        if e.source in window_set and e.target in window_set
+    ]
+    deps_fmt = "\n".join(
+        f"- {e.source} -> {e.target}; relation={e.dependency_type.value}"
+        for e in relevant_edges
+    ) or "No directed edges between these records."
+
+    return (
+        "You are analyzing a subset of records from a directed graph of "
+        "interdependent records.\n\n"
+        "Each node contains a record. Each directed edge indicates that one record "
+        "depends on, constrains, references, modifies, or otherwise affects another "
+        "record. Reason over both the record text and the local graph structure.\n\n"
+        f"## Records Under Analysis ({len(window)} of {len(self._scc_ids)} total)\n"
+        f"{clauses_fmt}\n\n"
+        f"## Directed Edges Within This Subset\n{deps_fmt}\n\n"
+        "## Task\n"
+        "Identify structurally inconsistent, mutually incompatible, underspecified, "
+        "or high-impact records in this subset. For each record, assess its "
+        "risk_score (0.0=no meaningful structural concern, 1.0=severe structural "
+        "concern) in context of the other records. Identify concrete conflicts "
+        "between record pairs when evidence supports them.\n\n"
+        "Output STRICTLY as JSON:\n"
+        '{"clause_evaluations": {\n'
+        + ",\n".join(
+            f'  "{cid}": {{"risk_score": 0.0, "reasoning": "brief"}}'
+            for cid in window
+        )
+        + '\n},\n"conflicts": [\n'
+        '  {"clause_a": "record_id", "clause_b": "record_id", "description": "..."}\n'
+        "]}"
+    )
+
+
+def _mcgs_debian_prompt(self, window: list[str]) -> str:
+    return _mcgs_generic_prompt(self, window)
+
+
+def _mcgs_wikipedia_prompt(self, window: list[str]) -> str:
+    return _mcgs_generic_prompt(self, window)
+
+
+def _mcgs_sec_prompt(self, window: list[str]) -> str:
+    return _mcgs_generic_prompt(self, window)
+
+
+DOMAIN_MCGS_PROMPTS = {
+    "debian": _mcgs_debian_prompt,
+    "wikipedia": _mcgs_wikipedia_prompt,
+    "sec_ex21": _mcgs_sec_prompt,
+}
+
+DOMAIN_NAIVE_PROMPTS = {
+    "debian": build_naive_prompt_debian,
+    "wikipedia": build_naive_prompt_wikipedia,
+    "sec_ex21": build_naive_prompt_sec,
+}
+
+
+def _coerce_float(value: Any, default: float = 0.0) -> float:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _score_tie_diagnostics(scores: dict[str, float]) -> dict:
+    groups: dict[float, list[str]] = {}
+    for cid, score in scores.items():
+        groups.setdefault(score, []).append(cid)
+    tied_groups = [
+        {"score": score, "count": len(ids), "nodes": ids}
+        for score, ids in sorted(groups.items(), key=lambda item: (-len(item[1]), -item[0]))
+        if len(ids) > 1
+    ]
+    return {
+        "distinct_score_count": len(groups),
+        "largest_tie_count": max((len(ids) for ids in groups.values()), default=0),
+        "tied_score_groups": tied_groups,
+    }
+
+
+def _extract_ranked_node_id(item: Any) -> str | None:
+    if isinstance(item, str):
+        return item
+    if not isinstance(item, dict):
+        return None
+    for key in ("clause_id", "node_id", "id", "package_id", "category_id", "company_id"):
+        value = item.get(key)
+        if isinstance(value, str) and value:
+            return value
+    return None
+
+
+def _normalize_node_alias(value: str) -> str:
+    return re.sub(r"\s+", " ", value.strip()).casefold()
+
+
+def _build_node_alias_map(
+    clauses: dict[str, Clause],
+    scc_ids: list[str],
+) -> dict[str, str]:
+    """Map unambiguous IDs/titles back to canonical SCC IDs."""
+    alias_sets: dict[str, set[str]] = {}
+    for cid in scc_ids:
+        candidates = {cid, cid.replace("_", " ")}
+        clause = clauses.get(cid)
+        if clause:
+            candidates.add(clause.title)
+        for candidate in candidates:
+            if candidate:
+                alias_sets.setdefault(_normalize_node_alias(candidate), set()).add(cid)
+    return {
+        alias: next(iter(ids))
+        for alias, ids in alias_sets.items()
+        if len(ids) == 1
+    }
+
+
+def _explicit_naive_ranking(
+    parsed: dict,
+    scc_ids: list[str],
+    scores: dict[str, float],
+    alias_map: dict[str, str] | None = None,
+) -> tuple[list[tuple[str, float]], dict]:
+    """Use the model's explicit global ranking when available.
+
+    Score-only sorting is kept as a fallback, but it is order-sensitive when many
+    nodes tie. The ranked Naive baseline asks the model to break those ties itself.
+    """
+    raw_ranking = parsed.get("global_ranking", [])
+    if not isinstance(raw_ranking, list) or not raw_ranking:
+        return sorted(scores.items(), key=lambda x: -x[1]), {
+            "ranking_source": "score_sort",
+            "ranking_complete": False,
+            "ranking_missing": list(scc_ids),
+            "ranking_duplicates": [],
+            "ranking_invalid": [],
+            "ranking_alias_resolutions": [],
+        }
+
+    scc_set = set(scc_ids)
+    seen: set[str] = set()
+    duplicates: list[str] = []
+    invalid: list[str] = []
+    alias_resolutions: list[dict[str, str]] = []
+    entries: list[tuple[int, int, str, float]] = []
+
+    for position, item in enumerate(raw_ranking):
+        raw_cid = _extract_ranked_node_id(item)
+        cid = raw_cid
+        if cid not in scc_set and alias_map and cid:
+            resolved = alias_map.get(_normalize_node_alias(cid))
+            if resolved:
+                cid = resolved
+                if raw_cid != resolved:
+                    alias_resolutions.append({"raw": raw_cid, "canonical": resolved})
+        if not cid or cid not in scc_set:
+            if raw_cid:
+                invalid.append(raw_cid)
+            continue
+        if cid in seen:
+            duplicates.append(cid)
+            continue
+        seen.add(cid)
+        if isinstance(item, dict):
+            rank = int(_coerce_float(item.get("rank"), position + 1))
+            score = _coerce_float(item.get("risk_score", item.get("score")), scores.get(cid, 0.0))
+        else:
+            rank = position + 1
+            score = scores.get(cid, 0.0)
+        entries.append((rank, position, cid, score))
+
+    entries.sort(key=lambda x: (x[0], x[1]))
+    ordered = [(cid, score) for _, _, cid, score in entries]
+
+    missing = [cid for cid in scc_ids if cid not in seen]
+    if missing:
+        missing_ranked = sorted(
+            ((cid, scores.get(cid, 0.0)) for cid in missing),
+            key=lambda item: (-item[1], scc_ids.index(item[0])),
+        )
+        ordered.extend(missing_ranked)
+
+    return ordered, {
+        "ranking_source": "global_ranking",
+        "ranking_complete": not missing and not duplicates and not invalid,
+        "ranking_missing": missing,
+        "ranking_duplicates": duplicates,
+        "ranking_invalid": invalid,
+        "ranking_alias_resolutions": alias_resolutions,
+    }
+
+
+def _normalize_direct_subgraph_nodes(
+    parsed: dict,
+    scc_ids: list[str],
+    alias_map: dict[str, str] | None = None,
+) -> tuple[list[str], dict]:
+    """Normalize a one-shot LLM's declared risk-subgraph node list."""
+    raw_nodes = parsed.get("risk_subgraph_nodes")
+    raw_subgraph = parsed.get("risk_subgraph")
+    if raw_nodes is None and isinstance(raw_subgraph, dict):
+        raw_nodes = (
+            raw_subgraph.get("nodes")
+            or raw_subgraph.get("node_ids")
+            or raw_subgraph.get("clause_ids")
+        )
+    elif raw_nodes is None and isinstance(raw_subgraph, list):
+        raw_nodes = raw_subgraph
+
+    if raw_nodes is None:
+        raw_nodes = []
+    if isinstance(raw_nodes, str):
+        raw_nodes = [piece.strip() for piece in re.split(r"[,;\n]+", raw_nodes) if piece.strip()]
+    if not isinstance(raw_nodes, list):
+        raw_nodes = []
+
+    scc_set = set(scc_ids)
+    nodes: list[str] = []
+    seen: set[str] = set()
+    duplicates: list[str] = []
+    invalid: list[str] = []
+    alias_resolutions: list[dict[str, str]] = []
+
+    for item in raw_nodes:
+        raw_cid = _extract_ranked_node_id(item)
+        cid = raw_cid
+        if cid not in scc_set and alias_map and cid:
+            resolved = alias_map.get(_normalize_node_alias(cid))
+            if resolved:
+                cid = resolved
+                if raw_cid != resolved:
+                    alias_resolutions.append({"raw": raw_cid, "canonical": resolved})
+        if not cid or cid not in scc_set:
+            if raw_cid:
+                invalid.append(raw_cid)
+            continue
+        if cid in seen:
+            duplicates.append(cid)
+            continue
+        seen.add(cid)
+        nodes.append(cid)
+
+    return nodes, {
+        "direct_subgraph_raw": raw_nodes,
+        "direct_subgraph_invalid": invalid,
+        "direct_subgraph_duplicates": duplicates,
+        "direct_subgraph_alias_resolutions": alias_resolutions,
+        "direct_subgraph_complete_parse": bool(nodes) and not invalid and not duplicates,
+    }
+
+
+def _word_ratio_before(text: str, char_idx: int) -> float | None:
+    if char_idx < 0:
+        return None
+    total = len(re.findall(r"\S+", text))
+    if total == 0:
+        return None
+    before = len(re.findall(r"\S+", text[:char_idx]))
+    return before / total
+
+
+def build_prompt_audit(
+    prompt: str,
+    clauses: dict[str, Clause],
+    injected_id: str | None,
+) -> dict:
+    """Record prompt-level leakage/parity diagnostics for injected experiments."""
+    if not injected_id or injected_id not in clauses:
+        return {}
+
+    clause = clauses[injected_id]
+    title = clause.title or injected_id
+    content = clause.content or ""
+
+    title_positions = [m.start() for m in re.finditer(re.escape(title), prompt)]
+    id_positions = [m.start() for m in re.finditer(re.escape(injected_id), prompt)]
+
+    content_idx = prompt.find(content) if content else -1
+    if content_idx < 0 and content:
+        probe = content[: min(len(content), 120)]
+        content_idx = prompt.find(probe)
+
+    return {
+        "prompt_word_count": len(re.findall(r"\S+", prompt)),
+        "injected_title_occurrences_in_prompt": len(title_positions),
+        "injected_id_occurrences_in_prompt": len(id_positions),
+        "injected_title_first_word_ratio": (
+            _word_ratio_before(prompt, title_positions[0]) if title_positions else None
+        ),
+        "injected_content_in_prompt": content_idx >= 0,
+        "injected_content_first_word_ratio": _word_ratio_before(prompt, content_idx),
+    }
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#  EXPERIMENT RUNNERS
+# ═══════════════════════════════════════════════════════════════════════
+
+async def run_naive(
+    llm: OpenAIClient,
+    model_name: str,
+    domain: str,
+    graph: DependencyGraph,
+    scc: SCCInfo,
+    naive_profile: str = "ranked",
+    injected_id: str | None = None,
+) -> dict:
+    """Run Naive one-shot prompting on a single SCC."""
+    t0 = time.time()
+
+    prompt_fn = DOMAIN_NAIVE_PROMPTS[domain]
+    scc_set = set(scc.clause_ids)
+    scc_edges = [e for e in graph.edges if e.source in scc_set and e.target in scc_set]
+
+    ranked_naive = naive_profile in {"ranked", "direct_subgraph"}
+    direct_subgraph_naive = naive_profile == "direct_subgraph"
+    prompt = prompt_fn(
+        graph.clauses,
+        scc_edges,
+        scc.clause_ids,
+        ranked=ranked_naive,
+        direct_subgraph=direct_subgraph_naive,
+    )
+    prompt_audit = build_prompt_audit(prompt, graph.clauses, injected_id)
+
+    parsed = await llm.call_json(
+        prompt,
+        temperature=0.0,
+        max_tokens=12000 if direct_subgraph_naive else (8192 if ranked_naive else 4096),
+        retries=2,
+    )
+    if not parsed:
+        raise ValueError("LLM returned no parseable JSON")
+
+    elapsed = time.time() - t0
+
+    evals = parsed.get("clause_evaluations", {})
+    conflicts = parsed.get("conflicts", [])
+
+    scores = {}
+    reasonings = {}
+    for cid in scc.clause_ids:
+        info = evals.get(cid, {})
+        scores[cid] = _coerce_float(info.get("risk_score"), 0.0)
+        reasonings[cid] = info.get("reasoning", "")
+
+    alias_map = _build_node_alias_map(graph.clauses, scc.clause_ids)
+    ranking, ranking_diagnostics = (
+        _explicit_naive_ranking(
+            parsed,
+            scc.clause_ids,
+            scores,
+            alias_map=alias_map,
+        )
+        if ranked_naive else
+        (
+            sorted(scores.items(), key=lambda x: -x[1]),
+            {
+                "ranking_source": "score_sort",
+                "ranking_complete": False,
+                "ranking_missing": [],
+                "ranking_duplicates": [],
+                "ranking_invalid": [],
+                "ranking_alias_resolutions": [],
+            },
+        )
+    )
+    if ranked_naive and (
+        ranking_diagnostics.get("ranking_source") != "global_ranking"
+        or not ranking_diagnostics.get("ranking_complete")
+    ):
+        raise ValueError(
+            "Ranked Naive returned an incomplete or invalid global_ranking: "
+            f"missing={ranking_diagnostics.get('ranking_missing')}, "
+            f"duplicates={ranking_diagnostics.get('ranking_duplicates')}, "
+            f"invalid={ranking_diagnostics.get('ranking_invalid')}"
+        )
+    direct_subgraph_nodes: list[str] = []
+    direct_subgraph_diagnostics: dict = {}
+    direct_subgraph_rationale = None
+    direct_subgraph_edges = []
+    if direct_subgraph_naive:
+        direct_subgraph_nodes, direct_subgraph_diagnostics = _normalize_direct_subgraph_nodes(
+            parsed,
+            scc.clause_ids,
+            alias_map=alias_map,
+        )
+        raw_subgraph = parsed.get("risk_subgraph")
+        if isinstance(raw_subgraph, dict):
+            direct_subgraph_rationale = (
+                parsed.get("risk_subgraph_rationale")
+                or raw_subgraph.get("rationale")
+                or raw_subgraph.get("reasoning")
+            )
+            direct_subgraph_edges = (
+                parsed.get("risk_subgraph_edges")
+                or raw_subgraph.get("edges")
+                or []
+            )
+        else:
+            direct_subgraph_rationale = parsed.get("risk_subgraph_rationale")
+            direct_subgraph_edges = parsed.get("risk_subgraph_edges", [])
+        if not direct_subgraph_nodes:
+            raise ValueError(
+                "Direct-subgraph Naive returned no valid risk_subgraph_nodes: "
+                f"invalid={direct_subgraph_diagnostics.get('direct_subgraph_invalid')}"
+            )
+    score_vals = list(scores.values())
+    s_spread = max(score_vals) - min(score_vals) if score_vals else 0
+    ranking_score_vals = [score for _, score in ranking]
+    ranking_spread = (
+        max(ranking_score_vals) - min(ranking_score_vals)
+        if ranking_score_vals else 0
+    )
+    tie_diagnostics = _score_tie_diagnostics(scores)
+    risk_factor_distribution = parsed.get("risk_factor_distribution", [])
+    risk_factor_weight_sum = sum(
+        _coerce_float(item.get("importance_weight"), 0.0)
+        for item in risk_factor_distribution
+        if isinstance(item, dict)
+    )
+
+    gt_nodes = [cid for cid in scc.clause_ids if is_ground_truth_node(cid, domain)]
+    top1_hit = ranking[0][0] in gt_nodes if (ranking and gt_nodes) else None
+    top3_ids = {r[0] for r in ranking[:3]}
+    top3_hit = bool(top3_ids & set(gt_nodes)) if gt_nodes else None
+
+    node_names = {
+        cid: graph.clauses[cid].title
+        for cid in scc.clause_ids if cid in graph.clauses
+    }
+
+    return {
+        "method": "naive",
+        "method_source": f"adapted from baseline paper ({domain}); naive_profile={naive_profile}",
+        "naive_profile": naive_profile,
+        "model": model_name,
+        "domain": domain,
+        "scc_size": scc.size,
+        "scc_id": scc.id,
+        "scc_clause_ids": scc.clause_ids,
+        "llm_calls": 1,
+        "time": elapsed,
+        "scores": scores,
+        "reasonings": reasonings,
+        "ranking": ranking,
+        "global_ranking_raw": parsed.get("global_ranking", []),
+        "risk_factor_distribution": risk_factor_distribution,
+        "risk_factor_weight_sum": risk_factor_weight_sum,
+        "direct_risk_subgraph_nodes": direct_subgraph_nodes,
+        "direct_risk_subgraph_size": len(direct_subgraph_nodes),
+        "direct_compression_ratio": (
+            1 - (len(direct_subgraph_nodes) / max(1, scc.size))
+            if direct_subgraph_naive else None
+        ),
+        "direct_subgraph_type": (
+            "llm_declared_minimal_risk_subgraph" if direct_subgraph_naive else None
+        ),
+        "direct_subgraph_policy": (
+            "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt"
+            if direct_subgraph_naive else None
+        ),
+        "direct_risk_subgraph_rationale": direct_subgraph_rationale,
+        "direct_risk_subgraph_edges": direct_subgraph_edges,
+        **direct_subgraph_diagnostics,
+        **ranking_diagnostics,
+        **tie_diagnostics,
+        "conflicts": conflicts,
+        "score_spread": s_spread,
+        "ranking_score_spread": ranking_spread,
+        "score_mean": sum(score_vals) / max(1, len(score_vals)),
+        "score_max": max(score_vals) if score_vals else 0,
+        "node_names": node_names,
+        "ground_truth_nodes": gt_nodes,
+        "gt_evidence": {n: get_gt_evidence(n, domain) for n in gt_nodes},
+        "top1_hit": top1_hit,
+        "top3_hit": top3_hit,
+        **prompt_audit,
+    }
+
+
+async def run_sa_mcgs(
+    llm: OpenAIClient,
+    model_name: str,
+    domain: str,
+    graph: DependencyGraph,
+    scc: SCCInfo,
+    mcgs_config: dict,
+) -> dict:
+    """Run SA-MCGS on a single SCC."""
+    t0 = time.time()
+
+    prompt_fn = DOMAIN_MCGS_PROMPTS[domain]
+    mcgs = AlphaGoMCGS(llm_client=llm, config=mcgs_config)
+    mcgs._build_focused_prompt = lambda w, _self=mcgs: prompt_fn(_self, w)
+
+    scc_result = await mcgs.search(graph, scc)
+
+    elapsed = time.time() - t0
+
+    scores = {}
+    for cid, score in scc_result.get("ranking_by_risk", []):
+        scores[cid] = score
+
+    ranking = scc_result.get("ranking_by_risk", [])
+    score_vals = list(scores.values())
+    s_spread = max(score_vals) - min(score_vals) if score_vals else 0
+
+    gt_nodes = [cid for cid in scc.clause_ids if is_ground_truth_node(cid, domain)]
+    top1_hit = ranking[0][0] in gt_nodes if (ranking and gt_nodes) else None
+    top3_ids = {r[0] for r in ranking[:3]}
+    top3_hit = bool(top3_ids & set(gt_nodes)) if gt_nodes else None
+
+    node_names = {
+        cid: graph.clauses[cid].title
+        for cid in scc.clause_ids if cid in graph.clauses
+    }
+
+    return {
+        "method": "sa-mcgs",
+        "model": model_name,
+        "domain": domain,
+        "scc_size": scc.size,
+        "scc_id": scc.id,
+        "scc_clause_ids": scc.clause_ids,
+        "budget": mcgs_config["alphago_mcgs"]["budget"],
+        "llm_calls": scc_result.get("llm_calls", 0),
+        "tt_hits": scc_result.get("tt_hits", 0),
+        "tt_hit_rate": scc_result.get("tt_hit_rate", 0),
+        "time": elapsed,
+        "scores": scores,
+        "ranking": ranking,
+        "oc_detected": scc_result.get("oc_detected_clauses", []),
+        "oc_count": scc_result.get("oc_count", 0),
+        "score_spread": s_spread,
+        "score_mean": sum(score_vals) / max(1, len(score_vals)),
+        "score_max": max(score_vals) if score_vals else 0,
+        "node_names": node_names,
+        "clause_details": scc_result.get("clause_details", {}),
+        "ground_truth_nodes": gt_nodes,
+        "gt_evidence": {n: get_gt_evidence(n, domain) for n in gt_nodes},
+        "top1_hit": top1_hit,
+        "top3_hit": top3_hit,
+    }
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#  MAIN ORCHESTRATOR
+# ═══════════════════════════════════════════════════════════════════════
+
+def select_sccs(
+    graph: DependencyGraph,
+    min_size: int = 5,
+    max_size: int = 15,
+    max_count: int = 2,
+    gt_patterns: Optional[list[str]] = None,
+) -> list[SCCInfo]:
+    """Select representative SCCs: prefer one small (5-6) and one larger (7+).
+
+    If gt_patterns is provided, prioritize SCCs containing nodes matching any
+    pattern (case-insensitive substring match). Falls back to size-based
+    selection when not enough GT-containing SCCs exist.
+    """
+    detector = TarjanSCCDetector()
+    graph = detector.detect(graph)
+
+    candidates = sorted(
+        [s for s in graph.sccs if min_size <= s.size <= max_size],
+        key=lambda s: s.size,
+    )
+
+    def has_gt(scc: SCCInfo) -> bool:
+        if not gt_patterns:
+            return False
+        pats = [p.lower() for p in gt_patterns]
+        return any(any(p in cid.lower() for p in pats) for cid in scc.clause_ids)
+
+    if gt_patterns:
+        gt_candidates = [s for s in candidates if has_gt(s)]
+        non_gt = [s for s in candidates if not has_gt(s)]
+        candidates = gt_candidates + non_gt
+
+    if len(candidates) <= max_count:
+        return candidates
+
+    small = [s for s in candidates if s.size <= 6]
+    large = [s for s in candidates if s.size >= 7]
+
+    selected = []
+    if small:
+        selected.append(small[0])
+    if large:
+        selected.append(large[0] if gt_patterns else large[-1])
+
+    while len(selected) < max_count and candidates:
+        for c in candidates:
+            if c not in selected:
+                selected.append(c)
+                break
+        else:
+            break
+
+    return sorted(selected, key=lambda s: s.size)
+
+
+def _synthetic_content(domain: str, node_id: str, idx: int, size: int) -> str:
+    """Plain baseline text for synthetic long-cycle nodes before injection."""
+    if domain == "debian":
+        return (
+            f"Debian package: {node_id}. Synthetic long-cycle package {idx + 1}/{size}. "
+            "It participates in a controlled dependency stress test with ordinary "
+            "release notes, rebuild constraints, and medium-priority maintenance noise."
+        )
+    if domain == "wikipedia":
+        return (
+            f"Wikipedia category: {node_id}. Synthetic category {idx + 1}/{size}. "
+            "It represents a controlled taxonomy cycle used to test whether a model "
+            "can retain a problematic hierarchy note across a long category chain."
+        )
+    return (
+        f"SEC Exhibit 21 entity: {node_id}. Synthetic subsidiary {idx + 1}/{size}. "
+        "It belongs to a controlled ownership cycle with routine consolidation notes "
+        "and medium-priority audit follow-up items."
+    )
+
+
+def add_synthetic_cycle(graph: DependencyGraph, domain: str, size: int) -> SCCInfo:
+    """Append a controlled synthetic cycle to a domain graph and return its SCCInfo."""
+    prefix = f"synthetic_{domain}_{size}"
+    node_ids = [f"{prefix}_node_{i + 1:02d}" for i in range(size)]
+    for idx, node_id in enumerate(node_ids):
+        graph.clauses[node_id] = Clause(
+            id=node_id,
+            title=node_id.replace("_", " "),
+            content=_synthetic_content(domain, node_id, idx, size),
+            clause_type=ClauseType.OTHER,
+            metadata={
+                "source": "synthetic_diagnostic_cycle",
+                "original_record": False,
+                "diagnostic_only": True,
+            },
+        )
+
+    internal_edges = []
+    for idx, src in enumerate(node_ids):
+        dst = node_ids[(idx + 1) % size]
+        edge = Edge(
+            source=src,
+            target=dst,
+            dependency_type=DependencyType.REFERENCES,
+            weight=0.8,
+            reasoning=f"synthetic long-cycle edge {src} -> {dst}",
+        )
+        graph.edges.append(edge)
+        internal_edges.append(edge)
+
+    return SCCInfo(id=prefix, clause_ids=node_ids, internal_edges=internal_edges, size=size)
+
+
+def assert_original_scc_content(graph: DependencyGraph, scc: SCCInfo, domain: str) -> None:
+    """Formal memory-stress runs must not silently use placeholder node text."""
+    bad_nodes = []
+    for cid in scc.clause_ids:
+        clause = graph.clauses.get(cid)
+        if not clause or not (clause.content or "").strip():
+            bad_nodes.append(f"{cid}: empty/missing content")
+            continue
+        metadata = clause.metadata or {}
+        if metadata.get("diagnostic_only") or metadata.get("original_record") is not True:
+            bad_nodes.append(f"{cid}: source={metadata.get('source', 'unknown')}")
+    if bad_nodes:
+        preview = "; ".join(bad_nodes[:5])
+        raise RuntimeError(
+            f"{domain} SCC {scc.id} does not have audited original node content "
+            f"for all nodes ({preview}). Formal runs must use original records; "
+            "synthetic/placeholder content is diagnostic only."
+        )
+
+
+def select_memory_real_sccs(
+    sccs: list[SCCInfo],
+    min_size: int,
+    max_size: int,
+    max_count: int,
+) -> list[SCCInfo]:
+    """Pick real SCCs with size diversity while respecting the formal size cap."""
+    candidates = sorted(
+        [s for s in sccs if min_size <= s.size <= max_size],
+        key=lambda s: (s.size, sorted(s.clause_ids)),
+    )
+    if len(candidates) <= max_count:
+        return candidates
+
+    anchors = [5, 8, 12, 16, 24]
+    selected: list[SCCInfo] = []
+    for anchor in anchors:
+        eligible = [s for s in candidates if s not in selected]
+        if not eligible or len(selected) >= max_count:
+            break
+        best = min(
+            eligible,
+            key=lambda s: (abs(s.size - anchor), -s.size, sorted(s.clause_ids)),
+        )
+        selected.append(best)
+
+    for scc in sorted(candidates, key=lambda s: (-s.size, sorted(s.clause_ids))):
+        if len(selected) >= max_count:
+            break
+        if scc not in selected:
+            selected.append(scc)
+    return sorted(selected, key=lambda s: (s.size, sorted(s.clause_ids)))
+
+
+def reorder_scc_for_memory_stress(scc: SCCInfo, injected_id: str) -> SCCInfo:
+    """Move the GT node into the later third of one-shot prompt order."""
+    ids = [cid for cid in scc.clause_ids if cid != injected_id]
+    insert_at = max(0, min(len(ids), (len(scc.clause_ids) * 2) // 3))
+    reordered = ids[:insert_at] + [injected_id] + ids[insert_at:]
+    return scc.model_copy(update={"clause_ids": reordered, "size": len(reordered)})
+
+
+def build_risk_subgraph_summary(
+    graph: DependencyGraph,
+    scc: SCCInfo,
+    result: dict,
+    injected_id: str | None,
+    evidence_ids: list[str] | None = None,
+    risk_ids: list[str] | None = None,
+    affected_ids: list[str] | None = None,
+    top_k: int = 3,
+) -> dict:
+    """Summarize compact risk subgraphs retained by SA-MCGS evidence.
+
+    The legacy risk_subgraph_* fields are explicitly post-hoc because they use
+    injected_id as an anchor. The blind_risk_subgraph_* fields do not use GT.
+    """
+    scc_ids = set(scc.clause_ids)
+    ordered_cycle = [cid for cid in scc.clause_ids if cid in scc_ids]
+
+    def with_cycle_neighbors(nodes: set[str], anchors: set[str]) -> set[str]:
+        expanded = set(nodes)
+        for anchor in anchors:
+            if anchor not in ordered_cycle:
+                continue
+            idx = ordered_cycle.index(anchor)
+            expanded.add(ordered_cycle[(idx - 1) % len(ordered_cycle)])
+            expanded.add(ordered_cycle[(idx + 1) % len(ordered_cycle)])
+        return expanded
+
+    evidence_nodes = set(result.get("oc_detected", []))
+    evidence_nodes.update(cid for cid, _ in result.get("ranking", [])[:top_k])
+
+    blind_anchors = set(result.get("oc_detected", []))
+    if not blind_anchors and result.get("ranking"):
+        blind_anchors.add(result["ranking"][0][0])
+    blind_nodes = with_cycle_neighbors(evidence_nodes, blind_anchors)
+    blind_ordered_nodes = [cid for cid in scc.clause_ids if cid in blind_nodes]
+    if not blind_ordered_nodes and result.get("ranking"):
+        blind_ordered_nodes = [result["ranking"][0][0]]
+
+    nodes = set(blind_ordered_nodes)
+    posthoc_anchors = set(blind_anchors)
+    if injected_id:
+        nodes.add(injected_id)
+        posthoc_anchors.add(injected_id)
+    nodes = with_cycle_neighbors(nodes, posthoc_anchors)
+
+    ordered_nodes = [cid for cid in scc.clause_ids if cid in nodes]
+    if not ordered_nodes and result.get("ranking"):
+        ordered_nodes = [result["ranking"][0][0]]
+
+    evidence_ids = list(dict.fromkeys(evidence_ids or ([injected_id] if injected_id else [])))
+    evidence_set = set(evidence_ids)
+    risk_ids = list(dict.fromkeys(risk_ids or ([injected_id] if injected_id else [])))
+    risk_set = set(risk_ids)
+    affected_ids = list(dict.fromkeys(affected_ids or []))
+    affected_set = set(affected_ids)
+    blind_evidence_retained = [cid for cid in evidence_ids if cid in blind_ordered_nodes]
+    posthoc_evidence_retained = [cid for cid in evidence_ids if cid in ordered_nodes]
+
+    size = len(ordered_nodes)
+    total = max(1, scc.size)
+    return {
+        "risk_subgraph_nodes": ordered_nodes,
+        "risk_subgraph_size": size,
+        "compression_ratio": 1 - (size / total),
+        "contains_injected_node": bool(injected_id and injected_id in ordered_nodes),
+        "contains_any_evidence_node": bool(evidence_set.intersection(ordered_nodes)),
+        "contains_all_evidence_nodes": bool(evidence_ids and all(cid in ordered_nodes for cid in evidence_ids)),
+        "evidence_nodes_retained": posthoc_evidence_retained,
+        "contains_any_risk_node": bool(risk_set.intersection(ordered_nodes)),
+        "contains_all_risk_nodes": bool(risk_ids and all(cid in ordered_nodes for cid in risk_ids)),
+        "contains_any_affected_node": bool(affected_set.intersection(ordered_nodes)),
+        "subgraph_type": "posthoc_gt_anchored",
+        "subgraph_policy": f"oc_nodes + top_{top_k}_risk + ordered-cycle neighbors of OC/GT anchors",
+        "blind_risk_subgraph_nodes": blind_ordered_nodes,
+        "blind_risk_subgraph_size": len(blind_ordered_nodes),
+        "blind_compression_ratio": 1 - (len(blind_ordered_nodes) / total),
+        "blind_contains_injected_node": bool(injected_id and injected_id in blind_ordered_nodes),
+        "blind_contains_any_evidence_node": bool(evidence_set.intersection(blind_ordered_nodes)),
+        "blind_contains_all_evidence_nodes": bool(evidence_ids and all(cid in blind_ordered_nodes for cid in evidence_ids)),
+        "blind_evidence_nodes_retained": blind_evidence_retained,
+        "blind_contains_any_risk_node": bool(risk_set.intersection(blind_ordered_nodes)),
+        "blind_contains_all_risk_nodes": bool(risk_ids and all(cid in blind_ordered_nodes for cid in risk_ids)),
+        "blind_contains_any_affected_node": bool(affected_set.intersection(blind_ordered_nodes)),
+        "blind_subgraph_policy": f"oc_nodes + top_{top_k}_risk + ordered-cycle neighbors of OC anchors only",
+    }
+
+
+def add_rank_metrics(result: dict, injected_id: str | None) -> None:
+    """Attach rank and margin metrics for the injected GT node."""
+    ranking = result.get("ranking", [])
+    if injected_id:
+        ranks = [idx + 1 for idx, (cid, _) in enumerate(ranking) if cid == injected_id]
+        result["injected_rank"] = ranks[0] if ranks else None
+    if len(ranking) >= 2:
+        result["top1_margin"] = ranking[0][1] - ranking[1][1]
+    else:
+        result["top1_margin"] = None
+
+
+def get_injection_metadata(graph: DependencyGraph, injected_id: str | None) -> dict:
+    """Extract injected root/witness metadata into result records."""
+    if not injected_id or injected_id not in graph.clauses:
+        return {}
+    metadata = graph.clauses[injected_id].metadata
+    evidence_nodes = metadata.get("_inject_evidence_nodes") or [injected_id]
+    return {
+        "inject_profile_version": metadata.get("_inject_profile_version"),
+        "injected_witness_node": metadata.get("_inject_witness_node"),
+        "injected_witness_distance": metadata.get("_inject_witness_distance"),
+        "injected_bridge_node": metadata.get("_inject_bridge_node"),
+        "injected_bridge_distance": metadata.get("_inject_bridge_distance"),
+        "injected_risk_nodes": list(metadata.get("_inject_risk_nodes") or [injected_id]),
+        "injected_evidence_nodes": list(evidence_nodes),
+        "injected_affected_nodes": list(metadata.get("_inject_affected_nodes") or []),
+        "injected_conflict_family": metadata.get("_inject_conflict_family"),
+        "injected_conflict_difficulty": metadata.get("_inject_conflict_difficulty"),
+        "injected_conflict_template": metadata.get("_inject_conflict_template"),
+    }
+
+
+def _add_node_set_rank_metrics(result: dict, prefix: str, node_ids: list[str] | None) -> None:
+    node_ids = list(dict.fromkeys(node_ids or []))
+    if not node_ids:
+        return
+    ranking = result.get("ranking", [])
+    ranked_ids = [cid for cid, _ in ranking]
+    ranks = {
+        cid: ranked_ids.index(cid) + 1
+        for cid in node_ids
+        if cid in ranked_ids
+    }
+    top1 = ranked_ids[:1]
+    top3 = ranked_ids[:3]
+    top5 = ranked_ids[:5]
+    result[f"{prefix}_node_ranks"] = ranks
+    result[f"{prefix}_best_rank"] = min(ranks.values()) if ranks else None
+    result[f"{prefix}_worst_rank"] = max(ranks.values()) if len(ranks) == len(node_ids) else None
+    result[f"{prefix}_top1_hit"] = bool(top1 and top1[0] in node_ids)
+    result[f"{prefix}_top3_hit"] = any(cid in node_ids for cid in top3)
+    result[f"{prefix}_top5_hit"] = any(cid in node_ids for cid in top5)
+    result[f"{prefix}_all_top3_hit"] = bool(node_ids and all(cid in top3 for cid in node_ids))
+    result[f"{prefix}_all_top5_hit"] = bool(node_ids and all(cid in top5 for cid in node_ids))
+
+
+def add_structural_rank_metrics(result: dict, injection_metadata: dict) -> None:
+    """Attach ranking metrics for risk, evidence, and affected node sets."""
+    risk_ids = injection_metadata.get("injected_risk_nodes") or []
+    evidence_ids = injection_metadata.get("injected_evidence_nodes") or []
+    affected_ids = injection_metadata.get("injected_affected_nodes") or []
+    valuable_ids = list(dict.fromkeys([*risk_ids, *affected_ids]))
+    _add_node_set_rank_metrics(result, "risk", risk_ids)
+    _add_node_set_rank_metrics(result, "evidence", evidence_ids)
+    _add_node_set_rank_metrics(result, "affected", affected_ids)
+    _add_node_set_rank_metrics(result, "valuable", valuable_ids)
+    result["root_rank"] = result.get("injected_rank")
+    result["root_top1_hit"] = result.get("top1_hit")
+    result["root_top3_hit"] = result.get("top3_hit")
+
+
+def add_direct_subgraph_retention_metrics(result: dict, injection_metadata: dict) -> None:
+    """Attach retention metrics for a Naive LLM-declared risk subgraph."""
+    if result.get("naive_profile") != "direct_subgraph":
+        return
+    nodes = list(dict.fromkeys(result.get("direct_risk_subgraph_nodes") or []))
+    node_set = set(nodes)
+    risk_ids = list(dict.fromkeys(injection_metadata.get("injected_risk_nodes") or []))
+    evidence_ids = list(dict.fromkeys(injection_metadata.get("injected_evidence_nodes") or []))
+    affected_ids = list(dict.fromkeys(injection_metadata.get("injected_affected_nodes") or []))
+    valuable_ids = list(dict.fromkeys([*risk_ids, *affected_ids]))
+
+    def retained(ids: list[str]) -> list[str]:
+        return [cid for cid in ids if cid in node_set]
+
+    result["direct_subgraph_nodes_retained"] = nodes
+    result["direct_contains_injected_node"] = bool(
+        result.get("injected_node") and result["injected_node"] in node_set
+    )
+    result["direct_contains_any_risk_node"] = bool(set(risk_ids) & node_set)
+    result["direct_contains_all_risk_nodes"] = bool(
+        risk_ids and all(cid in node_set for cid in risk_ids)
+    )
+    result["direct_risk_nodes_retained"] = retained(risk_ids)
+    result["direct_contains_any_evidence_node"] = bool(set(evidence_ids) & node_set)
+    result["direct_contains_all_evidence_nodes"] = bool(
+        evidence_ids and all(cid in node_set for cid in evidence_ids)
+    )
+    result["direct_evidence_nodes_retained"] = retained(evidence_ids)
+    result["direct_contains_any_affected_node"] = bool(set(affected_ids) & node_set)
+    result["direct_contains_all_affected_nodes"] = bool(
+        affected_ids and all(cid in node_set for cid in affected_ids)
+    )
+    result["direct_affected_nodes_retained"] = retained(affected_ids)
+    result["direct_contains_any_valuable_node"] = bool(set(valuable_ids) & node_set)
+    result["direct_contains_all_valuable_nodes"] = bool(
+        valuable_ids and all(cid in node_set for cid in valuable_ids)
+    )
+    result["direct_valuable_nodes_retained"] = retained(valuable_ids)
+
+
+async def main(args: argparse.Namespace):
+    api_key = os.environ.get("XHUB_API_KEY", "")
+    if not api_key:
+        api_key = input("Enter XHUB API key: ").strip()
+        os.environ["XHUB_API_KEY"] = api_key
+    if not api_key:
+        raise RuntimeError("XHUB_API_KEY is required")
+
+    inject_mode = bool(getattr(args, "inject", False))
+    if inject_mode and not _INJECT_AVAILABLE:
+        raise RuntimeError("Inject mode requested, but inject_defect.py could not be imported")
+    inject_profile = getattr(args, "inject_profile", "explicit")
+    if inject_profile not in SUPPORTED_INJECT_PROFILES:
+        raise RuntimeError(f"Unknown inject profile: {inject_profile}")
+    cycle_source = getattr(args, "cycle_source", "real_long")
+    real_min_size = getattr(args, "real_min_size", 5)
+    real_max_size = getattr(args, "real_max_size", 24)
+    allow_synthetic_diagnostic = bool(getattr(args, "allow_synthetic_diagnostic", False))
+    if (
+        inject_mode
+        and inject_profile == "memory_stress"
+        and cycle_source in {"synthetic_long", "both"}
+        and not allow_synthetic_diagnostic
+    ):
+        raise RuntimeError(
+            "synthetic_long/both are diagnostic-only for memory_stress. Formal runs "
+            "must use --cycle-source real_long with original node content, or pass "
+            "--allow-synthetic-diagnostic to make the diagnostic status explicit."
+        )
+    synthetic_sizes = getattr(args, "synthetic_sizes", [16, 24])
+    conflict_template = getattr(args, "conflict_template", DEFAULT_MEMORY_CONFLICT_TEMPLATE)
+    if conflict_template not in SUPPORTED_MEMORY_CONFLICT_TEMPLATES:
+        raise RuntimeError(f"Unknown conflict template: {conflict_template}")
+    include_subgraph_summary = bool(getattr(args, "include_subgraph_summary", False))
+    naive_profile = getattr(args, "naive_profile", "ranked")
+    if naive_profile not in NAIVE_PROFILES:
+        raise RuntimeError(f"Unknown naive profile: {naive_profile}")
+    methods_to_run = getattr(args, "methods", ["naive", "sa-mcgs"])
+    methods_to_run = list(dict.fromkeys(methods_to_run))
+    run_naive_method = "naive" in methods_to_run
+    run_mcgs_method = "sa-mcgs" in methods_to_run
+    if not run_naive_method and not run_mcgs_method:
+        raise RuntimeError("At least one method must be selected")
+
+    # ── Resolve filters (smoke mode is just preset filters) ──
+    if args.smoke:
+        domains_to_run = ["debian"]
+        models_to_run = [m for m in BATTLE_MODELS if m["name"] == "deepseek-v3"]
+        max_sccs = 1
+        out_prefix = f"battle_inject_{inject_profile}_smoke" if inject_mode else "battle_smoke"
+    else:
+        domains_to_run = args.domains or (
+            ["debian"] if inject_mode else ["debian", "wikipedia", "sec_ex21"]
+        )
+        models_to_run = (
+            [m for m in BATTLE_MODELS if m["name"] in args.models]
+            if args.models else BATTLE_MODELS
+        )
+        max_sccs = args.max_sccs
+        out_prefix = f"battle_inject_{inject_profile}" if inject_mode else "battle_v2"
+    if inject_mode and inject_profile == "memory_stress":
+        out_prefix = f"{out_prefix}_{conflict_template}"
+    if naive_profile == "ranked":
+        out_prefix = f"{out_prefix}_rankednaive"
+    elif naive_profile == "direct_subgraph":
+        out_prefix = f"{out_prefix}_directsubgraphnaive"
+    if methods_to_run != ["naive", "sa-mcgs"]:
+        out_prefix = f"{out_prefix}_{'_'.join(methods_to_run).replace('-', '')}only"
+    run_tag = getattr(args, "run_tag", None)
+    if run_tag:
+        safe_tag = re.sub(r"[^A-Za-z0-9_.-]+", "_", run_tag).strip("_")
+        out_prefix = f"{out_prefix}_{safe_tag}"
+
+    print("=" * 70)
+    print("  SA-MCGS BATTLE: Naive Prompting vs SA-MCGS")
+    if args.smoke:
+        print("  [SMOKE MODE] 1 domain x 1 SCC x 1 model — quick validation")
+    if inject_mode:
+        print("  [INJECT MODE] UDIP synthetic defect injection enabled")
+        print(f"  Inject profile: {inject_profile}; cycle source: {cycle_source}")
+        if inject_profile == "memory_stress":
+            print(f"  Conflict template: {conflict_template}")
+        if cycle_source in {"synthetic_long", "both"}:
+            print("  [DIAGNOSTIC ONLY] Synthetic sizes: " + ", ".join(str(s) for s in synthetic_sizes))
+    print("  Models: " + ", ".join(m["name"] for m in models_to_run))
+    print("  Methods: " + ", ".join(methods_to_run))
+    print(f"  Naive profile: {naive_profile}")
+    print("  Domains: " + ", ".join(domains_to_run))
+    print("  Evaluation: Binary detection (Top-1/Top-3 hit on ground truth)")
+    print("=" * 70)
+
+    # ── Load only the domain graphs we need ──
+    print("\n[LOAD] Loading domain data...")
+    loaders = {
+        "debian": load_debian_graph,
+        "wikipedia": load_wikipedia_graph,
+        "sec_ex21": load_sec_graph,
+    }
+    graphs = {}
+    for d in domains_to_run:
+        if inject_mode and inject_profile == "memory_stress" and cycle_source == "synthetic_long":
+            print(f"  Loading {d}... synthetic-only empty graph")
+            graphs[d] = DependencyGraph()
+        else:
+            print(f"  Loading {d}...")
+            graphs[d] = loaders[d]()
+
+    # ── Select SCCs per domain ──
+    domain_sccs: dict[str, list[SCCInfo]] = {}
+    if inject_mode:
+        inject_scc_patterns = [
+            ["libnode108", "node-acorn", "nodejs"],
+            ["ocaml", "ocaml-compiler-libs", "ocaml-interp"],
+            ["nova-compute"],
+            ["node-babel7", "node-babel"],
+        ]
+        for domain, graph in graphs.items():
+            detector = TarjanSCCDetector()
+            detected = detector.detect(graph)
+            selected = []
+
+            if inject_profile == "memory_stress" and cycle_source in {"real_long", "both"}:
+                selected.extend(
+                    select_memory_real_sccs(
+                        detected.sccs,
+                        min_size=real_min_size,
+                        max_size=real_max_size,
+                        max_count=max_sccs,
+                    )
+                )
+            elif domain == "debian":
+                for pattern_group in inject_scc_patterns:
+                    pats = [p.lower() for p in pattern_group]
+                    for scc in detected.sccs:
+                        if any(any(p in cid.lower() for p in pats) for cid in scc.clause_ids):
+                            if scc not in selected:
+                                selected.append(scc)
+                            break
+
+            if inject_profile == "memory_stress" and cycle_source in {"synthetic_long", "both"}:
+                for size in synthetic_sizes:
+                    selected.append(add_synthetic_cycle(graph, domain, size))
+
+            if not selected:
+                used_patterns = {"ruby", "libmono"}
+                selected = [
+                    s for s in sorted(detected.sccs, key=lambda x: x.size)
+                    if 3 <= s.size <= 7
+                    and not any(p in cid.lower() for p in used_patterns for cid in s.clause_ids)
+                ][:max_sccs]
+
+            domain_sccs[domain] = selected[:max_sccs]
+            print(
+                f"  [{domain}] Inject mode: selected {len(domain_sccs[domain])} SCCs: "
+                f"sizes {[s.size for s in domain_sccs[domain]]}, "
+                f"nodes {[sorted(s.clause_ids) for s in domain_sccs[domain]]}"
+            )
+    else:
+        for domain, graph in graphs.items():
+            gt_pats = list(GROUND_TRUTH.get(domain, {}).keys()) or None
+            sccs = select_sccs(
+                graph, min_size=5, max_size=15,
+                max_count=max_sccs, gt_patterns=gt_pats,
+            )
+            domain_sccs[domain] = sccs
+            print(f"  [{domain}] Selected {len(sccs)} SCCs: sizes {[s.size for s in sccs]}")
+
+    # ── Run all experiments ──
+    all_results = []
+    out_file = RESULTS_DIR / f"{out_prefix}_{int(time.time())}.json"
+    checkpoint_file = out_file.with_name(f"{out_file.stem}.partial.json")
+    total_exps = sum(
+        len(sccs) * len(models_to_run) * len(methods_to_run)
+        for sccs in domain_sccs.values()
+    )
+    exp_idx = 0
+
+    for domain, sccs in domain_sccs.items():
+        graph = graphs[domain]
+        mcgs_cfg = runtime_mcgs_config(domain, args)
+
+        for scc in sccs:
+            injected_id = None
+            injection_metadata = {}
+            evidence_nodes = []
+            if inject_mode:
+                if inject_profile == "memory_stress" and not allow_synthetic_diagnostic:
+                    assert_original_scc_content(graph, scc, domain)
+                graph_to_use, injected_id = inject_defect(
+                    graph, scc, domain, seed=42, profile=inject_profile,
+                    conflict_template=conflict_template,
+                )
+                if inject_profile == "memory_stress":
+                    scc = reorder_scc_for_memory_stress(scc, injected_id)
+                injected_scan = get_injected_node(graph_to_use, scc)
+                if injected_scan != injected_id:
+                    raise RuntimeError(
+                        f"Injected node scan mismatch: expected {injected_id}, got {injected_scan}"
+                    )
+                gt_nodes = [injected_id]
+                gt_names = [
+                    graph_to_use.clauses[injected_id].title
+                    if injected_id in graph_to_use.clauses else injected_id
+                ]
+                injection_metadata = get_injection_metadata(graph_to_use, injected_id)
+                evidence_nodes = injection_metadata.get("injected_evidence_nodes", [injected_id])
+            else:
+                graph_to_use = graph
+                gt_nodes = [cid for cid in scc.clause_ids if is_ground_truth_node(cid, domain)]
+                gt_names = [graph.clauses[n].title for n in gt_nodes if n in graph.clauses]
+
+            print(f"\n{'─'*70}")
+            print(f"  [{domain}] SCC {scc.id} ({scc.size} nodes)")
+            print(f"  Ground truth defects: {gt_names or '(none defined)'}")
+            if injected_id:
+                print(f"  Injected defect node: {injected_id}")
+            print(f"{'─'*70}")
+
+            if inject_mode and injected_id:
+                orig_gt = GROUND_TRUTH.get(domain, {}).copy()
+                orig_exact_gt = set(_GT_EXACT_MATCH)
+                GROUND_TRUTH[domain] = {
+                    injected_id: f"injected {inject_profile} defect (seed=42)"
+                }
+                _GT_EXACT_MATCH.add(injected_id.lower())
+            else:
+                orig_gt = None
+                orig_exact_gt = None
+
+            try:
+                for model_info in models_to_run:
+                    model_name = model_info["name"]
+                    model_id = model_info["model_id"]
+
+                    llm_config = {
+                        "provider": "openai",
+                        "model": model_id,
+                        "base_url": XHUB_BASE_URL,
+                        "api_key_env": "XHUB_API_KEY",
+                        "timeout": 300,
+                    }
+                    llm = OpenAIClient(llm_config)
+
+                    # ── Naive ──
+                    if run_naive_method:
+                        exp_idx += 1
+                        print(f"\n  [{exp_idx}/{total_exps}] {model_name} + Naive on {domain} {scc.size}n...")
+                        try:
+                            naive_result = await run_naive(
+                                llm,
+                                model_name,
+                                domain,
+                                graph_to_use,
+                                scc,
+                                naive_profile=naive_profile,
+                                injected_id=injected_id,
+                            )
+                            if inject_mode:
+                                naive_result["inject_mode"] = True
+                                naive_result["injected_node"] = injected_id
+                                naive_result["inject_type"] = DOMAIN_INJECT_TYPE.get(domain)
+                                naive_result["inject_profile"] = inject_profile
+                                naive_result["cycle_source"] = cycle_source
+                                naive_result.update(injection_metadata)
+                                add_rank_metrics(naive_result, injected_id)
+                                add_structural_rank_metrics(naive_result, injection_metadata)
+                                add_direct_subgraph_retention_metrics(naive_result, injection_metadata)
+                            top3 = naive_result["ranking"][:3]
+                            print(f"    Top-3: {[(graph_to_use.clauses.get(c, Clause(id=c, title=c, content='')).title, f'{s:.2f}') for c, s in top3]}")
+                            print(f"    Score spread: {naive_result['score_spread']:.3f}")
+                            if naive_result.get("ranking_source"):
+                                print(
+                                    f"    Ranking source: {naive_result['ranking_source']} "
+                                    f"(complete={naive_result.get('ranking_complete')})"
+                                )
+                            if naive_result.get("largest_tie_count", 0) > 1:
+                                print(f"    Largest score tie: {naive_result['largest_tie_count']}")
+                            if naive_result.get("naive_profile") == "direct_subgraph":
+                                print(
+                                    f"    Direct subgraph: {naive_result.get('direct_risk_subgraph_size')}/{scc.size} "
+                                    f"(compression={naive_result.get('direct_compression_ratio', 0):.0%}, "
+                                    f"risk-any={naive_result.get('direct_contains_any_risk_node')})"
+                                )
+                            print(f"    Top-1 GT hit: {naive_result['top1_hit']}, Top-3 GT hit: {naive_result['top3_hit']}")
+                            all_results.append(naive_result)
+                            save_results(checkpoint_file, all_results)
+                        except Exception as e:
+                            print(f"    ERROR: {e}")
+                            err_result = {
+                                "method": "naive", "model": model_name, "domain": domain,
+                                "scc_id": scc.id, "scc_size": scc.size, "error": str(e),
+                                "naive_profile": naive_profile,
+                            }
+                            if inject_mode:
+                                err_result.update({"inject_mode": True, "injected_node": injected_id})
+                                err_result.update(injection_metadata)
+                            all_results.append(err_result)
+                            save_results(checkpoint_file, all_results)
+
+                    # ── SA-MCGS ──
+                    if run_mcgs_method:
+                        exp_idx += 1
+                        print(f"\n  [{exp_idx}/{total_exps}] {model_name} + SA-MCGS on {domain} {scc.size}n...")
+                        try:
+                            mcgs_result = await run_sa_mcgs(llm, model_name, domain, graph_to_use, scc, mcgs_cfg)
+                            if inject_mode:
+                                mcgs_result["inject_mode"] = True
+                                mcgs_result["injected_node"] = injected_id
+                                mcgs_result["inject_type"] = DOMAIN_INJECT_TYPE.get(domain)
+                                mcgs_result["inject_profile"] = inject_profile
+                                mcgs_result["cycle_source"] = cycle_source
+                                mcgs_result.update(injection_metadata)
+                                add_rank_metrics(mcgs_result, injected_id)
+                                add_structural_rank_metrics(mcgs_result, injection_metadata)
+                                if include_subgraph_summary:
+                                    mcgs_result.update(
+                                        build_risk_subgraph_summary(
+                                            graph_to_use,
+                                            scc,
+                                            mcgs_result,
+                                            injected_id,
+                                            evidence_nodes,
+                                            injection_metadata.get("injected_risk_nodes"),
+                                            injection_metadata.get("injected_affected_nodes"),
+                                        )
+                                    )
+                            top3 = mcgs_result["ranking"][:3]
+                            print(f"    Top-3: {[(graph_to_use.clauses.get(c, Clause(id=c, title=c, content='')).title, f'{s:.3f}') for c, s in top3]}")
+                            print(f"    Score spread: {mcgs_result['score_spread']:.3f}, OC: {mcgs_result['oc_count']}")
+                            if include_subgraph_summary and "risk_subgraph_size" in mcgs_result:
+                                print(
+                                    f"    Risk subgraph: {mcgs_result['risk_subgraph_size']}/{scc.size} "
+                                    f"(compression={mcgs_result['compression_ratio']:.0%}, "
+                                    f"GT={mcgs_result['contains_injected_node']})"
+                                )
+                            print(f"    Top-1 GT hit: {mcgs_result['top1_hit']}, Top-3 GT hit: {mcgs_result['top3_hit']}")
+                            all_results.append(mcgs_result)
+                            save_results(checkpoint_file, all_results)
+                        except Exception as e:
+                            print(f"    ERROR: {e}")
+                            err_result = {
+                                "method": "sa-mcgs", "model": model_name, "domain": domain,
+                                "scc_id": scc.id, "scc_size": scc.size, "error": str(e),
+                            }
+                            if inject_mode:
+                                err_result.update({"inject_mode": True, "injected_node": injected_id})
+                                err_result.update(injection_metadata)
+                            all_results.append(err_result)
+                            save_results(checkpoint_file, all_results)
+
+                    await llm.close()
+            finally:
+                if orig_gt is not None:
+                    GROUND_TRUTH[domain] = orig_gt
+                if orig_exact_gt is not None:
+                    _GT_EXACT_MATCH.clear()
+                    _GT_EXACT_MATCH.update(orig_exact_gt)
+
+    # ── Save Results ──
+    save_results(out_file, all_results)
+    print(f"\n{'='*70}")
+    print(f"  Results saved: {out_file}")
+
+    # ── Summary Table ──
+    print(f"\n{'='*70}")
+    print(f"  BATTLE SUMMARY")
+    print(f"{'='*70}")
+    print(f"{'Model':<16} {'Domain':<12} {'SCC':<8} {'Method':<10} {'Spread':>8} {'Top1-GT':>8} {'Top3-GT':>8} {'OC':>4}")
+    print("─" * 80)
+
+    for r in all_results:
+        if "error" in r:
+            print(f"{r.get('model','?'):<16} {r.get('domain','?'):<12} {r.get('scc_size','?'):<8} {r.get('method','?'):<10} {'ERROR':>8}")
+            continue
+        oc = r.get("oc_count", "-") if r["method"] == "sa-mcgs" else "-"
+        t1 = "Y" if r.get("top1_hit") else ("N" if r.get("top1_hit") is False else "-")
+        t3 = "Y" if r.get("top3_hit") else ("N" if r.get("top3_hit") is False else "-")
+        print(
+            f"{r['model']:<16} {r['domain']:<12} {r['scc_size']:<8} {r['method']:<10} "
+            f"{r['score_spread']:>8.3f} {t1:>8} {t3:>8} {str(oc):>4}"
+        )
+
+    # ── Detection Rate Summary ──
+    print(f"\n{'='*70}")
+    print(f"  DETECTION RATE (where ground truth exists)")
+    print(f"{'='*70}")
+
+    for model_info in models_to_run:
+        mn = model_info["name"]
+        for method in ["naive", "sa-mcgs"]:
+            relevant = [
+                r for r in all_results
+                if r.get("model") == mn and r.get("method") == method
+                and r.get("top3_hit") is not None and "error" not in r
+            ]
+            if not relevant:
+                continue
+            hits = sum(1 for r in relevant if r["top3_hit"])
+            total = len(relevant)
+            rate = hits / total if total else 0
+            print(f"  {mn:<16} {method:<10} Top-3 Detection: {hits}/{total} = {rate:.0%}")
+
+    print(f"\n  Done! Total experiments: {len(all_results)}")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="SA-MCGS Battle: Naive vs SA-MCGS")
+    parser.add_argument(
+        "--smoke", action="store_true",
+        help="Smoke mode: 1 domain (debian) x 1 SCC x 1 model (deepseek-v3)",
+    )
+    parser.add_argument(
+        "--domains", nargs="+", choices=["debian", "wikipedia", "sec_ex21"],
+        help="Subset of domains to run (default: all 3)",
+    )
+    parser.add_argument(
+        "--models", nargs="+",
+        help="Subset of model names to run (e.g. deepseek-v3 gpt-4o)",
+    )
+    parser.add_argument(
+        "--methods",
+        nargs="+",
+        choices=["naive", "sa-mcgs"],
+        default=["naive", "sa-mcgs"],
+        help="Methods to run. Use '--methods naive' to rerun only the one-shot baseline.",
+    )
+    parser.add_argument(
+        "--max-sccs", type=int, default=2,
+        help="Max SCCs per domain (default: 2)",
+    )
+    parser.add_argument(
+        "--inject", action="store_true",
+        help=(
+            "Injection mode: inject a synthetic defect into one node per SCC "
+            "and use that node as ground truth. Results saved as battle_inject_*."
+        ),
+    )
+    parser.add_argument(
+        "--inject-profile",
+        choices=sorted(SUPPORTED_INJECT_PROFILES),
+        default="explicit",
+        help=(
+            "Injection profile. explicit preserves the original UDIP sanity check; "
+            "memory_stress injects a simple structural conflict into existing SCC nodes."
+        ),
+    )
+    parser.add_argument(
+        "--cycle-source",
+        choices=["real_long", "synthetic_long", "both"],
+        default="real_long",
+        help="SCC source for memory-stress injection.",
+    )
+    parser.add_argument(
+        "--real-min-size",
+        type=int,
+        default=5,
+        help="Minimum real SCC size for memory_stress formal runs.",
+    )
+    parser.add_argument(
+        "--real-max-size",
+        type=int,
+        default=24,
+        help="Maximum real SCC size for memory_stress formal runs.",
+    )
+    parser.add_argument(
+        "--allow-synthetic-diagnostic",
+        action="store_true",
+        help=(
+            "Allow synthetic_long/both memory_stress runs. These are diagnostic only "
+            "and must not be reported as formal results."
+        ),
+    )
+    parser.add_argument(
+        "--conflict-template",
+        choices=sorted(SUPPORTED_MEMORY_CONFLICT_TEMPLATES),
+        default=DEFAULT_MEMORY_CONFLICT_TEMPLATE,
+        help=(
+            "Structural conflict family for memory_stress injection. "
+            "Use direct_mutex as the obvious baseline; later templates require "
+            "multi-node evidence."
+        ),
+    )
+    parser.add_argument(
+        "--synthetic-sizes",
+        nargs="+",
+        type=int,
+        default=[16, 24],
+        help="Synthetic long-cycle sizes to append when --cycle-source uses synthetic cycles.",
+    )
+    parser.add_argument(
+        "--include-subgraph-summary",
+        action="store_true",
+        help="Record SA-MCGS compact risk-subgraph metrics.",
+    )
+    parser.add_argument(
+        "--mcgs-concurrency",
+        type=int,
+        help="Override SA-MCGS internal LLM concurrency for this run.",
+    )
+    parser.add_argument(
+        "--mcgs-budget",
+        type=int,
+        help="Override SA-MCGS rollout budget for all domains.",
+    )
+    parser.add_argument(
+        "--wiki-mcgs-budget",
+        type=int,
+        help="Override SA-MCGS rollout budget for Wikipedia only.",
+    )
+    parser.add_argument(
+        "--naive-profile",
+        choices=sorted(NAIVE_PROFILES),
+        default="ranked",
+        help=(
+            "Naive one-shot baseline profile. ranked asks the model for risk-factor "
+            "distribution plus a complete no-tie global ranking; direct_subgraph asks "
+            "the model to directly declare a minimal risk subgraph as well; basic "
+            "preserves the old score-only baseline."
+        ),
+    )
+    parser.add_argument(
+        "--run-tag",
+        help="Optional safe tag appended to result filenames for parallel grid runs.",
+    )
+    args = parser.parse_args()
+
+    asyncio.run(main(args))

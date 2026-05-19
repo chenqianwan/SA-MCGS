@@ -1,0 +1,254 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "sec_ex21",
+    "scc_size": 5,
+    "scc_id": "synthetic_sec_ex21_5",
+    "scc_clause_ids": [
+      "synthetic_sec_ex21_5_node_01",
+      "synthetic_sec_ex21_5_node_02",
+      "synthetic_sec_ex21_5_node_03",
+      "synthetic_sec_ex21_5_node_04",
+      "synthetic_sec_ex21_5_node_05"
+    ],
+    "llm_calls": 1,
+    "time": 42.952271938323975,
+    "scores": {
+      "synthetic_sec_ex21_5_node_01": 0.75,
+      "synthetic_sec_ex21_5_node_02": 0.45,
+      "synthetic_sec_ex21_5_node_03": 0.4,
+      "synthetic_sec_ex21_5_node_04": 0.85,
+      "synthetic_sec_ex21_5_node_05": 0.65
+    },
+    "reasonings": {
+      "synthetic_sec_ex21_5_node_01": "Ownership worksheet reserves outside interest but depends on cycle where amendment filing is blocked",
+      "synthetic_sec_ex21_5_node_02": "Controlled ownership cycle with medium audit priority, but no direct amendment filing responsibility",
+      "synthetic_sec_ex21_5_node_03": "Controlled ownership cycle with medium audit priority, dependent on amendment-blocked nodes",
+      "synthetic_sec_ex21_5_node_04": "Directly states amendment has not been filed, blocking outside interest recognition - critical compliance issue",
+      "synthetic_sec_ex21_5_node_05": "Perpetuates amendment status without converting to filed amendment, maintaining the filing blockage"
+    },
+    "ranking": [
+      [
+        "synthetic_sec_ex21_5_node_04",
+        0.85
+      ],
+      [
+        "synthetic_sec_ex21_5_node_01",
+        0.75
+      ],
+      [
+        "synthetic_sec_ex21_5_node_05",
+        0.65
+      ],
+      [
+        "synthetic_sec_ex21_5_node_02",
+        0.45
+      ],
+      [
+        "synthetic_sec_ex21_5_node_03",
+        0.4
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_sec_ex21_5_node_04",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "Amendment Filing Status",
+          "Outside Interest Recognition"
+        ],
+        "reasoning": "Explicitly states that amendment has not been filed for current consolidation path, blocking recognition of retained outside interest - this creates a direct compliance gap"
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_sec_ex21_5_node_01",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "Outside Interest Recognition",
+          "Ownership Cycle Complexity"
+        ],
+        "reasoning": "Reserves 20% outside interest but depends on cycle where amendment filing is blocked, creating potential inconsistency in ownership accounting"
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_sec_ex21_5_node_05",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "Amendment Filing Status"
+        ],
+        "reasoning": "Carries amendment status without converting internal worksheet to filed amendment, perpetuating the filing blockage in the cycle"
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_sec_ex21_5_node_02",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "Ownership Cycle Complexity",
+          "Audit Priority Level"
+        ],
+        "reasoning": "Part of controlled ownership cycle with medium-priority audit follow-up, but less severe than amendment filing issues"
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_sec_ex21_5_node_03",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "Ownership Cycle Complexity",
+          "Audit Priority Level"
+        ],
+        "reasoning": "Similar to node 02 with controlled ownership cycle and medium audit priority, but positioned later in dependency chain"
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "Amendment Filing Status",
+        "importance_weight": 0.35,
+        "description": "Concerns about whether required control amendments have been properly filed, which affects recognition of outside interests"
+      },
+      {
+        "factor": "Ownership Cycle Complexity",
+        "importance_weight": 0.25,
+        "description": "Risks arising from circular dependencies and controlled ownership cycles that complicate consolidation"
+      },
+      {
+        "factor": "Outside Interest Recognition",
+        "importance_weight": 0.25,
+        "description": "Issues related to reserved or retained outside interests and their proper accounting treatment"
+      },
+      {
+        "factor": "Audit Priority Level",
+        "importance_weight": 0.15,
+        "description": "Concerns indicated by audit follow-up items and their priority levels"
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 5,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_sec_ex21_5_node_01",
+        "clause_b": "synthetic_sec_ex21_5_node_04",
+        "description": "Node 01 reserves 20% outside interest while Node 04 states amendment required for such recognition has not been filed"
+      },
+      {
+        "clause_a": "synthetic_sec_ex21_5_node_04",
+        "clause_b": "synthetic_sec_ex21_5_node_05",
+        "description": "Node 04 indicates amendment filing requirement while Node 05 states it does not convert internal worksheet to filed amendment"
+      }
+    ],
+    "score_spread": 0.44999999999999996,
+    "ranking_score_spread": 0.44999999999999996,
+    "score_mean": 0.62,
+    "score_max": 0.85,
+    "node_names": {
+      "synthetic_sec_ex21_5_node_01": "synthetic sec ex21 5 node 01",
+      "synthetic_sec_ex21_5_node_02": "synthetic sec ex21 5 node 02",
+      "synthetic_sec_ex21_5_node_03": "synthetic sec ex21 5 node 03",
+      "synthetic_sec_ex21_5_node_04": "synthetic sec ex21 5 node 04",
+      "synthetic_sec_ex21_5_node_05": "synthetic sec ex21 5 node 05"
+    },
+    "ground_truth_nodes": [
+      "synthetic_sec_ex21_5_node_04"
+    ],
+    "gt_evidence": {
+      "synthetic_sec_ex21_5_node_04": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 594,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.26262626262626265,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.27441077441077444,
+    "inject_mode": true,
+    "injected_node": "synthetic_sec_ex21_5_node_04",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_sec_ex21_5_node_01",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "synthetic_sec_ex21_5_node_05",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "synthetic_sec_ex21_5_node_04",
+      "synthetic_sec_ex21_5_node_01"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_sec_ex21_5_node_04",
+      "synthetic_sec_ex21_5_node_05",
+      "synthetic_sec_ex21_5_node_01"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_sec_ex21_5_node_02",
+      "synthetic_sec_ex21_5_node_03"
+    ],
+    "injected_conflict_family": "condition_trigger",
+    "injected_conflict_difficulty": "hard",
+    "injected_conflict_template": "sec_condition_trigger_unfiled_amendment",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_sec_ex21_5_node_04": 1,
+      "synthetic_sec_ex21_5_node_01": 2
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_sec_ex21_5_node_04": 1,
+      "synthetic_sec_ex21_5_node_05": 3,
+      "synthetic_sec_ex21_5_node_01": 2
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_sec_ex21_5_node_02": 4,
+      "synthetic_sec_ex21_5_node_03": 5
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "synthetic_sec_ex21_5_node_04": 1,
+      "synthetic_sec_ex21_5_node_01": 2,
+      "synthetic_sec_ex21_5_node_02": 4,
+      "synthetic_sec_ex21_5_node_03": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 1,
+    "root_top1_hit": true,
+    "root_top3_hit": true
+  }
+]

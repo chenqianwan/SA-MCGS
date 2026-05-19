@@ -316,6 +316,25 @@ Conformal prediction provides distribution-free statistical guarantees for predi
 %       Hardware: Apple M2 Ultra, 128GB
 %       Wall-clock: Study 1 ~16h, Study 2 ~102min (concurrency=8)
 
+\subsection{Prompt Fairness: Shared Risk Semantics}
+\label{sec:prompt_fairness}
+
+To preserve compatibility with the completed formal runs, we do not introduce
+a new prompt variant for this audit.  Instead, we explicitly factor the prompt
+semantics already used in those runs into a shared risk definition and a
+method-specific output adapter.  Both Naive and SA-MCGS are given the same
+domain-agnostic task semantics: analyze a directed graph of interdependent
+records, use only visible node text and visible directed edges, assign
+record-level risk scores, and identify structural inconsistency, mutual
+incompatibility, underspecification, or high-impact risk without assuming
+domain-specific error types.  The adapter differs only because the inference
+interfaces differ.  Naive applies this semantics once to the full SCC and
+returns a whole-SCC ranking/risk subgraph; SA-MCGS applies the same semantics
+to many smaller local windows and returns local evidence that is aggregated by
+graph search.  Thus the reported results remain on the original prompt path;
+the shared rubric is an audit description of the common risk criterion, not an
+extra prompt block added after the experiments.
+
 
 % ======================================================================
 % 5. RESULTS
@@ -533,6 +552,28 @@ Conformal prediction provides distribution-free statistical guarantees for predi
 
 \section{Prompts}
 \label{sec:appendix_prompts}
+
+\subsection{Shared Risk Semantics}
+\label{sec:appendix_shared_rubric}
+
+The following text summarizes the domain-agnostic risk semantics common to the
+Naive and SA-MCGS prompts used in the formal cross-domain critical experiments.
+It is included for prompt-parity auditing; it is not a new prompt block inserted
+after the reported runs.
+
+\begin{quote}
+You are analyzing a directed graph of interdependent records. Each node
+contains a record. Each directed edge indicates that one record depends on,
+constrains, references, modifies, or otherwise affects another record.
+
+A record or relation is risky if it is structurally inconsistent, mutually
+incompatible, underspecified, or high-impact under the visible graph context.
+For each visible record, assign a risk\_score from 0.0 (no meaningful
+structural concern) to 1.0 (severe structural concern). Use only the visible
+node text and visible directed edges. Explain concrete conflicts using exact
+record IDs and evidence from the input. Do not assume domain-specific error
+types.
+\end{quote}
 
 \subsection{Search Rollout Prompt}
 % TODO: Exact prompt text

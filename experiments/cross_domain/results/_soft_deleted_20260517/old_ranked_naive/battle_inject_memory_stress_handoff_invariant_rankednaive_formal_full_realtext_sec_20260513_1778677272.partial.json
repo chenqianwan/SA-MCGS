@@ -1,0 +1,731 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 9,
+    "scc_id": "scc_1",
+    "scc_clause_ids": [
+      "us-cw-1017834",
+      "us-cw-3674429",
+      "us-cw-3682211",
+      "us-cw-3682213",
+      "us-cw-3682810",
+      "us-cw-3682811",
+      "us-cw-3682212",
+      "us-cw-3684902",
+      "us-cw-617657"
+    ],
+    "llm_calls": 1,
+    "time": 40.899693727493286,
+    "scores": {
+      "us-cw-1017834": 0.1,
+      "us-cw-3674429": 0.2,
+      "us-cw-3682211": 0.5,
+      "us-cw-3682213": 0.6,
+      "us-cw-3682810": 0.7,
+      "us-cw-3682811": 0.8,
+      "us-cw-3682212": 0.4,
+      "us-cw-3684902": 0.3,
+      "us-cw-617657": 1.0
+    },
+    "reasonings": {
+      "us-cw-1017834": "Minimal centrality and no significant structural concerns.",
+      "us-cw-3674429": "Limited data and part of a dependency chain, but no major structural issues.",
+      "us-cw-3682211": "High centrality with multiple references and dependencies, but no direct conflicts or cycles.",
+      "us-cw-3682213": "High centrality with multiple incoming and outgoing edges, making it structurally impactful.",
+      "us-cw-3682810": "Part of a cycle and has high centrality, directly referencing and being referenced by other nodes in the cycle.",
+      "us-cw-3682811": "Part of a cycle and has high centrality, being referenced by and referencing other nodes in the cycle.",
+      "us-cw-3682212": "Moderate centrality with references to other nodes, but no direct conflicts or cycles.",
+      "us-cw-3684902": "No major structural issues, but has limited data and is part of a dependency chain.",
+      "us-cw-617657": "Part of a cycle, has conflicting country data (us; ie), and an ambiguous registrationNumber of 0."
+    },
+    "ranking": [
+      [
+        "us-cw-617657",
+        1.0
+      ],
+      [
+        "us-cw-3682811",
+        0.8
+      ],
+      [
+        "us-cw-3682810",
+        0.7
+      ],
+      [
+        "us-cw-3682213",
+        0.6
+      ],
+      [
+        "us-cw-3682211",
+        0.5
+      ],
+      [
+        "us-cw-3682212",
+        0.4
+      ],
+      [
+        "us-cw-3684902",
+        0.3
+      ],
+      [
+        "us-cw-3674429",
+        0.2
+      ],
+      [
+        "us-cw-1017834",
+        0.1
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "us-cw-617657",
+        "risk_score": 1.0,
+        "risk_factors": [
+          "cyclic_dependency",
+          "underspecified_data",
+          "cross_country_conflict"
+        ],
+        "reasoning": "Part of a cycle, has conflicting country data (us; ie), and an ambiguous registrationNumber of 0."
+      },
+      {
+        "rank": 2,
+        "clause_id": "us-cw-3682811",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "cyclic_dependency",
+          "high_dependency_centrality"
+        ],
+        "reasoning": "Part of a cycle and has high centrality, being referenced by and referencing other nodes in the cycle."
+      },
+      {
+        "rank": 3,
+        "clause_id": "us-cw-3682810",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "cyclic_dependency",
+          "high_dependency_centrality"
+        ],
+        "reasoning": "Part of a cycle and has high centrality, directly referencing and being referenced by other nodes in the cycle."
+      },
+      {
+        "rank": 4,
+        "clause_id": "us-cw-3682213",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "high_dependency_centrality"
+        ],
+        "reasoning": "High centrality with multiple incoming and outgoing edges, making it structurally impactful."
+      },
+      {
+        "rank": 5,
+        "clause_id": "us-cw-3682211",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "high_dependency_centrality"
+        ],
+        "reasoning": "High centrality with multiple references and dependencies, but no direct conflicts or cycles."
+      },
+      {
+        "rank": 6,
+        "clause_id": "us-cw-3682212",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "high_dependency_centrality"
+        ],
+        "reasoning": "Moderate centrality with references to other nodes, but no direct conflicts or cycles."
+      },
+      {
+        "rank": 7,
+        "clause_id": "us-cw-3684902",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "underspecified_data"
+        ],
+        "reasoning": "No major structural issues, but has limited data and is part of a dependency chain."
+      },
+      {
+        "rank": 8,
+        "clause_id": "us-cw-3674429",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "underspecified_data"
+        ],
+        "reasoning": "No major structural issues, but has limited data and is part of a dependency chain."
+      },
+      {
+        "rank": 9,
+        "clause_id": "us-cw-1017834",
+        "risk_score": 0.1,
+        "risk_factors": [],
+        "reasoning": "No significant structural concerns or conflicts, and minimal centrality."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures the presence of cycles in the graph, which indicate structural inconsistencies or mutual dependencies that cannot be resolved."
+      },
+      {
+        "factor": "underspecified_data",
+        "importance_weight": 0.3,
+        "description": "Captures records with missing, ambiguous, or conflicting data fields, such as country, name, or registrationNumber."
+      },
+      {
+        "factor": "high_dependency_centrality",
+        "importance_weight": 0.2,
+        "description": "Captures nodes with high in-degree or out-degree, indicating they are central to the graph and thus more impactful if inconsistent."
+      },
+      {
+        "factor": "cross_country_conflict",
+        "importance_weight": 0.1,
+        "description": "Captures records with conflicting or ambiguous country information, which can lead to jurisdictional or operational inconsistencies."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 9,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "us-cw-617657",
+        "clause_b": "us-cw-3684902",
+        "description": "Conflicting country data (us; ie) and ambiguous registrationNumber in us-cw-617657, which is referenced by us-cw-3684902."
+      },
+      {
+        "clause_a": "us-cw-3682811",
+        "clause_b": "us-cw-3682810",
+        "description": "Part of a cycle involving Software Luxembourg Intermediate S.a r.l. and Software Luxembourg Acquisition S.a r.l."
+      }
+    ],
+    "score_spread": 0.9,
+    "ranking_score_spread": 0.9,
+    "score_mean": 0.5111111111111111,
+    "score_max": 1.0,
+    "node_names": {
+      "us-cw-1017834": "SkillSoft Corporation",
+      "us-cw-3674429": "Pointwell Limited",
+      "us-cw-3682211": "Skillsoft Finance I Inc",
+      "us-cw-3682213": "Skillsoft Finance II Inc",
+      "us-cw-3682810": "Software Luxembourg Acquisition S.a r.l.",
+      "us-cw-3682811": "Software Luxembourg Intermediate S.a r.l.",
+      "us-cw-3682212": "Skillsoft Finance I LLC",
+      "us-cw-3684902": "SSI Investments I Limited",
+      "us-cw-617657": "SSI Investments II Limited"
+    },
+    "ground_truth_nodes": [
+      "us-cw-3682212"
+    ],
+    "gt_evidence": {
+      "us-cw-3682212": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "prompt_word_count": 678,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.2831858407079646,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.29056047197640117,
+    "inject_mode": true,
+    "injected_node": "us-cw-3682212",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "us-cw-3682811",
+    "injected_witness_distance": 4,
+    "injected_bridge_node": "us-cw-3682211",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "us-cw-3682212",
+      "us-cw-3682811"
+    ],
+    "injected_evidence_nodes": [
+      "us-cw-3682212",
+      "us-cw-3682211",
+      "us-cw-3682811"
+    ],
+    "injected_affected_nodes": [
+      "us-cw-1017834",
+      "us-cw-3682810"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "sec_handoff_invariant_control_basis",
+    "injected_rank": 6,
+    "top1_margin": 0.19999999999999996,
+    "risk_node_ranks": {
+      "us-cw-3682212": 6,
+      "us-cw-3682811": 2
+    },
+    "risk_best_rank": 2,
+    "risk_worst_rank": 6,
+    "risk_top1_hit": false,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": false,
+    "evidence_node_ranks": {
+      "us-cw-3682212": 6,
+      "us-cw-3682211": 5,
+      "us-cw-3682811": 2
+    },
+    "evidence_best_rank": 2,
+    "evidence_worst_rank": 6,
+    "evidence_top1_hit": false,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "us-cw-1017834": 9,
+      "us-cw-3682810": 3
+    },
+    "affected_best_rank": 3,
+    "affected_worst_rank": 9,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "us-cw-3682212": 6,
+      "us-cw-3682811": 2,
+      "us-cw-1017834": 9,
+      "us-cw-3682810": 3
+    },
+    "valuable_best_rank": 2,
+    "valuable_worst_rank": 9,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 6,
+    "root_top1_hit": false,
+    "root_top3_hit": false
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 9,
+    "scc_id": "scc_1",
+    "scc_clause_ids": [
+      "us-cw-1017834",
+      "us-cw-3674429",
+      "us-cw-3682211",
+      "us-cw-3682213",
+      "us-cw-3682810",
+      "us-cw-3682811",
+      "us-cw-3682212",
+      "us-cw-3684902",
+      "us-cw-617657"
+    ],
+    "budget": 30,
+    "llm_calls": 15,
+    "tt_hits": 15,
+    "tt_hit_rate": 0.5,
+    "time": 125.79878401756287,
+    "scores": {
+      "us-cw-617657": 0.4461538461538461,
+      "us-cw-3682811": 0.3076923076923077,
+      "us-cw-3682810": 0.19166666666666665,
+      "us-cw-3682213": 0.17333333333333334,
+      "us-cw-3684902": 0.15714285714285717,
+      "us-cw-3682212": 0.1153846153846154,
+      "us-cw-3674429": 0.09285714285714286,
+      "us-cw-1017834": 0.06470588235294118,
+      "us-cw-3682211": 0.044444444444444446
+    },
+    "ranking": [
+      [
+        "us-cw-617657",
+        0.4461538461538461
+      ],
+      [
+        "us-cw-3682811",
+        0.3076923076923077
+      ],
+      [
+        "us-cw-3682810",
+        0.19166666666666665
+      ],
+      [
+        "us-cw-3682213",
+        0.17333333333333334
+      ],
+      [
+        "us-cw-3684902",
+        0.15714285714285717
+      ],
+      [
+        "us-cw-3682212",
+        0.1153846153846154
+      ],
+      [
+        "us-cw-3674429",
+        0.09285714285714286
+      ],
+      [
+        "us-cw-1017834",
+        0.06470588235294118
+      ],
+      [
+        "us-cw-3682211",
+        0.044444444444444446
+      ]
+    ],
+    "oc_detected": [
+      "us-cw-617657"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.40170940170940167,
+    "score_mean": 0.17704234400312832,
+    "score_max": 0.4461538461538461,
+    "node_names": {
+      "us-cw-1017834": "SkillSoft Corporation",
+      "us-cw-3674429": "Pointwell Limited",
+      "us-cw-3682211": "Skillsoft Finance I Inc",
+      "us-cw-3682213": "Skillsoft Finance II Inc",
+      "us-cw-3682810": "Software Luxembourg Acquisition S.a r.l.",
+      "us-cw-3682811": "Software Luxembourg Intermediate S.a r.l.",
+      "us-cw-3682212": "Skillsoft Finance I LLC",
+      "us-cw-3684902": "SSI Investments I Limited",
+      "us-cw-617657": "SSI Investments II Limited"
+    },
+    "clause_details": {
+      "us-cw-1017834": {
+        "mean_score": 0.06470588235294118,
+        "visit_count": 17,
+        "conflict_count": 14,
+        "risk_history": [
+          0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.3,
+          0.0,
+          0.0,
+          0.2,
+          0.3,
+          0.1,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3674429": {
+        "mean_score": 0.09285714285714286,
+        "visit_count": 14,
+        "conflict_count": 4,
+        "risk_history": [
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.0,
+          0.0,
+          0.1,
+          0.1,
+          0.0,
+          0.1,
+          0.1
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3682211": {
+        "mean_score": 0.044444444444444446,
+        "visit_count": 9,
+        "conflict_count": 3,
+        "risk_history": [
+          0.1,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.3,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3682213": {
+        "mean_score": 0.17333333333333334,
+        "visit_count": 15,
+        "conflict_count": 7,
+        "risk_history": [
+          0.0,
+          0.5,
+          0.0,
+          0.2,
+          0.5,
+          0.0,
+          0.5,
+          0.0,
+          0.0,
+          0.1,
+          0.1,
+          0.2,
+          0.0,
+          0.0,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3682810": {
+        "mean_score": 0.19166666666666665,
+        "visit_count": 12,
+        "conflict_count": 6,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.4,
+          0.3,
+          0.0,
+          0.3,
+          0.0,
+          0.0,
+          0.4,
+          0.0,
+          0.3,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3682811": {
+        "mean_score": 0.3076923076923077,
+        "visit_count": 13,
+        "conflict_count": 13,
+        "risk_history": [
+          0.7,
+          0.3,
+          0.7,
+          0.1,
+          0.7,
+          0.0,
+          0.2,
+          0.1,
+          0.3,
+          0.0,
+          0.1,
+          0.7,
+          0.1
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3682212": {
+        "mean_score": 0.1153846153846154,
+        "visit_count": 13,
+        "conflict_count": 3,
+        "risk_history": [
+          0.2,
+          0.0,
+          0.2,
+          0.0,
+          0.0,
+          0.2,
+          0.3,
+          0.0,
+          0.1,
+          0.3,
+          0.0,
+          0.0,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-3684902": {
+        "mean_score": 0.15714285714285717,
+        "visit_count": 14,
+        "conflict_count": 11,
+        "risk_history": [
+          0.2,
+          0.3,
+          0.3,
+          0.0,
+          0.3,
+          0.4,
+          0.3,
+          0.4,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-617657": {
+        "mean_score": 0.4461538461538461,
+        "visit_count": 13,
+        "conflict_count": 19,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.7,
+          0.7,
+          0.0,
+          0.7,
+          0.5,
+          0.7,
+          0.3,
+          0.5,
+          0.0,
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": true
+      }
+    },
+    "ground_truth_nodes": [
+      "us-cw-3682212"
+    ],
+    "gt_evidence": {
+      "us-cw-3682212": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "inject_mode": true,
+    "injected_node": "us-cw-3682212",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "us-cw-3682811",
+    "injected_witness_distance": 4,
+    "injected_bridge_node": "us-cw-3682211",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "us-cw-3682212",
+      "us-cw-3682811"
+    ],
+    "injected_evidence_nodes": [
+      "us-cw-3682212",
+      "us-cw-3682211",
+      "us-cw-3682811"
+    ],
+    "injected_affected_nodes": [
+      "us-cw-1017834",
+      "us-cw-3682810"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "sec_handoff_invariant_control_basis",
+    "injected_rank": 6,
+    "top1_margin": 0.1384615384615384,
+    "risk_node_ranks": {
+      "us-cw-3682212": 6,
+      "us-cw-3682811": 2
+    },
+    "risk_best_rank": 2,
+    "risk_worst_rank": 6,
+    "risk_top1_hit": false,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": false,
+    "evidence_node_ranks": {
+      "us-cw-3682212": 6,
+      "us-cw-3682211": 9,
+      "us-cw-3682811": 2
+    },
+    "evidence_best_rank": 2,
+    "evidence_worst_rank": 9,
+    "evidence_top1_hit": false,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "us-cw-1017834": 8,
+      "us-cw-3682810": 3
+    },
+    "affected_best_rank": 3,
+    "affected_worst_rank": 8,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "us-cw-3682212": 6,
+      "us-cw-3682811": 2,
+      "us-cw-1017834": 8,
+      "us-cw-3682810": 3
+    },
+    "valuable_best_rank": 2,
+    "valuable_worst_rank": 8,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 6,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "risk_subgraph_nodes": [
+      "us-cw-1017834",
+      "us-cw-3682810",
+      "us-cw-3682811",
+      "us-cw-3682212",
+      "us-cw-3684902",
+      "us-cw-617657"
+    ],
+    "risk_subgraph_size": 6,
+    "compression_ratio": 0.33333333333333337,
+    "contains_injected_node": true,
+    "contains_any_evidence_node": true,
+    "contains_all_evidence_nodes": false,
+    "evidence_nodes_retained": [
+      "us-cw-3682212",
+      "us-cw-3682811"
+    ],
+    "contains_any_risk_node": true,
+    "contains_all_risk_nodes": true,
+    "contains_any_affected_node": true,
+    "subgraph_type": "posthoc_gt_anchored",
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors",
+    "blind_risk_subgraph_nodes": [
+      "us-cw-1017834",
+      "us-cw-3682810",
+      "us-cw-3682811",
+      "us-cw-3684902",
+      "us-cw-617657"
+    ],
+    "blind_risk_subgraph_size": 5,
+    "blind_compression_ratio": 0.4444444444444444,
+    "blind_contains_injected_node": false,
+    "blind_contains_any_evidence_node": true,
+    "blind_contains_all_evidence_nodes": false,
+    "blind_evidence_nodes_retained": [
+      "us-cw-3682811"
+    ],
+    "blind_contains_any_risk_node": true,
+    "blind_contains_all_risk_nodes": false,
+    "blind_contains_any_affected_node": true,
+    "blind_subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC anchors only"
+  }
+]

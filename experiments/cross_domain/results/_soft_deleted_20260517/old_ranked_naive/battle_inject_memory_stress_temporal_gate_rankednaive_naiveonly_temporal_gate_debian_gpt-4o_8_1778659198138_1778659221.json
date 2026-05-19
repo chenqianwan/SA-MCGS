@@ -1,0 +1,308 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 8,
+    "scc_id": "synthetic_debian_8",
+    "scc_clause_ids": [
+      "synthetic_debian_8_node_01",
+      "synthetic_debian_8_node_02",
+      "synthetic_debian_8_node_03",
+      "synthetic_debian_8_node_04",
+      "synthetic_debian_8_node_05",
+      "synthetic_debian_8_node_08",
+      "synthetic_debian_8_node_06",
+      "synthetic_debian_8_node_07"
+    ],
+    "llm_calls": 1,
+    "time": 22.92423391342163,
+    "scores": {
+      "synthetic_debian_8_node_01": 0.6,
+      "synthetic_debian_8_node_02": 0.7,
+      "synthetic_debian_8_node_03": 0.5,
+      "synthetic_debian_8_node_04": 0.8,
+      "synthetic_debian_8_node_05": 0.4,
+      "synthetic_debian_8_node_08": 0.9,
+      "synthetic_debian_8_node_06": 0.3,
+      "synthetic_debian_8_node_07": 0.2
+    },
+    "reasonings": {
+      "synthetic_debian_8_node_01": "Participates in the cycle and introduces medium-priority maintenance noise, which could obscure critical dependency details.",
+      "synthetic_debian_8_node_02": "Critical intermediary in the cycle, forwarding receipt status without modification, amplifying downstream risks.",
+      "synthetic_debian_8_node_03": "Part of the cycle with medium-priority maintenance noise, but less ambiguous than Node 01.",
+      "synthetic_debian_8_node_04": "Assumes a completed transition receipt before the freeze, introducing ambiguity and operational risk in the cycle.",
+      "synthetic_debian_8_node_05": "Part of the cycle but does not introduce significant ambiguity or high-impact dependencies.",
+      "synthetic_debian_8_node_08": "Part of the cycle and introduces ambiguity by requiring dependents to use prior interface classifications before a transition receipt is posted.",
+      "synthetic_debian_8_node_06": "Minimal ambiguity and maintenance noise compared to higher-ranked nodes in the cycle.",
+      "synthetic_debian_8_node_07": "Part of the cycle but does not introduce significant ambiguity, noise, or high-impact dependencies."
+    },
+    "ranking": [
+      [
+        "synthetic_debian_8_node_08",
+        0.9
+      ],
+      [
+        "synthetic_debian_8_node_04",
+        0.8
+      ],
+      [
+        "synthetic_debian_8_node_02",
+        0.7
+      ],
+      [
+        "synthetic_debian_8_node_01",
+        0.6
+      ],
+      [
+        "synthetic_debian_8_node_03",
+        0.5
+      ],
+      [
+        "synthetic_debian_8_node_05",
+        0.4
+      ],
+      [
+        "synthetic_debian_8_node_06",
+        0.3
+      ],
+      [
+        "synthetic_debian_8_node_07",
+        0.2
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_debian_8_node_08",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "cyclic_dependency",
+          "underspecified_transition"
+        ],
+        "reasoning": "Node 08 is part of the cycle and introduces ambiguity by requiring dependents to use prior interface classifications before a transition receipt is posted, creating potential for misalignment."
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_debian_8_node_04",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "cyclic_dependency",
+          "underspecified_transition"
+        ],
+        "reasoning": "Node 04 assumes a completed transition receipt before the freeze, which is underspecified and could lead to operational inconsistencies in the cycle."
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_debian_8_node_02",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "cyclic_dependency",
+          "high-impact_dependency"
+        ],
+        "reasoning": "Node 02 forwards receipt status without modification, making it a critical intermediary in the cycle. Any issues here could propagate downstream."
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_debian_8_node_01",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "cyclic_dependency",
+          "maintenance_noise"
+        ],
+        "reasoning": "Node 01 participates in the cycle and introduces medium-priority maintenance noise, which could obscure critical dependency details."
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_debian_8_node_03",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "cyclic_dependency",
+          "maintenance_noise"
+        ],
+        "reasoning": "Node 03 is part of the cycle and includes medium-priority maintenance noise, but its role is less ambiguous than Node 01."
+      },
+      {
+        "rank": 6,
+        "clause_id": "synthetic_debian_8_node_05",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "cyclic_dependency",
+          "maintenance_noise"
+        ],
+        "reasoning": "Node 05 is part of the cycle but does not introduce significant ambiguity or high-impact dependencies."
+      },
+      {
+        "rank": 7,
+        "clause_id": "synthetic_debian_8_node_06",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "cyclic_dependency",
+          "maintenance_noise"
+        ],
+        "reasoning": "Node 06 is part of the cycle but has minimal ambiguity and maintenance noise compared to higher-ranked nodes."
+      },
+      {
+        "rank": 8,
+        "clause_id": "synthetic_debian_8_node_07",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node 07 is part of the cycle but does not introduce significant ambiguity, noise, or high-impact dependencies."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures the structural risk of nodes participating in a cycle, which can lead to deadlocks, ambiguity, or cascading failures."
+      },
+      {
+        "factor": "underspecified_transition",
+        "importance_weight": 0.3,
+        "description": "Captures the risk of records with ambiguous or incomplete descriptions of transition states, which can lead to misinterpretation or operational delays."
+      },
+      {
+        "factor": "high-impact_dependency",
+        "importance_weight": 0.2,
+        "description": "Captures the risk of nodes that serve as critical intermediaries or bottlenecks in the graph, amplifying the impact of any issues."
+      },
+      {
+        "factor": "maintenance_noise",
+        "importance_weight": 0.1,
+        "description": "Captures the risk of records with excessive or unclear maintenance-related information, which can obscure critical details."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 8,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_debian_8_node_08",
+        "clause_b": "synthetic_debian_8_node_04",
+        "description": "Node 08 requires dependents to use prior interface classifications before a transition receipt is posted, while Node 04 assumes a completed transition receipt before the freeze, creating ambiguity in the cycle."
+      },
+      {
+        "clause_a": "synthetic_debian_8_node_02",
+        "clause_b": "synthetic_debian_8_node_03",
+        "description": "Node 02 forwards receipt status without modification, while Node 03 introduces medium-priority maintenance noise, potentially obscuring critical dependency details."
+      }
+    ],
+    "score_spread": 0.7,
+    "ranking_score_spread": 0.7,
+    "score_mean": 0.55,
+    "score_max": 0.9,
+    "node_names": {
+      "synthetic_debian_8_node_01": "synthetic debian 8 node 01",
+      "synthetic_debian_8_node_02": "synthetic debian 8 node 02",
+      "synthetic_debian_8_node_03": "synthetic debian 8 node 03",
+      "synthetic_debian_8_node_04": "synthetic debian 8 node 04",
+      "synthetic_debian_8_node_05": "synthetic debian 8 node 05",
+      "synthetic_debian_8_node_08": "synthetic debian 8 node 08",
+      "synthetic_debian_8_node_06": "synthetic debian 8 node 06",
+      "synthetic_debian_8_node_07": "synthetic debian 8 node 07"
+    },
+    "ground_truth_nodes": [
+      "synthetic_debian_8_node_08"
+    ],
+    "gt_evidence": {
+      "synthetic_debian_8_node_08": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 742,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.330188679245283,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.33827493261455527,
+    "inject_mode": true,
+    "injected_node": "synthetic_debian_8_node_08",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_debian_8_node_04",
+    "injected_witness_distance": 4,
+    "injected_bridge_node": "synthetic_debian_8_node_02",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "synthetic_debian_8_node_08",
+      "synthetic_debian_8_node_04"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_debian_8_node_08",
+      "synthetic_debian_8_node_02",
+      "synthetic_debian_8_node_04"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_debian_8_node_01",
+      "synthetic_debian_8_node_05"
+    ],
+    "injected_conflict_family": "temporal_gate",
+    "injected_conflict_difficulty": "subtle",
+    "injected_conflict_template": "debian_temporal_receipt_gate",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_debian_8_node_08": 1,
+      "synthetic_debian_8_node_04": 2
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_debian_8_node_08": 1,
+      "synthetic_debian_8_node_02": 3,
+      "synthetic_debian_8_node_04": 2
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_debian_8_node_01": 4,
+      "synthetic_debian_8_node_05": 6
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 6,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "synthetic_debian_8_node_08": 1,
+      "synthetic_debian_8_node_04": 2,
+      "synthetic_debian_8_node_01": 4,
+      "synthetic_debian_8_node_05": 6
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 6,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 1,
+    "root_top1_hit": true,
+    "root_top3_hit": true
+  }
+]

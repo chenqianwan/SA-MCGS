@@ -1,0 +1,573 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 24,
+    "scc_id": "synthetic_debian_24",
+    "scc_clause_ids": [
+      "synthetic_debian_24_node_01",
+      "synthetic_debian_24_node_02",
+      "synthetic_debian_24_node_03",
+      "synthetic_debian_24_node_04",
+      "synthetic_debian_24_node_05",
+      "synthetic_debian_24_node_06",
+      "synthetic_debian_24_node_07",
+      "synthetic_debian_24_node_08",
+      "synthetic_debian_24_node_09",
+      "synthetic_debian_24_node_10",
+      "synthetic_debian_24_node_11",
+      "synthetic_debian_24_node_12",
+      "synthetic_debian_24_node_13",
+      "synthetic_debian_24_node_14",
+      "synthetic_debian_24_node_15",
+      "synthetic_debian_24_node_16",
+      "synthetic_debian_24_node_18",
+      "synthetic_debian_24_node_17",
+      "synthetic_debian_24_node_19",
+      "synthetic_debian_24_node_20",
+      "synthetic_debian_24_node_21",
+      "synthetic_debian_24_node_22",
+      "synthetic_debian_24_node_23",
+      "synthetic_debian_24_node_24"
+    ],
+    "llm_calls": 1,
+    "time": 207.8214819431305,
+    "scores": {
+      "synthetic_debian_24_node_01": 0.75,
+      "synthetic_debian_24_node_02": 0.7,
+      "synthetic_debian_24_node_03": 0.68,
+      "synthetic_debian_24_node_04": 0.66,
+      "synthetic_debian_24_node_05": 0.64,
+      "synthetic_debian_24_node_06": 0.85,
+      "synthetic_debian_24_node_07": 0.62,
+      "synthetic_debian_24_node_08": 0.6,
+      "synthetic_debian_24_node_09": 0.58,
+      "synthetic_debian_24_node_10": 0.56,
+      "synthetic_debian_24_node_11": 0.54,
+      "synthetic_debian_24_node_12": 0.52,
+      "synthetic_debian_24_node_13": 0.5,
+      "synthetic_debian_24_node_14": 0.48,
+      "synthetic_debian_24_node_15": 0.46,
+      "synthetic_debian_24_node_16": 0.44,
+      "synthetic_debian_24_node_18": 0.95,
+      "synthetic_debian_24_node_17": 0.42,
+      "synthetic_debian_24_node_19": 0.4,
+      "synthetic_debian_24_node_20": 0.38,
+      "synthetic_debian_24_node_21": 0.36,
+      "synthetic_debian_24_node_22": 0.34,
+      "synthetic_debian_24_node_23": 0.32,
+      "synthetic_debian_24_node_24": 0.8
+    },
+    "reasonings": {
+      "synthetic_debian_24_node_01": "Start node of the dependency cycle; receives unresolved condition from node 24.",
+      "synthetic_debian_24_node_02": "Part of the dependency cycle, directly dependent on cycle start node 01.",
+      "synthetic_debian_24_node_03": "Part of the dependency cycle, early in the chain propagating risk.",
+      "synthetic_debian_24_node_04": "Part of the dependency cycle, continuing the risk propagation.",
+      "synthetic_debian_24_node_05": "Part of the dependency cycle, immediately upstream of conditional node 06.",
+      "synthetic_debian_24_node_06": "Part of the cycle; assumes compatibility condition is satisfied, which conflicts with node 18's incomplete state.",
+      "synthetic_debian_24_node_07": "Part of the dependency cycle, directly downstream from high-assumption node 06.",
+      "synthetic_debian_24_node_08": "Part of the dependency cycle.",
+      "synthetic_debian_24_node_09": "Part of the dependency cycle.",
+      "synthetic_debian_24_node_10": "Part of the dependency cycle.",
+      "synthetic_debian_24_node_11": "Part of the dependency cycle.",
+      "synthetic_debian_24_node_12": "Part of the dependency cycle.",
+      "synthetic_debian_24_node_13": "Part of the dependency cycle.",
+      "synthetic_debian_24_node_14": "Part of the dependency cycle.",
+      "synthetic_debian_24_node_15": "Part of the dependency cycle.",
+      "synthetic_debian_24_node_16": "Part of the dependency cycle, upstream of high-risk node 18.",
+      "synthetic_debian_24_node_18": "Part of the cycle; has an incomplete conditional requirement (two compatibility notes, only one staged), creating a concrete underspecification.",
+      "synthetic_debian_24_node_17": "Part of the dependency cycle, immediate predecessor to node 18.",
+      "synthetic_debian_24_node_19": "Part of the dependency cycle, directly downstream from the highest-risk node 18.",
+      "synthetic_debian_24_node_20": "Part of the dependency cycle.",
+      "synthetic_debian_24_node_21": "Part of the dependency cycle.",
+      "synthetic_debian_24_node_22": "Part of the dependency cycle.",
+      "synthetic_debian_24_node_23": "Part of the dependency cycle, feeds into conditional relay node 24.",
+      "synthetic_debian_24_node_24": "Part of the cycle; relays and preserves the incomplete compatibility condition, explicitly noting a staged note is not a completed pair."
+    },
+    "ranking": [
+      [
+        "synthetic_debian_24_node_18",
+        0.95
+      ],
+      [
+        "synthetic_debian_24_node_06",
+        0.85
+      ],
+      [
+        "synthetic_debian_24_node_24",
+        0.8
+      ],
+      [
+        "synthetic_debian_24_node_01",
+        0.75
+      ],
+      [
+        "synthetic_debian_24_node_02",
+        0.7
+      ],
+      [
+        "synthetic_debian_24_node_03",
+        0.68
+      ],
+      [
+        "synthetic_debian_24_node_04",
+        0.66
+      ],
+      [
+        "synthetic_debian_24_node_05",
+        0.64
+      ],
+      [
+        "synthetic_debian_24_node_07",
+        0.62
+      ],
+      [
+        "synthetic_debian_24_node_08",
+        0.6
+      ],
+      [
+        "synthetic_debian_24_node_09",
+        0.58
+      ],
+      [
+        "synthetic_debian_24_node_10",
+        0.56
+      ],
+      [
+        "synthetic_debian_24_node_11",
+        0.54
+      ],
+      [
+        "synthetic_debian_24_node_12",
+        0.52
+      ],
+      [
+        "synthetic_debian_24_node_13",
+        0.5
+      ],
+      [
+        "synthetic_debian_24_node_14",
+        0.48
+      ],
+      [
+        "synthetic_debian_24_node_15",
+        0.46
+      ],
+      [
+        "synthetic_debian_24_node_16",
+        0.44
+      ],
+      [
+        "synthetic_debian_24_node_17",
+        0.42
+      ],
+      [
+        "synthetic_debian_24_node_19",
+        0.4
+      ],
+      [
+        "synthetic_debian_24_node_20",
+        0.38
+      ],
+      [
+        "synthetic_debian_24_node_21",
+        0.36
+      ],
+      [
+        "synthetic_debian_24_node_22",
+        0.34
+      ],
+      [
+        "synthetic_debian_24_node_23",
+        0.32
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_debian_24_node_18",
+        "risk_score": 0.95,
+        "risk_factors": [
+          "Conditional/Incomplete Specification",
+          "Cycle Participation",
+          "Graph Position in Critical Path"
+        ],
+        "reasoning": "This node is part of the dependency cycle and has a high-risk conditional specification: it states the new interface may become the planning basis only after two independent compatibility notes are published, and currently only one note is staged. This creates a concrete, underspecified blocking condition within a cycle, making it the most severe risk."
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_debian_24_node_06",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "Conditional/Incomplete Specification",
+          "Cycle Participation"
+        ],
+        "reasoning": "This node is part of the dependency cycle and states it 'assumes the compatibility condition has been satisfied and proceeds on the new-interface planning basis.' This is a strong assumption that depends on an external condition being met. If node 18's condition is not satisfied, node 06's assumption may be invalid, creating a conflict within the cycle."
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_debian_24_node_24",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "Conditional/Incomplete Specification",
+          "Cycle Participation"
+        ],
+        "reasoning": "This node is part of the dependency cycle and acts as a relay, stating it 'preserves the compatibility condition exactly as received' and that 'a staged note is not treated here as a completed pair.' This reinforces the incomplete state from node 18, propagating the underspecified condition through the cycle back to the start."
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_debian_24_node_01",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "Cycle Participation",
+          "Graph Position in Critical Path"
+        ],
+        "reasoning": "This node is the start of the directed cycle (node 24 -> node 01). As the cycle's entry point, it receives the propagated, unresolved compatibility condition from node 24, making its operational basis potentially invalid from the outset."
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_debian_24_node_02",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Directly depends on the high-risk start node (01) within the cycle, immediately inheriting its potential unresolved condition."
+      },
+      {
+        "rank": 6,
+        "clause_id": "synthetic_debian_24_node_03",
+        "risk_score": 0.68,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Second node downstream from the cycle start, part of the long dependency chain where the unresolved condition propagates."
+      },
+      {
+        "rank": 7,
+        "clause_id": "synthetic_debian_24_node_04",
+        "risk_score": 0.66,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Continues the dependency chain within the cycle, carrying forward the risk from upstream nodes."
+      },
+      {
+        "rank": 8,
+        "clause_id": "synthetic_debian_24_node_05",
+        "risk_score": 0.64,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Immediately upstream of the conditional node 06, directly feeding into a high-risk assumption point within the cycle."
+      },
+      {
+        "rank": 9,
+        "clause_id": "synthetic_debian_24_node_07",
+        "risk_score": 0.62,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Directly downstream from the high-assumption node 06, potentially operating on its assumed but possibly invalid basis."
+      },
+      {
+        "rank": 10,
+        "clause_id": "synthetic_debian_24_node_08",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Part of the cycle, continuing the chain after node 07."
+      },
+      {
+        "rank": 11,
+        "clause_id": "synthetic_debian_24_node_09",
+        "risk_score": 0.58,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Part of the cycle, continuing the chain after node 08."
+      },
+      {
+        "rank": 12,
+        "clause_id": "synthetic_debian_24_node_10",
+        "risk_score": 0.56,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Part of the cycle, continuing the chain after node 09."
+      },
+      {
+        "rank": 13,
+        "clause_id": "synthetic_debian_24_node_11",
+        "risk_score": 0.54,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Part of the cycle, continuing the chain after node 10."
+      },
+      {
+        "rank": 14,
+        "clause_id": "synthetic_debian_24_node_12",
+        "risk_score": 0.52,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Part of the cycle, continuing the chain after node 11."
+      },
+      {
+        "rank": 15,
+        "clause_id": "synthetic_debian_24_node_13",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Part of the cycle, continuing the chain after node 12."
+      },
+      {
+        "rank": 16,
+        "clause_id": "synthetic_debian_24_node_14",
+        "risk_score": 0.48,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Part of the cycle, continuing the chain after node 13."
+      },
+      {
+        "rank": 17,
+        "clause_id": "synthetic_debian_24_node_15",
+        "risk_score": 0.46,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Part of the cycle, continuing the chain after node 14."
+      },
+      {
+        "rank": 18,
+        "clause_id": "synthetic_debian_24_node_16",
+        "risk_score": 0.44,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Part of the cycle, immediately upstream of the high-conditional node 18, feeding into it."
+      },
+      {
+        "rank": 19,
+        "clause_id": "synthetic_debian_24_node_17",
+        "risk_score": 0.42,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Part of the cycle, directly upstream of node 18, the immediate predecessor to the highest-risk conditional node."
+      },
+      {
+        "rank": 20,
+        "clause_id": "synthetic_debian_24_node_19",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Part of the cycle, directly downstream from the highest-risk node 18, inheriting its unresolved state."
+      },
+      {
+        "rank": 21,
+        "clause_id": "synthetic_debian_24_node_20",
+        "risk_score": 0.38,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Part of the cycle, continuing the chain after node 19."
+      },
+      {
+        "rank": 22,
+        "clause_id": "synthetic_debian_24_node_21",
+        "risk_score": 0.36,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Part of the cycle, continuing the chain after node 20."
+      },
+      {
+        "rank": 23,
+        "clause_id": "synthetic_debian_24_node_22",
+        "risk_score": 0.34,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Part of the cycle, continuing the chain after node 21."
+      },
+      {
+        "rank": 24,
+        "clause_id": "synthetic_debian_24_node_23",
+        "risk_score": 0.32,
+        "risk_factors": [
+          "Cycle Participation"
+        ],
+        "reasoning": "Part of the cycle, directly upstream of the conditional relay node 24, feeding the unresolved condition back into it."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "Cycle Participation",
+        "importance_weight": 0.5,
+        "description": "Records that are part of a directed cycle in the dependency graph. This creates a closed loop of references where each node depends on another, potentially leading to circular dependencies, deadlocks, or unresolvable states, which is a severe structural concern."
+      },
+      {
+        "factor": "Conditional/Incomplete Specification",
+        "importance_weight": 0.3,
+        "description": "Records that contain explicit conditional logic, prerequisites, or notes about incomplete states (e.g., requiring multiple compatibility notes). These introduce underspecification and potential blocking conditions that must be satisfied for correct operation."
+      },
+      {
+        "factor": "Graph Position in Critical Path",
+        "importance_weight": 0.2,
+        "description": "Records that are positioned at key points within the dependency chain, such as being the entry point to a conditional block or a relay in a cycle. Their failure or inconsistency can propagate widely through the graph."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 24,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_debian_24_node_06",
+        "clause_b": "synthetic_debian_24_node_18",
+        "description": "Node 06 'assumes the compatibility condition has been satisfied and proceeds on the new-interface planning basis.' However, node 18 states the new interface may become the planning basis only after two independent compatibility notes are published, and currently only one note is staged. This is a direct conflict: node 06's assumption is invalid given node 18's explicitly incomplete state."
+      },
+      {
+        "clause_a": "synthetic_debian_24_node_18",
+        "clause_b": "synthetic_debian_24_node_24",
+        "description": "Node 18 has an incomplete condition (requires two compatibility notes, has one staged). Node 24 acts as a relay, preserving this condition and explicitly stating a staged note is not a completed pair. This reinforces and propagates the underspecification through the cycle, creating a persistent blocking condition."
+      }
+    ],
+    "score_spread": 0.6299999999999999,
+    "ranking_score_spread": 0.6299999999999999,
+    "score_mean": 0.5645833333333333,
+    "score_max": 0.95,
+    "node_names": {
+      "synthetic_debian_24_node_01": "synthetic debian 24 node 01",
+      "synthetic_debian_24_node_02": "synthetic debian 24 node 02",
+      "synthetic_debian_24_node_03": "synthetic debian 24 node 03",
+      "synthetic_debian_24_node_04": "synthetic debian 24 node 04",
+      "synthetic_debian_24_node_05": "synthetic debian 24 node 05",
+      "synthetic_debian_24_node_06": "synthetic debian 24 node 06",
+      "synthetic_debian_24_node_07": "synthetic debian 24 node 07",
+      "synthetic_debian_24_node_08": "synthetic debian 24 node 08",
+      "synthetic_debian_24_node_09": "synthetic debian 24 node 09",
+      "synthetic_debian_24_node_10": "synthetic debian 24 node 10",
+      "synthetic_debian_24_node_11": "synthetic debian 24 node 11",
+      "synthetic_debian_24_node_12": "synthetic debian 24 node 12",
+      "synthetic_debian_24_node_13": "synthetic debian 24 node 13",
+      "synthetic_debian_24_node_14": "synthetic debian 24 node 14",
+      "synthetic_debian_24_node_15": "synthetic debian 24 node 15",
+      "synthetic_debian_24_node_16": "synthetic debian 24 node 16",
+      "synthetic_debian_24_node_18": "synthetic debian 24 node 18",
+      "synthetic_debian_24_node_17": "synthetic debian 24 node 17",
+      "synthetic_debian_24_node_19": "synthetic debian 24 node 19",
+      "synthetic_debian_24_node_20": "synthetic debian 24 node 20",
+      "synthetic_debian_24_node_21": "synthetic debian 24 node 21",
+      "synthetic_debian_24_node_22": "synthetic debian 24 node 22",
+      "synthetic_debian_24_node_23": "synthetic debian 24 node 23",
+      "synthetic_debian_24_node_24": "synthetic debian 24 node 24"
+    },
+    "ground_truth_nodes": [
+      "synthetic_debian_24_node_18"
+    ],
+    "gt_evidence": {
+      "synthetic_debian_24_node_18": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 1533,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.39921722113502933,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.40313111545988256,
+    "inject_mode": true,
+    "injected_node": "synthetic_debian_24_node_18",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_debian_24_node_06",
+    "injected_witness_distance": 12,
+    "injected_bridge_node": "synthetic_debian_24_node_24",
+    "injected_bridge_distance": 6,
+    "injected_risk_nodes": [
+      "synthetic_debian_24_node_18",
+      "synthetic_debian_24_node_06"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_debian_24_node_18",
+      "synthetic_debian_24_node_24",
+      "synthetic_debian_24_node_06"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_debian_24_node_19",
+      "synthetic_debian_24_node_07"
+    ],
+    "injected_conflict_family": "condition_trigger",
+    "injected_conflict_difficulty": "hard",
+    "injected_conflict_template": "debian_condition_trigger_partial_compatibility",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_debian_24_node_18": 1,
+      "synthetic_debian_24_node_06": 2
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_debian_24_node_18": 1,
+      "synthetic_debian_24_node_24": 3,
+      "synthetic_debian_24_node_06": 2
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_debian_24_node_19": 20,
+      "synthetic_debian_24_node_07": 9
+    },
+    "affected_best_rank": 9,
+    "affected_worst_rank": 20,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": false,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "synthetic_debian_24_node_18": 1,
+      "synthetic_debian_24_node_06": 2,
+      "synthetic_debian_24_node_19": 20,
+      "synthetic_debian_24_node_07": 9
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 20,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 1,
+    "root_top1_hit": true,
+    "root_top3_hit": true
+  }
+]

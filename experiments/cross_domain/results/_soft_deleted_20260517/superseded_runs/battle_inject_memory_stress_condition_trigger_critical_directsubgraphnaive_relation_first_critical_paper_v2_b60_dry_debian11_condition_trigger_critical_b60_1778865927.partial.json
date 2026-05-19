@@ -1,0 +1,422 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+    "naive_profile": "direct_subgraph",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_23",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "llm_calls": 1,
+    "time": 19.838419198989868,
+    "scores": {
+      "libjs-util": 0.0,
+      "node-assert": 0.2,
+      "node-debbundle-es-to-primitive": 0.8,
+      "node-deep-equal": 1.0,
+      "node-define-properties": 0.5,
+      "node-es-abstract": 0.9,
+      "node-istanbul": 0.6,
+      "node-parse-json": 0.4,
+      "node-read-pkg": 0.3,
+      "node-tape": 0.7,
+      "node-util": 0.1
+    },
+    "reasonings": {
+      "libjs-util": "Node has no significant structural concerns or dependencies.",
+      "node-assert": "Node has an underspecified dependency on 'node-object-assign'.",
+      "node-debbundle-es-to-primitive": "Node participates in a cycle, contributing to structural inconsistency.",
+      "node-deep-equal": "Node participates in a cycle and has high fanout, making it a critical risk.",
+      "node-define-properties": "Node has an underspecified dependency on 'node-lodash-packages'.",
+      "node-es-abstract": "Node participates in a cycle and has high fanout, contributing to structural inconsistency.",
+      "node-istanbul": "Node has high fanout, increasing the risk of cascading failures.",
+      "node-parse-json": "Node content describes a conflicting state regarding compatibility notes.",
+      "node-read-pkg": "Node has an underspecified dependency on 'node-normalize-package-data'.",
+      "node-tape": "Node has high fanout, increasing the risk of cascading failures.",
+      "node-util": "Node content assumes compatibility conditions without explicit validation."
+    },
+    "ranking": [
+      [
+        "node-deep-equal",
+        1.0
+      ],
+      [
+        "node-es-abstract",
+        0.9
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.8
+      ],
+      [
+        "node-tape",
+        0.7
+      ],
+      [
+        "node-istanbul",
+        0.6
+      ],
+      [
+        "node-define-properties",
+        0.5
+      ],
+      [
+        "node-parse-json",
+        0.4
+      ],
+      [
+        "node-read-pkg",
+        0.3
+      ],
+      [
+        "node-assert",
+        0.2
+      ],
+      [
+        "node-util",
+        0.1
+      ],
+      [
+        "libjs-util",
+        0.0
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "node-deep-equal",
+        "risk_score": 1.0,
+        "risk_factors": [
+          "cyclic_dependency",
+          "high_dependency_fanout"
+        ],
+        "reasoning": "Node participates in a cycle with 'node-es-abstract' and 'node-debbundle-es-to-primitive', and has high fanout with multiple dependencies."
+      },
+      {
+        "rank": 2,
+        "clause_id": "node-es-abstract",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "cyclic_dependency",
+          "high_dependency_fanout"
+        ],
+        "reasoning": "Node is part of a cycle with 'node-deep-equal' and 'node-debbundle-es-to-primitive', and has high fanout with multiple dependencies."
+      },
+      {
+        "rank": 3,
+        "clause_id": "node-debbundle-es-to-primitive",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node is part of a cycle with 'node-deep-equal' and 'node-es-abstract'."
+      },
+      {
+        "rank": 4,
+        "clause_id": "node-tape",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "high_dependency_fanout"
+        ],
+        "reasoning": "Node has a high number of dependencies, increasing the risk of cascading failures."
+      },
+      {
+        "rank": 5,
+        "clause_id": "node-istanbul",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "high_dependency_fanout"
+        ],
+        "reasoning": "Node has a high number of dependencies, which could lead to cascading failures."
+      },
+      {
+        "rank": 6,
+        "clause_id": "node-define-properties",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "underspecified_dependency"
+        ],
+        "reasoning": "Node depends on 'node-lodash-packages', which is not explicitly listed in the graph, leading to underspecification."
+      },
+      {
+        "rank": 7,
+        "clause_id": "node-parse-json",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "conflicting_states"
+        ],
+        "reasoning": "Node content describes a state where compatibility notes are incomplete, leading to potential conflicts."
+      },
+      {
+        "rank": 8,
+        "clause_id": "node-read-pkg",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "underspecified_dependency"
+        ],
+        "reasoning": "Node depends on 'node-normalize-package-data', which is not explicitly listed in the graph, leading to underspecification."
+      },
+      {
+        "rank": 9,
+        "clause_id": "node-assert",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "underspecified_dependency"
+        ],
+        "reasoning": "Node depends on 'node-object-assign', which is not explicitly listed in the graph, leading to underspecification."
+      },
+      {
+        "rank": 10,
+        "clause_id": "node-util",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "conflicting_states"
+        ],
+        "reasoning": "Node content describes a state where compatibility conditions are assumed without explicit validation."
+      },
+      {
+        "rank": 11,
+        "clause_id": "libjs-util",
+        "risk_score": 0.0,
+        "risk_factors": [],
+        "reasoning": "Node has no significant structural concerns or dependencies."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures cycles in the dependency graph, which can lead to structural inconsistencies or deadlocks."
+      },
+      {
+        "factor": "underspecified_dependency",
+        "importance_weight": 0.3,
+        "description": "Captures records with ambiguous or incomplete dependency conditions, leading to potential incompatibilities."
+      },
+      {
+        "factor": "high_dependency_fanout",
+        "importance_weight": 0.2,
+        "description": "Captures nodes with a high number of incoming or outgoing edges, which increases the risk of cascading failures."
+      },
+      {
+        "factor": "conflicting_states",
+        "importance_weight": 0.1,
+        "description": "Captures records with conflicting or mutually incompatible states, as described in their content."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "direct_risk_subgraph_nodes": [
+      "node-deep-equal",
+      "node-es-abstract",
+      "node-debbundle-es-to-primitive"
+    ],
+    "direct_risk_subgraph_size": 3,
+    "direct_compression_ratio": 0.7272727272727273,
+    "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+    "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+    "direct_risk_subgraph_rationale": "This subgraph captures the smallest cycle in the dependency graph, which is the primary source of structural inconsistency. These nodes are mutually dependent and cannot be resolved independently.",
+    "direct_risk_subgraph_edges": [
+      {
+        "source": "node-deep-equal",
+        "target": "node-es-abstract",
+        "reason": "Part of the cycle causing structural inconsistency."
+      },
+      {
+        "source": "node-es-abstract",
+        "target": "node-debbundle-es-to-primitive",
+        "reason": "Part of the cycle causing structural inconsistency."
+      },
+      {
+        "source": "node-debbundle-es-to-primitive",
+        "target": "node-deep-equal",
+        "reason": "Part of the cycle causing structural inconsistency."
+      }
+    ],
+    "direct_subgraph_raw": [
+      "node-deep-equal",
+      "node-es-abstract",
+      "node-debbundle-es-to-primitive"
+    ],
+    "direct_subgraph_invalid": [],
+    "direct_subgraph_duplicates": [],
+    "direct_subgraph_alias_resolutions": [],
+    "direct_subgraph_complete_parse": true,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 11,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "node-deep-equal",
+        "clause_b": "node-es-abstract",
+        "description": "These nodes are part of a cycle, leading to structural inconsistency."
+      },
+      {
+        "clause_a": "node-es-abstract",
+        "clause_b": "node-debbundle-es-to-primitive",
+        "description": "These nodes are part of a cycle, leading to structural inconsistency."
+      },
+      {
+        "clause_a": "node-debbundle-es-to-primitive",
+        "clause_b": "node-deep-equal",
+        "description": "These nodes are part of a cycle, leading to structural inconsistency."
+      }
+    ],
+    "score_spread": 1.0,
+    "ranking_score_spread": 1.0,
+    "score_mean": 0.5,
+    "score_max": 1.0,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "prompt_word_count": 1275,
+    "injected_title_occurrences_in_prompt": 8,
+    "injected_id_occurrences_in_prompt": 8,
+    "injected_title_first_word_ratio": 0.4250980392156863,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.42823529411764705,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "node-deep-equal",
+    "injected_witness_distance": 5,
+    "injected_bridge_node": "node-tape",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "injected_evidence_nodes": [
+      "node-parse-json",
+      "node-tape",
+      "node-deep-equal"
+    ],
+    "injected_affected_nodes": [
+      "node-read-pkg",
+      "node-debbundle-es-to-primitive"
+    ],
+    "injected_conflict_family": "condition_trigger",
+    "injected_conflict_difficulty": "hard",
+    "injected_conflict_severity": "critical",
+    "injected_conflict_severity_label": "high_impact_no_fallback",
+    "injected_conflict_template": "debian_condition_trigger_partial_compatibility_critical",
+    "injected_rank": 7,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "node-parse-json": 7,
+      "node-deep-equal": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 7,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": false,
+    "evidence_node_ranks": {
+      "node-parse-json": 7,
+      "node-tape": 4,
+      "node-deep-equal": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 7,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "node-read-pkg": 8,
+      "node-debbundle-es-to-primitive": 3
+    },
+    "affected_best_rank": 3,
+    "affected_worst_rank": 8,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "node-parse-json": 7,
+      "node-deep-equal": 1,
+      "node-read-pkg": 8,
+      "node-debbundle-es-to-primitive": 3
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 8,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 7,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "direct_subgraph_nodes_retained": [
+      "node-deep-equal",
+      "node-es-abstract",
+      "node-debbundle-es-to-primitive"
+    ],
+    "direct_contains_injected_node": false,
+    "direct_contains_any_risk_node": true,
+    "direct_contains_all_risk_nodes": false,
+    "direct_risk_nodes_retained": [
+      "node-deep-equal"
+    ],
+    "direct_contains_any_evidence_node": true,
+    "direct_contains_all_evidence_nodes": false,
+    "direct_evidence_nodes_retained": [
+      "node-deep-equal"
+    ],
+    "direct_contains_any_affected_node": true,
+    "direct_contains_all_affected_nodes": false,
+    "direct_affected_nodes_retained": [
+      "node-debbundle-es-to-primitive"
+    ],
+    "direct_contains_any_valuable_node": true,
+    "direct_contains_all_valuable_nodes": false,
+    "direct_valuable_nodes_retained": [
+      "node-deep-equal",
+      "node-debbundle-es-to-primitive"
+    ]
+  }
+]

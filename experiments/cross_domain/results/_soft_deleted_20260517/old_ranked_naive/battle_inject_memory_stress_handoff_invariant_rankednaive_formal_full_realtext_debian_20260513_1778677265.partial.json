@@ -1,0 +1,608 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_17",
+    "scc_clause_ids": [
+      "arctica-greeter",
+      "lightdm",
+      "lightdm-autologin-greeter",
+      "slick-greeter",
+      "x2gothinclient-minidesktop"
+    ],
+    "llm_calls": 1,
+    "time": 53.570449113845825,
+    "scores": {
+      "arctica-greeter": 0.85,
+      "lightdm": 0.2,
+      "lightdm-autologin-greeter": 0.4,
+      "slick-greeter": 0.75,
+      "x2gothinclient-minidesktop": 0.6
+    },
+    "reasonings": {
+      "arctica-greeter": "Structural inconsistency due to interface migration requirements and high dependency complexity.",
+      "lightdm": "Central node with simple dependencies and no direct conflicts.",
+      "lightdm-autologin-greeter": "Moderate dependency complexity without significant structural conflicts.",
+      "slick-greeter": "Legacy interface class conflicts with migration requirements and high dependency complexity.",
+      "x2gothinclient-minidesktop": "Pass-through interface class increases risk, combined with explicit breaks and replacements."
+    },
+    "ranking": [
+      [
+        "arctica-greeter",
+        0.85
+      ],
+      [
+        "slick-greeter",
+        0.75
+      ],
+      [
+        "x2gothinclient-minidesktop",
+        0.6
+      ],
+      [
+        "lightdm-autologin-greeter",
+        0.4
+      ],
+      [
+        "lightdm",
+        0.2
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "arctica-greeter",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "interface_migration_conflict",
+          "dependency_complexity"
+        ],
+        "reasoning": "This node has a critical interface migration requirement ('handoff must be in new interface class') but depends on lightdm, which references legacy interface classes. This creates a structural inconsistency. Additionally, it has a large number of dependencies, increasing complexity."
+      },
+      {
+        "rank": 2,
+        "clause_id": "slick-greeter",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "interface_migration_conflict",
+          "dependency_complexity"
+        ],
+        "reasoning": "The outbound handoff remains in the legacy interface class, which conflicts with migration requirements. It also has significant dependency complexity, including shared dependencies with arctica-greeter."
+      },
+      {
+        "rank": 3,
+        "clause_id": "x2gothinclient-minidesktop",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "dependency_complexity",
+          "breaks_or_conflicts"
+        ],
+        "reasoning": "This node acts as a pass-through for interface classes, which avoids reinterpretation but increases risk due to dependency complexity. It also explicitly breaks and replaces other records, indicating potential incompatibility."
+      },
+      {
+        "rank": 4,
+        "clause_id": "lightdm-autologin-greeter",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "dependency_complexity"
+        ],
+        "reasoning": "This node has moderate dependency complexity and references lightdm, but does not introduce significant structural conflicts or migration issues."
+      },
+      {
+        "rank": 5,
+        "clause_id": "lightdm",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "graph_centrality"
+        ],
+        "reasoning": "This node is central to the graph and referenced by all greeter nodes, but it does not introduce direct conflicts or migration issues. Its dependencies are relatively simple compared to other nodes."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "interface_migration_conflict",
+        "importance_weight": 0.4,
+        "description": "Captures conflicts or inconsistencies in interface class handoffs during migration or conversion steps."
+      },
+      {
+        "factor": "dependency_complexity",
+        "importance_weight": 0.3,
+        "description": "Measures the structural complexity and interdependence of a node's dependencies, which can lead to underspecification or incompatibility."
+      },
+      {
+        "factor": "graph_centrality",
+        "importance_weight": 0.2,
+        "description": "Evaluates the node's position in the graph, focusing on how critical it is to the overall structure and flow of dependencies."
+      },
+      {
+        "factor": "breaks_or_conflicts",
+        "importance_weight": 0.1,
+        "description": "Assesses explicit breaks, conflicts, or replacements declared in the record, which may indicate incompatibility or high-impact changes."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 5,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "arctica-greeter",
+        "clause_b": "slick-greeter",
+        "description": "arctica-greeter requires handoff in the new interface class, but slick-greeter outputs legacy interface class, creating a migration conflict."
+      },
+      {
+        "clause_a": "arctica-greeter",
+        "clause_b": "lightdm",
+        "description": "arctica-greeter depends on lightdm, which references legacy interface classes, conflicting with arctica-greeter's migration requirements."
+      },
+      {
+        "clause_a": "x2gothinclient-minidesktop",
+        "clause_b": "x2gothinclient-minidesktop-mate",
+        "description": "x2gothinclient-minidesktop explicitly breaks and replaces x2gothinclient-minidesktop-mate, indicating potential incompatibility."
+      }
+    ],
+    "score_spread": 0.6499999999999999,
+    "ranking_score_spread": 0.6499999999999999,
+    "score_mean": 0.5599999999999999,
+    "score_max": 0.85,
+    "node_names": {
+      "arctica-greeter": "arctica-greeter",
+      "lightdm": "lightdm",
+      "lightdm-autologin-greeter": "lightdm-autologin-greeter",
+      "slick-greeter": "slick-greeter",
+      "x2gothinclient-minidesktop": "x2gothinclient-minidesktop"
+    },
+    "ground_truth_nodes": [
+      "slick-greeter"
+    ],
+    "gt_evidence": {
+      "slick-greeter": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 731,
+    "injected_title_occurrences_in_prompt": 7,
+    "injected_id_occurrences_in_prompt": 7,
+    "injected_title_first_word_ratio": 0.3036935704514364,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3091655266757866,
+    "inject_mode": true,
+    "injected_node": "slick-greeter",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "arctica-greeter",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "x2gothinclient-minidesktop",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "slick-greeter",
+      "arctica-greeter"
+    ],
+    "injected_evidence_nodes": [
+      "slick-greeter",
+      "x2gothinclient-minidesktop",
+      "arctica-greeter"
+    ],
+    "injected_affected_nodes": [
+      "lightdm",
+      "lightdm-autologin-greeter"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "debian_handoff_invariant_abi_class",
+    "injected_rank": 2,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "slick-greeter": 2,
+      "arctica-greeter": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "slick-greeter": 2,
+      "x2gothinclient-minidesktop": 3,
+      "arctica-greeter": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "lightdm": 5,
+      "lightdm-autologin-greeter": 4
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "slick-greeter": 2,
+      "arctica-greeter": 1,
+      "lightdm": 5,
+      "lightdm-autologin-greeter": 4
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 2,
+    "root_top1_hit": false,
+    "root_top3_hit": true
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_17",
+    "scc_clause_ids": [
+      "arctica-greeter",
+      "lightdm",
+      "lightdm-autologin-greeter",
+      "slick-greeter",
+      "x2gothinclient-minidesktop"
+    ],
+    "budget": 30,
+    "llm_calls": 11,
+    "tt_hits": 19,
+    "tt_hit_rate": 0.6333333333333333,
+    "time": 152.32106685638428,
+    "scores": {
+      "arctica-greeter": 0.5206896551724137,
+      "x2gothinclient-minidesktop": 0.3949999999999999,
+      "slick-greeter": 0.392,
+      "lightdm": 0.3533333333333333,
+      "lightdm-autologin-greeter": 0.17500000000000002
+    },
+    "ranking": [
+      [
+        "arctica-greeter",
+        0.5206896551724137
+      ],
+      [
+        "x2gothinclient-minidesktop",
+        0.3949999999999999
+      ],
+      [
+        "slick-greeter",
+        0.392
+      ],
+      [
+        "lightdm",
+        0.3533333333333333
+      ],
+      [
+        "lightdm-autologin-greeter",
+        0.17500000000000002
+      ]
+    ],
+    "oc_detected": [
+      "x2gothinclient-minidesktop"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.3456896551724137,
+    "score_mean": 0.3672045977011494,
+    "score_max": 0.5206896551724137,
+    "node_names": {
+      "arctica-greeter": "arctica-greeter",
+      "lightdm": "lightdm",
+      "lightdm-autologin-greeter": "lightdm-autologin-greeter",
+      "slick-greeter": "slick-greeter",
+      "x2gothinclient-minidesktop": "x2gothinclient-minidesktop"
+    },
+    "clause_details": {
+      "arctica-greeter": {
+        "mean_score": 0.5206896551724137,
+        "visit_count": 29,
+        "conflict_count": 54,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.3,
+          0.5,
+          0.5,
+          0.5,
+          0.7,
+          0.5,
+          0.3,
+          0.7,
+          0.4,
+          0.4,
+          0.4,
+          0.7,
+          0.7,
+          0.4,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.4,
+          0.7,
+          0.7,
+          0.4,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "lightdm": {
+        "mean_score": 0.3533333333333333,
+        "visit_count": 30,
+        "conflict_count": 39,
+        "risk_history": [
+          0.0,
+          0.2,
+          0.2,
+          0.3,
+          0.3,
+          0.4,
+          0.4,
+          0.2,
+          0.3,
+          0.3,
+          0.4,
+          0.5,
+          0.4,
+          0.2,
+          0.5,
+          0.3,
+          0.3,
+          0.3,
+          0.5,
+          0.5,
+          0.3,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.2,
+          0.5,
+          0.5,
+          0.2,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "lightdm-autologin-greeter": {
+        "mean_score": 0.17500000000000002,
+        "visit_count": 16,
+        "conflict_count": 3,
+        "risk_history": [
+          0.1,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.2,
+          0.3,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "slick-greeter": {
+        "mean_score": 0.392,
+        "visit_count": 25,
+        "conflict_count": 37,
+        "risk_history": [
+          0.2,
+          0.4,
+          0.4,
+          0.3,
+          0.3,
+          0.4,
+          0.4,
+          0.3,
+          0.6,
+          0.3,
+          0.6,
+          0.2,
+          0.2,
+          0.2,
+          0.6,
+          0.6,
+          0.2,
+          0.6,
+          0.6,
+          0.3,
+          0.6,
+          0.3,
+          0.6,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "x2gothinclient-minidesktop": {
+        "mean_score": 0.3949999999999999,
+        "visit_count": 20,
+        "conflict_count": 21,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.4,
+          0.7,
+          0.7,
+          0.4,
+          0.7,
+          0.7,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.2
+        ],
+        "is_oc_detected": true
+      }
+    },
+    "ground_truth_nodes": [
+      "slick-greeter"
+    ],
+    "gt_evidence": {
+      "slick-greeter": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "slick-greeter",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "arctica-greeter",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "x2gothinclient-minidesktop",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "slick-greeter",
+      "arctica-greeter"
+    ],
+    "injected_evidence_nodes": [
+      "slick-greeter",
+      "x2gothinclient-minidesktop",
+      "arctica-greeter"
+    ],
+    "injected_affected_nodes": [
+      "lightdm",
+      "lightdm-autologin-greeter"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "debian_handoff_invariant_abi_class",
+    "injected_rank": 3,
+    "top1_margin": 0.12568965517241382,
+    "risk_node_ranks": {
+      "slick-greeter": 3,
+      "arctica-greeter": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "slick-greeter": 3,
+      "x2gothinclient-minidesktop": 2,
+      "arctica-greeter": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "lightdm": 4,
+      "lightdm-autologin-greeter": 5
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "slick-greeter": 3,
+      "arctica-greeter": 1,
+      "lightdm": 4,
+      "lightdm-autologin-greeter": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 3,
+    "root_top1_hit": false,
+    "root_top3_hit": true,
+    "risk_subgraph_nodes": [
+      "arctica-greeter",
+      "lightdm-autologin-greeter",
+      "slick-greeter",
+      "x2gothinclient-minidesktop"
+    ],
+    "risk_subgraph_size": 4,
+    "compression_ratio": 0.19999999999999996,
+    "contains_injected_node": true,
+    "contains_any_evidence_node": true,
+    "contains_all_evidence_nodes": true,
+    "evidence_nodes_retained": [
+      "slick-greeter",
+      "x2gothinclient-minidesktop",
+      "arctica-greeter"
+    ],
+    "contains_any_risk_node": true,
+    "contains_all_risk_nodes": true,
+    "contains_any_affected_node": true,
+    "subgraph_type": "posthoc_gt_anchored",
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors",
+    "blind_risk_subgraph_nodes": [
+      "arctica-greeter",
+      "slick-greeter",
+      "x2gothinclient-minidesktop"
+    ],
+    "blind_risk_subgraph_size": 3,
+    "blind_compression_ratio": 0.4,
+    "blind_contains_injected_node": true,
+    "blind_contains_any_evidence_node": true,
+    "blind_contains_all_evidence_nodes": true,
+    "blind_evidence_nodes_retained": [
+      "slick-greeter",
+      "x2gothinclient-minidesktop",
+      "arctica-greeter"
+    ],
+    "blind_contains_any_risk_node": true,
+    "blind_contains_all_risk_nodes": true,
+    "blind_contains_any_affected_node": false,
+    "blind_subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC anchors only"
+  }
+]

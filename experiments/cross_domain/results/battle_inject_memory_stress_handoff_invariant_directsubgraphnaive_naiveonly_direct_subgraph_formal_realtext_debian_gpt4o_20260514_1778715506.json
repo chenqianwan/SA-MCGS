@@ -1,0 +1,2894 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+    "naive_profile": "direct_subgraph",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_17",
+    "scc_clause_ids": [
+      "arctica-greeter",
+      "lightdm",
+      "lightdm-autologin-greeter",
+      "slick-greeter",
+      "x2gothinclient-minidesktop"
+    ],
+    "llm_calls": 1,
+    "time": 13.919859886169434,
+    "scores": {
+      "arctica-greeter": 0.9,
+      "lightdm": 0.6,
+      "lightdm-autologin-greeter": 0.3,
+      "slick-greeter": 0.7,
+      "x2gothinclient-minidesktop": 0.4
+    },
+    "reasonings": {
+      "arctica-greeter": "Critical interface class mismatch and participation in a dependency cycle with lightdm.",
+      "lightdm": "Central to the dependency graph and involved in cycles with multiple greeters.",
+      "lightdm-autologin-greeter": "Underspecified dependency on lightdm and other components, with minor structural concerns.",
+      "slick-greeter": "Explicitly remains in the legacy interface class, conflicting with arctica-greeter's requirements.",
+      "x2gothinclient-minidesktop": "Pass-through record contributing to the dependency cycle but with lower impact."
+    },
+    "ranking": [
+      [
+        "arctica-greeter",
+        0.9
+      ],
+      [
+        "slick-greeter",
+        0.7
+      ],
+      [
+        "lightdm",
+        0.6
+      ],
+      [
+        "x2gothinclient-minidesktop",
+        0.4
+      ],
+      [
+        "lightdm-autologin-greeter",
+        0.3
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "arctica-greeter",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "interface_class_mismatch",
+          "dependency_cycle"
+        ],
+        "reasoning": "Arctica-greeter has a critical interface class mismatch issue, as it requires the handoff to be in the new interface class, but other greeters (e.g., slick-greeter) remain in the legacy class. Additionally, it participates in a dependency cycle with lightdm."
+      },
+      {
+        "rank": 2,
+        "clause_id": "slick-greeter",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "interface_class_mismatch"
+        ],
+        "reasoning": "Slick-greeter explicitly states that its outbound handoff remains in the legacy interface class, which conflicts with arctica-greeter's requirement for the new class. This creates structural incompatibility."
+      },
+      {
+        "rank": 3,
+        "clause_id": "lightdm",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "dependency_cycle",
+          "high-impact_dependency"
+        ],
+        "reasoning": "LightDM is central to the dependency graph and participates in cycles with multiple greeters. Its high-impact role as a display manager amplifies the risk of any structural issues."
+      },
+      {
+        "rank": 4,
+        "clause_id": "x2gothinclient-minidesktop",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "dependency_cycle"
+        ],
+        "reasoning": "X2Go Thin Client acts as a pass-through record but contributes to the dependency cycle involving lightdm. While its role is less critical, it still propagates structural risks."
+      },
+      {
+        "rank": 5,
+        "clause_id": "lightdm-autologin-greeter",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "underspecified_dependency"
+        ],
+        "reasoning": "LightDM Autologin Greeter has relatively low risk but depends on lightdm and other components without clarifying interface class compatibility, which could lead to runtime issues."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "interface_class_mismatch",
+        "importance_weight": 0.4,
+        "description": "Captures mismatches in interface class handoff between records, which can lead to structural incompatibility."
+      },
+      {
+        "factor": "dependency_cycle",
+        "importance_weight": 0.3,
+        "description": "Captures cycles in the dependency graph, which can lead to deadlocks or ambiguous resolution."
+      },
+      {
+        "factor": "underspecified_dependency",
+        "importance_weight": 0.2,
+        "description": "Captures records with ambiguous or underspecified dependencies, which can lead to runtime failures."
+      },
+      {
+        "factor": "high-impact_dependency",
+        "importance_weight": 0.1,
+        "description": "Captures records that depend on critical packages, amplifying the impact of any issues."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "direct_risk_subgraph_nodes": [
+      "arctica-greeter",
+      "slick-greeter",
+      "lightdm"
+    ],
+    "direct_risk_subgraph_size": 3,
+    "direct_compression_ratio": 0.4,
+    "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+    "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+    "direct_risk_subgraph_rationale": "This subgraph captures the core structural inconsistency: the interface class mismatch between arctica-greeter and slick-greeter, as well as the central role of lightdm in propagating these issues. Including other nodes would not add meaningful evidence or repair opportunities.",
+    "direct_risk_subgraph_edges": [
+      {
+        "source": "arctica-greeter",
+        "target": "lightdm",
+        "reason": "Arctica-greeter references lightdm, forming part of the dependency cycle and contributing to interface class mismatch concerns."
+      },
+      {
+        "source": "lightdm",
+        "target": "arctica-greeter",
+        "reason": "Lightdm references arctica-greeter, completing the cycle and amplifying structural risks."
+      },
+      {
+        "source": "lightdm",
+        "target": "slick-greeter",
+        "reason": "Lightdm references slick-greeter, which explicitly remains in the legacy interface class, conflicting with arctica-greeter's requirements."
+      }
+    ],
+    "direct_subgraph_raw": [
+      "arctica-greeter",
+      "slick-greeter",
+      "lightdm"
+    ],
+    "direct_subgraph_invalid": [],
+    "direct_subgraph_duplicates": [],
+    "direct_subgraph_alias_resolutions": [],
+    "direct_subgraph_complete_parse": true,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 5,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "arctica-greeter",
+        "clause_b": "slick-greeter",
+        "description": "Interface class mismatch: arctica-greeter requires the new interface class, while slick-greeter remains in the legacy class."
+      },
+      {
+        "clause_a": "arctica-greeter",
+        "clause_b": "lightdm",
+        "description": "Dependency cycle: arctica-greeter and lightdm reference each other, creating potential deadlocks or ambiguous resolution."
+      }
+    ],
+    "score_spread": 0.6000000000000001,
+    "ranking_score_spread": 0.6000000000000001,
+    "score_mean": 0.58,
+    "score_max": 0.9,
+    "node_names": {
+      "arctica-greeter": "arctica-greeter",
+      "lightdm": "lightdm",
+      "lightdm-autologin-greeter": "lightdm-autologin-greeter",
+      "slick-greeter": "slick-greeter",
+      "x2gothinclient-minidesktop": "x2gothinclient-minidesktop"
+    },
+    "ground_truth_nodes": [
+      "slick-greeter"
+    ],
+    "gt_evidence": {
+      "slick-greeter": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 798,
+    "injected_title_occurrences_in_prompt": 7,
+    "injected_id_occurrences_in_prompt": 7,
+    "injected_title_first_word_ratio": 0.2781954887218045,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.2832080200501253,
+    "inject_mode": true,
+    "injected_node": "slick-greeter",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "arctica-greeter",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "x2gothinclient-minidesktop",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "slick-greeter",
+      "arctica-greeter"
+    ],
+    "injected_evidence_nodes": [
+      "slick-greeter",
+      "x2gothinclient-minidesktop",
+      "arctica-greeter"
+    ],
+    "injected_affected_nodes": [
+      "lightdm",
+      "lightdm-autologin-greeter"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "debian_handoff_invariant_abi_class",
+    "injected_rank": 2,
+    "top1_margin": 0.20000000000000007,
+    "risk_node_ranks": {
+      "slick-greeter": 2,
+      "arctica-greeter": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "slick-greeter": 2,
+      "x2gothinclient-minidesktop": 4,
+      "arctica-greeter": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 4,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "lightdm": 3,
+      "lightdm-autologin-greeter": 5
+    },
+    "affected_best_rank": 3,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "slick-greeter": 2,
+      "arctica-greeter": 1,
+      "lightdm": 3,
+      "lightdm-autologin-greeter": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 2,
+    "root_top1_hit": false,
+    "root_top3_hit": true,
+    "direct_subgraph_nodes_retained": [
+      "arctica-greeter",
+      "slick-greeter",
+      "lightdm"
+    ],
+    "direct_contains_injected_node": true,
+    "direct_contains_any_risk_node": true,
+    "direct_contains_all_risk_nodes": true,
+    "direct_risk_nodes_retained": [
+      "slick-greeter",
+      "arctica-greeter"
+    ],
+    "direct_contains_any_evidence_node": true,
+    "direct_contains_all_evidence_nodes": false,
+    "direct_evidence_nodes_retained": [
+      "slick-greeter",
+      "arctica-greeter"
+    ],
+    "direct_contains_any_affected_node": true,
+    "direct_contains_all_affected_nodes": false,
+    "direct_affected_nodes_retained": [
+      "lightdm"
+    ],
+    "direct_contains_any_valuable_node": true,
+    "direct_contains_all_valuable_nodes": false,
+    "direct_valuable_nodes_retained": [
+      "slick-greeter",
+      "arctica-greeter",
+      "lightdm"
+    ]
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+    "naive_profile": "direct_subgraph",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_16",
+    "scc_clause_ids": [
+      "ayatana-indicator-bluetooth",
+      "blueman",
+      "lomiri",
+      "lomiri-common",
+      "lomiri-tests"
+    ],
+    "llm_calls": 1,
+    "time": 31.026488065719604,
+    "scores": {
+      "ayatana-indicator-bluetooth": 0.8,
+      "blueman": 0.5,
+      "lomiri": 0.9,
+      "lomiri-common": 0.6,
+      "lomiri-tests": 0.3
+    },
+    "reasonings": {
+      "ayatana-indicator-bluetooth": "Participates in a cycle and has a handoff interface mismatch, which increases configuration risk.",
+      "blueman": "Part of the cycle, which increases the risk of deadlock or misconfiguration.",
+      "lomiri": "Central to the cycle and has complex dependencies, increasing the risk of deadlock and configuration issues.",
+      "lomiri-common": "Has complex dependencies and acts as a pass-through record, which may lead to underspecified behavior during migration windows.",
+      "lomiri-tests": "Has complex dependencies but is less impactful compared to other nodes in the cycle."
+    },
+    "ranking": [
+      [
+        "lomiri",
+        0.9
+      ],
+      [
+        "ayatana-indicator-bluetooth",
+        0.8
+      ],
+      [
+        "lomiri-common",
+        0.6
+      ],
+      [
+        "blueman",
+        0.5
+      ],
+      [
+        "lomiri-tests",
+        0.3
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "lomiri",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "cyclic_dependency",
+          "handoff_interface_mismatch",
+          "dependency_complexity"
+        ],
+        "reasoning": "Lomiri participates in a cycle with ayatana-indicator-bluetooth and blueman, creating a risk of deadlock. Additionally, it depends on ayatana-indicator-bluetooth, which has a handoff interface mismatch, and has complex dependencies that increase configuration risk."
+      },
+      {
+        "rank": 2,
+        "clause_id": "ayatana-indicator-bluetooth",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "cyclic_dependency",
+          "handoff_interface_mismatch"
+        ],
+        "reasoning": "Ayatana-indicator-bluetooth is part of a cycle with lomiri and blueman, and its configuration depends on a handoff interface that must already be in the new class, which is underspecified and prone to failure."
+      },
+      {
+        "rank": 3,
+        "clause_id": "lomiri-common",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "dependency_complexity"
+        ],
+        "reasoning": "Lomiri-common has complex dependencies and acts as a pass-through maintenance record, which may lead to underspecified behavior during migration windows."
+      },
+      {
+        "rank": 4,
+        "clause_id": "blueman",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Blueman is part of the cycle with lomiri and ayatana-indicator-bluetooth, which increases the risk of deadlock or misconfiguration."
+      },
+      {
+        "rank": 5,
+        "clause_id": "lomiri-tests",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "dependency_complexity"
+        ],
+        "reasoning": "Lomiri-tests has complex dependencies and acts as a pass-through record, but its risk is lower compared to other nodes due to its limited impact on the cycle."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures cycles in the graph where records depend on each other, creating potential deadlocks or configuration issues."
+      },
+      {
+        "factor": "handoff_interface_mismatch",
+        "importance_weight": 0.3,
+        "description": "Captures mismatches in interface class handoffs between records, which can lead to configuration failures."
+      },
+      {
+        "factor": "dependency_complexity",
+        "importance_weight": 0.2,
+        "description": "Captures records with overly complex or underspecified dependencies, increasing the risk of misconfiguration."
+      },
+      {
+        "factor": "conflicting_replacements",
+        "importance_weight": 0.1,
+        "description": "Captures records that replace or break other records, potentially causing incompatibilities."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "direct_risk_subgraph_nodes": [
+      "lomiri",
+      "ayatana-indicator-bluetooth",
+      "blueman"
+    ],
+    "direct_risk_subgraph_size": 3,
+    "direct_compression_ratio": 0.4,
+    "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+    "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+    "direct_risk_subgraph_rationale": "This subgraph captures the cyclic dependency between lomiri, ayatana-indicator-bluetooth, and blueman, which is the primary structural concern. Including these nodes is sufficient to localize and explain the risk without introducing unrelated records.",
+    "direct_risk_subgraph_edges": [
+      {
+        "source": "ayatana-indicator-bluetooth",
+        "target": "blueman",
+        "reason": "This edge is part of the cycle and indicates that ayatana-indicator-bluetooth references blueman."
+      },
+      {
+        "source": "blueman",
+        "target": "lomiri",
+        "reason": "This edge is part of the cycle and indicates that blueman references lomiri."
+      },
+      {
+        "source": "lomiri",
+        "target": "ayatana-indicator-bluetooth",
+        "reason": "This edge is part of the cycle and indicates that lomiri references ayatana-indicator-bluetooth."
+      }
+    ],
+    "direct_subgraph_raw": [
+      "lomiri",
+      "ayatana-indicator-bluetooth",
+      "blueman"
+    ],
+    "direct_subgraph_invalid": [],
+    "direct_subgraph_duplicates": [],
+    "direct_subgraph_alias_resolutions": [],
+    "direct_subgraph_complete_parse": true,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 5,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "lomiri",
+        "clause_b": "ayatana-indicator-bluetooth",
+        "description": "Cyclic dependency between lomiri and ayatana-indicator-bluetooth creates a risk of deadlock or misconfiguration."
+      },
+      {
+        "clause_a": "ayatana-indicator-bluetooth",
+        "clause_b": "blueman",
+        "description": "Cyclic dependency between ayatana-indicator-bluetooth and blueman creates a risk of deadlock or misconfiguration."
+      },
+      {
+        "clause_a": "blueman",
+        "clause_b": "lomiri",
+        "description": "Cyclic dependency between blueman and lomiri creates a risk of deadlock or misconfiguration."
+      }
+    ],
+    "score_spread": 0.6000000000000001,
+    "ranking_score_spread": 0.6000000000000001,
+    "score_mean": 0.62,
+    "score_max": 0.9,
+    "node_names": {
+      "ayatana-indicator-bluetooth": "ayatana-indicator-bluetooth",
+      "blueman": "blueman",
+      "lomiri": "lomiri",
+      "lomiri-common": "lomiri-common",
+      "lomiri-tests": "lomiri-tests"
+    },
+    "ground_truth_nodes": [
+      "lomiri-common"
+    ],
+    "gt_evidence": {
+      "lomiri-common": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 974,
+    "injected_title_occurrences_in_prompt": 15,
+    "injected_id_occurrences_in_prompt": 15,
+    "injected_title_first_word_ratio": 0.25770020533880905,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3624229979466119,
+    "inject_mode": true,
+    "injected_node": "lomiri-common",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "ayatana-indicator-bluetooth",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "lomiri-tests",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "lomiri-common",
+      "ayatana-indicator-bluetooth"
+    ],
+    "injected_evidence_nodes": [
+      "lomiri-common",
+      "lomiri-tests",
+      "ayatana-indicator-bluetooth"
+    ],
+    "injected_affected_nodes": [
+      "blueman",
+      "lomiri"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "debian_handoff_invariant_abi_class",
+    "injected_rank": 3,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "lomiri-common": 3,
+      "ayatana-indicator-bluetooth": 2
+    },
+    "risk_best_rank": 2,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": false,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "lomiri-common": 3,
+      "lomiri-tests": 5,
+      "ayatana-indicator-bluetooth": 2
+    },
+    "evidence_best_rank": 2,
+    "evidence_worst_rank": 5,
+    "evidence_top1_hit": false,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "blueman": 4,
+      "lomiri": 1
+    },
+    "affected_best_rank": 1,
+    "affected_worst_rank": 4,
+    "affected_top1_hit": true,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "lomiri-common": 3,
+      "ayatana-indicator-bluetooth": 2,
+      "blueman": 4,
+      "lomiri": 1
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 4,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 3,
+    "root_top1_hit": false,
+    "root_top3_hit": true,
+    "direct_subgraph_nodes_retained": [
+      "lomiri",
+      "ayatana-indicator-bluetooth",
+      "blueman"
+    ],
+    "direct_contains_injected_node": false,
+    "direct_contains_any_risk_node": true,
+    "direct_contains_all_risk_nodes": false,
+    "direct_risk_nodes_retained": [
+      "ayatana-indicator-bluetooth"
+    ],
+    "direct_contains_any_evidence_node": true,
+    "direct_contains_all_evidence_nodes": false,
+    "direct_evidence_nodes_retained": [
+      "ayatana-indicator-bluetooth"
+    ],
+    "direct_contains_any_affected_node": true,
+    "direct_contains_all_affected_nodes": true,
+    "direct_affected_nodes_retained": [
+      "blueman",
+      "lomiri"
+    ],
+    "direct_contains_any_valuable_node": true,
+    "direct_contains_all_valuable_nodes": false,
+    "direct_valuable_nodes_retained": [
+      "ayatana-indicator-bluetooth",
+      "blueman",
+      "lomiri"
+    ]
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+    "naive_profile": "direct_subgraph",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "scc_27",
+    "scc_clause_ids": [
+      "bochs",
+      "bochs-sdl",
+      "bochs-term",
+      "bochs-wx",
+      "bochs-x"
+    ],
+    "llm_calls": 1,
+    "time": 9.36517596244812,
+    "scores": {
+      "bochs": 0.7,
+      "bochs-sdl": 0.4,
+      "bochs-term": 0.4,
+      "bochs-wx": 0.9,
+      "bochs-x": 0.5
+    },
+    "reasonings": {
+      "bochs": "Relies on plugins like 'bochs-wx' that do not conform to the required interface class and participates in a cyclic dependency.",
+      "bochs-sdl": "Participates in the cyclic dependency with 'bochs' but does not introduce additional structural inconsistencies.",
+      "bochs-term": "Similar to 'bochs-sdl', it participates in the cyclic dependency with 'bochs' but does not introduce further issues.",
+      "bochs-wx": "The outbound handoff remains in the legacy interface class, conflicting with 'bochs', which requires the new interface class.",
+      "bochs-x": "Acts as a pass-through maintenance record but contributes to the cyclic dependency with 'bochs'."
+    },
+    "ranking": [
+      [
+        "bochs-wx",
+        0.9
+      ],
+      [
+        "bochs",
+        0.7
+      ],
+      [
+        "bochs-x",
+        0.5
+      ],
+      [
+        "bochs-sdl",
+        0.4
+      ],
+      [
+        "bochs-term",
+        0.4
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "bochs-wx",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "interface_class_mismatch"
+        ],
+        "reasoning": "The outbound handoff from this package remains in the legacy interface class, which conflicts with the requirement for the new interface class in 'bochs'. This creates a structural inconsistency."
+      },
+      {
+        "rank": 2,
+        "clause_id": "bochs",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "interface_class_mismatch",
+          "cyclic_dependency"
+        ],
+        "reasoning": "Relies on plugins like 'bochs-wx' that do not conform to the required interface class. Additionally, it participates in a cyclic dependency with its plugins."
+      },
+      {
+        "rank": 3,
+        "clause_id": "bochs-x",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Acts as a pass-through maintenance record but contributes to the cyclic dependency with 'bochs'."
+      },
+      {
+        "rank": 4,
+        "clause_id": "bochs-sdl",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Participates in the cyclic dependency with 'bochs', though it does not introduce additional structural inconsistencies."
+      },
+      {
+        "rank": 5,
+        "clause_id": "bochs-term",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Similar to 'bochs-sdl', it participates in the cyclic dependency with 'bochs' but does not introduce further issues."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "interface_class_mismatch",
+        "importance_weight": 0.4,
+        "description": "Captures mismatches in interface class handoff between records, which can lead to structural inconsistencies."
+      },
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.3,
+        "description": "Captures cycles in the dependency graph, which can lead to deadlocks or unresolved dependencies."
+      },
+      {
+        "factor": "underspecified_dependency",
+        "importance_weight": 0.2,
+        "description": "Captures cases where dependencies are ambiguous or insufficiently constrained."
+      },
+      {
+        "factor": "redundant_edges",
+        "importance_weight": 0.1,
+        "description": "Captures redundant or unnecessary edges that may obscure the graph structure."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "direct_risk_subgraph_nodes": [
+      "bochs",
+      "bochs-wx"
+    ],
+    "direct_risk_subgraph_size": 2,
+    "direct_compression_ratio": 0.6,
+    "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+    "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+    "direct_risk_subgraph_rationale": "The subgraph containing 'bochs' and 'bochs-wx' is sufficient to capture the primary structural inconsistency caused by the interface class mismatch. Other nodes contribute to cyclic dependencies but do not directly exacerbate the interface class issue.",
+    "direct_risk_subgraph_edges": [
+      {
+        "source": "bochs",
+        "target": "bochs-wx",
+        "reason": "This edge represents the dependency of 'bochs' on 'bochs-wx', which introduces the interface class mismatch."
+      },
+      {
+        "source": "bochs-wx",
+        "target": "bochs",
+        "reason": "This edge represents the reverse dependency, contributing to the cyclic dependency."
+      }
+    ],
+    "direct_subgraph_raw": [
+      "bochs",
+      "bochs-wx"
+    ],
+    "direct_subgraph_invalid": [],
+    "direct_subgraph_duplicates": [],
+    "direct_subgraph_alias_resolutions": [],
+    "direct_subgraph_complete_parse": true,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 4,
+    "largest_tie_count": 2,
+    "tied_score_groups": [
+      {
+        "score": 0.4,
+        "count": 2,
+        "nodes": [
+          "bochs-sdl",
+          "bochs-term"
+        ]
+      }
+    ],
+    "conflicts": [
+      {
+        "clause_a": "bochs",
+        "clause_b": "bochs-wx",
+        "description": "The 'bochs' package requires plugins to use the new interface class, but 'bochs-wx' remains in the legacy interface class, creating a structural inconsistency."
+      }
+    ],
+    "score_spread": 0.5,
+    "ranking_score_spread": 0.5,
+    "score_mean": 0.58,
+    "score_max": 0.9,
+    "node_names": {
+      "bochs": "bochs",
+      "bochs-sdl": "bochs-sdl",
+      "bochs-term": "bochs-term",
+      "bochs-wx": "bochs-wx",
+      "bochs-x": "bochs-x"
+    },
+    "ground_truth_nodes": [
+      "bochs-wx"
+    ],
+    "gt_evidence": {
+      "bochs-wx": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 741,
+    "injected_title_occurrences_in_prompt": 10,
+    "injected_id_occurrences_in_prompt": 10,
+    "injected_title_first_word_ratio": 0.08771929824561403,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.291497975708502,
+    "inject_mode": true,
+    "injected_node": "bochs-wx",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "bochs",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "bochs-x",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "bochs-wx",
+      "bochs"
+    ],
+    "injected_evidence_nodes": [
+      "bochs-wx",
+      "bochs-x",
+      "bochs"
+    ],
+    "injected_affected_nodes": [
+      "bochs-sdl",
+      "bochs-term"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "debian_handoff_invariant_abi_class",
+    "injected_rank": 1,
+    "top1_margin": 0.20000000000000007,
+    "risk_node_ranks": {
+      "bochs-wx": 1,
+      "bochs": 2
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "bochs-wx": 1,
+      "bochs-x": 3,
+      "bochs": 2
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "bochs-sdl": 4,
+      "bochs-term": 5
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "bochs-wx": 1,
+      "bochs": 2,
+      "bochs-sdl": 4,
+      "bochs-term": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 1,
+    "root_top1_hit": true,
+    "root_top3_hit": true,
+    "direct_subgraph_nodes_retained": [
+      "bochs",
+      "bochs-wx"
+    ],
+    "direct_contains_injected_node": true,
+    "direct_contains_any_risk_node": true,
+    "direct_contains_all_risk_nodes": true,
+    "direct_risk_nodes_retained": [
+      "bochs-wx",
+      "bochs"
+    ],
+    "direct_contains_any_evidence_node": true,
+    "direct_contains_all_evidence_nodes": false,
+    "direct_evidence_nodes_retained": [
+      "bochs-wx",
+      "bochs"
+    ],
+    "direct_contains_any_affected_node": false,
+    "direct_contains_all_affected_nodes": false,
+    "direct_affected_nodes_retained": [],
+    "direct_contains_any_valuable_node": true,
+    "direct_contains_all_valuable_nodes": false,
+    "direct_valuable_nodes_retained": [
+      "bochs-wx",
+      "bochs"
+    ]
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+    "naive_profile": "direct_subgraph",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 6,
+    "scc_id": "scc_18",
+    "scc_clause_ids": [
+      "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil",
+      "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil",
+      "libmono-system-core4.0-cil",
+      "libmono-system4.0-cil"
+    ],
+    "llm_calls": 1,
+    "time": 27.955752849578857,
+    "scores": {
+      "libmono-security4.0-cil": 0.3,
+      "libmono-system-configuration4.0-cil": 0.7,
+      "libmono-system-security4.0-cil": 0.6,
+      "libmono-system-xml4.0-cil": 0.5,
+      "libmono-system-core4.0-cil": 0.4,
+      "libmono-system4.0-cil": 0.9
+    },
+    "reasonings": {
+      "libmono-security4.0-cil": "Limited dependencies and references reduce its structural risk.",
+      "libmono-system-configuration4.0-cil": "Complex dependencies and potential underspecification increase its risk.",
+      "libmono-system-security4.0-cil": "Complex dependencies and references to high-risk nodes create potential incompatibility issues.",
+      "libmono-system-xml4.0-cil": "Involved in multiple dependency chains but less central than higher-risk nodes.",
+      "libmono-system-core4.0-cil": "Referenced by high-risk nodes, amplifying its potential impact.",
+      "libmono-system4.0-cil": "Highly interconnected and central to the graph, with dependencies on multiple high-risk nodes."
+    },
+    "ranking": [
+      [
+        "libmono-system4.0-cil",
+        0.9
+      ],
+      [
+        "libmono-system-configuration4.0-cil",
+        0.7
+      ],
+      [
+        "libmono-system-security4.0-cil",
+        0.6
+      ],
+      [
+        "libmono-system-xml4.0-cil",
+        0.5
+      ],
+      [
+        "libmono-system-core4.0-cil",
+        0.4
+      ],
+      [
+        "libmono-security4.0-cil",
+        0.3
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "libmono-system4.0-cil",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "dependency_complexity",
+          "impact_amplification"
+        ],
+        "reasoning": "This node has the highest number of incoming and outgoing edges, indicating it is central to the graph and highly interconnected. Its dependencies include multiple high-risk nodes, amplifying its impact."
+      },
+      {
+        "rank": 2,
+        "clause_id": "libmono-system-configuration4.0-cil",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "dependency_complexity",
+          "underspecification"
+        ],
+        "reasoning": "This node depends on multiple other nodes, including high-risk ones, and its description suggests potential underspecification in its dependency handling."
+      },
+      {
+        "rank": 3,
+        "clause_id": "libmono-system-security4.0-cil",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "dependency_complexity",
+          "mutual_incompatibility"
+        ],
+        "reasoning": "This node has complex dependencies and references nodes that are themselves high-risk, creating potential incompatibility issues."
+      },
+      {
+        "rank": 4,
+        "clause_id": "libmono-system-xml4.0-cil",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "dependency_complexity"
+        ],
+        "reasoning": "This node is involved in multiple dependency chains and references high-risk nodes, but its role is less central than higher-ranked nodes."
+      },
+      {
+        "rank": 5,
+        "clause_id": "libmono-system-core4.0-cil",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "impact_amplification"
+        ],
+        "reasoning": "This node has fewer dependencies but is referenced by high-risk nodes, amplifying its potential impact."
+      },
+      {
+        "rank": 6,
+        "clause_id": "libmono-security4.0-cil",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "dependency_complexity"
+        ],
+        "reasoning": "This node has limited dependencies and is referenced by fewer nodes, reducing its overall risk."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "dependency_complexity",
+        "importance_weight": 0.4,
+        "description": "Captures the structural complexity of dependencies and interconnections."
+      },
+      {
+        "factor": "underspecification",
+        "importance_weight": 0.3,
+        "description": "Measures whether records lack sufficient detail or clarity for their dependencies."
+      },
+      {
+        "factor": "mutual_incompatibility",
+        "importance_weight": 0.2,
+        "description": "Assesses whether records have conflicting requirements or incompatible dependencies."
+      },
+      {
+        "factor": "impact_amplification",
+        "importance_weight": 0.1,
+        "description": "Evaluates the potential for cascading failures or high-impact issues."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "direct_risk_subgraph_nodes": [
+      "libmono-system4.0-cil",
+      "libmono-system-configuration4.0-cil",
+      "libmono-system-security4.0-cil"
+    ],
+    "direct_risk_subgraph_size": 3,
+    "direct_compression_ratio": 0.5,
+    "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+    "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+    "direct_risk_subgraph_rationale": "This subgraph captures the nodes with the highest risk scores and structural concerns. These nodes are central to the graph and have complex dependencies, making them critical to understanding and resolving risks. Including additional nodes would not add meaningful information to the analysis of the high-risk region.",
+    "direct_risk_subgraph_edges": [
+      {
+        "source": "libmono-system4.0-cil",
+        "target": "libmono-system-configuration4.0-cil",
+        "reason": "This edge represents a critical dependency between two high-risk nodes, amplifying structural concerns."
+      },
+      {
+        "source": "libmono-system4.0-cil",
+        "target": "libmono-system-security4.0-cil",
+        "reason": "This edge highlights a dependency chain involving a high-risk node, contributing to mutual incompatibility concerns."
+      },
+      {
+        "source": "libmono-system-configuration4.0-cil",
+        "target": "libmono-system-security4.0-cil",
+        "reason": "This edge connects two high-risk nodes, emphasizing the complexity and potential incompatibility of their dependencies."
+      }
+    ],
+    "direct_subgraph_raw": [
+      "libmono-system4.0-cil",
+      "libmono-system-configuration4.0-cil",
+      "libmono-system-security4.0-cil"
+    ],
+    "direct_subgraph_invalid": [],
+    "direct_subgraph_duplicates": [],
+    "direct_subgraph_alias_resolutions": [],
+    "direct_subgraph_complete_parse": true,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 6,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "libmono-system4.0-cil",
+        "clause_b": "libmono-system-configuration4.0-cil",
+        "description": "Dependency complexity and underspecification in libmono-system-configuration4.0-cil create potential incompatibility with libmono-system4.0-cil."
+      },
+      {
+        "clause_a": "libmono-system4.0-cil",
+        "clause_b": "libmono-system-security4.0-cil",
+        "description": "Mutual incompatibility concerns arise due to complex dependencies between these nodes."
+      },
+      {
+        "clause_a": "libmono-system-configuration4.0-cil",
+        "clause_b": "libmono-system-security4.0-cil",
+        "description": "Dependency complexity and potential underspecification create risks in their interaction."
+      }
+    ],
+    "score_spread": 0.6000000000000001,
+    "ranking_score_spread": 0.6000000000000001,
+    "score_mean": 0.5666666666666667,
+    "score_max": 0.9,
+    "node_names": {
+      "libmono-security4.0-cil": "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil": "libmono-system-configuration4.0-cil",
+      "libmono-system-security4.0-cil": "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil": "libmono-system-xml4.0-cil",
+      "libmono-system-core4.0-cil": "libmono-system-core4.0-cil",
+      "libmono-system4.0-cil": "libmono-system4.0-cil"
+    },
+    "ground_truth_nodes": [
+      "libmono-system-core4.0-cil"
+    ],
+    "gt_evidence": {
+      "libmono-system-core4.0-cil": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "prompt_word_count": 763,
+    "injected_title_occurrences_in_prompt": 11,
+    "injected_id_occurrences_in_prompt": 11,
+    "injected_title_first_word_ratio": 0.1690694626474443,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.2778505897771953,
+    "inject_mode": true,
+    "injected_node": "libmono-system-core4.0-cil",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "libmono-system4.0-cil",
+    "injected_witness_distance": 3,
+    "injected_bridge_node": "libmono-system-xml4.0-cil",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "libmono-system-core4.0-cil",
+      "libmono-system4.0-cil"
+    ],
+    "injected_evidence_nodes": [
+      "libmono-system-core4.0-cil",
+      "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil"
+    ],
+    "injected_affected_nodes": [
+      "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "debian_handoff_invariant_abi_class",
+    "injected_rank": 5,
+    "top1_margin": 0.20000000000000007,
+    "risk_node_ranks": {
+      "libmono-system-core4.0-cil": 5,
+      "libmono-system4.0-cil": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 5,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "libmono-system-core4.0-cil": 5,
+      "libmono-system-xml4.0-cil": 4,
+      "libmono-system4.0-cil": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 5,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "libmono-security4.0-cil": 6,
+      "libmono-system-configuration4.0-cil": 2
+    },
+    "affected_best_rank": 2,
+    "affected_worst_rank": 6,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "libmono-system-core4.0-cil": 5,
+      "libmono-system4.0-cil": 1,
+      "libmono-security4.0-cil": 6,
+      "libmono-system-configuration4.0-cil": 2
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 6,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 5,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "direct_subgraph_nodes_retained": [
+      "libmono-system4.0-cil",
+      "libmono-system-configuration4.0-cil",
+      "libmono-system-security4.0-cil"
+    ],
+    "direct_contains_injected_node": false,
+    "direct_contains_any_risk_node": true,
+    "direct_contains_all_risk_nodes": false,
+    "direct_risk_nodes_retained": [
+      "libmono-system4.0-cil"
+    ],
+    "direct_contains_any_evidence_node": true,
+    "direct_contains_all_evidence_nodes": false,
+    "direct_evidence_nodes_retained": [
+      "libmono-system4.0-cil"
+    ],
+    "direct_contains_any_affected_node": true,
+    "direct_contains_all_affected_nodes": false,
+    "direct_affected_nodes_retained": [
+      "libmono-system-configuration4.0-cil"
+    ],
+    "direct_contains_any_valuable_node": true,
+    "direct_contains_all_valuable_nodes": false,
+    "direct_valuable_nodes_retained": [
+      "libmono-system4.0-cil",
+      "libmono-system-configuration4.0-cil"
+    ]
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+    "naive_profile": "direct_subgraph",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 7,
+    "scc_id": "scc_49",
+    "scc_clause_ids": [
+      "libasedrive-serial",
+      "libasedrive-usb",
+      "libgcr410",
+      "libgempc410",
+      "libifd-cyberjack6",
+      "libgempc430",
+      "pcscd"
+    ],
+    "llm_calls": 1,
+    "time": 9.579725980758667,
+    "scores": {
+      "libasedrive-serial": 0.5,
+      "libasedrive-usb": 0.9,
+      "libgcr410": 0.1,
+      "libgempc410": 0.3,
+      "libifd-cyberjack6": 0.8,
+      "libgempc430": 0.2,
+      "pcscd": 0.7
+    },
+    "reasonings": {
+      "libasedrive-serial": "Acts as a pass-through for the interface class but does not ensure compatibility between legacy and new classes.",
+      "libasedrive-usb": "Requires the handoff to be in the new interface class, but this condition is not guaranteed in the graph.",
+      "libgcr410": "No significant structural concerns.",
+      "libgempc410": "Depends on a specific version of pcscd, which may not align with other records' requirements.",
+      "libifd-cyberjack6": "Outputs in the legacy interface class, potentially conflicting with records requiring the new class.",
+      "libgempc430": "Depends on pcscd but does not specify a version, which could lead to compatibility issues.",
+      "pcscd": "Involved in a cyclic dependency with all other nodes, which can lead to structural inconsistencies."
+    },
+    "ranking": [
+      [
+        "libasedrive-usb",
+        0.9
+      ],
+      [
+        "libifd-cyberjack6",
+        0.8
+      ],
+      [
+        "pcscd",
+        0.7
+      ],
+      [
+        "libasedrive-serial",
+        0.5
+      ],
+      [
+        "libgempc410",
+        0.3
+      ],
+      [
+        "libgempc430",
+        0.2
+      ],
+      [
+        "libgcr410",
+        0.1
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "libasedrive-usb",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "interface_class_transition",
+          "underspecified_handoff"
+        ],
+        "reasoning": "This record explicitly requires the handoff to be in the new interface class, but there is no clear indication in the graph that this condition is met. This creates a high risk of misconfiguration."
+      },
+      {
+        "rank": 2,
+        "clause_id": "libifd-cyberjack6",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "interface_class_transition"
+        ],
+        "reasoning": "This record explicitly states that it outputs in the legacy interface class, which may conflict with other records requiring the new interface class."
+      },
+      {
+        "rank": 3,
+        "clause_id": "pcscd",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "This record is involved in a cyclic dependency with all other nodes, which can lead to structural inconsistencies and potential deadlocks."
+      },
+      {
+        "rank": 4,
+        "clause_id": "libasedrive-serial",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "underspecified_handoff"
+        ],
+        "reasoning": "This record acts as a pass-through for the interface class but does not specify whether it ensures compatibility between legacy and new interface classes."
+      },
+      {
+        "rank": 5,
+        "clause_id": "libgempc410",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "dependency_mismatch"
+        ],
+        "reasoning": "This record depends on a specific version of pcscd (>> 1.2.0), which may not align with other records' requirements."
+      },
+      {
+        "rank": 6,
+        "clause_id": "libgempc430",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "dependency_mismatch"
+        ],
+        "reasoning": "This record depends on pcscd but does not specify a version, which could lead to compatibility issues."
+      },
+      {
+        "rank": 7,
+        "clause_id": "libgcr410",
+        "risk_score": 0.1,
+        "risk_factors": [],
+        "reasoning": "This record has no significant structural concerns but is included for completeness."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "dependency_mismatch",
+        "importance_weight": 0.4,
+        "description": "Indicates a mismatch or inconsistency in dependency requirements between records."
+      },
+      {
+        "factor": "interface_class_transition",
+        "importance_weight": 0.3,
+        "description": "Captures issues related to transitions between interface classes, such as legacy vs. new interface classes."
+      },
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.2,
+        "description": "Highlights the presence of cyclic dependencies in the graph, which can lead to structural inconsistencies."
+      },
+      {
+        "factor": "underspecified_handoff",
+        "importance_weight": 0.1,
+        "description": "Represents cases where handoff or configuration requirements are not clearly specified."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "direct_risk_subgraph_nodes": [
+      "libasedrive-usb",
+      "libifd-cyberjack6",
+      "pcscd",
+      "libasedrive-serial"
+    ],
+    "direct_risk_subgraph_size": 4,
+    "direct_compression_ratio": 0.4285714285714286,
+    "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+    "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+    "direct_risk_subgraph_rationale": "This subgraph captures the key nodes involved in the most critical structural issues, including interface class transitions, cyclic dependencies, and underspecified handoffs. It is the minimal set of nodes required to explain and address these risks.",
+    "direct_risk_subgraph_edges": [
+      {
+        "source": "libasedrive-usb",
+        "target": "pcscd",
+        "reason": "libasedrive-usb depends on pcscd and requires the handoff to be in the new interface class."
+      },
+      {
+        "source": "libifd-cyberjack6",
+        "target": "pcscd",
+        "reason": "libifd-cyberjack6 depends on pcscd but outputs in the legacy interface class, potentially conflicting with libasedrive-usb."
+      },
+      {
+        "source": "pcscd",
+        "target": "libasedrive-serial",
+        "reason": "pcscd references libasedrive-serial, which acts as a pass-through for the interface class."
+      },
+      {
+        "source": "libasedrive-serial",
+        "target": "pcscd",
+        "reason": "libasedrive-serial references pcscd, creating a cyclic dependency."
+      }
+    ],
+    "direct_subgraph_raw": [
+      "libasedrive-usb",
+      "libifd-cyberjack6",
+      "pcscd",
+      "libasedrive-serial"
+    ],
+    "direct_subgraph_invalid": [],
+    "direct_subgraph_duplicates": [],
+    "direct_subgraph_alias_resolutions": [],
+    "direct_subgraph_complete_parse": true,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 7,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "libasedrive-usb",
+        "clause_b": "libifd-cyberjack6",
+        "description": "libasedrive-usb requires the handoff to be in the new interface class, while libifd-cyberjack6 outputs in the legacy class."
+      },
+      {
+        "clause_a": "pcscd",
+        "clause_b": "libasedrive-serial",
+        "description": "Cyclic dependency between pcscd and libasedrive-serial creates structural inconsistency."
+      }
+    ],
+    "score_spread": 0.8,
+    "ranking_score_spread": 0.8,
+    "score_mean": 0.5,
+    "score_max": 0.9,
+    "node_names": {
+      "libasedrive-serial": "libasedrive-serial",
+      "libasedrive-usb": "libasedrive-usb",
+      "libgcr410": "libgcr410",
+      "libgempc410": "libgempc410",
+      "libifd-cyberjack6": "libifd-cyberjack6",
+      "libgempc430": "libgempc430",
+      "pcscd": "pcscd"
+    },
+    "ground_truth_nodes": [
+      "libifd-cyberjack6"
+    ],
+    "gt_evidence": {
+      "libifd-cyberjack6": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 808,
+    "injected_title_occurrences_in_prompt": 7,
+    "injected_id_occurrences_in_prompt": 7,
+    "injected_title_first_word_ratio": 0.3032178217821782,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.30816831683168316,
+    "inject_mode": true,
+    "injected_node": "libifd-cyberjack6",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "libasedrive-usb",
+    "injected_witness_distance": 3,
+    "injected_bridge_node": "libasedrive-serial",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "libifd-cyberjack6",
+      "libasedrive-usb"
+    ],
+    "injected_evidence_nodes": [
+      "libifd-cyberjack6",
+      "libasedrive-serial",
+      "libasedrive-usb"
+    ],
+    "injected_affected_nodes": [
+      "pcscd",
+      "libgcr410"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "debian_handoff_invariant_abi_class",
+    "injected_rank": 2,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "libifd-cyberjack6": 2,
+      "libasedrive-usb": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "libifd-cyberjack6": 2,
+      "libasedrive-serial": 4,
+      "libasedrive-usb": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 4,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "pcscd": 3,
+      "libgcr410": 7
+    },
+    "affected_best_rank": 3,
+    "affected_worst_rank": 7,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "libifd-cyberjack6": 2,
+      "libasedrive-usb": 1,
+      "pcscd": 3,
+      "libgcr410": 7
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 7,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 2,
+    "root_top1_hit": false,
+    "root_top3_hit": true,
+    "direct_subgraph_nodes_retained": [
+      "libasedrive-usb",
+      "libifd-cyberjack6",
+      "pcscd",
+      "libasedrive-serial"
+    ],
+    "direct_contains_injected_node": true,
+    "direct_contains_any_risk_node": true,
+    "direct_contains_all_risk_nodes": true,
+    "direct_risk_nodes_retained": [
+      "libifd-cyberjack6",
+      "libasedrive-usb"
+    ],
+    "direct_contains_any_evidence_node": true,
+    "direct_contains_all_evidence_nodes": true,
+    "direct_evidence_nodes_retained": [
+      "libifd-cyberjack6",
+      "libasedrive-serial",
+      "libasedrive-usb"
+    ],
+    "direct_contains_any_affected_node": true,
+    "direct_contains_all_affected_nodes": false,
+    "direct_affected_nodes_retained": [
+      "pcscd"
+    ],
+    "direct_contains_any_valuable_node": true,
+    "direct_contains_all_valuable_nodes": false,
+    "direct_valuable_nodes_retained": [
+      "libifd-cyberjack6",
+      "libasedrive-usb",
+      "pcscd"
+    ]
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+    "naive_profile": "direct_subgraph",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 7,
+    "scc_id": "scc_15",
+    "scc_clause_ids": [
+      "libruby",
+      "libruby3.1",
+      "rake",
+      "ruby",
+      "ruby3.1",
+      "ruby-rubygems",
+      "ruby-sdbm"
+    ],
+    "llm_calls": 1,
+    "time": 37.65243482589722,
+    "scores": {
+      "libruby": 0.5,
+      "libruby3.1": 0.7,
+      "rake": 0.3,
+      "ruby": 0.8,
+      "ruby3.1": 0.6,
+      "ruby-rubygems": 0.4,
+      "ruby-sdbm": 0.9
+    },
+    "reasonings": {
+      "libruby": "libruby acts as a pass-through record but lacks clarity in its dependency on libruby3.1.",
+      "libruby3.1": "libruby3.1 has a large number of dependencies and provides critical functionality, but its structural position creates ambiguity.",
+      "rake": "rake depends on ruby:any, which is underspecified and may lead to ambiguity in dependency resolution.",
+      "ruby": "ruby introduces high-impact conflicts with ruby3.1 and libruby, and its 'Breaks' and 'Conflicts' clauses exacerbate compatibility issues.",
+      "ruby3.1": "ruby3.1 depends on libruby3.1, which is structurally inconsistent, and remains in a legacy interface class.",
+      "ruby-rubygems": "ruby-rubygems breaks and replaces ruby versions below 2.7, which may cause compatibility issues with older packages.",
+      "ruby-sdbm": "ruby-sdbm creates direct conflicts by depending on both libruby and libruby3.1, which are incompatible due to version constraints."
+    },
+    "ranking": [
+      [
+        "ruby-sdbm",
+        0.9
+      ],
+      [
+        "ruby",
+        0.8
+      ],
+      [
+        "libruby3.1",
+        0.7
+      ],
+      [
+        "ruby3.1",
+        0.6
+      ],
+      [
+        "libruby",
+        0.5
+      ],
+      [
+        "ruby-rubygems",
+        0.4
+      ],
+      [
+        "rake",
+        0.3
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "ruby-sdbm",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "dependency_conflict",
+          "structural_inconsistency"
+        ],
+        "reasoning": "ruby-sdbm depends on both libruby and libruby3.1, which are incompatible due to version constraints. It also creates structural ambiguity by referencing libruby multiple times."
+      },
+      {
+        "rank": 2,
+        "clause_id": "ruby",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "dependency_conflict",
+          "high-impact_dependency"
+        ],
+        "reasoning": "ruby has conflicting relationships with ruby3.1 and libruby, and its 'Breaks' and 'Conflicts' clauses introduce incompatibilities with other packages."
+      },
+      {
+        "rank": 3,
+        "clause_id": "libruby3.1",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "high-impact_dependency",
+          "structural_inconsistency"
+        ],
+        "reasoning": "libruby3.1 has a large number of dependencies and provides critical functionality, but its relationship with rake and ruby-sdbm introduces structural ambiguity."
+      },
+      {
+        "rank": 4,
+        "clause_id": "ruby3.1",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "dependency_conflict"
+        ],
+        "reasoning": "ruby3.1 depends on libruby3.1, which is involved in structural inconsistencies. It also remains in a legacy interface class, which may cause compatibility issues."
+      },
+      {
+        "rank": 5,
+        "clause_id": "libruby",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "underspecified_dependency"
+        ],
+        "reasoning": "libruby acts as a pass-through record but lacks clarity in its dependency on libruby3.1, which is structurally inconsistent."
+      },
+      {
+        "rank": 6,
+        "clause_id": "ruby-rubygems",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "dependency_conflict"
+        ],
+        "reasoning": "ruby-rubygems breaks and replaces ruby versions below 2.7, which may cause compatibility issues with older packages."
+      },
+      {
+        "rank": 7,
+        "clause_id": "rake",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "underspecified_dependency"
+        ],
+        "reasoning": "rake depends on ruby:any, which is underspecified and may lead to ambiguity in dependency resolution."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "dependency_conflict",
+        "importance_weight": 0.4,
+        "description": "Captures cases where dependencies are mutually incompatible or underspecified."
+      },
+      {
+        "factor": "structural_inconsistency",
+        "importance_weight": 0.3,
+        "description": "Captures cases where graph structure creates cycles or ambiguous relationships."
+      },
+      {
+        "factor": "underspecified_dependency",
+        "importance_weight": 0.2,
+        "description": "Captures cases where dependencies lack sufficient constraints or clarity."
+      },
+      {
+        "factor": "high-impact_dependency",
+        "importance_weight": 0.1,
+        "description": "Captures cases where a node has a large number of dependencies or provides critical functionality."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "direct_risk_subgraph_nodes": [
+      "ruby-sdbm",
+      "libruby3.1",
+      "ruby"
+    ],
+    "direct_risk_subgraph_size": 3,
+    "direct_compression_ratio": 0.5714285714285714,
+    "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+    "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+    "direct_risk_subgraph_rationale": "This set captures the core structural inconsistency and dependency conflicts. ruby-sdbm introduces direct incompatibilities, libruby3.1 is central to the dependency graph, and ruby creates high-impact conflicts with other nodes.",
+    "direct_risk_subgraph_edges": [
+      {
+        "source": "ruby-sdbm",
+        "target": "libruby3.1",
+        "reason": "ruby-sdbm depends on libruby3.1, which is structurally inconsistent due to its large number of dependencies."
+      },
+      {
+        "source": "ruby-sdbm",
+        "target": "libruby",
+        "reason": "ruby-sdbm depends on libruby, which conflicts with libruby3.1 due to version constraints."
+      },
+      {
+        "source": "ruby",
+        "target": "libruby",
+        "reason": "ruby references libruby, which is underspecified and creates ambiguity in dependency resolution."
+      },
+      {
+        "source": "ruby",
+        "target": "ruby3.1",
+        "reason": "ruby references ruby3.1, which remains in a legacy interface class and may cause compatibility issues."
+      }
+    ],
+    "direct_subgraph_raw": [
+      "ruby-sdbm",
+      "libruby3.1",
+      "ruby"
+    ],
+    "direct_subgraph_invalid": [],
+    "direct_subgraph_duplicates": [],
+    "direct_subgraph_alias_resolutions": [],
+    "direct_subgraph_complete_parse": true,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 7,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "ruby-sdbm",
+        "clause_b": "libruby3.1",
+        "description": "ruby-sdbm depends on libruby3.1, which is structurally inconsistent due to its large number of dependencies."
+      },
+      {
+        "clause_a": "ruby-sdbm",
+        "clause_b": "libruby",
+        "description": "ruby-sdbm depends on libruby, which conflicts with libruby3.1 due to version constraints."
+      },
+      {
+        "clause_a": "ruby",
+        "clause_b": "ruby3.1",
+        "description": "ruby references ruby3.1, which remains in a legacy interface class and may cause compatibility issues."
+      },
+      {
+        "clause_a": "ruby",
+        "clause_b": "libruby",
+        "description": "ruby references libruby, which is underspecified and creates ambiguity in dependency resolution."
+      }
+    ],
+    "score_spread": 0.6000000000000001,
+    "ranking_score_spread": 0.6000000000000001,
+    "score_mean": 0.6,
+    "score_max": 0.9,
+    "node_names": {
+      "libruby": "libruby",
+      "libruby3.1": "libruby3.1",
+      "rake": "rake",
+      "ruby": "ruby",
+      "ruby3.1": "ruby3.1",
+      "ruby-rubygems": "ruby-rubygems",
+      "ruby-sdbm": "ruby-sdbm"
+    },
+    "ground_truth_nodes": [
+      "ruby3.1"
+    ],
+    "gt_evidence": {
+      "ruby3.1": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "prompt_word_count": 1045,
+    "injected_title_occurrences_in_prompt": 25,
+    "injected_id_occurrences_in_prompt": 25,
+    "injected_title_first_word_ratio": 0.06220095693779904,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.47751196172248805,
+    "inject_mode": true,
+    "injected_node": "ruby3.1",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "rake",
+    "injected_witness_distance": 3,
+    "injected_bridge_node": "libruby",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "ruby3.1",
+      "rake"
+    ],
+    "injected_evidence_nodes": [
+      "ruby3.1",
+      "libruby",
+      "rake"
+    ],
+    "injected_affected_nodes": [
+      "libruby3.1",
+      "ruby"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "debian_handoff_invariant_abi_class",
+    "injected_rank": 4,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "ruby3.1": 4,
+      "rake": 7
+    },
+    "risk_best_rank": 4,
+    "risk_worst_rank": 7,
+    "risk_top1_hit": false,
+    "risk_top3_hit": false,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": false,
+    "evidence_node_ranks": {
+      "ruby3.1": 4,
+      "libruby": 5,
+      "rake": 7
+    },
+    "evidence_best_rank": 4,
+    "evidence_worst_rank": 7,
+    "evidence_top1_hit": false,
+    "evidence_top3_hit": false,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "libruby3.1": 3,
+      "ruby": 2
+    },
+    "affected_best_rank": 2,
+    "affected_worst_rank": 3,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": true,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "ruby3.1": 4,
+      "rake": 7,
+      "libruby3.1": 3,
+      "ruby": 2
+    },
+    "valuable_best_rank": 2,
+    "valuable_worst_rank": 7,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 4,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "direct_subgraph_nodes_retained": [
+      "ruby-sdbm",
+      "libruby3.1",
+      "ruby"
+    ],
+    "direct_contains_injected_node": false,
+    "direct_contains_any_risk_node": false,
+    "direct_contains_all_risk_nodes": false,
+    "direct_risk_nodes_retained": [],
+    "direct_contains_any_evidence_node": false,
+    "direct_contains_all_evidence_nodes": false,
+    "direct_evidence_nodes_retained": [],
+    "direct_contains_any_affected_node": true,
+    "direct_contains_all_affected_nodes": true,
+    "direct_affected_nodes_retained": [
+      "libruby3.1",
+      "ruby"
+    ],
+    "direct_contains_any_valuable_node": true,
+    "direct_contains_all_valuable_nodes": false,
+    "direct_valuable_nodes_retained": [
+      "libruby3.1",
+      "ruby"
+    ]
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+    "naive_profile": "direct_subgraph",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_23",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "llm_calls": 1,
+    "time": 15.666633129119873,
+    "scores": {
+      "libjs-util": 0.0,
+      "node-assert": 0.1,
+      "node-debbundle-es-to-primitive": 0.4,
+      "node-deep-equal": 1.0,
+      "node-define-properties": 0.3,
+      "node-es-abstract": 0.9,
+      "node-istanbul": 0.5,
+      "node-parse-json": 0.6,
+      "node-read-pkg": 0.2,
+      "node-tape": 0.7,
+      "node-util": 0.05
+    },
+    "reasonings": {
+      "libjs-util": "No significant structural concerns.",
+      "node-assert": "Minimal structural concerns but referenced by node-parse-json, which has an underspecified handoff.",
+      "node-debbundle-es-to-primitive": "Indirectly involved in a cycle through its dependencies.",
+      "node-deep-equal": "Central to a cycle with node-es-abstract and has high fan-in.",
+      "node-define-properties": "Indirectly involved in a cycle through its dependencies.",
+      "node-es-abstract": "Central to a cycle with node-deep-equal and has high fan-out.",
+      "node-istanbul": "High fan-out, indicating potential structural fragility.",
+      "node-parse-json": "Underspecified handoff could lead to interface mismatches.",
+      "node-read-pkg": "Moderate fan-in, indicating potential bottleneck risk.",
+      "node-tape": "High fan-out, amplifying structural fragility.",
+      "node-util": "Minimal structural concerns and only referenced by libjs-util."
+    },
+    "ranking": [
+      [
+        "node-deep-equal",
+        1.0
+      ],
+      [
+        "node-es-abstract",
+        0.9
+      ],
+      [
+        "node-tape",
+        0.7
+      ],
+      [
+        "node-parse-json",
+        0.6
+      ],
+      [
+        "node-istanbul",
+        0.5
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.4
+      ],
+      [
+        "node-define-properties",
+        0.3
+      ],
+      [
+        "node-read-pkg",
+        0.2
+      ],
+      [
+        "node-assert",
+        0.1
+      ],
+      [
+        "node-util",
+        0.05
+      ],
+      [
+        "libjs-util",
+        0.0
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "node-deep-equal",
+        "risk_score": 1.0,
+        "risk_factors": [
+          "cyclic_dependency",
+          "high_dependency_fan_in"
+        ],
+        "reasoning": "Node participates in a cycle with node-es-abstract and has high fan-in, making it structurally critical and prone to deadlocks."
+      },
+      {
+        "rank": 2,
+        "clause_id": "node-es-abstract",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "cyclic_dependency",
+          "high_dependency_fan_out"
+        ],
+        "reasoning": "Node participates in a cycle with node-deep-equal and has high fan-out, amplifying its structural risk."
+      },
+      {
+        "rank": 3,
+        "clause_id": "node-tape",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "high_dependency_fan_out"
+        ],
+        "reasoning": "Node has a high number of outgoing edges, indicating potential overreach and structural fragility."
+      },
+      {
+        "rank": 4,
+        "clause_id": "node-parse-json",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "underspecified_handoff"
+        ],
+        "reasoning": "Node has an underspecified handoff, which could lead to interface mismatches during migration."
+      },
+      {
+        "rank": 5,
+        "clause_id": "node-istanbul",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "high_dependency_fan_out"
+        ],
+        "reasoning": "Node has a high number of outgoing edges, indicating potential structural fragility."
+      },
+      {
+        "rank": 6,
+        "clause_id": "node-debbundle-es-to-primitive",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node is indirectly involved in a cycle through its dependencies, increasing its structural risk."
+      },
+      {
+        "rank": 7,
+        "clause_id": "node-define-properties",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node is indirectly involved in a cycle through its dependencies, though its role is less central."
+      },
+      {
+        "rank": 8,
+        "clause_id": "node-read-pkg",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "high_dependency_fan_in"
+        ],
+        "reasoning": "Node has a moderate number of incoming edges, indicating potential bottleneck risk."
+      },
+      {
+        "rank": 9,
+        "clause_id": "node-assert",
+        "risk_score": 0.1,
+        "risk_factors": [],
+        "reasoning": "Node has minimal structural concerns but is referenced by node-parse-json, which has an underspecified handoff."
+      },
+      {
+        "rank": 10,
+        "clause_id": "node-util",
+        "risk_score": 0.05,
+        "risk_factors": [],
+        "reasoning": "Node has minimal structural concerns and is only referenced by libjs-util."
+      },
+      {
+        "rank": 11,
+        "clause_id": "libjs-util",
+        "risk_score": 0.0,
+        "risk_factors": [],
+        "reasoning": "Node has no significant structural concerns and is only referenced by node-util."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures cycles in the dependency graph, which can lead to structural inconsistencies or deadlocks."
+      },
+      {
+        "factor": "underspecified_handoff",
+        "importance_weight": 0.3,
+        "description": "Captures records with ambiguous or incomplete descriptions of their handoff or interface behavior."
+      },
+      {
+        "factor": "high_dependency_fan_in",
+        "importance_weight": 0.2,
+        "description": "Captures nodes with a high number of incoming edges, indicating potential bottlenecks or high-impact failures."
+      },
+      {
+        "factor": "high_dependency_fan_out",
+        "importance_weight": 0.1,
+        "description": "Captures nodes with a high number of outgoing edges, indicating potential overreach or structural fragility."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "direct_risk_subgraph_nodes": [
+      "node-deep-equal",
+      "node-es-abstract",
+      "node-tape",
+      "node-parse-json"
+    ],
+    "direct_risk_subgraph_size": 4,
+    "direct_compression_ratio": 0.6363636363636364,
+    "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+    "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+    "direct_risk_subgraph_rationale": "This subgraph captures the most structurally inconsistent and high-risk nodes. Node-deep-equal and node-es-abstract form a cycle, node-tape has high fan-out, and node-parse-json has an underspecified handoff. These nodes are sufficient to localize and explain the primary risks in the graph.",
+    "direct_risk_subgraph_edges": [
+      {
+        "source": "node-deep-equal",
+        "target": "node-es-abstract",
+        "reason": "Part of a cycle that creates structural inconsistency."
+      },
+      {
+        "source": "node-es-abstract",
+        "target": "node-deep-equal",
+        "reason": "Part of a cycle that creates structural inconsistency."
+      },
+      {
+        "source": "node-tape",
+        "target": "node-deep-equal",
+        "reason": "High fan-out from node-tape amplifies structural fragility."
+      },
+      {
+        "source": "node-parse-json",
+        "target": "node-assert",
+        "reason": "Underspecified handoff from node-parse-json could lead to interface mismatches."
+      }
+    ],
+    "direct_subgraph_raw": [
+      "node-deep-equal",
+      "node-es-abstract",
+      "node-tape",
+      "node-parse-json"
+    ],
+    "direct_subgraph_invalid": [],
+    "direct_subgraph_duplicates": [],
+    "direct_subgraph_alias_resolutions": [],
+    "direct_subgraph_complete_parse": true,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 11,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "node-deep-equal",
+        "clause_b": "node-es-abstract",
+        "description": "Cycle detected between these nodes, leading to structural inconsistency."
+      },
+      {
+        "clause_a": "node-parse-json",
+        "clause_b": "node-assert",
+        "description": "Underspecified handoff from node-parse-json could lead to interface mismatches with node-assert."
+      }
+    ],
+    "score_spread": 1.0,
+    "ranking_score_spread": 1.0,
+    "score_mean": 0.4318181818181818,
+    "score_max": 1.0,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "prompt_word_count": 1219,
+    "injected_title_occurrences_in_prompt": 8,
+    "injected_id_occurrences_in_prompt": 8,
+    "injected_title_first_word_ratio": 0.4298605414273995,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.4331419196062346,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "node-deep-equal",
+    "injected_witness_distance": 5,
+    "injected_bridge_node": "node-tape",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "injected_evidence_nodes": [
+      "node-parse-json",
+      "node-tape",
+      "node-deep-equal"
+    ],
+    "injected_affected_nodes": [
+      "node-read-pkg",
+      "node-debbundle-es-to-primitive"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "debian_handoff_invariant_abi_class",
+    "injected_rank": 4,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "node-parse-json": 4,
+      "node-deep-equal": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 4,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "node-parse-json": 4,
+      "node-tape": 3,
+      "node-deep-equal": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 4,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "node-read-pkg": 8,
+      "node-debbundle-es-to-primitive": 6
+    },
+    "affected_best_rank": 6,
+    "affected_worst_rank": 8,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": false,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "node-parse-json": 4,
+      "node-deep-equal": 1,
+      "node-read-pkg": 8,
+      "node-debbundle-es-to-primitive": 6
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 8,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 4,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "direct_subgraph_nodes_retained": [
+      "node-deep-equal",
+      "node-es-abstract",
+      "node-tape",
+      "node-parse-json"
+    ],
+    "direct_contains_injected_node": true,
+    "direct_contains_any_risk_node": true,
+    "direct_contains_all_risk_nodes": true,
+    "direct_risk_nodes_retained": [
+      "node-parse-json",
+      "node-deep-equal"
+    ],
+    "direct_contains_any_evidence_node": true,
+    "direct_contains_all_evidence_nodes": true,
+    "direct_evidence_nodes_retained": [
+      "node-parse-json",
+      "node-tape",
+      "node-deep-equal"
+    ],
+    "direct_contains_any_affected_node": false,
+    "direct_contains_all_affected_nodes": false,
+    "direct_affected_nodes_retained": [],
+    "direct_contains_any_valuable_node": true,
+    "direct_contains_all_valuable_nodes": false,
+    "direct_valuable_nodes_retained": [
+      "node-parse-json",
+      "node-deep-equal"
+    ]
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+    "naive_profile": "direct_subgraph",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_8",
+    "scc_clause_ids": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libecore-fb1",
+      "libecore-input1",
+      "libecore-wl2-1",
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libecore-x1",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "llm_calls": 1,
+    "time": 25.3734188079834,
+    "scores": {
+      "libecore-drm2-1": 0.4,
+      "libecore-evas1": 0.9,
+      "libecore-fb1": 0.1,
+      "libecore-input1": 0.5,
+      "libecore-wl2-1": 0.3,
+      "libelput1": 0.3,
+      "libevas1": 0.8,
+      "libevas1-engines-drm": 0.4,
+      "libecore-x1": 0.2,
+      "libevas1-engines-fb": 0.1,
+      "libevas1-engines-wayland": 0.7,
+      "libevas1-engines-x": 0.6
+    },
+    "reasonings": {
+      "libecore-drm2-1": "Part of a cycle with libevas1-engines-drm and libelput1.",
+      "libecore-evas1": "Central node with high fanout and involvement in multiple cycles.",
+      "libecore-fb1": "Minimal structural concerns.",
+      "libecore-input1": "Referenced by multiple nodes and mentions legacy interface conflicts.",
+      "libecore-wl2-1": "Moderate fanout and part of the Wayland dependency chain.",
+      "libelput1": "Part of a cycle with libecore-drm2-1 and libecore-input1.",
+      "libevas1": "High fanout and central to multiple cycles.",
+      "libevas1-engines-drm": "Part of a cycle with libecore-drm2-1 and libevas1.",
+      "libecore-x1": "Mentions legacy interface conflicts.",
+      "libevas1-engines-fb": "Minimal structural concerns.",
+      "libevas1-engines-wayland": "Part of a cycle with libecore-evas1 and libevas1, with underspecified handoff.",
+      "libevas1-engines-x": "Part of a cycle with libevas1 and libecore-x1."
+    },
+    "ranking": [
+      [
+        "libecore-evas1",
+        0.9
+      ],
+      [
+        "libevas1",
+        0.8
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.7
+      ],
+      [
+        "libevas1-engines-x",
+        0.6
+      ],
+      [
+        "libecore-input1",
+        0.5
+      ],
+      [
+        "libecore-drm2-1",
+        0.4
+      ],
+      [
+        "libevas1-engines-drm",
+        0.4
+      ],
+      [
+        "libecore-wl2-1",
+        0.3
+      ],
+      [
+        "libelput1",
+        0.3
+      ],
+      [
+        "libecore-x1",
+        0.2
+      ],
+      [
+        "libevas1-engines-fb",
+        0.1
+      ],
+      [
+        "libecore-fb1",
+        0.1
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "libecore-evas1",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "dependency_cycle",
+          "high_dependency_fanout"
+        ],
+        "reasoning": "This node has the highest fanout, referencing 8 other nodes, and is central to multiple dependency chains. Any issue here can cascade widely."
+      },
+      {
+        "rank": 2,
+        "clause_id": "libevas1",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "dependency_cycle",
+          "high_dependency_fanout"
+        ],
+        "reasoning": "This node references 5 engine nodes and is referenced by multiple other nodes, creating a high-risk cycle with libecore-evas1."
+      },
+      {
+        "rank": 3,
+        "clause_id": "libevas1-engines-wayland",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "dependency_cycle",
+          "underspecified_handoff"
+        ],
+        "reasoning": "This node participates in a cycle involving libecore-evas1 and libevas1, and its role in the Wayland engine is underspecified."
+      },
+      {
+        "rank": 4,
+        "clause_id": "libevas1-engines-x",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "dependency_cycle"
+        ],
+        "reasoning": "This node is part of a cycle with libevas1 and libecore-x1, which could lead to structural inconsistencies."
+      },
+      {
+        "rank": 5,
+        "clause_id": "libecore-input1",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "dependency_cycle",
+          "legacy_interface_conflict"
+        ],
+        "reasoning": "This node is referenced by multiple nodes and explicitly mentions legacy interface conflicts, increasing its risk."
+      },
+      {
+        "rank": 6,
+        "clause_id": "libecore-drm2-1",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "dependency_cycle"
+        ],
+        "reasoning": "This node is part of a cycle with libevas1-engines-drm and libelput1, which could lead to deadlocks."
+      },
+      {
+        "rank": 7,
+        "clause_id": "libevas1-engines-drm",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "dependency_cycle"
+        ],
+        "reasoning": "This node is part of a cycle with libecore-drm2-1 and libevas1, increasing its structural risk."
+      },
+      {
+        "rank": 8,
+        "clause_id": "libecore-wl2-1",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "high_dependency_fanout"
+        ],
+        "reasoning": "This node has a moderate fanout and is part of the Wayland-related dependency chain."
+      },
+      {
+        "rank": 9,
+        "clause_id": "libelput1",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "dependency_cycle"
+        ],
+        "reasoning": "This node is part of a cycle with libecore-drm2-1 and libecore-input1, increasing its risk."
+      },
+      {
+        "rank": 10,
+        "clause_id": "libecore-x1",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "legacy_interface_conflict"
+        ],
+        "reasoning": "This node explicitly mentions legacy interface conflicts, which could lead to compatibility issues."
+      },
+      {
+        "rank": 11,
+        "clause_id": "libevas1-engines-fb",
+        "risk_score": 0.1,
+        "risk_factors": [],
+        "reasoning": "This node has minimal structural concerns and is not part of any high-risk cycles."
+      },
+      {
+        "rank": 12,
+        "clause_id": "libecore-fb1",
+        "risk_score": 0.1,
+        "risk_factors": [],
+        "reasoning": "This node has minimal structural concerns and is not part of any high-risk cycles."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "dependency_cycle",
+        "importance_weight": 0.4,
+        "description": "Captures cycles or loops in the dependency graph that can lead to structural inconsistencies or deadlocks."
+      },
+      {
+        "factor": "underspecified_handoff",
+        "importance_weight": 0.3,
+        "description": "Captures records with ambiguous or incomplete descriptions of their role in dependency handoffs."
+      },
+      {
+        "factor": "high_dependency_fanout",
+        "importance_weight": 0.2,
+        "description": "Captures nodes with a large number of dependencies, increasing the risk of cascading failures."
+      },
+      {
+        "factor": "legacy_interface_conflict",
+        "importance_weight": 0.1,
+        "description": "Captures records that explicitly mention legacy interfaces, which may conflict with newer systems."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "direct_risk_subgraph_nodes": [
+      "libecore-evas1",
+      "libevas1",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x",
+      "libecore-input1"
+    ],
+    "direct_risk_subgraph_size": 5,
+    "direct_compression_ratio": 0.5833333333333333,
+    "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+    "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+    "direct_risk_subgraph_rationale": "This subgraph captures the core high-risk region, including the central nodes libecore-evas1 and libevas1, their mutual dependencies, and the engines and input nodes that form cycles or have legacy conflicts.",
+    "direct_risk_subgraph_edges": [
+      {
+        "source": "libecore-evas1",
+        "target": "libevas1",
+        "reason": "libecore-evas1 references libevas1, forming a high-risk dependency chain."
+      },
+      {
+        "source": "libevas1",
+        "target": "libevas1-engines-wayland",
+        "reason": "libevas1 references libevas1-engines-wayland, which is part of a cycle."
+      },
+      {
+        "source": "libevas1",
+        "target": "libevas1-engines-x",
+        "reason": "libevas1 references libevas1-engines-x, which is part of a cycle."
+      },
+      {
+        "source": "libevas1-engines-wayland",
+        "target": "libecore-evas1",
+        "reason": "libevas1-engines-wayland references libecore-evas1, completing a cycle."
+      },
+      {
+        "source": "libecore-input1",
+        "target": "libevas1",
+        "reason": "libecore-input1 references libevas1, contributing to the structural risk."
+      }
+    ],
+    "direct_subgraph_raw": [
+      "libecore-evas1",
+      "libevas1",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x",
+      "libecore-input1"
+    ],
+    "direct_subgraph_invalid": [],
+    "direct_subgraph_duplicates": [],
+    "direct_subgraph_alias_resolutions": [],
+    "direct_subgraph_complete_parse": true,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 9,
+    "largest_tie_count": 2,
+    "tied_score_groups": [
+      {
+        "score": 0.4,
+        "count": 2,
+        "nodes": [
+          "libecore-drm2-1",
+          "libevas1-engines-drm"
+        ]
+      },
+      {
+        "score": 0.3,
+        "count": 2,
+        "nodes": [
+          "libecore-wl2-1",
+          "libelput1"
+        ]
+      },
+      {
+        "score": 0.1,
+        "count": 2,
+        "nodes": [
+          "libecore-fb1",
+          "libevas1-engines-fb"
+        ]
+      }
+    ],
+    "conflicts": [
+      {
+        "clause_a": "libecore-evas1",
+        "clause_b": "libevas1",
+        "description": "High fanout and mutual dependencies create a risk of cascading failures."
+      },
+      {
+        "clause_a": "libevas1",
+        "clause_b": "libevas1-engines-wayland",
+        "description": "Part of a cycle involving Wayland engines and libecore-evas1."
+      },
+      {
+        "clause_a": "libecore-input1",
+        "clause_b": "libevas1",
+        "description": "Legacy interface conflicts and high fanout increase structural risk."
+      }
+    ],
+    "score_spread": 0.8,
+    "ranking_score_spread": 0.8,
+    "score_mean": 0.44166666666666665,
+    "score_max": 0.9,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libecore-x1": "libecore-x1",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "ground_truth_nodes": [
+      "libecore-x1"
+    ],
+    "gt_evidence": {
+      "libecore-x1": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "prompt_word_count": 1313,
+    "injected_title_occurrences_in_prompt": 14,
+    "injected_id_occurrences_in_prompt": 14,
+    "injected_title_first_word_ratio": 0.09367859862909368,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3747143945163747,
+    "inject_mode": true,
+    "injected_node": "libecore-x1",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "libecore-input1",
+    "injected_witness_distance": 6,
+    "injected_bridge_node": "libevas1-engines-x",
+    "injected_bridge_distance": 3,
+    "injected_risk_nodes": [
+      "libecore-x1",
+      "libecore-input1"
+    ],
+    "injected_evidence_nodes": [
+      "libecore-x1",
+      "libevas1-engines-x",
+      "libecore-input1"
+    ],
+    "injected_affected_nodes": [
+      "libevas1-engines-fb",
+      "libevas1"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "debian_handoff_invariant_abi_class",
+    "injected_rank": 10,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "libecore-x1": 10,
+      "libecore-input1": 5
+    },
+    "risk_best_rank": 5,
+    "risk_worst_rank": 10,
+    "risk_top1_hit": false,
+    "risk_top3_hit": false,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": false,
+    "evidence_node_ranks": {
+      "libecore-x1": 10,
+      "libevas1-engines-x": 4,
+      "libecore-input1": 5
+    },
+    "evidence_best_rank": 4,
+    "evidence_worst_rank": 10,
+    "evidence_top1_hit": false,
+    "evidence_top3_hit": false,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "libevas1-engines-fb": 11,
+      "libevas1": 2
+    },
+    "affected_best_rank": 2,
+    "affected_worst_rank": 11,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "libecore-x1": 10,
+      "libecore-input1": 5,
+      "libevas1-engines-fb": 11,
+      "libevas1": 2
+    },
+    "valuable_best_rank": 2,
+    "valuable_worst_rank": 11,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 10,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "direct_subgraph_nodes_retained": [
+      "libecore-evas1",
+      "libevas1",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x",
+      "libecore-input1"
+    ],
+    "direct_contains_injected_node": false,
+    "direct_contains_any_risk_node": true,
+    "direct_contains_all_risk_nodes": false,
+    "direct_risk_nodes_retained": [
+      "libecore-input1"
+    ],
+    "direct_contains_any_evidence_node": true,
+    "direct_contains_all_evidence_nodes": false,
+    "direct_evidence_nodes_retained": [
+      "libevas1-engines-x",
+      "libecore-input1"
+    ],
+    "direct_contains_any_affected_node": true,
+    "direct_contains_all_affected_nodes": false,
+    "direct_affected_nodes_retained": [
+      "libevas1"
+    ],
+    "direct_contains_any_valuable_node": true,
+    "direct_contains_all_valuable_nodes": false,
+    "direct_valuable_nodes_retained": [
+      "libecore-input1",
+      "libevas1"
+    ]
+  }
+]

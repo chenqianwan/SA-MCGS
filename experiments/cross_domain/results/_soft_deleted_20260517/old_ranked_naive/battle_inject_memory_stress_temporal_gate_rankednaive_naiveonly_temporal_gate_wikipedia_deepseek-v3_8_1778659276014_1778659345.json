@@ -1,0 +1,316 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (wikipedia); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "wikipedia",
+    "scc_size": 8,
+    "scc_id": "synthetic_wikipedia_8",
+    "scc_clause_ids": [
+      "synthetic_wikipedia_8_node_01",
+      "synthetic_wikipedia_8_node_02",
+      "synthetic_wikipedia_8_node_03",
+      "synthetic_wikipedia_8_node_04",
+      "synthetic_wikipedia_8_node_05",
+      "synthetic_wikipedia_8_node_08",
+      "synthetic_wikipedia_8_node_06",
+      "synthetic_wikipedia_8_node_07"
+    ],
+    "llm_calls": 1,
+    "time": 68.64568996429443,
+    "scores": {
+      "synthetic_wikipedia_8_node_01": 0.7,
+      "synthetic_wikipedia_8_node_02": 0.75,
+      "synthetic_wikipedia_8_node_03": 0.65,
+      "synthetic_wikipedia_8_node_04": 0.85,
+      "synthetic_wikipedia_8_node_05": 0.6,
+      "synthetic_wikipedia_8_node_08": 0.95,
+      "synthetic_wikipedia_8_node_06": 0.55,
+      "synthetic_wikipedia_8_node_07": 0.5
+    },
+    "reasonings": {
+      "synthetic_wikipedia_8_node_01": "Cycle initiator with explicit problematic hierarchy testing role",
+      "synthetic_wikipedia_8_node_02": "Carries lifecycle label without closure while participating in cycle",
+      "synthetic_wikipedia_8_node_03": "Taxonomy testing role in the dependency cycle",
+      "synthetic_wikipedia_8_node_04": "Describes closed historical entries but continues cycle instead of terminating",
+      "synthetic_wikipedia_8_node_05": "Taxonomy testing role in circular dependency",
+      "synthetic_wikipedia_8_node_08": "Explicitly acknowledges missing closing source while completing the circular dependency",
+      "synthetic_wikipedia_8_node_06": "Continues problematic taxonomy cycle",
+      "synthetic_wikipedia_8_node_07": "Cycle participant with taxonomy testing role"
+    },
+    "ranking": [
+      [
+        "synthetic_wikipedia_8_node_08",
+        0.95
+      ],
+      [
+        "synthetic_wikipedia_8_node_04",
+        0.85
+      ],
+      [
+        "synthetic_wikipedia_8_node_02",
+        0.75
+      ],
+      [
+        "synthetic_wikipedia_8_node_01",
+        0.7
+      ],
+      [
+        "synthetic_wikipedia_8_node_03",
+        0.65
+      ],
+      [
+        "synthetic_wikipedia_8_node_05",
+        0.6
+      ],
+      [
+        "synthetic_wikipedia_8_node_06",
+        0.55
+      ],
+      [
+        "synthetic_wikipedia_8_node_07",
+        0.5
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_wikipedia_8_node_08",
+        "risk_score": 0.95,
+        "risk_factors": [
+          "cycle_participation",
+          "status_ambiguity",
+          "path_termination"
+        ],
+        "reasoning": "Explicitly states 'no closing source has been attached for this path' yet completes the cycle back to node 01, creating the most severe structural conflict"
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_wikipedia_8_node_04",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "cycle_participation",
+          "status_ambiguity",
+          "path_termination"
+        ],
+        "reasoning": "Describes handling pages as 'closed historical entries' but continues the dependency chain rather than terminating it, creating logical inconsistency"
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_wikipedia_8_node_02",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "cycle_participation",
+          "status_ambiguity"
+        ],
+        "reasoning": "Carries 'lifecycle label from incoming branch without adding separate closing source' while participating in the cycle"
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_wikipedia_8_node_01",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "cycle_participation",
+          "taxonomy_test_role"
+        ],
+        "reasoning": "Initiates the problematic hierarchy cycle and explicitly tests retention of problematic hierarchy notes"
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_wikipedia_8_node_03",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "cycle_participation",
+          "taxonomy_test_role"
+        ],
+        "reasoning": "Continues the controlled taxonomy cycle designed to test problematic hierarchy retention"
+      },
+      {
+        "rank": 6,
+        "clause_id": "synthetic_wikipedia_8_node_05",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "cycle_participation",
+          "taxonomy_test_role"
+        ],
+        "reasoning": "Participates in the cycle with explicit taxonomy testing role"
+      },
+      {
+        "rank": 7,
+        "clause_id": "synthetic_wikipedia_8_node_06",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "cycle_participation",
+          "taxonomy_test_role"
+        ],
+        "reasoning": "Continues the problematic taxonomy cycle but lacks additional status ambiguity"
+      },
+      {
+        "rank": 8,
+        "clause_id": "synthetic_wikipedia_8_node_07",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "cycle_participation",
+          "taxonomy_test_role"
+        ],
+        "reasoning": "Participates in the cycle but serves primarily as a relay without additional problematic status descriptions"
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cycle_participation",
+        "importance_weight": 0.35,
+        "description": "Participation in the circular dependency that creates infinite recursion and logical inconsistency"
+      },
+      {
+        "factor": "status_ambiguity",
+        "importance_weight": 0.25,
+        "description": "Records that mention lifecycle status, closure, or maintenance without clear resolution"
+      },
+      {
+        "factor": "taxonomy_test_role",
+        "importance_weight": 0.2,
+        "description": "Explicit role in testing problematic hierarchy retention across long chains"
+      },
+      {
+        "factor": "path_termination",
+        "importance_weight": 0.2,
+        "description": "Records that should terminate paths but instead continue the cycle"
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 8,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_wikipedia_8_node_04",
+        "clause_b": "synthetic_wikipedia_8_node_08",
+        "description": "Node 04 describes handling pages as 'closed historical entries' but the path continues to node 08 which explicitly states 'no closing source has been attached', creating contradictory status assertions"
+      },
+      {
+        "clause_a": "synthetic_wikipedia_8_node_08",
+        "clause_b": "synthetic_wikipedia_8_node_01",
+        "description": "Node 08 completes the circular dependency despite acknowledging missing closing source, creating infinite recursion with ambiguous status"
+      },
+      {
+        "clause_a": "synthetic_wikipedia_8_node_02",
+        "clause_b": "synthetic_wikipedia_8_node_04",
+        "description": "Node 02 carries lifecycle label without closure to node 04 which claims to handle entries as closed, creating status propagation inconsistency"
+      }
+    ],
+    "score_spread": 0.44999999999999996,
+    "ranking_score_spread": 0.44999999999999996,
+    "score_mean": 0.69375,
+    "score_max": 0.95,
+    "node_names": {
+      "synthetic_wikipedia_8_node_01": "synthetic wikipedia 8 node 01",
+      "synthetic_wikipedia_8_node_02": "synthetic wikipedia 8 node 02",
+      "synthetic_wikipedia_8_node_03": "synthetic wikipedia 8 node 03",
+      "synthetic_wikipedia_8_node_04": "synthetic wikipedia 8 node 04",
+      "synthetic_wikipedia_8_node_05": "synthetic wikipedia 8 node 05",
+      "synthetic_wikipedia_8_node_08": "synthetic wikipedia 8 node 08",
+      "synthetic_wikipedia_8_node_06": "synthetic wikipedia 8 node 06",
+      "synthetic_wikipedia_8_node_07": "synthetic wikipedia 8 node 07"
+    },
+    "ground_truth_nodes": [
+      "synthetic_wikipedia_8_node_08"
+    ],
+    "gt_evidence": {
+      "synthetic_wikipedia_8_node_08": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 741,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.3184885290148448,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3265856950067476,
+    "inject_mode": true,
+    "injected_node": "synthetic_wikipedia_8_node_08",
+    "inject_type": "type_a_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_wikipedia_8_node_04",
+    "injected_witness_distance": 4,
+    "injected_bridge_node": "synthetic_wikipedia_8_node_02",
+    "injected_bridge_distance": 2,
+    "injected_risk_nodes": [
+      "synthetic_wikipedia_8_node_08",
+      "synthetic_wikipedia_8_node_04"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_wikipedia_8_node_08",
+      "synthetic_wikipedia_8_node_02",
+      "synthetic_wikipedia_8_node_04"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_wikipedia_8_node_01",
+      "synthetic_wikipedia_8_node_05"
+    ],
+    "injected_conflict_family": "temporal_gate",
+    "injected_conflict_difficulty": "subtle",
+    "injected_conflict_template": "wikipedia_temporal_closing_source_gate",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_wikipedia_8_node_08": 1,
+      "synthetic_wikipedia_8_node_04": 2
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_wikipedia_8_node_08": 1,
+      "synthetic_wikipedia_8_node_02": 3,
+      "synthetic_wikipedia_8_node_04": 2
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_wikipedia_8_node_01": 4,
+      "synthetic_wikipedia_8_node_05": 6
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 6,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "synthetic_wikipedia_8_node_08": 1,
+      "synthetic_wikipedia_8_node_04": 2,
+      "synthetic_wikipedia_8_node_01": 4,
+      "synthetic_wikipedia_8_node_05": 6
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 6,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 1,
+    "root_top1_hit": true,
+    "root_top3_hit": true
+  }
+]

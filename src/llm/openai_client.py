@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 from typing import Optional
+import asyncio
 
 from openai import AsyncOpenAI
 
@@ -64,18 +65,25 @@ class OpenAIClient(BaseLLMClient):
         system_prompt: Optional[str] = None,
         retries: int = 2,
     ) -> dict:
-        import re as _re
+        last_error: Exception | None = None
         for attempt in range(retries + 1):
-            resp = await self.call(
-                prompt,
-                temperature=temperature,
-                max_tokens=max_tokens,
-                system_prompt=system_prompt,
-                response_format={"type": "json_object"},
-            )
-            parsed = self._extract_json(resp.content)
-            if parsed is not None:
-                return parsed
+            try:
+                resp = await self.call(
+                    prompt,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    system_prompt=system_prompt,
+                    response_format={"type": "json_object"},
+                )
+                parsed = self._extract_json(resp.content)
+                if parsed is not None:
+                    return parsed
+            except Exception as exc:
+                last_error = exc
+            if attempt < retries:
+                await asyncio.sleep(min(2 ** attempt, 8))
+        if last_error is not None:
+            raise last_error
         return {}
 
     @staticmethod

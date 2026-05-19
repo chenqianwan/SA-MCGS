@@ -1,0 +1,259 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 5,
+    "scc_id": "synthetic_debian_5",
+    "scc_clause_ids": [
+      "synthetic_debian_5_node_01",
+      "synthetic_debian_5_node_02",
+      "synthetic_debian_5_node_03",
+      "synthetic_debian_5_node_04",
+      "synthetic_debian_5_node_05"
+    ],
+    "llm_calls": 1,
+    "time": 32.96068215370178,
+    "scores": {
+      "synthetic_debian_5_node_01": 0.75,
+      "synthetic_debian_5_node_02": 0.4,
+      "synthetic_debian_5_node_03": 0.35,
+      "synthetic_debian_5_node_04": 0.85,
+      "synthetic_debian_5_node_05": 0.6
+    },
+    "reasonings": {
+      "synthetic_debian_5_node_01": "Assumes pre-freeze transition completion conflicting with node_04's post-freeze receipt timing in circular dependency",
+      "synthetic_debian_5_node_02": "Standard package in circular chain but without direct timing specification conflicts",
+      "synthetic_debian_5_node_03": "Standard package in circular chain, positioned between conflicting timing specifications",
+      "synthetic_debian_5_node_04": "Direct timing conflict: transition receipt scheduled after freeze while dependents must use prior interface, creating circular dependency deadlock risk",
+      "synthetic_debian_5_node_05": "Propagates receipt status without date changes, potentially amplifying timing conflicts through circular dependency"
+    },
+    "ranking": [
+      [
+        "synthetic_debian_5_node_04",
+        0.85
+      ],
+      [
+        "synthetic_debian_5_node_01",
+        0.75
+      ],
+      [
+        "synthetic_debian_5_node_05",
+        0.6
+      ],
+      [
+        "synthetic_debian_5_node_02",
+        0.4
+      ],
+      [
+        "synthetic_debian_5_node_03",
+        0.35
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_debian_5_node_04",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "timing_conflict_with_freeze",
+          "circular_dependency_risk",
+          "interface_classification_ambiguity"
+        ],
+        "reasoning": "Directly conflicts with freeze timing - transition receipt scheduled after freeze but dependents must use prior interface classification, creating ambiguity in circular dependency context"
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_debian_5_node_01",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "timing_conflict_with_freeze",
+          "circular_dependency_risk"
+        ],
+        "reasoning": "Assumes transition receipt arrived before freeze and schedules package on completed-transition basis, but this conflicts with node_04's post-freeze receipt timing in the circular chain"
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_debian_5_node_05",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "receipt_status_propagation",
+          "circular_dependency_risk"
+        ],
+        "reasoning": "Forwards receipt status without changing date, propagating timing conflicts through the circular dependency and creating potential for inconsistent state propagation"
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_debian_5_node_02",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "circular_dependency_risk"
+        ],
+        "reasoning": "Participates in circular dependency chain but has ordinary release notes without specific timing conflicts, though affected by upstream timing issues"
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_debian_5_node_03",
+        "risk_score": 0.35,
+        "risk_factors": [
+          "circular_dependency_risk"
+        ],
+        "reasoning": "Similar to node_02 but positioned closer to the conflicting nodes in the circular chain, though without direct timing specification conflicts"
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "timing_conflict_with_freeze",
+        "importance_weight": 0.35,
+        "description": "Records that reference transitions or activations in conflict with configuration freeze timing"
+      },
+      {
+        "factor": "circular_dependency_risk",
+        "importance_weight": 0.3,
+        "description": "Position within the circular dependency chain that could cause deadlocks or inconsistent states"
+      },
+      {
+        "factor": "interface_classification_ambiguity",
+        "importance_weight": 0.25,
+        "description": "Unclear or conflicting interface specifications that affect dependent packages"
+      },
+      {
+        "factor": "receipt_status_propagation",
+        "importance_weight": 0.1,
+        "description": "Risks related to how receipt status is forwarded through the dependency chain"
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 5,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_debian_5_node_01",
+        "clause_b": "synthetic_debian_5_node_04",
+        "description": "Direct timing conflict: node_01 assumes transition receipt arrived before freeze and packages scheduled on completed basis, while node_04 states transition receipt scheduled after freeze with dependents using prior interface"
+      },
+      {
+        "clause_a": "synthetic_debian_5_node_04",
+        "clause_b": "synthetic_debian_5_node_05",
+        "description": "Interface classification ambiguity: node_04 specifies dependents should use prior interface until receipt posted, but node_05 forwards receipt status without date changes, creating potential for inconsistent interface state"
+      },
+      {
+        "clause_a": "synthetic_debian_5_node_05",
+        "clause_b": "synthetic_debian_5_node_01",
+        "description": "Circular dependency timing propagation: node_05 forwards receipt status to node_01 which assumes completed transition basis, creating potential for circular timing assumption conflicts"
+      }
+    ],
+    "score_spread": 0.5,
+    "ranking_score_spread": 0.5,
+    "score_mean": 0.5900000000000001,
+    "score_max": 0.85,
+    "node_names": {
+      "synthetic_debian_5_node_01": "synthetic debian 5 node 01",
+      "synthetic_debian_5_node_02": "synthetic debian 5 node 02",
+      "synthetic_debian_5_node_03": "synthetic debian 5 node 03",
+      "synthetic_debian_5_node_04": "synthetic debian 5 node 04",
+      "synthetic_debian_5_node_05": "synthetic debian 5 node 05"
+    },
+    "ground_truth_nodes": [
+      "synthetic_debian_5_node_04"
+    ],
+    "gt_evidence": {
+      "synthetic_debian_5_node_04": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 592,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.27871621621621623,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.28885135135135137,
+    "inject_mode": true,
+    "injected_node": "synthetic_debian_5_node_04",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_debian_5_node_01",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "synthetic_debian_5_node_05",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "synthetic_debian_5_node_04",
+      "synthetic_debian_5_node_01"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_debian_5_node_04",
+      "synthetic_debian_5_node_05",
+      "synthetic_debian_5_node_01"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_debian_5_node_02",
+      "synthetic_debian_5_node_03"
+    ],
+    "injected_conflict_family": "temporal_gate",
+    "injected_conflict_difficulty": "subtle",
+    "injected_conflict_template": "debian_temporal_receipt_gate",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_debian_5_node_04": 1,
+      "synthetic_debian_5_node_01": 2
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_debian_5_node_04": 1,
+      "synthetic_debian_5_node_05": 3,
+      "synthetic_debian_5_node_01": 2
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_debian_5_node_02": 4,
+      "synthetic_debian_5_node_03": 5
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "synthetic_debian_5_node_04": 1,
+      "synthetic_debian_5_node_01": 2,
+      "synthetic_debian_5_node_02": 4,
+      "synthetic_debian_5_node_03": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 1,
+    "root_top1_hit": true,
+    "root_top3_hit": true
+  }
+]

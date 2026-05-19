@@ -1,0 +1,461 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+    "naive_profile": "direct_subgraph",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_8",
+    "scc_clause_ids": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libecore-fb1",
+      "libecore-input1",
+      "libecore-wl2-1",
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libecore-x1",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "llm_calls": 1,
+    "time": 26.7012140750885,
+    "scores": {
+      "libecore-drm2-1": 0.0,
+      "libecore-evas1": 0.6,
+      "libecore-fb1": 0.1,
+      "libecore-input1": 0.8,
+      "libecore-wl2-1": 0.2,
+      "libelput1": 0.1,
+      "libevas1": 0.5,
+      "libevas1-engines-drm": 0.3,
+      "libecore-x1": 0.9,
+      "libevas1-engines-fb": 0.2,
+      "libevas1-engines-wayland": 0.7,
+      "libevas1-engines-x": 0.4
+    },
+    "reasonings": {
+      "libecore-drm2-1": "No significant structural concerns or high-risk dependencies.",
+      "libecore-evas1": "High fanout increases the risk of cascading failures.",
+      "libecore-fb1": "Low fanout and minimal structural concerns.",
+      "libecore-input1": "Blocking inconsistency in handoff state and part of a dependency cycle.",
+      "libecore-wl2-1": "Moderate fanout and dependency on libecore-input1, which has structural concerns.",
+      "libelput1": "Depends on libecore-input1, but its own risk is low.",
+      "libevas1": "High fanout and referenced by multiple engine modules.",
+      "libevas1-engines-drm": "Replaces other engine modules, which could lead to incompatibilities.",
+      "libecore-x1": "Ambiguous handoff state and part of a dependency cycle with libecore-input1.",
+      "libevas1-engines-fb": "Replaces other engine modules, which could lead to incompatibilities.",
+      "libevas1-engines-wayland": "High fanout and depends on multiple nodes with structural concerns.",
+      "libevas1-engines-x": "Participates in a dependency cycle with libecore-x1."
+    },
+    "ranking": [
+      [
+        "libecore-x1",
+        0.9
+      ],
+      [
+        "libecore-input1",
+        0.8
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.7
+      ],
+      [
+        "libecore-evas1",
+        0.6
+      ],
+      [
+        "libevas1",
+        0.5
+      ],
+      [
+        "libevas1-engines-x",
+        0.4
+      ],
+      [
+        "libevas1-engines-drm",
+        0.3
+      ],
+      [
+        "libevas1-engines-fb",
+        0.2
+      ],
+      [
+        "libecore-wl2-1",
+        0.2
+      ],
+      [
+        "libelput1",
+        0.1
+      ],
+      [
+        "libecore-fb1",
+        0.1
+      ],
+      [
+        "libecore-drm2-1",
+        0.0
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "libecore-x1",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "dependency_cycle",
+          "underspecified_handoff"
+        ],
+        "reasoning": "libecore-x1 has an ambiguous handoff state and participates in a dependency cycle with libecore-input1."
+      },
+      {
+        "rank": 2,
+        "clause_id": "libecore-input1",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "dependency_cycle",
+          "underspecified_handoff"
+        ],
+        "reasoning": "libecore-input1 has a blocking inconsistency in its handoff state and is part of a cycle with libecore-x1."
+      },
+      {
+        "rank": 3,
+        "clause_id": "libevas1-engines-wayland",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "high_dependency_fanout"
+        ],
+        "reasoning": "libevas1-engines-wayland has a high fanout and depends on multiple nodes with structural concerns."
+      },
+      {
+        "rank": 4,
+        "clause_id": "libecore-evas1",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "high_dependency_fanout"
+        ],
+        "reasoning": "libecore-evas1 references many nodes, increasing the risk of cascading failures."
+      },
+      {
+        "rank": 5,
+        "clause_id": "libevas1",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "high_dependency_fanout"
+        ],
+        "reasoning": "libevas1 has a high fanout and is referenced by multiple engine modules."
+      },
+      {
+        "rank": 6,
+        "clause_id": "libevas1-engines-x",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "dependency_cycle"
+        ],
+        "reasoning": "libevas1-engines-x participates in a dependency cycle with libecore-x1."
+      },
+      {
+        "rank": 7,
+        "clause_id": "libevas1-engines-drm",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "mutual_incompatibility"
+        ],
+        "reasoning": "libevas1-engines-drm replaces other engine modules, which could lead to incompatibilities."
+      },
+      {
+        "rank": 8,
+        "clause_id": "libevas1-engines-fb",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "mutual_incompatibility"
+        ],
+        "reasoning": "libevas1-engines-fb replaces other engine modules, which could lead to incompatibilities."
+      },
+      {
+        "rank": 9,
+        "clause_id": "libecore-wl2-1",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "high_dependency_fanout"
+        ],
+        "reasoning": "libecore-wl2-1 has a moderate fanout and depends on libecore-input1, which has structural concerns."
+      },
+      {
+        "rank": 10,
+        "clause_id": "libelput1",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "mutual_incompatibility"
+        ],
+        "reasoning": "libelput1 depends on libecore-input1, which has structural concerns, but its own risk is low."
+      },
+      {
+        "rank": 11,
+        "clause_id": "libecore-fb1",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "high_dependency_fanout"
+        ],
+        "reasoning": "libecore-fb1 has a low fanout and minimal structural concerns."
+      },
+      {
+        "rank": 12,
+        "clause_id": "libecore-drm2-1",
+        "risk_score": 0.0,
+        "risk_factors": [],
+        "reasoning": "libecore-drm2-1 has no significant structural concerns or high-risk dependencies."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "dependency_cycle",
+        "importance_weight": 0.4,
+        "description": "Captures cycles in the dependency graph that can lead to structural inconsistencies or deadlocks."
+      },
+      {
+        "factor": "underspecified_handoff",
+        "importance_weight": 0.3,
+        "description": "Captures records with ambiguous or conflicting handoff states in their descriptions."
+      },
+      {
+        "factor": "high_dependency_fanout",
+        "importance_weight": 0.2,
+        "description": "Captures nodes with a high number of dependencies, increasing the risk of cascading failures."
+      },
+      {
+        "factor": "mutual_incompatibility",
+        "importance_weight": 0.1,
+        "description": "Captures records that explicitly break or conflict with other records."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "direct_risk_subgraph_nodes": [
+      "libecore-x1",
+      "libecore-input1",
+      "libevas1-engines-wayland"
+    ],
+    "direct_risk_subgraph_size": 3,
+    "direct_compression_ratio": 0.75,
+    "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+    "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+    "direct_risk_subgraph_rationale": "This subgraph captures the core structural risks: the dependency cycle between libecore-x1 and libecore-input1, and the high fanout of libevas1-engines-wayland, which amplifies the impact of the cycle.",
+    "direct_risk_subgraph_edges": [
+      {
+        "source": "libecore-x1",
+        "target": "libecore-input1",
+        "reason": "Part of a dependency cycle with ambiguous handoff states."
+      },
+      {
+        "source": "libecore-input1",
+        "target": "libecore-x1",
+        "reason": "Part of a dependency cycle with ambiguous handoff states."
+      },
+      {
+        "source": "libevas1-engines-wayland",
+        "target": "libecore-x1",
+        "reason": "High fanout node depending on libecore-x1, amplifying the impact of its structural issues."
+      },
+      {
+        "source": "libevas1-engines-wayland",
+        "target": "libecore-input1",
+        "reason": "High fanout node depending on libecore-input1, amplifying the impact of its structural issues."
+      }
+    ],
+    "direct_subgraph_raw": [
+      "libecore-x1",
+      "libecore-input1",
+      "libevas1-engines-wayland"
+    ],
+    "direct_subgraph_invalid": [],
+    "direct_subgraph_duplicates": [],
+    "direct_subgraph_alias_resolutions": [],
+    "direct_subgraph_complete_parse": true,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 10,
+    "largest_tie_count": 2,
+    "tied_score_groups": [
+      {
+        "score": 0.2,
+        "count": 2,
+        "nodes": [
+          "libecore-wl2-1",
+          "libevas1-engines-fb"
+        ]
+      },
+      {
+        "score": 0.1,
+        "count": 2,
+        "nodes": [
+          "libecore-fb1",
+          "libelput1"
+        ]
+      }
+    ],
+    "conflicts": [
+      {
+        "clause_a": "libecore-x1",
+        "clause_b": "libecore-input1",
+        "description": "Dependency cycle with ambiguous handoff states."
+      },
+      {
+        "clause_a": "libevas1-engines-wayland",
+        "clause_b": "libecore-x1",
+        "description": "High fanout node amplifying the impact of libecore-x1's structural issues."
+      },
+      {
+        "clause_a": "libevas1-engines-wayland",
+        "clause_b": "libecore-input1",
+        "description": "High fanout node amplifying the impact of libecore-input1's structural issues."
+      }
+    ],
+    "score_spread": 0.9,
+    "ranking_score_spread": 0.9,
+    "score_mean": 0.39999999999999997,
+    "score_max": 0.9,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libecore-x1": "libecore-x1",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "ground_truth_nodes": [
+      "libecore-x1"
+    ],
+    "gt_evidence": {
+      "libecore-x1": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 1371,
+    "injected_title_occurrences_in_prompt": 14,
+    "injected_id_occurrences_in_prompt": 14,
+    "injected_title_first_word_ratio": 0.08971553610503283,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3727206418672502,
+    "inject_mode": true,
+    "injected_node": "libecore-x1",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "libecore-input1",
+    "injected_witness_distance": 6,
+    "injected_bridge_node": "libevas1-engines-x",
+    "injected_bridge_distance": 3,
+    "injected_risk_nodes": [
+      "libecore-x1",
+      "libecore-input1"
+    ],
+    "injected_evidence_nodes": [
+      "libecore-x1",
+      "libevas1-engines-x",
+      "libecore-input1"
+    ],
+    "injected_affected_nodes": [
+      "libevas1-engines-fb",
+      "libevas1"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_severity": "critical",
+    "injected_conflict_severity_label": "high_impact_no_fallback",
+    "injected_conflict_template": "debian_handoff_invariant_abi_class_critical",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "libecore-x1": 1,
+      "libecore-input1": 2
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "libecore-x1": 1,
+      "libevas1-engines-x": 6,
+      "libecore-input1": 2
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 6,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "libevas1-engines-fb": 8,
+      "libevas1": 5
+    },
+    "affected_best_rank": 5,
+    "affected_worst_rank": 8,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "libecore-x1": 1,
+      "libecore-input1": 2,
+      "libevas1-engines-fb": 8,
+      "libevas1": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 8,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 1,
+    "root_top1_hit": true,
+    "root_top3_hit": true,
+    "direct_subgraph_nodes_retained": [
+      "libecore-x1",
+      "libecore-input1",
+      "libevas1-engines-wayland"
+    ],
+    "direct_contains_injected_node": true,
+    "direct_contains_any_risk_node": true,
+    "direct_contains_all_risk_nodes": true,
+    "direct_risk_nodes_retained": [
+      "libecore-x1",
+      "libecore-input1"
+    ],
+    "direct_contains_any_evidence_node": true,
+    "direct_contains_all_evidence_nodes": false,
+    "direct_evidence_nodes_retained": [
+      "libecore-x1",
+      "libecore-input1"
+    ],
+    "direct_contains_any_affected_node": false,
+    "direct_contains_all_affected_nodes": false,
+    "direct_affected_nodes_retained": [],
+    "direct_contains_any_valuable_node": true,
+    "direct_contains_all_valuable_nodes": false,
+    "direct_valuable_nodes_retained": [
+      "libecore-x1",
+      "libecore-input1"
+    ]
+  }
+]

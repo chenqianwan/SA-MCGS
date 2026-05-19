@@ -1,0 +1,375 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 12,
+    "scc_id": "synthetic_sec_ex21_12",
+    "scc_clause_ids": [
+      "synthetic_sec_ex21_12_node_01",
+      "synthetic_sec_ex21_12_node_02",
+      "synthetic_sec_ex21_12_node_03",
+      "synthetic_sec_ex21_12_node_04",
+      "synthetic_sec_ex21_12_node_05",
+      "synthetic_sec_ex21_12_node_06",
+      "synthetic_sec_ex21_12_node_07",
+      "synthetic_sec_ex21_12_node_08",
+      "synthetic_sec_ex21_12_node_09",
+      "synthetic_sec_ex21_12_node_10",
+      "synthetic_sec_ex21_12_node_11",
+      "synthetic_sec_ex21_12_node_12"
+    ],
+    "llm_calls": 1,
+    "time": 11.654914855957031,
+    "scores": {
+      "synthetic_sec_ex21_12_node_01": 0.7,
+      "synthetic_sec_ex21_12_node_02": 0.6,
+      "synthetic_sec_ex21_12_node_03": 0.8,
+      "synthetic_sec_ex21_12_node_04": 0.3,
+      "synthetic_sec_ex21_12_node_05": 0.2,
+      "synthetic_sec_ex21_12_node_06": 0.1,
+      "synthetic_sec_ex21_12_node_07": 0.05,
+      "synthetic_sec_ex21_12_node_08": 0.0,
+      "synthetic_sec_ex21_12_node_09": 0.9,
+      "synthetic_sec_ex21_12_node_10": 0.4,
+      "synthetic_sec_ex21_12_node_11": 0.5,
+      "synthetic_sec_ex21_12_node_12": 1.0
+    },
+    "reasonings": {
+      "synthetic_sec_ex21_12_node_01": "Part of the cyclic dependency and propagates references to Node 2, which introduces outside interest conflicts.",
+      "synthetic_sec_ex21_12_node_02": "Propagates references to Node 3, which introduces outside interest conflicts.",
+      "synthetic_sec_ex21_12_node_03": "Introduces a 20% outside interest, which could conflict with other nodes assuming full control.",
+      "synthetic_sec_ex21_12_node_04": "Propagates references to Node 5 but does not introduce new conflicts.",
+      "synthetic_sec_ex21_12_node_05": "Propagates references to Node 6 but does not introduce new conflicts.",
+      "synthetic_sec_ex21_12_node_06": "Propagates references to Node 7 but does not introduce new conflicts.",
+      "synthetic_sec_ex21_12_node_07": "Propagates references to Node 8 but does not introduce new conflicts.",
+      "synthetic_sec_ex21_12_node_08": "Does not introduce any new conflicts and has minimal impact on the graph structure.",
+      "synthetic_sec_ex21_12_node_09": "Introduces ambiguity regarding outside interest and control amendment status.",
+      "synthetic_sec_ex21_12_node_10": "Propagates references to Node 11, which is part of the cyclic dependency.",
+      "synthetic_sec_ex21_12_node_11": "Part of the cyclic dependency and propagates references to Node 12, which has significant structural concerns.",
+      "synthetic_sec_ex21_12_node_12": "Part of the cyclic dependency and explicitly states that it does not convert an internal worksheet into a filed amendment, leaving the amendment status ambiguous."
+    },
+    "ranking": [
+      [
+        "synthetic_sec_ex21_12_node_12",
+        1.0
+      ],
+      [
+        "synthetic_sec_ex21_12_node_09",
+        0.9
+      ],
+      [
+        "synthetic_sec_ex21_12_node_03",
+        0.8
+      ],
+      [
+        "synthetic_sec_ex21_12_node_01",
+        0.7
+      ],
+      [
+        "synthetic_sec_ex21_12_node_02",
+        0.6
+      ],
+      [
+        "synthetic_sec_ex21_12_node_11",
+        0.5
+      ],
+      [
+        "synthetic_sec_ex21_12_node_10",
+        0.4
+      ],
+      [
+        "synthetic_sec_ex21_12_node_04",
+        0.3
+      ],
+      [
+        "synthetic_sec_ex21_12_node_05",
+        0.2
+      ],
+      [
+        "synthetic_sec_ex21_12_node_06",
+        0.1
+      ],
+      [
+        "synthetic_sec_ex21_12_node_07",
+        0.05
+      ],
+      [
+        "synthetic_sec_ex21_12_node_08",
+        0.0
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_sec_ex21_12_node_12",
+        "risk_score": 1.0,
+        "risk_factors": [
+          "Cyclic Dependency",
+          "Underspecified Amendment Status"
+        ],
+        "reasoning": "Node 12 is part of the cyclic dependency and explicitly states that it does not convert an internal worksheet into a filed amendment, leaving the amendment status ambiguous."
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_sec_ex21_12_node_09",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "Underspecified Amendment Status",
+          "Outside Interest Conflicts"
+        ],
+        "reasoning": "Node 9 introduces ambiguity by stating that a retained outside interest requires a control amendment that has not been filed, creating a potential conflict in the consolidation path."
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_sec_ex21_12_node_03",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "Outside Interest Conflicts"
+        ],
+        "reasoning": "Node 3 reserves a 20% outside interest for the same consolidation path, which could conflict with other nodes that assume full control."
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_sec_ex21_12_node_01",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "Cyclic Dependency",
+          "Graph Position and Propagation Impact"
+        ],
+        "reasoning": "Node 1 is part of the cyclic dependency and is the starting point of the graph, amplifying the impact of any issues it propagates."
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_sec_ex21_12_node_02",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "Graph Position and Propagation Impact"
+        ],
+        "reasoning": "Node 2 is early in the graph and propagates references to Node 3, which introduces outside interest conflicts."
+      },
+      {
+        "rank": 6,
+        "clause_id": "synthetic_sec_ex21_12_node_11",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "Cyclic Dependency"
+        ],
+        "reasoning": "Node 11 is part of the cyclic dependency and directly references Node 12, which has significant structural concerns."
+      },
+      {
+        "rank": 7,
+        "clause_id": "synthetic_sec_ex21_12_node_10",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "Graph Position and Propagation Impact"
+        ],
+        "reasoning": "Node 10 is close to the end of the graph and propagates references to Node 11, which is part of the cyclic dependency."
+      },
+      {
+        "rank": 8,
+        "clause_id": "synthetic_sec_ex21_12_node_04",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "Graph Position and Propagation Impact"
+        ],
+        "reasoning": "Node 4 is in the middle of the graph and propagates references to Node 5, but does not introduce new conflicts."
+      },
+      {
+        "rank": 9,
+        "clause_id": "synthetic_sec_ex21_12_node_05",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "Graph Position and Propagation Impact"
+        ],
+        "reasoning": "Node 5 is in the middle of the graph and propagates references to Node 6, but does not introduce new conflicts."
+      },
+      {
+        "rank": 10,
+        "clause_id": "synthetic_sec_ex21_12_node_06",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "Graph Position and Propagation Impact"
+        ],
+        "reasoning": "Node 6 is in the middle of the graph and propagates references to Node 7, but does not introduce new conflicts."
+      },
+      {
+        "rank": 11,
+        "clause_id": "synthetic_sec_ex21_12_node_07",
+        "risk_score": 0.05,
+        "risk_factors": [
+          "Graph Position and Propagation Impact"
+        ],
+        "reasoning": "Node 7 is in the middle of the graph and propagates references to Node 8, but does not introduce new conflicts."
+      },
+      {
+        "rank": 12,
+        "clause_id": "synthetic_sec_ex21_12_node_08",
+        "risk_score": 0.0,
+        "risk_factors": [],
+        "reasoning": "Node 8 does not introduce any new conflicts and has minimal impact on the graph structure."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "Cyclic Dependency",
+        "importance_weight": 0.4,
+        "description": "The presence of a cyclic dependency in the graph, which can lead to structural inconsistencies and difficulties in resolving dependencies."
+      },
+      {
+        "factor": "Underspecified Amendment Status",
+        "importance_weight": 0.3,
+        "description": "Nodes that reference amendments or control changes but lack clarity or completeness in their status."
+      },
+      {
+        "factor": "Outside Interest Conflicts",
+        "importance_weight": 0.2,
+        "description": "Nodes that introduce ambiguity or conflict regarding outside ownership interests."
+      },
+      {
+        "factor": "Graph Position and Propagation Impact",
+        "importance_weight": 0.1,
+        "description": "Nodes that are central in the graph or propagate issues to many other nodes."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 12,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_sec_ex21_12_node_12",
+        "clause_b": "synthetic_sec_ex21_12_node_01",
+        "description": "Cyclic dependency between Node 12 and Node 1 creates structural inconsistency."
+      },
+      {
+        "clause_a": "synthetic_sec_ex21_12_node_09",
+        "clause_b": "synthetic_sec_ex21_12_node_12",
+        "description": "Node 9 references a control amendment that has not been filed, which conflicts with Node 12's statement that it does not convert an internal worksheet into a filed amendment."
+      },
+      {
+        "clause_a": "synthetic_sec_ex21_12_node_03",
+        "clause_b": "synthetic_sec_ex21_12_node_09",
+        "description": "Node 3 reserves a 20% outside interest, which may conflict with Node 9's statement about retained outside interest requiring a control amendment."
+      }
+    ],
+    "score_spread": 1.0,
+    "ranking_score_spread": 1.0,
+    "score_mean": 0.46249999999999997,
+    "score_max": 1.0,
+    "node_names": {
+      "synthetic_sec_ex21_12_node_01": "synthetic sec ex21 12 node 01",
+      "synthetic_sec_ex21_12_node_02": "synthetic sec ex21 12 node 02",
+      "synthetic_sec_ex21_12_node_03": "synthetic sec ex21 12 node 03",
+      "synthetic_sec_ex21_12_node_04": "synthetic sec ex21 12 node 04",
+      "synthetic_sec_ex21_12_node_05": "synthetic sec ex21 12 node 05",
+      "synthetic_sec_ex21_12_node_06": "synthetic sec ex21 12 node 06",
+      "synthetic_sec_ex21_12_node_07": "synthetic sec ex21 12 node 07",
+      "synthetic_sec_ex21_12_node_08": "synthetic sec ex21 12 node 08",
+      "synthetic_sec_ex21_12_node_09": "synthetic sec ex21 12 node 09",
+      "synthetic_sec_ex21_12_node_10": "synthetic sec ex21 12 node 10",
+      "synthetic_sec_ex21_12_node_11": "synthetic sec ex21 12 node 11",
+      "synthetic_sec_ex21_12_node_12": "synthetic sec ex21 12 node 12"
+    },
+    "ground_truth_nodes": [
+      "synthetic_sec_ex21_12_node_09"
+    ],
+    "gt_evidence": {
+      "synthetic_sec_ex21_12_node_09": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 958,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.3455114822546973,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.35281837160751567,
+    "inject_mode": true,
+    "injected_node": "synthetic_sec_ex21_12_node_09",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_sec_ex21_12_node_03",
+    "injected_witness_distance": 6,
+    "injected_bridge_node": "synthetic_sec_ex21_12_node_12",
+    "injected_bridge_distance": 3,
+    "injected_risk_nodes": [
+      "synthetic_sec_ex21_12_node_09",
+      "synthetic_sec_ex21_12_node_03"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_sec_ex21_12_node_09",
+      "synthetic_sec_ex21_12_node_12",
+      "synthetic_sec_ex21_12_node_03"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_sec_ex21_12_node_10",
+      "synthetic_sec_ex21_12_node_04"
+    ],
+    "injected_conflict_family": "condition_trigger",
+    "injected_conflict_difficulty": "hard",
+    "injected_conflict_template": "sec_condition_trigger_unfiled_amendment",
+    "injected_rank": 2,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_sec_ex21_12_node_09": 2,
+      "synthetic_sec_ex21_12_node_03": 3
+    },
+    "risk_best_rank": 2,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": false,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_sec_ex21_12_node_09": 2,
+      "synthetic_sec_ex21_12_node_12": 1,
+      "synthetic_sec_ex21_12_node_03": 3
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_sec_ex21_12_node_10": 7,
+      "synthetic_sec_ex21_12_node_04": 8
+    },
+    "affected_best_rank": 7,
+    "affected_worst_rank": 8,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": false,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "synthetic_sec_ex21_12_node_09": 2,
+      "synthetic_sec_ex21_12_node_03": 3,
+      "synthetic_sec_ex21_12_node_10": 7,
+      "synthetic_sec_ex21_12_node_04": 8
+    },
+    "valuable_best_rank": 2,
+    "valuable_worst_rank": 8,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 2,
+    "root_top1_hit": false,
+    "root_top3_hit": true
+  }
+]

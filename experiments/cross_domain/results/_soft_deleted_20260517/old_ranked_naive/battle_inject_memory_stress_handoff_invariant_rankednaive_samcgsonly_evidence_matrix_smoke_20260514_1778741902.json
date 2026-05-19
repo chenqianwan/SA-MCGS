@@ -1,0 +1,693 @@
+[
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 7,
+    "scc_id": "scc_49",
+    "scc_clause_ids": [
+      "libasedrive-serial",
+      "libasedrive-usb",
+      "libgcr410",
+      "libgempc410",
+      "libifd-cyberjack6",
+      "libgempc430",
+      "pcscd"
+    ],
+    "budget": 8,
+    "llm_calls": 6,
+    "tt_hits": 2,
+    "tt_hit_rate": 0.25,
+    "time": 87.84909009933472,
+    "scores": {
+      "libasedrive-usb": 0.55,
+      "libifd-cyberjack6": 0.4000000000000001,
+      "pcscd": 0.25,
+      "libgcr410": 0.15000000000000002,
+      "libgempc410": 0.15,
+      "libgempc430": 0.12000000000000002,
+      "libasedrive-serial": 0.0
+    },
+    "ranking": [
+      [
+        "libasedrive-usb",
+        0.55
+      ],
+      [
+        "libifd-cyberjack6",
+        0.4000000000000001
+      ],
+      [
+        "pcscd",
+        0.25
+      ],
+      [
+        "libgcr410",
+        0.15000000000000002
+      ],
+      [
+        "libgempc410",
+        0.15
+      ],
+      [
+        "libgempc430",
+        0.12000000000000002
+      ],
+      [
+        "libasedrive-serial",
+        0.0
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.55,
+    "score_mean": 0.23142857142857146,
+    "score_max": 0.55,
+    "node_names": {
+      "libasedrive-serial": "libasedrive-serial",
+      "libasedrive-usb": "libasedrive-usb",
+      "libgcr410": "libgcr410",
+      "libgempc410": "libgempc410",
+      "libifd-cyberjack6": "libifd-cyberjack6",
+      "libgempc430": "libgempc430",
+      "pcscd": "pcscd"
+    },
+    "clause_details": {
+      "libasedrive-serial": {
+        "mean_score": 0.0,
+        "visit_count": 2,
+        "conflict_count": 0,
+        "risk_history": [
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "libasedrive-usb": {
+        "mean_score": 0.55,
+        "visit_count": 4,
+        "conflict_count": 4,
+        "risk_history": [
+          0.5,
+          0.7,
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "libgcr410": {
+        "mean_score": 0.15000000000000002,
+        "visit_count": 4,
+        "conflict_count": 0,
+        "risk_history": [
+          0.2,
+          0.0,
+          0.4,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "libgempc410": {
+        "mean_score": 0.15,
+        "visit_count": 6,
+        "conflict_count": 4,
+        "risk_history": [
+          0.3,
+          0.2,
+          0.2,
+          0.2,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "libifd-cyberjack6": {
+        "mean_score": 0.4000000000000001,
+        "visit_count": 3,
+        "conflict_count": 2,
+        "risk_history": [
+          0.4,
+          0.8,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "libgempc430": {
+        "mean_score": 0.12000000000000002,
+        "visit_count": 5,
+        "conflict_count": 3,
+        "risk_history": [
+          0.2,
+          0.0,
+          0.2,
+          0.2,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "pcscd": {
+        "mean_score": 0.25,
+        "visit_count": 8,
+        "conflict_count": 5,
+        "risk_history": [
+          0.5,
+          0.3,
+          0.0,
+          0.6,
+          0.3,
+          0.3,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "local_risk_subgraph_counts": {
+      "libgempc410": 6,
+      "pcscd": 8,
+      "libifd-cyberjack6": 3,
+      "libgcr410": 3,
+      "libasedrive-usb": 4,
+      "libgempc430": 5,
+      "libasedrive-serial": 2
+    },
+    "repair_entry_counts": {
+      "pcscd": 4,
+      "libgempc410": 1,
+      "libifd-cyberjack6": 2,
+      "libasedrive-usb": 4
+    },
+    "local_conflict_edges": [
+      {
+        "source": "libasedrive-usb",
+        "target": "pcscd",
+        "count": 4,
+        "reasons": [
+          "libasedrive-usb requires a 'new interface class' for configuration, but pcscd does not specify or enforce this requirement, leading to potential configuration failure or incompatibility.",
+          "libasedrive-usb references pcscd but requires a 'new interface class' for configuration, which is not explicitly defined or enforced by pcscd.",
+          "pcscd references libasedrive-usb but does not explicitly address the interface class migration issue, which could lead to structural inconsistencies during configuration."
+        ]
+      },
+      {
+        "source": "libgempc410",
+        "target": "libgempc430",
+        "count": 3,
+        "reasons": [
+          "Both records provide the same functionality (pcsc-ifd-handler) and depend on pcscd, potentially causing conflicts if both are installed and used simultaneously.",
+          "Both records provide pcsc-ifd-handler and depend on pcscd, creating potential implementation conflicts if pcscd's behavior changes or if both handlers are used simultaneously.",
+          "Both records provide the same functionality (pcsc-ifd-handler) and depend on pcscd, potentially causing conflicts if both are installed and used simultaneously."
+        ]
+      },
+      {
+        "source": "libasedrive-usb",
+        "target": "libifd-cyberjack6",
+        "count": 1,
+        "reasons": [
+          "libasedrive-usb requires the new interface class for its handoff, while libifd-cyberjack6 remains in the legacy interface class. This creates a direct incompatibility during migration.",
+          "libasedrive-usb requires the new interface class for its handoff, while libifd-cyberjack6 explicitly remains in the legacy interface class. This creates a direct incompatibility."
+        ]
+      },
+      {
+        "source": "libgempc410",
+        "target": "pcscd",
+        "count": 1,
+        "reasons": [
+          "The lack of a version constraint for `pcscd` in `libgempc410` creates a potential compatibility issue if `pcscd` is updated.",
+          "The dependency on `pcscd` lacks a version constraint, which could lead to compatibility issues if `pcscd` is updated.",
+          "Bidirectional references between `pcscd` and `libgempc410` increase structural complexity and risk of circular dependencies."
+        ]
+      },
+      {
+        "source": "libifd-cyberjack6",
+        "target": "pcscd",
+        "count": 1,
+        "reasons": [
+          "The lack of a version constraint for `pcscd` in `libifd-cyberjack6`, combined with its legacy interface handoff, introduces migration and compatibility risks.",
+          "The dependency on `pcscd` lacks a version constraint, and the legacy interface handoff introduces potential migration risks.",
+          "Bidirectional references between `pcscd` and `libifd-cyberjack6` increase structural complexity and risk of circular dependencies."
+        ]
+      }
+    ],
+    "local_subgraph_signal": {
+      "libasedrive-serial": 2,
+      "libasedrive-usb": 13,
+      "libgcr410": 3,
+      "libgempc410": 11,
+      "libifd-cyberjack6": 7,
+      "libgempc430": 8,
+      "pcscd": 18
+    },
+    "local_subgraph_candidate_nodes": [
+      "pcscd",
+      "libasedrive-usb",
+      "libgempc410",
+      "libgempc430",
+      "libifd-cyberjack6",
+      "libgcr410",
+      "libasedrive-serial"
+    ],
+    "ranking_by_local_subgraph": [
+      [
+        "pcscd",
+        18
+      ],
+      [
+        "libasedrive-usb",
+        13
+      ],
+      [
+        "libgempc410",
+        11
+      ],
+      [
+        "libgempc430",
+        8
+      ],
+      [
+        "libifd-cyberjack6",
+        7
+      ],
+      [
+        "libgcr410",
+        3
+      ],
+      [
+        "libasedrive-serial",
+        2
+      ]
+    ],
+    "evidence_node_scores": {
+      "libasedrive-serial": {
+        "score": 0.05,
+        "support_count": 1,
+        "components": {
+          "local_risk_subgraph": 0.25
+        },
+        "raw": {
+          "local_risk_subgraph": 2
+        }
+      },
+      "libasedrive-usb": {
+        "score": 0.8666666666666666,
+        "support_count": 5,
+        "components": {
+          "risk_surplus": 1.0,
+          "conflict_rate": 1.0,
+          "local_risk_subgraph": 0.5,
+          "repair_entry": 1.0,
+          "conflict_endpoint": 0.8333333333333334
+        },
+        "raw": {
+          "risk_surplus": 0.4,
+          "conflict_rate": 1.0,
+          "local_risk_subgraph": 4,
+          "repair_entry": 4,
+          "conflict_endpoint": 5
+        }
+      },
+      "libgcr410": {
+        "score": 0.075,
+        "support_count": 1,
+        "components": {
+          "local_risk_subgraph": 0.375
+        },
+        "raw": {
+          "local_risk_subgraph": 3
+        }
+      },
+      "libgempc410": {
+        "score": 0.4666666666666666,
+        "support_count": 4,
+        "components": {
+          "conflict_rate": 0.6666666666666666,
+          "local_risk_subgraph": 0.75,
+          "repair_entry": 0.25,
+          "conflict_endpoint": 0.6666666666666666
+        },
+        "raw": {
+          "conflict_rate": 0.6666666666666666,
+          "local_risk_subgraph": 6,
+          "repair_entry": 1,
+          "conflict_endpoint": 4
+        }
+      },
+      "libifd-cyberjack6": {
+        "score": 0.5,
+        "support_count": 5,
+        "components": {
+          "risk_surplus": 0.6250000000000001,
+          "conflict_rate": 0.6666666666666666,
+          "local_risk_subgraph": 0.375,
+          "repair_entry": 0.5,
+          "conflict_endpoint": 0.3333333333333333
+        },
+        "raw": {
+          "risk_surplus": 0.25000000000000006,
+          "conflict_rate": 0.6666666666666666,
+          "local_risk_subgraph": 3,
+          "repair_entry": 2,
+          "conflict_endpoint": 2
+        }
+      },
+      "libgempc430": {
+        "score": 0.34500000000000003,
+        "support_count": 3,
+        "components": {
+          "conflict_rate": 0.6,
+          "local_risk_subgraph": 0.625,
+          "conflict_endpoint": 0.5
+        },
+        "raw": {
+          "conflict_rate": 0.6,
+          "local_risk_subgraph": 5,
+          "conflict_endpoint": 3
+        }
+      },
+      "pcscd": {
+        "score": 0.775,
+        "support_count": 5,
+        "components": {
+          "risk_surplus": 0.24999999999999994,
+          "conflict_rate": 0.625,
+          "local_risk_subgraph": 1.0,
+          "repair_entry": 1.0,
+          "conflict_endpoint": 1.0
+        },
+        "raw": {
+          "risk_surplus": 0.09999999999999998,
+          "conflict_rate": 0.625,
+          "local_risk_subgraph": 8,
+          "repair_entry": 4,
+          "conflict_endpoint": 6
+        }
+      }
+    },
+    "evidence_component_names": [
+      "risk_surplus",
+      "conflict_rate",
+      "local_risk_subgraph",
+      "repair_entry",
+      "conflict_endpoint"
+    ],
+    "evidence_component_policy": "dynamic per-SCC normalization over risk surplus, conflict rate, LLM-declared local subgraphs, repair entries, conflict endpoints, and OC signals",
+    "ranking_by_evidence": [
+      [
+        "libasedrive-usb",
+        0.8666666666666666
+      ],
+      [
+        "pcscd",
+        0.775
+      ],
+      [
+        "libifd-cyberjack6",
+        0.5
+      ],
+      [
+        "libgempc410",
+        0.4666666666666666
+      ],
+      [
+        "libgempc430",
+        0.34500000000000003
+      ],
+      [
+        "libgcr410",
+        0.075
+      ],
+      [
+        "libasedrive-serial",
+        0.05
+      ]
+    ],
+    "conflict_probability_matrix": [
+      {
+        "source": "libasedrive-usb",
+        "target": "pcscd",
+        "count": 4,
+        "probability_proxy": 1.0,
+        "reasons": [
+          "libasedrive-usb requires a 'new interface class' for configuration, but pcscd does not specify or enforce this requirement, leading to potential configuration failure or incompatibility.",
+          "libasedrive-usb references pcscd but requires a 'new interface class' for configuration, which is not explicitly defined or enforced by pcscd.",
+          "pcscd references libasedrive-usb but does not explicitly address the interface class migration issue, which could lead to structural inconsistencies during configuration."
+        ]
+      },
+      {
+        "source": "libgempc410",
+        "target": "libgempc430",
+        "count": 3,
+        "probability_proxy": 0.75,
+        "reasons": [
+          "Both records provide the same functionality (pcsc-ifd-handler) and depend on pcscd, potentially causing conflicts if both are installed and used simultaneously.",
+          "Both records provide pcsc-ifd-handler and depend on pcscd, creating potential implementation conflicts if pcscd's behavior changes or if both handlers are used simultaneously.",
+          "Both records provide the same functionality (pcsc-ifd-handler) and depend on pcscd, potentially causing conflicts if both are installed and used simultaneously."
+        ]
+      },
+      {
+        "source": "libasedrive-usb",
+        "target": "libifd-cyberjack6",
+        "count": 1,
+        "probability_proxy": 0.25,
+        "reasons": [
+          "libasedrive-usb requires the new interface class for its handoff, while libifd-cyberjack6 remains in the legacy interface class. This creates a direct incompatibility during migration.",
+          "libasedrive-usb requires the new interface class for its handoff, while libifd-cyberjack6 explicitly remains in the legacy interface class. This creates a direct incompatibility."
+        ]
+      },
+      {
+        "source": "libgempc410",
+        "target": "pcscd",
+        "count": 1,
+        "probability_proxy": 0.25,
+        "reasons": [
+          "The lack of a version constraint for `pcscd` in `libgempc410` creates a potential compatibility issue if `pcscd` is updated.",
+          "The dependency on `pcscd` lacks a version constraint, which could lead to compatibility issues if `pcscd` is updated.",
+          "Bidirectional references between `pcscd` and `libgempc410` increase structural complexity and risk of circular dependencies."
+        ]
+      },
+      {
+        "source": "libifd-cyberjack6",
+        "target": "pcscd",
+        "count": 1,
+        "probability_proxy": 0.25,
+        "reasons": [
+          "The lack of a version constraint for `pcscd` in `libifd-cyberjack6`, combined with its legacy interface handoff, introduces migration and compatibility risks.",
+          "The dependency on `pcscd` lacks a version constraint, and the legacy interface handoff introduces potential migration risks.",
+          "Bidirectional references between `pcscd` and `libifd-cyberjack6` increase structural complexity and risk of circular dependencies."
+        ]
+      }
+    ],
+    "evidence_risk_subgraph_nodes": [
+      "libasedrive-usb",
+      "libgempc410",
+      "libifd-cyberjack6",
+      "pcscd"
+    ],
+    "evidence_risk_subgraph_size": 4,
+    "evidence_compression_ratio": 0.4285714285714286,
+    "evidence_subgraph_policy": "blind dynamic evidence accumulator seeded by OC and rollout Conflict Probability Matrix; capped by SCC size",
+    "evidence_subgraph_cap": 4,
+    "trace_events": [],
+    "ground_truth_nodes": [
+      "libifd-cyberjack6"
+    ],
+    "gt_evidence": {
+      "libifd-cyberjack6": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "libifd-cyberjack6",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "libasedrive-usb",
+    "injected_witness_distance": 3,
+    "injected_bridge_node": "libasedrive-serial",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "libifd-cyberjack6",
+      "libasedrive-usb"
+    ],
+    "injected_evidence_nodes": [
+      "libifd-cyberjack6",
+      "libasedrive-serial",
+      "libasedrive-usb"
+    ],
+    "injected_affected_nodes": [
+      "pcscd",
+      "libgcr410"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "debian_handoff_invariant_abi_class",
+    "injected_rank": 2,
+    "top1_margin": 0.14999999999999997,
+    "risk_node_ranks": {
+      "libifd-cyberjack6": 2,
+      "libasedrive-usb": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "libifd-cyberjack6": 2,
+      "libasedrive-serial": 7,
+      "libasedrive-usb": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 7,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": false,
+    "affected_node_ranks": {
+      "pcscd": 3,
+      "libgcr410": 4
+    },
+    "affected_best_rank": 3,
+    "affected_worst_rank": 4,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "libifd-cyberjack6": 2,
+      "libasedrive-usb": 1,
+      "pcscd": 3,
+      "libgcr410": 4
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 4,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 2,
+    "root_top1_hit": false,
+    "root_top3_hit": true,
+    "risk_subgraph_nodes": [
+      "libasedrive-serial",
+      "libasedrive-usb",
+      "libgcr410",
+      "libgempc410",
+      "libifd-cyberjack6",
+      "libgempc430",
+      "pcscd"
+    ],
+    "risk_subgraph_size": 7,
+    "compression_ratio": 0.0,
+    "contains_injected_node": true,
+    "contains_any_evidence_node": true,
+    "contains_all_evidence_nodes": true,
+    "evidence_nodes_retained": [
+      "libifd-cyberjack6",
+      "libasedrive-serial",
+      "libasedrive-usb"
+    ],
+    "contains_any_risk_node": true,
+    "contains_all_risk_nodes": true,
+    "contains_any_affected_node": true,
+    "subgraph_type": "posthoc_gt_anchored",
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors",
+    "blind_risk_subgraph_nodes": [
+      "libasedrive-serial",
+      "libasedrive-usb",
+      "libgcr410",
+      "libifd-cyberjack6",
+      "pcscd"
+    ],
+    "blind_risk_subgraph_size": 5,
+    "blind_compression_ratio": 0.2857142857142857,
+    "blind_contains_injected_node": true,
+    "blind_contains_any_evidence_node": true,
+    "blind_contains_all_evidence_nodes": true,
+    "blind_evidence_nodes_retained": [
+      "libifd-cyberjack6",
+      "libasedrive-serial",
+      "libasedrive-usb"
+    ],
+    "blind_contains_any_risk_node": true,
+    "blind_contains_all_risk_nodes": true,
+    "blind_contains_any_affected_node": true,
+    "blind_subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC anchors only",
+    "local_declared_risk_subgraph_nodes": [
+      "libasedrive-usb",
+      "libgempc410",
+      "libifd-cyberjack6",
+      "pcscd"
+    ],
+    "local_declared_risk_subgraph_size": 4,
+    "local_declared_compression_ratio": 0.4285714285714286,
+    "local_declared_subgraph_policy": "aggregate LLM-declared local_risk_subgraph_nodes, repair_entry_nodes, local conflict endpoints, and OC nodes; cap by SCC size",
+    "local_declared_contains_any_risk_node": true,
+    "local_declared_contains_all_risk_nodes": true,
+    "local_declared_risk_nodes_retained": [
+      "libifd-cyberjack6",
+      "libasedrive-usb"
+    ],
+    "local_declared_risk_coverage": 1.0,
+    "local_declared_contains_any_evidence_node": true,
+    "local_declared_contains_all_evidence_nodes": false,
+    "local_declared_evidence_nodes_retained": [
+      "libifd-cyberjack6",
+      "libasedrive-usb"
+    ],
+    "local_declared_evidence_coverage": 0.6666666666666666,
+    "local_declared_contains_any_affected_node": true,
+    "local_declared_contains_all_affected_nodes": false,
+    "local_declared_affected_nodes_retained": [
+      "pcscd"
+    ],
+    "local_declared_contains_any_valuable_node": true,
+    "local_declared_contains_all_valuable_nodes": false,
+    "local_declared_valuable_nodes_retained": [
+      "libifd-cyberjack6",
+      "libasedrive-usb",
+      "pcscd"
+    ],
+    "local_declared_valuable_coverage": 0.75,
+    "core_evidence_risk_subgraph_nodes": [
+      "libasedrive-usb",
+      "libgempc410",
+      "libifd-cyberjack6",
+      "pcscd"
+    ],
+    "core_evidence_risk_subgraph_size": 4,
+    "core_evidence_compression_ratio": 0.4285714285714286,
+    "core_evidence_contains_any_risk_node": true,
+    "core_evidence_contains_all_risk_nodes": true,
+    "core_evidence_risk_nodes_retained": [
+      "libifd-cyberjack6",
+      "libasedrive-usb"
+    ],
+    "core_evidence_risk_coverage": 1.0,
+    "core_evidence_contains_any_evidence_node": true,
+    "core_evidence_contains_all_evidence_nodes": false,
+    "core_evidence_evidence_nodes_retained": [
+      "libifd-cyberjack6",
+      "libasedrive-usb"
+    ],
+    "core_evidence_evidence_coverage": 0.6666666666666666,
+    "core_evidence_contains_any_affected_node": true,
+    "core_evidence_contains_all_affected_nodes": false,
+    "core_evidence_affected_nodes_retained": [
+      "pcscd"
+    ],
+    "core_evidence_contains_any_valuable_node": true,
+    "core_evidence_contains_all_valuable_nodes": false,
+    "core_evidence_valuable_nodes_retained": [
+      "libifd-cyberjack6",
+      "libasedrive-usb",
+      "pcscd"
+    ],
+    "core_evidence_valuable_coverage": 0.75
+  }
+]

@@ -1,0 +1,446 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (wikipedia); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 16,
+    "scc_id": "synthetic_wikipedia_16",
+    "scc_clause_ids": [
+      "synthetic_wikipedia_16_node_01",
+      "synthetic_wikipedia_16_node_02",
+      "synthetic_wikipedia_16_node_03",
+      "synthetic_wikipedia_16_node_04",
+      "synthetic_wikipedia_16_node_05",
+      "synthetic_wikipedia_16_node_06",
+      "synthetic_wikipedia_16_node_07",
+      "synthetic_wikipedia_16_node_08",
+      "synthetic_wikipedia_16_node_09",
+      "synthetic_wikipedia_16_node_10",
+      "synthetic_wikipedia_16_node_16",
+      "synthetic_wikipedia_16_node_11",
+      "synthetic_wikipedia_16_node_12",
+      "synthetic_wikipedia_16_node_13",
+      "synthetic_wikipedia_16_node_14",
+      "synthetic_wikipedia_16_node_15"
+    ],
+    "llm_calls": 1,
+    "time": 80.59720182418823,
+    "scores": {
+      "synthetic_wikipedia_16_node_01": 0.75,
+      "synthetic_wikipedia_16_node_02": 0.65,
+      "synthetic_wikipedia_16_node_03": 0.6,
+      "synthetic_wikipedia_16_node_04": 0.85,
+      "synthetic_wikipedia_16_node_05": 0.55,
+      "synthetic_wikipedia_16_node_06": 0.5,
+      "synthetic_wikipedia_16_node_07": 0.45,
+      "synthetic_wikipedia_16_node_08": 0.8,
+      "synthetic_wikipedia_16_node_09": 0.4,
+      "synthetic_wikipedia_16_node_10": 0.35,
+      "synthetic_wikipedia_16_node_16": 0.95,
+      "synthetic_wikipedia_16_node_11": 0.3,
+      "synthetic_wikipedia_16_node_12": 0.25,
+      "synthetic_wikipedia_16_node_13": 0.2,
+      "synthetic_wikipedia_16_node_14": 0.15,
+      "synthetic_wikipedia_16_node_15": 0.7
+    },
+    "reasonings": {
+      "synthetic_wikipedia_16_node_01": "Starting point of the cycle, amplifying its structural impact.",
+      "synthetic_wikipedia_16_node_02": "Contributes to the long category chain.",
+      "synthetic_wikipedia_16_node_03": "References Node 4, which has relay ambiguity.",
+      "synthetic_wikipedia_16_node_04": "Acts as a relay without adding a closing source.",
+      "synthetic_wikipedia_16_node_05": "Contributes to the long category chain.",
+      "synthetic_wikipedia_16_node_06": "Part of the problematic hierarchy chain.",
+      "synthetic_wikipedia_16_node_07": "References Node 8, which has archive ambiguity.",
+      "synthetic_wikipedia_16_node_08": "Handles pages as closed historical entries but lacks clarity.",
+      "synthetic_wikipedia_16_node_09": "Contributes to the cycle without introducing additional risks.",
+      "synthetic_wikipedia_16_node_10": "Part of the cycle with limited structural impact.",
+      "synthetic_wikipedia_16_node_16": "Final node in the cycle with lifecycle handling issues.",
+      "synthetic_wikipedia_16_node_11": "Contributes to the cycle without lifecycle ambiguity.",
+      "synthetic_wikipedia_16_node_12": "Part of the cycle with minimal structural impact.",
+      "synthetic_wikipedia_16_node_13": "Contributes to the cycle without introducing additional risks.",
+      "synthetic_wikipedia_16_node_14": "Least significant structural impact in the cycle.",
+      "synthetic_wikipedia_16_node_15": "Near the end of the cycle and references Node 16."
+    },
+    "ranking": [
+      [
+        "synthetic_wikipedia_16_node_16",
+        0.95
+      ],
+      [
+        "synthetic_wikipedia_16_node_04",
+        0.85
+      ],
+      [
+        "synthetic_wikipedia_16_node_08",
+        0.8
+      ],
+      [
+        "synthetic_wikipedia_16_node_01",
+        0.75
+      ],
+      [
+        "synthetic_wikipedia_16_node_15",
+        0.7
+      ],
+      [
+        "synthetic_wikipedia_16_node_02",
+        0.65
+      ],
+      [
+        "synthetic_wikipedia_16_node_03",
+        0.6
+      ],
+      [
+        "synthetic_wikipedia_16_node_05",
+        0.55
+      ],
+      [
+        "synthetic_wikipedia_16_node_06",
+        0.5
+      ],
+      [
+        "synthetic_wikipedia_16_node_07",
+        0.45
+      ],
+      [
+        "synthetic_wikipedia_16_node_09",
+        0.4
+      ],
+      [
+        "synthetic_wikipedia_16_node_10",
+        0.35
+      ],
+      [
+        "synthetic_wikipedia_16_node_11",
+        0.3
+      ],
+      [
+        "synthetic_wikipedia_16_node_12",
+        0.25
+      ],
+      [
+        "synthetic_wikipedia_16_node_13",
+        0.2
+      ],
+      [
+        "synthetic_wikipedia_16_node_14",
+        0.15
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_wikipedia_16_node_16",
+        "risk_score": 0.95,
+        "risk_factors": [
+          "taxonomy cycle complexity",
+          "underspecified lifecycle handling"
+        ],
+        "reasoning": "Node 16 explicitly mentions that no closing source has been attached, which exacerbates the cyclic dependency issue. It is the final node in the cycle and directly references the starting node, creating a high-risk loop."
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_wikipedia_16_node_04",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "relay or archive ambiguity",
+          "taxonomy cycle complexity"
+        ],
+        "reasoning": "Node 4 acts as a relay without adding a closing source, which introduces ambiguity in lifecycle handling. Its position in the cycle amplifies the risk."
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_wikipedia_16_node_08",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "relay or archive ambiguity",
+          "taxonomy cycle complexity"
+        ],
+        "reasoning": "Node 8 handles pages as closed historical entries but does not specify how this impacts the cycle. This ambiguity increases structural risk."
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_wikipedia_16_node_01",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "taxonomy cycle complexity",
+          "graph position impact"
+        ],
+        "reasoning": "Node 1 is the starting point of the cycle and references Node 2, contributing to the problematic hierarchy. Its position amplifies its impact."
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_wikipedia_16_node_15",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "taxonomy cycle complexity"
+        ],
+        "reasoning": "Node 15 is near the end of the cycle and directly references Node 16, which has lifecycle handling issues. This proximity increases its risk."
+      },
+      {
+        "rank": 6,
+        "clause_id": "synthetic_wikipedia_16_node_02",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "taxonomy cycle complexity"
+        ],
+        "reasoning": "Node 2 references Node 3 and contributes to the long category chain, which increases the risk of structural inconsistency."
+      },
+      {
+        "rank": 7,
+        "clause_id": "synthetic_wikipedia_16_node_03",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "taxonomy cycle complexity"
+        ],
+        "reasoning": "Node 3 references Node 4, which has relay ambiguity. This connection increases its risk."
+      },
+      {
+        "rank": 8,
+        "clause_id": "synthetic_wikipedia_16_node_05",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "taxonomy cycle complexity"
+        ],
+        "reasoning": "Node 5 contributes to the long category chain and references Node 6, which amplifies the cycle complexity."
+      },
+      {
+        "rank": 9,
+        "clause_id": "synthetic_wikipedia_16_node_06",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "taxonomy cycle complexity"
+        ],
+        "reasoning": "Node 6 references Node 7 and is part of the problematic hierarchy chain, though it does not introduce additional ambiguity."
+      },
+      {
+        "rank": 10,
+        "clause_id": "synthetic_wikipedia_16_node_07",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "taxonomy cycle complexity"
+        ],
+        "reasoning": "Node 7 references Node 8, which has archive ambiguity. This connection slightly increases its risk."
+      },
+      {
+        "rank": 11,
+        "clause_id": "synthetic_wikipedia_16_node_09",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "taxonomy cycle complexity"
+        ],
+        "reasoning": "Node 9 references Node 10 and contributes to the cycle, but its position and content do not introduce additional risks."
+      },
+      {
+        "rank": 12,
+        "clause_id": "synthetic_wikipedia_16_node_10",
+        "risk_score": 0.35,
+        "risk_factors": [
+          "taxonomy cycle complexity"
+        ],
+        "reasoning": "Node 10 references Node 11 and is part of the cycle, but its structural impact is limited."
+      },
+      {
+        "rank": 13,
+        "clause_id": "synthetic_wikipedia_16_node_11",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "taxonomy cycle complexity"
+        ],
+        "reasoning": "Node 11 references Node 12 and contributes to the cycle, but it does not introduce lifecycle ambiguity."
+      },
+      {
+        "rank": 14,
+        "clause_id": "synthetic_wikipedia_16_node_12",
+        "risk_score": 0.25,
+        "risk_factors": [
+          "taxonomy cycle complexity"
+        ],
+        "reasoning": "Node 12 references Node 13 and is part of the cycle, but its structural impact is minimal."
+      },
+      {
+        "rank": 15,
+        "clause_id": "synthetic_wikipedia_16_node_13",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "taxonomy cycle complexity"
+        ],
+        "reasoning": "Node 13 references Node 14 and contributes to the cycle, but it does not introduce additional risks."
+      },
+      {
+        "rank": 16,
+        "clause_id": "synthetic_wikipedia_16_node_14",
+        "risk_score": 0.15,
+        "risk_factors": [
+          "taxonomy cycle complexity"
+        ],
+        "reasoning": "Node 14 references Node 15 and is part of the cycle, but its structural impact is the least significant."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "taxonomy cycle complexity",
+        "importance_weight": 0.4,
+        "description": "Captures the risk introduced by the cyclic dependency structure, which can lead to logical inconsistencies or infinite loops in reasoning."
+      },
+      {
+        "factor": "underspecified lifecycle handling",
+        "importance_weight": 0.3,
+        "description": "Captures the risk of records that lack clear lifecycle closure or maintenance notes, which can lead to ambiguity in the graph's behavior."
+      },
+      {
+        "factor": "relay or archive ambiguity",
+        "importance_weight": 0.2,
+        "description": "Captures the risk of records that act as relays or archive handlers but do not specify their behavior clearly, potentially causing structural inconsistencies."
+      },
+      {
+        "factor": "graph position impact",
+        "importance_weight": 0.1,
+        "description": "Captures the risk introduced by a node's position in the graph, such as being central to the cycle or having many incoming/outgoing edges."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 16,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_wikipedia_16_node_16",
+        "clause_b": "synthetic_wikipedia_16_node_01",
+        "description": "Node 16 references Node 1, creating a cyclic dependency without a closing source."
+      },
+      {
+        "clause_a": "synthetic_wikipedia_16_node_04",
+        "clause_b": "synthetic_wikipedia_16_node_05",
+        "description": "Node 4 acts as a relay without adding a closing source, which impacts the lifecycle of Node 5."
+      },
+      {
+        "clause_a": "synthetic_wikipedia_16_node_08",
+        "clause_b": "synthetic_wikipedia_16_node_09",
+        "description": "Node 8 handles pages as closed historical entries but does not specify how this impacts Node 9."
+      }
+    ],
+    "score_spread": 0.7999999999999999,
+    "ranking_score_spread": 0.7999999999999999,
+    "score_mean": 0.528125,
+    "score_max": 0.95,
+    "node_names": {
+      "synthetic_wikipedia_16_node_01": "synthetic wikipedia 16 node 01",
+      "synthetic_wikipedia_16_node_02": "synthetic wikipedia 16 node 02",
+      "synthetic_wikipedia_16_node_03": "synthetic wikipedia 16 node 03",
+      "synthetic_wikipedia_16_node_04": "synthetic wikipedia 16 node 04",
+      "synthetic_wikipedia_16_node_05": "synthetic wikipedia 16 node 05",
+      "synthetic_wikipedia_16_node_06": "synthetic wikipedia 16 node 06",
+      "synthetic_wikipedia_16_node_07": "synthetic wikipedia 16 node 07",
+      "synthetic_wikipedia_16_node_08": "synthetic wikipedia 16 node 08",
+      "synthetic_wikipedia_16_node_09": "synthetic wikipedia 16 node 09",
+      "synthetic_wikipedia_16_node_10": "synthetic wikipedia 16 node 10",
+      "synthetic_wikipedia_16_node_16": "synthetic wikipedia 16 node 16",
+      "synthetic_wikipedia_16_node_11": "synthetic wikipedia 16 node 11",
+      "synthetic_wikipedia_16_node_12": "synthetic wikipedia 16 node 12",
+      "synthetic_wikipedia_16_node_13": "synthetic wikipedia 16 node 13",
+      "synthetic_wikipedia_16_node_14": "synthetic wikipedia 16 node 14",
+      "synthetic_wikipedia_16_node_15": "synthetic wikipedia 16 node 15"
+    },
+    "ground_truth_nodes": [
+      "synthetic_wikipedia_16_node_16"
+    ],
+    "gt_evidence": {
+      "synthetic_wikipedia_16_node_16": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 1173,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.3674339300937766,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.37254901960784315,
+    "inject_mode": true,
+    "injected_node": "synthetic_wikipedia_16_node_16",
+    "inject_type": "type_a_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_wikipedia_16_node_08",
+    "injected_witness_distance": 8,
+    "injected_bridge_node": "synthetic_wikipedia_16_node_04",
+    "injected_bridge_distance": 4,
+    "injected_risk_nodes": [
+      "synthetic_wikipedia_16_node_16",
+      "synthetic_wikipedia_16_node_08"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_wikipedia_16_node_16",
+      "synthetic_wikipedia_16_node_04",
+      "synthetic_wikipedia_16_node_08"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_wikipedia_16_node_01",
+      "synthetic_wikipedia_16_node_09"
+    ],
+    "injected_conflict_family": "temporal_gate",
+    "injected_conflict_difficulty": "subtle",
+    "injected_conflict_template": "wikipedia_temporal_closing_source_gate",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_wikipedia_16_node_16": 1,
+      "synthetic_wikipedia_16_node_08": 3
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_wikipedia_16_node_16": 1,
+      "synthetic_wikipedia_16_node_04": 2,
+      "synthetic_wikipedia_16_node_08": 3
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_wikipedia_16_node_01": 4,
+      "synthetic_wikipedia_16_node_09": 11
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 11,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "synthetic_wikipedia_16_node_16": 1,
+      "synthetic_wikipedia_16_node_08": 3,
+      "synthetic_wikipedia_16_node_01": 4,
+      "synthetic_wikipedia_16_node_09": 11
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 11,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 1,
+    "root_top1_hit": true,
+    "root_top3_hit": true
+  }
+]

@@ -1,0 +1,450 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 16,
+    "scc_id": "synthetic_debian_16",
+    "scc_clause_ids": [
+      "synthetic_debian_16_node_01",
+      "synthetic_debian_16_node_02",
+      "synthetic_debian_16_node_03",
+      "synthetic_debian_16_node_04",
+      "synthetic_debian_16_node_05",
+      "synthetic_debian_16_node_06",
+      "synthetic_debian_16_node_07",
+      "synthetic_debian_16_node_08",
+      "synthetic_debian_16_node_09",
+      "synthetic_debian_16_node_10",
+      "synthetic_debian_16_node_16",
+      "synthetic_debian_16_node_11",
+      "synthetic_debian_16_node_12",
+      "synthetic_debian_16_node_13",
+      "synthetic_debian_16_node_14",
+      "synthetic_debian_16_node_15"
+    ],
+    "llm_calls": 1,
+    "time": 57.3208749294281,
+    "scores": {
+      "synthetic_debian_16_node_01": 0.65,
+      "synthetic_debian_16_node_02": 0.55,
+      "synthetic_debian_16_node_03": 0.5,
+      "synthetic_debian_16_node_04": 0.85,
+      "synthetic_debian_16_node_05": 0.05,
+      "synthetic_debian_16_node_06": 0.1,
+      "synthetic_debian_16_node_07": 0.15,
+      "synthetic_debian_16_node_08": 0.75,
+      "synthetic_debian_16_node_09": 0.2,
+      "synthetic_debian_16_node_10": 0.25,
+      "synthetic_debian_16_node_16": 0.95,
+      "synthetic_debian_16_node_11": 0.3,
+      "synthetic_debian_16_node_12": 0.35,
+      "synthetic_debian_16_node_13": 0.4,
+      "synthetic_debian_16_node_14": 0.45,
+      "synthetic_debian_16_node_15": 0.6
+    },
+    "reasonings": {
+      "synthetic_debian_16_node_01": "Cycle initiator and closure receiver, creates circular dependency entry point",
+      "synthetic_debian_16_node_02": "Early cycle participant in dependency chain",
+      "synthetic_debian_16_node_03": "Feeds into compatibility-constrained node 04",
+      "synthetic_debian_16_node_04": "Explicit compatibility preservation requirement and cycle participation",
+      "synthetic_debian_16_node_05": "Cycle participant with minimal explicit constraints",
+      "synthetic_debian_16_node_06": "Standard cycle participant",
+      "synthetic_debian_16_node_07": "Feeds into assumption-based node 08",
+      "synthetic_debian_16_node_08": "Assumes compatibility satisfaction and participates in cycle",
+      "synthetic_debian_16_node_09": "Standard cycle participant",
+      "synthetic_debian_16_node_10": "Standard cycle participant",
+      "synthetic_debian_16_node_16": "Strict compatibility requirements and cycle closure creates deadlock risk",
+      "synthetic_debian_16_node_11": "Standard cycle participant",
+      "synthetic_debian_16_node_12": "Standard cycle participant",
+      "synthetic_debian_16_node_13": "Middle-chain cycle participant",
+      "synthetic_debian_16_node_14": "Feeds into node 15 which connects to highest-risk node",
+      "synthetic_debian_16_node_15": "Direct feeder to highest-risk node 16"
+    },
+    "ranking": [
+      [
+        "synthetic_debian_16_node_16",
+        0.95
+      ],
+      [
+        "synthetic_debian_16_node_04",
+        0.85
+      ],
+      [
+        "synthetic_debian_16_node_08",
+        0.75
+      ],
+      [
+        "synthetic_debian_16_node_01",
+        0.65
+      ],
+      [
+        "synthetic_debian_16_node_15",
+        0.6
+      ],
+      [
+        "synthetic_debian_16_node_02",
+        0.55
+      ],
+      [
+        "synthetic_debian_16_node_03",
+        0.5
+      ],
+      [
+        "synthetic_debian_16_node_14",
+        0.45
+      ],
+      [
+        "synthetic_debian_16_node_13",
+        0.4
+      ],
+      [
+        "synthetic_debian_16_node_12",
+        0.35
+      ],
+      [
+        "synthetic_debian_16_node_11",
+        0.3
+      ],
+      [
+        "synthetic_debian_16_node_10",
+        0.25
+      ],
+      [
+        "synthetic_debian_16_node_09",
+        0.2
+      ],
+      [
+        "synthetic_debian_16_node_07",
+        0.15
+      ],
+      [
+        "synthetic_debian_16_node_06",
+        0.1
+      ],
+      [
+        "synthetic_debian_16_node_05",
+        0.05
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_debian_16_node_16",
+        "risk_score": 0.95,
+        "risk_factors": [
+          "cycle_participation",
+          "compatibility_constraint"
+        ],
+        "reasoning": "Critical node with strict compatibility requirement (two independent notes needed) and closes the circular dependency loop, creating highest deadlock risk"
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_debian_16_node_04",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "cycle_participation",
+          "compatibility_constraint"
+        ],
+        "reasoning": "Explicitly preserves compatibility condition and participates in cycle, creating potential blocking point in dependency resolution"
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_debian_16_node_08",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "cycle_participation",
+          "compatibility_constraint"
+        ],
+        "reasoning": "Assumes compatibility condition is satisfied and proceeds on new-interface basis, but participates in cycle creating assumption risk"
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_debian_16_node_01",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "cycle_participation",
+          "dependency_chain_position"
+        ],
+        "reasoning": "Initiates the dependency chain and receives the cycle closure from node 16, creating circular dependency entry point"
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_debian_16_node_15",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "cycle_participation",
+          "dependency_chain_position"
+        ],
+        "reasoning": "Directly feeds into the highest-risk node (16) in the cycle, amplifying impact propagation"
+      },
+      {
+        "rank": 6,
+        "clause_id": "synthetic_debian_16_node_02",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "cycle_participation",
+          "dependency_chain_position"
+        ],
+        "reasoning": "Early in dependency chain and cycle participant, but lacks explicit compatibility constraints"
+      },
+      {
+        "rank": 7,
+        "clause_id": "synthetic_debian_16_node_03",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "cycle_participation",
+          "dependency_chain_position"
+        ],
+        "reasoning": "Feeds directly into compatibility-constrained node 04, creating dependency pressure point"
+      },
+      {
+        "rank": 8,
+        "clause_id": "synthetic_debian_16_node_14",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "cycle_participation",
+          "dependency_chain_position"
+        ],
+        "reasoning": "Cycle participant feeding into node 15, which feeds into highest-risk node 16"
+      },
+      {
+        "rank": 9,
+        "clause_id": "synthetic_debian_16_node_13",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Cycle participant but positioned in middle of chain with fewer explicit constraints"
+      },
+      {
+        "rank": 10,
+        "clause_id": "synthetic_debian_16_node_12",
+        "risk_score": 0.35,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Cycle participant with standard synthetic package description and no special constraints"
+      },
+      {
+        "rank": 11,
+        "clause_id": "synthetic_debian_16_node_11",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Cycle participant with standard synthetic package description"
+      },
+      {
+        "rank": 12,
+        "clause_id": "synthetic_debian_16_node_10",
+        "risk_score": 0.25,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Cycle participant with standard synthetic package description"
+      },
+      {
+        "rank": 13,
+        "clause_id": "synthetic_debian_16_node_09",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Cycle participant with standard synthetic package description"
+      },
+      {
+        "rank": 14,
+        "clause_id": "synthetic_debian_16_node_07",
+        "risk_score": 0.15,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Cycle participant feeding into assumption-based node 08"
+      },
+      {
+        "rank": 15,
+        "clause_id": "synthetic_debian_16_node_06",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Cycle participant with standard synthetic package description"
+      },
+      {
+        "rank": 16,
+        "clause_id": "synthetic_debian_16_node_05",
+        "risk_score": 0.05,
+        "risk_factors": [
+          "cycle_participation"
+        ],
+        "reasoning": "Cycle participant but positioned between two constrained nodes (04 and 06) with minimal explicit risk factors"
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cycle_participation",
+        "importance_weight": 0.4,
+        "description": "Participation in the circular dependency chain that creates potential deadlock scenarios"
+      },
+      {
+        "factor": "compatibility_constraint",
+        "importance_weight": 0.35,
+        "description": "Records that impose or are subject to compatibility requirements that may block progress"
+      },
+      {
+        "factor": "dependency_chain_position",
+        "importance_weight": 0.15,
+        "description": "Position in the dependency chain that affects impact propagation and resolution complexity"
+      },
+      {
+        "factor": "specification_clarity",
+        "importance_weight": 0.1,
+        "description": "Clarity and completeness of requirements and constraints in record content"
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 16,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_debian_16_node_16",
+        "clause_b": "synthetic_debian_16_node_04",
+        "description": "Node 16 requires two independent compatibility notes (one staged, one open) while node 04 preserves compatibility condition exactly, creating potential requirement mismatch in circular dependency"
+      },
+      {
+        "clause_a": "synthetic_debian_16_node_08",
+        "clause_b": "synthetic_debian_16_node_16",
+        "description": "Node 08 assumes compatibility condition is satisfied while node 16 has open compatibility requirements, creating assumption-reality conflict in circular dependency chain"
+      },
+      {
+        "clause_a": "synthetic_debian_16_node_01",
+        "clause_b": "synthetic_debian_16_node_16",
+        "description": "Circular dependency between initiator and strictest compatibility node creates deadlock scenario where progress depends on unresolved requirements"
+      }
+    ],
+    "score_spread": 0.8999999999999999,
+    "ranking_score_spread": 0.8999999999999999,
+    "score_mean": 0.44375,
+    "score_max": 0.95,
+    "node_names": {
+      "synthetic_debian_16_node_01": "synthetic debian 16 node 01",
+      "synthetic_debian_16_node_02": "synthetic debian 16 node 02",
+      "synthetic_debian_16_node_03": "synthetic debian 16 node 03",
+      "synthetic_debian_16_node_04": "synthetic debian 16 node 04",
+      "synthetic_debian_16_node_05": "synthetic debian 16 node 05",
+      "synthetic_debian_16_node_06": "synthetic debian 16 node 06",
+      "synthetic_debian_16_node_07": "synthetic debian 16 node 07",
+      "synthetic_debian_16_node_08": "synthetic debian 16 node 08",
+      "synthetic_debian_16_node_09": "synthetic debian 16 node 09",
+      "synthetic_debian_16_node_10": "synthetic debian 16 node 10",
+      "synthetic_debian_16_node_16": "synthetic debian 16 node 16",
+      "synthetic_debian_16_node_11": "synthetic debian 16 node 11",
+      "synthetic_debian_16_node_12": "synthetic debian 16 node 12",
+      "synthetic_debian_16_node_13": "synthetic debian 16 node 13",
+      "synthetic_debian_16_node_14": "synthetic debian 16 node 14",
+      "synthetic_debian_16_node_15": "synthetic debian 16 node 15"
+    },
+    "ground_truth_nodes": [
+      "synthetic_debian_16_node_16"
+    ],
+    "gt_evidence": {
+      "synthetic_debian_16_node_16": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "prompt_word_count": 1133,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.3592233009708738,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3645189761694616,
+    "inject_mode": true,
+    "injected_node": "synthetic_debian_16_node_16",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_debian_16_node_08",
+    "injected_witness_distance": 8,
+    "injected_bridge_node": "synthetic_debian_16_node_04",
+    "injected_bridge_distance": 4,
+    "injected_risk_nodes": [
+      "synthetic_debian_16_node_16",
+      "synthetic_debian_16_node_08"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_debian_16_node_16",
+      "synthetic_debian_16_node_04",
+      "synthetic_debian_16_node_08"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_debian_16_node_01",
+      "synthetic_debian_16_node_09"
+    ],
+    "injected_conflict_family": "condition_trigger",
+    "injected_conflict_difficulty": "hard",
+    "injected_conflict_template": "debian_condition_trigger_partial_compatibility",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_debian_16_node_16": 1,
+      "synthetic_debian_16_node_08": 3
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_debian_16_node_16": 1,
+      "synthetic_debian_16_node_04": 2,
+      "synthetic_debian_16_node_08": 3
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_debian_16_node_01": 4,
+      "synthetic_debian_16_node_09": 13
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 13,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "synthetic_debian_16_node_16": 1,
+      "synthetic_debian_16_node_08": 3,
+      "synthetic_debian_16_node_01": 4,
+      "synthetic_debian_16_node_09": 13
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 13,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 1,
+    "root_top1_hit": true,
+    "root_top3_hit": true
+  }
+]

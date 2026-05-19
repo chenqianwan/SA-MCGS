@@ -1,0 +1,4763 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 6,
+    "scc_id": "scc_11",
+    "scc_clause_ids": [
+      "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil",
+      "libmono-system-core4.0-cil",
+      "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil"
+    ],
+    "llm_calls": 1,
+    "time": 10.446911096572876,
+    "scores": {
+      "libmono-security4.0-cil": 0.7,
+      "libmono-system-configuration4.0-cil": 0.6,
+      "libmono-system-core4.0-cil": 0.5,
+      "libmono-system-security4.0-cil": 0.8,
+      "libmono-system-xml4.0-cil": 0.6,
+      "libmono-system4.0-cil": 0.9
+    },
+    "reasonings": {
+      "libmono-security4.0-cil": "This package is a critical component in the Mono framework and is directly involved in security-related functionality. It has a high degree of coupling, as it depends on libmono-system4.0-cil and is depended upon by libmono-system4.0-cil. Known CVEs in the Mono ecosystem increase its risk.",
+      "libmono-system-configuration4.0-cil": "This package is responsible for configuration management, which can be a common attack surface if misconfigured. It has a high degree of coupling, depending on three other packages and being depended upon by libmono-system4.0-cil. Cascading failures are a concern.",
+      "libmono-system-core4.0-cil": "This package provides core functionality for the Mono framework. While it is not directly security-related, its central role in the dependency graph makes it a potential point of failure. It is depended upon by libmono-system4.0-cil, increasing its risk.",
+      "libmono-system-security4.0-cil": "This package handles security-related functionality, making it a high-risk component. It has a high degree of coupling, depending on three other packages and being depended upon by libmono-system4.0-cil. Security vulnerabilities in this package could have widespread impact.",
+      "libmono-system-xml4.0-cil": "This package is responsible for XML processing, which can be an attack vector if improperly handled. It has a high degree of coupling, depending on two other packages and being depended upon by libmono-system4.0-cil. Cascading failures are a concern.",
+      "libmono-system4.0-cil": "This package is the central hub in the dependency graph, with dependencies on all other packages in the cycle. It is critical to the Mono framework and has the highest potential for cascading failures. Known CVEs in the Mono ecosystem further increase its risk."
+    },
+    "ranking": [
+      [
+        "libmono-system4.0-cil",
+        0.9
+      ],
+      [
+        "libmono-system-security4.0-cil",
+        0.8
+      ],
+      [
+        "libmono-security4.0-cil",
+        0.7
+      ],
+      [
+        "libmono-system-configuration4.0-cil",
+        0.6
+      ],
+      [
+        "libmono-system-xml4.0-cil",
+        0.6
+      ],
+      [
+        "libmono-system-core4.0-cil",
+        0.5
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "libmono-security4.0-cil",
+        "clause_b": "libmono-system4.0-cil",
+        "description": "libmono-security4.0-cil depends on libmono-system4.0-cil, which in turn depends on libmono-security4.0-cil, creating a circular dependency that increases the risk of cascading failures."
+      },
+      {
+        "clause_a": "libmono-system-configuration4.0-cil",
+        "clause_b": "libmono-system4.0-cil",
+        "description": "libmono-system-configuration4.0-cil depends on libmono-system4.0-cil, which in turn depends on libmono-system-configuration4.0-cil, creating a circular dependency that complicates version management and increases risk."
+      },
+      {
+        "clause_a": "libmono-system-core4.0-cil",
+        "clause_b": "libmono-system4.0-cil",
+        "description": "libmono-system-core4.0-cil depends on libmono-system4.0-cil, which in turn depends on libmono-system-core4.0-cil, creating a circular dependency that increases the potential for cascading failures."
+      },
+      {
+        "clause_a": "libmono-system-security4.0-cil",
+        "clause_b": "libmono-system4.0-cil",
+        "description": "libmono-system-security4.0-cil depends on libmono-system4.0-cil, which in turn depends on libmono-system-security4.0-cil, creating a circular dependency that increases the risk of CVE propagation."
+      },
+      {
+        "clause_a": "libmono-system-xml4.0-cil",
+        "clause_b": "libmono-system4.0-cil",
+        "description": "libmono-system-xml4.0-cil depends on libmono-system4.0-cil, which in turn depends on libmono-system-xml4.0-cil, creating a circular dependency that complicates dependency resolution."
+      }
+    ],
+    "score_spread": 0.4,
+    "score_mean": 0.6833333333333332,
+    "score_max": 0.9,
+    "node_names": {
+      "libmono-security4.0-cil": "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil": "libmono-system-configuration4.0-cil",
+      "libmono-system-core4.0-cil": "libmono-system-core4.0-cil",
+      "libmono-system-security4.0-cil": "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil": "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil": "libmono-system4.0-cil"
+    },
+    "ground_truth_nodes": [
+      "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil",
+      "libmono-system-core4.0-cil",
+      "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil"
+    ],
+    "gt_evidence": {
+      "libmono-security4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system-configuration4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system-core4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system-security4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system-xml4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system4.0-cil": "~52 CVEs (NVD/CVE database)"
+    },
+    "top1_hit": true,
+    "top3_hit": true
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 6,
+    "scc_id": "scc_11",
+    "scc_clause_ids": [
+      "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil",
+      "libmono-system-core4.0-cil",
+      "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil"
+    ],
+    "budget": 30,
+    "llm_calls": 15,
+    "tt_hits": 15,
+    "tt_hit_rate": 0.5,
+    "time": 47.24155902862549,
+    "scores": {
+      "libmono-system4.0-cil": 0.6275862068965516,
+      "libmono-system-configuration4.0-cil": 0.5649999999999998,
+      "libmono-security4.0-cil": 0.5625,
+      "libmono-system-security4.0-cil": 0.511111111111111,
+      "libmono-system-xml4.0-cil": 0.47272727272727266,
+      "libmono-system-core4.0-cil": 0.4066666666666666
+    },
+    "ranking": [
+      [
+        "libmono-system4.0-cil",
+        0.6275862068965516
+      ],
+      [
+        "libmono-system-configuration4.0-cil",
+        0.5649999999999998
+      ],
+      [
+        "libmono-security4.0-cil",
+        0.5625
+      ],
+      [
+        "libmono-system-security4.0-cil",
+        0.511111111111111
+      ],
+      [
+        "libmono-system-xml4.0-cil",
+        0.47272727272727266
+      ],
+      [
+        "libmono-system-core4.0-cil",
+        0.4066666666666666
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.22091954022988503,
+    "score_mean": 0.5242652095669337,
+    "score_max": 0.6275862068965516,
+    "node_names": {
+      "libmono-security4.0-cil": "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil": "libmono-system-configuration4.0-cil",
+      "libmono-system-core4.0-cil": "libmono-system-core4.0-cil",
+      "libmono-system-security4.0-cil": "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil": "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil": "libmono-system4.0-cil"
+    },
+    "clause_details": {
+      "libmono-security4.0-cil": {
+        "mean_score": 0.5625,
+        "visit_count": 16,
+        "conflict_count": 18,
+        "risk_history": [
+          0.7,
+          0.5,
+          0.4,
+          0.4,
+          0.7,
+          0.5,
+          0.4,
+          0.5,
+          0.7,
+          0.4,
+          0.7,
+          0.5,
+          0.7,
+          0.7,
+          0.5,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system-configuration4.0-cil": {
+        "mean_score": 0.5649999999999998,
+        "visit_count": 20,
+        "conflict_count": 42,
+        "risk_history": [
+          0.3,
+          0.7,
+          0.5,
+          0.7,
+          0.5,
+          0.3,
+          0.7,
+          0.7,
+          0.3,
+          0.5,
+          0.7,
+          0.5,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.5,
+          0.7,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system-core4.0-cil": {
+        "mean_score": 0.4066666666666666,
+        "visit_count": 15,
+        "conflict_count": 21,
+        "risk_history": [
+          0.4,
+          0.3,
+          0.3,
+          0.5,
+          0.5,
+          0.5,
+          0.3,
+          0.3,
+          0.3,
+          0.6,
+          0.5,
+          0.4,
+          0.3,
+          0.6,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system-security4.0-cil": {
+        "mean_score": 0.511111111111111,
+        "visit_count": 18,
+        "conflict_count": 36,
+        "risk_history": [
+          0.3,
+          0.5,
+          0.5,
+          0.4,
+          0.6,
+          0.4,
+          0.6,
+          0.5,
+          0.6,
+          0.6,
+          0.6,
+          0.6,
+          0.5,
+          0.5,
+          0.7,
+          0.5,
+          0.6,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system-xml4.0-cil": {
+        "mean_score": 0.47272727272727266,
+        "visit_count": 22,
+        "conflict_count": 40,
+        "risk_history": [
+          0.3,
+          0.6,
+          0.6,
+          0.3,
+          0.4,
+          0.6,
+          0.4,
+          0.4,
+          0.3,
+          0.6,
+          0.6,
+          0.4,
+          0.3,
+          0.6,
+          0.6,
+          0.4,
+          0.6,
+          0.6,
+          0.6,
+          0.4,
+          0.6,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system4.0-cil": {
+        "mean_score": 0.6275862068965516,
+        "visit_count": 29,
+        "conflict_count": 87,
+        "risk_history": [
+          0.3,
+          0.6,
+          0.6,
+          0.8,
+          0.4,
+          0.5,
+          0.7,
+          0.6,
+          0.7,
+          0.7,
+          0.6,
+          0.8,
+          0.4,
+          0.5,
+          0.8,
+          0.8,
+          0.7,
+          0.6,
+          0.6,
+          0.8,
+          0.6,
+          0.6,
+          0.8,
+          0.8,
+          0.6,
+          0.8,
+          0.5,
+          0.8,
+          0.2
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil",
+      "libmono-system-core4.0-cil",
+      "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil"
+    ],
+    "gt_evidence": {
+      "libmono-security4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system-configuration4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system-core4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system-security4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system-xml4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system4.0-cil": "~52 CVEs (NVD/CVE database)"
+    },
+    "top1_hit": true,
+    "top3_hit": true
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 6,
+    "scc_id": "scc_11",
+    "scc_clause_ids": [
+      "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil",
+      "libmono-system-core4.0-cil",
+      "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil"
+    ],
+    "llm_calls": 1,
+    "time": 16.95045518875122,
+    "scores": {
+      "libmono-security4.0-cil": 0.7,
+      "libmono-system-configuration4.0-cil": 0.6,
+      "libmono-system-core4.0-cil": 0.4,
+      "libmono-system-security4.0-cil": 0.8,
+      "libmono-system-xml4.0-cil": 0.7,
+      "libmono-system4.0-cil": 0.9
+    },
+    "reasonings": {
+      "libmono-security4.0-cil": "Security-focused package with high CVE exposure potential; handles cryptography, authentication, and security protocols - common attack surface in circular dependency",
+      "libmono-system-configuration4.0-cil": "Configuration management package; vulnerabilities could enable privilege escalation or configuration manipulation; moderate CVE history in similar components",
+      "libmono-system-core4.0-cil": "Core system functionality with fewer direct security concerns; foundational but less exposed to external attacks than security-specific packages",
+      "libmono-system-security4.0-cil": "Critical security infrastructure; handles access control, permissions, and security policies - high-value target with cascading failure potential",
+      "libmono-system-xml4.0-cil": "XML processing library; historically vulnerable to injection attacks, XXE vulnerabilities, and parsing exploits; high CVE density in XML components",
+      "libmono-system4.0-cil": "Central hub in circular dependency; depends on ALL other packages - maximum cascading failure potential and single point of failure for entire cycle"
+    },
+    "ranking": [
+      [
+        "libmono-system4.0-cil",
+        0.9
+      ],
+      [
+        "libmono-system-security4.0-cil",
+        0.8
+      ],
+      [
+        "libmono-security4.0-cil",
+        0.7
+      ],
+      [
+        "libmono-system-xml4.0-cil",
+        0.7
+      ],
+      [
+        "libmono-system-configuration4.0-cil",
+        0.6
+      ],
+      [
+        "libmono-system-core4.0-cil",
+        0.4
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "libmono-system4.0-cil",
+        "clause_b": "libmono-security4.0-cil",
+        "description": "Mutual dependency creates security core vulnerability - system depends on security while security depends on system"
+      },
+      {
+        "clause_a": "libmono-system-security4.0-cil",
+        "clause_b": "libmono-system-xml4.0-cil",
+        "description": "Security package depends on XML parser - classic security vulnerability pattern (XXE attacks through security components)"
+      },
+      {
+        "clause_a": "libmono-system-xml4.0-cil",
+        "clause_b": "libmono-system-configuration4.0-cil",
+        "description": "XML processing depends on configuration - potential for configuration injection via XML parsing vulnerabilities"
+      }
+    ],
+    "score_spread": 0.5,
+    "score_mean": 0.6833333333333335,
+    "score_max": 0.9,
+    "node_names": {
+      "libmono-security4.0-cil": "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil": "libmono-system-configuration4.0-cil",
+      "libmono-system-core4.0-cil": "libmono-system-core4.0-cil",
+      "libmono-system-security4.0-cil": "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil": "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil": "libmono-system4.0-cil"
+    },
+    "ground_truth_nodes": [
+      "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil",
+      "libmono-system-core4.0-cil",
+      "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil"
+    ],
+    "gt_evidence": {
+      "libmono-security4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system-configuration4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system-core4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system-security4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system-xml4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system4.0-cil": "~52 CVEs (NVD/CVE database)"
+    },
+    "top1_hit": true,
+    "top3_hit": true
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 6,
+    "scc_id": "scc_11",
+    "scc_clause_ids": [
+      "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil",
+      "libmono-system-core4.0-cil",
+      "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil"
+    ],
+    "budget": 30,
+    "llm_calls": 12,
+    "tt_hits": 18,
+    "tt_hit_rate": 0.6,
+    "time": 79.56655883789062,
+    "scores": {
+      "libmono-system4.0-cil": 0.8166666666666669,
+      "libmono-security4.0-cil": 0.7285714285714284,
+      "libmono-system-security4.0-cil": 0.7055555555555554,
+      "libmono-system-core4.0-cil": 0.6812499999999999,
+      "libmono-system-configuration4.0-cil": 0.6333333333333331,
+      "libmono-system-xml4.0-cil": 0.5999999999999998
+    },
+    "ranking": [
+      [
+        "libmono-system4.0-cil",
+        0.8166666666666669
+      ],
+      [
+        "libmono-security4.0-cil",
+        0.7285714285714284
+      ],
+      [
+        "libmono-system-security4.0-cil",
+        0.7055555555555554
+      ],
+      [
+        "libmono-system-core4.0-cil",
+        0.6812499999999999
+      ],
+      [
+        "libmono-system-configuration4.0-cil",
+        0.6333333333333331
+      ],
+      [
+        "libmono-system-xml4.0-cil",
+        0.5999999999999998
+      ]
+    ],
+    "oc_detected": [
+      "libmono-system4.0-cil"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.21666666666666712,
+    "score_mean": 0.6942294973544972,
+    "score_max": 0.8166666666666669,
+    "node_names": {
+      "libmono-security4.0-cil": "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil": "libmono-system-configuration4.0-cil",
+      "libmono-system-core4.0-cil": "libmono-system-core4.0-cil",
+      "libmono-system-security4.0-cil": "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil": "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil": "libmono-system4.0-cil"
+    },
+    "clause_details": {
+      "libmono-security4.0-cil": {
+        "mean_score": 0.7285714285714284,
+        "visit_count": 14,
+        "conflict_count": 14,
+        "risk_history": [
+          0.7,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.7,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system-configuration4.0-cil": {
+        "mean_score": 0.6333333333333331,
+        "visit_count": 21,
+        "conflict_count": 38,
+        "risk_history": [
+          0.7,
+          0.6,
+          0.6,
+          0.7,
+          0.6,
+          0.7,
+          0.6,
+          0.7,
+          0.7,
+          0.6,
+          0.6,
+          0.6,
+          0.6,
+          0.7,
+          0.6,
+          0.6,
+          0.7,
+          0.6,
+          0.6,
+          0.6,
+          0.6
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system-core4.0-cil": {
+        "mean_score": 0.6812499999999999,
+        "visit_count": 16,
+        "conflict_count": 23,
+        "risk_history": [
+          0.8,
+          0.6,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.6,
+          0.6,
+          0.6,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system-security4.0-cil": {
+        "mean_score": 0.7055555555555554,
+        "visit_count": 18,
+        "conflict_count": 18,
+        "risk_history": [
+          0.7,
+          0.6,
+          0.7,
+          0.7,
+          0.8,
+          0.6,
+          0.6,
+          0.8,
+          0.8,
+          0.6,
+          0.8,
+          0.8,
+          0.8,
+          0.6,
+          0.7,
+          0.7,
+          0.8,
+          0.6
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system-xml4.0-cil": {
+        "mean_score": 0.5999999999999998,
+        "visit_count": 21,
+        "conflict_count": 38,
+        "risk_history": [
+          0.6,
+          0.7,
+          0.5,
+          0.6,
+          0.6,
+          0.5,
+          0.6,
+          0.6,
+          0.5,
+          0.6,
+          0.6,
+          0.6,
+          0.6,
+          0.6,
+          0.6,
+          0.7,
+          0.6,
+          0.7,
+          0.7,
+          0.6,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "libmono-system4.0-cil": {
+        "mean_score": 0.8166666666666669,
+        "visit_count": 30,
+        "conflict_count": 67,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.9,
+          0.7,
+          0.9,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          0.8,
+          0.7,
+          0.9,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.8
+        ],
+        "is_oc_detected": true
+      }
+    },
+    "ground_truth_nodes": [
+      "libmono-security4.0-cil",
+      "libmono-system-configuration4.0-cil",
+      "libmono-system-core4.0-cil",
+      "libmono-system-security4.0-cil",
+      "libmono-system-xml4.0-cil",
+      "libmono-system4.0-cil"
+    ],
+    "gt_evidence": {
+      "libmono-security4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system-configuration4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system-core4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system-security4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system-xml4.0-cil": "~52 CVEs (NVD/CVE database)",
+      "libmono-system4.0-cil": "~52 CVEs (NVD/CVE database)"
+    },
+    "top1_hit": true,
+    "top3_hit": true
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 7,
+    "scc_id": "scc_1",
+    "scc_clause_ids": [
+      "libruby",
+      "libruby3.1",
+      "rake",
+      "ruby",
+      "ruby-rubygems",
+      "ruby-sdbm",
+      "ruby3.1"
+    ],
+    "llm_calls": 1,
+    "time": 8.125320196151733,
+    "scores": {
+      "libruby": 0.7,
+      "libruby3.1": 0.8,
+      "rake": 0.6,
+      "ruby": 0.9,
+      "ruby-rubygems": 0.7,
+      "ruby-sdbm": 0.5,
+      "ruby3.1": 0.8
+    },
+    "reasonings": {
+      "libruby": "Libruby is a core library package for Ruby, and its central role in the dependency chain increases the risk of cascading failures. It is also indirectly exposed to CVEs through its dependencies.",
+      "libruby3.1": "Libruby3.1 is tightly coupled with multiple packages, including rake and ruby-sdbm, and serves as a critical dependency for ruby3.1. Its high degree of coupling and potential for cascading failures elevate its risk.",
+      "rake": "Rake is a widely used build tool in the Ruby ecosystem, making it a common attack surface. Its dependency on ruby increases its exposure to vulnerabilities.",
+      "ruby": "Ruby is the central runtime for the ecosystem and has a high degree of coupling with other packages. Its role as a common attack surface and its dependency on ruby-rubygems and libruby increase its risk.",
+      "ruby-rubygems": "RubyGems is a package management framework, making it a common attack surface. Its dependency on ruby and its role in propagating vulnerabilities through the ecosystem increase its risk.",
+      "ruby-sdbm": "Ruby-sdbm is less commonly used but still critical due to its dependency on libruby3.1 and libruby. Its lower exposure to direct attacks reduces its risk slightly.",
+      "ruby3.1": "Ruby3.1 is a core runtime package with high coupling to libruby3.1 and ruby. Its critical role in the ecosystem and potential for cascading failures elevate its risk."
+    },
+    "ranking": [
+      [
+        "ruby",
+        0.9
+      ],
+      [
+        "libruby3.1",
+        0.8
+      ],
+      [
+        "ruby3.1",
+        0.8
+      ],
+      [
+        "libruby",
+        0.7
+      ],
+      [
+        "ruby-rubygems",
+        0.7
+      ],
+      [
+        "rake",
+        0.6
+      ],
+      [
+        "ruby-sdbm",
+        0.5
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "libruby3.1",
+        "clause_b": "rake",
+        "description": "Libruby3.1 depends on rake, creating a tight coupling that increases the risk of cascading failures if rake has vulnerabilities."
+      },
+      {
+        "clause_a": "ruby",
+        "clause_b": "ruby-rubygems",
+        "description": "Ruby depends on ruby-rubygems, which is a common attack surface. This dependency increases the risk of CVE propagation."
+      },
+      {
+        "clause_a": "ruby-sdbm",
+        "clause_b": "libruby3.1",
+        "description": "Ruby-sdbm depends on libruby3.1, creating a critical link in the dependency chain that could propagate failures."
+      },
+      {
+        "clause_a": "ruby3.1",
+        "clause_b": "libruby3.1",
+        "description": "Ruby3.1 depends on libruby3.1, forming a critical part of the circular dependency and increasing the risk of cascading failures."
+      },
+      {
+        "clause_a": "ruby",
+        "clause_b": "libruby",
+        "description": "Ruby depends on libruby, which is a core library package. This dependency increases the risk of cascading failures."
+      }
+    ],
+    "score_spread": 0.4,
+    "score_mean": 0.7142857142857143,
+    "score_max": 0.9,
+    "node_names": {
+      "libruby": "libruby",
+      "libruby3.1": "libruby3.1",
+      "rake": "rake",
+      "ruby": "ruby",
+      "ruby-rubygems": "ruby-rubygems",
+      "ruby-sdbm": "ruby-sdbm",
+      "ruby3.1": "ruby3.1"
+    },
+    "ground_truth_nodes": [
+      "libruby",
+      "libruby3.1",
+      "ruby",
+      "ruby-rubygems",
+      "ruby-sdbm",
+      "ruby3.1"
+    ],
+    "gt_evidence": {
+      "libruby": "ruby ecosystem CVE propagation",
+      "libruby3.1": "~48 CVEs (NVD/CVE database)",
+      "ruby": "ruby ecosystem CVE propagation",
+      "ruby-rubygems": "ruby ecosystem CVE propagation",
+      "ruby-sdbm": "ruby ecosystem CVE propagation",
+      "ruby3.1": "~48 CVEs (NVD/CVE database)"
+    },
+    "top1_hit": true,
+    "top3_hit": true
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 7,
+    "scc_id": "scc_1",
+    "scc_clause_ids": [
+      "libruby",
+      "libruby3.1",
+      "rake",
+      "ruby",
+      "ruby-rubygems",
+      "ruby-sdbm",
+      "ruby3.1"
+    ],
+    "budget": 30,
+    "llm_calls": 15,
+    "tt_hits": 15,
+    "tt_hit_rate": 0.5,
+    "time": 43.581849098205566,
+    "scores": {
+      "ruby-sdbm": 0.5631578947368421,
+      "libruby3.1": 0.5565217391304349,
+      "ruby": 0.5222222222222223,
+      "libruby": 0.5052631578947367,
+      "ruby-rubygems": 0.4999999999999999,
+      "ruby3.1": 0.36250000000000004,
+      "rake": 0.325
+    },
+    "ranking": [
+      [
+        "ruby-sdbm",
+        0.5631578947368421
+      ],
+      [
+        "libruby3.1",
+        0.5565217391304349
+      ],
+      [
+        "ruby",
+        0.5222222222222223
+      ],
+      [
+        "libruby",
+        0.5052631578947367
+      ],
+      [
+        "ruby-rubygems",
+        0.4999999999999999
+      ],
+      [
+        "ruby3.1",
+        0.36250000000000004
+      ],
+      [
+        "rake",
+        0.325
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.23815789473684207,
+    "score_mean": 0.4763807162834623,
+    "score_max": 0.5631578947368421,
+    "node_names": {
+      "libruby": "libruby",
+      "libruby3.1": "libruby3.1",
+      "rake": "rake",
+      "ruby": "ruby",
+      "ruby-rubygems": "ruby-rubygems",
+      "ruby-sdbm": "ruby-sdbm",
+      "ruby3.1": "ruby3.1"
+    },
+    "clause_details": {
+      "libruby": {
+        "mean_score": 0.5052631578947367,
+        "visit_count": 19,
+        "conflict_count": 33,
+        "risk_history": [
+          0.7,
+          0.6,
+          0.3,
+          0.2,
+          0.2,
+          0.6,
+          0.7,
+          0.6,
+          0.5,
+          0.6,
+          0.3,
+          0.7,
+          0.3,
+          0.3,
+          0.6,
+          0.3,
+          0.7,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "libruby3.1": {
+        "mean_score": 0.5565217391304349,
+        "visit_count": 23,
+        "conflict_count": 49,
+        "risk_history": [
+          0.8,
+          0.4,
+          0.1,
+          0.7,
+          0.8,
+          0.7,
+          0.5,
+          0.5,
+          0.7,
+          0.4,
+          0.7,
+          0.1,
+          0.8,
+          0.4,
+          0.5,
+          0.7,
+          0.4,
+          0.5,
+          0.1,
+          0.8,
+          0.8,
+          0.8,
+          0.6
+        ],
+        "is_oc_detected": false
+      },
+      "rake": {
+        "mean_score": 0.325,
+        "visit_count": 16,
+        "conflict_count": 19,
+        "risk_history": [
+          0.4,
+          0.2,
+          0.6,
+          0.3,
+          0.2,
+          0.2,
+          0.2,
+          0.7,
+          0.3,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.3,
+          0.6,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "ruby": {
+        "mean_score": 0.5222222222222223,
+        "visit_count": 18,
+        "conflict_count": 36,
+        "risk_history": [
+          0.7,
+          0.4,
+          0.4,
+          0.4,
+          0.5,
+          0.7,
+          0.5,
+          0.4,
+          0.5,
+          0.8,
+          0.6,
+          0.4,
+          0.5,
+          0.5,
+          0.4,
+          0.6,
+          0.7,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "ruby-rubygems": {
+        "mean_score": 0.4999999999999999,
+        "visit_count": 9,
+        "conflict_count": 11,
+        "risk_history": [
+          0.8,
+          0.5,
+          0.5,
+          0.3,
+          0.7,
+          0.3,
+          0.4,
+          0.3,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "ruby-sdbm": {
+        "mean_score": 0.5631578947368421,
+        "visit_count": 19,
+        "conflict_count": 32,
+        "risk_history": [
+          0.9,
+          0.3,
+          0.8,
+          0.8,
+          0.3,
+          0.4,
+          0.4,
+          0.8,
+          0.3,
+          0.9,
+          0.3,
+          0.4,
+          0.4,
+          0.8,
+          0.3,
+          0.4,
+          0.6,
+          0.9,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "ruby3.1": {
+        "mean_score": 0.36250000000000004,
+        "visit_count": 16,
+        "conflict_count": 18,
+        "risk_history": [
+          0.5,
+          0.3,
+          0.3,
+          0.2,
+          0.3,
+          0.3,
+          0.6,
+          0.4,
+          0.2,
+          0.5,
+          0.3,
+          0.3,
+          0.2,
+          0.4,
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "libruby",
+      "libruby3.1",
+      "ruby",
+      "ruby-rubygems",
+      "ruby-sdbm",
+      "ruby3.1"
+    ],
+    "gt_evidence": {
+      "libruby": "ruby ecosystem CVE propagation",
+      "libruby3.1": "~48 CVEs (NVD/CVE database)",
+      "ruby": "ruby ecosystem CVE propagation",
+      "ruby-rubygems": "ruby ecosystem CVE propagation",
+      "ruby-sdbm": "ruby ecosystem CVE propagation",
+      "ruby3.1": "~48 CVEs (NVD/CVE database)"
+    },
+    "top1_hit": true,
+    "top3_hit": true
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian)",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 7,
+    "scc_id": "scc_1",
+    "scc_clause_ids": [
+      "libruby",
+      "libruby3.1",
+      "rake",
+      "ruby",
+      "ruby-rubygems",
+      "ruby-sdbm",
+      "ruby3.1"
+    ],
+    "llm_calls": 1,
+    "time": 23.51243019104004,
+    "scores": {
+      "libruby": 0.7,
+      "libruby3.1": 0.8,
+      "rake": 0.4,
+      "ruby": 0.9,
+      "ruby-rubygems": 0.6,
+      "ruby-sdbm": 0.3,
+      "ruby3.1": 0.7
+    },
+    "reasonings": {
+      "libruby": "Core library with multiple dependencies; depends on libruby3.1 and is depended on by ruby and ruby-sdbm. Central position in cycle increases cascading failure risk.",
+      "libruby3.1": "Version-specific core library with circular dependencies to both rake and ruby-sdbm. High coupling and critical position in the dependency cycle.",
+      "rake": "Build tool with simple dependency on ruby, but pulled into cycle via libruby3.1 dependency. Moderate risk due to build-time exposure.",
+      "ruby": "Primary Ruby interpreter package with dependencies on ruby3.1, libruby, and ruby-rubygems. Critical attack surface and central to the entire ecosystem.",
+      "ruby-rubygems": "Package manager component with dependency on ruby. Moderate risk due to package installation functionality and network exposure.",
+      "ruby-sdbm": "Database library with dependencies on libruby3.1 and libruby. Lower risk due to specialized functionality and limited attack surface.",
+      "ruby3.1": "Version-specific interpreter with dependency on libruby3.1. High risk due to interpreter-level vulnerabilities and position in core cycle."
+    },
+    "ranking": [
+      [
+        "ruby",
+        0.9
+      ],
+      [
+        "libruby3.1",
+        0.8
+      ],
+      [
+        "libruby",
+        0.7
+      ],
+      [
+        "ruby3.1",
+        0.7
+      ],
+      [
+        "ruby-rubygems",
+        0.6
+      ],
+      [
+        "rake",
+        0.4
+      ],
+      [
+        "ruby-sdbm",
+        0.3
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "libruby3.1",
+        "clause_b": "rake",
+        "description": "Mutual dependency between core library and build tool creates bootstrap issues"
+      },
+      {
+        "clause_a": "libruby3.1",
+        "clause_b": "ruby-sdbm",
+        "description": "Circular dependency between core library and database component"
+      },
+      {
+        "clause_a": "ruby",
+        "clause_b": "ruby-rubygems",
+        "description": "Interpreter and package manager mutually dependent, blocking security updates"
+      },
+      {
+        "clause_a": "ruby",
+        "clause_b": "ruby3.1",
+        "description": "Version abstraction creates dependency loop between interpreter packages"
+      }
+    ],
+    "score_spread": 0.6000000000000001,
+    "score_mean": 0.6285714285714284,
+    "score_max": 0.9,
+    "node_names": {
+      "libruby": "libruby",
+      "libruby3.1": "libruby3.1",
+      "rake": "rake",
+      "ruby": "ruby",
+      "ruby-rubygems": "ruby-rubygems",
+      "ruby-sdbm": "ruby-sdbm",
+      "ruby3.1": "ruby3.1"
+    },
+    "ground_truth_nodes": [
+      "libruby",
+      "libruby3.1",
+      "ruby",
+      "ruby-rubygems",
+      "ruby-sdbm",
+      "ruby3.1"
+    ],
+    "gt_evidence": {
+      "libruby": "ruby ecosystem CVE propagation",
+      "libruby3.1": "~48 CVEs (NVD/CVE database)",
+      "ruby": "ruby ecosystem CVE propagation",
+      "ruby-rubygems": "ruby ecosystem CVE propagation",
+      "ruby-sdbm": "ruby ecosystem CVE propagation",
+      "ruby3.1": "~48 CVEs (NVD/CVE database)"
+    },
+    "top1_hit": true,
+    "top3_hit": true
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 7,
+    "scc_id": "scc_1",
+    "scc_clause_ids": [
+      "libruby",
+      "libruby3.1",
+      "rake",
+      "ruby",
+      "ruby-rubygems",
+      "ruby-sdbm",
+      "ruby3.1"
+    ],
+    "budget": 30,
+    "llm_calls": 13,
+    "tt_hits": 17,
+    "tt_hit_rate": 0.5666666666666667,
+    "time": 84.44464707374573,
+    "scores": {
+      "ruby-rubygems": 0.6166666666666667,
+      "ruby-sdbm": 0.5941176470588235,
+      "libruby3.1": 0.5899999999999999,
+      "libruby": 0.44999999999999996,
+      "ruby": 0.4260869565217392,
+      "ruby3.1": 0.37692307692307686,
+      "rake": 0.3647058823529412
+    },
+    "ranking": [
+      [
+        "ruby-rubygems",
+        0.6166666666666667
+      ],
+      [
+        "ruby-sdbm",
+        0.5941176470588235
+      ],
+      [
+        "libruby3.1",
+        0.5899999999999999
+      ],
+      [
+        "libruby",
+        0.44999999999999996
+      ],
+      [
+        "ruby",
+        0.4260869565217392
+      ],
+      [
+        "ruby3.1",
+        0.37692307692307686
+      ],
+      [
+        "rake",
+        0.3647058823529412
+      ]
+    ],
+    "oc_detected": [
+      "ruby-rubygems",
+      "ruby-sdbm"
+    ],
+    "oc_count": 2,
+    "score_spread": 0.2519607843137255,
+    "score_mean": 0.48835717564617825,
+    "score_max": 0.6166666666666667,
+    "node_names": {
+      "libruby": "libruby",
+      "libruby3.1": "libruby3.1",
+      "rake": "rake",
+      "ruby": "ruby",
+      "ruby-rubygems": "ruby-rubygems",
+      "ruby-sdbm": "ruby-sdbm",
+      "ruby3.1": "ruby3.1"
+    },
+    "clause_details": {
+      "libruby": {
+        "mean_score": 0.44999999999999996,
+        "visit_count": 18,
+        "conflict_count": 32,
+        "risk_history": [
+          0.8,
+          0.3,
+          0.4,
+          0.4,
+          0.4,
+          0.6,
+          0.3,
+          0.3,
+          0.3,
+          0.8,
+          0.4,
+          0.8,
+          0.3,
+          0.4,
+          0.6,
+          0.4,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libruby3.1": {
+        "mean_score": 0.5899999999999999,
+        "visit_count": 20,
+        "conflict_count": 40,
+        "risk_history": [
+          0.6,
+          0.6,
+          0.6,
+          0.6,
+          0.2,
+          0.7,
+          0.2,
+          0.6,
+          0.7,
+          0.6,
+          0.7,
+          0.7,
+          0.6,
+          0.7,
+          0.6,
+          0.6,
+          0.7,
+          0.6,
+          0.6,
+          0.6
+        ],
+        "is_oc_detected": false
+      },
+      "rake": {
+        "mean_score": 0.3647058823529412,
+        "visit_count": 17,
+        "conflict_count": 19,
+        "risk_history": [
+          0.2,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.2,
+          0.8,
+          0.6,
+          0.8,
+          0.2,
+          0.6,
+          0.2,
+          0.4,
+          0.3,
+          0.3,
+          0.1,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "ruby": {
+        "mean_score": 0.4260869565217392,
+        "visit_count": 23,
+        "conflict_count": 32,
+        "risk_history": [
+          0.6,
+          0.4,
+          0.4,
+          0.6,
+          0.6,
+          0.4,
+          0.2,
+          0.4,
+          0.2,
+          0.6,
+          0.6,
+          0.4,
+          0.6,
+          0.4,
+          0.2,
+          0.4,
+          0.4,
+          0.6,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "ruby-rubygems": {
+        "mean_score": 0.6166666666666667,
+        "visit_count": 12,
+        "conflict_count": 17,
+        "risk_history": [
+          0.7,
+          0.5,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.5,
+          0.7,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": true
+      },
+      "ruby-sdbm": {
+        "mean_score": 0.5941176470588235,
+        "visit_count": 17,
+        "conflict_count": 30,
+        "risk_history": [
+          0.4,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.7,
+          0.7,
+          0.4,
+          0.5,
+          0.4,
+          0.7,
+          0.5,
+          0.5,
+          0.8,
+          0.7,
+          0.2,
+          0.7
+        ],
+        "is_oc_detected": true
+      },
+      "ruby3.1": {
+        "mean_score": 0.37692307692307686,
+        "visit_count": 13,
+        "conflict_count": 16,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.6,
+          0.5,
+          0.6,
+          0.3,
+          0.5,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "libruby",
+      "libruby3.1",
+      "ruby",
+      "ruby-rubygems",
+      "ruby-sdbm",
+      "ruby3.1"
+    ],
+    "gt_evidence": {
+      "libruby": "ruby ecosystem CVE propagation",
+      "libruby3.1": "~48 CVEs (NVD/CVE database)",
+      "ruby": "ruby ecosystem CVE propagation",
+      "ruby-rubygems": "ruby ecosystem CVE propagation",
+      "ruby-sdbm": "ruby ecosystem CVE propagation",
+      "ruby3.1": "~48 CVEs (NVD/CVE database)"
+    },
+    "top1_hit": true,
+    "top3_hit": true
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (wikipedia)",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_1",
+    "scc_clause_ids": [
+      "1820_United_States_presidential_election",
+      "Candidates_in_the_1820_United_States_presidential_election",
+      "Era_of_Good_Feelings",
+      "James_Monroe",
+      "Presidency_of_James_Monroe"
+    ],
+    "llm_calls": 1,
+    "time": 3.746601104736328,
+    "scores": {
+      "1820_United_States_presidential_election": 0.7,
+      "Candidates_in_the_1820_United_States_presidential_election": 0.5,
+      "Era_of_Good_Feelings": 0.3,
+      "James_Monroe": 0.8,
+      "Presidency_of_James_Monroe": 0.2
+    },
+    "reasonings": {
+      "1820_United_States_presidential_election": "While the election is related to the Era of Good Feelings, it is not a subcategory of it. The election is a specific event, whereas the Era of Good Feelings is a broader historical period.",
+      "Candidates_in_the_1820_United_States_presidential_election": "This category is related to the election, but it should not be a subcategory of James Monroe. Instead, it should be a subcategory of the election itself.",
+      "Era_of_Good_Feelings": "The Era of Good Feelings is a broader historical context and could reasonably include the Presidency of James Monroe, but its relationship to the election is less direct and may be misplaced.",
+      "James_Monroe": "James Monroe is a person and should not be a subcategory of Candidates in the 1820 United States presidential election. Instead, he should be linked to the election as a candidate, not as a subcategory.",
+      "Presidency_of_James_Monroe": "The Presidency of James Monroe is closely tied to the Era of Good Feelings, so this relationship is reasonable. However, it should not be part of a cycle."
+    },
+    "ranking": [
+      [
+        "James_Monroe",
+        0.8
+      ],
+      [
+        "1820_United_States_presidential_election",
+        0.7
+      ],
+      [
+        "Candidates_in_the_1820_United_States_presidential_election",
+        0.5
+      ],
+      [
+        "Era_of_Good_Feelings",
+        0.3
+      ],
+      [
+        "Presidency_of_James_Monroe",
+        0.2
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "1820_United_States_presidential_election",
+        "clause_b": "Era_of_Good_Feelings",
+        "description": "The election is a specific event and should not be a subcategory of the broader historical period."
+      },
+      {
+        "clause_a": "Candidates_in_the_1820_United_States_presidential_election",
+        "clause_b": "James_Monroe",
+        "description": "James Monroe is a person and should not be a subcategory of the candidates category. Instead, he should be linked as an instance or member."
+      }
+    ],
+    "score_spread": 0.6000000000000001,
+    "score_mean": 0.5,
+    "score_max": 0.8,
+    "node_names": {
+      "1820_United_States_presidential_election": "1820 United States presidential election",
+      "Candidates_in_the_1820_United_States_presidential_election": "Candidates in the 1820 United States presidential election",
+      "Era_of_Good_Feelings": "Era of Good Feelings",
+      "James_Monroe": "James Monroe",
+      "Presidency_of_James_Monroe": "Presidency of James Monroe"
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_1",
+    "scc_clause_ids": [
+      "1820_United_States_presidential_election",
+      "Candidates_in_the_1820_United_States_presidential_election",
+      "Era_of_Good_Feelings",
+      "James_Monroe",
+      "Presidency_of_James_Monroe"
+    ],
+    "budget": 60,
+    "llm_calls": 18,
+    "tt_hits": 42,
+    "tt_hit_rate": 0.7,
+    "time": 52.53744578361511,
+    "scores": {
+      "Era_of_Good_Feelings": 0.5098039215686274,
+      "Candidates_in_the_1820_United_States_presidential_election": 0.4962264150943395,
+      "1820_United_States_presidential_election": 0.44375000000000003,
+      "James_Monroe": 0.397872340425532,
+      "Presidency_of_James_Monroe": 0.12195121951219515
+    },
+    "ranking": [
+      [
+        "Era_of_Good_Feelings",
+        0.5098039215686274
+      ],
+      [
+        "Candidates_in_the_1820_United_States_presidential_election",
+        0.4962264150943395
+      ],
+      [
+        "1820_United_States_presidential_election",
+        0.44375000000000003
+      ],
+      [
+        "James_Monroe",
+        0.397872340425532
+      ],
+      [
+        "Presidency_of_James_Monroe",
+        0.12195121951219515
+      ]
+    ],
+    "oc_detected": [
+      "Candidates_in_the_1820_United_States_presidential_election"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.3878527020564323,
+    "score_mean": 0.3939207793201388,
+    "score_max": 0.5098039215686274,
+    "node_names": {
+      "1820_United_States_presidential_election": "1820 United States presidential election",
+      "Candidates_in_the_1820_United_States_presidential_election": "Candidates in the 1820 United States presidential election",
+      "Era_of_Good_Feelings": "Era of Good Feelings",
+      "James_Monroe": "James Monroe",
+      "Presidency_of_James_Monroe": "Presidency of James Monroe"
+    },
+    "clause_details": {
+      "1820_United_States_presidential_election": {
+        "mean_score": 0.44375000000000003,
+        "visit_count": 48,
+        "conflict_count": 52,
+        "risk_history": [
+          0.7,
+          0.0,
+          0.8,
+          0.8,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.8,
+          0.8,
+          0.0,
+          0.0,
+          0.8,
+          0.0,
+          0.0,
+          0.7,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.0,
+          0.8,
+          0.7,
+          0.7,
+          0.8,
+          0.0,
+          0.8,
+          0.7,
+          0.8,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.0,
+          0.8,
+          0.0,
+          0.8,
+          0.8,
+          0.0,
+          0.0,
+          0.7,
+          0.0,
+          0.8,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Candidates_in_the_1820_United_States_presidential_election": {
+        "mean_score": 0.4962264150943395,
+        "visit_count": 53,
+        "conflict_count": 52,
+        "risk_history": [
+          0.9,
+          0.7,
+          0.9,
+          0.9,
+          0.9,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.9,
+          0.7,
+          0.8,
+          0.9,
+          0.2,
+          0.7,
+          0.9,
+          0.8,
+          0.1,
+          0.2,
+          0.1,
+          0.1,
+          0.0,
+          0.2,
+          0.0,
+          0.7,
+          0.2,
+          0.1,
+          0.0,
+          0.7,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.8,
+          0.7,
+          0.0,
+          0.8,
+          0.7,
+          0.0,
+          0.0,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.0,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": true
+      },
+      "Era_of_Good_Feelings": {
+        "mean_score": 0.5098039215686274,
+        "visit_count": 51,
+        "conflict_count": 35,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.0,
+          0.8,
+          0.0,
+          0.7,
+          0.7,
+          0.7,
+          0.0,
+          0.0,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.8,
+          0.0,
+          0.8,
+          0.7,
+          0.0,
+          0.7,
+          0.8,
+          0.8,
+          0.7,
+          0.0,
+          0.7,
+          0.8,
+          0.0,
+          0.7,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.0,
+          0.0,
+          0.7,
+          0.0,
+          0.0,
+          0.7,
+          0.7,
+          0.0,
+          0.0,
+          0.0,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "James_Monroe": {
+        "mean_score": 0.397872340425532,
+        "visit_count": 47,
+        "conflict_count": 48,
+        "risk_history": [
+          0.0,
+          0.5,
+          0.8,
+          0.5,
+          0.8,
+          0.0,
+          0.0,
+          0.0,
+          0.8,
+          0.0,
+          0.5,
+          0.0,
+          0.8,
+          0.5,
+          0.0,
+          0.8,
+          0.0,
+          0.0,
+          0.8,
+          0.8,
+          0.0,
+          0.0,
+          0.0,
+          0.8,
+          0.8,
+          0.0,
+          0.0,
+          0.8,
+          0.0,
+          0.1,
+          0.0,
+          0.1,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.7,
+          0.8,
+          0.1,
+          0.8,
+          0.0,
+          0.0,
+          0.0,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "Presidency_of_James_Monroe": {
+        "mean_score": 0.12195121951219515,
+        "visit_count": 41,
+        "conflict_count": 13,
+        "risk_history": [
+          0.0,
+          0.2,
+          0.0,
+          0.0,
+          0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          0.0,
+          0.2,
+          0.0,
+          0.2,
+          0.2,
+          0.2,
+          0.7,
+          0.0,
+          0.7,
+          0.0,
+          0.2,
+          0.0,
+          0.0,
+          0.7,
+          0.0,
+          0.7,
+          0.0,
+          0.2,
+          0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (wikipedia)",
+    "model": "deepseek-v3",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_1",
+    "scc_clause_ids": [
+      "1820_United_States_presidential_election",
+      "Candidates_in_the_1820_United_States_presidential_election",
+      "Era_of_Good_Feelings",
+      "James_Monroe",
+      "Presidency_of_James_Monroe"
+    ],
+    "llm_calls": 1,
+    "time": 12.174659729003906,
+    "scores": {
+      "1820_United_States_presidential_election": 0.9,
+      "Candidates_in_the_1820_United_States_presidential_election": 0.8,
+      "Era_of_Good_Feelings": 0.7,
+      "James_Monroe": 0.3,
+      "Presidency_of_James_Monroe": 0.4
+    },
+    "reasonings": {
+      "1820_United_States_presidential_election": "Should not be a subcategory of Era of Good Feelings - election is an event within the era, not a type/subset of it",
+      "Candidates_in_the_1820_United_States_presidential_election": "Should not be a subcategory of James Monroe - candidates category should stand alone or be under the election",
+      "Era_of_Good_Feelings": "Should not be a subcategory of 1820 election - the era encompasses much more than just this election",
+      "James_Monroe": "Correctly a subcategory of his presidency, but problematic that candidates category links back to him",
+      "Presidency_of_James_Monroe": "Correctly a subcategory of Era of Good Feelings, as his presidency defined that period"
+    },
+    "ranking": [
+      [
+        "1820_United_States_presidential_election",
+        0.9
+      ],
+      [
+        "Candidates_in_the_1820_United_States_presidential_election",
+        0.8
+      ],
+      [
+        "Era_of_Good_Feelings",
+        0.7
+      ],
+      [
+        "Presidency_of_James_Monroe",
+        0.4
+      ],
+      [
+        "James_Monroe",
+        0.3
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "Era_of_Good_Feelings",
+        "clause_b": "1820_United_States_presidential_election",
+        "description": "Era of Good Feelings is a broad historical period that should not be subordinate to a single election within it"
+      },
+      {
+        "clause_a": "Candidates_in_the_1820_United_States_presidential_election",
+        "clause_b": "James_Monroe",
+        "description": "Candidates category should not be a subcategory of a person - creates circular logic with person being under presidency"
+      }
+    ],
+    "score_spread": 0.6000000000000001,
+    "score_mean": 0.62,
+    "score_max": 0.9,
+    "node_names": {
+      "1820_United_States_presidential_election": "1820 United States presidential election",
+      "Candidates_in_the_1820_United_States_presidential_election": "Candidates in the 1820 United States presidential election",
+      "Era_of_Good_Feelings": "Era of Good Feelings",
+      "James_Monroe": "James Monroe",
+      "Presidency_of_James_Monroe": "Presidency of James Monroe"
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_1",
+    "scc_clause_ids": [
+      "1820_United_States_presidential_election",
+      "Candidates_in_the_1820_United_States_presidential_election",
+      "Era_of_Good_Feelings",
+      "James_Monroe",
+      "Presidency_of_James_Monroe"
+    ],
+    "budget": 60,
+    "llm_calls": 20,
+    "tt_hits": 40,
+    "tt_hit_rate": 0.6666666666666666,
+    "time": 117.96845316886902,
+    "scores": {
+      "Candidates_in_the_1820_United_States_presidential_election": 0.6645833333333335,
+      "Era_of_Good_Feelings": 0.5687500000000001,
+      "James_Monroe": 0.5458333333333334,
+      "1820_United_States_presidential_election": 0.4765957446808511,
+      "Presidency_of_James_Monroe": 0.257142857142857
+    },
+    "ranking": [
+      [
+        "Candidates_in_the_1820_United_States_presidential_election",
+        0.6645833333333335
+      ],
+      [
+        "Era_of_Good_Feelings",
+        0.5687500000000001
+      ],
+      [
+        "James_Monroe",
+        0.5458333333333334
+      ],
+      [
+        "1820_United_States_presidential_election",
+        0.4765957446808511
+      ],
+      [
+        "Presidency_of_James_Monroe",
+        0.257142857142857
+      ]
+    ],
+    "oc_detected": [
+      "Candidates_in_the_1820_United_States_presidential_election"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.4074404761904765,
+    "score_mean": 0.502581053698075,
+    "score_max": 0.6645833333333335,
+    "node_names": {
+      "1820_United_States_presidential_election": "1820 United States presidential election",
+      "Candidates_in_the_1820_United_States_presidential_election": "Candidates in the 1820 United States presidential election",
+      "Era_of_Good_Feelings": "Era of Good Feelings",
+      "James_Monroe": "James Monroe",
+      "Presidency_of_James_Monroe": "Presidency of James Monroe"
+    },
+    "clause_details": {
+      "1820_United_States_presidential_election": {
+        "mean_score": 0.4765957446808511,
+        "visit_count": 47,
+        "conflict_count": 53,
+        "risk_history": [
+          0.8,
+          0.0,
+          0.3,
+          0.8,
+          0.8,
+          0.3,
+          0.8,
+          0.8,
+          0.3,
+          0.8,
+          0.3,
+          0.8,
+          0.8,
+          0.0,
+          0.8,
+          0.3,
+          0.7,
+          0.8,
+          0.0,
+          0.8,
+          0.8,
+          0.7,
+          0.1,
+          0.1,
+          0.1,
+          0.0,
+          0.1,
+          0.3,
+          0.8,
+          0.9,
+          0.3,
+          0.0,
+          0.3,
+          0.7,
+          0.3,
+          0.3,
+          0.3,
+          0.7,
+          0.8,
+          0.3,
+          0.3,
+          0.8,
+          0.2,
+          0.2,
+          0.9,
+          0.9,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "Candidates_in_the_1820_United_States_presidential_election": {
+        "mean_score": 0.6645833333333335,
+        "visit_count": 48,
+        "conflict_count": 47,
+        "risk_history": [
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.9,
+          0.9,
+          0.3,
+          0.8,
+          0.3,
+          0.3,
+          0.9,
+          0.3,
+          0.9,
+          0.8,
+          0.3,
+          0.9,
+          0.3,
+          0.3,
+          0.3,
+          0.8,
+          0.1,
+          0.8,
+          0.8,
+          0.9,
+          0.8,
+          0.8,
+          0.3,
+          0.1,
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.8,
+          0.3,
+          0.9,
+          0.9,
+          0.3,
+          0.9,
+          0.9,
+          0.1,
+          0.1,
+          0.9
+        ],
+        "is_oc_detected": true
+      },
+      "Era_of_Good_Feelings": {
+        "mean_score": 0.5687500000000001,
+        "visit_count": 48,
+        "conflict_count": 37,
+        "risk_history": [
+          0.3,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.3,
+          0.3,
+          0.9,
+          0.3,
+          0.0,
+          0.2,
+          0.9,
+          0.2,
+          0.9,
+          0.9,
+          0.9,
+          0.8,
+          0.3,
+          0.9,
+          0.2,
+          0.9,
+          0.2,
+          0.9,
+          0.3,
+          0.8,
+          0.8,
+          0.8,
+          0.2,
+          0.1,
+          0.1,
+          0.8,
+          0.1,
+          0.1,
+          0.9,
+          0.9,
+          0.8,
+          0.9,
+          0.0,
+          0.3,
+          0.9,
+          0.0,
+          0.9,
+          0.0,
+          0.3,
+          0.9,
+          0.9,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "James_Monroe": {
+        "mean_score": 0.5458333333333334,
+        "visit_count": 48,
+        "conflict_count": 48,
+        "risk_history": [
+          0.2,
+          0.0,
+          0.1,
+          0.1,
+          0.2,
+          0.2,
+          0.2,
+          0.3,
+          0.9,
+          0.9,
+          0.1,
+          0.0,
+          0.0,
+          0.9,
+          0.0,
+          0.9,
+          0.1,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.0,
+          0.9,
+          0.9,
+          0.9,
+          0.1,
+          0.1,
+          0.3,
+          0.9,
+          0.8,
+          0.9,
+          0.1,
+          0.9,
+          0.1,
+          0.9,
+          0.8,
+          0.9,
+          0.2,
+          0.8,
+          0.8,
+          0.2,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "Presidency_of_James_Monroe": {
+        "mean_score": 0.257142857142857,
+        "visit_count": 49,
+        "conflict_count": 29,
+        "risk_history": [
+          0.0,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.6,
+          0.8,
+          0.2,
+          0.8,
+          0.2,
+          0.2,
+          0.0,
+          0.2,
+          0.2,
+          0.0,
+          0.8,
+          0.2,
+          0.8,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.8,
+          0.3,
+          0.3,
+          0.0,
+          0.2,
+          0.3,
+          0.3,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.0,
+          0.3,
+          0.2,
+          0.2,
+          0.3,
+          0.2,
+          0.3,
+          0.2,
+          0.2,
+          0.2,
+          0.1,
+          0.1,
+          0.2,
+          0.2,
+          0.1
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (wikipedia)",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_2",
+    "scc_clause_ids": [
+      "Hemings_family",
+      "Monticello",
+      "People_from_Monticello",
+      "Thomas_Jefferson",
+      "Thomas_Jefferson_buildings"
+    ],
+    "llm_calls": 1,
+    "time": 5.21579909324646,
+    "scores": {
+      "Hemings_family": 0.8,
+      "Monticello": 0.6,
+      "People_from_Monticello": 0.7,
+      "Thomas_Jefferson": 0.3,
+      "Thomas_Jefferson_buildings": 0.5
+    },
+    "reasonings": {
+      "Hemings_family": "The Hemings family is historically connected to Thomas Jefferson, but categorizing it as a subcategory of Thomas Jefferson creates a problematic cycle. The Hemings family is better treated as a related but separate category.",
+      "Monticello": "Monticello is a physical location and a historical site, not inherently a subcategory of 'People from Monticello.' This link seems to conflate a place with its residents.",
+      "People_from_Monticello": "While 'People from Monticello' could include individuals like Thomas Jefferson, making it a subcategory of 'Hemings family' is overly specific and introduces unnecessary hierarchy.",
+      "Thomas_Jefferson": "Thomas Jefferson is a historical figure closely tied to Monticello and the Hemings family, but the subcategory relationships should be carefully structured to avoid cycles.",
+      "Thomas_Jefferson_buildings": "This category is appropriate for buildings associated with Thomas Jefferson, but making 'Thomas Jefferson' a subcategory of 'Thomas Jefferson buildings' is conceptually incorrect."
+    },
+    "ranking": [
+      [
+        "Hemings_family",
+        0.8
+      ],
+      [
+        "People_from_Monticello",
+        0.7
+      ],
+      [
+        "Monticello",
+        0.6
+      ],
+      [
+        "Thomas_Jefferson_buildings",
+        0.5
+      ],
+      [
+        "Thomas_Jefferson",
+        0.3
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "Hemings_family",
+        "clause_b": "Thomas_Jefferson",
+        "description": "The Hemings family should not be a subcategory of Thomas Jefferson. While they are historically connected, this relationship creates a cycle and misrepresents the family as a subset of Jefferson himself."
+      },
+      {
+        "clause_a": "Monticello",
+        "clause_b": "People_from_Monticello",
+        "description": "Monticello, as a location, should not be a subcategory of 'People from Monticello.' This link conflates a place with its residents, which is conceptually incorrect."
+      },
+      {
+        "clause_a": "Thomas_Jefferson",
+        "clause_b": "Thomas_Jefferson_buildings",
+        "description": "Thomas Jefferson should not be a subcategory of 'Thomas Jefferson buildings.' A person cannot logically be a subset of buildings associated with them."
+      }
+    ],
+    "score_spread": 0.5,
+    "score_mean": 0.5799999999999998,
+    "score_max": 0.8,
+    "node_names": {
+      "Hemings_family": "Hemings family",
+      "Monticello": "Monticello",
+      "People_from_Monticello": "People from Monticello",
+      "Thomas_Jefferson": "Thomas Jefferson",
+      "Thomas_Jefferson_buildings": "Thomas Jefferson buildings"
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_2",
+    "scc_clause_ids": [
+      "Hemings_family",
+      "Monticello",
+      "People_from_Monticello",
+      "Thomas_Jefferson",
+      "Thomas_Jefferson_buildings"
+    ],
+    "budget": 60,
+    "llm_calls": 19,
+    "tt_hits": 41,
+    "tt_hit_rate": 0.6833333333333333,
+    "time": 54.87183690071106,
+    "scores": {
+      "People_from_Monticello": 0.5862745098039214,
+      "Hemings_family": 0.5375,
+      "Monticello": 0.5183673469387755,
+      "Thomas_Jefferson_buildings": 0.42173913043478267,
+      "Thomas_Jefferson": 0.13695652173913045
+    },
+    "ranking": [
+      [
+        "People_from_Monticello",
+        0.5862745098039214
+      ],
+      [
+        "Hemings_family",
+        0.5375
+      ],
+      [
+        "Monticello",
+        0.5183673469387755
+      ],
+      [
+        "Thomas_Jefferson_buildings",
+        0.42173913043478267
+      ],
+      [
+        "Thomas_Jefferson",
+        0.13695652173913045
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.44931798806479095,
+    "score_mean": 0.44016750178332203,
+    "score_max": 0.5862745098039214,
+    "node_names": {
+      "Hemings_family": "Hemings family",
+      "Monticello": "Monticello",
+      "People_from_Monticello": "People from Monticello",
+      "Thomas_Jefferson": "Thomas Jefferson",
+      "Thomas_Jefferson_buildings": "Thomas Jefferson buildings"
+    },
+    "clause_details": {
+      "Hemings_family": {
+        "mean_score": 0.5375,
+        "visit_count": 48,
+        "conflict_count": 58,
+        "risk_history": [
+          0.7,
+          0.8,
+          0.0,
+          0.8,
+          0.8,
+          0.0,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.0,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.6,
+          0.0,
+          0.9,
+          0.0,
+          0.8,
+          0.6,
+          0.6,
+          0.7,
+          0.7,
+          0.0,
+          0.7,
+          0.0,
+          0.6,
+          0.0,
+          0.0,
+          0.3,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.0,
+          0.0,
+          0.0,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Monticello": {
+        "mean_score": 0.5183673469387755,
+        "visit_count": 49,
+        "conflict_count": 42,
+        "risk_history": [
+          0.0,
+          0.9,
+          0.0,
+          0.0,
+          0.9,
+          0.9,
+          0.0,
+          0.7,
+          0.7,
+          0.7,
+          0.9,
+          0.7,
+          0.9,
+          0.0,
+          0.6,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.8,
+          0.9,
+          0.0,
+          0.0,
+          0.8,
+          0.0,
+          0.8,
+          0.9,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.0,
+          0.0,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.4,
+          0.8,
+          0.4,
+          0.0,
+          0.0,
+          0.4,
+          0.8,
+          0.4,
+          0.8,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "People_from_Monticello": {
+        "mean_score": 0.5862745098039214,
+        "visit_count": 51,
+        "conflict_count": 67,
+        "risk_history": [
+          0.7,
+          0.7,
+          0.6,
+          0.6,
+          0.7,
+          0.7,
+          0.7,
+          0.6,
+          0.6,
+          0.7,
+          0.0,
+          0.0,
+          0.0,
+          0.7,
+          0.7,
+          0.0,
+          0.7,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.7,
+          0.4,
+          0.0,
+          0.7,
+          0.9,
+          0.0,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.0,
+          0.0,
+          0.9,
+          0.7,
+          0.7,
+          0.9,
+          0.0,
+          0.9,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Thomas_Jefferson": {
+        "mean_score": 0.13695652173913045,
+        "visit_count": 46,
+        "conflict_count": 43,
+        "risk_history": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.3,
+          0.0,
+          0.0,
+          0.0,
+          0.3,
+          0.0,
+          0.3,
+          0.0,
+          0.0,
+          0.0,
+          0.3,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.8,
+          0.0,
+          0.0,
+          0.0,
+          0.7,
+          0.8,
+          0.7,
+          0.0,
+          0.0,
+          0.7,
+          0.7,
+          0.0,
+          0.0,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "Thomas_Jefferson_buildings": {
+        "mean_score": 0.42173913043478267,
+        "visit_count": 46,
+        "conflict_count": 26,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.8,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.0,
+          0.8,
+          0.0,
+          0.0,
+          0.8,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.8,
+          0.8,
+          0.0,
+          0.8,
+          0.0,
+          0.0,
+          0.2,
+          0.0,
+          0.7,
+          0.7,
+          0.0,
+          0.0,
+          0.0,
+          0.8,
+          0.0,
+          0.0,
+          0.8,
+          0.8,
+          0.0,
+          0.8,
+          0.0,
+          0.7,
+          0.7,
+          0.8
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (wikipedia)",
+    "model": "deepseek-v3",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_2",
+    "scc_clause_ids": [
+      "Hemings_family",
+      "Monticello",
+      "People_from_Monticello",
+      "Thomas_Jefferson",
+      "Thomas_Jefferson_buildings"
+    ],
+    "llm_calls": 1,
+    "time": 14.686684846878052,
+    "scores": {
+      "Hemings_family": 0.9,
+      "Monticello": 0.8,
+      "People_from_Monticello": 0.7,
+      "Thomas_Jefferson": 0.9,
+      "Thomas_Jefferson_buildings": 0.3
+    },
+    "reasonings": {
+      "Hemings_family": "Hemings family should not be a subcategory of Thomas Jefferson - families are not subsets of individuals",
+      "Monticello": "Monticello (a place) should not be a subcategory of People from Monticello - places contain people, not vice versa",
+      "People_from_Monticello": "People from Monticello should not be a subcategory of Hemings family - the Hemings family is a subset of people from Monticello, not the other way around",
+      "Thomas_Jefferson": "Thomas Jefferson (person) should not be a subcategory of Thomas Jefferson buildings - people are not subsets of buildings",
+      "Thomas_Jefferson_buildings": "Thomas Jefferson buildings being a subcategory of Monticello is somewhat reasonable as Monticello is his most famous building"
+    },
+    "ranking": [
+      [
+        "Hemings_family",
+        0.9
+      ],
+      [
+        "Thomas_Jefferson",
+        0.9
+      ],
+      [
+        "Monticello",
+        0.8
+      ],
+      [
+        "People_from_Monticello",
+        0.7
+      ],
+      [
+        "Thomas_Jefferson_buildings",
+        0.3
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "Hemings_family",
+        "clause_b": "Thomas_Jefferson",
+        "description": "Family cannot be a subcategory of an individual family member - relationship should be reversed"
+      },
+      {
+        "clause_a": "Thomas_Jefferson",
+        "clause_b": "Thomas_Jefferson_buildings",
+        "description": "Person cannot be a subcategory of buildings associated with that person"
+      },
+      {
+        "clause_a": "Monticello",
+        "clause_b": "People_from_Monticello",
+        "description": "Place cannot be a subcategory of people from that place - relationship is inverted"
+      }
+    ],
+    "score_spread": 0.6000000000000001,
+    "score_mean": 0.72,
+    "score_max": 0.9,
+    "node_names": {
+      "Hemings_family": "Hemings family",
+      "Monticello": "Monticello",
+      "People_from_Monticello": "People from Monticello",
+      "Thomas_Jefferson": "Thomas Jefferson",
+      "Thomas_Jefferson_buildings": "Thomas Jefferson buildings"
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_2",
+    "scc_clause_ids": [
+      "Hemings_family",
+      "Monticello",
+      "People_from_Monticello",
+      "Thomas_Jefferson",
+      "Thomas_Jefferson_buildings"
+    ],
+    "budget": 60,
+    "llm_calls": 21,
+    "tt_hits": 39,
+    "tt_hit_rate": 0.65,
+    "time": 110.86524415016174,
+    "scores": {
+      "Thomas_Jefferson": 0.7399999999999998,
+      "Monticello": 0.5391304347826089,
+      "Thomas_Jefferson_buildings": 0.4979999999999998,
+      "Hemings_family": 0.45208333333333345,
+      "People_from_Monticello": 0.41739130434782606
+    },
+    "ranking": [
+      [
+        "Thomas_Jefferson",
+        0.7399999999999998
+      ],
+      [
+        "Monticello",
+        0.5391304347826089
+      ],
+      [
+        "Thomas_Jefferson_buildings",
+        0.4979999999999998
+      ],
+      [
+        "Hemings_family",
+        0.45208333333333345
+      ],
+      [
+        "People_from_Monticello",
+        0.41739130434782606
+      ]
+    ],
+    "oc_detected": [
+      "Thomas_Jefferson"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.3226086956521737,
+    "score_mean": 0.5293210144927536,
+    "score_max": 0.7399999999999998,
+    "node_names": {
+      "Hemings_family": "Hemings family",
+      "Monticello": "Monticello",
+      "People_from_Monticello": "People from Monticello",
+      "Thomas_Jefferson": "Thomas Jefferson",
+      "Thomas_Jefferson_buildings": "Thomas Jefferson buildings"
+    },
+    "clause_details": {
+      "Hemings_family": {
+        "mean_score": 0.45208333333333345,
+        "visit_count": 48,
+        "conflict_count": 30,
+        "risk_history": [
+          0.9,
+          0.0,
+          0.9,
+          0.8,
+          0.0,
+          0.8,
+          0.9,
+          0.0,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.9,
+          0.9,
+          0.3,
+          0.0,
+          0.3,
+          0.3,
+          0.2,
+          0.2,
+          0.3,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.3,
+          0.2,
+          0.2,
+          0.2,
+          0.3,
+          0.9,
+          0.3,
+          0.8,
+          0.2,
+          0.3,
+          0.2,
+          0.8,
+          0.3,
+          0.8,
+          0.2,
+          0.2,
+          0.3,
+          0.8,
+          0.3,
+          0.8,
+          0.3,
+          0.3,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "Monticello": {
+        "mean_score": 0.5391304347826089,
+        "visit_count": 46,
+        "conflict_count": 45,
+        "risk_history": [
+          0.3,
+          0.0,
+          0.3,
+          0.0,
+          0.3,
+          0.0,
+          0.8,
+          0.9,
+          0.3,
+          0.8,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.8,
+          0.0,
+          0.9,
+          0.9,
+          0.2,
+          0.8,
+          0.3,
+          0.9,
+          0.3,
+          0.9,
+          0.8,
+          0.3,
+          0.3,
+          0.8,
+          0.8,
+          0.3,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.3,
+          0.3,
+          0.7,
+          0.7,
+          0.8,
+          0.3,
+          0.3,
+          0.7,
+          0.9,
+          0.8,
+          0.9,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "People_from_Monticello": {
+        "mean_score": 0.41739130434782606,
+        "visit_count": 46,
+        "conflict_count": 39,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.2,
+          0.2,
+          0.8,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.8,
+          0.8,
+          0.2,
+          0.2,
+          0.8,
+          0.8,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.3,
+          0.3,
+          0.3,
+          0.2,
+          0.3,
+          0.2,
+          0.7,
+          0.2,
+          0.8,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.9,
+          0.2,
+          0.9,
+          0.2,
+          0.9,
+          0.2,
+          0.2,
+          0.9,
+          0.8,
+          0.1,
+          0.7,
+          0.8,
+          0.1,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "Thomas_Jefferson": {
+        "mean_score": 0.7399999999999998,
+        "visit_count": 50,
+        "conflict_count": 58,
+        "risk_history": [
+          0.9,
+          0.2,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.9,
+          0.2,
+          0.9,
+          0.9,
+          0.2,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.9,
+          0.2,
+          0.8,
+          0.9,
+          0.9,
+          0.9,
+          0.3,
+          0.8,
+          0.8,
+          0.8,
+          0.3,
+          0.8,
+          0.3,
+          0.9,
+          0.8,
+          0.8,
+          0.8,
+          0.3,
+          0.9,
+          0.3,
+          0.9,
+          0.3,
+          0.7
+        ],
+        "is_oc_detected": true
+      },
+      "Thomas_Jefferson_buildings": {
+        "mean_score": 0.4979999999999998,
+        "visit_count": 50,
+        "conflict_count": 58,
+        "risk_history": [
+          0.2,
+          0.8,
+          0.3,
+          0.8,
+          0.3,
+          0.2,
+          0.8,
+          0.3,
+          0.3,
+          0.9,
+          0.3,
+          0.2,
+          0.3,
+          0.3,
+          0.2,
+          0.3,
+          0.1,
+          0.8,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.8,
+          0.3,
+          0.9,
+          0.1,
+          0.9,
+          0.1,
+          0.1,
+          0.3,
+          0.9,
+          0.9,
+          0.9,
+          0.3,
+          0.9,
+          0.3,
+          0.3,
+          0.3,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.3,
+          0.9,
+          0.9,
+          0.9,
+          0.2,
+          0.9,
+          0.2,
+          0.9
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21)",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 5,
+    "scc_id": "scc_4",
+    "scc_clause_ids": [
+      "us-cw-154632",
+      "us-cw-154633",
+      "us-cw-423592",
+      "us-cw-423596",
+      "us-cw-837101"
+    ],
+    "llm_calls": 1,
+    "time": 5.190104961395264,
+    "scores": {
+      "us-cw-154632": 0.8,
+      "us-cw-154633": 0.9,
+      "us-cw-423592": 1.0,
+      "us-cw-423596": 0.9,
+      "us-cw-837101": 0.8
+    },
+    "reasonings": {
+      "us-cw-154632": "Baker Hughes Limited (GB) is part of a circular ownership structure and is located in a jurisdiction (United Kingdom) that, while not a tax haven, is often used in complex international tax planning. The ownership direction does not make clear business sense, as it loops back to itself through other entities.",
+      "us-cw-154633": "Baker Hughes Nederland Holdings B.V. (NL) is a key intermediary in the circular ownership structure, owning multiple entities and being owned by another entity in the cycle. The Netherlands is a known jurisdiction for tax optimization, and the complexity of its ownership links raises concerns about potential tax avoidance or filing errors.",
+      "us-cw-423592": "Baker Hughes EHO Limited (BM) is located in Bermuda, a well-known tax haven, and is owned by multiple entities in the circular structure. Its role in the cycle is highly anomalous and suggests potential regulatory or tax compliance issues.",
+      "us-cw-423596": "Baker Hughes Holdings III B.V. (NL) is another Dutch entity in the circular ownership structure. Its ownership of Baker Hughes EHO Limited (BM) and its position in the cycle indicate a high likelihood of tax optimization or filing errors.",
+      "us-cw-837101": "BJ Services International S. ? r.l. (LU) is located in Luxembourg, a jurisdiction often associated with tax planning. Its ownership of Baker Hughes EHO Limited (BM) and its involvement in the circular structure raise concerns about the legitimacy of the ownership links."
+    },
+    "ranking": [
+      [
+        "us-cw-423592",
+        1.0
+      ],
+      [
+        "us-cw-154633",
+        0.9
+      ],
+      [
+        "us-cw-423596",
+        0.9
+      ],
+      [
+        "us-cw-154632",
+        0.8
+      ],
+      [
+        "us-cw-837101",
+        0.8
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "us-cw-154632",
+        "clause_b": "us-cw-423592",
+        "description": "Baker Hughes Limited (GB) owns Baker Hughes Nederland Holdings B.V. (NL), which in turn owns Baker Hughes EHO Limited (BM), which then owns Baker Hughes Limited (GB). This circular ownership structure is highly anomalous and suggests potential filing errors or tax avoidance strategies."
+      },
+      {
+        "clause_a": "us-cw-154633",
+        "clause_b": "us-cw-423596",
+        "description": "Baker Hughes Nederland Holdings B.V. (NL) owns Baker Hughes Holdings III B.V. (NL), which owns Baker Hughes EHO Limited (BM). The cross-border ownership between the Netherlands and Bermuda, combined with the circular structure, raises concerns about tax optimization and regulatory compliance."
+      },
+      {
+        "clause_a": "us-cw-423592",
+        "clause_b": "us-cw-837101",
+        "description": "Baker Hughes EHO Limited (BM) is owned by BJ Services International S. ? r.l. (LU), which is part of the circular ownership structure. The involvement of Bermuda and Luxembourg, both known for tax advantages, increases the risk of regulatory or tax compliance issues."
+      }
+    ],
+    "score_spread": 0.19999999999999996,
+    "score_mean": 0.8800000000000001,
+    "score_max": 1.0,
+    "node_names": {
+      "us-cw-154632": "Baker Hughes Limited",
+      "us-cw-154633": "Baker Hughes Nederland Holdings B.V.",
+      "us-cw-423592": "Baker Hughes EHO Limited",
+      "us-cw-423596": "Baker Hughes Holdings III B.V.",
+      "us-cw-837101": "BJ Services International S. ? r.l."
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 5,
+    "scc_id": "scc_4",
+    "scc_clause_ids": [
+      "us-cw-154632",
+      "us-cw-154633",
+      "us-cw-423592",
+      "us-cw-423596",
+      "us-cw-837101"
+    ],
+    "budget": 30,
+    "llm_calls": 13,
+    "tt_hits": 17,
+    "tt_hit_rate": 0.5666666666666667,
+    "time": 28.189089059829712,
+    "scores": {
+      "us-cw-423592": 1.0,
+      "us-cw-154632": 0.8692307692307695,
+      "us-cw-154633": 0.8481481481481483,
+      "us-cw-837101": 0.8208333333333332,
+      "us-cw-423596": 0.7066666666666666
+    },
+    "ranking": [
+      [
+        "us-cw-423592",
+        1.0
+      ],
+      [
+        "us-cw-154632",
+        0.8692307692307695
+      ],
+      [
+        "us-cw-154633",
+        0.8481481481481483
+      ],
+      [
+        "us-cw-837101",
+        0.8208333333333332
+      ],
+      [
+        "us-cw-423596",
+        0.7066666666666666
+      ]
+    ],
+    "oc_detected": [
+      "us-cw-423592"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.29333333333333345,
+    "score_mean": 0.8489757834757835,
+    "score_max": 1.0,
+    "node_names": {
+      "us-cw-154632": "Baker Hughes Limited",
+      "us-cw-154633": "Baker Hughes Nederland Holdings B.V.",
+      "us-cw-423592": "Baker Hughes EHO Limited",
+      "us-cw-423596": "Baker Hughes Holdings III B.V.",
+      "us-cw-837101": "BJ Services International S. ? r.l."
+    },
+    "clause_details": {
+      "us-cw-154632": {
+        "mean_score": 0.8692307692307695,
+        "visit_count": 26,
+        "conflict_count": 25,
+        "risk_history": [
+          1.0,
+          0.8,
+          0.8,
+          0.9,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          1.0,
+          0.8,
+          1.0,
+          1.0,
+          0.7,
+          0.8,
+          1.0,
+          0.9,
+          0.2,
+          0.8,
+          0.8,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-154633": {
+        "mean_score": 0.8481481481481483,
+        "visit_count": 27,
+        "conflict_count": 33,
+        "risk_history": [
+          0.9,
+          0.9,
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          0.8,
+          0.9,
+          0.8,
+          1.0,
+          0.8,
+          0.9,
+          1.0,
+          1.0,
+          0.8,
+          1.0,
+          0.8,
+          0.8,
+          0.6,
+          0.9,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-423592": {
+        "mean_score": 1.0,
+        "visit_count": 28,
+        "conflict_count": 66,
+        "risk_history": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "is_oc_detected": true
+      },
+      "us-cw-423596": {
+        "mean_score": 0.7066666666666666,
+        "visit_count": 15,
+        "conflict_count": 18,
+        "risk_history": [
+          0.6,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.9,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-837101": {
+        "mean_score": 0.8208333333333332,
+        "visit_count": 24,
+        "conflict_count": 34,
+        "risk_history": [
+          0.8,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.6,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          0.6,
+          1.0,
+          0.7,
+          0.6,
+          0.6,
+          1.0,
+          0.8,
+          0.6,
+          0.6,
+          0.6,
+          0.9,
+          0.9,
+          0.6,
+          0.9
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21)",
+    "model": "deepseek-v3",
+    "domain": "sec_ex21",
+    "scc_size": 5,
+    "scc_id": "scc_4",
+    "scc_clause_ids": [
+      "us-cw-154632",
+      "us-cw-154633",
+      "us-cw-423592",
+      "us-cw-423596",
+      "us-cw-837101"
+    ],
+    "llm_calls": 1,
+    "time": 12.80831003189087,
+    "scores": {
+      "us-cw-154632": 0.9,
+      "us-cw-154633": 0.8,
+      "us-cw-423592": 1.0,
+      "us-cw-423596": 0.7,
+      "us-cw-837101": 0.9
+    },
+    "reasonings": {
+      "us-cw-154632": "Circular ownership anchor - owned by Bermuda entity while owning Dutch holding company, creates tax optimization pathway",
+      "us-cw-154633": "Dutch holding company with multiple ownership paths to Bermuda and Luxembourg, typical tax structure jurisdiction",
+      "us-cw-423592": "Bermuda tax haven entity at center of circular chain, owned by three different entities including Luxembourg",
+      "us-cw-423596": "Dutch entity owning Bermuda tax haven company, creates circular link back to UK parent",
+      "us-cw-837101": "Luxembourg entity owning Bermuda company, classic tax avoidance jurisdiction combination"
+    },
+    "ranking": [
+      [
+        "us-cw-423592",
+        1.0
+      ],
+      [
+        "us-cw-154632",
+        0.9
+      ],
+      [
+        "us-cw-837101",
+        0.9
+      ],
+      [
+        "us-cw-154633",
+        0.8
+      ],
+      [
+        "us-cw-423596",
+        0.7
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "us-cw-423592",
+        "clause_b": "us-cw-154632",
+        "description": "Circular ownership: Baker Hughes EHO Limited (Bermuda) owns Baker Hughes Limited (UK) which owns Baker Hughes Nederland Holdings B.V. which owns Baker Hughes EHO Limited"
+      },
+      {
+        "clause_a": "us-cw-423592",
+        "clause_b": "us-cw-423596",
+        "description": "Multiple ownership paths to Bermuda entity from Dutch holding companies creates circular control structure"
+      },
+      {
+        "clause_a": "us-cw-423592",
+        "clause_b": "us-cw-837101",
+        "description": "Luxembourg entity ownership of Bermuda company creates cross-border tax optimization pathway"
+      }
+    ],
+    "score_spread": 0.30000000000000004,
+    "score_mean": 0.8600000000000001,
+    "score_max": 1.0,
+    "node_names": {
+      "us-cw-154632": "Baker Hughes Limited",
+      "us-cw-154633": "Baker Hughes Nederland Holdings B.V.",
+      "us-cw-423592": "Baker Hughes EHO Limited",
+      "us-cw-423596": "Baker Hughes Holdings III B.V.",
+      "us-cw-837101": "BJ Services International S. ? r.l."
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "sec_ex21",
+    "scc_size": 5,
+    "scc_id": "scc_4",
+    "scc_clause_ids": [
+      "us-cw-154632",
+      "us-cw-154633",
+      "us-cw-423592",
+      "us-cw-423596",
+      "us-cw-837101"
+    ],
+    "budget": 30,
+    "llm_calls": 10,
+    "tt_hits": 20,
+    "tt_hit_rate": 0.6666666666666666,
+    "time": 56.919307708740234,
+    "scores": {
+      "us-cw-423592": 0.8241379310344827,
+      "us-cw-837101": 0.68,
+      "us-cw-423596": 0.6799999999999998,
+      "us-cw-154632": 0.6681818181818184,
+      "us-cw-154633": 0.4416666666666666
+    },
+    "ranking": [
+      [
+        "us-cw-423592",
+        0.8241379310344827
+      ],
+      [
+        "us-cw-837101",
+        0.68
+      ],
+      [
+        "us-cw-423596",
+        0.6799999999999998
+      ],
+      [
+        "us-cw-154632",
+        0.6681818181818184
+      ],
+      [
+        "us-cw-154633",
+        0.4416666666666666
+      ]
+    ],
+    "oc_detected": [
+      "us-cw-423592"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.38247126436781614,
+    "score_mean": 0.6587972831765935,
+    "score_max": 0.8241379310344827,
+    "node_names": {
+      "us-cw-154632": "Baker Hughes Limited",
+      "us-cw-154633": "Baker Hughes Nederland Holdings B.V.",
+      "us-cw-423592": "Baker Hughes EHO Limited",
+      "us-cw-423596": "Baker Hughes Holdings III B.V.",
+      "us-cw-837101": "BJ Services International S. ? r.l."
+    },
+    "clause_details": {
+      "us-cw-154632": {
+        "mean_score": 0.6681818181818184,
+        "visit_count": 22,
+        "conflict_count": 21,
+        "risk_history": [
+          0.9,
+          0.8,
+          0.2,
+          0.8,
+          0.9,
+          0.2,
+          0.2,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.2,
+          0.7,
+          0.8,
+          0.8,
+          0.3,
+          0.9,
+          0.9,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-154633": {
+        "mean_score": 0.4416666666666666,
+        "visit_count": 24,
+        "conflict_count": 6,
+        "risk_history": [
+          0.3,
+          0.2,
+          0.7,
+          0.2,
+          0.7,
+          0.3,
+          0.2,
+          0.7,
+          0.2,
+          0.3,
+          0.3,
+          0.3,
+          0.6,
+          0.6,
+          0.6,
+          0.3,
+          0.3,
+          0.6,
+          0.3,
+          0.9,
+          0.7,
+          0.7,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-423592": {
+        "mean_score": 0.8241379310344827,
+        "visit_count": 29,
+        "conflict_count": 44,
+        "risk_history": [
+          0.7,
+          0.9,
+          0.9,
+          0.8,
+          0.9,
+          0.9,
+          0.7,
+          0.8,
+          0.9,
+          0.8,
+          0.9,
+          0.9,
+          0.7,
+          0.7,
+          0.8,
+          0.9,
+          0.9,
+          0.9,
+          0.8,
+          0.8,
+          0.9,
+          0.8,
+          0.8,
+          0.9,
+          0.9,
+          0.8,
+          0.7,
+          0.7,
+          0.8
+        ],
+        "is_oc_detected": true
+      },
+      "us-cw-423596": {
+        "mean_score": 0.6799999999999998,
+        "visit_count": 25,
+        "conflict_count": 33,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.3,
+          0.8,
+          0.8,
+          0.3,
+          0.8,
+          0.3,
+          0.8,
+          0.8,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.3,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.8,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-837101": {
+        "mean_score": 0.68,
+        "visit_count": 20,
+        "conflict_count": 24,
+        "risk_history": [
+          0.7,
+          0.8,
+          0.4,
+          0.7,
+          0.8,
+          0.4,
+          0.7,
+          0.4,
+          0.8,
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.4,
+          0.7,
+          0.8,
+          0.8,
+          0.6,
+          0.9,
+          0.9
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21)",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 11,
+    "scc_id": "scc_2",
+    "scc_clause_ids": [
+      "us-cw-1073486",
+      "us-cw-1073489",
+      "us-cw-1073529",
+      "us-cw-427464",
+      "us-cw-491194",
+      "us-cw-491196",
+      "us-cw-491198",
+      "us-cw-570230",
+      "us-cw-570235",
+      "us-cw-570241",
+      "us-cw-718361"
+    ],
+    "llm_calls": 1,
+    "time": 14.739274978637695,
+    "scores": {
+      "us-cw-1073486": 0.8,
+      "us-cw-1073489": 0.7,
+      "us-cw-1073529": 0.9,
+      "us-cw-427464": 0.8,
+      "us-cw-491194": 0.7,
+      "us-cw-491196": 0.6,
+      "us-cw-491198": 0.8,
+      "us-cw-570230": 0.9,
+      "us-cw-570235": 0.7,
+      "us-cw-570241": 0.6,
+      "us-cw-718361": 0.7
+    },
+    "reasonings": {
+      "us-cw-1073486": "CrossKnowledge Group Limited is part of a circular ownership structure involving multiple entities across different jurisdictions, including tax haven indicators. Ownership direction does not make clear business sense.",
+      "us-cw-1073489": "E Learning SAS is owned by CrossKnowledge Group Limited and owns Wiley Heyden Ltd, contributing to the circular ownership structure. Cross-border complexity and potential shell company indicators increase risk.",
+      "us-cw-1073529": "J Wiley Ltd is central to the circular ownership structure, owning multiple entities and being owned by others in the cycle. Ownership direction is highly anomalous and suggests potential filing errors or regulatory concerns.",
+      "us-cw-427464": "Blackwell Science (Overseas Holdings) owns entities across multiple jurisdictions, including Australia and Japan, and is part of the circular ownership structure. Cross-border ownership complexity raises concerns.",
+      "us-cw-491194": "John Wiley & Sons Australia, Ltd is owned by Blackwell Science (Overseas Holdings) and owns J Wiley Ltd, contributing to the circular ownership structure. Cross-border ownership raises risk.",
+      "us-cw-491196": "John Wiley & Sons GmbH owns Wiley VCH Verlag GmbH & Co KGaA and is owned by J Wiley Ltd. While part of the circular ownership structure, its role is less central than other entities.",
+      "us-cw-491198": "John Wiley & Sons Ltd owns multiple entities, including CrossKnowledge Group Limited and J Wiley Ltd, and is part of the circular ownership structure. Ownership direction is highly anomalous.",
+      "us-cw-570230": "Wiley Heyden Ltd owns multiple entities, including J Wiley Ltd and Blackwell Science (Overseas Holdings), and is owned by E Learning SAS. Its central role in the circular ownership structure raises significant concerns.",
+      "us-cw-570235": "Wiley Publishing Australia Pty Ltd is owned by Blackwell Science (Overseas Holdings) and owns John Wiley & Sons Australia, Ltd. Cross-border ownership complexity contributes to risk.",
+      "us-cw-570241": "Wiley VCH Verlag GmbH & Co KGaA is owned by John Wiley & Sons GmbH and owns CrossKnowledge Group Limited. While part of the circular ownership structure, its role is less central.",
+      "us-cw-718361": "Wiley Publishing Japan KK is owned by Blackwell Science (Overseas Holdings) and owns Wiley Publishing Australia Pty Ltd. Cross-border ownership and tax haven indicators increase risk."
+    },
+    "ranking": [
+      [
+        "us-cw-1073529",
+        0.9
+      ],
+      [
+        "us-cw-570230",
+        0.9
+      ],
+      [
+        "us-cw-1073486",
+        0.8
+      ],
+      [
+        "us-cw-427464",
+        0.8
+      ],
+      [
+        "us-cw-491198",
+        0.8
+      ],
+      [
+        "us-cw-1073489",
+        0.7
+      ],
+      [
+        "us-cw-491194",
+        0.7
+      ],
+      [
+        "us-cw-570235",
+        0.7
+      ],
+      [
+        "us-cw-718361",
+        0.7
+      ],
+      [
+        "us-cw-491196",
+        0.6
+      ],
+      [
+        "us-cw-570241",
+        0.6
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "us-cw-1073486",
+        "clause_b": "us-cw-1073529",
+        "description": "CrossKnowledge Group Limited and J Wiley Ltd are involved in mutual ownership, contributing to the circular ownership structure. This raises concerns about filing errors or regulatory violations."
+      },
+      {
+        "clause_a": "us-cw-570230",
+        "clause_b": "us-cw-491198",
+        "description": "Wiley Heyden Ltd and John Wiley & Sons Ltd are central to the circular ownership structure, owning and being owned by multiple entities. This suggests potential tax avoidance or shell company activity."
+      },
+      {
+        "clause_a": "us-cw-427464",
+        "clause_b": "us-cw-570235",
+        "description": "Blackwell Science (Overseas Holdings) and Wiley Publishing Australia Pty Ltd are involved in cross-border ownership that complicates the structure and raises regulatory concerns."
+      }
+    ],
+    "score_spread": 0.30000000000000004,
+    "score_mean": 0.7454545454545454,
+    "score_max": 0.9,
+    "node_names": {
+      "us-cw-1073486": "CrossKnowledge Group Limited",
+      "us-cw-1073489": "E Learning SAS",
+      "us-cw-1073529": "J Wiley Ltd",
+      "us-cw-427464": "Blackwell Science (Overseas Holdings)",
+      "us-cw-491194": "John Wiley & Sons Australia, Ltd",
+      "us-cw-491196": "John Wiley & Sons GmbH",
+      "us-cw-491198": "John Wiley & Sons Ltd",
+      "us-cw-570230": "Wiley Heyden Ltd",
+      "us-cw-570235": "Wiley Publishing Australia Pty Ltd",
+      "us-cw-570241": "Wiley VCH Verlag GmbH & Co KGaA",
+      "us-cw-718361": "Wiley Publishing Japan KK"
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "sec_ex21",
+    "scc_size": 11,
+    "scc_id": "scc_2",
+    "scc_clause_ids": [
+      "us-cw-1073486",
+      "us-cw-1073489",
+      "us-cw-1073529",
+      "us-cw-427464",
+      "us-cw-491194",
+      "us-cw-491196",
+      "us-cw-491198",
+      "us-cw-570230",
+      "us-cw-570235",
+      "us-cw-570241",
+      "us-cw-718361"
+    ],
+    "budget": 30,
+    "llm_calls": 18,
+    "tt_hits": 12,
+    "tt_hit_rate": 0.4,
+    "time": 44.15334916114807,
+    "scores": {
+      "us-cw-570235": 0.9,
+      "us-cw-491198": 0.8666666666666666,
+      "us-cw-1073486": 0.8642857142857144,
+      "us-cw-718361": 0.8545454545454546,
+      "us-cw-427464": 0.8384615384615385,
+      "us-cw-1073529": 0.8250000000000002,
+      "us-cw-491194": 0.8166666666666668,
+      "us-cw-570230": 0.8099999999999999,
+      "us-cw-1073489": 0.8,
+      "us-cw-491196": 0.6857142857142857,
+      "us-cw-570241": 0.6699999999999999
+    },
+    "ranking": [
+      [
+        "us-cw-570235",
+        0.9
+      ],
+      [
+        "us-cw-491198",
+        0.8666666666666666
+      ],
+      [
+        "us-cw-1073486",
+        0.8642857142857144
+      ],
+      [
+        "us-cw-718361",
+        0.8545454545454546
+      ],
+      [
+        "us-cw-427464",
+        0.8384615384615385
+      ],
+      [
+        "us-cw-1073529",
+        0.8250000000000002
+      ],
+      [
+        "us-cw-491194",
+        0.8166666666666668
+      ],
+      [
+        "us-cw-570230",
+        0.8099999999999999
+      ],
+      [
+        "us-cw-1073489",
+        0.8
+      ],
+      [
+        "us-cw-491196",
+        0.6857142857142857
+      ],
+      [
+        "us-cw-570241",
+        0.6699999999999999
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.2300000000000001,
+    "score_mean": 0.8119400296673024,
+    "score_max": 0.9,
+    "node_names": {
+      "us-cw-1073486": "CrossKnowledge Group Limited",
+      "us-cw-1073489": "E Learning SAS",
+      "us-cw-1073529": "J Wiley Ltd",
+      "us-cw-427464": "Blackwell Science (Overseas Holdings)",
+      "us-cw-491194": "John Wiley & Sons Australia, Ltd",
+      "us-cw-491196": "John Wiley & Sons GmbH",
+      "us-cw-491198": "John Wiley & Sons Ltd",
+      "us-cw-570230": "Wiley Heyden Ltd",
+      "us-cw-570235": "Wiley Publishing Australia Pty Ltd",
+      "us-cw-570241": "Wiley VCH Verlag GmbH & Co KGaA",
+      "us-cw-718361": "Wiley Publishing Japan KK"
+    },
+    "clause_details": {
+      "us-cw-1073486": {
+        "mean_score": 0.8642857142857144,
+        "visit_count": 14,
+        "conflict_count": 22,
+        "risk_history": [
+          0.8,
+          1.0,
+          0.9,
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          0.8,
+          0.8,
+          1.0,
+          0.8,
+          1.0,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-1073489": {
+        "mean_score": 0.8,
+        "visit_count": 7,
+        "conflict_count": 9,
+        "risk_history": [
+          0.7,
+          0.9,
+          0.6,
+          0.7,
+          1.0,
+          0.7,
+          1.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-1073529": {
+        "mean_score": 0.8250000000000002,
+        "visit_count": 12,
+        "conflict_count": 16,
+        "risk_history": [
+          1.0,
+          0.8,
+          0.5,
+          1.0,
+          0.7,
+          0.9,
+          0.9,
+          0.7,
+          0.7,
+          0.9,
+          0.9,
+          0.9
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-427464": {
+        "mean_score": 0.8384615384615385,
+        "visit_count": 13,
+        "conflict_count": 24,
+        "risk_history": [
+          0.7,
+          0.7,
+          0.8,
+          1.0,
+          0.9,
+          0.7,
+          0.9,
+          0.7,
+          0.6,
+          1.0,
+          1.0,
+          0.9,
+          1.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-491194": {
+        "mean_score": 0.8166666666666668,
+        "visit_count": 12,
+        "conflict_count": 16,
+        "risk_history": [
+          0.6,
+          0.6,
+          1.0,
+          0.8,
+          0.6,
+          0.8,
+          0.6,
+          0.8,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-491196": {
+        "mean_score": 0.6857142857142857,
+        "visit_count": 7,
+        "conflict_count": 6,
+        "risk_history": [
+          0.0,
+          1.0,
+          0.7,
+          0.7,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-491198": {
+        "mean_score": 0.8666666666666666,
+        "visit_count": 12,
+        "conflict_count": 16,
+        "risk_history": [
+          1.0,
+          1.0,
+          0.7,
+          1.0,
+          0.6,
+          0.6,
+          0.6,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-570230": {
+        "mean_score": 0.8099999999999999,
+        "visit_count": 10,
+        "conflict_count": 16,
+        "risk_history": [
+          0.9,
+          0.6,
+          1.0,
+          1.0,
+          0.4,
+          0.6,
+          0.8,
+          0.9,
+          1.0,
+          0.9
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-570235": {
+        "mean_score": 0.9,
+        "visit_count": 12,
+        "conflict_count": 29,
+        "risk_history": [
+          0.9,
+          0.9,
+          1.0,
+          0.7,
+          0.9,
+          0.7,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          0.8,
+          1.0
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-570241": {
+        "mean_score": 0.6699999999999999,
+        "visit_count": 10,
+        "conflict_count": 11,
+        "risk_history": [
+          0.7,
+          0.0,
+          0.8,
+          1.0,
+          0.8,
+          0.8,
+          0.5,
+          0.5,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-718361": {
+        "mean_score": 0.8545454545454546,
+        "visit_count": 11,
+        "conflict_count": 15,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          1.0,
+          1.0,
+          0.8,
+          0.7,
+          1.0
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (sec_ex21)",
+    "model": "deepseek-v3",
+    "domain": "sec_ex21",
+    "scc_size": 11,
+    "scc_id": "scc_2",
+    "scc_clause_ids": [
+      "us-cw-1073486",
+      "us-cw-1073489",
+      "us-cw-1073529",
+      "us-cw-427464",
+      "us-cw-491194",
+      "us-cw-491196",
+      "us-cw-491198",
+      "us-cw-570230",
+      "us-cw-570235",
+      "us-cw-570241",
+      "us-cw-718361"
+    ],
+    "llm_calls": 1,
+    "time": 26.80264115333557,
+    "scores": {
+      "us-cw-1073486": 0.9,
+      "us-cw-1073489": 0.8,
+      "us-cw-1073529": 0.9,
+      "us-cw-427464": 0.7,
+      "us-cw-491194": 0.6,
+      "us-cw-491196": 0.5,
+      "us-cw-491198": 0.8,
+      "us-cw-570230": 0.9,
+      "us-cw-570235": 0.6,
+      "us-cw-570241": 0.5,
+      "us-cw-718361": 0.7
+    },
+    "reasonings": {
+      "us-cw-1073486": "Multiple circular paths: owned by J Wiley Ltd, Wiley Heyden Ltd, and John Wiley & Sons Ltd while also owning E Learning SAS",
+      "us-cw-1073489": "Circular ownership participant: owned by CrossKnowledge Group Limited and John Wiley & Sons Ltd while owning Wiley Heyden Ltd",
+      "us-cw-1073529": "Central circular hub: owns CrossKnowledge Group Limited and John Wiley & Sons GmbH while being owned by John Wiley & Sons Australia, Ltd, Wiley Heyden Ltd, and John Wiley & Sons Ltd",
+      "us-cw-427464": "Circular participant: owns multiple Australian/Japanese subsidiaries while being owned by Wiley Heyden Ltd",
+      "us-cw-491194": "Circular ownership through J Wiley Ltd chain: owned by Blackwell Science while owning J Wiley Ltd",
+      "us-cw-491196": "German subsidiary with normal ownership chain from J Wiley Ltd, but part of broader circular structure",
+      "us-cw-491198": "Multiple ownership sources: owns CrossKnowledge, E Learning SAS, and J Wiley Ltd while being owned by Wiley Heyden Ltd",
+      "us-cw-570230": "Critical circular hub: owns J Wiley Ltd, Blackwell Science, and John Wiley & Sons Ltd while being owned by E Learning SAS",
+      "us-cw-570235": "Australian subsidiary in circular chain through ownership of J Wiley Ltd",
+      "us-cw-570241": "German entity with normal ownership from John Wiley & Sons GmbH but owns CrossKnowledge creating circularity",
+      "us-cw-718361": "Japanese subsidiary owned by Blackwell Science while owning Wiley Publishing Australia Pty Ltd"
+    },
+    "ranking": [
+      [
+        "us-cw-1073486",
+        0.9
+      ],
+      [
+        "us-cw-1073529",
+        0.9
+      ],
+      [
+        "us-cw-570230",
+        0.9
+      ],
+      [
+        "us-cw-1073489",
+        0.8
+      ],
+      [
+        "us-cw-491198",
+        0.8
+      ],
+      [
+        "us-cw-427464",
+        0.7
+      ],
+      [
+        "us-cw-718361",
+        0.7
+      ],
+      [
+        "us-cw-491194",
+        0.6
+      ],
+      [
+        "us-cw-570235",
+        0.6
+      ],
+      [
+        "us-cw-491196",
+        0.5
+      ],
+      [
+        "us-cw-570241",
+        0.5
+      ]
+    ],
+    "conflicts": [
+      {
+        "clause_a": "us-cw-570230",
+        "clause_b": "us-cw-1073529",
+        "description": "Mutual ownership: Wiley Heyden Ltd owns J Wiley Ltd, while J Wiley Ltd owns entities that ultimately own Wiley Heyden Ltd"
+      },
+      {
+        "clause_a": "us-cw-491198",
+        "clause_b": "us-cw-570230",
+        "description": "Circular control: John Wiley & Sons Ltd owns J Wiley Ltd, but Wiley Heyden Ltd owns John Wiley & Sons Ltd"
+      },
+      {
+        "clause_a": "us-cw-1073486",
+        "clause_b": "us-cw-1073489",
+        "description": "Cross-ownership loop: CrossKnowledge owns E Learning SAS, which owns Wiley Heyden Ltd, which owns entities controlling CrossKnowledge"
+      },
+      {
+        "clause_a": "us-cw-427464",
+        "clause_b": "us-cw-491194",
+        "description": "Australian circularity: Blackwell Science owns John Wiley & Sons Australia, which owns J Wiley Ltd, which controls entities owning Blackwell Science"
+      }
+    ],
+    "score_spread": 0.4,
+    "score_mean": 0.7181818181818183,
+    "score_max": 0.9,
+    "node_names": {
+      "us-cw-1073486": "CrossKnowledge Group Limited",
+      "us-cw-1073489": "E Learning SAS",
+      "us-cw-1073529": "J Wiley Ltd",
+      "us-cw-427464": "Blackwell Science (Overseas Holdings)",
+      "us-cw-491194": "John Wiley & Sons Australia, Ltd",
+      "us-cw-491196": "John Wiley & Sons GmbH",
+      "us-cw-491198": "John Wiley & Sons Ltd",
+      "us-cw-570230": "Wiley Heyden Ltd",
+      "us-cw-570235": "Wiley Publishing Australia Pty Ltd",
+      "us-cw-570241": "Wiley VCH Verlag GmbH & Co KGaA",
+      "us-cw-718361": "Wiley Publishing Japan KK"
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "sec_ex21",
+    "scc_size": 11,
+    "scc_id": "scc_2",
+    "scc_clause_ids": [
+      "us-cw-1073486",
+      "us-cw-1073489",
+      "us-cw-1073529",
+      "us-cw-427464",
+      "us-cw-491194",
+      "us-cw-491196",
+      "us-cw-491198",
+      "us-cw-570230",
+      "us-cw-570235",
+      "us-cw-570241",
+      "us-cw-718361"
+    ],
+    "budget": 30,
+    "llm_calls": 20,
+    "tt_hits": 10,
+    "tt_hit_rate": 0.3333333333333333,
+    "time": 96.97433876991272,
+    "scores": {
+      "us-cw-491198": 0.7916666666666669,
+      "us-cw-570230": 0.7733333333333334,
+      "us-cw-491194": 0.7500000000000001,
+      "us-cw-718361": 0.75,
+      "us-cw-491196": 0.7,
+      "us-cw-1073486": 0.676923076923077,
+      "us-cw-570235": 0.6666666666666666,
+      "us-cw-1073529": 0.6416666666666667,
+      "us-cw-570241": 0.5888888888888889,
+      "us-cw-1073489": 0.5846153846153846,
+      "us-cw-427464": 0.38333333333333336
+    },
+    "ranking": [
+      [
+        "us-cw-491198",
+        0.7916666666666669
+      ],
+      [
+        "us-cw-570230",
+        0.7733333333333334
+      ],
+      [
+        "us-cw-491194",
+        0.7500000000000001
+      ],
+      [
+        "us-cw-718361",
+        0.75
+      ],
+      [
+        "us-cw-491196",
+        0.7
+      ],
+      [
+        "us-cw-1073486",
+        0.676923076923077
+      ],
+      [
+        "us-cw-570235",
+        0.6666666666666666
+      ],
+      [
+        "us-cw-1073529",
+        0.6416666666666667
+      ],
+      [
+        "us-cw-570241",
+        0.5888888888888889
+      ],
+      [
+        "us-cw-1073489",
+        0.5846153846153846
+      ],
+      [
+        "us-cw-427464",
+        0.38333333333333336
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.4083333333333335,
+    "score_mean": 0.6642812742812744,
+    "score_max": 0.7916666666666669,
+    "node_names": {
+      "us-cw-1073486": "CrossKnowledge Group Limited",
+      "us-cw-1073489": "E Learning SAS",
+      "us-cw-1073529": "J Wiley Ltd",
+      "us-cw-427464": "Blackwell Science (Overseas Holdings)",
+      "us-cw-491194": "John Wiley & Sons Australia, Ltd",
+      "us-cw-491196": "John Wiley & Sons GmbH",
+      "us-cw-491198": "John Wiley & Sons Ltd",
+      "us-cw-570230": "Wiley Heyden Ltd",
+      "us-cw-570235": "Wiley Publishing Australia Pty Ltd",
+      "us-cw-570241": "Wiley VCH Verlag GmbH & Co KGaA",
+      "us-cw-718361": "Wiley Publishing Japan KK"
+    },
+    "clause_details": {
+      "us-cw-1073486": {
+        "mean_score": 0.676923076923077,
+        "visit_count": 13,
+        "conflict_count": 12,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.3,
+          0.9,
+          0.8,
+          0.8,
+          0.9,
+          0.3,
+          0.9,
+          0.3,
+          0.3,
+          0.9
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-1073489": {
+        "mean_score": 0.5846153846153846,
+        "visit_count": 13,
+        "conflict_count": 12,
+        "risk_history": [
+          0.7,
+          0.9,
+          0.3,
+          0.7,
+          0.6,
+          0.4,
+          0.7,
+          0.7,
+          0.4,
+          0.8,
+          0.6,
+          0.4,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-1073529": {
+        "mean_score": 0.6416666666666667,
+        "visit_count": 12,
+        "conflict_count": 12,
+        "risk_history": [
+          0.9,
+          0.9,
+          0.9,
+          0.3,
+          0.2,
+          0.9,
+          0.7,
+          0.1,
+          0.9,
+          0.8,
+          0.2,
+          0.9
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-427464": {
+        "mean_score": 0.38333333333333336,
+        "visit_count": 12,
+        "conflict_count": 15,
+        "risk_history": [
+          0.1,
+          0.9,
+          0.1,
+          0.2,
+          0.9,
+          0.6,
+          0.1,
+          0.2,
+          0.9,
+          0.1,
+          0.2,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-491194": {
+        "mean_score": 0.7500000000000001,
+        "visit_count": 10,
+        "conflict_count": 5,
+        "risk_history": [
+          0.8,
+          0.9,
+          0.2,
+          0.9,
+          0.7,
+          0.9,
+          0.8,
+          0.9,
+          0.7,
+          0.7
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-491196": {
+        "mean_score": 0.7,
+        "visit_count": 7,
+        "conflict_count": 5,
+        "risk_history": [
+          0.8,
+          0.7,
+          0.8,
+          0.9,
+          0.6,
+          0.3,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-491198": {
+        "mean_score": 0.7916666666666669,
+        "visit_count": 12,
+        "conflict_count": 20,
+        "risk_history": [
+          0.3,
+          0.8,
+          0.8,
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          0.7,
+          0.9,
+          0.8,
+          0.9,
+          0.9
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-570230": {
+        "mean_score": 0.7733333333333334,
+        "visit_count": 15,
+        "conflict_count": 18,
+        "risk_history": [
+          0.7,
+          0.7,
+          1.0,
+          1.0,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.9,
+          0.7,
+          0.8,
+          0.2,
+          1.0,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-570235": {
+        "mean_score": 0.6666666666666666,
+        "visit_count": 9,
+        "conflict_count": 6,
+        "risk_history": [
+          0.8,
+          0.3,
+          0.8,
+          0.3,
+          0.8,
+          1.0,
+          0.3,
+          0.8,
+          0.9
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-570241": {
+        "mean_score": 0.5888888888888889,
+        "visit_count": 9,
+        "conflict_count": 6,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.9,
+          0.9,
+          0.8,
+          0.7,
+          0.8,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "us-cw-718361": {
+        "mean_score": 0.75,
+        "visit_count": 8,
+        "conflict_count": 7,
+        "risk_history": [
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.8,
+          0.7,
+          0.8
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [],
+    "gt_evidence": {},
+    "top1_hit": null,
+    "top3_hit": null
+  }
+]

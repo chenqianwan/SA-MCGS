@@ -1,0 +1,2581 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_24",
+    "scc_clause_ids": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libecore-fb1",
+      "libecore-input1",
+      "libecore-wl2-1",
+      "libecore-x1",
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "llm_calls": 1,
+    "time": 15.270608186721802,
+    "scores": {
+      "libecore-drm2-1": 0.55,
+      "libecore-evas1": 0.7,
+      "libecore-fb1": 0.25,
+      "libecore-input1": 0.65,
+      "libecore-wl2-1": 0.45,
+      "libecore-x1": 0.4,
+      "libelput1": 0.5,
+      "libevas1": 0.75,
+      "libevas1-engines-drm": 0.85,
+      "libevas1-engines-fb": 0.3,
+      "libevas1-engines-wayland": 0.6,
+      "libevas1-engines-x": 0.35
+    },
+    "reasonings": {
+      "libecore-drm2-1": "Medium-priority participant with historical warnings in transitive libraries and some contribution to version-lock issues.",
+      "libecore-evas1": "High degree of coupling and significant contribution to circular dependency.",
+      "libecore-fb1": "Low degree of coupling and no direct evidence of security risks.",
+      "libecore-input1": "Key dependency for several packages, increasing centrality and cascading failure potential.",
+      "libecore-wl2-1": "Contributes to circular dependency and version-lock issues but has no direct evidence of security risks.",
+      "libecore-x1": "Part of the circular dependency but has a lower degree of coupling and no direct evidence of security risks.",
+      "libelput1": "Dependency for multiple packages, increasing centrality and cascading failure potential.",
+      "libevas1": "Central node in the dependency graph with high potential for CVE propagation.",
+      "libevas1-engines-drm": "Explicitly identified as a live security risk due to postinst check issues and network-facing code path.",
+      "libevas1-engines-fb": "Part of the circular dependency but has a lower degree of coupling and no direct evidence of security risks.",
+      "libevas1-engines-wayland": "Depends on multiple other packages in the cycle, contributing to version-lock issues and moderate centrality.",
+      "libevas1-engines-x": "Part of the circular dependency but has a lower degree of coupling and no direct evidence of security risks."
+    },
+    "ranking": [
+      [
+        "libevas1-engines-drm",
+        0.85
+      ],
+      [
+        "libevas1",
+        0.75
+      ],
+      [
+        "libecore-evas1",
+        0.7
+      ],
+      [
+        "libecore-input1",
+        0.65
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.6
+      ],
+      [
+        "libecore-drm2-1",
+        0.55
+      ],
+      [
+        "libelput1",
+        0.5
+      ],
+      [
+        "libecore-wl2-1",
+        0.45
+      ],
+      [
+        "libecore-x1",
+        0.4
+      ],
+      [
+        "libevas1-engines-x",
+        0.35
+      ],
+      [
+        "libevas1-engines-fb",
+        0.3
+      ],
+      [
+        "libecore-fb1",
+        0.25
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "libevas1-engines-drm",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "direct high-severity security or accident evidence",
+          "update blockage or circular version-lock severity",
+          "CVE propagation / attack surface exposure"
+        ],
+        "reasoning": "This package is explicitly identified as a security risk due to its postinst check requiring co-installed cycle partners to expose the newer ABI. This creates a live security incident where the patched binary cannot be activated, leaving a vulnerable object in use. It also has a high degree of coupling and is part of a network-facing code path."
+      },
+      {
+        "rank": 2,
+        "clause_id": "libevas1",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "CVE propagation / attack surface exposure",
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "This package is a central node in the dependency graph, with multiple packages depending on it. It also has a high potential for CVE propagation due to its connections to other packages in the cycle."
+      },
+      {
+        "rank": 3,
+        "clause_id": "libecore-evas1",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential",
+          "update blockage or circular version-lock severity"
+        ],
+        "reasoning": "This package has a high degree of coupling, depending on multiple other packages in the cycle. It also contributes significantly to the circular dependency and potential version-lock issues."
+      },
+      {
+        "rank": 4,
+        "clause_id": "libecore-input1",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential",
+          "CVE propagation / attack surface exposure"
+        ],
+        "reasoning": "This package is a key dependency for several other packages in the cycle, increasing its centrality and potential for cascading failures. It also has historical warnings in transitive libraries, which could indicate a higher risk of CVE propagation."
+      },
+      {
+        "rank": 5,
+        "clause_id": "libevas1-engines-wayland",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "update blockage or circular version-lock severity",
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "This package depends on multiple other packages in the cycle, contributing to the circular dependency and increasing the risk of version-lock issues. It also has a moderate level of centrality in the dependency graph."
+      },
+      {
+        "rank": 6,
+        "clause_id": "libecore-drm2-1",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "update blockage or circular version-lock severity",
+          "CVE propagation / attack surface exposure"
+        ],
+        "reasoning": "This package is a medium-priority participant in the cycle, with some historical warnings in transitive libraries. It contributes to version-lock issues but does not have direct evidence of critical security risks."
+      },
+      {
+        "rank": 7,
+        "clause_id": "libelput1",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "This package is a dependency for multiple other packages in the cycle, increasing its centrality and potential for cascading failures. However, there is no direct evidence of security risks."
+      },
+      {
+        "rank": 8,
+        "clause_id": "libecore-wl2-1",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "update blockage or circular version-lock severity"
+        ],
+        "reasoning": "This package contributes to the circular dependency and version-lock issues but has no direct evidence of security risks or high centrality."
+      },
+      {
+        "rank": 9,
+        "clause_id": "libecore-x1",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "update blockage or circular version-lock severity"
+        ],
+        "reasoning": "This package is part of the circular dependency but has a lower degree of coupling and no direct evidence of security risks."
+      },
+      {
+        "rank": 10,
+        "clause_id": "libevas1-engines-x",
+        "risk_score": 0.35,
+        "risk_factors": [
+          "update blockage or circular version-lock severity"
+        ],
+        "reasoning": "This package is part of the circular dependency but has a lower degree of coupling and no direct evidence of security risks."
+      },
+      {
+        "rank": 11,
+        "clause_id": "libevas1-engines-fb",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "update blockage or circular version-lock severity"
+        ],
+        "reasoning": "This package is part of the circular dependency but has a lower degree of coupling and no direct evidence of security risks."
+      },
+      {
+        "rank": 12,
+        "clause_id": "libecore-fb1",
+        "risk_score": 0.25,
+        "risk_factors": [
+          "update blockage or circular version-lock severity"
+        ],
+        "reasoning": "This package is part of the circular dependency but has a lower degree of coupling and no direct evidence of security risks."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "direct high-severity security or accident evidence",
+        "importance_weight": 0.4,
+        "description": "This factor captures whether there is direct evidence of a security vulnerability or a critical operational issue, such as a CVE or a known incident."
+      },
+      {
+        "factor": "update blockage or circular version-lock severity",
+        "importance_weight": 0.25,
+        "description": "This factor evaluates the extent to which a package contributes to blocking updates or creating version-lock issues in the circular dependency."
+      },
+      {
+        "factor": "CVE propagation / attack surface exposure",
+        "importance_weight": 0.2,
+        "description": "This factor assesses the potential for vulnerabilities to propagate through the dependency graph and the likelihood of the package being an attack vector."
+      },
+      {
+        "factor": "dependency centrality and cascading failure potential",
+        "importance_weight": 0.1,
+        "description": "This factor measures how central the package is in the dependency graph and its potential to cause cascading failures."
+      },
+      {
+        "factor": "specificity of local evidence versus generic dependency noise",
+        "importance_weight": 0.05,
+        "description": "This factor evaluates whether the risk is based on specific evidence or general concerns about dependency coupling."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "distinct_score_count": 12,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "libevas1-engines-drm",
+        "clause_b": "libecore-drm2-1",
+        "description": "libevas1-engines-drm cannot activate its patched binary due to dependency on libecore-drm2-1 exposing the newer ABI, creating a live security incident."
+      },
+      {
+        "clause_a": "libevas1",
+        "clause_b": "libevas1-engines-drm",
+        "description": "libevas1 depends on libevas1-engines-drm, which is a known security risk, increasing the potential for CVE propagation."
+      }
+    ],
+    "score_spread": 0.6,
+    "ranking_score_spread": 0.6,
+    "score_mean": 0.5291666666666667,
+    "score_max": 0.85,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libecore-x1": "libecore-x1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "ground_truth_nodes": [
+      "libevas1-engines-drm"
+    ],
+    "gt_evidence": {
+      "libevas1-engines-drm": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "libevas1-engines-drm",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_24",
+    "scc_clause_ids": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libecore-fb1",
+      "libecore-input1",
+      "libecore-wl2-1",
+      "libecore-x1",
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "budget": 30,
+    "llm_calls": 25,
+    "tt_hits": 5,
+    "tt_hit_rate": 0.16666666666666666,
+    "time": 122.37185883522034,
+    "scores": {
+      "libevas1-engines-drm": 0.8142857142857143,
+      "libevas1": 0.41428571428571426,
+      "libevas1-engines-wayland": 0.38125000000000003,
+      "libecore-evas1": 0.3611111111111111,
+      "libevas1-engines-x": 0.35714285714285715,
+      "libecore-input1": 0.31538461538461543,
+      "libecore-fb1": 0.3,
+      "libecore-wl2-1": 0.3,
+      "libevas1-engines-fb": 0.3,
+      "libelput1": 0.2875,
+      "libecore-drm2-1": 0.27777777777777773,
+      "libecore-x1": 0.26666666666666666
+    },
+    "ranking": [
+      [
+        "libevas1-engines-drm",
+        0.8142857142857143
+      ],
+      [
+        "libevas1",
+        0.41428571428571426
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.38125000000000003
+      ],
+      [
+        "libecore-evas1",
+        0.3611111111111111
+      ],
+      [
+        "libevas1-engines-x",
+        0.35714285714285715
+      ],
+      [
+        "libecore-input1",
+        0.31538461538461543
+      ],
+      [
+        "libecore-fb1",
+        0.3
+      ],
+      [
+        "libecore-wl2-1",
+        0.3
+      ],
+      [
+        "libevas1-engines-fb",
+        0.3
+      ],
+      [
+        "libelput1",
+        0.2875
+      ],
+      [
+        "libecore-drm2-1",
+        0.27777777777777773
+      ],
+      [
+        "libecore-x1",
+        0.26666666666666666
+      ]
+    ],
+    "oc_detected": [
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-wayland"
+    ],
+    "oc_count": 3,
+    "score_spread": 0.5476190476190477,
+    "score_mean": 0.3646170380545381,
+    "score_max": 0.8142857142857143,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libecore-x1": "libecore-x1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "clause_details": {
+      "libecore-drm2-1": {
+        "mean_score": 0.27777777777777773,
+        "visit_count": 9,
+        "conflict_count": 13,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.3,
+          0.2,
+          0.2,
+          0.2,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-evas1": {
+        "mean_score": 0.3611111111111111,
+        "visit_count": 18,
+        "conflict_count": 39,
+        "risk_history": [
+          0.5,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.5,
+          0.4,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.4,
+          0.3,
+          0.5,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-fb1": {
+        "mean_score": 0.3,
+        "visit_count": 6,
+        "conflict_count": 8,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-input1": {
+        "mean_score": 0.31538461538461543,
+        "visit_count": 13,
+        "conflict_count": 28,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.4,
+          0.4,
+          0.3,
+          0.5,
+          0.4,
+          0.2,
+          0.2,
+          0.4,
+          0.2,
+          0.2,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-wl2-1": {
+        "mean_score": 0.3,
+        "visit_count": 9,
+        "conflict_count": 15,
+        "risk_history": [
+          0.3,
+          0.2,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-x1": {
+        "mean_score": 0.26666666666666666,
+        "visit_count": 9,
+        "conflict_count": 16,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.2,
+          0.3,
+          0.3,
+          0.2,
+          0.2,
+          0.2,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libelput1": {
+        "mean_score": 0.2875,
+        "visit_count": 8,
+        "conflict_count": 14,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.2,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1": {
+        "mean_score": 0.41428571428571426,
+        "visit_count": 14,
+        "conflict_count": 27,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.5,
+          0.4,
+          0.5
+        ],
+        "is_oc_detected": true
+      },
+      "libevas1-engines-drm": {
+        "mean_score": 0.8142857142857143,
+        "visit_count": 7,
+        "conflict_count": 13,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.9
+        ],
+        "is_oc_detected": true
+      },
+      "libevas1-engines-fb": {
+        "mean_score": 0.3,
+        "visit_count": 4,
+        "conflict_count": 4,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-wayland": {
+        "mean_score": 0.38125000000000003,
+        "visit_count": 16,
+        "conflict_count": 34,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.5,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": true
+      },
+      "libevas1-engines-x": {
+        "mean_score": 0.35714285714285715,
+        "visit_count": 7,
+        "conflict_count": 9,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "libevas1-engines-drm"
+    ],
+    "gt_evidence": {
+      "libevas1-engines-drm": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "libevas1-engines-drm",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.4,
+    "risk_subgraph_nodes": [
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "risk_subgraph_size": 6,
+    "compression_ratio": 0.5,
+    "contains_injected_node": true,
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_24",
+    "scc_clause_ids": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libecore-fb1",
+      "libecore-input1",
+      "libecore-wl2-1",
+      "libecore-x1",
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "llm_calls": 1,
+    "time": 57.071168184280396,
+    "scores": {
+      "libecore-drm2-1": 0.65,
+      "libecore-evas1": 0.68,
+      "libecore-fb1": 0.42,
+      "libecore-input1": 0.72,
+      "libecore-wl2-1": 0.48,
+      "libecore-x1": 0.52,
+      "libelput1": 0.58,
+      "libevas1": 0.78,
+      "libevas1-engines-drm": 0.92,
+      "libevas1-engines-fb": 0.38,
+      "libevas1-engines-wayland": 0.55,
+      "libevas1-engines-x": 0.45
+    },
+    "reasonings": {
+      "libecore-drm2-1": "Direct participant in documented security incident, DRM components have security exposure",
+      "libecore-evas1": "Highly connected node depending on 6 cycle packages, creates multiple circular paths",
+      "libecore-fb1": "Limited dependencies within cycle, frame buffer has lower attack surface",
+      "libecore-input1": "Critical dependency hub for 6 packages, central to circular structure",
+      "libecore-wl2-1": "Wayland component with moderate dependencies but less critical position",
+      "libecore-x1": "X11 component with multiple dependencies, moderate attack surface",
+      "libelput1": "Creates tight sub-cycle with libecore-input1 and libecore-drm2-1",
+      "libevas1": "Core library depended on by all engines, central hub in circular dependency",
+      "libevas1-engines-drm": "Documented security update blockage, network-facing vulnerable code paths",
+      "libevas1-engines-fb": "Minimal dependencies, frame buffer has lowest attack surface",
+      "libevas1-engines-wayland": "Depends on multiple ecore packages, Wayland has system exposure",
+      "libevas1-engines-x": "X11 engine with moderate dependencies and attack surface"
+    },
+    "ranking": [
+      [
+        "libevas1-engines-drm",
+        0.92
+      ],
+      [
+        "libevas1",
+        0.78
+      ],
+      [
+        "libecore-input1",
+        0.72
+      ],
+      [
+        "libecore-evas1",
+        0.68
+      ],
+      [
+        "libecore-drm2-1",
+        0.65
+      ],
+      [
+        "libelput1",
+        0.58
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.55
+      ],
+      [
+        "libecore-x1",
+        0.52
+      ],
+      [
+        "libecore-wl2-1",
+        0.48
+      ],
+      [
+        "libevas1-engines-x",
+        0.45
+      ],
+      [
+        "libecore-fb1",
+        0.42
+      ],
+      [
+        "libevas1-engines-fb",
+        0.38
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "libevas1-engines-drm",
+        "risk_score": 0.92,
+        "risk_factors": [
+          "security_update_blockage",
+          "specific_incident_evidence",
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Documented security incident where updates cannot activate due to circular dependency, network-facing code path remains vulnerable"
+      },
+      {
+        "rank": 2,
+        "clause_id": "libevas1",
+        "risk_score": 0.78,
+        "risk_factors": [
+          "dependency_centrality",
+          "attack_surface_exposure",
+          "graph_position_criticality"
+        ],
+        "reasoning": "Core library depended on by all engine packages and multiple ecore packages, central hub in the circular dependency"
+      },
+      {
+        "rank": 3,
+        "clause_id": "libecore-input1",
+        "risk_score": 0.72,
+        "risk_factors": [
+          "dependency_centrality",
+          "graph_position_criticality"
+        ],
+        "reasoning": "Critical dependency for 6 other packages in the cycle, including libelput1 and multiple ecore packages"
+      },
+      {
+        "rank": 4,
+        "clause_id": "libecore-evas1",
+        "risk_score": 0.68,
+        "risk_factors": [
+          "dependency_centrality",
+          "graph_position_criticality"
+        ],
+        "reasoning": "Depends on 6 other cycle packages and is depended on by libevas1-engines-wayland, creating multiple circular paths"
+      },
+      {
+        "rank": 5,
+        "clause_id": "libecore-drm2-1",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "attack_surface_exposure",
+          "specific_incident_evidence"
+        ],
+        "reasoning": "Directly involved in the documented security incident with libevas1-engines-drm, DRM components often have security exposure"
+      },
+      {
+        "rank": 6,
+        "clause_id": "libelput1",
+        "risk_score": 0.58,
+        "risk_factors": [
+          "graph_position_criticality",
+          "dependency_centrality"
+        ],
+        "reasoning": "Depends on libecore-input1 and is depended on by libecore-drm2-1, creating a tight sub-cycle"
+      },
+      {
+        "rank": 7,
+        "clause_id": "libevas1-engines-wayland",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "dependency_centrality",
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Depends on 4 ecore packages and libevas1, Wayland components have network/system exposure"
+      },
+      {
+        "rank": 8,
+        "clause_id": "libecore-x1",
+        "risk_score": 0.52,
+        "risk_factors": [
+          "dependency_centrality"
+        ],
+        "reasoning": "Depended on by libecore-evas1 and libevas1-engines-x, X11 components have moderate attack surface"
+      },
+      {
+        "rank": 9,
+        "clause_id": "libecore-wl2-1",
+        "risk_score": 0.48,
+        "risk_factors": [
+          "dependency_centrality"
+        ],
+        "reasoning": "Depended on by libecore-evas1 and libevas1-engines-wayland, Wayland/Weston components"
+      },
+      {
+        "rank": 10,
+        "clause_id": "libevas1-engines-x",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "attack_surface_exposure"
+        ],
+        "reasoning": "X11 engine with moderate attack surface, but less central than other engines"
+      },
+      {
+        "rank": 11,
+        "clause_id": "libecore-fb1",
+        "risk_score": 0.42,
+        "risk_factors": [
+          "dependency_centrality"
+        ],
+        "reasoning": "Frame buffer component with limited dependencies within the cycle"
+      },
+      {
+        "rank": 12,
+        "clause_id": "libevas1-engines-fb",
+        "risk_score": 0.38,
+        "risk_factors": [],
+        "reasoning": "Frame buffer engine with minimal dependencies and lowest attack surface in the cycle"
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "security_update_blockage",
+        "importance_weight": 0.35,
+        "description": "Evidence that security updates cannot be properly installed due to circular dependency issues"
+      },
+      {
+        "factor": "dependency_centrality",
+        "importance_weight": 0.25,
+        "description": "Number of packages that depend on this package within the cycle, indicating cascading failure potential"
+      },
+      {
+        "factor": "attack_surface_exposure",
+        "importance_weight": 0.2,
+        "description": "Network-facing code paths and historical vulnerability exposure"
+      },
+      {
+        "factor": "specific_incident_evidence",
+        "importance_weight": 0.15,
+        "description": "Documented incidents or specific warnings versus generic dependency noise"
+      },
+      {
+        "factor": "graph_position_criticality",
+        "importance_weight": 0.05,
+        "description": "Position in dependency graph that enables or amplifies circularity"
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "distinct_score_count": 12,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "libevas1-engines-drm",
+        "clause_b": "libecore-drm2-1",
+        "description": "Security update blockage: postinst requires newer ABI from libecore-drm2-1 while libecore-drm2-1 refuses to configure until libevas1-engines-drm provides fixed interface"
+      },
+      {
+        "clause_a": "libevas1",
+        "clause_b": "libecore-input1",
+        "description": "Mutual dependency creates core circular path affecting multiple engine packages"
+      },
+      {
+        "clause_a": "libelput1",
+        "clause_b": "libecore-input1",
+        "description": "Tight sub-cycle where each depends on the other through intermediate packages"
+      }
+    ],
+    "score_spread": 0.54,
+    "ranking_score_spread": 0.54,
+    "score_mean": 0.5941666666666666,
+    "score_max": 0.92,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libecore-x1": "libecore-x1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "ground_truth_nodes": [
+      "libevas1-engines-drm"
+    ],
+    "gt_evidence": {
+      "libevas1-engines-drm": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "libevas1-engines-drm",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.14
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_24",
+    "scc_clause_ids": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libecore-fb1",
+      "libecore-input1",
+      "libecore-wl2-1",
+      "libecore-x1",
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "budget": 30,
+    "llm_calls": 27,
+    "tt_hits": 3,
+    "tt_hit_rate": 0.1,
+    "time": 124.14464902877808,
+    "scores": {
+      "libevas1-engines-drm": 0.8375000000000001,
+      "libecore-evas1": 0.4666666666666667,
+      "libecore-drm2-1": 0.4555555555555555,
+      "libecore-input1": 0.4399999999999999,
+      "libevas1": 0.4333333333333334,
+      "libevas1-engines-wayland": 0.39999999999999997,
+      "libevas1-engines-x": 0.38000000000000006,
+      "libevas1-engines-fb": 0.3571428571428571,
+      "libelput1": 0.34444444444444444,
+      "libecore-x1": 0.3363636363636363,
+      "libecore-wl2-1": 0.3222222222222222,
+      "libecore-fb1": 0.3
+    },
+    "ranking": [
+      [
+        "libevas1-engines-drm",
+        0.8375000000000001
+      ],
+      [
+        "libecore-evas1",
+        0.4666666666666667
+      ],
+      [
+        "libecore-drm2-1",
+        0.4555555555555555
+      ],
+      [
+        "libecore-input1",
+        0.4399999999999999
+      ],
+      [
+        "libevas1",
+        0.4333333333333334
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.39999999999999997
+      ],
+      [
+        "libevas1-engines-x",
+        0.38000000000000006
+      ],
+      [
+        "libevas1-engines-fb",
+        0.3571428571428571
+      ],
+      [
+        "libelput1",
+        0.34444444444444444
+      ],
+      [
+        "libecore-x1",
+        0.3363636363636363
+      ],
+      [
+        "libecore-wl2-1",
+        0.3222222222222222
+      ],
+      [
+        "libecore-fb1",
+        0.3
+      ]
+    ],
+    "oc_detected": [
+      "libevas1-engines-drm"
+    ],
+    "oc_count": 1,
+    "score_spread": 0.5375000000000001,
+    "score_mean": 0.42276905964405964,
+    "score_max": 0.8375000000000001,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libecore-x1": "libecore-x1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "clause_details": {
+      "libecore-drm2-1": {
+        "mean_score": 0.4555555555555555,
+        "visit_count": 9,
+        "conflict_count": 12,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.7,
+          0.4,
+          0.3,
+          0.8
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-evas1": {
+        "mean_score": 0.4666666666666667,
+        "visit_count": 15,
+        "conflict_count": 30,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.5,
+          0.4,
+          0.6,
+          0.6,
+          0.3,
+          0.4,
+          0.4,
+          0.7,
+          0.5,
+          0.6,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-fb1": {
+        "mean_score": 0.3,
+        "visit_count": 7,
+        "conflict_count": 7,
+        "risk_history": [
+          0.3,
+          0.2,
+          0.3,
+          0.4,
+          0.2,
+          0.4,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-input1": {
+        "mean_score": 0.4399999999999999,
+        "visit_count": 15,
+        "conflict_count": 24,
+        "risk_history": [
+          0.4,
+          0.5,
+          0.5,
+          0.3,
+          0.3,
+          0.6,
+          0.3,
+          0.5,
+          0.3,
+          0.5,
+          0.3,
+          0.6,
+          0.6,
+          0.5,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-wl2-1": {
+        "mean_score": 0.3222222222222222,
+        "visit_count": 9,
+        "conflict_count": 12,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.5,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libecore-x1": {
+        "mean_score": 0.3363636363636363,
+        "visit_count": 11,
+        "conflict_count": 13,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.4,
+          0.4,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libelput1": {
+        "mean_score": 0.34444444444444444,
+        "visit_count": 9,
+        "conflict_count": 13,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.5,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1": {
+        "mean_score": 0.4333333333333334,
+        "visit_count": 15,
+        "conflict_count": 25,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.5,
+          0.5,
+          0.4,
+          0.5,
+          0.3,
+          0.4,
+          0.5,
+          0.5,
+          0.7,
+          0.4,
+          0.3,
+          0.4,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-drm": {
+        "mean_score": 0.8375000000000001,
+        "visit_count": 8,
+        "conflict_count": 15,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.9,
+          0.8,
+          0.9,
+          0.9
+        ],
+        "is_oc_detected": true
+      },
+      "libevas1-engines-fb": {
+        "mean_score": 0.3571428571428571,
+        "visit_count": 7,
+        "conflict_count": 7,
+        "risk_history": [
+          0.4,
+          0.3,
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-wayland": {
+        "mean_score": 0.39999999999999997,
+        "visit_count": 10,
+        "conflict_count": 19,
+        "risk_history": [
+          0.5,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.4,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "libevas1-engines-x": {
+        "mean_score": 0.38000000000000006,
+        "visit_count": 5,
+        "conflict_count": 9,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "libevas1-engines-drm"
+    ],
+    "gt_evidence": {
+      "libevas1-engines-drm": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "libevas1-engines-drm",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.37083333333333346,
+    "risk_subgraph_nodes": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libevas1-engines-fb"
+    ],
+    "risk_subgraph_size": 5,
+    "compression_ratio": 0.5833333333333333,
+    "contains_injected_node": true,
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_4",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "llm_calls": 1,
+    "time": 20.43073582649231,
+    "scores": {
+      "libjs-util": 0.35,
+      "node-assert": 0.3,
+      "node-debbundle-es-to-primitive": 0.5,
+      "node-deep-equal": 0.65,
+      "node-define-properties": 0.45,
+      "node-es-abstract": 0.6,
+      "node-istanbul": 0.4,
+      "node-parse-json": 0.85,
+      "node-read-pkg": 0.75,
+      "node-tape": 0.55,
+      "node-util": 0.25
+    },
+    "reasonings": {
+      "libjs-util": "Medium-priority participant with recoverable ordering issues and no direct security evidence.",
+      "node-assert": "Limited coupling and no direct security evidence.",
+      "node-debbundle-es-to-primitive": "Tightly coupled with other packages but lacks direct evidence of security incidents.",
+      "node-deep-equal": "Highly central node with multiple dependencies and transitive coupling, increasing its risk.",
+      "node-define-properties": "Part of the circular dependency cluster but has lower centrality and no direct security evidence.",
+      "node-es-abstract": "High coupling and dependency centrality, contributing to the circular dependency cluster.",
+      "node-istanbul": "Involved in the cluster but has limited coupling and no direct security evidence.",
+      "node-parse-json": "Directly implicated in a live security incident blocking updates for the entire cycle.",
+      "node-read-pkg": "Tightly coupled with node-parse-json and contributes to the circular dependency blocking updates.",
+      "node-tape": "Involved in multiple dependency links and contributes to the circular cluster, but with less direct security evidence.",
+      "node-util": "Low coupling and lack of direct security evidence make it the least risky node."
+    },
+    "ranking": [
+      [
+        "node-parse-json",
+        0.85
+      ],
+      [
+        "node-read-pkg",
+        0.75
+      ],
+      [
+        "node-deep-equal",
+        0.65
+      ],
+      [
+        "node-es-abstract",
+        0.6
+      ],
+      [
+        "node-tape",
+        0.55
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.5
+      ],
+      [
+        "node-define-properties",
+        0.45
+      ],
+      [
+        "node-istanbul",
+        0.4
+      ],
+      [
+        "libjs-util",
+        0.35
+      ],
+      [
+        "node-assert",
+        0.3
+      ],
+      [
+        "node-util",
+        0.25
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "node-parse-json",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "direct high-severity security or accident evidence",
+          "update blockage or circular version-lock severity"
+        ],
+        "reasoning": "Node-parse-json is directly implicated in a live security incident where its postinst check blocks security updates for the entire cycle. This makes it the most critical node in the graph."
+      },
+      {
+        "rank": 2,
+        "clause_id": "node-read-pkg",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "update blockage or circular version-lock severity",
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "Node-read-pkg is tightly coupled with node-parse-json and contributes to the circular dependency that prevents security updates. Its centrality in the graph amplifies its risk."
+      },
+      {
+        "rank": 3,
+        "clause_id": "node-deep-equal",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "CVE propagation / attack surface exposure",
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "Node-deep-equal is a highly central node with multiple dependencies and transitive coupling, increasing its potential for cascading failures and CVE propagation."
+      },
+      {
+        "rank": 4,
+        "clause_id": "node-es-abstract",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential",
+          "update blockage or circular version-lock severity"
+        ],
+        "reasoning": "Node-es-abstract has high coupling and dependency centrality, making it a significant contributor to the circular dependency cluster."
+      },
+      {
+        "rank": 5,
+        "clause_id": "node-tape",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential",
+          "specificity of local evidence versus generic dependency noise"
+        ],
+        "reasoning": "Node-tape is involved in multiple dependency links and contributes to the circular cluster, but its risk is slightly lower due to less direct evidence of security issues."
+      },
+      {
+        "rank": 6,
+        "clause_id": "node-debbundle-es-to-primitive",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential",
+          "specificity of local evidence versus generic dependency noise"
+        ],
+        "reasoning": "Node-debbundle-es-to-primitive is tightly coupled with other packages but lacks direct evidence of security incidents, reducing its risk score."
+      },
+      {
+        "rank": 7,
+        "clause_id": "node-define-properties",
+        "risk_score": 0.45,
+        "risk_factors": [
+          "dependency centrality and cascading failure potential"
+        ],
+        "reasoning": "Node-define-properties is part of the circular dependency cluster but has lower centrality and no direct security evidence."
+      },
+      {
+        "rank": 8,
+        "clause_id": "node-istanbul",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "specificity of local evidence versus generic dependency noise"
+        ],
+        "reasoning": "Node-istanbul is involved in the cluster but has limited coupling and no direct security evidence, reducing its risk."
+      },
+      {
+        "rank": 9,
+        "clause_id": "libjs-util",
+        "risk_score": 0.35,
+        "risk_factors": [
+          "specificity of local evidence versus generic dependency noise"
+        ],
+        "reasoning": "Libjs-util is a medium-priority participant with recoverable ordering issues and no direct security evidence."
+      },
+      {
+        "rank": 10,
+        "clause_id": "node-assert",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "specificity of local evidence versus generic dependency noise"
+        ],
+        "reasoning": "Node-assert has limited coupling and no direct security evidence, making it one of the least risky nodes."
+      },
+      {
+        "rank": 11,
+        "clause_id": "node-util",
+        "risk_score": 0.25,
+        "risk_factors": [
+          "specificity of local evidence versus generic dependency noise"
+        ],
+        "reasoning": "Node-util is the least risky node due to its low coupling and lack of direct security evidence."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "direct high-severity security or accident evidence",
+        "importance_weight": 0.35,
+        "description": "Captures whether the package has known CVEs, unresolved security incidents, or evidence of critical failures."
+      },
+      {
+        "factor": "update blockage or circular version-lock severity",
+        "importance_weight": 0.25,
+        "description": "Measures the impact of circular dependencies on the ability to apply updates or resolve version conflicts."
+      },
+      {
+        "factor": "CVE propagation / attack surface exposure",
+        "importance_weight": 0.2,
+        "description": "Evaluates how likely vulnerabilities in this package could propagate through the dependency graph or be exploited directly."
+      },
+      {
+        "factor": "dependency centrality and cascading failure potential",
+        "importance_weight": 0.15,
+        "description": "Assesses the package's position in the dependency graph and its potential to cause widespread failures."
+      },
+      {
+        "factor": "specificity of local evidence versus generic dependency noise",
+        "importance_weight": 0.05,
+        "description": "Accounts for whether the risk is specific to this package or generic to the dependency cluster."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "distinct_score_count": 11,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "node-parse-json",
+        "clause_b": "node-read-pkg",
+        "description": "Circular dependency prevents security updates from being applied, creating a live security incident."
+      },
+      {
+        "clause_a": "node-deep-equal",
+        "clause_b": "node-es-abstract",
+        "description": "High coupling and centrality increase the risk of cascading failures and CVE propagation."
+      },
+      {
+        "clause_a": "node-tape",
+        "clause_b": "node-debbundle-es-to-primitive",
+        "description": "Dependency links contribute to circular version-lock severity but lack direct security evidence."
+      }
+    ],
+    "score_spread": 0.6,
+    "ranking_score_spread": 0.6,
+    "score_mean": 0.5136363636363637,
+    "score_max": 0.85,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.09999999999999998
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_4",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "budget": 30,
+    "llm_calls": 14,
+    "tt_hits": 16,
+    "tt_hit_rate": 0.5333333333333333,
+    "time": 72.88989591598511,
+    "scores": {
+      "node-parse-json": 0.7999999999999999,
+      "node-es-abstract": 0.46666666666666673,
+      "node-deep-equal": 0.42500000000000004,
+      "node-assert": 0.375,
+      "node-debbundle-es-to-primitive": 0.35,
+      "node-tape": 0.33333333333333326,
+      "libjs-util": 0.325,
+      "node-read-pkg": 0.3230769230769231,
+      "node-define-properties": 0.3111111111111111,
+      "node-util": 0.3,
+      "node-istanbul": 0.29999999999999993
+    },
+    "ranking": [
+      [
+        "node-parse-json",
+        0.7999999999999999
+      ],
+      [
+        "node-es-abstract",
+        0.46666666666666673
+      ],
+      [
+        "node-deep-equal",
+        0.42500000000000004
+      ],
+      [
+        "node-assert",
+        0.375
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.35
+      ],
+      [
+        "node-tape",
+        0.33333333333333326
+      ],
+      [
+        "libjs-util",
+        0.325
+      ],
+      [
+        "node-read-pkg",
+        0.3230769230769231
+      ],
+      [
+        "node-define-properties",
+        0.3111111111111111
+      ],
+      [
+        "node-util",
+        0.3
+      ],
+      [
+        "node-istanbul",
+        0.29999999999999993
+      ]
+    ],
+    "oc_detected": [
+      "node-es-abstract",
+      "node-parse-json"
+    ],
+    "oc_count": 2,
+    "score_spread": 0.5,
+    "score_mean": 0.39174436674436675,
+    "score_max": 0.7999999999999999,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "clause_details": {
+      "libjs-util": {
+        "mean_score": 0.325,
+        "visit_count": 8,
+        "conflict_count": 11,
+        "risk_history": [
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "node-assert": {
+        "mean_score": 0.375,
+        "visit_count": 8,
+        "conflict_count": 13,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.5,
+          0.3,
+          0.5,
+          0.3,
+          0.5,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "node-debbundle-es-to-primitive": {
+        "mean_score": 0.35,
+        "visit_count": 10,
+        "conflict_count": 17,
+        "risk_history": [
+          0.2,
+          0.3,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "node-deep-equal": {
+        "mean_score": 0.42500000000000004,
+        "visit_count": 16,
+        "conflict_count": 37,
+        "risk_history": [
+          0.5,
+          0.4,
+          0.3,
+          0.4,
+          0.6,
+          0.5,
+          0.4,
+          0.4,
+          0.3,
+          0.5,
+          0.3,
+          0.4,
+          0.4,
+          0.4,
+          0.5,
+          0.5
+        ],
+        "is_oc_detected": false
+      },
+      "node-define-properties": {
+        "mean_score": 0.3111111111111111,
+        "visit_count": 9,
+        "conflict_count": 16,
+        "risk_history": [
+          0.2,
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.2,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "node-es-abstract": {
+        "mean_score": 0.46666666666666673,
+        "visit_count": 12,
+        "conflict_count": 24,
+        "risk_history": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.4,
+          0.5,
+          0.5,
+          0.4,
+          0.5,
+          0.4,
+          0.4,
+          0.5
+        ],
+        "is_oc_detected": true
+      },
+      "node-istanbul": {
+        "mean_score": 0.29999999999999993,
+        "visit_count": 10,
+        "conflict_count": 17,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "node-parse-json": {
+        "mean_score": 0.7999999999999999,
+        "visit_count": 11,
+        "conflict_count": 20,
+        "risk_history": [
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "is_oc_detected": true
+      },
+      "node-read-pkg": {
+        "mean_score": 0.3230769230769231,
+        "visit_count": 13,
+        "conflict_count": 16,
+        "risk_history": [
+          0.4,
+          0.3,
+          0.4,
+          0.2,
+          0.4,
+          0.3,
+          0.4,
+          0.2,
+          0.2,
+          0.3,
+          0.4,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "node-tape": {
+        "mean_score": 0.33333333333333326,
+        "visit_count": 15,
+        "conflict_count": 23,
+        "risk_history": [
+          0.4,
+          0.3,
+          0.4,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "node-util": {
+        "mean_score": 0.3,
+        "visit_count": 8,
+        "conflict_count": 10,
+        "risk_history": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.3333333333333332,
+    "risk_subgraph_nodes": [
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg"
+    ],
+    "risk_subgraph_size": 6,
+    "compression_ratio": 0.4545454545454546,
+    "contains_injected_node": true,
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_4",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "llm_calls": 1,
+    "time": 48.43866491317749,
+    "scores": {
+      "libjs-util": 0.32,
+      "node-assert": 0.42,
+      "node-debbundle-es-to-primitive": 0.72,
+      "node-deep-equal": 0.82,
+      "node-define-properties": 0.58,
+      "node-es-abstract": 0.78,
+      "node-istanbul": 0.52,
+      "node-parse-json": 0.95,
+      "node-read-pkg": 0.48,
+      "node-tape": 0.65,
+      "node-util": 0.38
+    },
+    "reasonings": {
+      "libjs-util": "Client-side JavaScript library with minimal cycle dependencies; rebuildable independently after dependencies available",
+      "node-assert": "Testing assertion library with moderate security relevance but limited centrality in this dependency cycle",
+      "node-debbundle-es-to-primitive": "Core type conversion library with high centrality (4 dependents); critical infrastructure in the cycle",
+      "node-deep-equal": "Most central package with 6 dependents; deep comparison operations can be security-sensitive and failure would cascade widely",
+      "node-define-properties": "Property definition utility with moderate centrality (3 dependents); object manipulation can introduce security issues",
+      "node-es-abstract": "Fundamental JavaScript abstraction with 5 dependencies; core infrastructure with broad impact potential",
+      "node-istanbul": "Code coverage tool that processes source code; positioned in critical path between security-sensitive packages",
+      "node-parse-json": "Confirmed security update blockage causing service crashes; JSON parsing is high-risk operation with documented activation failures",
+      "node-read-pkg": "Package configuration reader in the parse-json blockage chain; processes JSON configuration files",
+      "node-tape": "Testing framework with broad dependencies; test execution context can be security-sensitive with elevated privileges",
+      "node-util": "General utility library bridging environments; limited centrality and security exposure in this cycle"
+    },
+    "ranking": [
+      [
+        "node-parse-json",
+        0.95
+      ],
+      [
+        "node-deep-equal",
+        0.82
+      ],
+      [
+        "node-es-abstract",
+        0.78
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.72
+      ],
+      [
+        "node-tape",
+        0.65
+      ],
+      [
+        "node-define-properties",
+        0.58
+      ],
+      [
+        "node-istanbul",
+        0.52
+      ],
+      [
+        "node-read-pkg",
+        0.48
+      ],
+      [
+        "node-assert",
+        0.42
+      ],
+      [
+        "node-util",
+        0.38
+      ],
+      [
+        "libjs-util",
+        0.32
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "node-parse-json",
+        "risk_score": 0.95,
+        "risk_factors": [
+          "security_update_blockage",
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Direct evidence of security update blockage where patched binaries cannot activate due to circular dependency, causing service crashes and rollback to vulnerable code"
+      },
+      {
+        "rank": 2,
+        "clause_id": "node-deep-equal",
+        "risk_score": 0.82,
+        "risk_factors": [
+          "dependency_centrality",
+          "cascading_failure_potential"
+        ],
+        "reasoning": "Highest centrality in the cycle with 6 packages depending on it directly; critical hub that would cause widespread failures if compromised"
+      },
+      {
+        "rank": 3,
+        "clause_id": "node-es-abstract",
+        "risk_score": 0.78,
+        "risk_factors": [
+          "dependency_centrality",
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Core JavaScript abstraction library with 5 dependencies within cycle; fundamental building block with broad impact if vulnerable"
+      },
+      {
+        "rank": 4,
+        "clause_id": "node-debbundle-es-to-primitive",
+        "risk_score": 0.72,
+        "risk_factors": [
+          "dependency_centrality",
+          "historical_vulnerability"
+        ],
+        "reasoning": "Critical conversion library with 4 packages depending on it; type conversion operations are common attack vectors"
+      },
+      {
+        "rank": 5,
+        "clause_id": "node-tape",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "dependency_centrality",
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Testing framework with broad dependencies; test code often runs with elevated privileges and can be attack vector"
+      },
+      {
+        "rank": 6,
+        "clause_id": "node-define-properties",
+        "risk_score": 0.58,
+        "risk_factors": [
+          "dependency_centrality"
+        ],
+        "reasoning": "Property definition utility with 3 dependencies; moderate centrality but handles object manipulation which can be security-sensitive"
+      },
+      {
+        "rank": 7,
+        "clause_id": "node-istanbul",
+        "risk_score": 0.52,
+        "risk_factors": [
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Code coverage tool that may process untrusted code during testing; positioned between parse-json and read-pkg in dependency chain"
+      },
+      {
+        "rank": 8,
+        "clause_id": "node-read-pkg",
+        "risk_score": 0.48,
+        "risk_factors": [
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Package.json reader that processes configuration files; part of the parse-json blockage chain but with fewer dependents"
+      },
+      {
+        "rank": 9,
+        "clause_id": "node-assert",
+        "risk_score": 0.42,
+        "risk_factors": [
+          "attack_surface_exposure"
+        ],
+        "reasoning": "Assertion library used in testing; security assertions can be bypassed but has limited centrality in this cycle"
+      },
+      {
+        "rank": 10,
+        "clause_id": "node-util",
+        "risk_score": 0.38,
+        "risk_factors": [
+          "maintenance_complexity"
+        ],
+        "reasoning": "Utility library with only 2 dependencies in cycle; bridges JavaScript and native code but limited direct security exposure"
+      },
+      {
+        "rank": 11,
+        "clause_id": "libjs-util",
+        "risk_score": 0.32,
+        "risk_factors": [
+          "maintenance_complexity"
+        ],
+        "reasoning": "Browser-side utility library with minimal dependencies in cycle; lowest security risk due to client-side execution context"
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "security_update_blockage",
+        "importance_weight": 0.35,
+        "description": "Evidence that security updates cannot be properly installed or activated due to circular dependency issues"
+      },
+      {
+        "factor": "dependency_centrality",
+        "importance_weight": 0.25,
+        "description": "Number of packages that depend on this package within the cycle, indicating cascading failure potential"
+      },
+      {
+        "factor": "attack_surface_exposure",
+        "importance_weight": 0.2,
+        "description": "Package handles security-sensitive operations like parsing, network I/O, or is commonly used in production"
+      },
+      {
+        "factor": "historical_vulnerability",
+        "importance_weight": 0.15,
+        "description": "Known CVE history or security warnings in transitive dependencies"
+      },
+      {
+        "factor": "maintenance_complexity",
+        "importance_weight": 0.05,
+        "description": "Evidence of coordination requirements, stale tests, or rebuild complications"
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "distinct_score_count": 11,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "node-parse-json",
+        "clause_b": "node-read-pkg",
+        "description": "Mutual dependency prevents security update activation - parse-json postinst requires read-pkg's new ABI while read-pkg refuses to configure until parse-json provides fixed interface"
+      },
+      {
+        "clause_a": "node-deep-equal",
+        "clause_b": "node-debbundle-es-to-primitive",
+        "description": "Bidirectional dependency creates core cycle that affects multiple packages including es-abstract and define-properties"
+      },
+      {
+        "clause_a": "node-es-abstract",
+        "clause_b": "node-deep-equal",
+        "description": "Multiple dependency links create reinforced circularity that amplifies cascading failure risk"
+      }
+    ],
+    "score_spread": 0.6299999999999999,
+    "ranking_score_spread": 0.6299999999999999,
+    "score_mean": 0.6018181818181818,
+    "score_max": 0.95,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.13
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "debian",
+    "scc_size": 11,
+    "scc_id": "scc_4",
+    "scc_clause_ids": [
+      "libjs-util",
+      "node-assert",
+      "node-debbundle-es-to-primitive",
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg",
+      "node-tape",
+      "node-util"
+    ],
+    "budget": 30,
+    "llm_calls": 15,
+    "tt_hits": 15,
+    "tt_hit_rate": 0.5,
+    "time": 101.21442008018494,
+    "scores": {
+      "node-parse-json": 0.8692307692307695,
+      "node-es-abstract": 0.49166666666666664,
+      "node-deep-equal": 0.4428571428571429,
+      "node-tape": 0.39230769230769236,
+      "libjs-util": 0.3833333333333333,
+      "node-define-properties": 0.3777777777777777,
+      "node-util": 0.37499999999999994,
+      "node-read-pkg": 0.36363636363636354,
+      "node-debbundle-es-to-primitive": 0.36,
+      "node-assert": 0.3333333333333333,
+      "node-istanbul": 0.3249999999999999
+    },
+    "ranking": [
+      [
+        "node-parse-json",
+        0.8692307692307695
+      ],
+      [
+        "node-es-abstract",
+        0.49166666666666664
+      ],
+      [
+        "node-deep-equal",
+        0.4428571428571429
+      ],
+      [
+        "node-tape",
+        0.39230769230769236
+      ],
+      [
+        "libjs-util",
+        0.3833333333333333
+      ],
+      [
+        "node-define-properties",
+        0.3777777777777777
+      ],
+      [
+        "node-util",
+        0.37499999999999994
+      ],
+      [
+        "node-read-pkg",
+        0.36363636363636354
+      ],
+      [
+        "node-debbundle-es-to-primitive",
+        0.36
+      ],
+      [
+        "node-assert",
+        0.3333333333333333
+      ],
+      [
+        "node-istanbul",
+        0.3249999999999999
+      ]
+    ],
+    "oc_detected": [
+      "node-es-abstract",
+      "node-parse-json"
+    ],
+    "oc_count": 2,
+    "score_spread": 0.5442307692307695,
+    "score_mean": 0.4285584617402799,
+    "score_max": 0.8692307692307695,
+    "node_names": {
+      "libjs-util": "libjs-util",
+      "node-assert": "node-assert",
+      "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+      "node-deep-equal": "node-deep-equal",
+      "node-define-properties": "node-define-properties",
+      "node-es-abstract": "node-es-abstract",
+      "node-istanbul": "node-istanbul",
+      "node-parse-json": "node-parse-json",
+      "node-read-pkg": "node-read-pkg",
+      "node-tape": "node-tape",
+      "node-util": "node-util"
+    },
+    "clause_details": {
+      "libjs-util": {
+        "mean_score": 0.3833333333333333,
+        "visit_count": 6,
+        "conflict_count": 11,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "node-assert": {
+        "mean_score": 0.3333333333333333,
+        "visit_count": 12,
+        "conflict_count": 14,
+        "risk_history": [
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "node-debbundle-es-to-primitive": {
+        "mean_score": 0.36,
+        "visit_count": 10,
+        "conflict_count": 17,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.4,
+          0.5,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "node-deep-equal": {
+        "mean_score": 0.4428571428571429,
+        "visit_count": 14,
+        "conflict_count": 30,
+        "risk_history": [
+          0.4,
+          0.5,
+          0.4,
+          0.3,
+          0.4,
+          0.3,
+          0.6,
+          0.4,
+          0.4,
+          0.4,
+          0.6,
+          0.4,
+          0.7,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "node-define-properties": {
+        "mean_score": 0.3777777777777777,
+        "visit_count": 9,
+        "conflict_count": 9,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.4,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "node-es-abstract": {
+        "mean_score": 0.49166666666666664,
+        "visit_count": 12,
+        "conflict_count": 27,
+        "risk_history": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.3,
+          0.5,
+          0.5,
+          0.5,
+          0.6,
+          0.5
+        ],
+        "is_oc_detected": true
+      },
+      "node-istanbul": {
+        "mean_score": 0.3249999999999999,
+        "visit_count": 12,
+        "conflict_count": 12,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "node-parse-json": {
+        "mean_score": 0.8692307692307695,
+        "visit_count": 13,
+        "conflict_count": 25,
+        "risk_history": [
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.8,
+          0.9,
+          0.8,
+          0.8,
+          0.8,
+          0.9
+        ],
+        "is_oc_detected": true
+      },
+      "node-read-pkg": {
+        "mean_score": 0.36363636363636354,
+        "visit_count": 11,
+        "conflict_count": 20,
+        "risk_history": [
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "node-tape": {
+        "mean_score": 0.39230769230769236,
+        "visit_count": 13,
+        "conflict_count": 14,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.4,
+          0.3,
+          0.5,
+          0.4,
+          0.4,
+          0.5,
+          0.5,
+          0.3,
+          0.4,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "node-util": {
+        "mean_score": 0.37499999999999994,
+        "visit_count": 8,
+        "conflict_count": 11,
+        "risk_history": [
+          0.3,
+          0.4,
+          0.3,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "node-parse-json"
+    ],
+    "gt_evidence": {
+      "node-parse-json": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": true,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "node-parse-json",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "injected_rank": 1,
+    "top1_margin": 0.37756410256410283,
+    "risk_subgraph_nodes": [
+      "node-deep-equal",
+      "node-define-properties",
+      "node-es-abstract",
+      "node-istanbul",
+      "node-parse-json",
+      "node-read-pkg"
+    ],
+    "risk_subgraph_size": 6,
+    "compression_ratio": 0.4545454545454546,
+    "contains_injected_node": true,
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors"
+  }
+]

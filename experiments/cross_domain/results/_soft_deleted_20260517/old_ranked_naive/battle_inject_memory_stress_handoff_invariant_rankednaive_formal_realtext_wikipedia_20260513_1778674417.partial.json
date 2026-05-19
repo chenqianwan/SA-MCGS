@@ -1,0 +1,2444 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (wikipedia); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_1",
+    "scc_clause_ids": [
+      "1820_United_States_presidential_election",
+      "Candidates_in_the_1820_United_States_presidential_election",
+      "Era_of_Good_Feelings",
+      "Presidency_of_James_Monroe",
+      "James_Monroe"
+    ],
+    "llm_calls": 1,
+    "time": 52.51865077018738,
+    "scores": {
+      "1820_United_States_presidential_election": 0.75,
+      "Candidates_in_the_1820_United_States_presidential_election": 0.85,
+      "Era_of_Good_Feelings": 0.6,
+      "Presidency_of_James_Monroe": 0.4,
+      "James_Monroe": 0.2
+    },
+    "reasonings": {
+      "1820_United_States_presidential_election": "Part of a cycle and has conflicting lifecycle rules. It references active nodes despite being labeled as historical material.",
+      "Candidates_in_the_1820_United_States_presidential_election": "Part of a cycle and has vague content. Its categories and references do not clarify its role, and it creates a loop with James Monroe.",
+      "Era_of_Good_Feelings": "Forwards lifecycle labels unchanged but references nodes with conflicting lifecycle statuses. Its central position amplifies its impact.",
+      "Presidency_of_James_Monroe": "Central to the graph and inherits structural inconsistencies from Era_of_Good_Feelings. However, its content is relatively clear.",
+      "James_Monroe": "Part of the cycle but has clear content and a well-defined role. Its issues are less severe compared to other nodes."
+    },
+    "ranking": [
+      [
+        "Candidates_in_the_1820_United_States_presidential_election",
+        0.85
+      ],
+      [
+        "1820_United_States_presidential_election",
+        0.75
+      ],
+      [
+        "Era_of_Good_Feelings",
+        0.6
+      ],
+      [
+        "Presidency_of_James_Monroe",
+        0.4
+      ],
+      [
+        "James_Monroe",
+        0.2
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "Candidates_in_the_1820_United_States_presidential_election",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "cyclic_dependency",
+          "underspecified_content"
+        ],
+        "reasoning": "This node is part of a cycle and has vague content that does not clarify its role in the graph. It references James Monroe, creating a loop, and its categories are ambiguous."
+      },
+      {
+        "rank": 2,
+        "clause_id": "1820_United_States_presidential_election",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "cyclic_dependency",
+          "structural_inconsistency"
+        ],
+        "reasoning": "This node is part of the cycle and has conflicting lifecycle rules. It accepts historical material but references active nodes, creating structural inconsistency."
+      },
+      {
+        "rank": 3,
+        "clause_id": "Era_of_Good_Feelings",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "structural_inconsistency",
+          "high-impact_position"
+        ],
+        "reasoning": "This node forwards lifecycle labels unchanged but references nodes with conflicting lifecycle statuses. Its central position amplifies the impact of its issues."
+      },
+      {
+        "rank": 4,
+        "clause_id": "Presidency_of_James_Monroe",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "high-impact_position"
+        ],
+        "reasoning": "This node is central to the graph and references Era_of_Good_Feelings, inheriting its structural inconsistencies. However, its content is relatively clear."
+      },
+      {
+        "rank": 5,
+        "clause_id": "James_Monroe",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "This node is part of the cycle but has clear content and a well-defined role. Its issues are less severe compared to other nodes."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures the presence of cycles in the graph structure, which can lead to logical inconsistencies or infinite reference loops."
+      },
+      {
+        "factor": "underspecified_content",
+        "importance_weight": 0.3,
+        "description": "Captures records with vague or incomplete descriptions that make their role in the graph unclear."
+      },
+      {
+        "factor": "structural_inconsistency",
+        "importance_weight": 0.2,
+        "description": "Captures records whose relationships or dependencies conflict with their stated lifecycle or category rules."
+      },
+      {
+        "factor": "high-impact_position",
+        "importance_weight": 0.1,
+        "description": "Captures nodes that are central to the graph and whose issues propagate widely due to their position."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 5,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "Candidates_in_the_1820_United_States_presidential_election",
+        "clause_b": "James_Monroe",
+        "description": "Creates a cyclic dependency by referencing James Monroe, which indirectly references back to this node."
+      },
+      {
+        "clause_a": "1820_United_States_presidential_election",
+        "clause_b": "Era_of_Good_Feelings",
+        "description": "Conflicting lifecycle rules: 1820 United States presidential election accepts historical material but references Era_of_Good_Feelings, which forwards lifecycle labels unchanged."
+      },
+      {
+        "clause_a": "Era_of_Good_Feelings",
+        "clause_b": "Presidency_of_James_Monroe",
+        "description": "Structural inconsistency due to lifecycle label forwarding. Era_of_Good_Feelings references Presidency_of_James_Monroe, which is labeled as current-status material."
+      }
+    ],
+    "score_spread": 0.6499999999999999,
+    "ranking_score_spread": 0.6499999999999999,
+    "score_mean": 0.5599999999999999,
+    "score_max": 0.85,
+    "node_names": {
+      "1820_United_States_presidential_election": "1820 United States presidential election",
+      "Candidates_in_the_1820_United_States_presidential_election": "Candidates in the 1820 United States presidential election",
+      "Era_of_Good_Feelings": "Era of Good Feelings",
+      "Presidency_of_James_Monroe": "Presidency of James Monroe",
+      "James_Monroe": "James Monroe"
+    },
+    "ground_truth_nodes": [
+      "Presidency_of_James_Monroe"
+    ],
+    "gt_evidence": {
+      "Presidency_of_James_Monroe": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "prompt_word_count": 741,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.3184885290148448,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3562753036437247,
+    "inject_mode": true,
+    "injected_node": "Presidency_of_James_Monroe",
+    "inject_type": "type_a_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "1820_United_States_presidential_election",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "Era_of_Good_Feelings",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "Presidency_of_James_Monroe",
+      "1820_United_States_presidential_election"
+    ],
+    "injected_evidence_nodes": [
+      "Presidency_of_James_Monroe",
+      "Era_of_Good_Feelings",
+      "1820_United_States_presidential_election"
+    ],
+    "injected_affected_nodes": [
+      "Candidates_in_the_1820_United_States_presidential_election",
+      "James_Monroe"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "wikipedia_handoff_invariant_lifecycle_label",
+    "injected_rank": 4,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "Presidency_of_James_Monroe": 4,
+      "1820_United_States_presidential_election": 2
+    },
+    "risk_best_rank": 2,
+    "risk_worst_rank": 4,
+    "risk_top1_hit": false,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "Presidency_of_James_Monroe": 4,
+      "Era_of_Good_Feelings": 3,
+      "1820_United_States_presidential_election": 2
+    },
+    "evidence_best_rank": 2,
+    "evidence_worst_rank": 4,
+    "evidence_top1_hit": false,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "Candidates_in_the_1820_United_States_presidential_election": 1,
+      "James_Monroe": 5
+    },
+    "affected_best_rank": 1,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": true,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "Presidency_of_James_Monroe": 4,
+      "1820_United_States_presidential_election": 2,
+      "Candidates_in_the_1820_United_States_presidential_election": 1,
+      "James_Monroe": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 4,
+    "root_top1_hit": false,
+    "root_top3_hit": false
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_1",
+    "scc_clause_ids": [
+      "1820_United_States_presidential_election",
+      "Candidates_in_the_1820_United_States_presidential_election",
+      "Era_of_Good_Feelings",
+      "Presidency_of_James_Monroe",
+      "James_Monroe"
+    ],
+    "budget": 60,
+    "llm_calls": 21,
+    "tt_hits": 39,
+    "tt_hit_rate": 0.65,
+    "time": 94.61800384521484,
+    "scores": {
+      "1820_United_States_presidential_election": 0.02448979591836735,
+      "Era_of_Good_Feelings": 0.024,
+      "Candidates_in_the_1820_United_States_presidential_election": 0.0,
+      "Presidency_of_James_Monroe": 0.0,
+      "James_Monroe": 0.0
+    },
+    "ranking": [
+      [
+        "1820_United_States_presidential_election",
+        0.02448979591836735
+      ],
+      [
+        "Era_of_Good_Feelings",
+        0.024
+      ],
+      [
+        "Candidates_in_the_1820_United_States_presidential_election",
+        0.0
+      ],
+      [
+        "Presidency_of_James_Monroe",
+        0.0
+      ],
+      [
+        "James_Monroe",
+        0.0
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.02448979591836735,
+    "score_mean": 0.00969795918367347,
+    "score_max": 0.02448979591836735,
+    "node_names": {
+      "1820_United_States_presidential_election": "1820 United States presidential election",
+      "Candidates_in_the_1820_United_States_presidential_election": "Candidates in the 1820 United States presidential election",
+      "Era_of_Good_Feelings": "Era of Good Feelings",
+      "Presidency_of_James_Monroe": "Presidency of James Monroe",
+      "James_Monroe": "James Monroe"
+    },
+    "clause_details": {
+      "1820_United_States_presidential_election": {
+        "mean_score": 0.02448979591836735,
+        "visit_count": 49,
+        "conflict_count": 8,
+        "risk_history": [
+          0.0,
+          0.0,
+          0.2,
+          0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          0.0,
+          0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.1,
+          0.0,
+          0.1,
+          0.0,
+          0.0,
+          0.1,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.1,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Candidates_in_the_1820_United_States_presidential_election": {
+        "mean_score": 0.0,
+        "visit_count": 45,
+        "conflict_count": 0,
+        "risk_history": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Era_of_Good_Feelings": {
+        "mean_score": 0.024,
+        "visit_count": 50,
+        "conflict_count": 8,
+        "risk_history": [
+          0.0,
+          0.0,
+          0.0,
+          0.1,
+          0.1,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.1,
+          0.0,
+          0.1,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Presidency_of_James_Monroe": {
+        "mean_score": 0.0,
+        "visit_count": 46,
+        "conflict_count": 0,
+        "risk_history": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "James_Monroe": {
+        "mean_score": 0.0,
+        "visit_count": 50,
+        "conflict_count": 0,
+        "risk_history": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "Presidency_of_James_Monroe"
+    ],
+    "gt_evidence": {
+      "Presidency_of_James_Monroe": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "inject_mode": true,
+    "injected_node": "Presidency_of_James_Monroe",
+    "inject_type": "type_a_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "1820_United_States_presidential_election",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "Era_of_Good_Feelings",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "Presidency_of_James_Monroe",
+      "1820_United_States_presidential_election"
+    ],
+    "injected_evidence_nodes": [
+      "Presidency_of_James_Monroe",
+      "Era_of_Good_Feelings",
+      "1820_United_States_presidential_election"
+    ],
+    "injected_affected_nodes": [
+      "Candidates_in_the_1820_United_States_presidential_election",
+      "James_Monroe"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "wikipedia_handoff_invariant_lifecycle_label",
+    "injected_rank": 4,
+    "top1_margin": 0.0004897959183673486,
+    "risk_node_ranks": {
+      "Presidency_of_James_Monroe": 4,
+      "1820_United_States_presidential_election": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 4,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "Presidency_of_James_Monroe": 4,
+      "Era_of_Good_Feelings": 2,
+      "1820_United_States_presidential_election": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 4,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "Candidates_in_the_1820_United_States_presidential_election": 3,
+      "James_Monroe": 5
+    },
+    "affected_best_rank": 3,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "Presidency_of_James_Monroe": 4,
+      "1820_United_States_presidential_election": 1,
+      "Candidates_in_the_1820_United_States_presidential_election": 3,
+      "James_Monroe": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 4,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "risk_subgraph_nodes": [
+      "1820_United_States_presidential_election",
+      "Candidates_in_the_1820_United_States_presidential_election",
+      "Era_of_Good_Feelings",
+      "Presidency_of_James_Monroe",
+      "James_Monroe"
+    ],
+    "risk_subgraph_size": 5,
+    "compression_ratio": 0.0,
+    "contains_injected_node": true,
+    "contains_any_evidence_node": true,
+    "contains_all_evidence_nodes": true,
+    "evidence_nodes_retained": [
+      "Presidency_of_James_Monroe",
+      "Era_of_Good_Feelings",
+      "1820_United_States_presidential_election"
+    ],
+    "contains_any_risk_node": true,
+    "contains_all_risk_nodes": true,
+    "contains_any_affected_node": true,
+    "subgraph_type": "posthoc_gt_anchored",
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors",
+    "blind_risk_subgraph_nodes": [
+      "1820_United_States_presidential_election",
+      "Candidates_in_the_1820_United_States_presidential_election",
+      "Era_of_Good_Feelings",
+      "James_Monroe"
+    ],
+    "blind_risk_subgraph_size": 4,
+    "blind_compression_ratio": 0.19999999999999996,
+    "blind_contains_injected_node": false,
+    "blind_contains_any_evidence_node": true,
+    "blind_contains_all_evidence_nodes": false,
+    "blind_evidence_nodes_retained": [
+      "Era_of_Good_Feelings",
+      "1820_United_States_presidential_election"
+    ],
+    "blind_contains_any_risk_node": true,
+    "blind_contains_all_risk_nodes": false,
+    "blind_contains_any_affected_node": true,
+    "blind_subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC anchors only"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (wikipedia); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_1",
+    "scc_clause_ids": [
+      "1820_United_States_presidential_election",
+      "Candidates_in_the_1820_United_States_presidential_election",
+      "Era_of_Good_Feelings",
+      "Presidency_of_James_Monroe",
+      "James_Monroe"
+    ],
+    "llm_calls": 1,
+    "time": 72.74658417701721,
+    "scores": {
+      "1820_United_States_presidential_election": 0.85,
+      "Candidates_in_the_1820_United_States_presidential_election": 0.65,
+      "Era_of_Good_Feelings": 0.95,
+      "Presidency_of_James_Monroe": 0.75,
+      "James_Monroe": 0.6
+    },
+    "reasonings": {
+      "1820_United_States_presidential_election": "Part of cycle; declares itself for historical/inactive material but receives dependency from a node (Era_of_Good_Feelings) that is instructed to forward a potentially conflicting status label.",
+      "Candidates_in_the_1820_United_States_presidential_election": "Part of the 5-node cycle; completes the loop by referencing James_Monroe, enabling the circular dependency but lacks explicit status instructions in its content.",
+      "Era_of_Good_Feelings": "Central node in a 5-cycle with explicit forwarding instruction that creates a status propagation conflict between 'current-status' from Presidency and 'historical/inactive' at 1820 Election.",
+      "Presidency_of_James_Monroe": "Part of cycle; asserts its incoming path is 'current-status' and not to be relabeled, creating a fixed status point that feeds into the contradictory cycle.",
+      "James_Monroe": "Part of the 5-node cycle; starts the reference chain but its content is descriptive without explicit status rules, making it a less direct source of conflict."
+    },
+    "ranking": [
+      [
+        "Era_of_Good_Feelings",
+        0.95
+      ],
+      [
+        "1820_United_States_presidential_election",
+        0.85
+      ],
+      [
+        "Presidency_of_James_Monroe",
+        0.75
+      ],
+      [
+        "Candidates_in_the_1820_United_States_presidential_election",
+        0.65
+      ],
+      [
+        "James_Monroe",
+        0.6
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "Era_of_Good_Feelings",
+        "risk_score": 0.95,
+        "risk_factors": [
+          "Circular Dependency",
+          "Status/Contextual Incompatibility",
+          "Graph Centrality in Conflict"
+        ],
+        "reasoning": "This node is central to the 5-node cycle and contains a specific instruction ('inherits the lifecycle label... and forwards that label unchanged') that is critically incompatible with being part of a cycle. It receives a label from 'Presidency_of_James_Monroe' (current-status) but also forwards to '1820_United_States_presidential_election' (historical/inactive), creating a status conflict loop. Its position makes the cycle's logical inconsistency most acute."
+      },
+      {
+        "rank": 2,
+        "clause_id": "1820_United_States_presidential_election",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "Circular Dependency",
+          "Status/Contextual Incompatibility"
+        ],
+        "reasoning": "This node is part of the core cycle and declares itself as a receiving category for 'historical or inactive material'. However, it is directly referenced by 'Era_of_Good_Feelings', which is instructed to forward a 'lifecycle label' (potentially 'current-status' from upstream). Accepting current-status material contradicts its declared historical/inactive role, creating a direct status conflict."
+      },
+      {
+        "rank": 3,
+        "clause_id": "Presidency_of_James_Monroe",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "Circular Dependency",
+          "Status/Contextual Incompatibility"
+        ],
+        "reasoning": "This node is a key part of the cycle and declares that its incoming branch is 'maintained as current-status material' and items are 'not relabeled while this entry is active'. This creates a strong, fixed status assertion that propagates into the cycle ('Era_of_Good_Feelings'), but this status will eventually loop back via 'Candidates...' and 'James_Monroe', potentially challenging its own 'active' status assumption."
+      },
+      {
+        "rank": 4,
+        "clause_id": "Candidates_in_the_1820_United_States_presidential_election",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "Circular Dependency"
+        ],
+        "reasoning": "This node is part of the 5-node cycle, contributing to the structural circularity. While its content does not contain explicit status instructions, its position completes the cycle by referencing 'James_Monroe', thereby enabling the status conflict loop to close. Its risk is primarily structural."
+      },
+      {
+        "rank": 5,
+        "clause_id": "James_Monroe",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "Circular Dependency"
+        ],
+        "reasoning": "This node is part of the 5-node cycle, initiating the chain of references to 'Presidency_of_James_Monroe'. Its content is largely factual and categorical without explicit status instructions, making its role in the conflict less direct than others. However, it is essential for the cycle's existence."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "Circular Dependency",
+        "importance_weight": 0.4,
+        "description": "Presence of cycles in the directed graph, indicating potential for infinite loops, logical contradictions, or ambiguous status propagation in a dependency system."
+      },
+      {
+        "factor": "Status/Contextual Incompatibility",
+        "importance_weight": 0.3,
+        "description": "Incompatibility between the status labels or contextual notes in record content (e.g., 'historical/inactive', 'current-status', 'inherits lifecycle') and their position within a dependency cycle or path."
+      },
+      {
+        "factor": "Graph Centrality in Conflict",
+        "importance_weight": 0.2,
+        "description": "The degree to which a node is central to, or a key junction within, identified structural conflicts (e.g., cycles, incompatible status chains)."
+      },
+      {
+        "factor": "Content Ambiguity/Underspecification",
+        "importance_weight": 0.1,
+        "description": "Vagueness or lack of clarity in the record's content or instructions that could lead to misinterpretation of its role or the handling of dependencies."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 5,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "Presidency_of_James_Monroe",
+        "clause_b": "1820_United_States_presidential_election",
+        "description": "Status incompatibility conflict propagated through the cycle. Presidency declares its path as 'current-status', while 1820 Election declares itself for 'historical or inactive material'. The directed path (via Era_of_Good_Feelings) forces these incompatible statuses to interact."
+      },
+      {
+        "clause_a": "Era_of_Good_Feelings",
+        "clause_b": "1820_United_States_presidential_election",
+        "description": "Direct edge conflict: Era_of_Good_Feelings is instructed to 'inherit and forward' a lifecycle label unchanged to 1820 Election, but 1820 Election's declared role (historical/inactive) may be incompatible with whatever label is being forwarded (e.g., 'current-status' from upstream)."
+      },
+      {
+        "clause_a": "James_Monroe",
+        "clause_b": "Candidates_in_the_1820_United_States_presidential_election",
+        "clause_c": "1820_United_States_presidential_election",
+        "clause_d": "Era_of_Good_Feelings",
+        "clause_e": "Presidency_of_James_Monroe",
+        "description": "Structural circular dependency: A 5-node directed cycle exists (James_Monroe -> Presidency -> Era -> 1820 Election -> Candidates -> James_Monroe). This creates potential for infinite loops, ambiguous status propagation, and logical inconsistencies in any system processing these dependencies sequentially."
+      }
+    ],
+    "score_spread": 0.35,
+    "ranking_score_spread": 0.35,
+    "score_mean": 0.76,
+    "score_max": 0.95,
+    "node_names": {
+      "1820_United_States_presidential_election": "1820 United States presidential election",
+      "Candidates_in_the_1820_United_States_presidential_election": "Candidates in the 1820 United States presidential election",
+      "Era_of_Good_Feelings": "Era of Good Feelings",
+      "Presidency_of_James_Monroe": "Presidency of James Monroe",
+      "James_Monroe": "James Monroe"
+    },
+    "ground_truth_nodes": [
+      "Presidency_of_James_Monroe"
+    ],
+    "gt_evidence": {
+      "Presidency_of_James_Monroe": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 741,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.3184885290148448,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3562753036437247,
+    "inject_mode": true,
+    "injected_node": "Presidency_of_James_Monroe",
+    "inject_type": "type_a_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "1820_United_States_presidential_election",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "Era_of_Good_Feelings",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "Presidency_of_James_Monroe",
+      "1820_United_States_presidential_election"
+    ],
+    "injected_evidence_nodes": [
+      "Presidency_of_James_Monroe",
+      "Era_of_Good_Feelings",
+      "1820_United_States_presidential_election"
+    ],
+    "injected_affected_nodes": [
+      "Candidates_in_the_1820_United_States_presidential_election",
+      "James_Monroe"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "wikipedia_handoff_invariant_lifecycle_label",
+    "injected_rank": 3,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "Presidency_of_James_Monroe": 3,
+      "1820_United_States_presidential_election": 2
+    },
+    "risk_best_rank": 2,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": false,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "Presidency_of_James_Monroe": 3,
+      "Era_of_Good_Feelings": 1,
+      "1820_United_States_presidential_election": 2
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "Candidates_in_the_1820_United_States_presidential_election": 4,
+      "James_Monroe": 5
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "Presidency_of_James_Monroe": 3,
+      "1820_United_States_presidential_election": 2,
+      "Candidates_in_the_1820_United_States_presidential_election": 4,
+      "James_Monroe": 5
+    },
+    "valuable_best_rank": 2,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 3,
+    "root_top1_hit": false,
+    "root_top3_hit": true
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "deepseek-v3",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_1",
+    "scc_clause_ids": [
+      "1820_United_States_presidential_election",
+      "Candidates_in_the_1820_United_States_presidential_election",
+      "Era_of_Good_Feelings",
+      "Presidency_of_James_Monroe",
+      "James_Monroe"
+    ],
+    "budget": 60,
+    "llm_calls": 24,
+    "tt_hits": 36,
+    "tt_hit_rate": 0.6,
+    "time": 228.28882598876953,
+    "scores": {
+      "Era_of_Good_Feelings": 0.33541666666666664,
+      "1820_United_States_presidential_election": 0.3086956521739131,
+      "Candidates_in_the_1820_United_States_presidential_election": 0.2711538461538463,
+      "Presidency_of_James_Monroe": 0.2439999999999999,
+      "James_Monroe": 0.17727272727272714
+    },
+    "ranking": [
+      [
+        "Era_of_Good_Feelings",
+        0.33541666666666664
+      ],
+      [
+        "1820_United_States_presidential_election",
+        0.3086956521739131
+      ],
+      [
+        "Candidates_in_the_1820_United_States_presidential_election",
+        0.2711538461538463
+      ],
+      [
+        "Presidency_of_James_Monroe",
+        0.2439999999999999
+      ],
+      [
+        "James_Monroe",
+        0.17727272727272714
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.1581439393939395,
+    "score_mean": 0.2673077784534306,
+    "score_max": 0.33541666666666664,
+    "node_names": {
+      "1820_United_States_presidential_election": "1820 United States presidential election",
+      "Candidates_in_the_1820_United_States_presidential_election": "Candidates in the 1820 United States presidential election",
+      "Era_of_Good_Feelings": "Era of Good Feelings",
+      "Presidency_of_James_Monroe": "Presidency of James Monroe",
+      "James_Monroe": "James Monroe"
+    },
+    "clause_details": {
+      "1820_United_States_presidential_election": {
+        "mean_score": 0.3086956521739131,
+        "visit_count": 46,
+        "conflict_count": 53,
+        "risk_history": [
+          0.3,
+          0.2,
+          0.4,
+          0.2,
+          0.3,
+          0.3,
+          0.2,
+          0.3,
+          0.2,
+          0.2,
+          0.2,
+          0.3,
+          0.2,
+          0.3,
+          0.3,
+          0.3,
+          0.2,
+          0.5,
+          0.2,
+          0.5,
+          0.2,
+          0.3,
+          0.3,
+          0.2,
+          0.3,
+          0.2,
+          0.5,
+          0.3,
+          0.5,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.8,
+          0.6,
+          0.2,
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.2,
+          0.3,
+          0.6,
+          0.3,
+          0.3,
+          0.4
+        ],
+        "is_oc_detected": false
+      },
+      "Candidates_in_the_1820_United_States_presidential_election": {
+        "mean_score": 0.2711538461538463,
+        "visit_count": 52,
+        "conflict_count": 37,
+        "risk_history": [
+          0.2,
+          0.1,
+          0.1,
+          0.1,
+          0.4,
+          0.3,
+          0.2,
+          0.2,
+          0.2,
+          0.1,
+          0.2,
+          0.1,
+          0.2,
+          0.1,
+          0.1,
+          0.2,
+          0.1,
+          0.2,
+          0.2,
+          0.4,
+          0.2,
+          0.4,
+          0.1,
+          0.3,
+          0.2,
+          0.2,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.2,
+          0.4,
+          0.4,
+          0.2,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.3,
+          0.2,
+          0.2,
+          0.4,
+          0.4,
+          0.2,
+          0.4,
+          0.2,
+          0.3
+        ],
+        "is_oc_detected": false
+      },
+      "Era_of_Good_Feelings": {
+        "mean_score": 0.33541666666666664,
+        "visit_count": 48,
+        "conflict_count": 36,
+        "risk_history": [
+          0.4,
+          0.3,
+          0.3,
+          0.3,
+          0.1,
+          0.1,
+          0.4,
+          0.4,
+          0.3,
+          0.4,
+          0.3,
+          0.1,
+          0.3,
+          0.4,
+          0.1,
+          0.4,
+          0.2,
+          0.1,
+          0.2,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.1,
+          0.1,
+          0.1,
+          0.4,
+          0.1,
+          0.4,
+          0.4,
+          0.4,
+          0.1,
+          0.3,
+          0.3,
+          0.7,
+          0.4,
+          0.3,
+          0.7,
+          0.7,
+          0.7,
+          0.2,
+          0.7,
+          0.4,
+          0.2,
+          0.7,
+          0.2
+        ],
+        "is_oc_detected": false
+      },
+      "Presidency_of_James_Monroe": {
+        "mean_score": 0.2439999999999999,
+        "visit_count": 50,
+        "conflict_count": 40,
+        "risk_history": [
+          0.5,
+          0.1,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.3,
+          0.2,
+          0.2,
+          0.3,
+          0.2,
+          0.1,
+          0.1,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.1,
+          0.3,
+          0.5,
+          0.1,
+          0.1,
+          0.2,
+          0.1,
+          0.2,
+          0.2,
+          0.1,
+          0.1,
+          0.2,
+          0.3,
+          0.1,
+          0.3,
+          0.1,
+          0.1,
+          0.2,
+          0.2,
+          0.1,
+          0.1,
+          0.2,
+          0.3,
+          0.3,
+          0.1,
+          0.2,
+          0.6,
+          0.6,
+          0.6,
+          0.1,
+          0.6,
+          0.3,
+          0.6
+        ],
+        "is_oc_detected": false
+      },
+      "James_Monroe": {
+        "mean_score": 0.17727272727272714,
+        "visit_count": 44,
+        "conflict_count": 26,
+        "risk_history": [
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.3,
+          0.1,
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.3,
+          0.1,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.1,
+          0.1,
+          0.3,
+          0.3,
+          0.3,
+          0.1,
+          0.3,
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.3,
+          0.1,
+          0.1,
+          0.3,
+          0.1,
+          0.1,
+          0.1
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "Presidency_of_James_Monroe"
+    ],
+    "gt_evidence": {
+      "Presidency_of_James_Monroe": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": false,
+    "inject_mode": true,
+    "injected_node": "Presidency_of_James_Monroe",
+    "inject_type": "type_a_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "1820_United_States_presidential_election",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "Era_of_Good_Feelings",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "Presidency_of_James_Monroe",
+      "1820_United_States_presidential_election"
+    ],
+    "injected_evidence_nodes": [
+      "Presidency_of_James_Monroe",
+      "Era_of_Good_Feelings",
+      "1820_United_States_presidential_election"
+    ],
+    "injected_affected_nodes": [
+      "Candidates_in_the_1820_United_States_presidential_election",
+      "James_Monroe"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "wikipedia_handoff_invariant_lifecycle_label",
+    "injected_rank": 4,
+    "top1_margin": 0.026721014492753548,
+    "risk_node_ranks": {
+      "Presidency_of_James_Monroe": 4,
+      "1820_United_States_presidential_election": 2
+    },
+    "risk_best_rank": 2,
+    "risk_worst_rank": 4,
+    "risk_top1_hit": false,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": false,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "Presidency_of_James_Monroe": 4,
+      "Era_of_Good_Feelings": 1,
+      "1820_United_States_presidential_election": 2
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 4,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": false,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "Candidates_in_the_1820_United_States_presidential_election": 3,
+      "James_Monroe": 5
+    },
+    "affected_best_rank": 3,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": true,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "Presidency_of_James_Monroe": 4,
+      "1820_United_States_presidential_election": 2,
+      "Candidates_in_the_1820_United_States_presidential_election": 3,
+      "James_Monroe": 5
+    },
+    "valuable_best_rank": 2,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 4,
+    "root_top1_hit": false,
+    "root_top3_hit": false,
+    "risk_subgraph_nodes": [
+      "1820_United_States_presidential_election",
+      "Candidates_in_the_1820_United_States_presidential_election",
+      "Era_of_Good_Feelings",
+      "Presidency_of_James_Monroe",
+      "James_Monroe"
+    ],
+    "risk_subgraph_size": 5,
+    "compression_ratio": 0.0,
+    "contains_injected_node": true,
+    "contains_any_evidence_node": true,
+    "contains_all_evidence_nodes": true,
+    "evidence_nodes_retained": [
+      "Presidency_of_James_Monroe",
+      "Era_of_Good_Feelings",
+      "1820_United_States_presidential_election"
+    ],
+    "contains_any_risk_node": true,
+    "contains_all_risk_nodes": true,
+    "contains_any_affected_node": true,
+    "subgraph_type": "posthoc_gt_anchored",
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors",
+    "blind_risk_subgraph_nodes": [
+      "1820_United_States_presidential_election",
+      "Candidates_in_the_1820_United_States_presidential_election",
+      "Era_of_Good_Feelings",
+      "Presidency_of_James_Monroe"
+    ],
+    "blind_risk_subgraph_size": 4,
+    "blind_compression_ratio": 0.19999999999999996,
+    "blind_contains_injected_node": true,
+    "blind_contains_any_evidence_node": true,
+    "blind_contains_all_evidence_nodes": true,
+    "blind_evidence_nodes_retained": [
+      "Presidency_of_James_Monroe",
+      "Era_of_Good_Feelings",
+      "1820_United_States_presidential_election"
+    ],
+    "blind_contains_any_risk_node": true,
+    "blind_contains_all_risk_nodes": true,
+    "blind_contains_any_affected_node": true,
+    "blind_subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC anchors only"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (wikipedia); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_6",
+    "scc_clause_ids": [
+      "Abiy_Ahmed",
+      "Ethiopian_civil_conflict_(2018\u2013present)",
+      "Politicians_of_the_Tigray_war",
+      "People_of_the_Tigray_war",
+      "Tigray_war"
+    ],
+    "llm_calls": 1,
+    "time": 29.325357913970947,
+    "scores": {
+      "Abiy_Ahmed": 0.8,
+      "Ethiopian_civil_conflict_(2018\u2013present)": 0.5,
+      "Politicians_of_the_Tigray_war": 0.9,
+      "People_of_the_Tigray_war": 0.7,
+      "Tigray_war": 0.6
+    },
+    "reasonings": {
+      "Abiy_Ahmed": "Highly central node with both incoming and outgoing edges, amplifying the impact of its structural issues. Part of a cycle.",
+      "Ethiopian_civil_conflict_(2018\u2013present)": "Part of a cycle but has fewer additional risk factors compared to other nodes in the cycle.",
+      "Politicians_of_the_Tigray_war": "Ambiguous lifecycle propagation rules and part of a cycle, creating significant structural inconsistencies.",
+      "People_of_the_Tigray_war": "Conflicting category inheritance rules and part of a cycle, leading to potential misclassification and propagation issues.",
+      "Tigray_war": "Central node with multiple incoming and outgoing edges, increasing its structural risk. Part of a cycle."
+    },
+    "ranking": [
+      [
+        "Politicians_of_the_Tigray_war",
+        0.9
+      ],
+      [
+        "Abiy_Ahmed",
+        0.8
+      ],
+      [
+        "People_of_the_Tigray_war",
+        0.7
+      ],
+      [
+        "Tigray_war",
+        0.6
+      ],
+      [
+        "Ethiopian_civil_conflict_(2018\u2013present)",
+        0.5
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "Politicians_of_the_Tigray_war",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "cyclic_dependency",
+          "underspecified_lifecycle"
+        ],
+        "reasoning": "This node is part of a cycle and has ambiguous lifecycle propagation rules, creating structural inconsistencies and propagation risks."
+      },
+      {
+        "rank": 2,
+        "clause_id": "Abiy_Ahmed",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "cyclic_dependency",
+          "high-impact_dependency"
+        ],
+        "reasoning": "This node is part of a cycle and is highly central, with both incoming and outgoing edges, amplifying the impact of structural issues."
+      },
+      {
+        "rank": 3,
+        "clause_id": "People_of_the_Tigray_war",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "cyclic_dependency",
+          "category_inheritance_conflict"
+        ],
+        "reasoning": "This node is part of a cycle and has conflicting category inheritance rules, leading to potential misclassification."
+      },
+      {
+        "rank": 4,
+        "clause_id": "Tigray_war",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "cyclic_dependency",
+          "high-impact_dependency"
+        ],
+        "reasoning": "This node is part of a cycle and is central to the graph, with multiple incoming and outgoing edges, increasing its structural risk."
+      },
+      {
+        "rank": 5,
+        "clause_id": "Ethiopian_civil_conflict_(2018\u2013present)",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "This node is part of a cycle but has fewer additional risk factors compared to other nodes in the cycle."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures the presence of cycles in the graph structure, which can lead to structural inconsistencies and logical contradictions."
+      },
+      {
+        "factor": "underspecified_lifecycle",
+        "importance_weight": 0.3,
+        "description": "Captures records with ambiguous or conflicting lifecycle labels, which can lead to unclear categorization or propagation issues."
+      },
+      {
+        "factor": "high-impact_dependency",
+        "importance_weight": 0.2,
+        "description": "Captures records that are central to the graph and have many incoming or outgoing edges, amplifying the impact of any structural issues."
+      },
+      {
+        "factor": "category_inheritance_conflict",
+        "importance_weight": 0.1,
+        "description": "Captures records with conflicting or incompatible category inheritance rules, which can lead to misclassification or propagation errors."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 5,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "Politicians_of_the_Tigray_war",
+        "clause_b": "People_of_the_Tigray_war",
+        "description": "Lifecycle propagation rules conflict between these nodes, as one forwards lifecycle labels unchanged while the other maintains current-status material."
+      },
+      {
+        "clause_a": "Abiy_Ahmed",
+        "clause_b": "Ethiopian_civil_conflict_(2018\u2013present)",
+        "description": "Part of a cycle, creating structural inconsistencies and logical contradictions in dependency resolution."
+      },
+      {
+        "clause_a": "Tigray_war",
+        "clause_b": "People_of_the_Tigray_war",
+        "description": "Category inheritance rules conflict, leading to potential misclassification and propagation errors."
+      }
+    ],
+    "score_spread": 0.4,
+    "ranking_score_spread": 0.4,
+    "score_mean": 0.7,
+    "score_max": 0.9,
+    "node_names": {
+      "Abiy_Ahmed": "Abiy Ahmed",
+      "Ethiopian_civil_conflict_(2018\u2013present)": "Ethiopian civil conflict (2018\u2013present)",
+      "Politicians_of_the_Tigray_war": "Politicians of the Tigray war",
+      "People_of_the_Tigray_war": "People of the Tigray war",
+      "Tigray_war": "Tigray war"
+    },
+    "ground_truth_nodes": [
+      "People_of_the_Tigray_war"
+    ],
+    "gt_evidence": {
+      "People_of_the_Tigray_war": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 660,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.26515151515151514,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3212121212121212,
+    "inject_mode": true,
+    "injected_node": "People_of_the_Tigray_war",
+    "inject_type": "type_a_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "Abiy_Ahmed",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "Politicians_of_the_Tigray_war",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "People_of_the_Tigray_war",
+      "Abiy_Ahmed"
+    ],
+    "injected_evidence_nodes": [
+      "People_of_the_Tigray_war",
+      "Politicians_of_the_Tigray_war",
+      "Abiy_Ahmed"
+    ],
+    "injected_affected_nodes": [
+      "Ethiopian_civil_conflict_(2018\u2013present)",
+      "Tigray_war"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "wikipedia_handoff_invariant_lifecycle_label",
+    "injected_rank": 3,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Abiy_Ahmed": 2
+    },
+    "risk_best_rank": 2,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": false,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Politicians_of_the_Tigray_war": 1,
+      "Abiy_Ahmed": 2
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "Ethiopian_civil_conflict_(2018\u2013present)": 5,
+      "Tigray_war": 4
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Abiy_Ahmed": 2,
+      "Ethiopian_civil_conflict_(2018\u2013present)": 5,
+      "Tigray_war": 4
+    },
+    "valuable_best_rank": 2,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 3,
+    "root_top1_hit": false,
+    "root_top3_hit": true
+  },
+  {
+    "method": "sa-mcgs",
+    "model": "gpt-4o",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_6",
+    "scc_clause_ids": [
+      "Abiy_Ahmed",
+      "Ethiopian_civil_conflict_(2018\u2013present)",
+      "Politicians_of_the_Tigray_war",
+      "People_of_the_Tigray_war",
+      "Tigray_war"
+    ],
+    "budget": 60,
+    "llm_calls": 19,
+    "tt_hits": 41,
+    "tt_hit_rate": 0.6833333333333333,
+    "time": 105.11350798606873,
+    "scores": {
+      "Abiy_Ahmed": 0.20425531914893616,
+      "Politicians_of_the_Tigray_war": 0.138,
+      "People_of_the_Tigray_war": 0.12500000000000003,
+      "Ethiopian_civil_conflict_(2018\u2013present)": 0.09999999999999999,
+      "Tigray_war": 0.08636363636363635
+    },
+    "ranking": [
+      [
+        "Abiy_Ahmed",
+        0.20425531914893616
+      ],
+      [
+        "Politicians_of_the_Tigray_war",
+        0.138
+      ],
+      [
+        "People_of_the_Tigray_war",
+        0.12500000000000003
+      ],
+      [
+        "Ethiopian_civil_conflict_(2018\u2013present)",
+        0.09999999999999999
+      ],
+      [
+        "Tigray_war",
+        0.08636363636363635
+      ]
+    ],
+    "oc_detected": [],
+    "oc_count": 0,
+    "score_spread": 0.11789168278529981,
+    "score_mean": 0.1307237911025145,
+    "score_max": 0.20425531914893616,
+    "node_names": {
+      "Abiy_Ahmed": "Abiy Ahmed",
+      "Ethiopian_civil_conflict_(2018\u2013present)": "Ethiopian civil conflict (2018\u2013present)",
+      "Politicians_of_the_Tigray_war": "Politicians of the Tigray war",
+      "People_of_the_Tigray_war": "People of the Tigray war",
+      "Tigray_war": "Tigray war"
+    },
+    "clause_details": {
+      "Abiy_Ahmed": {
+        "mean_score": 0.20425531914893616,
+        "visit_count": 47,
+        "conflict_count": 25,
+        "risk_history": [
+          0.0,
+          0.4,
+          0.0,
+          0.2,
+          0.4,
+          0.0,
+          0.0,
+          0.5,
+          0.5,
+          0.2,
+          0.2,
+          0.5,
+          0.0,
+          0.2,
+          0.5,
+          0.4,
+          0.5,
+          0.2,
+          0.2,
+          0.2,
+          0.0,
+          0.2,
+          0.0,
+          0.4,
+          0.3,
+          0.0,
+          0.5,
+          0.3,
+          0.5,
+          0.3,
+          0.0,
+          0.0,
+          0.3,
+          0.0,
+          0.3,
+          0.0,
+          0.0,
+          0.5,
+          0.0,
+          0.2,
+          0.5,
+          0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Ethiopian_civil_conflict_(2018\u2013present)": {
+        "mean_score": 0.09999999999999999,
+        "visit_count": 51,
+        "conflict_count": 27,
+        "risk_history": [
+          0.1,
+          0.0,
+          0.1,
+          0.0,
+          0.0,
+          0.4,
+          0.4,
+          0.1,
+          0.1,
+          0.4,
+          0.0,
+          0.4,
+          0.1,
+          0.4,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.0,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.0,
+          0.2,
+          0.1,
+          0.2,
+          0.1,
+          0.2,
+          0.0,
+          0.0,
+          0.2,
+          0.1,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.1,
+          0.1,
+          0.1,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Politicians_of_the_Tigray_war": {
+        "mean_score": 0.138,
+        "visit_count": 50,
+        "conflict_count": 31,
+        "risk_history": [
+          0.0,
+          0.0,
+          0.3,
+          0.0,
+          0.0,
+          0.2,
+          0.2,
+          0.3,
+          0.3,
+          0.1,
+          0.1,
+          0.2,
+          0.0,
+          0.3,
+          0.2,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.1,
+          0.0,
+          0.1,
+          0.3,
+          0.0,
+          0.2,
+          0.3,
+          0.2,
+          0.3,
+          0.2,
+          0.2,
+          0.0,
+          0.2,
+          0.2,
+          0.0,
+          0.2,
+          0.2,
+          0.0,
+          0.2,
+          0.3,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.3,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "People_of_the_Tigray_war": {
+        "mean_score": 0.12500000000000003,
+        "visit_count": 48,
+        "conflict_count": 27,
+        "risk_history": [
+          0.0,
+          0.3,
+          0.1,
+          0.3,
+          0.3,
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.3,
+          0.1,
+          0.3,
+          0.3,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.1,
+          0.0,
+          0.1,
+          0.2,
+          0.0,
+          0.3,
+          0.2,
+          0.0,
+          0.2,
+          0.2,
+          0.0,
+          0.1,
+          0.0,
+          0.1,
+          0.0,
+          0.1,
+          0.0,
+          0.1,
+          0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          0.2,
+          0.2,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      },
+      "Tigray_war": {
+        "mean_score": 0.08636363636363635,
+        "visit_count": 44,
+        "conflict_count": 22,
+        "risk_history": [
+          0.0,
+          0.2,
+          0.0,
+          0.0,
+          0.2,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.2,
+          0.2,
+          0.0,
+          0.0,
+          0.2,
+          0.2,
+          0.0,
+          0.2,
+          0.0,
+          0.2,
+          0.0,
+          0.1,
+          0.1,
+          0.0,
+          0.3,
+          0.0,
+          0.1,
+          0.3,
+          0.0,
+          0.1,
+          0.3,
+          0.0,
+          0.0,
+          0.3,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.3,
+          0.3,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "is_oc_detected": false
+      }
+    },
+    "ground_truth_nodes": [
+      "People_of_the_Tigray_war"
+    ],
+    "gt_evidence": {
+      "People_of_the_Tigray_war": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "inject_mode": true,
+    "injected_node": "People_of_the_Tigray_war",
+    "inject_type": "type_a_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "Abiy_Ahmed",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "Politicians_of_the_Tigray_war",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "People_of_the_Tigray_war",
+      "Abiy_Ahmed"
+    ],
+    "injected_evidence_nodes": [
+      "People_of_the_Tigray_war",
+      "Politicians_of_the_Tigray_war",
+      "Abiy_Ahmed"
+    ],
+    "injected_affected_nodes": [
+      "Ethiopian_civil_conflict_(2018\u2013present)",
+      "Tigray_war"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "wikipedia_handoff_invariant_lifecycle_label",
+    "injected_rank": 3,
+    "top1_margin": 0.06625531914893615,
+    "risk_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Abiy_Ahmed": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Politicians_of_the_Tigray_war": 2,
+      "Abiy_Ahmed": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "Ethiopian_civil_conflict_(2018\u2013present)": 4,
+      "Tigray_war": 5
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Abiy_Ahmed": 1,
+      "Ethiopian_civil_conflict_(2018\u2013present)": 4,
+      "Tigray_war": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 3,
+    "root_top1_hit": false,
+    "root_top3_hit": true,
+    "risk_subgraph_nodes": [
+      "Abiy_Ahmed",
+      "Ethiopian_civil_conflict_(2018\u2013present)",
+      "Politicians_of_the_Tigray_war",
+      "People_of_the_Tigray_war",
+      "Tigray_war"
+    ],
+    "risk_subgraph_size": 5,
+    "compression_ratio": 0.0,
+    "contains_injected_node": true,
+    "contains_any_evidence_node": true,
+    "contains_all_evidence_nodes": true,
+    "evidence_nodes_retained": [
+      "People_of_the_Tigray_war",
+      "Politicians_of_the_Tigray_war",
+      "Abiy_Ahmed"
+    ],
+    "contains_any_risk_node": true,
+    "contains_all_risk_nodes": true,
+    "contains_any_affected_node": true,
+    "subgraph_type": "posthoc_gt_anchored",
+    "subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC/GT anchors",
+    "blind_risk_subgraph_nodes": [
+      "Abiy_Ahmed",
+      "Ethiopian_civil_conflict_(2018\u2013present)",
+      "Politicians_of_the_Tigray_war",
+      "People_of_the_Tigray_war",
+      "Tigray_war"
+    ],
+    "blind_risk_subgraph_size": 5,
+    "blind_compression_ratio": 0.0,
+    "blind_contains_injected_node": true,
+    "blind_contains_any_evidence_node": true,
+    "blind_contains_all_evidence_nodes": true,
+    "blind_evidence_nodes_retained": [
+      "People_of_the_Tigray_war",
+      "Politicians_of_the_Tigray_war",
+      "Abiy_Ahmed"
+    ],
+    "blind_contains_any_risk_node": true,
+    "blind_contains_all_risk_nodes": true,
+    "blind_contains_any_affected_node": true,
+    "blind_subgraph_policy": "oc_nodes + top_3_risk + ordered-cycle neighbors of OC anchors only"
+  },
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (wikipedia); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "deepseek-v3",
+    "domain": "wikipedia",
+    "scc_size": 5,
+    "scc_id": "scc_6",
+    "scc_clause_ids": [
+      "Abiy_Ahmed",
+      "Ethiopian_civil_conflict_(2018\u2013present)",
+      "Politicians_of_the_Tigray_war",
+      "People_of_the_Tigray_war",
+      "Tigray_war"
+    ],
+    "llm_calls": 1,
+    "time": 217.70615887641907,
+    "scores": {
+      "Abiy_Ahmed": 0.95,
+      "Ethiopian_civil_conflict_(2018\u2013present)": 0.65,
+      "Politicians_of_the_Tigray_war": 0.85,
+      "People_of_the_Tigray_war": 0.75,
+      "Tigray_war": 0.55
+    },
+    "reasonings": {
+      "Abiy_Ahmed": "Critical circular dependency node with lifecycle conflict: marked as historical/inactive while being referenced as current politician",
+      "Ethiopian_civil_conflict_(2018\u2013present)": "Present-tense temporal scope conflicts with historical categorization; participates in circular dependency",
+      "Politicians_of_the_Tigray_war": "Completes circular reference cycle; lifecycle forwarding creates status propagation conflict",
+      "People_of_the_Tigray_war": "Current-status designation conflicts with historical destination; key intermediary in circular chain",
+      "Tigray_war": "Temporal relationship with parent conflict unclear; minimal circular dependency impact"
+    },
+    "ranking": [
+      [
+        "Abiy_Ahmed",
+        0.95
+      ],
+      [
+        "Politicians_of_the_Tigray_war",
+        0.85
+      ],
+      [
+        "People_of_the_Tigray_war",
+        0.75
+      ],
+      [
+        "Ethiopian_civil_conflict_(2018\u2013present)",
+        0.65
+      ],
+      [
+        "Tigray_war",
+        0.55
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "Abiy_Ahmed",
+        "risk_score": 0.95,
+        "risk_factors": [
+          "circular_dependency",
+          "lifecycle_conflict",
+          "category_inconsistency"
+        ],
+        "reasoning": "Central node in circular dependency cycle; receives 'historical/inactive' label but is referenced by current-status politicians category; creates temporal contradiction as active politician classified as historical"
+      },
+      {
+        "rank": 2,
+        "clause_id": "Politicians_of_the_Tigray_war",
+        "risk_score": 0.85,
+        "risk_factors": [
+          "circular_dependency",
+          "lifecycle_conflict"
+        ],
+        "reasoning": "Completes circular dependency by referencing Abiy_Ahmed; inherits current-status label but forwards to historical category; creates lifecycle propagation conflict"
+      },
+      {
+        "rank": 3,
+        "clause_id": "People_of_the_Tigray_war",
+        "risk_score": 0.75,
+        "risk_factors": [
+          "lifecycle_conflict",
+          "circular_dependency"
+        ],
+        "reasoning": "Maintains current-status material but connects to historical/inactive categories; key intermediary in circular dependency chain"
+      },
+      {
+        "rank": 4,
+        "clause_id": "Ethiopian_civil_conflict_(2018\u2013present)",
+        "risk_score": 0.65,
+        "risk_factors": [
+          "circular_dependency",
+          "temporal_ambiguity"
+        ],
+        "reasoning": "Participates in circular dependency; temporal scope (2018-present) conflicts with categorization as historical event; creates temporal classification inconsistency"
+      },
+      {
+        "rank": 5,
+        "clause_id": "Tigray_war",
+        "risk_score": 0.55,
+        "risk_factors": [
+          "temporal_ambiguity",
+          "category_inconsistency"
+        ],
+        "reasoning": "Specific conflict categorized under broader ongoing civil conflict; temporal boundaries unclear relative to parent conflict; least severe circular dependency involvement"
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "circular_dependency",
+        "importance_weight": 0.4,
+        "description": "Cycles in dependency graph that create logical contradictions and infinite reference loops"
+      },
+      {
+        "factor": "lifecycle_conflict",
+        "importance_weight": 0.3,
+        "description": "Incompatible status labels (historical/inactive vs current-status) across connected records"
+      },
+      {
+        "factor": "category_inconsistency",
+        "importance_weight": 0.2,
+        "description": "Conflicting categorization that creates ambiguous classification hierarchies"
+      },
+      {
+        "factor": "temporal_ambiguity",
+        "description": "Unclear temporal boundaries or conflicting time period classifications",
+        "importance_weight": 0.1
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 5,
+    "largest_tie_count": 1,
+    "tied_score_groups": [],
+    "conflicts": [
+      {
+        "clause_a": "Abiy_Ahmed",
+        "clause_b": "Politicians_of_the_Tigray_war",
+        "description": "Circular dependency: Abiy_Ahmed -> Ethiopian_civil_conflict -> Tigray_war -> People_of_the_Tigray_war -> Politicians_of_the_Tigray_war -> Abiy_Ahmed creates infinite reference loop"
+      },
+      {
+        "clause_a": "Abiy_Ahmed",
+        "clause_b": "People_of_the_Tigray_war",
+        "description": "Lifecycle conflict: Abiy_Ahmed marked as 'historical/inactive material' but People_of_the_Tigray_war maintains 'current-status material' creating temporal status contradiction"
+      },
+      {
+        "clause_a": "Ethiopian_civil_conflict_(2018\u2013present)",
+        "clause_b": "Tigray_war",
+        "description": "Temporal scope conflict: parent conflict (2018-present) contains sub-conflict with specific yearly categorizations (2020-2022) creating ambiguous temporal boundaries"
+      }
+    ],
+    "score_spread": 0.3999999999999999,
+    "ranking_score_spread": 0.3999999999999999,
+    "score_mean": 0.75,
+    "score_max": 0.95,
+    "node_names": {
+      "Abiy_Ahmed": "Abiy Ahmed",
+      "Ethiopian_civil_conflict_(2018\u2013present)": "Ethiopian civil conflict (2018\u2013present)",
+      "Politicians_of_the_Tigray_war": "Politicians of the Tigray war",
+      "People_of_the_Tigray_war": "People of the Tigray war",
+      "Tigray_war": "Tigray war"
+    },
+    "ground_truth_nodes": [
+      "People_of_the_Tigray_war"
+    ],
+    "gt_evidence": {
+      "People_of_the_Tigray_war": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 660,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.26515151515151514,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3212121212121212,
+    "inject_mode": true,
+    "injected_node": "People_of_the_Tigray_war",
+    "inject_type": "type_a_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "Abiy_Ahmed",
+    "injected_witness_distance": 2,
+    "injected_bridge_node": "Politicians_of_the_Tigray_war",
+    "injected_bridge_distance": 1,
+    "injected_risk_nodes": [
+      "People_of_the_Tigray_war",
+      "Abiy_Ahmed"
+    ],
+    "injected_evidence_nodes": [
+      "People_of_the_Tigray_war",
+      "Politicians_of_the_Tigray_war",
+      "Abiy_Ahmed"
+    ],
+    "injected_affected_nodes": [
+      "Ethiopian_civil_conflict_(2018\u2013present)",
+      "Tigray_war"
+    ],
+    "injected_conflict_family": "handoff_invariant",
+    "injected_conflict_difficulty": "moderate",
+    "injected_conflict_template": "wikipedia_handoff_invariant_lifecycle_label",
+    "injected_rank": 3,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Abiy_Ahmed": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Politicians_of_the_Tigray_war": 2,
+      "Abiy_Ahmed": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "Ethiopian_civil_conflict_(2018\u2013present)": 4,
+      "Tigray_war": 5
+    },
+    "affected_best_rank": 4,
+    "affected_worst_rank": 5,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": true,
+    "valuable_node_ranks": {
+      "People_of_the_Tigray_war": 3,
+      "Abiy_Ahmed": 1,
+      "Ethiopian_civil_conflict_(2018\u2013present)": 4,
+      "Tigray_war": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 5,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": true,
+    "root_rank": 3,
+    "root_top1_hit": false,
+    "root_top3_hit": true
+  }
+]

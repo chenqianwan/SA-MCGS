@@ -1,0 +1,379 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=ranked",
+    "naive_profile": "ranked",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "synthetic_debian_12",
+    "scc_clause_ids": [
+      "synthetic_debian_12_node_01",
+      "synthetic_debian_12_node_02",
+      "synthetic_debian_12_node_03",
+      "synthetic_debian_12_node_04",
+      "synthetic_debian_12_node_05",
+      "synthetic_debian_12_node_06",
+      "synthetic_debian_12_node_07",
+      "synthetic_debian_12_node_08",
+      "synthetic_debian_12_node_09",
+      "synthetic_debian_12_node_10",
+      "synthetic_debian_12_node_11",
+      "synthetic_debian_12_node_12"
+    ],
+    "llm_calls": 1,
+    "time": 76.88956212997437,
+    "scores": {
+      "synthetic_debian_12_node_01": 0.6,
+      "synthetic_debian_12_node_02": 0.5,
+      "synthetic_debian_12_node_03": 0.7,
+      "synthetic_debian_12_node_04": 0.1,
+      "synthetic_debian_12_node_05": 0.1,
+      "synthetic_debian_12_node_06": 0.1,
+      "synthetic_debian_12_node_07": 0.1,
+      "synthetic_debian_12_node_08": 0.2,
+      "synthetic_debian_12_node_09": 0.8,
+      "synthetic_debian_12_node_10": 0.3,
+      "synthetic_debian_12_node_11": 0.4,
+      "synthetic_debian_12_node_12": 0.9
+    },
+    "reasonings": {
+      "synthetic_debian_12_node_01": "Participates in the cycle and references Node 2, amplifying structural risks.",
+      "synthetic_debian_12_node_02": "Part of the cycle and references Node 3, contributing to structural concerns.",
+      "synthetic_debian_12_node_03": "Assumes a completed transition basis before the freeze, introducing ambiguity for dependent nodes.",
+      "synthetic_debian_12_node_04": "No major structural concerns but references Node 5, which has minor downstream risks.",
+      "synthetic_debian_12_node_05": "No major structural concerns but references Node 6, which has minor downstream risks.",
+      "synthetic_debian_12_node_06": "No major structural concerns but references Node 7, which has minor downstream risks.",
+      "synthetic_debian_12_node_07": "No major structural concerns but references Node 8, which has downstream risks.",
+      "synthetic_debian_12_node_08": "References Node 9, which has ambiguous transition details, increasing its risk.",
+      "synthetic_debian_12_node_09": "Has ambiguous transition details and impacts downstream nodes by requiring prior interface classification.",
+      "synthetic_debian_12_node_10": "Has downstream dependencies and references Node 11, amplifying its impact.",
+      "synthetic_debian_12_node_11": "Part of the cycle and references Node 12, propagating risks.",
+      "synthetic_debian_12_node_12": "Participates in the cycle and forwards receipt status without modification, propagating inconsistencies downstream."
+    },
+    "ranking": [
+      [
+        "synthetic_debian_12_node_12",
+        0.9
+      ],
+      [
+        "synthetic_debian_12_node_09",
+        0.8
+      ],
+      [
+        "synthetic_debian_12_node_03",
+        0.7
+      ],
+      [
+        "synthetic_debian_12_node_01",
+        0.6
+      ],
+      [
+        "synthetic_debian_12_node_02",
+        0.5
+      ],
+      [
+        "synthetic_debian_12_node_11",
+        0.4
+      ],
+      [
+        "synthetic_debian_12_node_10",
+        0.3
+      ],
+      [
+        "synthetic_debian_12_node_08",
+        0.2
+      ],
+      [
+        "synthetic_debian_12_node_07",
+        0.1
+      ],
+      [
+        "synthetic_debian_12_node_06",
+        0.1
+      ],
+      [
+        "synthetic_debian_12_node_05",
+        0.1
+      ],
+      [
+        "synthetic_debian_12_node_04",
+        0.1
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "synthetic_debian_12_node_12",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "cyclic_dependency",
+          "conflicting_receipt_status"
+        ],
+        "reasoning": "Node 12 participates in the cycle and forwards receipt status without modification, which can propagate inconsistencies downstream."
+      },
+      {
+        "rank": 2,
+        "clause_id": "synthetic_debian_12_node_09",
+        "risk_score": 0.8,
+        "risk_factors": [
+          "underspecified_transition",
+          "high-impact_dependency"
+        ],
+        "reasoning": "Node 9 has ambiguous transition details and impacts downstream nodes by requiring prior interface classification."
+      },
+      {
+        "rank": 3,
+        "clause_id": "synthetic_debian_12_node_03",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "underspecified_transition"
+        ],
+        "reasoning": "Node 3 assumes a completed transition basis before the freeze, which introduces ambiguity for dependent nodes."
+      },
+      {
+        "rank": 4,
+        "clause_id": "synthetic_debian_12_node_01",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node 1 participates in the cycle and references Node 2, amplifying structural risks."
+      },
+      {
+        "rank": 5,
+        "clause_id": "synthetic_debian_12_node_02",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node 2 is part of the cycle and references Node 3, contributing to structural concerns."
+      },
+      {
+        "rank": 6,
+        "clause_id": "synthetic_debian_12_node_11",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "cyclic_dependency"
+        ],
+        "reasoning": "Node 11 is part of the cycle and references Node 12, propagating risks."
+      },
+      {
+        "rank": 7,
+        "clause_id": "synthetic_debian_12_node_10",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "high-impact_dependency"
+        ],
+        "reasoning": "Node 10 has downstream dependencies and references Node 11, amplifying its impact."
+      },
+      {
+        "rank": 8,
+        "clause_id": "synthetic_debian_12_node_08",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "high-impact_dependency"
+        ],
+        "reasoning": "Node 8 references Node 9, which has ambiguous transition details, increasing its risk."
+      },
+      {
+        "rank": 9,
+        "clause_id": "synthetic_debian_12_node_07",
+        "risk_score": 0.1,
+        "risk_factors": [],
+        "reasoning": "Node 7 has no major structural concerns but references Node 8, which has downstream risks."
+      },
+      {
+        "rank": 10,
+        "clause_id": "synthetic_debian_12_node_06",
+        "risk_score": 0.1,
+        "risk_factors": [],
+        "reasoning": "Node 6 has no major structural concerns but references Node 7, which has minor downstream risks."
+      },
+      {
+        "rank": 11,
+        "clause_id": "synthetic_debian_12_node_05",
+        "risk_score": 0.1,
+        "risk_factors": [],
+        "reasoning": "Node 5 has no major structural concerns but references Node 6, which has minor downstream risks."
+      },
+      {
+        "rank": 12,
+        "clause_id": "synthetic_debian_12_node_04",
+        "risk_score": 0.1,
+        "risk_factors": [],
+        "reasoning": "Node 4 has no major structural concerns but references Node 5, which has minor downstream risks."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "cyclic_dependency",
+        "importance_weight": 0.4,
+        "description": "Captures the structural risk of nodes participating in cycles, which can lead to deadlocks or unresolved dependencies."
+      },
+      {
+        "factor": "underspecified_transition",
+        "importance_weight": 0.3,
+        "description": "Captures the risk of records with ambiguous or incomplete transition details, which can cause misalignment in dependent nodes."
+      },
+      {
+        "factor": "high-impact_dependency",
+        "importance_weight": 0.2,
+        "description": "Captures the risk of nodes that have a large number of downstream dependencies, amplifying the impact of any issues."
+      },
+      {
+        "factor": "conflicting_receipt_status",
+        "importance_weight": 0.1,
+        "description": "Captures the risk of nodes with conflicting or incompatible receipt statuses, which can lead to operational inconsistencies."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 9,
+    "largest_tie_count": 4,
+    "tied_score_groups": [
+      {
+        "score": 0.1,
+        "count": 4,
+        "nodes": [
+          "synthetic_debian_12_node_04",
+          "synthetic_debian_12_node_05",
+          "synthetic_debian_12_node_06",
+          "synthetic_debian_12_node_07"
+        ]
+      }
+    ],
+    "conflicts": [
+      {
+        "clause_a": "synthetic_debian_12_node_12",
+        "clause_b": "synthetic_debian_12_node_01",
+        "description": "Node 12 forwards receipt status without modification, creating potential inconsistencies in the cyclic dependency with Node 1."
+      },
+      {
+        "clause_a": "synthetic_debian_12_node_09",
+        "clause_b": "synthetic_debian_12_node_08",
+        "description": "Node 9's ambiguous transition details create risks for Node 8, which depends on it for release planning."
+      },
+      {
+        "clause_a": "synthetic_debian_12_node_03",
+        "clause_b": "synthetic_debian_12_node_02",
+        "description": "Node 3's assumption of completed transition basis before the freeze introduces ambiguity for Node 2, which references it."
+      }
+    ],
+    "score_spread": 0.8,
+    "ranking_score_spread": 0.8,
+    "score_mean": 0.39999999999999997,
+    "score_max": 0.9,
+    "node_names": {
+      "synthetic_debian_12_node_01": "synthetic debian 12 node 01",
+      "synthetic_debian_12_node_02": "synthetic debian 12 node 02",
+      "synthetic_debian_12_node_03": "synthetic debian 12 node 03",
+      "synthetic_debian_12_node_04": "synthetic debian 12 node 04",
+      "synthetic_debian_12_node_05": "synthetic debian 12 node 05",
+      "synthetic_debian_12_node_06": "synthetic debian 12 node 06",
+      "synthetic_debian_12_node_07": "synthetic debian 12 node 07",
+      "synthetic_debian_12_node_08": "synthetic debian 12 node 08",
+      "synthetic_debian_12_node_09": "synthetic debian 12 node 09",
+      "synthetic_debian_12_node_10": "synthetic debian 12 node 10",
+      "synthetic_debian_12_node_11": "synthetic debian 12 node 11",
+      "synthetic_debian_12_node_12": "synthetic debian 12 node 12"
+    },
+    "ground_truth_nodes": [
+      "synthetic_debian_12_node_09"
+    ],
+    "gt_evidence": {
+      "synthetic_debian_12_node_09": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 942,
+    "injected_title_occurrences_in_prompt": 4,
+    "injected_id_occurrences_in_prompt": 3,
+    "injected_title_first_word_ratio": 0.3609341825902335,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3673036093418259,
+    "inject_mode": true,
+    "injected_node": "synthetic_debian_12_node_09",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "synthetic_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "synthetic_debian_12_node_03",
+    "injected_witness_distance": 6,
+    "injected_bridge_node": "synthetic_debian_12_node_12",
+    "injected_bridge_distance": 3,
+    "injected_risk_nodes": [
+      "synthetic_debian_12_node_09",
+      "synthetic_debian_12_node_03"
+    ],
+    "injected_evidence_nodes": [
+      "synthetic_debian_12_node_09",
+      "synthetic_debian_12_node_12",
+      "synthetic_debian_12_node_03"
+    ],
+    "injected_affected_nodes": [
+      "synthetic_debian_12_node_10",
+      "synthetic_debian_12_node_04"
+    ],
+    "injected_conflict_family": "temporal_gate",
+    "injected_conflict_difficulty": "subtle",
+    "injected_conflict_template": "debian_temporal_receipt_gate",
+    "injected_rank": 2,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "synthetic_debian_12_node_09": 2,
+      "synthetic_debian_12_node_03": 3
+    },
+    "risk_best_rank": 2,
+    "risk_worst_rank": 3,
+    "risk_top1_hit": false,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "synthetic_debian_12_node_09": 2,
+      "synthetic_debian_12_node_12": 1,
+      "synthetic_debian_12_node_03": 3
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 3,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "synthetic_debian_12_node_10": 7,
+      "synthetic_debian_12_node_04": 12
+    },
+    "affected_best_rank": 7,
+    "affected_worst_rank": 12,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": false,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "synthetic_debian_12_node_09": 2,
+      "synthetic_debian_12_node_03": 3,
+      "synthetic_debian_12_node_10": 7,
+      "synthetic_debian_12_node_04": 12
+    },
+    "valuable_best_rank": 2,
+    "valuable_worst_rank": 12,
+    "valuable_top1_hit": false,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 2,
+    "root_top1_hit": false,
+    "root_top3_hit": true
+  }
+]

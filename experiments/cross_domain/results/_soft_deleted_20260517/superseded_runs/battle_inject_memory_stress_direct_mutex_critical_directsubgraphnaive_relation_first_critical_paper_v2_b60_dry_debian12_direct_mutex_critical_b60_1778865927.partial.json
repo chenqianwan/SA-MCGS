@@ -1,0 +1,455 @@
+[
+  {
+    "method": "naive",
+    "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+    "naive_profile": "direct_subgraph",
+    "model": "gpt-4o",
+    "domain": "debian",
+    "scc_size": 12,
+    "scc_id": "scc_8",
+    "scc_clause_ids": [
+      "libecore-drm2-1",
+      "libecore-evas1",
+      "libecore-fb1",
+      "libecore-input1",
+      "libecore-wl2-1",
+      "libelput1",
+      "libevas1",
+      "libevas1-engines-drm",
+      "libecore-x1",
+      "libevas1-engines-fb",
+      "libevas1-engines-wayland",
+      "libevas1-engines-x"
+    ],
+    "llm_calls": 1,
+    "time": 16.097749948501587,
+    "scores": {
+      "libecore-drm2-1": 0.1,
+      "libecore-evas1": 0.6,
+      "libecore-fb1": 0.1,
+      "libecore-input1": 1.0,
+      "libecore-wl2-1": 0.2,
+      "libelput1": 0.1,
+      "libevas1": 0.5,
+      "libevas1-engines-drm": 0.3,
+      "libecore-x1": 0.9,
+      "libevas1-engines-fb": 0.2,
+      "libevas1-engines-wayland": 0.7,
+      "libevas1-engines-x": 0.4
+    },
+    "reasonings": {
+      "libecore-drm2-1": "Limited dependencies and does not directly interact with high-risk nodes.",
+      "libecore-evas1": "References multiple high-risk nodes, including libecore-input1 and libecore-x1.",
+      "libecore-fb1": "Limited dependencies and does not directly interact with high-risk nodes.",
+      "libecore-input1": "Explicitly mentions blocking inconsistency due to mismatched ABI states.",
+      "libecore-wl2-1": "Depends on libecore-input1, which is high-risk due to ABI concerns.",
+      "libelput1": "References libecore-input1, which is high-risk, but its overall impact is lower.",
+      "libevas1": "Central node with multiple dependencies, increasing structural importance.",
+      "libevas1-engines-drm": "Depends on libecore-drm2-1 and libevas1, which are structurally important nodes.",
+      "libecore-x1": "Maintains legacy ABI during migration, creating potential conflicts.",
+      "libevas1-engines-fb": "References libevas1, a central node, but has fewer dependencies overall.",
+      "libevas1-engines-wayland": "Depends on multiple high-risk nodes, amplifying structural risk.",
+      "libevas1-engines-x": "Depends on libecore-x1, which is high-risk due to ABI concerns."
+    },
+    "ranking": [
+      [
+        "libecore-input1",
+        1.0
+      ],
+      [
+        "libecore-x1",
+        0.9
+      ],
+      [
+        "libevas1-engines-wayland",
+        0.7
+      ],
+      [
+        "libecore-evas1",
+        0.6
+      ],
+      [
+        "libevas1",
+        0.5
+      ],
+      [
+        "libevas1-engines-x",
+        0.4
+      ],
+      [
+        "libevas1-engines-drm",
+        0.3
+      ],
+      [
+        "libevas1-engines-fb",
+        0.2
+      ],
+      [
+        "libecore-wl2-1",
+        0.2
+      ],
+      [
+        "libelput1",
+        0.1
+      ],
+      [
+        "libecore-fb1",
+        0.1
+      ],
+      [
+        "libecore-drm2-1",
+        0.1
+      ]
+    ],
+    "global_ranking_raw": [
+      {
+        "rank": 1,
+        "clause_id": "libecore-input1",
+        "risk_score": 1.0,
+        "risk_factors": [
+          "ABI compatibility",
+          "blocking inconsistency"
+        ],
+        "reasoning": "This record explicitly mentions a blocking inconsistency due to mismatched ABI states, creating a high-impact risk for downstream records."
+      },
+      {
+        "rank": 2,
+        "clause_id": "libecore-x1",
+        "risk_score": 0.9,
+        "risk_factors": [
+          "ABI compatibility",
+          "blocking inconsistency"
+        ],
+        "reasoning": "This record maintains the legacy ABI during a migration window, creating potential conflicts with downstream records that require the new ABI."
+      },
+      {
+        "rank": 3,
+        "clause_id": "libevas1-engines-wayland",
+        "risk_score": 0.7,
+        "risk_factors": [
+          "dependency chain complexity"
+        ],
+        "reasoning": "This record depends on multiple high-risk nodes, including libecore-input1 and libecore-x1, amplifying the structural risk."
+      },
+      {
+        "rank": 4,
+        "clause_id": "libecore-evas1",
+        "risk_score": 0.6,
+        "risk_factors": [
+          "dependency chain complexity"
+        ],
+        "reasoning": "This record references multiple nodes, including libecore-input1 and libecore-x1, which are high-risk due to ABI concerns."
+      },
+      {
+        "rank": 5,
+        "clause_id": "libevas1",
+        "risk_score": 0.5,
+        "risk_factors": [
+          "dependency chain complexity"
+        ],
+        "reasoning": "This record is central to the graph and references multiple engine nodes, increasing its structural importance."
+      },
+      {
+        "rank": 6,
+        "clause_id": "libevas1-engines-x",
+        "risk_score": 0.4,
+        "risk_factors": [
+          "dependency chain complexity"
+        ],
+        "reasoning": "This record depends on libecore-x1, which is high-risk due to ABI concerns."
+      },
+      {
+        "rank": 7,
+        "clause_id": "libevas1-engines-drm",
+        "risk_score": 0.3,
+        "risk_factors": [
+          "dependency chain complexity"
+        ],
+        "reasoning": "This record depends on libecore-drm2-1 and libevas1, which are structurally important nodes."
+      },
+      {
+        "rank": 8,
+        "clause_id": "libevas1-engines-fb",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "dependency chain complexity"
+        ],
+        "reasoning": "This record has fewer dependencies but still references libevas1, a central node."
+      },
+      {
+        "rank": 9,
+        "clause_id": "libecore-wl2-1",
+        "risk_score": 0.2,
+        "risk_factors": [
+          "dependency chain complexity"
+        ],
+        "reasoning": "This record depends on libecore-input1, which is high-risk due to ABI concerns."
+      },
+      {
+        "rank": 10,
+        "clause_id": "libelput1",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "dependency chain complexity"
+        ],
+        "reasoning": "This record references libecore-input1, which is high-risk, but its overall impact is lower."
+      },
+      {
+        "rank": 11,
+        "clause_id": "libecore-fb1",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "dependency chain complexity"
+        ],
+        "reasoning": "This record has limited dependencies and does not directly interact with high-risk nodes."
+      },
+      {
+        "rank": 12,
+        "clause_id": "libecore-drm2-1",
+        "risk_score": 0.1,
+        "risk_factors": [
+          "dependency chain complexity"
+        ],
+        "reasoning": "This record has limited dependencies and does not directly interact with high-risk nodes."
+      }
+    ],
+    "risk_factor_distribution": [
+      {
+        "factor": "ABI compatibility",
+        "importance_weight": 0.4,
+        "description": "Captures risks related to mismatched or conflicting ABI requirements between records."
+      },
+      {
+        "factor": "dependency chain complexity",
+        "importance_weight": 0.3,
+        "description": "Measures the structural complexity and interdependence of records in the graph."
+      },
+      {
+        "factor": "blocking inconsistency",
+        "importance_weight": 0.2,
+        "description": "Identifies records that create mutually incompatible states or block downstream configurations."
+      },
+      {
+        "factor": "underspecified dependencies",
+        "importance_weight": 0.1,
+        "description": "Flags records with ambiguous or incomplete dependency specifications."
+      }
+    ],
+    "risk_factor_weight_sum": 1.0,
+    "direct_risk_subgraph_nodes": [
+      "libecore-input1",
+      "libecore-x1",
+      "libevas1-engines-wayland",
+      "libecore-evas1"
+    ],
+    "direct_risk_subgraph_size": 4,
+    "direct_compression_ratio": 0.6666666666666667,
+    "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+    "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+    "direct_risk_subgraph_rationale": "This subgraph captures the core structural risks related to ABI compatibility and blocking inconsistencies. libecore-input1 and libecore-x1 are directly responsible for ABI conflicts, while libevas1-engines-wayland and libecore-evas1 amplify these risks through their dependency chains.",
+    "direct_risk_subgraph_edges": [
+      {
+        "source": "libecore-input1",
+        "target": "libecore-x1",
+        "reason": "libecore-x1 maintains the legacy ABI, which conflicts with libecore-input1's requirement for the new ABI."
+      },
+      {
+        "source": "libevas1-engines-wayland",
+        "target": "libecore-input1",
+        "reason": "libevas1-engines-wayland depends on libecore-input1, amplifying the risk of blocking inconsistencies."
+      },
+      {
+        "source": "libecore-evas1",
+        "target": "libecore-input1",
+        "reason": "libecore-evas1 depends on libecore-input1, which is high-risk due to ABI concerns."
+      },
+      {
+        "source": "libecore-evas1",
+        "target": "libecore-x1",
+        "reason": "libecore-evas1 depends on libecore-x1, which is high-risk due to ABI concerns."
+      }
+    ],
+    "direct_subgraph_raw": [
+      "libecore-input1",
+      "libecore-x1",
+      "libevas1-engines-wayland",
+      "libecore-evas1"
+    ],
+    "direct_subgraph_invalid": [],
+    "direct_subgraph_duplicates": [],
+    "direct_subgraph_alias_resolutions": [],
+    "direct_subgraph_complete_parse": true,
+    "ranking_source": "global_ranking",
+    "ranking_complete": true,
+    "ranking_missing": [],
+    "ranking_duplicates": [],
+    "ranking_invalid": [],
+    "ranking_alias_resolutions": [],
+    "distinct_score_count": 9,
+    "largest_tie_count": 3,
+    "tied_score_groups": [
+      {
+        "score": 0.1,
+        "count": 3,
+        "nodes": [
+          "libecore-drm2-1",
+          "libecore-fb1",
+          "libelput1"
+        ]
+      },
+      {
+        "score": 0.2,
+        "count": 2,
+        "nodes": [
+          "libecore-wl2-1",
+          "libevas1-engines-fb"
+        ]
+      }
+    ],
+    "conflicts": [
+      {
+        "clause_a": "libecore-input1",
+        "clause_b": "libecore-x1",
+        "description": "libecore-input1 requires the new ABI, while libecore-x1 maintains the legacy ABI during migration, creating a blocking inconsistency."
+      }
+    ],
+    "score_spread": 0.9,
+    "ranking_score_spread": 0.9,
+    "score_mean": 0.425,
+    "score_max": 1.0,
+    "node_names": {
+      "libecore-drm2-1": "libecore-drm2-1",
+      "libecore-evas1": "libecore-evas1",
+      "libecore-fb1": "libecore-fb1",
+      "libecore-input1": "libecore-input1",
+      "libecore-wl2-1": "libecore-wl2-1",
+      "libelput1": "libelput1",
+      "libevas1": "libevas1",
+      "libevas1-engines-drm": "libevas1-engines-drm",
+      "libecore-x1": "libecore-x1",
+      "libevas1-engines-fb": "libevas1-engines-fb",
+      "libevas1-engines-wayland": "libevas1-engines-wayland",
+      "libevas1-engines-x": "libevas1-engines-x"
+    },
+    "ground_truth_nodes": [
+      "libecore-x1"
+    ],
+    "gt_evidence": {
+      "libecore-x1": "injected memory_stress defect (seed=42)"
+    },
+    "top1_hit": false,
+    "top3_hit": true,
+    "prompt_word_count": 1356,
+    "injected_title_occurrences_in_prompt": 15,
+    "injected_id_occurrences_in_prompt": 15,
+    "injected_title_first_word_ratio": 0.09070796460176991,
+    "injected_content_in_prompt": true,
+    "injected_content_first_word_ratio": 0.3834808259587021,
+    "inject_mode": true,
+    "injected_node": "libecore-x1",
+    "inject_type": "type_b_cross",
+    "inject_profile": "memory_stress",
+    "cycle_source": "real_long",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_witness_node": "libecore-input1",
+    "injected_witness_distance": 6,
+    "injected_bridge_node": null,
+    "injected_bridge_distance": null,
+    "injected_risk_nodes": [
+      "libecore-x1",
+      "libecore-input1"
+    ],
+    "injected_evidence_nodes": [
+      "libecore-x1",
+      "libecore-input1"
+    ],
+    "injected_affected_nodes": [
+      "libevas1-engines-fb",
+      "libevas1"
+    ],
+    "injected_conflict_family": "direct_mutex",
+    "injected_conflict_difficulty": "obvious",
+    "injected_conflict_severity": "critical",
+    "injected_conflict_severity_label": "high_impact_no_fallback",
+    "injected_conflict_template": "debian_direct_legacy_vs_new_abi_critical",
+    "injected_rank": 2,
+    "top1_margin": 0.09999999999999998,
+    "risk_node_ranks": {
+      "libecore-x1": 2,
+      "libecore-input1": 1
+    },
+    "risk_best_rank": 1,
+    "risk_worst_rank": 2,
+    "risk_top1_hit": true,
+    "risk_top3_hit": true,
+    "risk_top5_hit": true,
+    "risk_all_top3_hit": true,
+    "risk_all_top5_hit": true,
+    "evidence_node_ranks": {
+      "libecore-x1": 2,
+      "libecore-input1": 1
+    },
+    "evidence_best_rank": 1,
+    "evidence_worst_rank": 2,
+    "evidence_top1_hit": true,
+    "evidence_top3_hit": true,
+    "evidence_top5_hit": true,
+    "evidence_all_top3_hit": true,
+    "evidence_all_top5_hit": true,
+    "affected_node_ranks": {
+      "libevas1-engines-fb": 8,
+      "libevas1": 5
+    },
+    "affected_best_rank": 5,
+    "affected_worst_rank": 8,
+    "affected_top1_hit": false,
+    "affected_top3_hit": false,
+    "affected_top5_hit": true,
+    "affected_all_top3_hit": false,
+    "affected_all_top5_hit": false,
+    "valuable_node_ranks": {
+      "libecore-x1": 2,
+      "libecore-input1": 1,
+      "libevas1-engines-fb": 8,
+      "libevas1": 5
+    },
+    "valuable_best_rank": 1,
+    "valuable_worst_rank": 8,
+    "valuable_top1_hit": true,
+    "valuable_top3_hit": true,
+    "valuable_top5_hit": true,
+    "valuable_all_top3_hit": false,
+    "valuable_all_top5_hit": false,
+    "root_rank": 2,
+    "root_top1_hit": false,
+    "root_top3_hit": true,
+    "direct_subgraph_nodes_retained": [
+      "libecore-input1",
+      "libecore-x1",
+      "libevas1-engines-wayland",
+      "libecore-evas1"
+    ],
+    "direct_contains_injected_node": true,
+    "direct_contains_any_risk_node": true,
+    "direct_contains_all_risk_nodes": true,
+    "direct_risk_nodes_retained": [
+      "libecore-x1",
+      "libecore-input1"
+    ],
+    "direct_contains_any_evidence_node": true,
+    "direct_contains_all_evidence_nodes": true,
+    "direct_evidence_nodes_retained": [
+      "libecore-x1",
+      "libecore-input1"
+    ],
+    "direct_contains_any_affected_node": false,
+    "direct_contains_all_affected_nodes": false,
+    "direct_affected_nodes_retained": [],
+    "direct_contains_any_valuable_node": true,
+    "direct_contains_all_valuable_nodes": false,
+    "direct_valuable_nodes_retained": [
+      "libecore-x1",
+      "libecore-input1"
+    ]
+  }
+]
