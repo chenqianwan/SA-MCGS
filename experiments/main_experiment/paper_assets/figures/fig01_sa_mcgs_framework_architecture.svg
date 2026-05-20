@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1960" height="1220" viewBox="0 0 1960 1220">
+  <rect width="1960" height="1220" fill="#0a0e1a"/>
+  <rect x="44" y="44" width="1872" height="1132" rx="28" fill="#111827" stroke="#3730a3" stroke-width="2.5"/>
+  <text x="980" y="118" text-anchor="middle" fill="#e2e8f0" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="900">SA-MCGS Framework Architecture</text>
+  <g transform="translate(90 170) scale(1.8163265 1.65)">
+    
+      <defs>
+        <marker id="av" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="6" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#4b5563"/></marker>
+        <marker id="ac" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="6" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#06b6d4"/></marker>
+        <marker id="ag" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="6" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#22c55e"/></marker>
+        <marker id="ap" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="6" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#6366f1"/></marker>
+        <marker id="ar" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="6" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#ef4444"/></marker>
+      </defs>
+
+      <!-- ====== Left: Input (Validated Domains) ====== -->
+      <rect x="10" y="60" width="115" height="100" rx="10" fill="#1a2332" stroke="#334155" stroke-width="1.5"/>
+      <text x="67" y="79" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="700">有向有环图</text>
+      <text x="67" y="93" text-anchor="middle" fill="#64748b" font-size="7">已验证领域:</text>
+      <text x="67" y="106" text-anchor="middle" fill="#f97316" font-size="7">法律合同 (CUAD+BGB)</text>
+      <text x="67" y="118" text-anchor="middle" fill="#06b6d4" font-size="7">Debian 软件供应链</text>
+      <text x="67" y="130" text-anchor="middle" fill="#a855f7" font-size="7">Wikipedia 分类层级</text>
+      <text x="67" y="142" text-anchor="middle" fill="#22c55e" font-size="7">SEC EX-21 企业持股</text>
+
+      <line x1="125" y1="110" x2="165" y2="110" stroke="#4b5563" stroke-width="1.5" marker-end="url(#av)"/>
+
+      <!-- ====== Tarjan SCC Detection ====== -->
+      <rect x="165" y="80" width="120" height="60" rx="10" fill="rgba(6,182,212,.1)" stroke="#06b6d4" stroke-width="1.5"/>
+      <text x="225" y="100" text-anchor="middle" fill="#06b6d4" font-size="10" font-weight="700">Tarjan SCC 检测</text>
+      <text x="225" y="114" text-anchor="middle" fill="#94a3b8" font-size="8">识别所有环结构</text>
+      <text x="225" y="127" text-anchor="middle" fill="#94a3b8" font-size="8">分离 DAG / SCC</text>
+
+      <!-- Split into two paths -->
+      <path d="M285,95 L320,95 L320,52 L360,52" stroke="#22c55e" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+      <path d="M285,120 L320,120 L320,180 L360,180" stroke="#ef4444" stroke-width="2.5" fill="none" marker-end="url(#ar)"/>
+      <text x="330" y="47" fill="#22c55e" font-size="8" font-weight="600">DAG</text>
+      <text x="330" y="175" fill="#ef4444" font-size="8" font-weight="700">SCC ★</text>
+
+      <!-- ====== DAG Path (简化) ====== -->
+      <rect x="360" y="32" width="110" height="40" rx="8" fill="rgba(34,197,94,.06)" stroke="#22c55e" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="415" y="48" text-anchor="middle" fill="#22c55e" font-size="9" font-weight="600">DAG 节点</text>
+      <text x="415" y="62" text-anchor="middle" fill="#64748b" font-size="7">标准 MCTS 可处理</text>
+      <line x1="470" y1="52" x2="870" y2="52" stroke="#22c55e" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#ag)"/>
+
+      <!-- ════════════════════════════════════════════════════════════ -->
+      <!-- ====== CONTRIBUTION 1: SCC-Aware Search (贡献1) ====== -->
+      <!-- ════════════════════════════════════════════════════════════ -->
+      <rect x="350" y="100" width="310" height="210" rx="14" fill="rgba(249,115,22,.03)" stroke="#f97316" stroke-width="2.5"/>
+      <text x="505" y="120" text-anchor="middle" fill="#f97316" font-size="12" font-weight="900">贡献 1: SCC 感知搜索引擎</text>
+      <text x="505" y="135" text-anchor="middle" fill="#64748b" font-size="8">解决 MCTS 在有环图上的三大失效 (F1/F2/F3)</text>
+
+      <!-- Window Evaluation -->
+      <rect x="365" y="148" width="135" height="68" rx="8" fill="rgba(249,115,22,.06)" stroke="#f97316" stroke-width="1.5"/>
+      <text x="432" y="164" text-anchor="middle" fill="#f97316" font-size="9" font-weight="700">窗口化评估</text>
+      <text x="432" y="178" text-anchor="middle" fill="#94a3b8" font-size="7">替代 Rollout 随机游走</text>
+      <text x="432" y="190" text-anchor="middle" fill="#94a3b8" font-size="7">局部子图 → LLM 评估</text>
+      <text x="432" y="205" text-anchor="middle" fill="#f97316" font-size="6" font-weight="600">解决: F2 Rollout 陷阱</text>
+
+      <!-- Transposition Table -->
+      <rect x="510" y="148" width="135" height="68" rx="8" fill="rgba(234,179,8,.06)" stroke="#eab308" stroke-width="1.5"/>
+      <text x="577" y="164" text-anchor="middle" fill="#eab308" font-size="9" font-weight="700">转置表 (TT)</text>
+      <text x="577" y="178" text-anchor="middle" fill="#94a3b8" font-size="7">相同窗口不重复调用</text>
+      <text x="577" y="190" text-anchor="middle" fill="#94a3b8" font-size="7">图节点级去重</text>
+      <text x="577" y="205" text-anchor="middle" fill="#eab308" font-size="6" font-weight="600">解决: F1 搜索树膨胀</text>
+
+      <!-- SCC-Aware UCB -->
+      <rect x="365" y="226" width="280" height="68" rx="8" fill="rgba(99,102,241,.06)" stroke="#818cf8" stroke-width="1.5"/>
+      <text x="505" y="244" text-anchor="middle" fill="#818cf8" font-size="9" font-weight="700">SCC-Aware UCB 选择</text>
+      <text x="505" y="258" text-anchor="middle" fill="#94a3b8" font-size="7">80% 预算聚焦 SCC · UCB → 窗口构建 · 保持信号对比度 (Q-Spread)</text>
+      <text x="505" y="277" text-anchor="middle" fill="#818cf8" font-size="6" font-weight="600">解决: F3 Q值稀释 — 不再因环路导致所有节点 Q 值趋同</text>
+
+      <!-- Arrow from Contribution 1 to Contribution 3 -->
+      <path d="M660,230 L690,230" stroke="#4b5563" stroke-width="1.5" marker-end="url(#av)"/>
+
+      <!-- ════════════════════════════════════════════════════════════ -->
+      <!-- ====== CONTRIBUTION 3: Pluggable Pruning (贡献3) ====== -->
+      <!-- ════════════════════════════════════════════════════════════ -->
+      <rect x="690" y="100" width="270" height="210" rx="14" fill="rgba(99,102,241,.03)" stroke="#6366f1" stroke-width="2.5"/>
+      <text x="825" y="120" text-anchor="middle" fill="#6366f1" font-size="12" font-weight="900">贡献 3: 可插拔剪枝策略</text>
+      <text x="825" y="135" text-anchor="middle" fill="#64748b" font-size="8">Plugin 架构 — 注入领域剪枝倾向</text>
+
+      <!-- Layer 1: Universal (all domains) -->
+      <text x="825" y="152" text-anchor="middle" fill="#94a3b8" font-size="7" font-weight="600">通用层 (所有领域共享)</text>
+      <rect x="705" y="158" width="120" height="46" rx="6" fill="rgba(234,179,8,.06)" stroke="#eab308" stroke-width="1.5"/>
+      <text x="765" y="174" text-anchor="middle" fill="#eab308" font-size="8" font-weight="700">Noise Removal</text>
+      <text x="765" y="186" text-anchor="middle" fill="#64748b" font-size="7">自环 / 低权重 / 幻觉去重</text>
+      <text x="765" y="196" text-anchor="middle" fill="#94a3b8" font-size="6">领域无关 · 通用保留</text>
+
+      <rect x="835" y="158" width="120" height="46" rx="6" fill="rgba(234,179,8,.06)" stroke="#eab308" stroke-width="1.5"/>
+      <text x="895" y="174" text-anchor="middle" fill="#eab308" font-size="8" font-weight="700">Info Bottleneck</text>
+      <text x="895" y="186" text-anchor="middle" fill="#64748b" font-size="7">图结构压缩 · 保留信号</text>
+      <text x="895" y="196" text-anchor="middle" fill="#94a3b8" font-size="6">数学驱动 · 通用保留</text>
+
+      <!-- Layer 2: Domain-specific (pluggable) -->
+      <text x="825" y="218" text-anchor="middle" fill="#94a3b8" font-size="7" font-weight="600">领域先验层 (可插拔替换)</text>
+      <rect x="705" y="224" width="250" height="42" rx="6" fill="rgba(99,102,241,.08)" stroke="#6366f1" stroke-width="1.5"/>
+      <text x="830" y="240" text-anchor="middle" fill="#6366f1" font-size="8" font-weight="700">Domain Heuristic Plugin (可替换)</text>
+      <text x="830" y="254" text-anchor="middle" fill="#94a3b8" font-size="7">法律: Hierarchy + TACS · 跨领域: 无先验 · 自定义: 注册插件</text>
+
+      <!-- Plugin Registry -->
+      <rect x="705" y="272" width="250" height="32" rx="6" fill="rgba(99,102,241,.1)" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="830" y="292" text-anchor="middle" fill="#6366f1" font-size="8" font-weight="700">GraphPruningPlugin Registry</text>
+      <text x="830" y="292" text-anchor="middle" fill="#94a3b8" font-size="7">legal_hierarchy | cross_domain (Debian/Wiki/SEC) | custom...</text>
+
+      <!-- ════════════════════════════════════════════════════════════ -->
+      <!-- ====== CONTRIBUTION 2: Conformal Evaluation (贡献2) ====== -->
+      <!-- ════════════════════════════════════════════════════════════ -->
+      <rect x="350" y="330" width="310" height="100" rx="14" fill="rgba(34,197,94,.03)" stroke="#22c55e" stroke-width="2.5"/>
+      <text x="505" y="350" text-anchor="middle" fill="#22c55e" font-size="12" font-weight="900">贡献 2: Conformal 评价</text>
+      <text x="505" y="366" text-anchor="middle" fill="#64748b" font-size="8">Online Conformal Prediction — 动态校准异常阈值</text>
+      <text x="505" y="386" text-anchor="middle" fill="#94a3b8" font-size="8">无需预定义基准分布 · 自适应置信区间 · 支持任意打分器</text>
+      <text x="505" y="404" text-anchor="middle" fill="#22c55e" font-size="8" font-weight="600">非参数方法 → 天然领域无关</text>
+
+      <!-- Arrow from Conformal to Output -->
+      <path d="M660,380 L690,380 L690,340 L870,340 L870,100 L895,100 L895,80" stroke="#22c55e" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+
+      <!-- ====== Final Output ====== -->
+      <rect x="850" y="32" width="120" height="44" rx="10" fill="rgba(34,197,94,.12)" stroke="#22c55e" stroke-width="1.5"/>
+      <text x="910" y="50" text-anchor="middle" fill="#22c55e" font-size="11" font-weight="700">Ranked Anomalies</text>
+      <text x="910" y="65" text-anchor="middle" fill="#94a3b8" font-size="8">Top-k 异常节点定位</text>
+
+      <!-- ════════════════════════════════════════════════════════════ -->
+      <!-- ====== Bottom: Plugin Detail (泛用性关键) ====== -->
+      <!-- ════════════════════════════════════════════════════════════ -->
+      <rect x="350" y="450" width="610" height="130" rx="14" fill="rgba(99,102,241,.02)" stroke="rgba(99,102,241,.3)" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="655" y="470" text-anchor="middle" fill="#6366f1" font-size="11" font-weight="800">PruningTendency Plugin Interface — 领域适配层</text>
+      <text x="655" y="486" text-anchor="middle" fill="#64748b" font-size="8">不同领域通过实现 PruningTendency 接口注入剪枝偏好，核心搜索引擎无需修改</text>
+
+      <!-- Plugin boxes — real validated domains -->
+      <rect x="365" y="498" width="145" height="68" rx="8" fill="rgba(249,115,22,.08)" stroke="#f97316" stroke-width="1.5"/>
+      <text x="437" y="514" text-anchor="middle" fill="#f97316" font-size="9" font-weight="700">legal_hierarchy</text>
+      <text x="437" y="528" text-anchor="middle" fill="#94a3b8" font-size="7">Def → Obl → Cond → Rem → Lim</text>
+      <text x="437" y="542" text-anchor="middle" fill="#94a3b8" font-size="7">合同条款类型层级先验</text>
+      <text x="437" y="558" text-anchor="middle" fill="#f97316" font-size="6" font-weight="600">CUAD + BGB 验证 &#10003;</text>
+
+      <rect x="520" y="498" width="145" height="68" rx="8" fill="rgba(6,182,212,.08)" stroke="#06b6d4" stroke-width="1.5"/>
+      <text x="592" y="514" text-anchor="middle" fill="#06b6d4" font-size="9" font-weight="700">cross_domain (Debian)</text>
+      <text x="592" y="528" text-anchor="middle" fill="#94a3b8" font-size="7">CVE 传播 + hub 度分析</text>
+      <text x="592" y="542" text-anchor="middle" fill="#94a3b8" font-size="7">Noise + IB (无层级先验)</text>
+      <text x="592" y="558" text-anchor="middle" fill="#06b6d4" font-size="6" font-weight="600">CARDS 59K 包验证 &#10003;</text>
+
+      <rect x="675" y="498" width="145" height="68" rx="8" fill="rgba(168,85,247,.08)" stroke="#a855f7" stroke-width="1.5"/>
+      <text x="747" y="514" text-anchor="middle" fill="#a855f7" font-size="9" font-weight="700">cross_domain (Wiki)</text>
+      <text x="747" y="528" text-anchor="middle" fill="#94a3b8" font-size="7">层级环路 → 错误边识别</text>
+      <text x="747" y="542" text-anchor="middle" fill="#94a3b8" font-size="7">分类语义 + 父子关系推理</text>
+      <text x="747" y="558" text-anchor="middle" fill="#a855f7" font-size="6" font-weight="600">Wikipedia 834 环路验证 &#10003;</text>
+
+      <rect x="830" y="498" width="125" height="68" rx="8" fill="rgba(34,197,94,.08)" stroke="#22c55e" stroke-width="1.5"/>
+      <text x="892" y="514" text-anchor="middle" fill="#22c55e" font-size="9" font-weight="700">cross_domain (SEC)</text>
+      <text x="892" y="528" text-anchor="middle" fill="#94a3b8" font-size="7">循环持股 → 申报异常</text>
+      <text x="892" y="542" text-anchor="middle" fill="#94a3b8" font-size="7">跨实体所有权分析</text>
+      <text x="892" y="558" text-anchor="middle" fill="#22c55e" font-size="6" font-weight="600">SEC EX-21 691K 验证 &#10003;</text>
+
+      <!-- Connection: Pruning plugins feed into Contribution 3 -->
+      <path d="M655,450 L655,435 L825,435 L825,310" stroke="#6366f1" stroke-width="1" stroke-dasharray="4,3" fill="none" marker-end="url(#ap)"/>
+      <text x="745" y="430" fill="#6366f1" font-size="7" font-style="italic">插件注入</text>
+
+      <!-- Global annotation -->
+      <text x="490" y="590" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="800">核心搜索引擎 (贡献1+2) 领域无关 — 剪枝插件 (贡献3) 提供领域适配</text>
+    
+  </g>
+</svg>

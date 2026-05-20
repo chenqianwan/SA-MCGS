@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SA-MCGS Paper Framework</title>
+  <style>
+    :root {
+      --bg: #0f141b;
+      --panel: #151c25;
+      --panel-2: #101822;
+      --line: #2a3544;
+      --text: #edf4ff;
+      --muted: #a8b4c7;
+      --green: #20c997;
+      --red: #ff6b6b;
+      --blue: #63a4ff;
+      --purple: #b48cff;
+      --amber: #f6b35d;
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        linear-gradient(120deg, rgba(32, 201, 151, 0.10), transparent 30%),
+        linear-gradient(240deg, rgba(99, 164, 255, 0.10), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+      padding: 28px 20px;
+      border-right: 1px solid var(--line);
+      background: rgba(15, 20, 27, 0.92);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0;
+      margin-bottom: 6px;
+    }
+
+    .subbrand {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+
+    nav a {
+      display: block;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      border: 1px solid transparent;
+    }
+
+    nav a:hover {
+      color: var(--text);
+      background: #1a2430;
+      border-color: var(--line);
+    }
+
+    main {
+      padding: 34px 42px 80px;
+      max-width: 1500px;
+      width: 100%;
+    }
+
+    section {
+      margin: 0 0 28px;
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(21, 28, 37, 0.88);
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      font-size: 28px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 18px 0 8px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    p { margin: 0 0 12px; }
+    .muted { color: var(--muted); }
+    .strong { color: var(--text); font-weight: 900; }
+    .green { color: var(--green); }
+    .red { color: var(--red); }
+    .blue { color: var(--blue); }
+    .amber { color: var(--amber); }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .claim {
+      font-size: 21px;
+      color: #dbe8ff;
+      max-width: 980px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #111a24;
+      color: #d9e7fa;
+      font-weight: 750;
+      font-size: 14px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(130px, 1fr));
+      gap: 12px;
+    }
+
+    .metric {
+      padding: 16px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+    }
+
+    .metric .label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .metric .value {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(110px, 1fr));
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .flow-card {
+      position: relative;
+      padding: 16px 14px;
+      min-height: 118px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: #111a24;
+    }
+
+    .flow-card:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -14px;
+      top: 40%;
+      color: var(--green);
+      font-size: 24px;
+      font-weight: 900;
+      z-index: 2;
+    }
+
+    .flow-card .step {
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .flow-card .title {
+      font-size: 17px;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .flow-card .desc {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+    }
+
+    th, td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: #dbe8ff;
+      background: #121b26;
+      font-weight: 900;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+    td.num, th.num { text-align: right; white-space: nowrap; }
+
+    .bars {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 145px 1fr 72px;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .track {
+      height: 18px;
+      background: #253142;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      border-radius: 6px;
+      width: var(--w);
+    }
+
+    .fill.naive { background: var(--red); }
+    .fill.sa { background: var(--green); }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel-2);
+      padding: 18px;
+    }
+
+    .card-title {
+      font-weight: 900;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    ul, ol {
+      margin: 10px 0 0;
+      padding-left: 22px;
+    }
+
+    li { margin: 7px 0; }
+
+    code {
+      background: rgba(255, 255, 255, 0.08);
+      color: #edf4ff;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.94em;
+    }
+
+    .chapter-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .chapter {
+      display: grid;
+      grid-template-columns: 185px 1fr;
+      gap: 14px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel-2);
+    }
+
+    .chapter .name {
+      font-weight: 900;
+      color: #dbe8ff;
+    }
+
+    .tag {
+      display: inline-block;
+      margin: 4px 4px 0 0;
+      padding: 4px 7px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .callout {
+      border-left: 5px solid var(--green);
+      padding: 14px 16px;
+      background: rgba(32, 201, 151, 0.10);
+      border-radius: 8px;
+      color: #e8fff7;
+    }
+
+    .warn {
+      border-left-color: var(--amber);
+      background: rgba(246, 179, 93, 0.12);
+    }
+
+    @media (max-width: 1120px) {
+      .layout { grid-template-columns: 1fr; }
+      aside {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      nav {
+        display: flex;
+        overflow-x: auto;
+        gap: 8px;
+      }
+      nav a { white-space: nowrap; }
+      main { padding: 24px 18px 60px; }
+      .hero, .two-col, .three-col, .flow { grid-template-columns: 1fr; }
+      .flow-card:not(:last-child)::after { display: none; }
+      .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .chapter { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <div class="brand">SA-MCGS Paper Framework</div>
+      <div class="subbrand">ARR / EMNLP writing cockpit</div>
+      <nav>
+        <a href="#claim">主张</a>
+        <a href="#pipeline">框架图</a>
+        <a href="#contributions">三项贡献</a>
+        <a href="#mcts-ablation">MCTS 消融</a>
+        <a href="#domains">泛化领域</a>
+        <a href="#results">主结果</a>
+        <a href="#structure">章节结构</a>
+        <a href="#setup">实验口径</a>
+        <a href="#analysis">分析安排</a>
+        <a href="#reviewer">Reviewer 风险</a>
+        <a href="#figures">图表清单</a>
+        <a href="#todo">写作顺序</a>
+      </nav>
+    </aside>
+
+    <main>
+      <section id="claim" class="hero">
+        <div>
+          <h1>从长环结构到可解释风险子图</h1>
+          <p class="claim">
+            SA-MCGS 的核心不是让 LLM 简单“多想几次”，而是把 SCC 这种会阻断 MCTS/LLM 推理的循环结构瓶颈，
+            转化为可搜索、可收敛、可压缩的风险子图抽取问题；上层图搜索不再在环中膨胀，而是把 SCC 坍缩成一个可评估节点。
+          </p>
+          <div class="pill-row">
+            <span class="pill">current/default</span>
+            <span class="pill">critical</span>
+            <span class="pill">80 cases × 4 models</span>
+            <span class="pill">4 domains</span>
+            <span class="pill">60 rollouts</span>
+          </div>
+        </div>
+        <div class="metric-grid">
+          <div class="metric"><div class="label">SA Root@3</div><div class="value green">81%</div></div>
+          <div class="metric"><div class="label">SA Risk-any</div><div class="value green">98%</div></div>
+          <div class="metric"><div class="label">SA Risk-all</div><div class="value green">78%</div></div>
+          <div class="metric"><div class="label">SA Compression</div><div class="value amber">53%</div></div>
+          <div class="metric"><div class="label">SA Errors</div><div class="value green">0</div></div>
+        </div>
+      </section>
+
+      <section id="pipeline">
+        <h2>1. Paper 框架图</h2>
+        <div class="flow">
+          <div class="flow-card">
+            <div class="step">Problem</div>
+            <div class="title">Long Records</div>
+            <div class="desc">长合同、法规、依赖链中的风险证据会扩散、重复出现、互相约束。</div>
+          </div>
+          <div class="flow-card">
+            <div class="step">Graph</div>
+            <div class="title">Dependency Graph</div>
+            <div class="desc">把 records 和 directed dependencies 变成可搜索结构。</div>
+          </div>
+          <div class="flow-card">
+            <div class="step">Bottleneck</div>
+            <div class="title">Tarjan SCC</div>
+            <div class="desc">把 DAG 区域和循环瓶颈分开；SCC 不再作为普通路径继续展开。</div>
+          </div>
+          <div class="flow-card">
+            <div class="step">C1</div>
+            <div class="title">SCC-aware Search</div>
+            <div class="desc">局部窗口 rollout、转置记忆、SCC-aware selection，避免 TreeMCTS 路径复制。</div>
+          </div>
+          <div class="flow-card">
+            <div class="step">C2 + C3</div>
+            <div class="title">Evidence + Adapters</div>
+            <div class="desc">OC/conformal 发现结构证据；领域 adapter 提供格式、rubric 和边显著性 hooks。</div>
+          </div>
+          <div class="flow-card">
+            <div class="step">Output</div>
+            <div class="title">Collapsed Node</div>
+            <div class="desc">dynamic core 把 SCC 坍缩为 risk subgraph / evaluation point，供上层搜索继续使用。</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contributions">
+        <h2>2. 三项核心贡献</h2>
+        <div class="three-col">
+          <div class="card">
+            <div class="card-title"><span class="amber">C1</span> SCC-aware Search Engine</div>
+            <p>把 SCC 当作循环瓶颈单元处理，而不是让普通 MCTS 在环里展开无限路径。</p>
+            <ul>
+              <li>Tarjan SCC localization</li>
+              <li>local window rollout</li>
+              <li>transposition / evidence memory</li>
+              <li>SCC-aware selection and dynamic core</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="green">C2</span> Online Conformal Evaluator</div>
+            <p>把局部窗口里的高风险或结构冲突转成可累计的发现信号，辅助判断 rollout 是否持续找到证据。</p>
+            <ul>
+              <li>OC is a discovery signal</li>
+              <li>not the primary final metric</li>
+              <li>used for convergence analysis</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="blue">C3</span> Pluggable Domain Adapters</div>
+            <p>贡献 3 不再只是固定剪枝策略，而是可插拔领域适配器：主搜索保持通用，领域信息只通过 hooks 注入。</p>
+            <ul>
+              <li>record formatting</li>
+              <li>shared risk rubric hooks</li>
+              <li>edge saliency / pruning hints</li>
+            </ul>
+          </div>
+        </div>
+        <p class="callout" style="margin-top:18px;">
+          写作时要强调：Naive 和 SA-MCGS 使用同类通用风险语义；区别不是领域 prompt 开小灶，而是 full-SCC one-shot 与 SCC-aware local search 的机制差异。
+        </p>
+      </section>
+
+      <section id="mcts-ablation">
+        <h2>3. 关键消融：为什么不能直接全合同 MCTS</h2>
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title red">TreeMCTS 在 SCC 里的三种失败</div>
+            <ol>
+              <li><strong>Tree explosion:</strong> 同一物理节点被展开成不同路径分身，预算被重复路径吃掉。</li>
+              <li><strong>Rollout trap:</strong> 随机游走在环里无法自然结束，只能截断，返回环平均值。</li>
+              <li><strong>Q-value dilution:</strong> 风险节点信号被多条重复路径平均掉，节点间分数差异变小。</li>
+            </ol>
+          </div>
+          <div class="card">
+            <div class="card-title green">SA-MCGS 的处理方式</div>
+            <p>先把 SCC 从文档图里取出，再在 SCC 内做窗口化探索，最后把结果压缩为一个风险子图节点。</p>
+            <p>所以 paper 的主流程是：<code>whole document graph → SCC bottleneck → SA-MCGS risk subgraph → collapsed evaluation point</code>。</p>
+          </div>
+        </div>
+        <table style="margin-top:18px;">
+          <thead>
+            <tr><th>Setting</th><th>Topology</th><th class="num">Expansion</th><th class="num">Truncation</th><th class="num">Q-spread</th><th class="num">Hit@3</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>TreeMCTS</td><td>DAG</td><td class="num">2.3x</td><td class="num green">0%</td><td class="num">0.077</td><td class="num">7%</td></tr>
+            <tr><td>TreeMCTS</td><td>Cycle</td><td class="num red">6.4x</td><td class="num red">100%</td><td class="num red">0.044</td><td class="num">30%</td></tr>
+            <tr><td>SA-MCGS</td><td>Cycle</td><td class="num green">1.0x</td><td class="num">N/A</td><td class="num green">0.371</td><td class="num green">90%</td></tr>
+            <tr><td>TreeMCTS</td><td>CUAD 13-node SCC</td><td class="num">-</td><td class="num">-</td><td class="num red">0.058</td><td class="num">-</td></tr>
+            <tr><td>SA-MCGS</td><td>CUAD 13-node SCC</td><td class="num">-</td><td class="num">-</td><td class="num green">0.800</td><td class="num">-</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="domains">
+        <h2>4. 泛化领域：为什么是这四个数据集</h2>
+        <p class="claim" style="font-size:19px;">
+          四个域不是为了堆数量，而是覆盖四类真实结构风险：软件依赖、监管披露、成文法引用、商业合同条款。
+          这让 reviewer 能看到 SA-MCGS 处理的是 <span class="strong">cyclic structural risk</span>，不是某个法律关键词任务。
+        </p>
+        <div class="three-col" style="margin-top:18px;">
+          <div class="card">
+            <div class="card-title blue">Debian</div>
+            <p><strong>软件依赖图。</strong> 官方 Debian policy 定义 package relationships，例如 depends、pre-depends、conflicts、breaks。</p>
+            <p class="muted">作用：非法律技术域，证明方法不是只对合同/法条有效。</p>
+          </div>
+          <div class="card">
+            <div class="card-title amber">SEC EX-21</div>
+            <p><strong>监管实体图。</strong> SEC Regulation S-K Item 601(b)(21) 要求披露 subsidiaries、jurisdiction 和 business names。</p>
+            <p class="muted">作用：公司控制链和合并口径风险，连接法律/金融结构。</p>
+          </div>
+          <div class="card">
+            <div class="card-title green">BGB</div>
+            <p><strong>权威成文法图。</strong> German Civil Code 是官方法典，条文引用和条件依赖稳定，噪声低。</p>
+            <p class="muted">作用：干净法律域，避免只在噪声合同里“碰巧有效”。</p>
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px;">
+          <div class="card-title red">CUAD</div>
+          <p>
+            <strong>商业合同长文本。</strong> CUAD 是 Contract Understanding Atticus Dataset，包含 510 commercial contracts、
+            13,000+ expert labels 和 41 clause types，且被 NeurIPS Datasets & Benchmarks 接收。
+          </p>
+          <p class="muted">作用：最高噪声、最长文本、最接近真实合同审查；用来测试 one-shot 输出负担和风险端点保留。</p>
+        </div>
+        <table style="margin-top:18px;">
+          <thead>
+            <tr><th>维度</th><th>Debian</th><th>SEC EX-21</th><th>BGB</th><th>CUAD</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>领域类型</td><td>non-legal software</td><td>regulatory disclosure</td><td>statutory legal</td><td>private contracts</td></tr>
+            <tr><td>图来源</td><td>package metadata</td><td>public filings</td><td>statute references</td><td>contract cross-references</td></tr>
+            <tr><td>文本噪声</td><td>low-medium</td><td>medium</td><td>low</td><td>high</td></tr>
+            <tr><td>权威性</td><td>Debian official policy/data</td><td>SEC filings/rules</td><td>official law</td><td>expert benchmark</td></tr>
+            <tr><td>论文角色</td><td>出圈泛化</td><td>监管实体结构</td><td>干净法条控制</td><td>长合同压力测试</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="results">
+        <h2>5. 主结果：Strict Rate</h2>
+        <div class="two-col">
+          <div>
+            <table>
+              <thead>
+                <tr><th>Metric</th><th class="num">Naive</th><th class="num">SA-MCGS</th><th>读法</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Root@3</td><td class="num red">48%</td><td class="num green">81%</td><td>SA 更容易把 GT/root 排进前三。</td></tr>
+                <tr><td>Risk-any</td><td class="num red">72%</td><td class="num green">98%</td><td>SA 几乎总能保留至少一个修复入口。</td></tr>
+                <tr><td>Risk-all</td><td class="num red">47%</td><td class="num green">78%</td><td>critical 结构风险下最关键的完整端点保留。</td></tr>
+                <tr><td>Compression</td><td class="num green">67%</td><td class="num amber">53%</td><td>SA 牺牲部分压缩率换取更高风险保留。</td></tr>
+                <tr><td>Errors</td><td class="num red">59/320</td><td class="num green">0/320</td><td>报错计入 strict denominator。</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div class="bars">
+              <div class="bar-row"><strong>Root@3 · Naive</strong><div class="track"><div class="fill naive" style="--w:48%"></div></div><span>48%</span></div>
+              <div class="bar-row"><strong>Root@3 · SA</strong><div class="track"><div class="fill sa" style="--w:81%"></div></div><span>81%</span></div>
+              <div class="bar-row"><strong>Risk-any · Naive</strong><div class="track"><div class="fill naive" style="--w:72%"></div></div><span>72%</span></div>
+              <div class="bar-row"><strong>Risk-any · SA</strong><div class="track"><div class="fill sa" style="--w:98%"></div></div><span>98%</span></div>
+              <div class="bar-row"><strong>Risk-all · Naive</strong><div class="track"><div class="fill naive" style="--w:47%"></div></div><span>47%</span></div>
+              <div class="bar-row"><strong>Risk-all · SA</strong><div class="track"><div class="fill sa" style="--w:78%"></div></div><span>78%</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="callout" style="margin-top:18px;">
+          主叙事：SA-MCGS 不是完全击败 Naive 的单点排名器，而是在 critical structural risk 下，更稳定地保留 root/witness/affected 等风险证据，并将 SCC 压缩为可检查的风险子图。
+        </p>
+      </section>
+
+      <section id="structure">
+        <h2>6. 章节结构</h2>
+        <div class="chapter-list">
+          <div class="chapter">
+            <div class="name">Abstract</div>
+            <div>一句话问题、方法、4 domains × 4 models × 80 cases、主结果、压缩率 trade-off。</div>
+          </div>
+          <div class="chapter">
+            <div class="name">1. Introduction</div>
+            <div>从长环结构风险切入：普通 MCTS 在 SCC 中膨胀；one-shot LLM 难以稳定保留多证据；SA-MCGS 将 SCC 坍缩为可搜索风险子图。</div>
+          </div>
+          <div class="chapter">
+            <div class="name">2. Structural Risk Subgraph Extraction</div>
+            <div>定义 record graph、SCC、root/witness/affected、risk subgraph，以及 Root@3 / Risk-any / Risk-all / Compression。</div>
+          </div>
+          <div class="chapter">
+            <div class="name">3. Method</div>
+            <div>按 C1/C2/C3 写：SCC-aware search engine、online conformal evaluator、pluggable domain adapters，再接 dynamic core risk subgraph。</div>
+          </div>
+          <div class="chapter">
+            <div class="name">4. Experiments</div>
+            <div>锁定主实验口径，说明 Naive direct-subgraph baseline、shared risk rubric、公平性和报错计入口径。</div>
+          </div>
+          <div class="chapter">
+            <div class="name">5. Results</div>
+            <div>主表 + SCC size breakdown。核心看 Root@3、Risk-any、Risk-all，不把 Effective OC 当主指标。</div>
+          </div>
+          <div class="chapter">
+            <div class="name">6. Analysis</div>
+            <div>E0/E1/E2/E3：错误处理、输出负担、rollout 收敛、压缩率取舍。</div>
+          </div>
+          <div class="chapter">
+            <div class="name">7. Case Study</div>
+            <div>BGB 长环展示干净法案中的收敛；CUAD 长合同展示高噪声下的稳定性和 one-shot 输出负担。</div>
+          </div>
+          <div class="chapter">
+            <div class="name">8. Limitations</div>
+            <div>成本更高、Risk-all 仍严格、注入 benchmark 有边界、graph construction 质量影响搜索。</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="setup">
+        <h2>7. 实验口径</h2>
+        <div class="three-col">
+          <div class="card">
+            <div class="card-title">Canonical Scope</div>
+            <ul>
+              <li><code>current/default</code></li>
+              <li><code>structural_simple_v2</code></li>
+              <li><code>critical</code></li>
+              <li>80 SCC blocks per model</li>
+              <li>60 SA-MCGS rollouts</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">Models</div>
+            <span class="tag">gpt-4o</span>
+            <span class="tag">deepseek-v3</span>
+            <span class="tag">qwen2.5-72b</span>
+            <span class="tag">gemini-2.5-pro</span>
+          </div>
+          <div class="card">
+            <div class="card-title">Domains</div>
+            <span class="tag">Debian</span>
+            <span class="tag">SEC EX-21</span>
+            <span class="tag">BGB</span>
+            <span class="tag">CUAD</span>
+          </div>
+        </div>
+        <div class="callout warn" style="margin-top:16px;">
+          主论文不能混入 balanced、conservative、Gemini Flash、Wikipedia exploratory、smoke 或旧 diagnostic runs。
+        </div>
+      </section>
+
+      <section id="analysis">
+        <h2>8. 分析安排</h2>
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title">E0: Error Handling</div>
+            <p>同时给 strict、valid-only、matched no-error，防止 reviewer 质疑 cherry-picking。</p>
+          </div>
+          <div class="card">
+            <div class="card-title">E1: Naive Output Burden</div>
+            <p>轻量 Naive 在 CUAD 长 SCC 上从 28/32 errors 降到 8/32，但 Risk-all 仍只有 12%。</p>
+          </div>
+          <div class="card">
+            <div class="card-title">E2: Rollout Convergence</div>
+            <p>展示 rollout 增加如何提升 risk coverage / risk-all。Effective OC 只写 discovery，不当主指标。</p>
+          </div>
+          <div class="card">
+            <div class="card-title">E3: Compression Trade-off</div>
+            <p>balanced 更压缩但伤 Risk-all；current/default 更适合 critical 风险主实验。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="reviewer">
+        <h2>9. Reviewer 风险清单</h2>
+        <table>
+          <thead>
+            <tr><th>质疑</th><th>回答方式</th><th>证据</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Baseline 是否太弱？</td>
+              <td>Naive 看完整 SCC，且直接输出 risk subgraph，不是单点弱 baseline。</td>
+              <td>E1 + main strict</td>
+            </tr>
+            <tr>
+              <td>Prompt 是否公平？</td>
+              <td>使用通用 risk rubric，不用领域专门找错词；差异来自搜索机制。</td>
+              <td>E5</td>
+            </tr>
+            <tr>
+              <td>是否 cherry-pick？</td>
+              <td>文件级锁定主实验；错误计入 strict denominator。</td>
+              <td>MANIFEST + E0</td>
+            </tr>
+            <tr>
+              <td>Compression 下降是否失败？</td>
+              <td>critical 风险下完整保留风险端点优先；SA 用约 14pt 压缩代价换 Risk-all +31pt。</td>
+              <td>Main + E3</td>
+            </tr>
+            <tr>
+              <td>Effective OC 是否有意义？</td>
+              <td>它是累计发现信号，只用于解释 rollout 过程；主指标仍看最终 risk subgraph。</td>
+              <td>E2</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="figures">
+        <h2>10. 图表清单</h2>
+        <div class="three-col">
+          <div class="card"><div class="card-title">Figure 1</div><p>SA-MCGS pipeline：Document graph → SCC → rollout → evidence memory → collapsed risk subgraph。</p></div>
+          <div class="card"><div class="card-title">Table 1</div><p>MCTS-on-SCC ablation：Expansion / Truncation / Q-spread / Hit@3。</p></div>
+          <div class="card"><div class="card-title">Table 2</div><p>Domain authority and generalization：Debian / SEC EX-21 / BGB / CUAD。</p></div>
+          <div class="card"><div class="card-title">Table 3</div><p>Main strict results：Root@3 / Risk-any / Risk-all / Compression / Errors。</p></div>
+          <div class="card"><div class="card-title">Figure 2</div><p>Metrics by SCC size，展示长环上的变化。</p></div>
+          <div class="card"><div class="card-title">Figure 3</div><p>Rollout convergence，用 E2。</p></div>
+          <div class="card"><div class="card-title">Appendix Table</div><p>E0 strict / valid-only / matched-no-error。</p></div>
+          <div class="card"><div class="card-title">Appendix Figure</div><p>E1 Naive output-burden control 和 E3 compression profile。</p></div>
+        </div>
+      </section>
+
+      <section id="todo">
+        <h2>11. 下一步写作顺序</h2>
+        <ol>
+          <li>先改 Abstract + Introduction，把主线写顺。</li>
+          <li>把 MCTS-on-SCC failure 消融写成动机，不要只放 appendix。</li>
+          <li>写泛化领域和数据集权威性表，解释为什么选择这四个域。</li>
+          <li>写 Structural Risk Subgraph Extraction，把指标定义钉死。</li>
+          <li>写 Method，按 C1/C2/C3 三项贡献组织。</li>
+          <li>写 Experiments + Main Results，严格使用主实验口径。</li>
+          <li>写 Analysis + Limitations，主动处理 reviewer 风险。</li>
+          <li>最后同步进 LaTeX 并插图表。</li>
+        </ol>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

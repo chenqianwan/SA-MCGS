@@ -1,0 +1,169 @@
+{
+  "metadata": {
+    "case_id": "case_008_debian_11_qwen2.5-72b_temporal_gate",
+    "domain": "debian",
+    "domain_label": "Debian packages",
+    "scc_id": "scc_23",
+    "scc_size": 11,
+    "model": "qwen2.5-72b",
+    "template": "temporal_gate",
+    "template_label": "Temporal gate",
+    "severity": "critical",
+    "root_node": "node-parse-json",
+    "root_label": "node-parse-json",
+    "witness_node": "node-deep-equal",
+    "witness_label": "node-deep-equal",
+    "affected_nodes": "node-read-pkg;node-debbundle-es-to-primitive",
+    "sa_core_nodes": "node-debbundle-es-to-primitive;node-deep-equal;node-es-abstract;node-istanbul;node-tape",
+    "naive_subgraph_nodes": "node-deep-equal;node-debbundle-es-to-primitive;node-es-abstract",
+    "context_nodes": "node-debbundle-es-to-primitive;node-deep-equal;node-es-abstract;node-istanbul;node-tape",
+    "oc_nodes": "node-es-abstract",
+    "sa_root_at_3": false,
+    "sa_risk_any": true,
+    "sa_risk_all": false,
+    "sa_compression": 0.5454545454545454,
+    "naive_error": "",
+    "naive_root_at_3": false,
+    "naive_risk_any": true,
+    "naive_risk_all": false,
+    "naive_compression": 0.7272727272727273,
+    "label_is_structural_conflict": "",
+    "label_relevant_risk_nodes": "",
+    "label_core_is_sufficient_for_repair": "",
+    "label_comments": ""
+  },
+  "important_nodes": [
+    {
+      "role": "root",
+      "node_id": "node-parse-json",
+      "label": "node-parse-json",
+      "stats": "mean_score=0.20555555555555555; visit_count=18; conflict_count=3; is_oc_detected=False"
+    },
+    {
+      "role": "witness",
+      "node_id": "node-deep-equal",
+      "label": "node-deep-equal",
+      "stats": "mean_score=0.3108108108108108; visit_count=37; conflict_count=44; is_oc_detected=False"
+    },
+    {
+      "role": "affected",
+      "node_id": "node-read-pkg",
+      "label": "node-read-pkg",
+      "stats": "mean_score=0.16666666666666674; visit_count=21; conflict_count=4; is_oc_detected=False"
+    },
+    {
+      "role": "affected",
+      "node_id": "node-debbundle-es-to-primitive",
+      "label": "node-debbundle-es-to-primitive",
+      "stats": "mean_score=0.18076923076923077; visit_count=26; conflict_count=12; is_oc_detected=False"
+    },
+    {
+      "role": "sa_core",
+      "node_id": "node-debbundle-es-to-primitive",
+      "label": "node-debbundle-es-to-primitive",
+      "stats": "mean_score=0.18076923076923077; visit_count=26; conflict_count=12; is_oc_detected=False"
+    },
+    {
+      "role": "sa_core",
+      "node_id": "node-deep-equal",
+      "label": "node-deep-equal",
+      "stats": "mean_score=0.3108108108108108; visit_count=37; conflict_count=44; is_oc_detected=False"
+    },
+    {
+      "role": "sa_core",
+      "node_id": "node-es-abstract",
+      "label": "node-es-abstract",
+      "stats": "mean_score=0.3258064516129032; visit_count=31; conflict_count=30; is_oc_detected=True"
+    },
+    {
+      "role": "sa_core",
+      "node_id": "node-istanbul",
+      "label": "node-istanbul",
+      "stats": "mean_score=0.1956521739130435; visit_count=23; conflict_count=15; is_oc_detected=False"
+    },
+    {
+      "role": "sa_core",
+      "node_id": "node-tape",
+      "label": "node-tape",
+      "stats": "mean_score=0.22749999999999998; visit_count=40; conflict_count=19; is_oc_detected=False"
+    },
+    {
+      "role": "naive_subgraph",
+      "node_id": "node-deep-equal",
+      "label": "node-deep-equal",
+      "stats": "mean_score=0.3108108108108108; visit_count=37; conflict_count=44; is_oc_detected=False"
+    },
+    {
+      "role": "naive_subgraph",
+      "node_id": "node-debbundle-es-to-primitive",
+      "label": "node-debbundle-es-to-primitive",
+      "stats": "mean_score=0.18076923076923077; visit_count=26; conflict_count=12; is_oc_detected=False"
+    },
+    {
+      "role": "naive_subgraph",
+      "node_id": "node-es-abstract",
+      "label": "node-es-abstract",
+      "stats": "mean_score=0.3258064516129032; visit_count=31; conflict_count=30; is_oc_detected=True"
+    },
+    {
+      "role": "oc",
+      "node_id": "node-es-abstract",
+      "label": "node-es-abstract",
+      "stats": "mean_score=0.3258064516129032; visit_count=31; conflict_count=30; is_oc_detected=True"
+    }
+  ],
+  "risk_nodes": [
+    "node-parse-json",
+    "node-deep-equal"
+  ],
+  "affected_nodes": [
+    "node-read-pkg",
+    "node-debbundle-es-to-primitive"
+  ],
+  "sa_core_nodes": [
+    "node-debbundle-es-to-primitive",
+    "node-deep-equal",
+    "node-es-abstract",
+    "node-istanbul",
+    "node-tape"
+  ],
+  "naive_subgraph_nodes": [
+    "node-deep-equal",
+    "node-debbundle-es-to-primitive",
+    "node-es-abstract"
+  ],
+  "context_nodes": [
+    "node-debbundle-es-to-primitive",
+    "node-deep-equal",
+    "node-es-abstract",
+    "node-istanbul",
+    "node-tape"
+  ],
+  "oc_nodes": [
+    "node-es-abstract"
+  ],
+  "sa_metrics": {
+    "root_top3": false,
+    "risk_any": true,
+    "risk_all": false,
+    "compression": 0.5454545454545454,
+    "subgraph_size": 5,
+    "oc_count": 1,
+    "critical_locked": 10,
+    "critical_candidate": 1,
+    "critical_revisits": 8,
+    "effective_oc": true
+  },
+  "naive_metrics": {
+    "root_top3": false,
+    "risk_any": true,
+    "risk_all": false,
+    "compression": 0.7272727272727273,
+    "subgraph_size": 3,
+    "oc_count": null,
+    "critical_locked": 0,
+    "critical_candidate": 0,
+    "critical_revisits": 0,
+    "effective_oc": null
+  }
+}

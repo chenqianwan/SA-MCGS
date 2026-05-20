@@ -158,7 +158,7 @@ MCGS_WIKI = {
     "detection": {"alpha": 0.1, "min_rollouts": 6},
 }
 
-NAIVE_PROFILES = {"basic", "ranked", "direct_subgraph"}
+NAIVE_PROFILES = {"basic", "ranked", "direct_subgraph", "direct_subgraph_lite"}
 
 
 def _model_json_max_tokens(model_name: str, requested: int) -> int:
@@ -869,6 +869,42 @@ def _direct_subgraph_naive_output_spec(
     )
 
 
+def _direct_subgraph_lite_naive_output_spec(
+    scc_ids: list[str],
+) -> str:
+    return (
+        "## Lightweight Direct Risk-Subgraph Requirements\n"
+        "This is an output-burden control for the one-shot Naive baseline. "
+        "Read the full SCC once, then output only the essential risk subgraph "
+        "and a short top-risk list. Do not produce per-node clause_evaluations "
+        "for every node and do not produce a complete global_ranking.\n\n"
+        "Use exact node IDs from the input. Do not use titles, natural-language "
+        "names, or invented IDs.\n\n"
+        "Output STRICTLY as JSON with these top-level fields:\n"
+        "{\n"
+        '  "top_risk_nodes": [\n'
+        '    {"rank": 1, "clause_id": "node id from the cycle", "risk_score": 0.0, '
+        '"reasoning": "short evidence-based reason"}\n'
+        "  ],\n"
+        '  "risk_subgraph_nodes": [\n'
+        '    "node id from the cycle"\n'
+        "  ],\n"
+        '  "risk_subgraph_rationale": "why this compact set preserves the risk",\n'
+        '  "risk_subgraph_edges": [\n'
+        '    {"source": "node id from the cycle", "target": "node id from the cycle", '
+        '"reason": "why this edge matters"}\n'
+        "  ],\n"
+        '  "conflicts": [\n'
+        '    {"clause_a": "record_id", "clause_b": "record_id", "description": "specific concern"}\n'
+        "  ]\n"
+        "}\n\n"
+        f"Rules: top_risk_nodes should contain up to {min(10, len(scc_ids))} entries, "
+        "ordered from highest to lowest risk. risk_subgraph_nodes MUST contain only "
+        "exact listed node ids, no duplicates, and should be smaller than the full "
+        "graph unless the whole graph is truly needed."
+    )
+
+
 def _format_record_section(
     clauses: dict[str, Clause],
     scc_ids: list[str],
@@ -900,6 +936,7 @@ def _build_generic_naive_prompt(
     scc_ids: list[str],
     ranked: bool = False,
     direct_subgraph: bool = False,
+    direct_subgraph_lite: bool = False,
 ) -> str:
     record_section = _format_record_section(clauses, scc_ids)
     edge_section = _format_edge_section(clauses, edges, scc_ids)
@@ -917,6 +954,8 @@ def _build_generic_naive_prompt(
         "(no meaningful structural concern) to 1.0 (severe structural concern). "
         "Explain any concrete conflict using record IDs and evidence from the input.\n\n"
         + (
+            _direct_subgraph_lite_naive_output_spec(scc_ids)
+            if direct_subgraph_lite else
             _direct_subgraph_naive_output_spec(scc_ids)
             if direct_subgraph else
             _ranked_naive_output_spec(scc_ids)
@@ -932,10 +971,12 @@ def build_naive_prompt_debian(
     scc_ids: list[str],
     ranked: bool = False,
     direct_subgraph: bool = False,
+    direct_subgraph_lite: bool = False,
 ) -> str:
     """Naive one-shot prompt for Debian using the generic graph-risk task."""
     return _build_generic_naive_prompt(
-        clauses, edges, scc_ids, ranked=ranked, direct_subgraph=direct_subgraph
+        clauses, edges, scc_ids, ranked=ranked, direct_subgraph=direct_subgraph,
+        direct_subgraph_lite=direct_subgraph_lite,
     )
 
 
@@ -945,10 +986,12 @@ def build_naive_prompt_wikipedia(
     scc_ids: list[str],
     ranked: bool = False,
     direct_subgraph: bool = False,
+    direct_subgraph_lite: bool = False,
 ) -> str:
     """Naive one-shot prompt for Wikipedia using the generic graph-risk task."""
     return _build_generic_naive_prompt(
-        clauses, edges, scc_ids, ranked=ranked, direct_subgraph=direct_subgraph
+        clauses, edges, scc_ids, ranked=ranked, direct_subgraph=direct_subgraph,
+        direct_subgraph_lite=direct_subgraph_lite,
     )
 
 
@@ -958,10 +1001,12 @@ def build_naive_prompt_sec(
     scc_ids: list[str],
     ranked: bool = False,
     direct_subgraph: bool = False,
+    direct_subgraph_lite: bool = False,
 ) -> str:
     """Naive one-shot prompt for SEC using the generic graph-risk task."""
     return _build_generic_naive_prompt(
-        clauses, edges, scc_ids, ranked=ranked, direct_subgraph=direct_subgraph
+        clauses, edges, scc_ids, ranked=ranked, direct_subgraph=direct_subgraph,
+        direct_subgraph_lite=direct_subgraph_lite,
     )
 
 
@@ -1199,6 +1244,63 @@ def _explicit_naive_ranking(
     }
 
 
+def _lite_naive_ranking(
+    parsed: dict,
+    scc_ids: list[str],
+    scores: dict[str, float],
+    alias_map: dict[str, str] | None = None,
+) -> tuple[list[tuple[str, float]], dict]:
+    """Build a comparable ranking from lightweight top_risk_nodes output."""
+    raw_ranking = parsed.get("top_risk_nodes") or parsed.get("top_nodes") or []
+    if not isinstance(raw_ranking, list):
+        raw_ranking = []
+    scc_set = set(scc_ids)
+    seen: set[str] = set()
+    duplicates: list[str] = []
+    invalid: list[str] = []
+    alias_resolutions: list[dict[str, str]] = []
+    entries: list[tuple[int, int, str, float]] = []
+
+    for position, item in enumerate(raw_ranking):
+        raw_cid = _extract_ranked_node_id(item)
+        cid = raw_cid
+        if cid not in scc_set and alias_map and cid:
+            resolved = alias_map.get(_normalize_node_alias(cid))
+            if resolved:
+                cid = resolved
+                if raw_cid != resolved:
+                    alias_resolutions.append({"raw": raw_cid, "canonical": resolved})
+        if not cid or cid not in scc_set:
+            if raw_cid:
+                invalid.append(raw_cid)
+            continue
+        if cid in seen:
+            duplicates.append(cid)
+            continue
+        seen.add(cid)
+        if isinstance(item, dict):
+            rank = int(_coerce_float(item.get("rank"), position + 1))
+            score = _coerce_float(item.get("risk_score", item.get("score")), 1.0)
+        else:
+            rank = position + 1
+            score = 1.0
+        scores[cid] = max(scores.get(cid, 0.0), score)
+        entries.append((rank, position, cid, scores[cid]))
+
+    entries.sort(key=lambda x: (x[0], x[1]))
+    ordered = [(cid, score) for _, _, cid, score in entries]
+    missing = [cid for cid in scc_ids if cid not in seen]
+    ordered.extend((cid, scores.get(cid, 0.0)) for cid in missing)
+    return ordered, {
+        "ranking_source": "top_risk_nodes_lite",
+        "ranking_complete": bool(ordered) and not invalid and not duplicates,
+        "ranking_missing": missing,
+        "ranking_duplicates": duplicates,
+        "ranking_invalid": invalid,
+        "ranking_alias_resolutions": alias_resolutions,
+    }
+
+
 def _normalize_direct_subgraph_nodes(
     parsed: dict,
     scc_ids: list[str],
@@ -1321,14 +1423,16 @@ async def run_naive(
     scc_set = set(scc.clause_ids)
     scc_edges = [e for e in graph.edges if e.source in scc_set and e.target in scc_set]
 
-    ranked_naive = naive_profile in {"ranked", "direct_subgraph"}
-    direct_subgraph_naive = naive_profile == "direct_subgraph"
+    direct_subgraph_lite_naive = naive_profile == "direct_subgraph_lite"
+    ranked_naive = naive_profile in {"ranked", "direct_subgraph", "direct_subgraph_lite"}
+    direct_subgraph_naive = naive_profile in {"direct_subgraph", "direct_subgraph_lite"}
     prompt = prompt_fn(
         graph.clauses,
         scc_edges,
         scc.clause_ids,
         ranked=ranked_naive,
-        direct_subgraph=direct_subgraph_naive,
+        direct_subgraph=direct_subgraph_naive and not direct_subgraph_lite_naive,
+        direct_subgraph_lite=direct_subgraph_lite_naive,
     )
     prompt_audit = build_prompt_audit(prompt, graph.clauses, injected_id)
 
@@ -1337,7 +1441,9 @@ async def run_naive(
         temperature=0.0,
         max_tokens=_model_json_max_tokens(
             model_name,
-            12000 if direct_subgraph_naive else (8192 if ranked_naive else 4096),
+            4096 if direct_subgraph_lite_naive else (
+                12000 if direct_subgraph_naive else (8192 if ranked_naive else 4096)
+            ),
         ),
         retries=4 if "gemini" in (model_name or "").lower() else 2,
     )
@@ -1358,6 +1464,13 @@ async def run_naive(
 
     alias_map = _build_node_alias_map(graph.clauses, scc.clause_ids)
     ranking, ranking_diagnostics = (
+        _lite_naive_ranking(
+            parsed,
+            scc.clause_ids,
+            scores,
+            alias_map=alias_map,
+        )
+        if direct_subgraph_lite_naive else
         _explicit_naive_ranking(
             parsed,
             scc.clause_ids,
@@ -1377,7 +1490,7 @@ async def run_naive(
             },
         )
     )
-    if ranked_naive and (
+    if ranked_naive and not direct_subgraph_lite_naive and (
         ranking_diagnostics.get("ranking_source") != "global_ranking"
         or not ranking_diagnostics.get("ranking_complete")
     ):
@@ -1448,6 +1561,8 @@ async def run_naive(
         "naive_profile": naive_profile,
         **build_risk_rubric_audit(
             adapter_type=(
+                "whole_scc_direct_subgraph_lite"
+                if direct_subgraph_lite_naive else
                 "whole_scc_direct_subgraph"
                 if direct_subgraph_naive else
                 "whole_scc_global_ranking"
@@ -1466,7 +1581,7 @@ async def run_naive(
         "scores": scores,
         "reasonings": reasonings,
         "ranking": ranking,
-        "global_ranking_raw": parsed.get("global_ranking", []),
+        "global_ranking_raw": parsed.get("global_ranking", parsed.get("top_risk_nodes", [])),
         "risk_factor_distribution": risk_factor_distribution,
         "risk_factor_weight_sum": risk_factor_weight_sum,
         "direct_risk_subgraph_nodes": direct_subgraph_nodes,
@@ -1476,9 +1591,13 @@ async def run_naive(
             if direct_subgraph_naive else None
         ),
         "direct_subgraph_type": (
+            "llm_declared_minimal_risk_subgraph_lite"
+            if direct_subgraph_lite_naive else
             "llm_declared_minimal_risk_subgraph" if direct_subgraph_naive else None
         ),
         "direct_subgraph_policy": (
+            "LLM directly declares risk_subgraph_nodes and top_risk_nodes without complete global_ranking or per-node evaluations"
+            if direct_subgraph_lite_naive else
             "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt"
             if direct_subgraph_naive else None
         ),
@@ -2709,7 +2828,7 @@ def add_structural_rank_metrics(result: dict, injection_metadata: dict) -> None:
 
 def add_direct_subgraph_retention_metrics(result: dict, injection_metadata: dict) -> None:
     """Attach retention metrics for a Naive LLM-declared risk subgraph."""
-    if result.get("naive_profile") != "direct_subgraph":
+    if result.get("naive_profile") not in {"direct_subgraph", "direct_subgraph_lite"}:
         return
     nodes = list(dict.fromkeys(result.get("direct_risk_subgraph_nodes") or []))
     node_set = set(nodes)
@@ -2822,6 +2941,8 @@ async def main(args: argparse.Namespace):
         out_prefix = f"{out_prefix}_rankednaive"
     elif naive_profile == "direct_subgraph":
         out_prefix = f"{out_prefix}_directsubgraphnaive"
+    elif naive_profile == "direct_subgraph_lite":
+        out_prefix = f"{out_prefix}_directsubgraphlitenaive"
     if methods_to_run != ["naive", "sa-mcgs"]:
         out_prefix = f"{out_prefix}_{'_'.join(methods_to_run).replace('-', '')}only"
     if run_mcgs_method:
@@ -3401,8 +3522,9 @@ if __name__ == "__main__":
         help=(
             "Naive one-shot baseline profile. ranked asks the model for risk-factor "
             "distribution plus a complete no-tie global ranking; direct_subgraph asks "
-            "the model to directly declare a minimal risk subgraph as well; basic "
-            "preserves the old score-only baseline."
+            "the model to directly declare a minimal risk subgraph as well; "
+            "direct_subgraph_lite asks for a compact top-risk list and risk subgraph "
+            "without full per-node evaluations; basic preserves the old score-only baseline."
         ),
     )
     parser.add_argument(

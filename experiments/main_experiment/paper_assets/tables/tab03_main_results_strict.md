@@ -1,0 +1,6 @@
+# Table 3. Main Strict Results
+
+| method | n | errors | root_at_3 | risk_any | risk_all | compression | effective_compression | avg_subgraph |
+|---|---|---|---|---|---|---|---|---|
+| naive | 320 | 59 | 48% | 72% | 47% | 67% | 66% | 4.44 |
+| sa-mcgs | 320 | 0 | 81% | 98% | 78% | 53% | 53% | 7.69 |

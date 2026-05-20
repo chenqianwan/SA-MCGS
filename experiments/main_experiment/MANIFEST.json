@@ -1,0 +1,102 @@
+{
+  "name": "arr_emnlp_main_experiment",
+  "status": "locked_for_paper_main_results",
+  "scope": {
+    "inject_profile": "memory_stress",
+    "inject_profile_version": "structural_simple_v2",
+    "severity": "critical",
+    "compression_profile": "current/default",
+    "sa_mcgs_budget": 60,
+    "methods": [
+      "naive",
+      "sa-mcgs"
+    ],
+    "models": [
+      "gpt-4o",
+      "deepseek-v3",
+      "qwen2.5-72b",
+      "gemini-2.5-pro"
+    ],
+    "domains": [
+      "debian",
+      "sec_ex21",
+      "bgb",
+      "cuad"
+    ],
+    "cases_per_model": 80,
+    "model_case_pairs": 320,
+    "method_level_records": 640
+  },
+  "canonical_status_files": [
+    {
+      "path": "../cross_domain/results/critical_paper_v3_b60_severity_grid_status.json",
+      "models": [
+        "gpt-4o",
+        "deepseek-v3"
+      ],
+      "profile_filter": "current"
+    },
+    {
+      "path": "../cross_domain/results/critical_qwen_current_full80_b60_severity_grid_status.json",
+      "models": [
+        "qwen2.5-72b"
+      ],
+      "profile_filter": "current"
+    },
+    {
+      "path": "../cross_domain/results/gemini25pro_health_current_balanced_b60_severity_grid_status.json",
+      "models": [
+        "gemini-2.5-pro"
+      ],
+      "profile_filter": "current",
+      "note": "Small checkpoint file; canonical rows are deduplicated with the two Gemini part files."
+    },
+    {
+      "path": "../cross_domain/results/critical_gemini25pro_current_balanced_partA_b60_severity_grid_status.json",
+      "models": [
+        "gemini-2.5-pro"
+      ],
+      "profile_filter": "current"
+    },
+    {
+      "path": "../cross_domain/results/critical_gemini25pro_current_balanced_partB_b60_severity_grid_status.json",
+      "models": [
+        "gemini-2.5-pro"
+      ],
+      "profile_filter": "current"
+    }
+  ],
+  "dashboard": {
+    "path": "../cross_domain/final_results_dashboard.py",
+    "command": "python experiments/cross_domain/final_results_dashboard.py --port 8777"
+  },
+  "main_metrics_strict": {
+    "naive": {
+      "n": 320,
+      "errors": 59,
+      "root_at_3": 0.484375,
+      "risk_any": 0.715625,
+      "risk_all": 0.46875,
+      "compression": 0.6694279566000323
+    },
+    "sa_mcgs": {
+      "n": 320,
+      "errors": 0,
+      "root_at_3": 0.809375,
+      "risk_any": 0.975,
+      "risk_all": 0.775,
+      "compression": 0.5279871999936339
+    }
+  },
+  "excluded_from_main": [
+    "balanced",
+    "conservative",
+    "aggressive",
+    "gemini-2.5-flash",
+    "wikipedia exploratory runs",
+    "old memory_stress diagnostic runs",
+    "10-case compression sweep",
+    "smoke runs",
+    "partial debugging runs"
+  ]
+}

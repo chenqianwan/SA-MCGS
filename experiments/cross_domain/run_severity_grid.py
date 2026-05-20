@@ -144,7 +144,7 @@ def command_for(task: Task, args: argparse.Namespace) -> list[str]:
         "--include-subgraph-summary",
         "--mcgs-trace",
         "--naive-profile",
-        "direct_subgraph",
+        args.naive_profile,
         "--run-tag",
         task.run_tag,
     ]
@@ -289,6 +289,12 @@ def main() -> int:
     parser.add_argument("--outer-concurrency", type=int, default=6)
     parser.add_argument("--retries", type=int, default=1)
     parser.add_argument("--retry-sleep", type=float, default=10.0)
+    parser.add_argument(
+        "--naive-profile",
+        choices=["basic", "ranked", "direct_subgraph", "direct_subgraph_lite"],
+        default="direct_subgraph",
+        help="Naive output profile passed through to run_cross_domain_battle.py.",
+    )
     parser.add_argument("--run-tag", default="severitygrid_2case")
     args = parser.parse_args()
     return asyncio.run(main_async(args))

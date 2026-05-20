@@ -1,0 +1,8 @@
+# Table 2. Domain Coverage and Authority
+
+| domain | source_authority | graph_role | noise_level | paper_role |
+|---|---|---|---|---|
+| Debian | real package dependency metadata | software migration / ABI-like dependency constraints | low-to-medium | technical dependency generalization |
+| SEC EX-21 | public SEC subsidiary exhibit structure | entity-control and consolidation paths | medium | financial/legal entity generalization |
+| BGB | German Civil Code legal references | statutory cross-reference cycles | low | clean legal-rule stress test |
+| CUAD | contract review dataset | long contract clause graph with native ambiguity | high | noisy contract-domain stress test |

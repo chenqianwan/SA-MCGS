@@ -1,0 +1,36 @@
+# case_031_cuad_24_qwen2.5-72b_temporal_gate: CUAD contracts / size 24 / qwen2.5-72b
+
+- Template: `temporal_gate` (Temporal gate)
+- Root: `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7` — 6.7
+- Witness: `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2` — Other Content. Licensee may desire to use Content other than Licensed Content, from time to time, in connection with the websites associated  with the Licensed Domain Names ("Operating Content"). Licensee may independently enter into an agreement with the owner of the Operating  Content to secure Licensee's right to use such Operating Content, and shall be solely responsible for the cost and expense associated with  procuring such Content. For the avoidance of doubt, Licensee shall be permitted to upload such Operating Content directly onto Licensee's  websites or through use of the Licensor's software pursuant to the Software
+- Affected nodes: `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1;cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3`
+- SA core nodes: `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1;cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1;cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2;cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.3;cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.4;cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5;cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1;cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5;cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6;cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1;cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2`
+- Naive subgraph nodes: `-`
+
+## Annotation Task / 标注任务
+
+EN: Judge whether the listed root/witness/affected nodes form a real structural risk, and whether the SA core is sufficient as a repair-oriented risk subgraph.
+
+中文：判断 root/witness/affected 是否形成真实结构风险，以及 SA core 是否足够作为可修复的风险子图。
+
+## Node Evidence
+
+| Role | Node | Label | Stats |
+|---|---|---|---|
+| root | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7` | 6.7 | mean_score=0.5; visit_count=3; conflict_count=0; is_oc_detected=False |
+| witness | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2` | Other Content. Licensee may desire to use Content other than Licensed Content, from time to time, in connection with the websites associated  with the Licensed Domain Names ("Operating Content"). Licensee may independently enter into an agreement with the owner of the Operating  Content to secure Licensee's right to use such Operating Content, and shall be solely responsible for the cost and expense associated with  procuring such Content. For the avoidance of doubt, Licensee shall be permitted to upload such Operating Content directly onto Licensee's  websites or through use of the Licensor's software pursuant to the Software | mean_score=0.6124999999999999; visit_count=8; conflict_count=6; is_oc_detected=False |
+| affected | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1` | Representations and Warranties. | mean_score=0.5555555555555556; visit_count=9; conflict_count=4; is_oc_detected=False |
+| affected | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3` | 2.3 | mean_score=0.6166666666666667; visit_count=6; conflict_count=4; is_oc_detected=False |
+| sa_core | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1` | Grant of Licenses. | mean_score=0.6344827586206896; visit_count=29; conflict_count=25; is_oc_detected=False |
+| sa_core | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1` | Licensee Control | mean_score=0.6370370370370368; visit_count=27; conflict_count=21; is_oc_detected=False |
+| sa_core | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2` | Content Distribution | mean_score=0.5875; visit_count=8; conflict_count=4; is_oc_detected=False |
+| sa_core | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.3` | Website Monitoring and Censoring. | mean_score=0.6545454545454547; visit_count=11; conflict_count=9; is_oc_detected=False |
+| sa_core | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.4` | Compliance with Laws. | mean_score=0.5714285714285714; visit_count=7; conflict_count=5; is_oc_detected=False |
+| sa_core | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5` | Restrictions | mean_score=0.595; visit_count=20; conflict_count=8; is_oc_detected=False |
+| sa_core | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1` | Licensor Enforcement. | mean_score=0.6043478260869566; visit_count=23; conflict_count=7; is_oc_detected=False |
+| sa_core | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5` | Termination in the Event of Termination of Agency Agreement | mean_score=0.7428571428571429; visit_count=7; conflict_count=6; is_oc_detected=True |
+| sa_core | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6` | Effect of Termination. | mean_score=0.6615384615384615; visit_count=13; conflict_count=9; is_oc_detected=False |
+| sa_core | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1` | Indemnification by Licensor | mean_score=0.7571428571428571; visit_count=7; conflict_count=7; is_oc_detected=True |
+| sa_core | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2` | 8.2 | mean_score=0.730769230769231; visit_count=13; conflict_count=10; is_oc_detected=False |
+| oc | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5` | Termination in the Event of Termination of Agency Agreement | mean_score=0.7428571428571429; visit_count=7; conflict_count=6; is_oc_detected=True |
+| oc | `cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1` | Indemnification by Licensor | mean_score=0.7571428571428571; visit_count=7; conflict_count=7; is_oc_detected=True |
