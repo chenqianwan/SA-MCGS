@@ -137,7 +137,7 @@ When writing the paper:
 
 - [`paper_assets/figures/`](paper_assets/figures/)：主文和 appendix 图，目录内 `README.md` 解释每张图。
 - [`paper_assets/tables/`](paper_assets/tables/)：主表和补充表的 CSV/Markdown 源。
-- [`paper_assets/human_annotation_pack/human_annotation_pack.zip`](paper_assets/human_annotation_pack/human_annotation_pack.zip)：给专家标注的压缩包，含 CSV、case 素材和中英文切换 HTML。
+- [`paper_assets/human_annotation_pack/human_annotation_pack.zip`](paper_assets/human_annotation_pack/human_annotation_pack.zip)：给专家标注的精选小包，含 12 个 case、可填写中英文 HTML、节点文本弹窗和一键 Excel 导出。
 
 口径提醒：主实验图表只使用 `current/default + critical + structural_simple_v2 + 4 models + 80 SCC blocks/model`。旧 diagnostic、smoke、balanced exploratory 不作为主结果。
 

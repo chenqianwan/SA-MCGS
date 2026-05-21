@@ -6,7 +6,7 @@
 
 - `figures/`：论文主文和 appendix 图，含 `README.md` 解释每张图。
 - `tables/`：论文表格 CSV/Markdown 源文件。
-- `human_annotation_pack/`：人工标注包，含 CSV、case 素材、双语 HTML 和 zip。
+- `human_annotation_pack/`：专家标注小包，含精选 case、可填写 HTML、本地 Excel 导出依赖和 zip。
 
 ## Locked Main Experiment Scope
 
@@ -34,4 +34,5 @@
 
 - Zip: `human_annotation_pack/human_annotation_pack.zip`
 - Browser entry: `human_annotation_pack/annotation_interface.html`
-- CSV: `human_annotation_pack/human_annotation_cases.csv`
+- Selected-case CSV: `human_annotation_pack/human_annotation_cases.csv`
+- Internal full candidate manifest: `human_annotation_pack/full_candidate_manifest_not_for_experts.csv`

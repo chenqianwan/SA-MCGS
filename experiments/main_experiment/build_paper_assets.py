@@ -1245,94 +1245,504 @@ def write_case_card(case_id: str, material: dict[str, Any]) -> None:
     (ANNOT_MATERIAL_DIR / f"{case_id}.json").write_text(json.dumps(material, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
-def create_annotation_html(materials: list[dict[str, Any]]) -> None:
-    cards = []
-    for material in materials:
-        meta = material["metadata"]
-        nodes_rows = []
-        for item in material["important_nodes"][:32]:
-            nodes_rows.append(
-                "<tr>"
-                f"<td>{html.escape(item['role'])}</td>"
-                f"<td><code>{html.escape(str(item['node_id']))}</code></td>"
-                f"<td>{html.escape(str(item['label']))}</td>"
-                f"<td>{html.escape(str(item['stats']))}</td>"
-                "</tr>"
-            )
-        cards.append(
-            f"""
-            <section class="case-card">
-              <div class="case-head">
-                <div>
-                  <h2>{html.escape(meta['case_id'])} · {html.escape(meta['domain_label'])}</h2>
-                  <p>{html.escape(str(meta['model']))} · SCC {html.escape(str(meta['scc_size']))} · {html.escape(meta['template_label'])}</p>
-                </div>
-                <div class="badges">
-                  <span>SA Risk-any: {html.escape(str(meta['sa_risk_any']))}</span>
-                  <span>SA Risk-all: {html.escape(str(meta['sa_risk_all']))}</span>
-                  <span>Compression: {pct(meta['sa_compression'])}</span>
-                </div>
-              </div>
-              <div class="lang zh">
-                <p><strong>标注任务：</strong>判断 root/witness/affected 是否构成真实结构性风险，以及 SA core 是否足以作为修复导向的风险子图。</p>
-              </div>
-              <div class="lang en">
-                <p><strong>Task:</strong> judge whether the root/witness/affected nodes form a real structural risk, and whether the SA core is sufficient as a repair-oriented risk subgraph.</p>
-              </div>
-              <table>
-                <thead><tr><th>Role</th><th>Node</th><th>Label</th><th>Trace stats</th></tr></thead>
-                <tbody>{''.join(nodes_rows)}</tbody>
-              </table>
-              <p><strong>SA core:</strong> <code>{html.escape(str(meta['sa_core_nodes'] or '-'))}</code></p>
-              <p><strong>Naive subgraph:</strong> <code>{html.escape(str(meta['naive_subgraph_nodes'] or '-'))}</code></p>
-            </section>
-            """
+def role_label(role: str, lang: str = "en") -> str:
+    labels = {
+        "root": ("Root / injected node", "Root / 注入节点"),
+        "witness": ("Witness endpoint", "Witness / 远距离证据端点"),
+        "affected": ("Affected node", "受影响节点"),
+        "sa_core": ("SA-MCGS core node", "SA-MCGS 风险子图节点"),
+        "naive_subgraph": ("Naive subgraph node", "Naive 风险子图节点"),
+        "oc": ("OC signal node", "OC 信号节点"),
+    }
+    en, zh = labels.get(role, (role, role))
+    return zh if lang == "zh" else en
+
+
+def case_explanation(meta: dict[str, Any], lang: str = "en") -> str:
+    template = str(meta.get("template") or "")
+    domain = str(meta.get("domain") or "")
+    zh_templates = {
+        "direct_mutex": "两个远距离记录分别给出互斥要求，单看都合理，但组合后不能同时满足。",
+        "handoff_invariant": "上游交接条件和下游接收条件不一致，风险来自跨节点链路约束被破坏。",
+        "temporal_gate": "时间或触发顺序被改写，导致后续记录依赖的条件无法按原链路成立。",
+        "condition_trigger": "触发条件被改写，使同一环内的义务、权限或控制关系发生结构性冲突。",
+    }
+    en_templates = {
+        "direct_mutex": "Two distant records impose mutually incompatible requirements. Each record may look plausible in isolation, but the pair cannot be jointly satisfied.",
+        "handoff_invariant": "The upstream handoff condition and the downstream acceptance condition diverge, so the risk comes from a broken cross-node invariant.",
+        "temporal_gate": "A timing or trigger order is rewritten, making a later dependency impossible under the original cycle.",
+        "condition_trigger": "A trigger condition is rewritten, creating a structural conflict among obligations, permissions, or control relations in the same SCC.",
+    }
+    zh_domains = {
+        "debian": "Debian 依赖域：关注包迁移、ABI/API 暴露、配置前置条件是否互相冲突。",
+        "sec_ex21": "SEC EX-21 披露域：关注实体控制、合并口径、少数权益或控制链是否互相冲突。",
+        "bgb": "BGB 法条域：关注法条之间的适用条件、期限、义务和例外是否互相冲突。",
+        "cuad": "CUAD 合同域：关注合同条款之间的授权、限制、触发条件和救济路径是否互相冲突。",
+    }
+    en_domains = {
+        "debian": "Debian dependency domain: inspect migration, ABI/API exposure, and configuration preconditions.",
+        "sec_ex21": "SEC EX-21 disclosure domain: inspect entity control, consolidation, minority interest, and ownership-chain consistency.",
+        "bgb": "BGB statute domain: inspect applicability conditions, deadlines, obligations, and exceptions across sections.",
+        "cuad": "CUAD contract domain: inspect licenses, restrictions, triggers, and remedy paths across clauses.",
+    }
+    if lang == "zh":
+        return f"{zh_domains.get(domain, '')} {zh_templates.get(template, '')}".strip()
+    return f"{en_domains.get(domain, '')} {en_templates.get(template, '')}".strip()
+
+
+def enrich_annotation_material(material: dict[str, Any]) -> dict[str, Any]:
+    meta = material["metadata"]
+    enriched = dict(material)
+    enriched["case_summary"] = {
+        "en": case_explanation(meta, "en"),
+        "zh": case_explanation(meta, "zh"),
+    }
+    seen: set[tuple[str, str]] = set()
+    nodes: list[dict[str, Any]] = []
+    for item in material.get("important_nodes", []):
+        key = (str(item.get("role")), str(item.get("node_id")))
+        if key in seen:
+            continue
+        seen.add(key)
+        label = str(item.get("label") or item.get("node_id") or "")
+        role = str(item.get("role") or "")
+        nodes.append(
+            {
+                **item,
+                "role_label_en": role_label(role, "en"),
+                "role_label_zh": role_label(role, "zh"),
+                "text_en": label,
+                "text_zh": f"{role_label(role, 'zh')}。原始文本/标题：{label}",
+                "is_risk_endpoint": item.get("node_id") in material.get("risk_nodes", []),
+                "is_affected": item.get("node_id") in material.get("affected_nodes", []),
+                "in_sa_core": item.get("node_id") in material.get("sa_core_nodes", []),
+                "in_naive_subgraph": item.get("node_id") in material.get("naive_subgraph_nodes", []),
+                "in_oc": item.get("node_id") in material.get("oc_nodes", []),
+            }
         )
-    page = f"""<!doctype html>
-<html lang="en">
+    enriched["important_nodes"] = nodes
+    return enriched
+
+
+def ensure_sheetjs_vendor() -> None:
+    vendor_dir = ANNOT_DIR / "vendor"
+    vendor_dir.mkdir(parents=True, exist_ok=True)
+    vendor_path = vendor_dir / "xlsx.full.min.js"
+    if vendor_path.exists() and vendor_path.stat().st_size > 200_000:
+        return
+    import urllib.request
+
+    url = "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"
+    with urllib.request.urlopen(url, timeout=30) as response:
+        vendor_path.write_bytes(response.read())
+
+
+def create_annotation_html(materials: list[dict[str, Any]]) -> None:
+    ensure_sheetjs_vendor()
+    payload = json.dumps([enrich_annotation_material(m) for m in materials], ensure_ascii=False)
+    payload = payload.replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
+    page = """<!doctype html>
+<html lang="zh">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SA-MCGS Human Annotation Pack</title>
+<title>SA-MCGS Expert Annotation Pack</title>
+<script src="vendor/xlsx.full.min.js"></script>
 <style>
-body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0; color: #172033; background: #f8fafc; }}
-header {{ position: sticky; top: 0; z-index: 10; background: #0f172a; color: #f8fafc; padding: 18px 28px; box-shadow: 0 2px 10px rgba(15,23,42,.25); }}
-h1 {{ margin: 0 0 8px; font-size: 26px; }}
-button {{ border: 1px solid #cbd5e1; background: #fff; color: #0f172a; padding: 8px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; }}
-main {{ max-width: 1180px; margin: 24px auto; padding: 0 18px 60px; }}
-.case-card {{ background: #fff; border: 1px solid #dbe3ef; border-radius: 12px; padding: 20px; margin: 18px 0; box-shadow: 0 1px 4px rgba(15,23,42,.05); }}
-.case-head {{ display: flex; justify-content: space-between; gap: 18px; align-items: start; }}
-h2 {{ margin: 0 0 6px; font-size: 21px; }}
-p {{ line-height: 1.55; }}
-.badges {{ display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }}
-.badges span {{ background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; border-radius: 999px; padding: 5px 10px; font-size: 13px; font-weight: 700; }}
-table {{ width: 100%; border-collapse: collapse; margin-top: 12px; }}
-th, td {{ border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; padding: 9px; }}
-th {{ background: #f1f5f9; }}
-code {{ background: #f1f5f9; padding: 2px 5px; border-radius: 5px; }}
-.en {{ display: none; }}
-body.show-en .zh {{ display: none; }}
-body.show-en .en {{ display: block; }}
+:root { --bg:#f6f8fb; --panel:#ffffff; --ink:#111827; --muted:#64748b; --line:#d8e0eb; --blue:#2563eb; --green:#059669; --red:#dc2626; --amber:#b45309; --soft:#eef4ff; }
+* { box-sizing: border-box; }
+body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background:var(--bg); color:var(--ink); }
+header { position:sticky; top:0; z-index:20; background:#0f172a; color:#f8fafc; padding:16px 24px; box-shadow:0 6px 18px rgba(15,23,42,.22); }
+h1 { margin:0 0 8px; font-size:25px; letter-spacing:0; }
+.topline { display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between; }
+.toolbar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+button, input, textarea, select { font:inherit; }
+button { border:1px solid #cbd5e1; background:#fff; color:#0f172a; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer; }
+button.primary { background:var(--blue); border-color:var(--blue); color:#fff; }
+button.green { background:var(--green); border-color:var(--green); color:#fff; }
+button.ghost { background:transparent; color:#e2e8f0; border-color:#475569; }
+input[type="text"], textarea, select { border:1px solid var(--line); border-radius:8px; padding:9px 10px; background:#fff; width:100%; }
+main { display:grid; grid-template-columns: 340px minmax(0, 1fr); gap:18px; max-width:1480px; margin:20px auto; padding:0 18px 50px; }
+aside, .workspace { background:var(--panel); border:1px solid var(--line); border-radius:14px; box-shadow:0 1px 6px rgba(15,23,42,.05); }
+aside { max-height:calc(100vh - 118px); overflow:auto; padding:14px; position:sticky; top:92px; }
+.stats { display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; margin:10px 0 14px; }
+.stat { background:#f8fafc; border:1px solid var(--line); border-radius:10px; padding:10px; }
+.stat b { display:block; font-size:20px; }
+.case-btn { width:100%; text-align:left; margin:8px 0; padding:12px; border-radius:12px; border:1px solid var(--line); background:#fff; color:var(--ink); }
+.case-btn.active { border-color:var(--blue); background:var(--soft); }
+.case-btn .title { font-weight:800; display:block; margin-bottom:5px; }
+.case-btn .meta { color:var(--muted); font-size:13px; line-height:1.45; }
+.case-btn .done { float:right; color:var(--green); font-weight:900; }
+.workspace { padding:22px; min-height:720px; }
+.case-title { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; border-bottom:1px solid var(--line); padding-bottom:14px; }
+.case-title h2 { margin:0 0 8px; font-size:26px; }
+.pillbar { display:flex; flex-wrap:wrap; gap:7px; }
+.pill { border-radius:999px; padding:5px 10px; background:#f1f5f9; color:#334155; font-size:13px; font-weight:700; }
+.pill.green { background:#dcfce7; color:#166534; }
+.pill.red { background:#fee2e2; color:#991b1b; }
+.pill.blue { background:#dbeafe; color:#1d4ed8; }
+.section { margin-top:20px; }
+.section h3 { margin:0 0 10px; font-size:18px; }
+.summary { background:#f8fafc; border-left:5px solid var(--blue); padding:14px 16px; border-radius:10px; line-height:1.65; }
+table { width:100%; border-collapse:collapse; }
+th, td { border-bottom:1px solid var(--line); padding:10px; vertical-align:top; text-align:left; }
+th { background:#f8fafc; color:#334155; font-size:13px; text-transform:uppercase; letter-spacing:.02em; }
+code { background:#f1f5f9; padding:2px 5px; border-radius:5px; word-break:break-all; }
+.node-text { max-width:520px; color:#334155; line-height:1.45; }
+.node-actions { display:flex; gap:6px; flex-wrap:wrap; }
+.form-grid { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:14px; }
+.question { border:1px solid var(--line); border-radius:12px; padding:14px; background:#fff; }
+.question h4 { margin:0 0 10px; font-size:15px; }
+.options { display:flex; flex-wrap:wrap; gap:8px; }
+label.option { display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line); border-radius:999px; padding:7px 10px; cursor:pointer; }
+.check-list { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:6px; max-height:220px; overflow:auto; padding:6px; border:1px solid var(--line); border-radius:10px; background:#f8fafc; }
+.check-list label { display:flex; gap:6px; align-items:flex-start; font-size:13px; line-height:1.35; }
+.save-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:16px; }
+.hint { color:var(--muted); line-height:1.55; }
+.modal { display:none; position:fixed; inset:0; z-index:50; background:rgba(15,23,42,.6); padding:30px; }
+.modal.open { display:flex; align-items:center; justify-content:center; }
+.modal-card { width:min(960px, 96vw); max-height:88vh; overflow:auto; background:#fff; border-radius:16px; border:1px solid var(--line); box-shadow:0 20px 60px rgba(0,0,0,.28); }
+.modal-head { position:sticky; top:0; background:#fff; padding:16px 18px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; gap:12px; align-items:center; }
+.modal-body { padding:18px; }
+.text-panel { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.text-box { border:1px solid var(--line); border-radius:12px; padding:14px; background:#f8fafc; line-height:1.6; white-space:pre-wrap; }
+.lang-en .zh-only { display:none; }
+.lang-zh .en-only { display:none; }
+@media (max-width: 980px) { main { grid-template-columns:1fr; } aside { position:relative; top:0; max-height:none; } .form-grid, .text-panel, .check-list { grid-template-columns:1fr; } }
 </style>
 </head>
-<body>
+<body class="lang-zh">
 <header>
-  <h1 class="zh">SA-MCGS 人工标注包</h1>
-  <h1 class="en">SA-MCGS Human Annotation Pack</h1>
-  <button onclick="document.body.classList.toggle('show-en')">中文 / English</button>
+  <div class="topline">
+    <div>
+      <h1><span class="zh-only">SA-MCGS 专家标注小包</span><span class="en-only">SA-MCGS Expert Annotation Pack</span></h1>
+      <div class="hint zh-only">精选 critical SCC case。点击节点查看中英文文本说明；页面内完成标注后导出 Excel。</div>
+      <div class="hint en-only">Curated critical SCC cases. Click nodes for bilingual evidence text; annotate in the page and export Excel.</div>
+    </div>
+    <div class="toolbar">
+      <button class="ghost" id="langBtn">中文 / English</button>
+      <button class="green" id="exportBtn">导出 Excel</button>
+    </div>
+  </div>
 </header>
 <main>
-  <p class="zh">每张卡片对应一个 critical SCC case。请结合 root、witness、affected、SA core 和 Naive 子图判断结构风险是否真实、风险子图是否足够用于修复。</p>
-  <p class="en">Each card is one critical SCC case. Use root, witness, affected nodes, SA core, and Naive subgraph to judge whether the structural risk is real and whether the risk subgraph is sufficient for repair.</p>
-  {''.join(cards)}
+  <aside>
+    <input id="reviewer" type="text" placeholder="Reviewer / 标注者 ID">
+    <div class="stats">
+      <div class="stat"><b id="totalCount">0</b><span class="zh-only">样本</span><span class="en-only">Cases</span></div>
+      <div class="stat"><b id="doneCount">0</b><span class="zh-only">已填</span><span class="en-only">Done</span></div>
+      <div class="stat"><b id="domainCount">0</b><span class="zh-only">领域</span><span class="en-only">Domains</span></div>
+    </div>
+    <div class="hint zh-only">建议每位专家完成全部精选样本；每个样本约 3-6 分钟。</div>
+    <div class="hint en-only">Each expert is expected to annotate all curated cases; each case takes roughly 3-6 minutes.</div>
+    <div id="caseList"></div>
+  </aside>
+  <section class="workspace" id="workspace"></section>
 </main>
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <strong id="modalTitle">Evidence</strong>
+      <button id="closeModal">Close</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+<script type="application/json" id="case-data">__DATA__</script>
+<script>
+const CASES = JSON.parse(document.getElementById('case-data').textContent);
+const STORE_KEY = 'sa_mcgs_human_annotation_v2';
+let activeIndex = 0;
+let annotations = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;'}[c]));
+const pct = (v) => (v === null || v === undefined || v === '' || Number.isNaN(Number(v))) ? '-' : Math.round(Number(v) * 100) + '%';
+const boolPill = (label, v) => `<span class="pill ${v ? 'green' : 'red'}">${label}: ${v ? 'Yes' : 'No'}</span>`;
+const currentLang = () => document.body.classList.contains('lang-en') ? 'en' : 'zh';
+const textFor = (obj, key) => obj?.[`${key}_${currentLang()}`] || obj?.[`${key}_en`] || '';
+const annFor = (caseId) => annotations[caseId] || {};
+
+function saveStore() {
+  localStorage.setItem(STORE_KEY, JSON.stringify(annotations));
+  renderCaseList();
+}
+
+function selectedNodeOptions(c) {
+  const rows = [];
+  const seen = new Set();
+  c.important_nodes.forEach(n => {
+    if (seen.has(n.node_id)) return;
+    seen.add(n.node_id);
+    rows.push(n);
+  });
+  return rows;
+}
+
+function isDone(caseId) {
+  const a = annFor(caseId);
+  return !!(a.structural_conflict && a.repair_sufficient && a.confidence);
+}
+
+function renderCaseList() {
+  $('totalCount').textContent = CASES.length;
+  $('doneCount').textContent = CASES.filter(c => isDone(c.metadata.case_id)).length;
+  $('domainCount').textContent = new Set(CASES.map(c => c.metadata.domain)).size;
+  $('caseList').innerHTML = CASES.map((c, i) => {
+    const m = c.metadata;
+    return `<button class="case-btn ${i === activeIndex ? 'active' : ''}" data-case-index="${i}">
+      <span class="done">${isDone(m.case_id) ? '✓' : ''}</span>
+      <span class="title">${esc(m.domain_label)} · ${esc(m.template_label)}</span>
+      <span class="meta">${esc(m.model)} · SCC ${esc(m.scc_size)} · ${esc(m.case_id)}</span>
+    </button>`;
+  }).join('');
+  document.querySelectorAll('[data-case-index]').forEach(btn => btn.addEventListener('click', () => {
+    activeIndex = Number(btn.dataset.caseIndex);
+    renderAll();
+  }));
+}
+
+function nodeTable(c) {
+  const rows = c.important_nodes.slice(0, 48).map((n, idx) => `
+    <tr>
+      <td>${esc(currentLang() === 'zh' ? n.role_label_zh : n.role_label_en)}</td>
+      <td><code>${esc(n.node_id)}</code></td>
+      <td class="node-text">${esc(currentLang() === 'zh' ? n.text_zh : n.text_en)}</td>
+      <td>
+        <div class="node-actions">
+          ${n.is_risk_endpoint ? '<span class="pill red">risk</span>' : ''}
+          ${n.is_affected ? '<span class="pill blue">affected</span>' : ''}
+          ${n.in_sa_core ? '<span class="pill green">SA core</span>' : ''}
+          ${n.in_oc ? '<span class="pill blue">OC</span>' : ''}
+          <button data-node-index="${idx}">${currentLang() === 'zh' ? '查看文本' : 'View text'}</button>
+        </div>
+      </td>
+    </tr>`).join('');
+  return `<table>
+    <thead><tr><th>Role</th><th>Node</th><th>Text</th><th>Signals</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function annotationForm(c) {
+  const m = c.metadata;
+  const a = annFor(m.case_id);
+  const nodes = selectedNodeOptions(c);
+  const checked = new Set(a.relevant_nodes || []);
+  const radio = (name, value) => a[name] === value ? 'checked' : '';
+  return `<div class="section">
+    <h3 class="zh-only">标注填写</h3><h3 class="en-only">Annotation Form</h3>
+    <div class="form-grid">
+      <div class="question">
+        <h4 class="zh-only">Q1. 这个 case 是否存在真实结构性冲突？</h4>
+        <h4 class="en-only">Q1. Is this a real structural conflict?</h4>
+        <div class="options">
+          <label class="option"><input type="radio" name="structural_conflict" value="yes" ${radio('structural_conflict','yes')}>Yes</label>
+          <label class="option"><input type="radio" name="structural_conflict" value="partial" ${radio('structural_conflict','partial')}>Partial</label>
+          <label class="option"><input type="radio" name="structural_conflict" value="no" ${radio('structural_conflict','no')}>No</label>
+          <label class="option"><input type="radio" name="structural_conflict" value="unsure" ${radio('structural_conflict','unsure')}>Unsure</label>
+        </div>
+      </div>
+      <div class="question">
+        <h4 class="zh-only">Q2. SA core 是否足以作为修复入口？</h4>
+        <h4 class="en-only">Q2. Is the SA core sufficient for repair?</h4>
+        <div class="options">
+          <label class="option"><input type="radio" name="repair_sufficient" value="yes" ${radio('repair_sufficient','yes')}>Yes</label>
+          <label class="option"><input type="radio" name="repair_sufficient" value="partial" ${radio('repair_sufficient','partial')}>Partial</label>
+          <label class="option"><input type="radio" name="repair_sufficient" value="no" ${radio('repair_sufficient','no')}>No</label>
+          <label class="option"><input type="radio" name="repair_sufficient" value="unsure" ${radio('repair_sufficient','unsure')}>Unsure</label>
+        </div>
+      </div>
+      <div class="question">
+        <h4 class="zh-only">Q3. 专家认为应纳入风险子图的节点</h4>
+        <h4 class="en-only">Q3. Nodes that should be in the risk subgraph</h4>
+        <div class="check-list">
+          ${nodes.map(n => `<label><input type="checkbox" name="relevant_nodes" value="${esc(n.node_id)}" ${checked.has(n.node_id) ? 'checked' : ''}> <span><b>${esc(currentLang() === 'zh' ? n.role_label_zh : n.role_label_en)}</b><br><code>${esc(n.node_id)}</code></span></label>`).join('')}
+        </div>
+      </div>
+      <div class="question">
+        <h4 class="zh-only">Q4. 标注信心</h4>
+        <h4 class="en-only">Q4. Confidence</h4>
+        <select name="confidence">
+          <option value="">Select / 选择</option>
+          ${[1,2,3,4,5].map(v => `<option value="${v}" ${String(a.confidence || '') === String(v) ? 'selected' : ''}>${v}</option>`).join('')}
+        </select>
+        <p class="hint">1 = low, 5 = high</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3 class="zh-only">备注 / 缺失节点 / 理由</h3><h3 class="en-only">Comments / Missing nodes / Rationale</h3>
+      <textarea name="comments" rows="5" placeholder="Write comments here...">${esc(a.comments || '')}</textarea>
+    </div>
+    <div class="save-row">
+      <button class="primary" id="saveBtn">${currentLang() === 'zh' ? '保存当前 case' : 'Save current case'}</button>
+      <span class="hint">${currentLang() === 'zh' ? '会自动保存到浏览器本地；导出 Excel 时一并带出。' : 'Saved locally in this browser and included in the Excel export.'}</span>
+    </div>
+  </div>`;
+}
+
+function renderWorkspace() {
+  const c = CASES[activeIndex];
+  const m = c.metadata;
+  $('workspace').innerHTML = `
+    <div class="case-title">
+      <div>
+        <h2>${esc(m.domain_label)} · SCC ${esc(m.scc_size)}</h2>
+        <div class="hint">${esc(m.case_id)} · ${esc(m.model)} · ${esc(m.template_label)}</div>
+      </div>
+      <div class="pillbar">
+        ${boolPill('SA any', m.sa_risk_any)}
+        ${boolPill('SA all', m.sa_risk_all)}
+        <span class="pill green">SA comp ${pct(m.sa_compression)}</span>
+        ${m.naive_error ? `<span class="pill red">Naive error</span>` : boolPill('Naive all', m.naive_risk_all)}
+      </div>
+    </div>
+    <div class="section">
+      <h3 class="zh-only">Case 说明</h3><h3 class="en-only">Case Explanation</h3>
+      <div class="summary">${esc(c.case_summary[currentLang()])}</div>
+    </div>
+    <div class="section">
+      <h3 class="zh-only">关键文本和证据节点</h3><h3 class="en-only">Key Text and Evidence Nodes</h3>
+      ${nodeTable(c)}
+    </div>
+    ${annotationForm(c)}
+  `;
+  document.querySelectorAll('[data-node-index]').forEach(btn => btn.addEventListener('click', () => openNodeModal(c, Number(btn.dataset.nodeIndex))));
+  $('saveBtn').addEventListener('click', saveCurrentAnnotation);
+}
+
+function saveCurrentAnnotation() {
+  const c = CASES[activeIndex];
+  const id = c.metadata.case_id;
+  const root = $('workspace');
+  const getRadio = (name) => root.querySelector(`input[name="${name}"]:checked`)?.value || '';
+  annotations[id] = {
+    reviewer: $('reviewer').value || '',
+    structural_conflict: getRadio('structural_conflict'),
+    repair_sufficient: getRadio('repair_sufficient'),
+    relevant_nodes: Array.from(root.querySelectorAll('input[name="relevant_nodes"]:checked')).map(x => x.value),
+    confidence: root.querySelector('select[name="confidence"]')?.value || '',
+    comments: root.querySelector('textarea[name="comments"]')?.value || '',
+    saved_at: new Date().toISOString()
+  };
+  saveStore();
+}
+
+function openNodeModal(c, idx) {
+  const n = c.important_nodes[idx];
+  $('modalTitle').textContent = `${n.role_label_en} · ${n.node_id}`;
+  $('modalBody').innerHTML = `
+    <div class="pillbar">
+      ${n.is_risk_endpoint ? '<span class="pill red">risk endpoint</span>' : ''}
+      ${n.is_affected ? '<span class="pill blue">affected</span>' : ''}
+      ${n.in_sa_core ? '<span class="pill green">SA core</span>' : ''}
+      ${n.in_naive_subgraph ? '<span class="pill">Naive subgraph</span>' : ''}
+      ${n.in_oc ? '<span class="pill blue">OC</span>' : ''}
+    </div>
+    <p><code>${esc(n.node_id)}</code></p>
+    <div class="text-panel">
+      <div class="text-box"><b>English / source text</b><br>${esc(n.text_en || '-')}</div>
+      <div class="text-box"><b>中文说明</b><br>${esc(n.text_zh || '-')}</div>
+    </div>
+    <div class="section"><b>Trace stats</b><br><code>${esc(n.stats || '-')}</code></div>
+  `;
+  $('modal').classList.add('open');
+}
+
+function exportExcel() {
+  saveCurrentAnnotation();
+  const rows = CASES.map(c => {
+    const m = c.metadata;
+    const a = annFor(m.case_id);
+    return {
+      reviewer: $('reviewer').value || a.reviewer || '',
+      case_id: m.case_id,
+      domain: m.domain,
+      domain_label: m.domain_label,
+      scc_size: m.scc_size,
+      model: m.model,
+      template: m.template,
+      severity: m.severity,
+      root_node: m.root_node,
+      witness_node: m.witness_node,
+      affected_nodes: m.affected_nodes,
+      sa_core_nodes: m.sa_core_nodes,
+      naive_subgraph_nodes: m.naive_subgraph_nodes,
+      sa_root_at_3: m.sa_root_at_3,
+      sa_risk_any: m.sa_risk_any,
+      sa_risk_all: m.sa_risk_all,
+      sa_compression: m.sa_compression,
+      naive_error: m.naive_error,
+      naive_root_at_3: m.naive_root_at_3,
+      naive_risk_any: m.naive_risk_any,
+      naive_risk_all: m.naive_risk_all,
+      naive_compression: m.naive_compression,
+      label_is_structural_conflict: a.structural_conflict || '',
+      label_relevant_risk_nodes: (a.relevant_nodes || []).join(';'),
+      label_core_is_sufficient_for_repair: a.repair_sufficient || '',
+      label_confidence_1_to_5: a.confidence || '',
+      label_comments: a.comments || '',
+      saved_at: a.saved_at || ''
+    };
+  });
+  if (window.XLSX) {
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), 'annotations');
+    XLSX.writeFile(wb, `sa_mcgs_annotations_${new Date().toISOString().slice(0,10)}.xlsx`);
+  } else {
+    const csv = [Object.keys(rows[0]).join(',')].concat(rows.map(r => Object.values(r).map(v => '"' + String(v ?? '').replace(/"/g, '""') + '"').join(','))).join('\\n');
+    const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'sa_mcgs_annotations.csv';
+    a.click();
+  }
+}
+
+function renderAll() {
+  renderCaseList();
+  renderWorkspace();
+}
+
+$('langBtn').addEventListener('click', () => {
+  document.body.classList.toggle('lang-en');
+  document.body.classList.toggle('lang-zh');
+  renderAll();
+});
+$('closeModal').addEventListener('click', () => $('modal').classList.remove('open'));
+$('modal').addEventListener('click', e => { if (e.target.id === 'modal') $('modal').classList.remove('open'); });
+$('exportBtn').addEventListener('click', exportExcel);
+$('reviewer').addEventListener('input', () => {
+  Object.values(annotations).forEach(a => { if (!a.reviewer) a.reviewer = $('reviewer').value; });
+  localStorage.setItem(STORE_KEY, JSON.stringify(annotations));
+});
+renderAll();
+</script>
 </body>
 </html>"""
-    (ANNOT_DIR / "annotation_interface.html").write_text(page, encoding="utf-8")
+    (ANNOT_DIR / "annotation_interface.html").write_text(page.replace("__DATA__", payload), encoding="utf-8")
 
 
 def create_annotation_pack(records: list[dict[str, Any]]) -> None:
-    pairs = select_annotation_pairs(records, per_domain=8)
+    # The expert-facing pack is intentionally small.  The full main experiment
+    # remains in tables/results, but human audit should be practical to finish.
+    if ANNOT_MATERIAL_DIR.exists():
+        shutil.rmtree(ANNOT_MATERIAL_DIR)
+    nested_old_pack = ANNOT_DIR / "human_annotation_pack"
+    if nested_old_pack.exists():
+        shutil.rmtree(nested_old_pack)
+    for stale in ANNOT_DIR.rglob(".DS_Store"):
+        stale.unlink()
+    for stale in ANNOT_DIR.glob("*.html"):
+        stale.unlink()
+    for stale in ANNOT_DIR.glob("*.csv"):
+        stale.unlink()
+    for stale in ANNOT_DIR.glob("*.md"):
+        stale.unlink()
+    ANNOT_MATERIAL_DIR.mkdir(parents=True, exist_ok=True)
+
+    full_pairs = select_annotation_pairs(records, per_domain=8)
+    pairs = select_annotation_pairs(records, per_domain=3)
     materials: list[dict[str, Any]] = []
     csv_rows: list[dict[str, Any]] = []
     for idx, pair in enumerate(pairs, 1):
@@ -1345,25 +1755,34 @@ def create_annotation_pack(records: list[dict[str, Any]]) -> None:
 
     write_csv(ANNOT_DIR / "human_annotation_cases.csv", csv_rows)
     write_md_table(ANNOT_DIR / "human_annotation_cases.md", "Human Annotation Case Manifest", csv_rows)
+    full_rows: list[dict[str, Any]] = []
+    for idx, pair in enumerate(full_pairs, 1):
+        material = create_case_material(f"candidate_{idx:03d}_{pair['domain']}_{pair['size']}_{pair['model']}_{pair['template']}", pair)
+        full_rows.append(material["metadata"])
+    write_csv(ANNOT_DIR / "full_candidate_manifest_not_for_experts.csv", full_rows)
     create_annotation_html(materials)
     readme = [
         "# Human Annotation Pack / 人工标注包",
         "",
-        "目的：让领域专家快速审阅 critical SCC case，判断结构性风险和风险子图是否合理。",
+        "目的：让领域专家快速审阅少量精选 critical SCC case，判断结构性风险和风险子图是否合理。",
         "",
         "包含文件：",
         "",
-        "- `human_annotation_cases.csv`：可直接发给标注者或导入表格工具。",
-        "- `annotation_interface.html`：双语切换的本地前端标注浏览页面。",
-        "- `materials/*.md`：每个 case 的可读卡片。",
-        "- `materials/*.json`：每个 case 的结构化素材。",
+        "- `annotation_interface.html`：专家使用的主入口。可切换中英文、弹窗查看节点文本、直接填写标注并导出 Excel。",
+        "- `human_annotation_cases.csv`：专家小样本 manifest。",
+        "- `materials/*.md` / `materials/*.json`：每个入选 case 的备查素材。",
+        "- `vendor/xlsx.full.min.js`：本地 Excel 导出依赖，已打进 zip，打开 HTML 不需要联网。",
+        "- `full_candidate_manifest_not_for_experts.csv`：完整候选清单，只供内部追溯，不建议发给专家。",
         "",
-        "建议标注列：",
+        "专家需要填写：",
         "",
         "- `label_is_structural_conflict`：是否确实存在结构性风险。",
         "- `label_relevant_risk_nodes`：专家认为应纳入风险子图的节点。",
         "- `label_core_is_sufficient_for_repair`：SA core 是否足够作为修复入口。",
-        "- `label_comments`：自由说明。",
+        "- `label_confidence_1_to_5`：标注信心。",
+        "- `label_comments`：自由说明或缺失节点。",
+        "",
+        f"当前专家包包含 `{len(csv_rows)}` 个精选 case，每个领域约 `{3}` 个；不是全量 80-case 主实验。",
         "",
         "注意：当前包使用主实验锁定口径生成，不包含旧 diagnostic / smoke / balanced exploratory 数据。",
         "",
@@ -1375,7 +1794,7 @@ def create_annotation_pack(records: list[dict[str, Any]]) -> None:
         zip_path.unlink()
     with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         for path in sorted(ANNOT_DIR.rglob("*")):
-            if path == zip_path or path.is_dir():
+            if path == zip_path or path.is_dir() or path.name == ".DS_Store":
                 continue
             zf.write(path, path.relative_to(ANNOT_DIR))
 
@@ -1393,7 +1812,7 @@ def create_asset_readme() -> None:
         "",
         "- `figures/`：论文主文和 appendix 图，含 `README.md` 解释每张图。",
         "- `tables/`：论文表格 CSV/Markdown 源文件。",
-        "- `human_annotation_pack/`：人工标注包，含 CSV、case 素材、双语 HTML 和 zip。",
+        "- `human_annotation_pack/`：专家标注小包，含精选 case、可填写 HTML、本地 Excel 导出依赖和 zip。",
         "",
         "## Locked Main Experiment Scope",
         "",
@@ -1421,7 +1840,8 @@ def create_asset_readme() -> None:
         "",
         "- Zip: `human_annotation_pack/human_annotation_pack.zip`",
         "- Browser entry: `human_annotation_pack/annotation_interface.html`",
-        "- CSV: `human_annotation_pack/human_annotation_cases.csv`",
+        "- Selected-case CSV: `human_annotation_pack/human_annotation_cases.csv`",
+        "- Internal full candidate manifest: `human_annotation_pack/full_candidate_manifest_not_for_experts.csv`",
         "",
     ]
     (ASSET_DIR / "README.md").write_text("\n".join(lines), encoding="utf-8")
@@ -1439,7 +1859,7 @@ def update_main_readme() -> None:
 
 - [`paper_assets/figures/`](paper_assets/figures/)：主文和 appendix 图，目录内 `README.md` 解释每张图。
 - [`paper_assets/tables/`](paper_assets/tables/)：主表和补充表的 CSV/Markdown 源。
-- [`paper_assets/human_annotation_pack/human_annotation_pack.zip`](paper_assets/human_annotation_pack/human_annotation_pack.zip)：给专家标注的压缩包，含 CSV、case 素材和中英文切换 HTML。
+- [`paper_assets/human_annotation_pack/human_annotation_pack.zip`](paper_assets/human_annotation_pack/human_annotation_pack.zip)：给专家标注的精选小包，含 12 个 case、可填写中英文 HTML、节点文本弹窗和一键 Excel 导出。
 
 口径提醒：主实验图表只使用 `current/default + critical + structural_simple_v2 + 4 models + 80 SCC blocks/model`。旧 diagnostic、smoke、balanced exploratory 不作为主结果。
 

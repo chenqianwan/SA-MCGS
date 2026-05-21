@@ -1,0 +1,183 @@
+{
+  "metadata": {
+    "case_id": "case_003_debian_11_qwen2.5-72b_direct_mutex",
+    "domain": "debian",
+    "domain_label": "Debian packages",
+    "scc_id": "scc_23",
+    "scc_size": 11,
+    "model": "qwen2.5-72b",
+    "template": "direct_mutex",
+    "template_label": "Direct mutual exclusion",
+    "severity": "critical",
+    "root_node": "node-parse-json",
+    "root_label": "node-parse-json",
+    "witness_node": "node-deep-equal",
+    "witness_label": "node-deep-equal",
+    "affected_nodes": "node-read-pkg;node-debbundle-es-to-primitive",
+    "sa_core_nodes": "libjs-util;node-debbundle-es-to-primitive;node-deep-equal;node-es-abstract;node-util",
+    "naive_subgraph_nodes": "node-deep-equal;node-debbundle-es-to-primitive;node-es-abstract;node-tape;node-assert",
+    "context_nodes": "libjs-util;node-debbundle-es-to-primitive;node-deep-equal;node-es-abstract;node-util",
+    "oc_nodes": "node-deep-equal",
+    "sa_root_at_3": false,
+    "sa_risk_any": true,
+    "sa_risk_all": false,
+    "sa_compression": 0.5454545454545454,
+    "naive_error": "",
+    "naive_root_at_3": false,
+    "naive_risk_any": true,
+    "naive_risk_all": false,
+    "naive_compression": 0.5454545454545454,
+    "label_is_structural_conflict": "",
+    "label_relevant_risk_nodes": "",
+    "label_core_is_sufficient_for_repair": "",
+    "label_comments": ""
+  },
+  "important_nodes": [
+    {
+      "role": "root",
+      "node_id": "node-parse-json",
+      "label": "node-parse-json",
+      "stats": "mean_score=0.2076923076923077; visit_count=13; conflict_count=5; is_oc_detected=False"
+    },
+    {
+      "role": "witness",
+      "node_id": "node-deep-equal",
+      "label": "node-deep-equal",
+      "stats": "mean_score=0.5902439024390244; visit_count=41; conflict_count=59; is_oc_detected=True"
+    },
+    {
+      "role": "affected",
+      "node_id": "node-read-pkg",
+      "label": "node-read-pkg",
+      "stats": "mean_score=0.09999999999999999; visit_count=11; conflict_count=4; is_oc_detected=False"
+    },
+    {
+      "role": "affected",
+      "node_id": "node-debbundle-es-to-primitive",
+      "label": "node-debbundle-es-to-primitive",
+      "stats": "mean_score=0.3033333333333334; visit_count=30; conflict_count=31; is_oc_detected=False"
+    },
+    {
+      "role": "sa_core",
+      "node_id": "libjs-util",
+      "label": "libjs-util",
+      "stats": "mean_score=0.1444444444444445; visit_count=18; conflict_count=5; is_oc_detected=False"
+    },
+    {
+      "role": "sa_core",
+      "node_id": "node-debbundle-es-to-primitive",
+      "label": "node-debbundle-es-to-primitive",
+      "stats": "mean_score=0.3033333333333334; visit_count=30; conflict_count=31; is_oc_detected=False"
+    },
+    {
+      "role": "sa_core",
+      "node_id": "node-deep-equal",
+      "label": "node-deep-equal",
+      "stats": "mean_score=0.5902439024390244; visit_count=41; conflict_count=59; is_oc_detected=True"
+    },
+    {
+      "role": "sa_core",
+      "node_id": "node-es-abstract",
+      "label": "node-es-abstract",
+      "stats": "mean_score=0.4818181818181818; visit_count=33; conflict_count=35; is_oc_detected=False"
+    },
+    {
+      "role": "sa_core",
+      "node_id": "node-util",
+      "label": "node-util",
+      "stats": "mean_score=0.2285714285714286; visit_count=14; conflict_count=7; is_oc_detected=False"
+    },
+    {
+      "role": "naive_subgraph",
+      "node_id": "node-deep-equal",
+      "label": "node-deep-equal",
+      "stats": "mean_score=0.5902439024390244; visit_count=41; conflict_count=59; is_oc_detected=True"
+    },
+    {
+      "role": "naive_subgraph",
+      "node_id": "node-debbundle-es-to-primitive",
+      "label": "node-debbundle-es-to-primitive",
+      "stats": "mean_score=0.3033333333333334; visit_count=30; conflict_count=31; is_oc_detected=False"
+    },
+    {
+      "role": "naive_subgraph",
+      "node_id": "node-es-abstract",
+      "label": "node-es-abstract",
+      "stats": "mean_score=0.4818181818181818; visit_count=33; conflict_count=35; is_oc_detected=False"
+    },
+    {
+      "role": "naive_subgraph",
+      "node_id": "node-tape",
+      "label": "node-tape",
+      "stats": "mean_score=0.35833333333333334; visit_count=24; conflict_count=9; is_oc_detected=False"
+    },
+    {
+      "role": "naive_subgraph",
+      "node_id": "node-assert",
+      "label": "node-assert",
+      "stats": "mean_score=0.13125; visit_count=16; conflict_count=5; is_oc_detected=False"
+    },
+    {
+      "role": "oc",
+      "node_id": "node-deep-equal",
+      "label": "node-deep-equal",
+      "stats": "mean_score=0.5902439024390244; visit_count=41; conflict_count=59; is_oc_detected=True"
+    }
+  ],
+  "risk_nodes": [
+    "node-parse-json",
+    "node-deep-equal"
+  ],
+  "affected_nodes": [
+    "node-read-pkg",
+    "node-debbundle-es-to-primitive"
+  ],
+  "sa_core_nodes": [
+    "libjs-util",
+    "node-debbundle-es-to-primitive",
+    "node-deep-equal",
+    "node-es-abstract",
+    "node-util"
+  ],
+  "naive_subgraph_nodes": [
+    "node-deep-equal",
+    "node-debbundle-es-to-primitive",
+    "node-es-abstract",
+    "node-tape",
+    "node-assert"
+  ],
+  "context_nodes": [
+    "libjs-util",
+    "node-debbundle-es-to-primitive",
+    "node-deep-equal",
+    "node-es-abstract",
+    "node-util"
+  ],
+  "oc_nodes": [
+    "node-deep-equal"
+  ],
+  "sa_metrics": {
+    "root_top3": false,
+    "risk_any": true,
+    "risk_all": false,
+    "compression": 0.5454545454545454,
+    "subgraph_size": 5,
+    "oc_count": 1,
+    "critical_locked": 10,
+    "critical_candidate": 0,
+    "critical_revisits": 8,
+    "effective_oc": true
+  },
+  "naive_metrics": {
+    "root_top3": false,
+    "risk_any": true,
+    "risk_all": false,
+    "compression": 0.5454545454545454,
+    "subgraph_size": 5,
+    "oc_count": null,
+    "critical_locked": 0,
+    "critical_candidate": 0,
+    "critical_revisits": 0,
+    "effective_oc": null
+  }
+}

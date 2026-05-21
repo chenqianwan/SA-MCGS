@@ -1,17 +1,14 @@
 \documentclass[11pt]{article}
 
-% ARR / ACL 2025 review mode
+% ARR / ACL review mode.  Keep the official template unchanged.
 \usepackage[review]{acl}
 
-% Standard package includes
 \usepackage{times}
 \usepackage{latexsym}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{microtype}
 \usepackage{inconsolata}
-
-% Additional packages
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -22,576 +19,371 @@
 \usepackage{algorithmic}
 \usepackage{subcaption}
 \usepackage{enumitem}
-\usepackage{pgfplots}
-\usepackage{tikz}
-\usepackage{colortbl}
-\usetikzlibrary{shapes.geometric, arrows, positioning, calc, fit}
-\pgfplotsset{compat=1.18}
+\usepackage{array}
+\usepackage{makecell}
+\usepackage{xurl}
 
-% Color definitions
-\definecolor{mcgsblue}{RGB}{31,119,180}
-\definecolor{llmred}{RGB}{214,39,40}
-\definecolor{geminiorange}{RGB}{255,127,14}
-\definecolor{llamagreen}{RGB}{44,160,44}
-\definecolor{focusedpurple}{RGB}{148,103,189}
-\definecolor{lightgray}{RGB}{245,245,245}
+\graphicspath{{../../experiments/main_experiment/paper_assets/figures/}}
 
-% ======================================================================
-% TITLE
-% ======================================================================
-\title{SA-MCGS: Structure-Aware Monte Carlo Graph Search\\for Cyclic Reasoning in Complex Document Analysis}
+\newcommand{\samcgs}{SA-MCGS}
+\newcommand{\naive}{Naive}
+\newcommand{\riskany}{Risk-any}
+\newcommand{\riskall}{Risk-all}
+\newcommand{\rootthree}{Root@3}
+\newcommand{\scc}{SCC}
+\newcommand{\oc}{OC}
 
-% Anonymous for review
+\title{Collapsing Cyclic Document Graphs into Risk Subgraphs\\
+with Structure-Aware Monte Carlo Graph Search}
+
 \author{Anonymous ARR Submission}
 
 \begin{document}
 \maketitle
 
-% ======================================================================
-% ABSTRACT
-% ======================================================================
 \begin{abstract}
-Large Language Models (LLMs) achieve strong performance on many NLP tasks
-but remain fundamentally limited as \emph{System-1} reasoners: they rely on
-single-pass inference over linearized token sequences and fail when tasks
-require tracking cyclic dependencies across hundreds of interconnected
-elements. We propose \textbf{SA-MCGS} (\textbf{S}tructure-\textbf{A}ware
-\textbf{M}onte \textbf{C}arlo \textbf{G}raph \textbf{S}earch), a framework
-that augments LLM reasoning with \emph{System-2} capabilities by decomposing
-analytical tasks into directed dependency graphs, identifying reasoning
-bottlenecks via Strongly Connected Component (SCC) detection, and applying
-AlphaGo-inspired Monte Carlo search to systematically explore hypothesis
-spaces within these bottlenecks. An Online Conformal Prediction layer
-provides distribution-free reliability guarantees. We evaluate SA-MCGS on
-legal contract analysis using the CUAD and CLAUSE benchmarks across 311
-experimental runs. SA-MCGS achieves \textbf{100\%} detection of structural
-anomalies within SCC scope (vs.\ 47\% for Gemini-2.5), exhibits graceful
-degradation across five difficulty tiers (100\%$\to$80\%), and maintains
-stable performance at 500+ interdependent clauses where pure LLM reasoning
-collapses beyond 60--80. We further identify a novel \emph{Magnifier Effect}
-where the search process itself encodes diagnostic signals invisible to
-single-pass inference.
-
-% TODO: Tighten to exactly 200 words per ACL guidelines
-% TODO: Add one sentence on generality beyond legal domain
+Long documents such as contracts, statutes, software package metadata, and corporate filings often contain risks that are not visible in any single record.  The risk emerges only when mutually dependent records form a cycle: one clause, statute, package, or entity record constrains another, which eventually constrains the first.  Full-context prompting asks an LLM to inspect the entire cycle at once, while standard Monte Carlo tree search is itself unstable on cycles because rollout paths can revisit the same logical state indefinitely.  We propose \samcgs{}, a structure-aware Monte Carlo graph search method that first localizes strongly connected components, then performs local LLM rollouts with relation-first evidence memory, online conformal-style evidence signals, pluggable domain adapters, and a dynamic core that collapses a cyclic region into an inspectable risk subgraph.  We evaluate on a locked critical-stress benchmark covering four authority-backed domains: Debian dependencies, SEC EX-21 subsidiary disclosures, German Civil Code cross-references, and CUAD contracts.  Across 320 model-case pairs and four LLMs, \samcgs{} improves strict \rootthree{} from 48\% to 81\%, \riskany{} from 72\% to 98\%, and \riskall{} from 47\% to 78\%, with zero parse/API failures.  The cost is a lower compression ratio, 53\% versus 67\%, which we show is an expected trade-off for retaining complete critical evidence.
 \end{abstract}
 
-
-% ======================================================================
-% 1. INTRODUCTION
-% ======================================================================
 \section{Introduction}
 \label{sec:intro}
 
-% --- Paragraph 1: Motivation via concrete example ---
-% TODO: Write opening paragraph — motivate the problem with a concrete example
-%       (e.g., circular liability clause spanning 3 non-contiguous sections)
-%       Cite Kahneman's dual-process theory \citep{kahneman2011thinking}.
-%       Mention LLMs as System-1 reasoners.
+Many high-stakes document analysis tasks are graph problems hidden inside text.  A contract clause may define a deadline, another clause may suspend it, and a later amendment may restore only part of the obligation.  A statute may create an exception whose scope is limited by a distant cross-reference.  A software package may preserve an old interface while a dependent package requires the new one to be present first.  Each record can look plausible in isolation; the risk appears only when the directed dependencies among records are followed.
 
-% --- Paragraph 2: Structural blindness of LLMs ---
-% TODO: Write paragraph on "structural blindness":
-%       - Lost in the Middle \citep{liu2024lost}: attention degrades mid-context
-%       - CLAUSE benchmark \citep{clause2026}: Gemini-2.5 at 46.7% F1 on structural flaws
-%       - CUAD \citep{hendrycks2021cuad}: cross-clause consistency challenges
-%       - ContractNLI \citep{koreeda2021contractnli}: document-level inference gaps
+Large language models (LLMs) can read long contexts, but this does not make them reliable graph reasoners.  Prior work shows that information can be lost in long contexts \citep{liu2024lost}, and legal NLP benchmarks such as CUAD and ContractNLI expose persistent difficulty with evidence that is distributed across non-contiguous clauses \citep{hendrycks2021cuad,koreeda2021contractnli}.  The failure mode we study is sharper: \emph{cyclic} document regions, where evidence is revisitable and diffuse.  A full-\scc{} one-shot prompt may find a suspicious node, but it must simultaneously rank all records, produce a subgraph, and preserve multiple evidence endpoints in one generation.
 
-% --- Paragraph 3: From Pattern Matching to Search ---
-% TODO: Write paragraph on the AlphaGo parallel:
-%       - AlphaGo \citep{silver2016mastering}: neural nets + MCTS = superhuman Go
-%       - Propose "Search-Augmented LLM Reasoning" paradigm
-%       - LLM as value function evaluator, not standalone reasoner
+One might try to escape one-shot prompting by using AlphaGo-style search \citep{silver2016mastering}.  However, standard Monte Carlo tree search assumes that rollouts eventually move forward in a finite tree \citep{kocsis2006bandit}.  In a strongly connected component (\scc{}), paths can revisit the same physical record through many path copies, consuming budget before value estimates stabilize.  Monte Carlo graph search mitigates transpositions in acyclic settings \citep{czech2021monte}, but document cycles require a different unit of reasoning: the cyclic region itself must be localized and collapsed.
 
-% --- Paragraph 4: SA-MCGS Overview ---
-% TODO: Write brief overview of SA-MCGS pipeline:
-%       Graph construction → SCC detection → MCGS search → conformal calibration
-%       Domain-agnostic framework, validated on legal domain
+We propose \textbf{\samcgs{}}, a structure-aware Monte Carlo graph search method for extracting risk subgraphs from cyclic document regions.  \samcgs{} first finds \scc{} bottlenecks, then performs local window rollouts inside each \scc{}.  Instead of treating risk as an intrinsic property of a single node, it stores relation-first evidence: a node becomes risky when earlier evidence makes its constraint, exception, or handoff incompatible with the graph context.  The final output is a dynamic core risk subgraph that can be inspected or passed upward as a collapsed evaluation point.
 
-% --- Key Findings ---
-Our evaluation across 311 experimental runs reveals:
+Our contributions are:
 \begin{itemize}[leftmargin=*,itemsep=2pt]
-    \item \textbf{Structural Blindness}: State-of-the-art LLMs detect only 15--47\% of structural flaws in contracts; SA-MCGS achieves 100\% within SCC scope.
-    \item \textbf{Scaling Collapse}: Pure LLM reasoning catastrophically fails beyond 60--80 interdependent clauses (0\% detection at 300+); SA-MCGS maintains $>$85\% at 500+.
-    \item \textbf{Difficulty Gradient}: Detection degrades gracefully from 100\% to 80\% across 5 difficulty tiers, validating principled behavior.
-    \item \textbf{Magnifier Effect}: Search friction patterns provide a secondary diagnostic signal invisible to single-pass inference.
+    \item We formulate \emph{structural risk subgraph extraction}: given a cyclic document subgraph, output a compact subgraph that retains the repair-relevant evidence endpoints, rather than only a single anomalous node.
+    \item We introduce \samcgs{}, combining \scc{} localization, local Monte Carlo graph rollouts, relation-first evidence memory, online conformal-style evidence signals, dynamic core compression, and pluggable domain adapters.
+    \item We build a locked critical-stress benchmark over four authority-backed domains---Debian, SEC EX-21, BGB, and CUAD---with 320 model-case pairs across GPT-4o, DeepSeek-V3, Qwen2.5-72B, and Gemini 2.5 Pro.
+    \item We show that \samcgs{} substantially improves strict \rootthree{}, \riskany{}, and \riskall{} over a full-\scc{} direct-subgraph baseline, while making the compression--retention trade-off explicit.
 \end{itemize}
 
-% --- Contributions ---
-% TODO: Write contributions paragraph:
-% (1) A general framework for search-augmented LLM reasoning with dual-process architecture.
-% (2) The SA-MCGS algorithm with transposition tables, virtual loss, and adaptive pruning.
-% (3) Online Conformal Prediction integration for LLM reliability guarantees.
-% (4) 311 experimental runs across two studies with detailed scaling, ablation, and error analyses.
+\section{Task Formulation}
+\label{sec:formulation}
 
+\paragraph{Record graph.}
+Let $G=(V,E)$ be a directed graph whose nodes are document records and whose edges denote typed dependencies such as reference, constraint, modification, trigger, or control.  A record may be a clause, statute section, package metadata entry, subsidiary disclosure, or other domain unit.  We use Tarjan's algorithm \citep{tarjan1972depth} to decompose $G$ into strongly connected components.  A component $S\subseteq V$ is a reasoning bottleneck when every node in $S$ can reach every other node through directed dependencies.
 
-% ======================================================================
-% 2. RELATED WORK
-% ======================================================================
-\section{Related Work}
-\label{sec:related}
+\paragraph{Structural risk.}
+We study risks that arise from relations, not merely from suspicious wording.  In the benchmark, an injected critical case modifies existing records only; no new nodes are added.  The core evidence contains a root record, a witness record, and sometimes affected records.  The root and witness can each be locally plausible, but jointly create an incompatible obligation, temporal condition, ownership statement, or dependency handoff.
 
-% --- 2.1 Reasoning Gap ---
-\subsection{The Reasoning Gap in LLMs}
-\label{sec:rw_reasoning}
+\paragraph{Output.}
+Given a cyclic component $S$, the system returns a risk subgraph $H\subseteq S$ and, when applicable, a ranking over risky records.  We evaluate:
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+    \item \textbf{\rootthree{}}: whether the injected root appears in the top three ranked records.
+    \item \textbf{\riskany{}}: whether $H$ contains at least one repair-relevant risk endpoint.
+    \item \textbf{\riskall{}}: whether $H$ retains all core risk endpoints.  This is strict but important for critical risks because remediation often requires seeing both sides of the contradiction.
+    \item \textbf{Compression}: $1-|H|/|S|$, reported higher-is-smaller.  Compression is not optimized alone; a tiny subgraph that drops the evidence endpoints is not useful.
+\end{itemize}
+We also track effective \oc{} discovery as a convergence diagnostic, but do not use it as a main metric because it is cumulative by construction.
 
-Despite breakthroughs in language understanding, LLMs exhibit well-documented failures in structured reasoning. The ``Lost in the Middle'' phenomenon \citep{liu2024lost} demonstrates that transformer attention degrades for information positioned away from document boundaries, with retrieval accuracy dropping by up to 20\% for mid-context information. Chain-of-Thought (CoT) prompting \citep{wei2022chain} partially addresses sequential reasoning but fundamentally cannot handle branching or cyclic logic.
-
-Benchmarks in the legal domain have quantified these limitations. CUAD \citep{hendrycks2021cuad} demonstrated that even fine-tuned models struggle with cross-clause consistency. ContractNLI \citep{koreeda2021contractnli} showed that document-level inference remains challenging when evidence spans non-contiguous sections. The CLAUSE benchmark \citep{clause2026} provides the first systematic evaluation of structural legal reasoning, revealing that Gemini-2.5 achieves only 46.7\% F1 on structural flaws and LLaMA-3.3 drops to 14.7\%.
-
-% TODO: Expand with more specific failure mode examples from CUAD/ContractNLI
-% TODO: Add Legal-BERT \citep{chalkidis2020legalbert} if relevant
-
-% --- 2.2 Search-Augmented Reasoning ---
-\subsection{Search-Augmented LLM Reasoning}
-\label{sec:rw_search}
-
-Tree of Thoughts \citep{yao2024tree} extends CoT by exploring multiple reasoning paths via BFS/DFS, but its tree structure cannot represent merging or cyclic reasoning patterns. Graph of Thoughts \citep{besta2024graph} generalizes to graph-structured reasoning with thought merging and refinement, but operates on LLM-generated thought graphs rather than externally constructed dependency graphs, making it susceptible to the same hallucination problems it aims to solve. Reasoning via Planning (RAP) \citep{hao2023reasoning} applies MCTS directly to LLM reasoning chains, treating each step as a game move. RAP is closest to our work but operates in the space of reasoning steps rather than document structure, lacks topological focusing (SCC detection), and does not address cyclic dependencies.
-
-SA-MCGS advances this line by operating on \emph{externally constructed} dependency graphs and introducing topological analysis to focus search on critical reasoning bottlenecks.
-
-% TODO: Add a comparison table (SA-MCGS vs ToT vs GoT vs RAP) if space permits
-
-% --- 2.3 MCTS Beyond Games ---
-\subsection{Monte Carlo Tree Search Beyond Games}
-\label{sec:rw_mcts}
-
-MCTS has been the backbone of modern AI achievements in games \citep{silver2016mastering,silver2017mastering}. The UCT algorithm's convergence proof \citep{kocsis2006bandit} fundamentally requires finite search depth ($D < \infty$). \citet{czech2021monte} extended MCTS to Directed Acyclic Graphs (DAGs) for AlphaZero, enabling transposition sharing, but \emph{explicitly} restricts the search structure to be acyclic. \citet{moerland2020mcts} identified that loops cause $O(2^N)$ complexity explosion in MCTS and proposed trace-level loop blocking (MCTS-T+), but this solution discards all information within loops.
-
-SA-MCGS addresses this gap: it detects SCCs via Tarjan's algorithm, performs information-preserving evaluation within cycles, and collapses them into DAG super-nodes, restoring the finite-depth assumption required by UCT convergence theory.
-
-% TODO: Add AlphaCode \citep{li2022alphacode} for program synthesis MCTS extension
-
-% --- 2.4 Contract Graph Analysis ---
-\subsection{Contract Graph Construction and Analysis}
-\label{sec:rw_graph}
-
-GRAPH-GRPO-LEX \citep{dechtiar2025graphgrpolex} uses GRPO reinforcement learning to train LLMs for automated contract graph extraction, achieving 0.798 strict micro-F1. Their cycle detection module identifies logical flaws, but treats cycles solely as defect signals without further search or risk quantification on SCCs. \citet{boulet2021measuring} analyze cross-reference graphs of the US Code and German federal law via QuantLaw, finding that SCCs constitute $\sim$15\% of legal networks, but perform only descriptive measurement without risk assessment.
-
-Our work is complementary: GRAPH-GRPO-LEX solves graph \emph{construction}; SA-MCGS solves \emph{search and risk evaluation} on the constructed graph.
-
-% TODO: Add NCKG (Zheng et al., 2025) and LAW (Watson et al., 2025) if space permits
-
-% --- 2.5 Conformal Prediction ---
-\subsection{Conformal Prediction for AI Reliability}
-\label{sec:rw_conformal}
-
-Conformal prediction provides distribution-free statistical guarantees for prediction uncertainty \citep{vovk2005algorithmic}. Online variants \citep{gibbs2021adaptive} adapt to non-stationary data streams, making them suitable for the sequential nature of search-based evaluation. We leverage Online Conformal Prediction to transform stochastic LLM rollout outputs into calibrated risk assessments with mathematically grounded confidence levels.
-
-
-% ======================================================================
-% 3. SA-MCGS FRAMEWORK
-% ======================================================================
-\section{SA-MCGS Framework}
+\section{Method}
 \label{sec:method}
 
-% TODO: Write 1 overview paragraph describing the 4-phase pipeline
-%       mirroring dual-process cognition (Kahneman):
-%       Phase 1 (System-1): Graph Construction
-%       Phase 2 (System-1): SCC Detection + Pruning
-%       Phase 3 (System-2): Monte Carlo Graph Search
-%       Phase 4 (System-2): Online Conformal Prediction
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\textwidth]{fig01_sa_mcgs_framework_architecture.png}
+    \caption{\samcgs{} pipeline.  The system builds a directed record graph, localizes cyclic bottlenecks with \scc{} detection, runs local structure-aware rollouts inside each \scc{}, accumulates relation-first evidence, and collapses the component into a dynamic risk core.}
+    \label{fig:pipeline}
+\end{figure*}
 
-% TODO: Include architecture figure (Figure 1) — TikZ diagram from NeurIPS draft
+\subsection{Why ordinary MCTS is not enough}
+\label{sec:mcts_motivation}
 
-% --- 3.1 Graph Construction ---
-\subsection{Phase 1: Graph Construction}
-\label{sec:graph_construction}
+Standard tree search treats a trajectory as a growing path.  In a directed acyclic graph this is acceptable: rollouts eventually terminate and backpropagation updates a finite set of states.  In an \scc{}, the same physical record can be revisited through many path copies, causing three problems: search-tree expansion, rollout truncation, and value dilution.  Table~\ref{tab:mcts_scc} summarizes the motivation study used to design \samcgs{}.
 
-% TODO: Write formal definition:
-%       G = (V, E), V = {v_1, ..., v_n} = atomic analytical units
-%       E = typed semantic dependencies
+\begin{table}[t]
+\centering
+\scriptsize
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llrrrr}
+\toprule
+Method & Topology & Expansion & Trunc. & Q-spread & Hit@3 \\
+\midrule
+TreeMCTS & DAG & 2.3$\times$ & 0\% & 0.077 & 7\% \\
+TreeMCTS & Cycle & 6.4$\times$ & 100\% & 0.044 & 30\% \\
+\samcgs{} & Cycle & 1.0$\times$ & -- & 0.371 & 90\% \\
+\bottomrule
+\end{tabular}
+}
+\caption{Motivating ablation: ordinary TreeMCTS expands path copies and dilutes value estimates on cyclic dependencies, whereas \samcgs{} treats the \scc{} as a localized reasoning unit.}
+\label{tab:mcts_scc}
+\end{table}
 
-% TODO: Describe 5 dependency types:
-%       Defines, Constrains, Triggers, Modifies, References
+\subsection{SCC-aware local rollouts}
 
-% TODO: Describe Two-Pass Extraction:
-%       (a) Explicit pass: regex + structural cues
-%       (b) Implicit pass: LLM reasoning + semantic embeddings
-%       Example: "Force Majeure" → "Delivery Timelines"
+For each \scc{} $S$, \samcgs{} samples local windows instead of prompting over the entire component in every step.  A window contains visible node text and visible directed edges, and the LLM applies a domain-agnostic risk rubric to produce local risk scores and evidence.  Selection is biased toward records and relations that have accumulated evidence, but the algorithm preserves exploration so that a single early hallucination does not dominate the final core.
 
-% TODO: Describe Cross-Document Extension:
-%       Inter-document edges via shared defined terms
-%       → enables deal package analysis
+\subsection{Relation-first evidence memory}
 
-% --- 3.2 SCC Detection + Pruning ---
-\subsection{Phase 2: SCC Detection and Adaptive Pruning}
-\label{sec:scc_pruning}
+Early versions of our experiments exposed a weakness in pure node-frequency retention: a node could look harmless until enough prior evidence made it risky.  The final method therefore stores relation-first evidence.  It records not only that node $v$ received a risk score, but also which prior node, edge type, witness, or affected record made $v$ consequential.  Later rollouts can revisit that relation, increase confidence, or evict it if the signal does not persist.
 
-% TODO: Write SCC detection paragraph:
-%       - Tarjan's algorithm \citep{tarjan1972depth}, O(|V| + |E|)
-%       - SCCs = "logic kernels" with circular dependencies
-%       - Table: topology stats from CUAD contracts
-%         (NDA: 0% cyclic, Master Service: 27%, Construction: 42%)
+\subsection{Online conformal-style evidence signal}
 
-% TODO: Write Adaptive TACS pruning:
-%       Layer 1: Legacy heuristic (weight threshold < 0.35, hierarchy prior, info bottleneck)
-%       Layer 2: Adaptive TACS (Type-Aware Cycle Saliency):
-%       S(e) = ω_type · Betweenness(e) if semantic diversity > 0.2,
-%              else Betweenness(e) (adaptive fallback)
-%       → 100% signal preservation, FP rate controlled
+\samcgs{} uses an online conformal-style signal as a discovery mechanism for ordered-cycle evidence.  The signal is intentionally not a final correctness metric.  Instead, it marks rollouts where local evidence is unusually incompatible with the accumulated history.  This helps route later rollouts toward promising relations and supports convergence analysis.  The final decision is still the retained risk core $H$, evaluated by \riskany{}, \riskall{}, and compression.  Our use follows the broader motivation of conformal calibration under distribution shift \citep{vovk2005algorithmic,gibbs2021adaptive}, but we report empirical retention rather than formal coverage guarantees.
 
-% TODO: Include pruning comparison table
-%       (None vs Legacy vs TACS vs Adaptive TACS)
+\subsection{Dynamic core compression}
 
-% --- 3.3 Monte Carlo Graph Search ---
-\subsection{Phase 3: Monte Carlo Graph Search}
-\label{sec:mcgs}
+The final risk subgraph is maintained as a dynamic core, not as a monotonically growing set.  New high-confidence evidence can replace weaker evidence; repeated support stabilizes a relation; and the core is constrained by a compression profile.  This design is crucial for critical cases: if a rollout sees both endpoints of a severe contradiction, the core should preserve them even if doing so sacrifices some compression.
 
-% TODO: Write objective formulation:
-%       G*_finding = argmax_{G' ⊆ G_SCC} [ P(Finding | G') - λ·|G'| ]
+\subsection{Pluggable domain adapters}
 
-% TODO: Write Algorithm 1 pseudocode (SA-MCGS: AlphaGo-Style Search):
-%       Input: SCC S, iterations M, LLM evaluator H, UCB constant c
-%       Output: Finding subgraph G*, conflict probability matrix C
-%       Loop: Selection (UCB1 + Dir noise) → Expansion → LLM Rollout → Backprop
+The search algorithm is domain-general, but record formatting and edge semantics differ across domains.  We therefore expose adapters that provide record serialization, edge saliency hints, and domain-neutral risk wording.  The adapters do not hard-code target error types.  Both \naive{} and \samcgs{} use the same risk semantics: identify structural inconsistency, mutual incompatibility, underspecification, or high-impact risk from visible node text and visible directed edges.
 
-% TODO: Write Key Innovations paragraphs:
-%       (a) Transposition Tables: prevent infinite loops, ~40% LLM cost reduction
-%       (b) Virtual Loss: enables 4–8 concurrent rollouts, ~3.5x speedup
-%       (c) Conflict Probability Matrix C ∈ R^{|S|×|S|}:
-%           per-edge conflict evidence → BackwardBFS → minimal conflict subgraph
-
-% TODO: Write UCB1 equation:
-%       UCB(v) = Q(v)/N(v) + c·sqrt(ln N(parent)/N(v)) + ε·Dir(α)
-%       c = sqrt(2), α = 0.03
-
-% --- 3.4 Online Conformal Prediction ---
-\subsection{Phase 4: Online Conformal Prediction}
-\label{sec:ocp}
-
-% TODO: Write OCP formulation:
-%       p_t = Σ 1(α_i ≥ α_t) / (n+1), report finding iff p_t < ε
-%       Distribution-free, adaptive to non-stationary LLM outputs
-%       Controls False Discovery Rate
-%       Domain-agnostic wrapper for any search-augmented system
-
-
-% ======================================================================
-% 4. EXPERIMENTAL SETUP
-% ======================================================================
 \section{Experimental Setup}
 \label{sec:setup}
 
-% --- 4.1 Study 1 ---
-\subsection{Study 1: Single-Contract Analysis}
-\label{sec:study1_setup}
+\subsection{Domains}
 
-% TODO: Write dataset description:
-%       5 SCC-rich contracts from CUAD \citep{hendrycks2021cuad}
-%       with CLAUSE benchmark \citep{clause2026} defect injections
-%       Table: contract name, nodes, SCCs, max SCC, runs, in-SCC det.
-%       Total: 141 runs (126 injections + 15 clean baselines)
+We evaluate on four domains chosen for structural diversity and source authority, not for result cherry-picking.  Table~\ref{tab:domains} summarizes their roles.
 
-% TODO: Describe injection protocol:
-%       3 types from CLAUSE: Type A (structural flaws), Type B (omissions),
-%       Type C (inconsistencies)
-%       5 contracts × 3 types × multiple targets × 3 repeats
+\begin{table*}[t]
+\centering
+\small
+\begin{tabular}{p{0.13\textwidth}p{0.24\textwidth}p{0.27\textwidth}p{0.25\textwidth}}
+\toprule
+Domain & Source authority & Graph role & Paper role \\
+\midrule
+Debian & Package dependency metadata & Software migration / dependency constraints & Non-legal technical generalization \\
+SEC EX-21 & Public subsidiary exhibit structure & Entity-control and consolidation paths & Financial/legal entity generalization \\
+BGB & German Civil Code references & Statutory cross-reference cycles & Clean legal-rule stress test \\
+CUAD & Expert contract review dataset & Long contract clause graph with ambiguity & Noisy contract-domain stress test \\
+\bottomrule
+\end{tabular}
+\caption{Domain coverage.  The benchmark spans technical dependencies, public regulatory disclosures, official statutory references, and expert-labeled commercial contracts.}
+\label{tab:domains}
+\end{table*}
 
-% TODO: List baselines:
-%       GPT-4o-mini, Gemini-2.5, LLaMA-3.3 (full-document CLAUSE protocol)
+\subsection{Critical structural injection}
 
-% --- 4.2 Study 2 ---
-\subsection{Study 2: Cross-Contract Deal Packages}
-\label{sec:study2_setup}
+The main experiment uses the locked profile:
+\begin{quote}
+\small
+\texttt{current/default + memory\_stress(structural\_simple\_v2) + critical + 80 SCC blocks/model + 4 models}.
+\end{quote}
+The injection modifies only existing nodes in a real \scc{}.  Templates include direct mutual exclusion, handoff invariants, temporal gates, and condition triggers.  For example, in BGB a root section can impose a deadline obligation while a distant witness section changes the triggering condition; in CUAD a clause can preserve an operational right while a later clause makes the required condition impossible.  The injected text avoids explicit defect labels.
 
-% TODO: Write deal package descriptions:
-%       Reynolds (Supply+Service, SCC=10),
-%       AzulSa (2×Maintenance, SCC=13),
-%       NETGEAR (Distribution+2 Amendments, SCC=6)
-%       82 CLAUSE perturbations × 2 repeats + 6 clean = 170 runs
+\subsection{Baselines and models}
 
-% TODO: Write difficulty tier table:
-%       T1: Inconsistencies (Easy), T2: Structural Flaws (Medium),
-%       T3: Misaligned Terms (Medium), T4: Omissions (Hard),
-%       T5: Ambiguity (Hard)
-%       Include LLM best baseline score and perturbation example per tier
+The baseline is deliberately strong: \naive{} sees the full \scc{} in one prompt and directly outputs both a whole-\scc{} risk ranking and a risk subgraph.  \samcgs{} sees smaller local windows over 60 rollouts and aggregates evidence into a dynamic core.  Thus \naive{} has more context per call, while \samcgs{} has iterative search and evidence retention.
 
-% TODO: Describe Focused LLM baseline:
-%       All SCC clauses → single LLM prompt, no search
-%       48 runs, 57 seconds total
+We evaluate four models: GPT-4o, DeepSeek-V3, Qwen2.5-72B-Instruct, and Gemini 2.5 Pro.  The main data contain 320 model-case pairs and 640 method-level records.  All parse/API failures count as failures in strict metrics.
 
-% TODO: Document infrastructure:
-%       AlphaGoMCGS 50–100 iterations/SCC
-%       LLM: DeepSeek-Chat (rollouts), Claude 3.5 Sonnet (verification)
-%       Hardware: Apple M2 Ultra, 128GB
-%       Wall-clock: Study 1 ~16h, Study 2 ~102min (concurrency=8)
-
-\subsection{Prompt Fairness: Shared Risk Semantics}
-\label{sec:prompt_fairness}
-
-To preserve compatibility with the completed formal runs, we do not introduce
-a new prompt variant for this audit.  Instead, we explicitly factor the prompt
-semantics already used in those runs into a shared risk definition and a
-method-specific output adapter.  Both Naive and SA-MCGS are given the same
-domain-agnostic task semantics: analyze a directed graph of interdependent
-records, use only visible node text and visible directed edges, assign
-record-level risk scores, and identify structural inconsistency, mutual
-incompatibility, underspecification, or high-impact risk without assuming
-domain-specific error types.  The adapter differs only because the inference
-interfaces differ.  Naive applies this semantics once to the full SCC and
-returns a whole-SCC ranking/risk subgraph; SA-MCGS applies the same semantics
-to many smaller local windows and returns local evidence that is aggregated by
-graph search.  Thus the reported results remain on the original prompt path;
-the shared rubric is an audit description of the common risk criterion, not an
-extra prompt block added after the experiments.
-
-
-% ======================================================================
-% 5. RESULTS
-% ======================================================================
-\section{Results}
+\section{Main Results}
 \label{sec:results}
 
-% --- 5.1 Main Results ---
-\subsection{SA-MCGS vs.\ LLM Baselines}
-\label{sec:main_results}
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrr}
+\toprule
+Metric & \naive{} & \samcgs{} \\
+\midrule
+\rootthree{} & 48\% & \textbf{81\%} \\
+\riskany{} & 72\% & \textbf{98\%} \\
+\riskall{} & 47\% & \textbf{78\%} \\
+Compression & \textbf{67\%} & 53\% \\
+Errors & 59/320 & \textbf{0/320} \\
+\bottomrule
+\end{tabular}
+\caption{Main strict results on 320 model-case pairs.  Parse/API failures are counted in the denominator.}
+\label{tab:main}
+\end{table}
 
-% TODO: Write main results paragraph with table:
-%       Method | Structural F1 | Omission F1 | Inconsist. F1 | FPR
-%       LLaMA-3.3:     0.15      0.50          0.55           ~35%
-%       GPT-4o-mini:   0.47      0.45          0.44           ~30%
-%       Gemini-2.5:    0.47      0.64          0.64           ~20%
-%       SA-MCGS:       1.00      1.00          1.00           13%
+Table~\ref{tab:main} shows the core result.  \samcgs{} improves \rootthree{} by 33 points, \riskany{} by 26 points, and \riskall{} by 31 points.  The strongest claim is not that one-shot LLMs never find risk; the \naive{} baseline often finds at least one suspicious record.  The difference is that \samcgs{} more reliably preserves the repair-relevant evidence endpoints in the final subgraph.
 
-% TODO: Include F1 bar chart figure (TikZ pgfplots)
-% TODO: Explain conditional detection: SCC scope = ~5% of nodes
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\textwidth]{fig02_main_metrics_strict.pdf}
+    \caption{Main critical-\scc{} results.  \samcgs{} improves strict risk localization and endpoint retention, has no parse/API failures, and pays for stronger retention with a larger retained core.}
+    \label{fig:main_metrics}
+\end{figure*}
 
-% --- 5.2 Difficulty Gradient ---
-\subsection{Cross-Contract Analysis with Difficulty Gradient}
-\label{sec:difficulty}
+The compression row should be read as a trade-off, not a loss.  \naive{} returns smaller subgraphs on average, but it often drops one side of a critical contradiction or fails to return valid structured output.  \samcgs{} deliberately keeps a larger dynamic core when evidence persists across rollouts.
 
-% TODO: Write difficulty gradient results:
-%       T1: 100%, T2: 100%, T3: 100%, T4: 100%, T5: 80%
-%       Overall SCC scope: 42 runs, 95.2%, avg rank 4.9
+\subsection{Breakdown by model and domain}
 
-% TODO: Include difficulty gradient bar chart
-% TODO: Explain why T5 (ambiguity) is weakest — by design:
-%       ambiguity ≠ logical contradiction
+The gains are not carried by a single model.  GPT-4o and Qwen2.5-72B show large \riskall{} gains, DeepSeek-V3 is already strong under \naive{} but still improves, and Gemini 2.5 Pro is competitive for both methods.  Domain-wise, CUAD is the hardest setting because long contract text creates high output burden for full-\scc{} prompting; Debian and SEC are cleaner but still show endpoint-retention gains.
 
-% --- 5.3 Focused LLM ---
-\subsection{Isolating the Value of Search}
-\label{sec:focused}
+\section{Analysis}
+\label{sec:analysis}
 
-% TODO: Write Focused LLM comparison:
-%       SA-MCGS vs Focused LLM vs Full-Doc LLM
-%       Focused LLM: 100% recall but 9.2 FP/run (13x worse than SA-MCGS 0.7)
-%       Three-layer value:
-%         (1) SCC detection → recall (45%→100%)
-%         (2) MCGS search → precision (FP 9.2→0.7)
-%         (3) MCGS → scales where Focused LLM cannot
+\subsection{Effect of SCC size}
 
-% --- 5.4 Scaling Collapse ---
-\subsection{The Scaling Collapse of Pure LLM Reasoning}
-\label{sec:scaling}
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\textwidth]{fig03_main_by_scc_size.pdf}
+    \caption{Metrics by \scc{} size.  \samcgs{} remains strongest on endpoint retention across short, mid-sized, and long cyclic components, while very long noisy components make \riskall{} harder for both methods.}
+    \label{fig:scc_size}
+\end{figure*}
 
-% TODO: Write scaling analysis:
-%       5–50 clauses: LLM sufficient (100% det., 100% JSON parse)
-%       60–80: tipping point (80–100% det., 90% JSON)
-%       200+: near-failure (20% det., 20% JSON)
-%       300+: total collapse (0% det., 0% JSON)
-%       SA-MCGS: >85% at 500 clauses, local context per rollout
+Figure~\ref{fig:scc_size} separates the results by \scc{} size.  In short components ($\leq 12$ nodes), \samcgs{} improves \riskall{} from 55\% to 83\%.  In mid-sized components (14--20 nodes), the improvement is 40\% to 80\%.  In long components ($\geq 24$ nodes), \riskall{} remains difficult, but \samcgs{} still improves 41\% to 65\%.  This is consistent with the task: longer cycles contain more plausible distractors and more native ambiguity, especially in CUAD.
 
-% TODO: Include scaling line chart figure
+\subsection{Rollout convergence}
 
-% --- 5.5 Magnifier Effect ---
-\subsection{The Magnifier Effect}
-\label{sec:magnifier}
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\textwidth]{fig04_budget_prefix_convergence.pdf}
+    \caption{Budget-prefix convergence over \samcgs{} rollouts.  \riskany{}, \riskall{}, and risk coverage improve as the rollout budget increases.  Effective \oc{} is cumulative discovery support, not a final metric.}
+    \label{fig:convergence}
+\end{figure*}
 
-% TODO: Write Magnifier Effect description:
-%       Type C: few direct alarms (0.8) but massive subgraph expansion
-%       (+8.4 nodes, 300%+)
-%       Clean baseline: 21% SCC coverage (5/24 nodes)
-%       After Type C injection: 58% coverage (13.9/24 nodes)
-%       Most dramatic case: bgb_327o → 5 nodes to 21 nodes (87%)
+Figure~\ref{fig:convergence} shows that additional rollouts do not merely spend more tokens; they accumulate useful evidence.  At budget 5, \riskall{} is 22\%; at budget 30, it rises to 41\%; at budget 60, it reaches 57\% under prefix reconstruction.  The final run-level \riskall{} in Table~\ref{tab:main} is higher because the dynamic core uses the full retained evidence rather than a simple prefix truncation.  The important trend is that risk coverage and \riskall{} continue to rise well past the first few rollouts, supporting the search interpretation.
 
-% TODO: Include bar chart comparing OC alarms vs subgraph expansion
+\subsection{Compression profile trade-off}
 
-% --- 5.6 Ablation: MCTS vs Cycles ---
-\subsection{Ablation: Why Standard MCTS Fails on Cycles}
-\label{sec:ablation_cycle}
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\textwidth]{fig05_compression_profile_tradeoff.pdf}
+    \caption{Compression profile ablation.  A more compressed profile yields smaller cores but lowers endpoint retention.  The main paper uses current/default because critical structural risk favors retaining both endpoints over maximizing compression.}
+    \label{fig:compression}
+\end{figure*}
 
-% TODO: Write ablation results describing three failure modes:
-%       F1: Search tree explosion — 6.4x inflation on compound cycles
-%       F2: Rollout trap — 100% truncation on compound cycles
-%       F3: Q-value dilution — Q-Spread: MCTS 0.044 vs SA-MCGS 0.371 (8.4x)
-%
-%       Real LLM validation:
-%       AzulSa: TreeMCTS Q-Spread 0.058, SA-MCGS 0.800 (13.8x)
-%       NETGEAR: TreeMCTS Q-Spread 0.097, SA-MCGS 0.800 (8.3x)
+Figure~\ref{fig:compression} explains why the main experiment uses the current/default compression profile.  A balanced profile increases \samcgs{} compression from 53\% to 63\%, reducing the average retained core from 7.69 to 5.91 nodes.  However, \riskall{} drops from 78\% to 71\%.  For critical risk, we prefer a slightly larger core that preserves both endpoints.
 
-% TODO: Include comparison table
+\subsection{Error handling and output burden}
 
+The strict table counts \naive{} failures rather than hiding them.  In the matched no-error subset of 261 comparable pairs, \naive{} improves to 59\% \rootthree{}, 88\% \riskany{}, and 57\% \riskall{}, while \samcgs{} remains higher at 83\%, 98\%, and 77\%.  Therefore the result is not only a JSON stability story.
 
-% ======================================================================
-% 6. ANALYSIS AND DISCUSSION
-% ======================================================================
-\section{Analysis and Discussion}
-\label{sec:discussion}
+We also run a CUAD output-burden control in which \naive{} no longer has to produce a full global ranking and per-node evaluations.  This reduces some failures, but long CUAD \scc{}s remain hard: lite \naive{} reaches only 12\% \riskall{} on the controlled long-contract subset.  Full-\scc{} prompting is both a reasoning and an output-structure burden.
 
-% --- 6.1 Case Studies ---
-\subsection{Case Studies}
-\label{sec:cases}
+\section{Case Study}
+\label{sec:case}
 
-% TODO: Write 4 case studies:
-%       Case 1 (success): Circular Liability Trap — 3-clause SCC, infinite recursion
-%         LLM: no errors; SA-MCGS: found in 12 iterations, p=0.008
-%       Case 2 (success): Cross-Contract Term Drift — Reynolds, "Acceptable Quality"
-%         SA-MCGS rank 2/10 SCC nodes
-%       Case 3 (medium): Orphaned Reference — construction agreement
-%         SA-MCGS traced full impact propagation chain
-%       Case 4 (honest failure): Ambiguity — T5 Reynolds, ranked 10/10
-%         No logical contradiction = no structural signal
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\textwidth]{fig06_representative_scc_collapse.pdf}
+    \caption{Representative BGB case.  The root and witness are far apart in a 25-node statutory-reference \scc{}.  \samcgs{} retains both endpoints in a 9-node dynamic core and succeeds where the full-\scc{} \naive{} baseline misses \rootthree{} and \riskall{}.}
+    \label{fig:case}
+\end{figure*}
 
-% --- 6.2 Error Analysis ---
-\subsection{Error Analysis}
-\label{sec:errors}
+Figure~\ref{fig:case} illustrates the intended use of the method.  The original \scc{} is too large to treat as a single atomic finding, yet too cyclic for ordinary path search.  \samcgs{} localizes the evidence through rollouts, then returns a core containing the root, witness, and affected records.  This is more useful for review than a single node label: a human can inspect the retained endpoints and decide how the conflict should be repaired.
 
-% TODO: Write error analysis:
-%       False Negatives: 2/42 in-SCC, both T5 ambiguity on Reynolds
-%         → ambiguity ≠ logical contradiction, principled limitation
-%       False Positives: 2/15 clean baselines (Phasebio, 329 nodes, 10 SCCs)
-%         → genuinely complex interdependencies, adjustable via ε
-%       Computational Cost: ~300s vs ~30s, ~$0.50–1.00 vs ~$0.02/run
+\section{Related Work}
+\label{sec:related}
 
-% --- 6.3 Generalization ---
-\subsection{Generalization Potential}
-\label{sec:generalization}
+\paragraph{LLM reasoning and long context.}
+Chain-of-thought prompting improves sequential reasoning \citep{wei2022chain}, but cyclic document risk requires revisiting and reconciling multiple records rather than extending one chain.  Long-context studies show that models can fail to use information reliably throughout a context \citep{liu2024lost}.  Legal NLP datasets such as CUAD and ContractNLI motivate document-level reasoning, but they do not by themselves solve cyclic evidence retention \citep{hendrycks2021cuad,koreeda2021contractnli}.
 
-% TODO: Write generalization discussion:
-%       Core principle: cyclic dependencies + exceeds attention span → search wins
-%       Domains: code auditing (circular imports), literature synthesis (citation cycles),
-%       knowledge graphs (cyclic constraints), multi-agent systems
+\paragraph{Search-augmented LLMs.}
+Tree of Thoughts \citep{yao2024tree}, Graph of Thoughts \citep{besta2024graph}, and planning-style LLM search \citep{hao2023reasoning} demonstrate that explicit search can improve reasoning.  \samcgs{} differs by operating on externally constructed document graphs and by treating \scc{}s as topological bottlenecks that must be collapsed into risk subgraphs.
 
-% --- 6.4 System-1/System-2 Pattern ---
-\subsection{The System-1 / System-2 Design Pattern}
-\label{sec:dual_process}
+\paragraph{Monte Carlo search on graphs.}
+MCTS and AlphaGo-style search are powerful when the search space has stable state transitions \citep{silver2016mastering,kocsis2006bandit}.  Monte Carlo graph search reuses transpositions in graph settings \citep{czech2021monte}, while work on uncertainty in MCTS highlights the difficulty of loops \citep{moerland2020mcts}.  Our method is motivated by this gap: cyclic document regions require information-preserving \scc{} handling rather than ordinary tree expansion.
 
-% TODO: Write design pattern:
-%       (1) Externalize Structure → graph → detection 45%→100%
-%       (2) Focus Search → SCC → only ~5% nodes need expensive search
-%       (3) Search for Precision → MCGS → FP 9.2→0.7 (13x)
-%       (4) Calibrate → OCP → statistical guarantees
+\paragraph{Graph legal analysis and calibration.}
+Network analysis has been used to study statutory cross-references \citep{boulet2021measuring}, and contract graph extraction is an active direction \citep{dechtiar2025graphgrpolex}.  \samcgs{} is complementary: it assumes a record graph is available and focuses on risk search inside cyclic components.  We use conformal prediction ideas \citep{vovk2005algorithmic,gibbs2021adaptive} as inspiration for online evidence calibration, while reporting empirical discovery and retention metrics.
 
-
-% ======================================================================
-% LIMITATIONS  (Required by ACL — unnumbered, before references)
-% ======================================================================
 \section*{Limitations}
 \label{sec:limitations}
 
-% TODO: Write limitations paragraphs covering:
-% (1) Scope: excels within SCC scope (~5% of nodes), not for non-cyclic defects
-% (2) Ambiguity: T5 weakest signal (80%) — no logical contradictions
-% (3) LLM Dependency: rollout quality depends on LLM; used DeepSeek-Chat for cost
-% (4) Graph Quality: two-pass extraction imperfect; edge precision → SCC quality
-% (5) Cost: ~$0.50–1.00 per SCC vs ~$0.02 single-pass
-% (6) Evaluation: validated only on English legal contracts (CUAD)
-% (7) Reproducibility: LLM non-determinism may affect exact replication
+\samcgs{} is more expensive than one-shot prompting because it performs many local LLM calls.  The method is intended for high-risk cyclic components, not every record in a document.  Our benchmark uses injected critical risks so that ground truth is controlled; naturally occurring risks may be messier and require human audit.  Graph construction quality also matters: missing or spurious edges can change the \scc{}s that the method receives.  Finally, \riskall{} remains difficult in noisy long-contract settings, which is why we report it explicitly rather than replacing it with the easier \riskany{} metric.
 
-
-% ======================================================================
-% ETHICS STATEMENT  (Recommended by ACL — unnumbered)
-% ======================================================================
 \section*{Ethics Statement}
 \label{sec:ethics}
 
-% TODO: Write ethics statement:
-% (1) Explainability: every finding has its conflict subgraph ("glass-box")
-% (2) Human-in-the-loop: augments, not replaces, human experts
-% (3) Cannot detect purely linguistic manipulation
-% (4) CUAD is publicly available, no privacy concerns
-% (5) No human subjects
+This work targets decision support for expert review, not automated legal, financial, or software-security decisions.  The output is an inspectable risk subgraph rather than an ungrounded verdict, and the intended workflow keeps a human reviewer responsible for final judgment.  The evaluated sources are public or benchmark data.  The main ethical risk is over-reliance: a missed endpoint or a graph-construction error can still matter in high-stakes review.  We therefore report strict failures, compression trade-offs, and planned human-audit materials rather than presenting the system as a replacement for experts.
 
-
-% ======================================================================
-% CONCLUSION
-% ======================================================================
 \section{Conclusion}
 \label{sec:conclusion}
 
-% TODO: Write conclusion summarizing:
-% (1) SA-MCGS: search-augmented LLM reasoning with dual-process architecture
-% (2) 100% structural anomaly recall within SCC scope (vs 15–47% SoTA LLMs)
-% (3) Graceful degradation across 5 difficulty tiers (100%→80%)
-% (4) Scaling stability at 500+ clauses (vs collapse at 60–80)
-% (5) Magnifier Effect: search process encodes secondary diagnostic signals
-% (6) SCC-based topological focusing as primary contributor
+We introduced \samcgs{}, a structure-aware Monte Carlo graph search method for cyclic document risk.  The central idea is to stop treating a long \scc{} as either a flat prompt or an ordinary tree-search path.  Instead, \samcgs{} localizes the \scc{}, searches it through local rollouts, stores relation-first evidence, and collapses the component into a dynamic risk core.  Across four domains and four LLMs, this yields substantially stronger root localization and endpoint retention than a full-\scc{} direct-subgraph baseline, while making the cost in compression explicit.
 
-% TODO: Write future work:
-% - Multi-document portfolio analysis at enterprise scale
-% - Cross-domain transfer: code → law → science
-% - Integration with RAG systems
-% - Hierarchical GNNs for extending scope beyond SCCs
-
-
-% ======================================================================
-% REFERENCES
-% ======================================================================
 \bibliography{custom}
 
-
-% ======================================================================
-% APPENDICES  (after references, do not count toward page limit)
-% ======================================================================
 \appendix
 
-\section{Supplementary Experimental Data}
-\label{sec:appendix_data}
+\section{Additional Experimental Details}
+\label{sec:appendix_experiments}
 
-\subsection{Per-Contract Detection Breakdown}
-% TODO: Table: Phasebio 27 runs 12/12, Harpoon 27 runs 3/3, etc.
+\begin{table*}[t]
+\centering
+\small
+\begin{tabular}{llrrrrrr}
+\toprule
+Model & Method & N & Errors & \rootthree{} & \riskany{} & \riskall{} & Compression \\
+\midrule
+GPT-4o & \naive{} & 80 & 17 & 26\% & 55\% & 15\% & 68\% \\
+GPT-4o & \samcgs{} & 80 & 0 & 86\% & 100\% & 75\% & 51\% \\
+DeepSeek-V3 & \naive{} & 80 & 0 & 75\% & 88\% & 74\% & 70\% \\
+DeepSeek-V3 & \samcgs{} & 80 & 0 & 80\% & 95\% & 76\% & 51\% \\
+Qwen2.5-72B & \naive{} & 80 & 41 & 2\% & 46\% & 14\% & 43\% \\
+Qwen2.5-72B & \samcgs{} & 80 & 0 & 70\% & 98\% & 75\% & 53\% \\
+Gemini 2.5 Pro & \naive{} & 80 & 1 & 90\% & 98\% & 85\% & 75\% \\
+Gemini 2.5 Pro & \samcgs{} & 80 & 0 & 88\% & 98\% & 84\% & 56\% \\
+\bottomrule
+\end{tabular}
+\caption{Model-level strict breakdown.}
+\label{tab:model_breakdown}
+\end{table*}
 
-\subsection{Cross-Contract Subgraph Compression}
-% TODO: Table: Reynolds 71%, AzulSa 90%, NETGEAR 98%
+\begin{table*}[t]
+\centering
+\small
+\begin{tabular}{llrrrrrr}
+\toprule
+Domain & Method & N & Errors & \rootthree{} & \riskany{} & \riskall{} & Compression \\
+\midrule
+Debian & \naive{} & 32 & 0 & 41\% & 94\% & 62\% & 56\% \\
+Debian & \samcgs{} & 32 & 0 & 84\% & 100\% & 88\% & 53\% \\
+SEC EX-21 & \naive{} & 80 & 0 & 64\% & 99\% & 62\% & 59\% \\
+SEC EX-21 & \samcgs{} & 80 & 0 & 96\% & 100\% & 88\% & 50\% \\
+BGB & \naive{} & 48 & 2 & 25\% & 67\% & 25\% & 62\% \\
+BGB & \samcgs{} & 48 & 0 & 75\% & 98\% & 62\% & 52\% \\
+CUAD & \naive{} & 160 & 57 & 49\% & 55\% & 42\% & 79\% \\
+CUAD & \samcgs{} & 160 & 0 & 74\% & 96\% & 75\% & 54\% \\
+\bottomrule
+\end{tabular}
+\caption{Domain-level strict breakdown.  CUAD contributes the largest number of long, noisy contract cases and most \naive{} parse failures.}
+\label{tab:domain_breakdown}
+\end{table*}
 
-\subsection{JSON Output Stability at Scale}
-% TODO: Table: 5–50 clauses → 300+ collapse
+\begin{table}[t]
+\centering
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llrrr}
+\toprule
+Scope & Method & N & \rootthree{} & \riskall{} \\
+\midrule
+Strict & \naive{} & 320 & 48\% & 47\% \\
+Strict & \samcgs{} & 320 & 81\% & 78\% \\
+Valid-only & \naive{} & 261 & 59\% & 57\% \\
+Matched no-error & \naive{} & 261 & 59\% & 57\% \\
+Matched no-error & \samcgs{} & 261 & 83\% & 77\% \\
+\bottomrule
+\end{tabular}
+}
+\caption{Error-handling analysis.  The main table uses strict rates; matched no-error rates show that the difference is not only parse stability.}
+\label{tab:error_handling}
+\end{table}
 
-\subsection{Synthetic Graph Ablation}
-% TODO: Full 90-run table: 2 methods × 3 topologies × 3 scales × 5 repeats
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=.85\textwidth]{figA2_naive_output_burden.pdf}
+    \caption{Naive output-burden control.  Reducing the output schema helps full-\scc{} prompting, but does not close the endpoint-retention gap on long CUAD components.}
+    \label{fig:naive_burden}
+\end{figure*}
 
-\section{Prompts}
-\label{sec:appendix_prompts}
+\section{Prompt Parity}
+\label{sec:appendix_prompt_parity}
 
-\subsection{Shared Risk Semantics}
-\label{sec:appendix_shared_rubric}
-
-The following text summarizes the domain-agnostic risk semantics common to the
-Naive and SA-MCGS prompts used in the formal cross-domain critical experiments.
-It is included for prompt-parity auditing; it is not a new prompt block inserted
-after the reported runs.
+The formal experiments use a shared domain-agnostic risk semantics.  The difference between methods is the inference interface: \naive{} applies the rubric once to the full \scc{}, while \samcgs{} applies it repeatedly to local windows and aggregates evidence.  The shared rubric is:
 
 \begin{quote}
-You are analyzing a directed graph of interdependent records. Each node
-contains a record. Each directed edge indicates that one record depends on,
-constrains, references, modifies, or otherwise affects another record.
-
-A record or relation is risky if it is structurally inconsistent, mutually
-incompatible, underspecified, or high-impact under the visible graph context.
-For each visible record, assign a risk\_score from 0.0 (no meaningful
-structural concern) to 1.0 (severe structural concern). Use only the visible
-node text and visible directed edges. Explain concrete conflicts using exact
-record IDs and evidence from the input. Do not assume domain-specific error
-types.
+\small
+Analyze a directed graph of interdependent records.  Each node contains a record.  Each directed edge indicates that one record depends on, constrains, references, modifies, or otherwise affects another record.  A record or relation is risky if it is structurally inconsistent, mutually incompatible, underspecified, or high-impact under the visible graph context.  Use only visible node text and visible directed edges, and explain concrete conflicts using exact record IDs.
 \end{quote}
 
-\subsection{Search Rollout Prompt}
-% TODO: Exact prompt text
+\section{Human Audit Materials}
+\label{sec:appendix_human}
 
-\subsection{Graph Extraction Prompt}
-% TODO: Exact prompt text
-
-\subsection{Focused LLM Baseline Prompt}
-% TODO: Exact prompt text
-
-\section{Implementation Details}
-\label{sec:appendix_impl}
-
-% TODO: Graph construction pipeline, MCGS hyperparameters, OCP config
-
-\section{Glossary}
-\label{sec:appendix_glossary}
-
-% TODO: SCC, MCTS, MCGS, OCP, TACS, TT, FDR, UCB1
+We prepared a human annotation package under \path{experiments/main_experiment/paper_assets/human_annotation_pack/}.  The expert-facing pack contains a curated 12-case sample, per-case materials, and a bilingual HTML interface that supports in-page annotation, node-level evidence popups, and Excel export.  The human audit is intentionally separated from the automatic main table and will be reported as an additional validation layer.
 
 \end{document}
