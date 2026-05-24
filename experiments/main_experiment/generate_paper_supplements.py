@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 import matplotlib.pyplot as plt
+from matplotlib.ticker import PercentFormatter
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -46,7 +47,7 @@ METRIC_LABELS = {
     "risk_all": "Risk-all",
     "compression": "Compression",
     "effective_compression": "Effective compression",
-    "errors": "Errors",
+    "errors": "Unavailable outputs",
 }
 
 
@@ -170,7 +171,7 @@ def e0_matched_valid_tables(current: list[dict[str, Any]]) -> None:
         recs = [pair[method] for pair in matched_cases]
         ms = summary(recs)
         matched_rows.append({
-            "scope": "matched_no_error_pairs",
+            "scope": "matched_usable_output_pairs",
             "method": method,
             "n": ms["n"],
             "errors": ms["errors"],
@@ -188,14 +189,14 @@ def e0_matched_valid_tables(current: list[dict[str, Any]]) -> None:
     )
 
     md = [
-        "# E0. Matched / Valid-only / Error Handling",
+        "# E0. Matched / Valid-only / Output Availability",
         "",
-        "目的：把 strict rate、valid-only rate、matched no-error rate 分开，回答 reviewer 关于解析失败是否被 cherry-pick 的问题。",
+        "目的：把 strict rate、valid-only rate、matched usable-output rate 分开，回答 reviewer 关于不可用结构化输出是否被 cherry-pick 的问题。",
         "",
         f"- Strict 分母：Naive={len(method_records(current, 'naive'))}, SA-MCGS={len(method_records(current, 'sa-mcgs'))}。",
-        f"- Matched no-error 分母：{len(matched_cases)} 个同一 SCC + 同一模型 + 同一注入的可比 pair。",
+        f"- Matched usable-output 分母：{len(matched_cases)} 个同一 SCC + 同一模型 + 同一注入的可比 pair。",
         "",
-        "| Scope | Method | N | Errors | Root@3 | Risk-any | Risk-all | Compression | Effective Compression |",
+        "| Scope | Method | N | Unavailable outputs | Root@3 | Risk-any | Risk-all | Compression | Effective Compression |",
         "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for row in all_rows:
@@ -214,7 +215,7 @@ def e0_matched_valid_tables(current: list[dict[str, Any]]) -> None:
         )
     md.extend([
         "",
-        "论文写法建议：主表用 strict；补充表同时给 valid-only 和 matched no-error。这样 Naive 的 59 个解析失败不会被忽略，也不会把 SA-MCGS 的优势只解释成 JSON 稳定性。",
+        "论文写法建议：主表用 strict；补充表同时给 valid-only 和 matched usable-output。这样 Naive 的 59 个不可用结构化输出不会被忽略，也不会把 SA-MCGS 的优势只解释成输出格式稳定性。",
         "",
     ])
     (SUPP_DIR / "E0_MATCHED_VALID_ONLY.md").write_text("\n".join(md), encoding="utf-8")
@@ -325,9 +326,9 @@ def e1_naive_output_burden_control(current: list[dict[str, Any]]) -> None:
         "",
         status_text,
         f"- Matched full-vs-lite records: `{matched_n}`.",
-        "- 解释口径：E1 只回答 Naive 的 JSON/输出负担问题，不替换主实验的 Naive direct-subgraph baseline。",
+        "- 解释口径：E1 只回答 Naive 的结构化输出负担问题，不替换主实验的 Naive direct-subgraph baseline。",
         "",
-        "| Scope | N | Errors | Root@3 | Risk-any | Risk-all | Compression | Avg subgraph | Avg prompt words | Avg time sec |",
+        "| Scope | N | Unavailable outputs | Root@3 | Risk-any | Risk-all | Compression | Avg subgraph | Avg prompt words | Avg time sec |",
         "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for item in rows:
@@ -338,8 +339,8 @@ def e1_naive_output_burden_control(current: list[dict[str, Any]]) -> None:
         "",
         "## Reviewer-facing Takeaway",
         "",
-        "- 如果轻量 Naive 的报错显著下降，说明 CUAD 长合同的一部分失败来自 whole-SCC one-shot 的输出格式压力。",
-        "- 如果轻量 Naive 的 Risk-all 仍明显低于 SA-MCGS，则说明差距不只是 JSON/schema，而是长环结构搜索与证据保留问题。",
+        "- 如果轻量 Naive 的不可用结构化输出显著下降，说明 CUAD 长合同的一部分困难来自 whole-SCC one-shot 的输出格式压力。",
+        "- 如果轻量 Naive 的 Risk-all 仍明显低于 SA-MCGS，则说明差距不只是输出 schema，而是长环结构搜索与证据保留问题。",
         "- 这组结果应放 appendix / robustness，不进入主表。",
         "",
     ])
@@ -475,7 +476,7 @@ def e3_profile_ablation(current: list[dict[str, Any]], balanced: list[dict[str, 
         "",
         "目的：把 `current/default` 主实验和 `balanced` 压缩强度分开。主论文只用 current/default；balanced 只作为压缩率-召回率 trade-off 补充。",
         "",
-        "| Profile | Method | N | Errors | Root@3 | Risk-any | Risk-all | Compression | Effective Compression | Avg Subgraph |",
+        "| Profile | Method | N | Unavailable outputs | Root@3 | Risk-any | Risk-all | Compression | Effective Compression | Avg Subgraph |",
         "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for row in rows:
@@ -547,7 +548,7 @@ def plot_e0(rows: list[dict[str, Any]]) -> None:
     strict = [r for r in rows if r["scope"] == "strict_all_records"]
     matched = [r for r in rows if r["scope"] == "matched_no_error_pairs"]
     fig, axes = plt.subplots(1, 2, figsize=(12, 4.2), sharey=True)
-    for ax, subset, title in zip(axes, [strict, matched], ["Strict", "Matched no-error"]):
+    for ax, subset, title in zip(axes, [strict, matched], ["Strict", "Matched usable-output"]):
         x = range(len(METRICS))
         width = 0.36
         by_method = {row["method"]: row for row in subset}
@@ -580,35 +581,36 @@ def plot_e1(rows: list[dict[str, Any]]) -> None:
     if len(matched) < 2:
         return
     by_scope = {row["scope"]: row for row in matched}
-    labels = ["Root@3", "Risk-any", "Risk-all", "Compression"]
-    keys = ["root_at_3", "risk_any", "risk_all", "compression"]
-    x = range(len(labels))
-    width = 0.36
-    fig, axes = plt.subplots(1, 2, figsize=(11.5, 4.5))
-    axes[0].bar(
-        [i - width / 2 for i in x],
-        [by_scope["matched_main_full_direct_subgraph"][key] for key in keys],
-        width,
-        label="Full direct-subgraph",
-        color="#ff6b6b",
-    )
-    axes[0].bar(
-        [i + width / 2 for i in x],
-        [by_scope["matched_lite_direct_subgraph"][key] for key in keys],
-        width,
-        label="Lite direct-subgraph",
-        color="#60a5fa",
-    )
-    axes[0].set_xticks(list(x), labels, rotation=18)
-    axes[0].set_ylim(0, 1.05)
-    axes[0].set_ylabel("Rate")
-    axes[0].set_title("Matched metric rates")
-    axes[0].grid(axis="y", alpha=0.25)
-    axes[0].legend()
-
-    burden_labels = ["Error rate", "Avg time / max", "Avg subgraph / max"]
+    colors = {"full": "#9AA0A9", "lite": "#2C6F9E"}
     full = by_scope["matched_main_full_direct_subgraph"]
     lite = by_scope["matched_lite_direct_subgraph"]
+
+    fig, axes = plt.subplots(1, 2, figsize=(7.05, 2.55), gridspec_kw={"width_ratios": [1.1, 0.9]})
+    labels = ["Root@3", "Risk-any", "Risk-all", "Compression"]
+    keys = ["root_at_3", "risk_any", "risk_all", "compression"]
+    y_pos = list(reversed(range(len(labels))))
+    height = 0.22
+    full_rates = [float(full[key]) for key in keys]
+    lite_rates = [float(lite[key]) for key in keys]
+    axes[0].barh([i + height / 1.5 for i in y_pos], full_rates, height, color=colors["full"], label="Full")
+    axes[0].barh([i - height / 1.5 for i in y_pos], lite_rates, height, color=colors["lite"], label="Lite")
+    for y0, fv, lv in zip(y_pos, full_rates, lite_rates):
+        for value, y_text, color in [(fv, y0 + height / 1.5, colors["full"]), (lv, y0 - height / 1.5, colors["lite"])]:
+            x_text = 0.018 if value <= 0.005 else value + 0.018
+            ha = "left"
+            if x_text > 0.975:
+                x_text = 0.975
+                ha = "right"
+            axes[0].text(x_text, y_text, f"{value:.0%}", va="center", ha=ha, fontsize=6.4, color=color, weight="bold")
+    axes[0].set_yticks(y_pos, labels)
+    axes[0].set_xlim(0, 1.03)
+    axes[0].xaxis.set_major_formatter(PercentFormatter(1.0, decimals=0))
+    axes[0].set_title("A. Matched long-CUAD rates", loc="left", fontsize=8.0, weight="bold", pad=8)
+    axes[0].set_xticks([0, 0.5, 1.0])
+    axes[0].spines[["top", "right", "left"]].set_visible(False)
+    axes[0].tick_params(axis="y", length=0)
+
+    burden_labels = ["Unavailable rate", "Time / max", "Subgraph / max"]
     max_time = max(full.get("avg_time_sec") or 0, lite.get("avg_time_sec") or 0, 1)
     max_subgraph = max(full.get("avg_subgraph") or 0, lite.get("avg_subgraph") or 0, 1)
     full_bars = [
@@ -621,15 +623,35 @@ def plot_e1(rows: list[dict[str, Any]]) -> None:
         (lite.get("avg_time_sec") or 0) / max_time,
         (lite.get("avg_subgraph") or 0) / max_subgraph,
     ]
-    y = range(len(burden_labels))
-    axes[1].barh([i + width / 2 for i in y], full_bars, width, color="#ff6b6b", label="Full")
-    axes[1].barh([i - width / 2 for i in y], lite_bars, width, color="#60a5fa", label="Lite")
-    axes[1].set_yticks(list(y), burden_labels)
-    axes[1].set_xlim(0, 1.05)
-    axes[1].set_title("Output-burden proxies")
-    axes[1].grid(axis="x", alpha=0.25)
-    axes[1].legend()
-    fig.tight_layout()
+    y = list(reversed(range(len(burden_labels))))
+    axes[1].barh([i + height / 1.6 for i in y], full_bars, height, color=colors["full"])
+    axes[1].barh([i - height / 1.6 for i in y], lite_bars, height, color=colors["lite"])
+    for y0, fv, lv in zip(y, full_bars, lite_bars):
+        for value, y_text, color in [(fv, y0 + height / 1.6, colors["full"]), (lv, y0 - height / 1.6, colors["lite"])]:
+            x_text = 0.018 if value <= 0.005 else value + 0.018
+            ha = "left"
+            if x_text > 0.975:
+                x_text = 0.975
+                ha = "right"
+            axes[1].text(x_text, y_text, f"{value:.0%}", va="center", ha=ha, fontsize=6.2, color=color, weight="bold")
+    axes[1].set_yticks(y, burden_labels)
+    axes[1].set_xlim(0, 1.03)
+    axes[1].xaxis.set_major_formatter(PercentFormatter(1.0, decimals=0))
+    axes[1].set_title("B. Output burden proxies", loc="left", fontsize=8.0, weight="bold", pad=8)
+    axes[1].set_xticks([0, 0.5, 1.0])
+    axes[1].spines[["top", "right", "left"]].set_visible(False)
+    axes[1].tick_params(axis="y", length=0)
+    handles, legend_labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, legend_labels, loc="upper center", ncol=2, frameon=False, bbox_to_anchor=(0.53, 1.01), fontsize=7.0)
+    fig.text(
+        0.5,
+        0.005,
+        "Matched subset, N=32.  Lite output reduces unavailable structured outputs but still leaves endpoint retention low.",
+        ha="center",
+        fontsize=6.6,
+        color="#4B5563",
+    )
+    fig.tight_layout(w_pad=2.6, rect=(0, 0.05, 1, 0.93))
     savefig(fig, "E1_naive_output_burden")
 
 

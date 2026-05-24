@@ -9,8 +9,8 @@
 | Figure 1 | Diagram | **SA-MCGS Pipeline**: document graph -> Tarjan SCC -> SCC-aware rollout -> evidence memory -> dynamic core -> collapsed risk subgraph | Method opening | Final: `paper_assets/figures/fig01_sa_mcgs_framework_architecture.pdf/png` | P0 |
 | Table 1 | Table | **Why Standard MCTS Fails on SCCs**: TreeMCTS DAG vs TreeMCTS Cycle vs SA-MCGS Cycle, with Expansion / Truncation / Q-spread / Hit@3 | End of Introduction or Method motivation | Values already in `PAPER_FRAMEWORK.md`; need LaTeX table | P0 |
 | Table 2 | Table | **Domain Coverage and Authority**: Debian / SEC EX-21 / BGB / CUAD, source authority, graph source, noise level, paper role | Experimental Setup | Values already in `PAPER_FRAMEWORK.md`; need LaTeX table | P0 |
-| Table 3 | Table | **Main Strict Results**: Root@3, Risk-any, Risk-all, Compression, Errors for Naive vs SA-MCGS | Main Results | `experiments/main_experiment/MANIFEST.json` and `supplements/tables/E0_matched_valid_only.csv` | P0 |
-| Figure 2 | Composite bar chart | **Main Metrics Strict**: strict headline, matched-no-error robustness, and error accounting | Main Results, near Table 3 | Final: `paper_assets/figures/fig02_main_metrics_strict.pdf/png` | P0 |
+| Table 3 | Table | **Main Strict Results**: Root@3, Risk-any, Risk-all, Compression, unavailable structured outputs for Naive vs SA-MCGS | Main Results | `experiments/main_experiment/MANIFEST.json` and `supplements/tables/E0_matched_valid_only.csv` | P0 |
+| Figure 2 | Composite bar chart | **Main Metrics Strict**: strict headline, matched usable-output robustness, and output-availability accounting | Main Results, near Table 3 | Final: `paper_assets/figures/fig02_main_metrics_strict.pdf/png` | P0 |
 | Figure 3 | Composite size chart | **Metrics by SCC Size**: whether gains change with longer SCCs, including coverage and compression | Main Results or Analysis | Final: `paper_assets/figures/fig03_main_by_scc_size.pdf/png` | P0 |
 | Figure 4 | Line chart | **Rollout Convergence**: Risk-any / Risk-all / Root@3 / coverage / compression over budget prefixes | Analysis | Final: `paper_assets/figures/fig04_budget_prefix_convergence.pdf/png` | P0 |
 | Figure 5 | Trade-off chart | **Compression Profile Ablation**: current/default vs balanced; shows why stronger compression hurts Risk-all | Analysis | Final: `paper_assets/figures/fig05_compression_profile_tradeoff.pdf/png` | P1 |
@@ -20,9 +20,9 @@
 
 | ID | Type | Title / Purpose | Placement | Source / Status | Priority |
 |---|---|---|---|---|---|
-| Table A1 | Table | **Strict vs Valid-only vs Matched-no-error**: shows errors are counted, not hidden | Appendix / Error analysis | Existing: `supplements/tables/E0_matched_valid_only.csv`; figure `E0_strict_vs_matched.pdf` | P0 |
+| Table A1 | Table | **Strict vs Valid-only vs Matched usable-output**: shows unavailable outputs are counted, not hidden | Appendix / output-availability analysis | Existing: `supplements/tables/E0_matched_valid_only.csv`; figure `E0_strict_vs_matched.pdf` | P0 |
 | Table A2 | Table | **Naive Output-burden Control**: full direct-subgraph vs lite Naive on CUAD long SCCs | Appendix / Baseline fairness | Existing: `supplements/tables/E1_naive_output_burden_control.csv` | P0 |
-| Figure A2 | Bar chart | **Naive Output-burden Control**: shows that shortening Naive output helps parsing but does not close the SA-MCGS retention gap | Appendix / Baseline fairness | Final: `paper_assets/figures/figA2_naive_output_burden.pdf/png` | P1 |
+| Figure A2 | Bar chart | **Naive Output-burden Control**: shows that shortening Naive output improves output availability but does not close the SA-MCGS retention gap | Appendix / Baseline fairness | Final: `paper_assets/figures/figA2_naive_output_burden.pdf/png` | P1 |
 | Table A3 | Table | **Prompt/Rubric Parity**: shared risk semantics between Naive and SA-MCGS | Appendix / Fairness | Existing: `supplements/tables/E5_prompt_rubric_parity.csv`; narrative in `E5_PROMPT_RUBRIC_PARITY.md` | P0 |
 | Table A4 | Table | **Model-level Breakdown**: gpt-4o / deepseek-v3 / qwen2.5-72b / gemini-2.5-pro | Appendix or compressed main table if space allows | Need derive from main result JSON/tables | P1 |
 | Table A5 | Table | **Domain-level Breakdown**: Debian / SEC EX-21 / BGB / CUAD | Appendix; maybe main if reviewer concern is high | Need derive from main result JSON/tables | P1 |

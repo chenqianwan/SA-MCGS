@@ -66,7 +66,7 @@ The dashboard reads the files above and reports:
 
 - strict rate
 - valid-only context where needed
-- error count
+- unavailable structured output count
 - Root@3
 - Risk-any
 - Risk-all
@@ -78,7 +78,7 @@ The dashboard reads the files above and reports:
 
 The paper-facing supplement artifacts are in `supplements/`:
 
-- `E0_MATCHED_VALID_ONLY.md`: strict vs valid-only vs matched-no-error rates.
+- `E0_MATCHED_VALID_ONLY.md`: strict vs valid-only vs matched usable-output rates.
 - `E1_NAIVE_OUTPUT_BURDEN_CONTROL.md`: CUAD long-SCC Naive-lite output-burden control.
 - `E2_BUDGET_PREFIX_CONVERGENCE.md`: SA-MCGS rollout-prefix convergence.
 - `E3_COMPRESSION_PROFILE_ABLATION.md`: current/default vs balanced compression profile.

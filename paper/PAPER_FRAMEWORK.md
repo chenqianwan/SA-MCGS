@@ -240,7 +240,7 @@ Baseline fairness 要写：
 
 - Naive 不是弱 baseline：它直接看完整 SCC，并直接输出 risk subgraph。
 - SA-MCGS 和 Naive 使用同一类通用风险语义，不使用领域专用找错 prompt。
-- 报错计入 strict denominator。
+- 不可用结构化输出计入 strict denominator。
 
 ### 5. Main Results
 
@@ -252,7 +252,7 @@ Baseline fairness 要写：
 | Risk-any | 72% | 98% |
 | Risk-all | 47% | 78% |
 | Compression | 67% | 53% |
-| Errors | 59/320 | 0/320 |
+| Unavailable structured outputs | 59/320 | 0/320 |
 
 核心解释：
 
@@ -271,8 +271,8 @@ Baseline fairness 要写：
    用 E2 图说明 rollout 增加带来 risk coverage / risk-all 上升。  
    注意：`effective_oc_discovered` 是 cumulative discovery，不要当主指标。
 
-3. **Error Handling and Output Burden**  
-   用 E0/E1：Naive 报错不是被忽略；轻量版能降错，但仍不能追上 SA 的完整风险保留。
+3. **Output Availability and Output Burden**  
+   用 E0/E1：Naive 的不可用结构化输出不是被忽略；轻量版能缓解输出过大/不可用问题，但仍不能追上 SA 的完整风险保留。
 
 4. **Compression Trade-off**  
    用 E3：balanced 更压缩，但 Risk-all 掉；current/default 是主实验，因为 critical 风险下保留更重要。
@@ -322,7 +322,7 @@ SA-MCGS 把“长环结构中的风险识别”从 one-shot 文本判断，转�
    Debian / SEC EX-21 / BGB / CUAD 的来源、结构类型、噪声水平、泛化角色。
 
 4. **Table 3: Main results**  
-   Root@3 / Risk-any / Risk-all / Compression / Errors。
+   Root@3 / Risk-any / Risk-all / Compression / unavailable structured outputs。
 
 5. **Figure 2: Metrics by SCC size**  
    使用 `main_by_scc_size`。
@@ -330,7 +330,7 @@ SA-MCGS 把“长环结构中的风险识别”从 one-shot 文本判断，转�
 6. **Figure 3: Rollout convergence**  
    使用 E2 convergence 图。
 
-7. **Table 4: Error and valid-only analysis**  
+7. **Table 4: Output availability and valid-only analysis**  
    使用 E0，可能放 appendix 也可以。
 
 8. **Table/Figure: Naive output-burden control**  
@@ -362,7 +362,7 @@ SA-MCGS 把“长环结构中的风险识别”从 one-shot 文本判断，转�
 答法：
 
 - 主实验文件级锁定：`current/default + critical + 80 cases x 4 models`。
-- 所有报错计入 strict denominator。
+- 所有不可用结构化输出计入 strict denominator。
 - balanced / diagnostic / smoke 都标为补充或探索，不混入主表。
 
 ### Q3b. 四个数据集是否足够泛化？

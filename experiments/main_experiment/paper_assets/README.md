@@ -21,14 +21,16 @@
 ## Recommended Main-paper Assets
 
 - Figure 1: `figures/fig01_sa_mcgs_framework_architecture.svg` / `.png`
+- Figure 2: `figures/fig02_vanilla_mcts_scc_failure.png`
 - Table 1: `tables/tab01_mcts_scc_motivation.md` / `.csv`
 - Table 2: `tables/tab02_domain_coverage_authority.md` / `.csv`
-- Table 3: `tables/tab03_main_results_strict.md` / `.csv`
-- Figure 2: `figures/fig02_main_metrics_strict.pdf`
-- Figure 3: `figures/fig03_main_by_scc_size.pdf`
+- Table 3: `tables/tab03_reliability_strict.md` / `.csv`
+- Main-result metric source: `tables/tab03_main_results_strict.md` / `.csv`
+- Figure 3: `figures/fig02_main_results_composite.pdf`
 - Figure 4: `figures/fig04_budget_prefix_convergence.pdf`
 - Figure 5: `figures/fig05_compression_profile_tradeoff.pdf`
-- Figure 6: `figures/fig06_representative_scc_collapse.pdf`
+- Appendix figure: `figures/fig03_main_by_scc_size.pdf`
+- Appendix figure: `figures/fig06_representative_scc_collapse.pdf`
 
 ## Human Annotation
 

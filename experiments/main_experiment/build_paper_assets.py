@@ -22,6 +22,8 @@ from typing import Any, Iterable
 
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+from matplotlib.ticker import PercentFormatter
+from PIL import Image
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -66,15 +68,45 @@ TEMPLATE_LABELS = {
     "condition_trigger": "Condition trigger",
 }
 PAPER_COLORS = {
-    "naive": "#ff6b6b",
-    "sa": "#20c997",
-    "blue": "#2563eb",
-    "purple": "#7c3aed",
-    "orange": "#f97316",
-    "gray": "#64748b",
-    "dark": "#0f172a",
-    "grid": "#dbe3ef",
+    # Paper-first palette: gray baseline, restrained blue method, sparse accents.
+    "naive": "#8A8F98",
+    "sa": "#2F6690",
+    "sa_light": "#DDEAF3",
+    "blue": "#2F6690",
+    "purple": "#7C6A9C",
+    "orange": "#C9822B",
+    "risk": "#B75A57",
+    "support": "#5A8F73",
+    "gray": "#6B7280",
+    "light_gray": "#E5E7EB",
+    "panel": "#F8FAFC",
+    "dark": "#111827",
+    "grid": "#E5E7EB",
 }
+
+plt.rcParams.update(
+    {
+        "font.family": "DejaVu Sans",
+        "font.size": 8,
+        "axes.titlesize": 8.5,
+        "axes.labelsize": 8,
+        "xtick.labelsize": 7.5,
+        "ytick.labelsize": 7.5,
+        "legend.fontsize": 7.2,
+        "axes.linewidth": 0.6,
+        "xtick.major.width": 0.6,
+        "ytick.major.width": 0.6,
+        "xtick.major.size": 2.5,
+        "ytick.major.size": 2.5,
+        "lines.linewidth": 1.35,
+        "pdf.fonttype": 42,
+        "ps.fonttype": 42,
+        "figure.facecolor": "white",
+        "axes.facecolor": "white",
+        "savefig.facecolor": "white",
+        "savefig.dpi": 320,
+    }
+)
 
 
 def ensure_dirs() -> None:
@@ -164,20 +196,52 @@ def write_md_table(path: Path, title: str, rows: list[dict[str, Any]]) -> None:
 
 def savefig(fig: plt.Figure, stem: str) -> None:
     for suffix in ("png", "pdf"):
-        fig.savefig(FIG_DIR / f"{stem}.{suffix}", dpi=260, bbox_inches="tight")
+        fig.savefig(FIG_DIR / f"{stem}.{suffix}", dpi=320, bbox_inches="tight", pad_inches=0.03)
     plt.close(fig)
 
 
 def set_axis_style(ax: plt.Axes, *, ylim: tuple[float, float] | None = (0, 1.05), ylabel: str | None = None) -> None:
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    ax.grid(axis="y", color=PAPER_COLORS["grid"], linewidth=0.8, alpha=0.75)
+    ax.spines["left"].set_color("#374151")
+    ax.spines["bottom"].set_color("#374151")
+    ax.grid(axis="y", color=PAPER_COLORS["grid"], linewidth=0.55, alpha=0.9)
     ax.set_axisbelow(True)
     if ylim is not None:
         ax.set_ylim(*ylim)
     if ylabel:
-        ax.set_ylabel(ylabel, fontsize=10, color=PAPER_COLORS["dark"])
-    ax.tick_params(labelsize=9, colors="#334155")
+        ax.set_ylabel(ylabel, color=PAPER_COLORS["dark"])
+    ax.tick_params(colors="#374151")
+
+
+def set_percent_axis(ax: plt.Axes, *, ylim: tuple[float, float] | None = (0, 1.02), ylabel: str | None = None) -> None:
+    set_axis_style(ax, ylim=ylim, ylabel=ylabel)
+    ax.yaxis.set_major_formatter(PercentFormatter(1.0, decimals=0))
+
+
+def panel_label(ax: plt.Axes, label: str, title: str) -> None:
+    ax.set_title(rf"$\bf{{{label}.}}$ {title}", loc="left", pad=4)
+
+
+def soft_panel(ax: plt.Axes) -> None:
+    ax.set_facecolor("white")
+    for side in ("top", "right"):
+        ax.spines[side].set_visible(False)
+    for side in ("left", "bottom"):
+        ax.spines[side].set_color("#9CA3AF")
+        ax.spines[side].set_linewidth(0.6)
+    ax.tick_params(colors="#4B5563", labelsize=7.2)
+
+
+def draw_method_key(ax: plt.Axes, x: float, y: float) -> None:
+    ax.scatter([x], [y], s=28, color=PAPER_COLORS["naive"], edgecolor="white", linewidth=0.5, clip_on=False)
+    ax.text(x + 0.025, y, "Naive", va="center", fontsize=7.0, color=PAPER_COLORS["dark"])
+    ax.scatter([x + 0.17], [y], s=28, color=PAPER_COLORS["sa"], edgecolor="white", linewidth=0.5, clip_on=False)
+    ax.text(x + 0.195, y, "SA-MCGS", va="center", fontsize=7.0, color=PAPER_COLORS["dark"])
+
+
+def compact_percent_label(value: float, digits: int = 0) -> str:
+    return f"{value * 100:.{digits}f}%"
 
 
 def pct_label(value: float | None, digits: int = 0) -> str:
@@ -319,171 +383,338 @@ def create_demo_architecture_figure() -> None:
     )
 
 
+def draw_node(ax: plt.Axes, x: float, y: float, label: str | None, *, color: str, size: float = 0.030, lw: float = 0.9) -> None:
+    ax.add_patch(
+        patches.Circle(
+            (x, y),
+            size,
+            transform=ax.transAxes,
+            facecolor="white" if color == PAPER_COLORS["risk"] else "#F9FAFB",
+            edgecolor=color,
+            linewidth=lw,
+            zorder=3,
+        )
+    )
+    if label:
+        ax.text(x, y, label, ha="center", va="center", fontsize=6.3, color=color, weight="bold", transform=ax.transAxes, zorder=4)
+
+
+def draw_edge(ax: plt.Axes, a: tuple[float, float], b: tuple[float, float], *, color: str = "#6B7280", lw: float = 0.7, style: str = "-") -> None:
+    ax.annotate(
+        "",
+        xy=b,
+        xytext=a,
+        xycoords=ax.transAxes,
+        textcoords=ax.transAxes,
+        arrowprops=dict(arrowstyle="-|>", lw=lw, color=color, linestyle=style, shrinkA=6, shrinkB=6, mutation_scale=7),
+        zorder=2,
+    )
+
+
+def create_mcts_failure_figure() -> None:
+    """Use the original three-panel motivation figure, cropped for paper use."""
+    download_stem = (
+        "Create_a_clean_vectorstyle_academic_figure_for_an_ACL_EMNLP_paper._Use_the_same_visual_style_as_the_"
+        "reference_image_white_background_thin_black_roundedrectangle_panels_simple_nodelink_diagrams_restrained_"
+        "colors_clear_arrows_minimal_text"
+    )
+    clean_source = Path.home() / "Downloads" / f"{download_stem} (2).png"
+    previous_clean_source = Path.home() / "Downloads" / f"{download_stem}_hig.png"
+    titled_source = FIG_DIR / "archive" / "fig02_vanilla_mcts_scc_failure_uncropped.png"
+    source = next((candidate for candidate in (clean_source, previous_clean_source, titled_source) if candidate.exists()), titled_source)
+    if not source.exists():
+        raise FileNotFoundError(f"Missing original MCTS/SCC motivation figure: {source}")
+
+    image = Image.open(source).convert("RGB")
+    # Prefer the manually supplied version.  Some copies still include the
+    # generated title; detect that by aspect ratio and crop only the title band.
+    if image.height / image.width > 0.535:
+        cropped = image.crop((0, 96, image.width, image.height))
+    else:
+        cropped = image
+    out_png = FIG_DIR / "fig02_vanilla_mcts_scc_failure.png"
+    cropped.save(out_png)
+
+    fig, ax = plt.subplots(figsize=(7.2, 3.12))
+    ax.imshow(cropped)
+    ax.axis("off")
+    fig.savefig(FIG_DIR / "fig02_vanilla_mcts_scc_failure.pdf", bbox_inches="tight", pad_inches=0.025)
+    plt.close(fig)
+
+
 def create_main_metrics_figure(records: list[dict[str, Any]]) -> None:
     summaries = method_summary_map(records)
     naive = summaries["naive"]
     sa = summaries["sa-mcgs"]
 
-    fig = plt.figure(figsize=(12.8, 7.6))
-    gs = fig.add_gridspec(2, 2, width_ratios=[1.18, 1], height_ratios=[1, 1.05], wspace=0.28, hspace=0.42)
-    fig.suptitle("Main critical SCC experiment: accuracy, reliability, and compression", fontsize=17, weight="bold", y=0.99)
-
-    # Panel A: strict hit rates.
-    ax = fig.add_subplot(gs[0, 0])
-    metrics = ["root", "risk_any", "risk_all"]
-    labels = [METRIC_LABELS[m] for m in metrics]
-    x = list(range(len(metrics)))
-    width = 0.34
-    naive_vals = [naive[m] for m in metrics]
-    sa_vals = [sa[m] for m in metrics]
-    ax.bar([i - width / 2 for i in x], naive_vals, width, color=PAPER_COLORS["naive"], label="Naive")
-    ax.bar([i + width / 2 for i in x], sa_vals, width, color=PAPER_COLORS["sa"], label="SA-MCGS")
-    for i, (nv, sv) in enumerate(zip(naive_vals, sa_vals)):
-        ax.text(i - width / 2, nv + 0.025, pct_label(nv), ha="center", fontsize=9, weight="bold", color="#9f1239")
-        ax.text(i + width / 2, sv + 0.025, pct_label(sv), ha="center", fontsize=9, weight="bold", color="#047857")
-        ax.text(i, min(1.03, max(nv, sv) + 0.055), f"+{(sv - nv) * 100:.0f} pts", ha="center", fontsize=8.5, color="#334155")
-    ax.set_xticks(x, labels)
-    ax.set_title("A. Strict hit rates count parsing/API failures as failures", loc="left", fontsize=11, weight="bold")
-    ax.legend(frameon=False, fontsize=9, loc="upper left", bbox_to_anchor=(0.0, 1.08), ncol=2)
-    set_axis_style(ax, ylabel="Strict rate")
-
-    # Panel B: reliability and compression cost.
-    ax = fig.add_subplot(gs[0, 1])
-    rows = [
-        ("No-error rate", 1 - naive["errors"] / naive["n"], 1 - sa["errors"] / sa["n"], "higher is better"),
-        ("Compression", naive["compression"], sa["compression"], "higher is smaller subgraph"),
-        ("Core fraction", naive["avg_subgraph"] / 34.0, sa["avg_subgraph"] / 34.0, "lower means smaller retained core"),
+    fig, ax = plt.subplots(figsize=(7.2, 1.78))
+    metrics = [
+        ("Root@3", "root", True),
+        ("Risk-any", "risk_any", True),
+        ("Risk-all", "risk_all", True),
+        ("Compression", "compression", False),
     ]
-    y = list(range(len(rows)))
-    ax.barh([i + 0.18 for i in y], [r[1] for r in rows], 0.32, color=PAPER_COLORS["naive"], label="Naive")
-    ax.barh([i - 0.18 for i in y], [r[2] for r in rows], 0.32, color=PAPER_COLORS["sa"], label="SA-MCGS")
-    for i, (_label, nv, sv, note) in enumerate(rows):
-        ax.text(nv + 0.02, i + 0.18, pct_label(nv), va="center", fontsize=8.5, color="#9f1239", weight="bold")
-        ax.text(sv + 0.02, i - 0.18, pct_label(sv), va="center", fontsize=8.5, color="#047857", weight="bold")
-        ax.text(0.02, i + 0.46, note, fontsize=7.4, color="#64748b")
-    ax.set_yticks(y, [r[0] for r in rows])
-    ax.set_xlim(0, 1.05)
-    ax.set_title("B. Reliability makes the strict metric conservative", loc="left", fontsize=11, weight="bold")
-    set_axis_style(ax, ylim=None, ylabel=None)
+    y_positions = [3.0, 2.0, 1.0, 0.0]
+    for y, (label, key, success_metric) in zip(y_positions, metrics):
+        nv = float(naive[key])
+        sv = float(sa[key])
+        lo, hi = sorted([nv, sv])
+        line_color = "#DCEBF3" if success_metric else "#F3E3C7"
+        ax.plot([lo, hi], [y, y], color=line_color, linewidth=3.6, solid_capstyle="round", zorder=1)
+        ax.scatter([nv], [y], s=34, color=PAPER_COLORS["naive"], edgecolor="white", linewidth=0.6, zorder=3)
+        ax.scatter([sv], [y], s=38, color=PAPER_COLORS["sa"], edgecolor="white", linewidth=0.6, zorder=3)
 
-    # Panel C: model-level Risk-all.
-    ax = fig.add_subplot(gs[1, 0])
-    model_labels: list[str] = []
-    naive_model: list[float] = []
-    sa_model: list[float] = []
-    for model in dash.MODEL_ORDER:
-        model_labels.append(dash.MODEL_LABEL.get(model, model))
-        naive_model.append(summary([r for r in records if r.get("model") == model and r.get("method") == "naive"])["risk_all"])
-        sa_model.append(summary([r for r in records if r.get("model") == model and r.get("method") == "sa-mcgs"])["risk_all"])
-    x = list(range(len(model_labels)))
-    ax.bar([i - width / 2 for i in x], naive_model, width, color=PAPER_COLORS["naive"], alpha=0.9)
-    ax.bar([i + width / 2 for i in x], sa_model, width, color=PAPER_COLORS["sa"], alpha=0.95)
-    for i, (nv, sv) in enumerate(zip(naive_model, sa_model)):
-        ax.text(i - width / 2, nv + 0.025, pct_label(nv), ha="center", fontsize=8, color="#9f1239", weight="bold")
-        ax.text(i + width / 2, sv + 0.025, pct_label(sv), ha="center", fontsize=8, color="#047857", weight="bold")
-    ax.set_xticks(x, model_labels, rotation=15, ha="right")
-    ax.set_title("C. Risk-all is harder but improves across models", loc="left", fontsize=11, weight="bold")
-    set_axis_style(ax, ylabel="Risk-all rate")
+        # ACL-style figures read better when close values are separated by
+        # vertical offsets instead of forcing every label onto the same row.
+        if success_metric:
+            ax.text(nv + 0.009, y + 0.13, compact_percent_label(nv), ha="left", va="bottom", fontsize=7.0, color="#4B5563", weight="bold")
+            ax.text(sv + 0.009, y - 0.13, compact_percent_label(sv), ha="left", va="top", fontsize=7.2, color=PAPER_COLORS["sa"], weight="bold")
+            delta_y = y + 0.23
+        else:
+            ax.text(nv + 0.009, y + 0.13, compact_percent_label(nv), ha="left", va="bottom", fontsize=7.0, color="#4B5563", weight="bold")
+            ax.text(sv - 0.009, y - 0.13, compact_percent_label(sv), ha="right", va="top", fontsize=7.2, color=PAPER_COLORS["sa"], weight="bold")
+            delta_y = y + 0.23
+        delta = int(round((sv - nv) * 100))
+        delta_color = PAPER_COLORS["sa"] if delta >= 0 else PAPER_COLORS["orange"]
+        delta_label = f"{delta:+d} pts"
+        ax.text((lo + hi) / 2, delta_y, delta_label, ha="center", va="center", fontsize=6.9, color=delta_color, weight="bold")
 
-    # Panel D: domain-level Risk-all with error overlay.
-    ax = fig.add_subplot(gs[1, 1])
-    domain_labels: list[str] = []
-    naive_domain: list[float] = []
-    sa_domain: list[float] = []
-    naive_errors: list[float] = []
-    for domain in dash.DOMAIN_ORDER:
-        domain_labels.append(dash.DOMAIN_LABEL.get(domain, domain))
-        nrs = [r for r in records if r.get("domain") == domain and r.get("method") == "naive"]
-        srs = [r for r in records if r.get("domain") == domain and r.get("method") == "sa-mcgs"]
-        ns, ss = summary(nrs), summary(srs)
-        naive_domain.append(ns["risk_all"])
-        sa_domain.append(ss["risk_all"])
-        naive_errors.append(ns["errors"] / ns["n"] if ns["n"] else 0)
-    x = list(range(len(domain_labels)))
-    ax.bar([i - width / 2 for i in x], naive_domain, width, color=PAPER_COLORS["naive"], alpha=0.9)
-    ax.bar([i + width / 2 for i in x], sa_domain, width, color=PAPER_COLORS["sa"], alpha=0.95)
-    ax.plot(x, naive_errors, color=PAPER_COLORS["gray"], marker="o", linewidth=1.6, label="Naive error rate")
-    for i, err in enumerate(naive_errors):
-        if err > 0:
-            ax.text(i, err + 0.04, f"err {err:.0%}", ha="center", fontsize=7.5, color="#475569")
-    ax.set_xticks(x, domain_labels, rotation=15, ha="right")
-    ax.set_title("D. Domain view separates task difficulty from output errors", loc="left", fontsize=11, weight="bold")
-    ax.legend(frameon=False, fontsize=8, loc="upper right")
-    set_axis_style(ax, ylabel="Risk-all / error rate")
-
-    fig.text(
-        0.5,
-        0.005,
-        f"N={naive['n']} cases per method. Naive errors={naive['errors']}; SA-MCGS errors={sa['errors']}. "
-        f"SA gains Root@3 +{(sa['root'] - naive['root']) * 100:.0f}, Risk-any +{(sa['risk_any'] - naive['risk_any']) * 100:.0f}, Risk-all +{(sa['risk_all'] - naive['risk_all']) * 100:.0f} points.",
-        ha="center",
-        fontsize=9,
-        color="#334155",
-    )
+    ax.set_yticks(y_positions, [label for label, _, _ in metrics])
+    ax.set_xlim(0, 1.03)
+    ax.set_ylim(-0.45, 3.55)
+    ax.set_xticks([0, 0.25, 0.50, 0.75, 1.0], ["0%", "25%", "50%", "75%", "100%"])
+    ax.set_xlabel("Strict rate / compression")
+    ax.grid(False)
+    ax.scatter([], [], s=38, color=PAPER_COLORS["naive"], label="Naive")
+    ax.scatter([], [], s=42, color=PAPER_COLORS["sa"], label="SA-MCGS")
+    ax.legend(frameon=False, loc="upper right", ncol=2, handletextpad=0.35, columnspacing=0.8, bbox_to_anchor=(0.98, 1.12))
+    soft_panel(ax)
     savefig(fig, "fig02_main_metrics_strict")
 
 
 def create_scc_size_figure(records: list[dict[str, Any]]) -> None:
-    rows = dash._size_trend_rows(records)
-    sizes = [row["size"] for row in rows]
-    naive_all = [row["naive"]["risk_all"] for row in rows]
-    sa_all = [row["sa"]["risk_all"] for row in rows]
-    naive_root = [row["naive"]["root"] for row in rows]
-    sa_root = [row["sa"]["root"] for row in rows]
-    naive_comp = [row["naive"]["compression"] for row in rows]
-    sa_comp = [row["sa"]["compression"] for row in rows]
-    counts = [row["naive"]["n"] for row in rows]
+    buckets = [
+        ("Short\n$\\leq$12", lambda size: size <= 12),
+        ("Mid\n14--20", lambda size: 14 <= size <= 20),
+        ("Long\n$\\geq$24", lambda size: size >= 24),
+    ]
+    bucket_rows: list[dict[str, Any]] = []
+    for label, pred in buckets:
+        row: dict[str, Any] = {"bucket": label}
+        for method in METHODS:
+            recs = [
+                r
+                for r in records
+                if r.get("method") == method
+                and str(r.get("scc_size") or "").isdigit()
+                and pred(int(r.get("scc_size") or 0))
+            ]
+            row[method] = summary(recs)
+        bucket_rows.append(row)
 
-    fig = plt.figure(figsize=(12.5, 7.4))
-    gs = fig.add_gridspec(2, 2, wspace=0.28, hspace=0.42)
-    fig.suptitle("Effect by SCC size: SA-MCGS is strongest on longer cyclic contexts", fontsize=16, weight="bold", y=0.99)
+    fig = plt.figure(figsize=(7.2, 2.20))
+    gs = fig.add_gridspec(1, 2, width_ratios=[1.55, 1.0], wspace=0.30)
+
+    def draw_dumbbell(
+        ax: plt.Axes,
+        y_pos: float,
+        naive_value: float,
+        sa_value: float,
+        *,
+        line_color: str,
+        label_naive: bool = True,
+        label_sa: bool = True,
+    ) -> None:
+        lo, hi = sorted([naive_value, sa_value])
+        ax.plot([lo, hi], [y_pos, y_pos], color=line_color, linewidth=4.1, alpha=0.70, solid_capstyle="round", zorder=1)
+        ax.scatter([naive_value], [y_pos], s=31, color=PAPER_COLORS["naive"], edgecolor="white", linewidth=0.65, zorder=3)
+        ax.scatter([sa_value], [y_pos], s=34, color=PAPER_COLORS["sa"], edgecolor="white", linewidth=0.65, zorder=3)
+        close = abs(naive_value - sa_value) < 0.065
+        if label_naive:
+            dx = -0.018 if naive_value >= sa_value else 0.018
+            ha = "right" if naive_value >= sa_value else "left"
+            ax.text(naive_value + dx, y_pos + (0.11 if close else 0.09), compact_percent_label(naive_value), ha=ha, va="bottom", fontsize=6.1, color="#4B5563")
+        if label_sa:
+            dx = 0.018 if sa_value >= naive_value else -0.018
+            ha = "left" if sa_value >= naive_value else "right"
+            ax.text(sa_value + dx, y_pos - (0.11 if close else 0.09), compact_percent_label(sa_value), ha=ha, va="top", fontsize=6.3, color=PAPER_COLORS["sa"], weight="bold")
 
     ax = fig.add_subplot(gs[0, 0])
-    ax.plot(sizes, naive_all, "-o", color=PAPER_COLORS["naive"], label="Naive Risk-all")
-    ax.plot(sizes, sa_all, "-o", color=PAPER_COLORS["sa"], label="SA Risk-all")
-    ax.fill_between(sizes, naive_all, sa_all, where=[s >= n for s, n in zip(sa_all, naive_all)], color=PAPER_COLORS["sa"], alpha=0.12)
-    ax.set_title("A. Both endpoints retained", loc="left", fontsize=11, weight="bold")
-    ax.set_xlabel("SCC size")
-    ax.legend(frameon=False, fontsize=8)
-    set_axis_style(ax, ylabel="Risk-all rate")
+    success_rows: list[tuple[str, str, str, float, float]] = []
+    for row in bucket_rows:
+        success_rows.append((row["bucket"], "Root@3", "root", row["naive"]["root"], row["sa-mcgs"]["root"]))
+        success_rows.append((row["bucket"], "Risk-all", "risk_all", row["naive"]["risk_all"], row["sa-mcgs"]["risk_all"]))
+    y_positions = list(reversed(range(len(success_rows))))
+    for y_pos, (_, metric_label, key, naive_value, sa_value) in zip(y_positions, success_rows):
+        draw_dumbbell(ax, y_pos, naive_value, sa_value, line_color=PAPER_COLORS["sa_light"])
+    ax.set_yticks(y_positions, [metric for _, metric, _, _, _ in success_rows])
+    for center, row in zip([4.5, 2.5, 0.5], bucket_rows):
+        ax.text(-0.23, center, row["bucket"], transform=ax.get_yaxis_transform(), ha="right", va="center", fontsize=7.0, color="#4B5563", clip_on=False)
+    panel_label(ax, "A", "Endpoint retention by SCC size")
+    ax.set_xlim(0, 1.03)
+    ax.set_ylim(-0.55, len(success_rows) - 0.45)
+    ax.set_xticks([0, 0.5, 1.0], ["0%", "50%", "100%"])
+    ax.grid(axis="x", color=PAPER_COLORS["grid"], linewidth=0.55)
+    ax.grid(axis="y", color=PAPER_COLORS["grid"], linewidth=0.45)
+    soft_panel(ax)
 
     ax = fig.add_subplot(gs[0, 1])
-    deltas_all = [s - n for s, n in zip(sa_all, naive_all)]
-    deltas_root = [s - n for s, n in zip(sa_root, naive_root)]
-    ax.axhline(0, color="#94a3b8", linewidth=1)
-    ax.bar([s - 0.18 for s in sizes], deltas_all, width=0.34, color=PAPER_COLORS["purple"], label="Δ Risk-all")
-    ax.bar([s + 0.18 for s in sizes], deltas_root, width=0.34, color=PAPER_COLORS["blue"], label="Δ Root@3")
-    ax.set_title("B. SA-MCGS gain by size", loc="left", fontsize=11, weight="bold")
-    ax.set_xlabel("SCC size")
-    ax.legend(frameon=False, fontsize=8)
-    set_axis_style(ax, ylim=(-0.35, 0.85), ylabel="SA - Naive")
-
-    ax = fig.add_subplot(gs[1, 0])
-    ax.plot(sizes, naive_comp, "--o", color=PAPER_COLORS["naive"], label="Naive")
-    ax.plot(sizes, sa_comp, "-o", color=PAPER_COLORS["sa"], label="SA-MCGS")
-    ax.set_title("C. Compression stays meaningful as SCCs grow", loc="left", fontsize=11, weight="bold")
-    ax.set_xlabel("SCC size")
-    ax.legend(frameon=False, fontsize=8)
-    set_axis_style(ax, ylabel="Compression ratio")
-
-    ax = fig.add_subplot(gs[1, 1])
-    bucket_rows = dash._size_bucket_rows(records)
-    bucket_names = [row["bucket"] for row in bucket_rows]
-    bucket_x = list(range(len(bucket_names)))
-    bucket_naive = [row["naive"]["risk_all"] for row in bucket_rows]
-    bucket_sa = [row["sa"]["risk_all"] for row in bucket_rows]
-    bucket_n = [row["naive"]["n"] for row in bucket_rows]
-    width = 0.34
-    ax.bar([i - width / 2 for i in bucket_x], bucket_naive, width, color=PAPER_COLORS["naive"], label="Naive")
-    ax.bar([i + width / 2 for i in bucket_x], bucket_sa, width, color=PAPER_COLORS["sa"], label="SA-MCGS")
-    for i, n in enumerate(bucket_n):
-        ax.text(i, 1.03, f"n={n}", ha="center", fontsize=8, color="#475569")
-    ax.set_xticks(bucket_x, bucket_names)
-    ax.set_title("D. Bucketed view for paper table/caption", loc="left", fontsize=11, weight="bold")
-    ax.legend(frameon=False, fontsize=8)
-    set_axis_style(ax, ylabel="Risk-all rate")
-
+    y = list(reversed(range(len(bucket_rows))))
+    for yi, row in zip(y, bucket_rows):
+        draw_dumbbell(
+            ax,
+            yi,
+            row["naive"]["compression"],
+            row["sa-mcgs"]["compression"],
+            line_color="#F2DFC0",
+            label_naive=True,
+            label_sa=True,
+        )
+    panel_label(ax, "B", "Compression cost")
+    ax.set_yticks(y, [row["bucket"] for row in bucket_rows])
+    ax.set_xlim(0, 1.03)
+    ax.set_ylim(-0.55, len(bucket_rows) - 0.45)
+    ax.set_xticks([0, 0.5, 1.0], ["0%", "50%", "100%"])
+    ax.grid(axis="x", color=PAPER_COLORS["grid"], linewidth=0.55)
+    ax.grid(axis="y", color=PAPER_COLORS["grid"], linewidth=0.45)
+    ax.scatter([], [], s=31, color=PAPER_COLORS["naive"], label="Naive")
+    ax.scatter([], [], s=34, color=PAPER_COLORS["sa"], label="SA-MCGS")
+    ax.legend(frameon=False, loc="upper right", handletextpad=0.4, borderaxespad=0.2, ncol=1)
+    soft_panel(ax)
     savefig(fig, "fig03_main_by_scc_size")
+
+
+def create_main_results_composite_figure(records: list[dict[str, Any]]) -> None:
+    summaries = method_summary_map(records)
+    naive = summaries["naive"]
+    sa = summaries["sa-mcgs"]
+
+    buckets = [
+        ("Short\n$\\leq$12", lambda size: size <= 12),
+        ("Mid\n14--20", lambda size: 14 <= size <= 20),
+        ("Long\n$\\geq$24", lambda size: size >= 24),
+    ]
+    bucket_rows: list[dict[str, Any]] = []
+    for label, pred in buckets:
+        row: dict[str, Any] = {"bucket": label}
+        for method in METHODS:
+            recs = [
+                r
+                for r in records
+                if r.get("method") == method
+                and str(r.get("scc_size") or "").isdigit()
+                and pred(int(r.get("scc_size") or 0))
+            ]
+            row[method] = summary(recs)
+        bucket_rows.append(row)
+
+    fig = plt.figure(figsize=(7.2, 2.58))
+    gs = fig.add_gridspec(1, 2, width_ratios=[0.96, 1.22], wspace=0.30)
+
+    method_colors = {
+        "naive": "#9AA1AA",
+        "sa-mcgs": PAPER_COLORS["sa"],
+    }
+    text_gray = "#4B5563"
+    axis_gray = "#B7C0CB"
+    metric_rows = [
+        ("Root@3", "root"),
+        ("Risk-any", "risk_any"),
+        ("Risk-all", "risk_all"),
+        ("Compression", "compression"),
+    ]
+
+    # A. Overall strict metrics as a compact paired-point plot.
+    ax = fig.add_subplot(gs[0, 0])
+    y_base = list(reversed(range(len(metric_rows))))
+    for y, (label, key) in zip(y_base, metric_rows):
+        nv = float(naive[key])
+        sv = float(sa[key])
+        bridge_color = "#E4B865" if key == "compression" else "#CFE1ED"
+        ax.plot([nv, sv], [y, y], color=bridge_color, linewidth=4.1, alpha=0.74, solid_capstyle="round", zorder=1)
+        ax.scatter([nv], [y], s=27, color=method_colors["naive"], edgecolor="white", linewidth=0.6, zorder=3)
+        ax.scatter([sv], [y], s=30, color=method_colors["sa-mcgs"], edgecolor="white", linewidth=0.6, zorder=4)
+
+        nv_side = -1 if nv > sv else 1
+        sv_side = 1 if nv > sv else 1
+        if key == "compression":
+            nv_side, sv_side = 1, -1
+        ax.text(
+            nv + 0.018 * nv_side,
+            y + 0.18,
+            compact_percent_label(nv),
+            ha="left" if nv_side > 0 else "right",
+            va="center",
+            fontsize=6.4,
+            color=text_gray,
+            weight="bold",
+        )
+        ax.text(
+            sv + 0.018 * sv_side,
+            y - 0.18,
+            compact_percent_label(sv),
+            ha="left" if sv_side > 0 else "right",
+            va="center",
+            fontsize=6.4,
+            color=PAPER_COLORS["sa"],
+            weight="bold",
+        )
+    ax.set_title(r"$\bf{A.}$ Overall critical-SCC results", loc="left", pad=6, color=PAPER_COLORS["dark"], fontsize=8.0)
+    ax.set_yticks(y_base, [label for label, _ in metric_rows])
+    ax.set_xlim(0.35, 1.02)
+    ax.set_ylim(-0.55, len(metric_rows) - 0.45)
+    ax.set_xticks([0.4, 0.6, 0.8, 1.0], ["40", "60", "80", "100"])
+    ax.set_xlabel("Rate / compression (%)", labelpad=2.8)
+    ax.tick_params(axis="both", colors=text_gray, pad=2)
+    for spine in ("top", "right"):
+        ax.spines[spine].set_visible(False)
+    ax.spines["left"].set_color(axis_gray)
+    ax.spines["bottom"].set_color(axis_gray)
+    ax.spines["left"].set_linewidth(0.7)
+    ax.spines["bottom"].set_linewidth(0.7)
+    ax.grid(False)
+    ax.scatter([], [], s=27, color=method_colors["naive"], label="Naive")
+    ax.scatter([], [], s=30, color=method_colors["sa-mcgs"], label="SA-MCGS")
+    ax.legend(frameon=False, loc="upper right", bbox_to_anchor=(1.00, 1.02), ncol=2, handletextpad=0.35, columnspacing=0.75, fontsize=6.0)
+
+    # B. SCC-size breakdown as a booktabs-style matrix.
+    ax = fig.add_subplot(gs[0, 1])
+    ax.axis("off")
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.text(0.00, 0.985, "B.", fontsize=8.0, weight="bold", color=PAPER_COLORS["dark"], va="top")
+    ax.text(0.052, 0.985, "SCC-size breakdown", fontsize=8.0, color=PAPER_COLORS["dark"], va="top")
+
+    row_y = [0.62, 0.41, 0.20]
+    col_x = [0.42, 0.66, 0.89]
+    headers = [("Root@3", "root"), ("Risk-all", "risk_all"), ("Compression", "compression")]
+    ax.text(0.02, 0.795, "SCC size", fontsize=6.35, color=PAPER_COLORS["dark"], weight="bold", va="center")
+    for x, (header, _) in zip(col_x, headers):
+        ax.text(x, 0.795, header, fontsize=6.35, color=PAPER_COLORS["dark"], weight="bold", ha="center", va="center")
+    ax.plot([0.02, 0.985], [0.735, 0.735], color="#C9D2DD", linewidth=0.80)
+    ax.plot([0.02, 0.985], [0.095, 0.095], color="#C9D2DD", linewidth=0.80)
+
+    def draw_pair_cell(x: float, y: float, nv: float, sv: float, key: str) -> None:
+        naive_txt = str(int(round(nv * 100)))
+        sa_txt = str(int(round(sv * 100)))
+        arrow_color = "#D6E5EF" if key != "compression" else "#EAD8B6"
+        ax.plot([x - 0.042, x + 0.042], [y, y], color=arrow_color, linewidth=1.45, solid_capstyle="round")
+        ax.text(x - 0.050, y, naive_txt, fontsize=6.15, color=text_gray, ha="right", va="center", weight="bold" if key != "compression" else "normal")
+        ax.text(x + 0.050, y, sa_txt, fontsize=6.15, color=PAPER_COLORS["sa"] if key != "compression" else PAPER_COLORS["orange"], ha="left", va="center", weight="bold")
+
+    for ridx, (y, row) in enumerate(zip(row_y, bucket_rows)):
+        bucket = row["bucket"].replace("\n", " ")
+        ax.text(0.02, y, bucket, fontsize=6.35, color=text_gray, va="center")
+        for x, (_, key) in zip(col_x, headers):
+            nv = float(row["naive"][key])
+            sv = float(row["sa-mcgs"][key])
+            draw_pair_cell(x, y, nv, sv, key)
+        if ridx < len(row_y) - 1:
+            ax.plot([0.02, 0.985], [y - 0.108, y - 0.108], color="#EEF2F6", linewidth=0.55)
+
+    fig.subplots_adjust(left=0.082, right=0.988, top=0.86, bottom=0.24)
+
+    savefig(fig, "fig02_main_results_composite")
 
 
 def convergence_series_with_root(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -542,65 +773,80 @@ def create_budget_convergence_figure(records: list[dict[str, Any]]) -> None:
     rollouts = [row["rollout"] for row in series]
     budgets = [5, 10, 20, 30, 60]
 
-    fig = plt.figure(figsize=(12.5, 7.4))
-    gs = fig.add_gridspec(2, 2, wspace=0.28, hspace=0.42)
-    fig.suptitle("SA-MCGS convergence over rollout budget", fontsize=16, weight="bold", y=0.99)
+    fig = plt.figure(figsize=(7.2, 2.20))
+    gs = fig.add_gridspec(1, 2, width_ratios=[1.0, 1.0], wspace=0.27)
 
     ax = fig.add_subplot(gs[0, 0])
     line_specs = [
-        ("root", "Root retained", PAPER_COLORS["blue"]),
-        ("risk_any", "Risk-any", PAPER_COLORS["sa"]),
+        ("root", "Root@3", PAPER_COLORS["blue"]),
+        ("risk_any", "Risk-any", PAPER_COLORS["support"]),
         ("risk_all", "Risk-all", PAPER_COLORS["purple"]),
-        ("effective_oc", "Effective OC", PAPER_COLORS["orange"]),
     ]
+    end_label_x = 61.9
+    label_box = {"facecolor": "white", "edgecolor": "none", "pad": 0.6, "alpha": 0.90}
+    end_offsets = {"root": -0.008, "risk_any": 0.016, "risk_all": -0.020}
     for key, label, color in line_specs:
         vals = [row[key] for row in series]
-        ax.plot(rollouts, vals, linewidth=2.2, color=color, label=label)
-    for b in budgets:
-        ax.axvline(b, color="#cbd5e1", linewidth=0.7, linestyle=":")
-    ax.set_title("A. More rollouts recover more structural evidence", loc="left", fontsize=11, weight="bold")
+        ax.plot(rollouts, vals, linewidth=1.65, color=color, label=label)
+        label_y = min(0.985, max(0.035, vals[-1] + end_offsets.get(key, 0.0)))
+        ax.text(
+            end_label_x,
+            label_y,
+            compact_percent_label(vals[-1]),
+            va="center",
+            ha="left",
+            fontsize=6.6,
+            color=color,
+            weight="bold",
+            bbox=label_box,
+            clip_on=False,
+        )
+    ax.axvline(30, color="#CBD5E1", linewidth=0.75, linestyle=":")
+    ax.text(30.5, 0.05, "budget 30", fontsize=6.5, color="#6B7280", rotation=90, va="bottom")
+    panel_label(ax, "A", "Success accumulates with rollout budget")
     ax.set_xlabel("Rollout budget")
-    ax.legend(frameon=False, fontsize=8, ncol=2)
-    set_axis_style(ax, ylabel="Rate")
+    ax.legend(frameon=False, loc="lower right", ncol=1, handlelength=1.2, borderaxespad=0.2)
+    set_percent_axis(ax, ylabel="Rate")
+    ax.grid(axis="y", color=PAPER_COLORS["grid"], linewidth=0.36, alpha=0.32)
+    ax.grid(axis="x", visible=False)
+    ax.set_xlim(1, 64.5)
+    ax.set_xticks([1, 10, 20, 30, 40, 50, 60])
+    soft_panel(ax)
 
     ax = fig.add_subplot(gs[0, 1])
     comp = [row["compression"] for row in series]
     risk_cov = [row["risk_coverage"] for row in series]
     val_cov = [row["valuable_coverage"] for row in series]
-    ax.plot(rollouts, comp, color=PAPER_COLORS["gray"], linewidth=2.0, label="Compression")
-    ax.plot(rollouts, risk_cov, color=PAPER_COLORS["blue"], linewidth=2.0, label="Risk coverage")
-    ax.plot(rollouts, val_cov, color=PAPER_COLORS["orange"], linewidth=2.0, label="Valuable coverage")
-    ax.set_title("B. Coverage improves while compression remains bounded", loc="left", fontsize=11, weight="bold")
+    ax.plot(rollouts, risk_cov, color=PAPER_COLORS["blue"], linewidth=1.45, label="Risk coverage")
+    ax.plot(rollouts, val_cov, color=PAPER_COLORS["orange"], linewidth=1.35, label="Valuable coverage")
+    ax.plot(rollouts, comp, color=PAPER_COLORS["gray"], linewidth=1.15, linestyle="--", label="Compression")
+    right_labels = [
+        (risk_cov[-1] - 0.040, compact_percent_label(risk_cov[-1]), PAPER_COLORS["blue"]),
+        (val_cov[-1] + 0.018, compact_percent_label(val_cov[-1]), PAPER_COLORS["orange"]),
+        (comp[-1] + 0.055, compact_percent_label(comp[-1]), PAPER_COLORS["gray"]),
+    ]
+    for y_label, text, color in right_labels:
+        ax.text(
+            end_label_x,
+            min(0.985, max(0.035, y_label)),
+            text,
+            va="center",
+            ha="left",
+            fontsize=6.4,
+            color=color,
+            weight="bold",
+            bbox=label_box,
+            clip_on=False,
+        )
+    panel_label(ax, "B", "Evidence coverage vs retained core")
     ax.set_xlabel("Rollout budget")
-    ax.legend(frameon=False, fontsize=8)
-    set_axis_style(ax, ylabel="Rate / coverage")
-
-    ax = fig.add_subplot(gs[1, 0])
-    x = list(range(len(budgets)))
-    risk_all_prefix = [value_at_budget(series, "risk_all", b) or 0 for b in budgets]
-    root_prefix = [value_at_budget(series, "root", b) or 0 for b in budgets]
-    width = 0.35
-    ax.bar([i - width / 2 for i in x], root_prefix, width, color=PAPER_COLORS["blue"], label="Root retained")
-    ax.bar([i + width / 2 for i in x], risk_all_prefix, width, color=PAPER_COLORS["purple"], label="Risk-all")
-    for i, v in enumerate(risk_all_prefix):
-        ax.text(i + width / 2, v + 0.025, pct_label(v), ha="center", fontsize=8, weight="bold", color=PAPER_COLORS["purple"])
-    ax.set_xticks(x, [str(b) for b in budgets])
-    ax.set_title("C. Prefix budgets: what the paper can cite", loc="left", fontsize=11, weight="bold")
-    ax.set_xlabel("Budget prefix")
-    ax.legend(frameon=False, fontsize=8)
-    set_axis_style(ax, ylabel="Rate")
-
-    ax = fig.add_subplot(gs[1, 1])
-    for model in dash.MODEL_ORDER:
-        subset = [r for r in records if r.get("method") == "sa-mcgs" and r.get("model") == model]
-        m_series = convergence_series_with_root(subset)
-        if not m_series:
-            continue
-        ax.plot([r["rollout"] for r in m_series], [r["risk_all"] for r in m_series], linewidth=1.8, label=dash.MODEL_LABEL.get(model, model))
-    ax.set_title("D. Risk-all convergence by model", loc="left", fontsize=11, weight="bold")
-    ax.set_xlabel("Rollout budget")
-    ax.legend(frameon=False, fontsize=7.5, ncol=2)
-    set_axis_style(ax, ylabel="Risk-all rate")
+    ax.legend(frameon=False, loc="lower right", handlelength=1.2, borderaxespad=0.2)
+    set_percent_axis(ax, ylabel="Rate")
+    ax.grid(axis="y", color=PAPER_COLORS["grid"], linewidth=0.36, alpha=0.32)
+    ax.grid(axis="x", visible=False)
+    ax.set_xlim(1, 64.5)
+    ax.set_xticks([1, 10, 20, 30, 40, 50, 60])
+    soft_panel(ax)
 
     savefig(fig, "fig04_budget_prefix_convergence")
 
@@ -644,18 +890,27 @@ def create_compression_tradeoff_figure(records: list[dict[str, Any]]) -> None:
                 }
             )
 
-    fig = plt.figure(figsize=(12.4, 6.8))
-    gs = fig.add_gridspec(1, 2, width_ratios=[1.1, 1], wspace=0.3)
-    fig.suptitle("Compression profile trade-off: smaller subgraphs are not free", fontsize=16, weight="bold", y=1.01)
+    fig = plt.figure(figsize=(7.2, 2.25))
+    gs = fig.add_gridspec(1, 2, width_ratios=[1.35, 0.95], wspace=0.30)
 
     ax = fig.add_subplot(gs[0, 0])
     marker_map = {"naive": "o", "sa-mcgs": "s"}
     color_map = {"naive": PAPER_COLORS["naive"], "sa-mcgs": PAPER_COLORS["sa"]}
+    xs = [float(row["avg_subgraph"]) for row in rows]
+    ys = [float(row["risk_all"]) for row in rows]
+    label_offsets = {
+        ("naive", "balanced"): (0.10, 0.036, "left"),
+        ("naive", "current/default"): (0.10, -0.026, "left"),
+        ("sa-mcgs", "balanced"): (0.10, -0.010, "left"),
+        ("sa-mcgs", "current/default"): (0.10, 0.025, "left"),
+    }
     for row in rows:
-        label = f"{row['method']} · {row['profile'].replace('/default', '')}"
-        size = 90 + 160 * float(row["root"] or 0)
+        method_label = "SA" if row["method"] == "sa-mcgs" else "Naive"
+        profile_label = str(row["profile"]).replace("/default", "").replace("current", "curr.")
+        label = f"{method_label}, {profile_label}"
+        size = 42 + 60 * float(row["root"] or 0)
         ax.scatter(
-            row["compression"],
+            row["avg_subgraph"],
             row["risk_all"],
             s=size,
             marker=marker_map.get(row["method"], "o"),
@@ -663,31 +918,59 @@ def create_compression_tradeoff_figure(records: list[dict[str, Any]]) -> None:
             edgecolor="white",
             linewidth=0.8,
             alpha=0.9,
-            label=label,
         )
-        ax.text(row["compression"] + 0.01, row["risk_all"] + 0.01, label, fontsize=8, color="#334155")
-    ax.set_xlabel("Compression ratio (higher = smaller subgraph)")
-    ax.set_ylabel("Risk-all retention")
-    ax.set_xlim(0.45, 0.72)
-    ax.set_ylim(0.42, 0.84)
-    ax.set_title("A. Pareto view: retention vs subgraph size", loc="left", fontsize=11, weight="bold")
-    set_axis_style(ax, ylim=(0.42, 0.84), ylabel=None)
+        dx, dy, ha = label_offsets.get((row["method"], row["profile"]), (0.08, 0.006, "left"))
+        ax.annotate(
+            label,
+            xy=(row["avg_subgraph"], row["risk_all"]),
+            xytext=(row["avg_subgraph"] + dx, row["risk_all"] + dy),
+            textcoords="data",
+            fontsize=6.3,
+            color="#374151",
+            ha=ha,
+            va="center",
+            arrowprops=dict(arrowstyle="-", color="#CBD5E1", lw=0.45, shrinkA=2, shrinkB=2),
+        )
+    ax.set_xlabel("Average retained nodes")
+    ax.set_ylabel("Risk-all")
+    ax.set_xlim(max(0, min(xs) - 0.8), max(xs) + 1.2)
+    ax.set_ylim(max(0.0, min(ys) - 0.09), min(1.0, max(ys) + 0.10))
+    panel_label(ax, "A", "Retention--core-size frontier")
+    ax.yaxis.set_major_formatter(PercentFormatter(1.0, decimals=0))
+    set_axis_style(ax, ylim=None, ylabel=None)
+    soft_panel(ax)
 
     ax = fig.add_subplot(gs[0, 1])
     sa_rows = [r for r in rows if r["method"] == "sa-mcgs"]
     sa_rows.sort(key=lambda r: str(r["profile"]))
-    labels = [r["profile"].replace("/default", "") for r in sa_rows]
-    x = list(range(len(sa_rows)))
-    width = 0.26
-    ax.bar([i - width for i in x], [r["root"] for r in sa_rows], width, color=PAPER_COLORS["blue"], label="Root@3")
-    ax.bar(x, [r["risk_all"] for r in sa_rows], width, color=PAPER_COLORS["purple"], label="Risk-all")
-    ax.bar([i + width for i in x], [r["compression"] for r in sa_rows], width, color=PAPER_COLORS["orange"], label="Compression")
+    ax.axis("off")
+    panel_label(ax, "B", "SA profile choice")
+    headers = ["Profile", "Risk-all", "Core", "Comp."]
+    xs_text = [0.02, 0.48, 0.70, 0.87]
+    for xh, header in zip(xs_text, headers):
+        ax.text(xh, 0.83, header, fontsize=6.7, color="#4B5563", weight="bold", transform=ax.transAxes)
     for i, r in enumerate(sa_rows):
-        ax.text(i, max(r["root"], r["risk_all"], r["compression"]) + 0.035, f"avg core {r['avg_subgraph']:.1f}", ha="center", fontsize=8, color="#475569")
-    ax.set_xticks(x, labels)
-    ax.set_title("B. SA profile choice: current/default favors risk retention", loc="left", fontsize=11, weight="bold")
-    ax.legend(frameon=False, fontsize=8)
-    set_axis_style(ax, ylabel="Rate")
+        y0 = 0.60 - i * 0.28
+        is_current = "current" in str(r["profile"])
+        face = "#F8FAFC" if not is_current else "#EEF6FB"
+        edge = "#D1D5DB" if not is_current else PAPER_COLORS["sa"]
+        ax.add_patch(
+            patches.FancyBboxPatch(
+                (0.0, y0 - 0.075),
+                0.98,
+                0.17,
+                boxstyle="round,pad=0.012,rounding_size=0.014",
+                transform=ax.transAxes,
+                facecolor=face,
+                edgecolor=edge,
+                linewidth=0.75,
+            )
+        )
+        profile = str(r["profile"]).replace("/default", "").replace("current", "curr.")
+        vals = [profile, compact_percent_label(r["risk_all"]), f"{r['avg_subgraph']:.1f}", compact_percent_label(r["compression"])]
+        for xt, val in zip(xs_text, vals):
+            ax.text(xt, y0, val, fontsize=7.0, color="#111827", transform=ax.transAxes, va="center", weight="bold" if is_current and xt == xs_text[0] else "normal")
+    ax.text(0.02, 0.10, "Chosen profile keeps a larger core when both endpoints persist.", fontsize=6.6, color="#4B5563", transform=ax.transAxes)
 
     savefig(fig, "fig05_compression_profile_tradeoff")
 
@@ -734,59 +1017,153 @@ def create_case_study_figure(records: list[dict[str, Any]]) -> None:
     core = set(record.get("core_evidence_risk_subgraph_nodes") or record.get("risk_subgraph_nodes") or [])
     risk = {n for n in [root, witness] if n}
 
-    fig = plt.figure(figsize=(12.4, 7.3))
-    gs = fig.add_gridspec(2, 3, height_ratios=[1.05, 1], width_ratios=[1.28, 1, 0.92], hspace=0.36, wspace=0.3)
-    title = f"Case study: collapsing a {record.get('scc_size')}-node BGB SCC into an inspectable risk core"
-    fig.suptitle(title, fontsize=16, weight="bold", y=0.99)
+    fig = plt.figure(figsize=(7.45, 4.64))
+    gs = fig.add_gridspec(
+        2,
+        3,
+        height_ratios=[0.92, 1.08],
+        width_ratios=[1.02, 0.90, 1.56],
+        hspace=0.42,
+        wspace=0.32,
+    )
+    size = int(record.get("scc_size") or len(nodes) or 1)
+    core_nodes = [node for node in nodes if node in core] + sorted(node for node in core if node not in nodes)
+    sm = _metric_values(record)
+    nm = _metric_values(naive_record) if naive_record else {}
+    compression = sm.get("compression") or 0
+    short = lambda node: str(node).replace("bgb_", "§").replace("sec_", "").replace("us-cw-", "")
 
-    # Panel A: SCC context as a linearized cycle.
+    # A. SCC context as a linearized cycle.
     ax = fig.add_subplot(gs[0, :2])
-    ax.set_title("A. Original SCC context: risk endpoints are far apart inside a legal-reference cycle", loc="left", fontsize=11, weight="bold")
     ax.axis("off")
-    n = len(nodes)
-    xs = [i / max(1, n - 1) for i in range(n)]
-    y = 0.48
-    ax.plot([0, 1], [y, y], color="#cbd5e1", linewidth=2.2, zorder=0)
+    panel_label(ax, "A", "Original SCC context: endpoints are far apart")
+    n = max(1, len(nodes))
+    xs = [0.075 + 0.745 * i / max(1, n - 1) for i in range(n)]
+    y = 0.45
+    ax.plot([xs[0], xs[-1]], [y, y], color="#D7DEE8", linewidth=1.6, transform=ax.transAxes, zorder=0)
     for i, node in enumerate(nodes):
         x = xs[i]
         if node in risk:
-            face, size, label = PAPER_COLORS["naive"], 175, "risk endpoint"
+            face, s, label_color = PAPER_COLORS["risk"], 52, PAPER_COLORS["risk"]
         elif node in affected:
-            face, size, label = PAPER_COLORS["orange"], 125, "affected"
+            face, s, label_color = PAPER_COLORS["orange"], 42, PAPER_COLORS["orange"]
         elif node in core:
-            face, size, label = PAPER_COLORS["sa"], 120, "core"
+            face, s, label_color = PAPER_COLORS["support"], 42, PAPER_COLORS["support"]
         else:
-            face, size, label = "#e2e8f0", 42, "context"
-        ax.scatter([x], [y], s=size, color=face, edgecolor="#334155", linewidth=0.8, zorder=2)
+            face, s, label_color = "#E5E7EB", 18, "#6B7280"
+        ax.scatter([x], [y], s=s, color=face, edgecolor="#334155", linewidth=0.45, transform=ax.transAxes, zorder=3)
         if node in risk or node in affected or node in core:
-            short = node.replace("bgb_", "§")
-            ax.text(x, y + (0.16 if i % 2 == 0 else -0.18), short, ha="center", va="center", fontsize=7.5, color="#0f172a")
-    ax.annotate("cycle continues", xy=(1, y), xytext=(0.84, y + 0.23), arrowprops=dict(arrowstyle="->", color="#64748b"), fontsize=8, color="#475569")
-    legend_items = [("root/witness", PAPER_COLORS["naive"]), ("affected", PAPER_COLORS["orange"]), ("final core", PAPER_COLORS["sa"]), ("other SCC node", "#e2e8f0")]
+            above = i % 2 == 0
+            yy = y + (0.145 if above else -0.145)
+            ax.text(x, yy, short(node), ha="center", va="center", fontsize=5.6, color="#1F2937", transform=ax.transAxes)
+    ax.annotate(
+        "cycle continues",
+        xy=(xs[-1], y),
+        xytext=(0.705, 0.725),
+        xycoords=ax.transAxes,
+        textcoords=ax.transAxes,
+        arrowprops=dict(arrowstyle="->", color="#7A8798", lw=0.7),
+        fontsize=5.9,
+        color="#4B5563",
+    )
+    ax.text(
+        0.05,
+        0.83,
+        f"{size} records in one strongly connected component",
+        fontsize=6.7,
+        weight="bold",
+        color="#111827",
+        transform=ax.transAxes,
+    )
+    legend_items = [
+        ("root / witness", PAPER_COLORS["risk"]),
+        ("affected", PAPER_COLORS["orange"]),
+        ("final core", PAPER_COLORS["support"]),
+        ("other SCC node", "#E5E7EB"),
+    ]
     for i, (label, color) in enumerate(legend_items):
-        ax.scatter([0.02 + i * 0.21], [0.08], s=70, color=color, edgecolor="#334155")
-        ax.text(0.045 + i * 0.21, 0.08, label, va="center", fontsize=8.5, color="#334155")
-    ax.set_xlim(-0.02, 1.02)
-    ax.set_ylim(0, 1)
+        x0 = 0.055 + i * 0.205
+        ax.scatter([x0], [0.09], s=36, color=color, edgecolor="#334155", linewidth=0.45, transform=ax.transAxes)
+        ax.text(x0 + 0.032, 0.09, label, va="center", fontsize=5.8, color="#374151", transform=ax.transAxes)
 
-    # Panel B: final core node list.
+    # B. Final dynamic core.
     ax = fig.add_subplot(gs[0, 2])
-    ax.set_title("B. Final dynamic core", loc="left", fontsize=11, weight="bold")
     ax.axis("off")
-    size = int(record.get("scc_size") or len(nodes) or 1)
-    core_nodes = list(core)
-    compression = _metric_values(record).get("compression")
-    ax.text(0.0, 0.9, f"{len(core_nodes)}/{size} nodes retained", fontsize=18, weight="bold", color=PAPER_COLORS["dark"])
-    ax.text(0.0, 0.78, f"compression = {pct_label(compression)}", fontsize=12, color="#475569")
-    ax.text(0.0, 0.62, "Core contains:", fontsize=10, weight="bold", color=PAPER_COLORS["dark"])
-    for i, node in enumerate(core_nodes[:10]):
-        color = PAPER_COLORS["naive"] if node in risk else PAPER_COLORS["orange"] if node in affected else PAPER_COLORS["sa"]
-        ax.add_patch(patches.FancyBboxPatch((0.0, 0.54 - i * 0.06), 0.82, 0.042, boxstyle="round,pad=0.008,rounding_size=0.012", facecolor=color, alpha=0.16, edgecolor=color, linewidth=0.8))
-        ax.text(0.03, 0.561 - i * 0.06, node.replace("bgb_", "§"), fontsize=7.5, color="#0f172a", va="center")
-    if len(core_nodes) > 10:
-        ax.text(0.03, 0.54 - 10 * 0.06, f"+ {len(core_nodes) - 10} more", fontsize=7.5, color="#64748b")
+    panel_label(ax, "B", "Final dynamic core")
+    ax.text(0.04, 0.855, f"{len(core_nodes)}/{size}", fontsize=13.6, weight="bold", color=PAPER_COLORS["dark"], transform=ax.transAxes)
+    ax.text(0.04, 0.748, "nodes retained", fontsize=6.4, color="#374151", transform=ax.transAxes)
+    ax.text(0.04, 0.668, f"compression = {compact_percent_label(compression)}", fontsize=6.4, color="#4B5563", transform=ax.transAxes)
 
-    # Panel C: convergence within the case.
+    endpoint_nodes = [node for node in core_nodes if node in risk]
+    affected_nodes = [node for node in core_nodes if node in affected and node not in risk]
+    support_nodes = [node for node in core_nodes if node not in risk and node not in affected]
+
+    ax.plot([0.04, 0.96], [0.604, 0.604], color="#D7DEE8", linewidth=0.7, transform=ax.transAxes)
+
+    def core_chip(x: float, y0: float, node: Any, *, width: float = 0.28, height: float = 0.062) -> None:
+        if node in risk:
+            fill, edge, color = "#F8E9E7", "#EBCAC6", PAPER_COLORS["risk"]
+        elif node in affected:
+            fill, edge, color = "#F4EAD7", "#E7D5B7", "#8A5B20"
+        else:
+            fill, edge, color = "#E5F1EC", "#C9DED6", "#1F2937"
+        ax.add_patch(
+            patches.FancyBboxPatch(
+                (x, y0 - height / 2),
+                width,
+                height,
+                boxstyle="round,pad=0.010,rounding_size=0.014",
+                facecolor=fill,
+                edgecolor=edge,
+                linewidth=0.5,
+                transform=ax.transAxes,
+            )
+        )
+        ax.text(
+            x + width / 2,
+            y0,
+            short(node),
+            fontsize=5.05,
+            color=color,
+            ha="center",
+            va="center",
+            transform=ax.transAxes,
+            weight="bold" if node in risk else "normal",
+        )
+
+    ax.text(0.04, 0.536, "risk endpoints kept", fontsize=6.0, weight="bold", color="#111827", transform=ax.transAxes)
+    for i, node in enumerate(endpoint_nodes[:2]):
+        core_chip(0.04 + i * 0.480, 0.462, node, width=0.400, height=0.088)
+
+    ax.text(0.04, 0.350, "supporting context", fontsize=6.0, weight="bold", color="#111827", transform=ax.transAxes)
+    context_nodes = (affected_nodes + support_nodes)[:7]
+    ax.add_patch(
+        patches.FancyBboxPatch(
+            (0.04, 0.056),
+            0.90,
+            0.250,
+            boxstyle="round,pad=0.018,rounding_size=0.014",
+            facecolor="#F8FAFC",
+            edgecolor="#D7DEE8",
+            linewidth=0.55,
+            transform=ax.transAxes,
+        )
+    )
+    for i, node in enumerate(context_nodes):
+        row = i % 4
+        col = i // 4
+        x = 0.085 + col * 0.455
+        y0 = 0.263 - row * 0.052
+        if node in affected:
+            color = "#8A5B20"
+            bullet_color = PAPER_COLORS["orange"]
+        else:
+            color = "#1F2937"
+            bullet_color = PAPER_COLORS["support"]
+        ax.scatter([x], [y0], s=11, color=bullet_color, edgecolor="none", transform=ax.transAxes, zorder=3)
+        ax.text(x + 0.030, y0, short(node), fontsize=5.85, color=color, ha="left", va="center", transform=ax.transAxes)
+
+    # C. Case-specific rollout trace.
     ax = fig.add_subplot(gs[1, :2])
     trace = record.get("convergence_trace") or []
     rxs = [int(p.get("rollout") or 0) for p in trace if isinstance(p, dict)]
@@ -794,45 +1171,66 @@ def create_case_study_figure(records: list[dict[str, Any]]) -> None:
     val_cov = [float(p.get("valuable_coverage") or 0) for p in trace if isinstance(p, dict)]
     comp = [float(p.get("compression_ratio") or 0) for p in trace if isinstance(p, dict)]
     if rxs:
-        ax.plot(rxs, risk_cov, color=PAPER_COLORS["blue"], linewidth=2.2, label="Risk endpoint coverage")
-        ax.plot(rxs, val_cov, color=PAPER_COLORS["orange"], linewidth=2.2, label="Broader valuable-node coverage")
-        ax.plot(rxs, comp, color=PAPER_COLORS["gray"], linewidth=1.8, linestyle="--", label="Compression")
+        ax.plot(rxs, risk_cov, color=PAPER_COLORS["blue"], linewidth=1.55, label="Risk endpoint coverage")
+        ax.plot(rxs, val_cov, color=PAPER_COLORS["orange"], linewidth=1.45, label="Broader valuable-node coverage")
+        ax.plot(rxs, comp, color="#6B7A90", linewidth=1.35, linestyle="--", label="Compression")
         first_all = record.get("first_subgraph_risk_all_rollout")
         if first_all:
-            ax.axvline(int(first_all), color=PAPER_COLORS["purple"], linestyle=":", linewidth=2)
-            ax.text(int(first_all) + 0.6, 0.08, f"first risk-all @ {first_all}", fontsize=8, color=PAPER_COLORS["purple"], rotation=90, va="bottom")
-    ax.set_title("C. Rollout trace: evidence is retained after discovery", loc="left", fontsize=11, weight="bold")
-    ax.set_xlabel("Rollout")
-    ax.legend(frameon=False, fontsize=8, ncol=3)
-    set_axis_style(ax, ylabel="Coverage / compression")
+            first_all_i = int(first_all)
+            ax.axvline(first_all_i, color=PAPER_COLORS["purple"], linestyle=":", linewidth=1.25, alpha=0.82, zorder=1)
+            ax.text(
+                first_all_i + 1.20,
+                1.070,
+                f"risk-all @ {first_all_i}",
+                fontsize=5.9,
+                color=PAPER_COLORS["purple"],
+                ha="left",
+                va="center",
+                bbox=dict(boxstyle="round,pad=0.12", facecolor="white", edgecolor="none", alpha=0.96),
+                clip_on=False,
+            )
+        x_label = max(rxs) + 1.2
+        ax.text(x_label, risk_cov[-1], "risk endpoints", fontsize=5.7, color=PAPER_COLORS["blue"], va="center")
+        ax.text(x_label, val_cov[-1], "valuable nodes", fontsize=5.7, color=PAPER_COLORS["orange"], va="center")
+        ax.text(x_label, comp[-1], "compression", fontsize=5.7, color="#6B7A90", va="center")
+        ax.set_xlim(0, max(rxs) + 8)
+    panel_label(ax, "C", "Rollout trace: evidence is retained after discovery")
+    ax.set_xlabel("Rollout", labelpad=3)
+    set_percent_axis(ax, ylim=(0, 1.13), ylabel="Coverage / compression")
+    soft_panel(ax)
 
-    # Panel D: method comparison card.
+    # D. Method comparison card.
     ax = fig.add_subplot(gs[1, 2])
     ax.axis("off")
-    sm = _metric_values(record)
-    nm = _metric_values(naive_record) if naive_record else {}
-    ax.set_title("D. Same case outcome", loc="left", fontsize=11, weight="bold")
-    rows = [
-        ("Root@3", nm.get("root_top3"), sm.get("root_top3")),
-        ("Risk-any", nm.get("risk_any"), sm.get("risk_any")),
-        ("Risk-all", nm.get("risk_all"), sm.get("risk_all")),
-    ]
-    x_cols = {"naive_label": 0.34, "naive_value": 0.57, "sa_label": 0.73, "sa_value": 0.97}
-    for i, (label, nv, sv) in enumerate(rows):
-        yy = 0.82 - i * 0.18
-        ax.text(0.0, yy, label, fontsize=10.5, color=PAPER_COLORS["dark"], weight="bold")
-        ax.text(x_cols["naive_label"], yy, "Naive", fontsize=9, color="#64748b")
-        ax.text(x_cols["naive_value"], yy, "Yes" if nv is True else "No" if nv is False else "err", fontsize=10.5, color=PAPER_COLORS["sa"] if nv is True else PAPER_COLORS["naive"], weight="bold", ha="center")
-        ax.text(x_cols["sa_label"], yy, "SA", fontsize=9, color="#64748b")
-        ax.text(x_cols["sa_value"], yy, "Yes" if sv is True else "No", fontsize=10.5, color=PAPER_COLORS["sa"] if sv is True else PAPER_COLORS["naive"], weight="bold", ha="right")
+    panel_label(ax, "D", "Same-case outcome")
+    rows = [("Root@3", "root_top3"), ("Risk-any", "risk_any"), ("Risk-all", "risk_all")]
+    ax.text(0.50, 0.82, "Naive", fontsize=6.1, color="#6B7280", ha="center", transform=ax.transAxes)
+    ax.text(0.82, 0.82, "SA", fontsize=6.1, color="#6B7280", ha="center", transform=ax.transAxes)
+    for i, (label, key) in enumerate(rows):
+        y0 = 0.72 - i * 0.17
+        ax.text(0.02, y0, label, fontsize=7.2, weight="bold", color="#111827", transform=ax.transAxes, va="center")
+        for x0, val in [(0.50, nm.get(key)), (0.82, sm.get(key))]:
+            ok = val is True
+            ax.text(
+                x0,
+                y0,
+                "Yes" if ok else "No" if val is False else "err",
+                fontsize=7.2,
+                weight="bold",
+                ha="center",
+                va="center",
+                color=PAPER_COLORS["support"] if ok else PAPER_COLORS["risk"],
+                transform=ax.transAxes,
+            )
     ax.text(
-        0.0,
-        0.16,
+        0.02,
+        0.03,
         f"Template: {TEMPLATE_LABELS.get(template_name(record), template_name(record))}\n"
-        f"Root: {str(root).replace('bgb_', '§')}\nWitness: {str(witness).replace('bgb_', '§')}",
-        fontsize=9,
-        color="#475569",
-        linespacing=1.45,
+        f"Root: {short(root)}\nWitness: {short(witness)}",
+        fontsize=5.8,
+        color="#4B5563",
+        linespacing=1.18,
+        transform=ax.transAxes,
     )
     savefig(fig, "fig06_representative_scc_collapse")
 
@@ -857,6 +1255,22 @@ def create_main_tables(records: list[dict[str, Any]]) -> None:
         )
     write_csv(TABLE_DIR / "tab03_main_results_strict.csv", main_rows)
     write_md_table(TABLE_DIR / "tab03_main_results_strict.md", "Table 3. Main Strict Results", main_rows)
+
+    reliability_rows: list[dict[str, Any]] = []
+    for method in METHODS:
+        recs = method_records(records, method)
+        s = summary(recs)
+        reliability_rows.append(
+            {
+                "method": method,
+                "method_records": s["n"],
+                "usable_structured_outputs": f"{s['n'] - s['errors']}/{s['n']}",
+                "unavailable_structured_outputs": f"{s['errors']}/{s['n']}",
+                "usable_output_rate": pct(1 - s["errors"] / s["n"] if s["n"] else None),
+            }
+        )
+    write_csv(TABLE_DIR / "tab03_reliability_strict.csv", reliability_rows)
+    write_md_table(TABLE_DIR / "tab03_reliability_strict.md", "Table 3. Strict Output Reliability", reliability_rows)
 
     model_rows: list[dict[str, Any]] = []
     for model in dash.MODEL_ORDER:
@@ -995,23 +1409,30 @@ def create_figure_catalog() -> None:
         },
         {
             "id": "Figure 2",
-            "file": "fig02_main_metrics_strict.pdf/png",
-            "paper_section": "Main Results",
-            "what_it_shows": "Composite main result: strict Root@3/Risk-any/Risk-all, reliability/error burden, model-level Risk-all, and domain-level difficulty.",
+            "file": "fig02_vanilla_mcts_scc_failure.png",
+            "paper_section": "Method",
+            "what_it_shows": "Visual motivation for why vanilla TreeMCTS fails on SCCs: path-copy expansion, budget dilution, Q-value flattening, and the SA-MCGS collapse alternative.",
             "use_in_main_text": "Yes",
         },
         {
             "id": "Figure 3",
-            "file": "fig03_main_by_scc_size.pdf/png",
-            "paper_section": "Main Results / Analysis",
-            "what_it_shows": "Composite SCC-size analysis: Risk-all by exact size, SA-minus-Naive gains, compression by size, and bucketed paper view.",
+            "file": "fig02_main_results_composite.pdf/png",
+            "paper_section": "Main Results",
+            "what_it_shows": "Composite main-result figure: headline strict performance plus SCC-size breakdown of endpoint retention and compression.",
             "use_in_main_text": "Yes",
+        },
+        {
+            "id": "Figure A1",
+            "file": "fig03_main_by_scc_size.pdf/png",
+            "paper_section": "Appendix",
+            "what_it_shows": "Standalone SCC-size analysis retained as a backup asset; the main text uses the composite Figure 3.",
+            "use_in_main_text": "No",
         },
         {
             "id": "Figure 4",
             "file": "fig04_budget_prefix_convergence.pdf/png",
             "paper_section": "Analysis",
-            "what_it_shows": "Rollout convergence: root retention, Risk-any, Risk-all, effective OC, coverage, compression, and per-model Risk-all curves.",
+            "what_it_shows": "Rollout convergence: strict success curves, evidence coverage versus compression, and citable budget checkpoints.",
             "use_in_main_text": "Yes",
         },
         {
@@ -1022,7 +1443,7 @@ def create_figure_catalog() -> None:
             "use_in_main_text": "Maybe",
         },
         {
-            "id": "Figure 6",
+            "id": "Figure A2",
             "file": "fig06_representative_scc_collapse.pdf/png",
             "paper_section": "Case Study",
             "what_it_shows": "Representative long-SCC case narrative: original cycle context, final dynamic core, rollout trace, and same-case Naive-vs-SA outcome.",
@@ -1084,7 +1505,190 @@ def compact_node_stats(record: dict[str, Any], node: str | None) -> str:
     return textwrap.shorten(str(details), width=240, placeholder="...")
 
 
-def select_annotation_pairs(records: list[dict[str, Any]], per_domain: int = 8) -> list[dict[str, Any]]:
+EXPERT_ANNOTATION_DOMAINS = ["sec_ex21", "bgb", "cuad"]
+
+
+ANNOTATION_DOMAIN_ZH = {
+    "sec_ex21": "公司股权/合并披露",
+    "bgb": "德国民法法条",
+    "cuad": "合同条款",
+}
+
+
+ANNOTATION_TEMPLATE_ZH = {
+    "direct_mutex": "两段话直接互相矛盾",
+    "handoff_invariant": "前后传递的条件不一致",
+    "temporal_gate": "时间或生效顺序冲突",
+    "condition_trigger": "触发条件前后不一致",
+}
+
+
+ANNOTATION_TEMPLATE_PLAIN_ZH = {
+    "direct_mutex": "这个样本里，远距离的两段文字可能分别提出了不能同时成立的要求。专家只需要判断：这些段落放在同一条关系链里时，是否真的会互相打架。",
+    "handoff_invariant": "这个样本里，前面一段传递出去的条件，和后面一段接收到的条件可能不一致。专家只需要判断：同一条关系链上的状态是否被中途改坏了。",
+    "temporal_gate": "这个样本里，某个动作的时间顺序或生效前提可能被前后两段说成了不同状态。专家只需要判断：按这些文字执行时，是否会出现还没满足条件却已经开始执行的问题。",
+    "condition_trigger": "这个样本里，某个后果本来需要满足条件才会发生，但后面的文字可能把它当成已经发生。专家只需要判断：触发条件是否被前后段落说乱了。",
+}
+
+
+NODE_READING_HINTS_ZH = {
+    "risk": "重点判断：这段可能是矛盾的一端。它单独看未必错，但和远处另一段放在一起可能无法同时成立。",
+    "affected": "重点判断：这段可能被前后的矛盾影响。它自己不一定错，但可能是修复时必须看的相关段落。",
+    "suggested": "阅读提示：这段被系统认为有助于理解问题，但专家可以不同意。请按正文内容独立判断。",
+    "context": "上下文段落：主要用于理解前后关系。如果你认为它也有风险，可以直接标出来。",
+}
+
+
+def _expert_attention_hint(
+    kind: str,
+    in_core: bool,
+    in_oc: bool,
+    in_context: bool,
+    injected_note: str = "",
+) -> dict[str, str]:
+    """Human-readable, non-CS hint shown next to each paragraph in the expert UI."""
+    evidence = textwrap.shorten(_clean_text(injected_note), width=420, placeholder="...")
+    if kind == "risk":
+        parts = [
+            "这段是高风险重点段落。",
+            "它包含的要求可能和另一段文字不能同时成立，建议专家直接核对。",
+        ]
+        if evidence:
+            parts.append(f"风险证据：{evidence}")
+        if in_core:
+            parts.append("系统也把它列为优先审阅段落。")
+        if in_oc:
+            parts.append("这段在多次小范围检查中被反复注意到。")
+        return {
+            "level": "risk",
+            "title": "高风险重点段落",
+            "reason": " ".join(parts),
+        }
+    if kind == "affected":
+        parts = [
+            "这段可能是受影响段落。",
+            "它不一定自己有错，但如果前后段落存在冲突，修复时可能需要一起看。",
+        ]
+        if in_core:
+            parts.append("系统把它放进了建议优先看的材料中。")
+        return {
+            "level": "affected",
+            "title": "可能受影响段落",
+            "reason": " ".join(parts),
+        }
+    if in_core:
+        parts = [
+            "系统建议优先看这段。",
+            "请重点核对：它是否和其他段落放在一起会冲突，或者是否是修复问题时必须保留的材料。",
+        ]
+        if in_oc:
+            parts.append("这段在多次小范围检查中被反复注意到，所以建议先看；最终判断仍以你的标注为准。")
+        elif in_context:
+            parts.append("它曾和其他重点段落一起出现，可能有助于理解前后关系。")
+        return {
+            "level": "focus",
+            "title": "建议优先看",
+            "reason": " ".join(parts),
+        }
+    return {
+        "level": "context",
+        "title": "普通展示段落",
+        "reason": "系统没有把这段列为优先审阅段落，但它仍然完整展示。若你认为它有问题，或修复时必须一起看，可以直接标出来。",
+    }
+
+
+GRAPH_CACHE: dict[str, DependencyGraph] = {}
+
+
+def _annotation_graph(domain: str) -> DependencyGraph | None:
+    """Load original domain graph only for rebuilding expert-readable text."""
+    if domain in GRAPH_CACHE:
+        return GRAPH_CACHE[domain]
+    try:
+        from run_cross_domain_battle import load_bgb_graph, load_cuad_graph
+        from run_cross_domain import load_sec_graph
+
+        loaders = {
+            "sec_ex21": load_sec_graph,
+            "bgb": load_bgb_graph,
+            "cuad": load_cuad_graph,
+        }
+        if domain not in loaders:
+            return None
+        GRAPH_CACHE[domain] = loaders[domain]()
+        return GRAPH_CACHE[domain]
+    except Exception as exc:
+        print(f"[annotation] could not rebuild full text for {domain}: {exc}", file=sys.stderr)
+        return None
+
+
+def _clean_text(value: Any) -> str:
+    text = re.sub(r"\s+", " ", str(value or "")).strip()
+    return text
+
+
+def _clause_full_text(graph: DependencyGraph | None, fallback_record: dict[str, Any], node_id: str) -> tuple[str, str]:
+    """Return title and readable text for a node, preferring original graph content."""
+    if graph and node_id in graph.clauses:
+        clause = graph.clauses[node_id]
+        title = _clean_text(clause.title or node_id)
+        content = _clean_text(clause.content or clause.title or node_id)
+        if title and content and not content.startswith(title):
+            return title, f"{title}\n\n{content}"
+        return title or node_id, content or title or node_id
+    title = node_name(fallback_record, node_id) or node_id
+    return title, title
+
+
+def _conflict_notes_for_case(sa: dict[str, Any], graph: DependencyGraph | None) -> dict[str, str]:
+    """Rebuild the injected plain-language note for root/witness/bridge nodes."""
+    domain = str(sa.get("domain") or "")
+    template = template_name(sa)
+    severity = severity_name(sa) or "critical"
+    root_id = sa.get("injected_node")
+    witness_id = sa.get("injected_witness_node")
+    bridge_id = sa.get("injected_bridge_node")
+    if not root_id or not witness_id:
+        return {}
+    try:
+        from inject_defect import (
+            _apply_conflict_severity,
+            _make_structural_simple_contents,
+            _strip_record_prefix,
+        )
+
+        root_title = _clause_full_text(graph, sa, root_id)[0]
+        witness_title = _clause_full_text(graph, sa, witness_id)[0]
+        bridge_title = _clause_full_text(graph, sa, bridge_id)[0] if bridge_id else None
+        contents = _make_structural_simple_contents(domain, template, root_title, witness_title, bridge_title)
+        contents = _apply_conflict_severity(contents, domain, severity)
+        notes = {
+            root_id: _strip_record_prefix(contents.get("target", ""), root_title),
+            witness_id: _strip_record_prefix(contents.get("witness", ""), witness_title),
+        }
+        if bridge_id and contents.get("bridge"):
+            notes[bridge_id] = _strip_record_prefix(contents["bridge"], bridge_title)
+        return {node: note for node, note in notes.items() if note}
+    except Exception as exc:
+        print(f"[annotation] could not rebuild injected notes for {root_id}: {exc}", file=sys.stderr)
+        return {}
+
+
+def _node_kind(node_id: str, risk: set[str], affected: set[str], suggested: set[str]) -> str:
+    if node_id in risk:
+        return "risk"
+    if node_id in affected:
+        return "affected"
+    if node_id in suggested:
+        return "suggested"
+    return "context"
+
+
+def select_annotation_pairs(
+    records: list[dict[str, Any]],
+    per_domain: int = 8,
+    domains: list[str] | None = None,
+) -> list[dict[str, Any]]:
     by_case: dict[tuple[str, ...], dict[str, dict[str, Any]]] = defaultdict(dict)
     for record in records:
         method = str(record.get("method"))
@@ -1113,7 +1717,8 @@ def select_annotation_pairs(records: list[dict[str, Any]], per_domain: int = 8) 
         )
 
     selected: list[dict[str, Any]] = []
-    for domain in dash.DOMAIN_ORDER:
+    domain_order = domains or dash.DOMAIN_ORDER
+    for domain in domain_order:
         domain_pairs = [p for p in pairs if p["domain"] == domain]
         domain_pairs.sort(key=lambda p: (p["risk_all"], p["risk_any"], -p["size"], str(p["model"]), str(p["template"])))
         # Take failures first, then long successful cases for contrast.
@@ -1129,7 +1734,7 @@ def select_annotation_pairs(records: list[dict[str, Any]], per_domain: int = 8) 
             if p not in chosen:
                 chosen.append(p)
         selected.extend(chosen[:per_domain])
-    selected.sort(key=lambda p: (dash.DOMAIN_ORDER.index(str(p["domain"])) if p["domain"] in dash.DOMAIN_ORDER else 99, -p["size"], str(p["model"]), str(p["template"])))
+    selected.sort(key=lambda p: (domain_order.index(str(p["domain"])) if p["domain"] in domain_order else 99, -p["size"], str(p["model"]), str(p["template"])))
     return selected
 
 
@@ -1137,6 +1742,7 @@ def create_case_material(case_id: str, pair: dict[str, Any]) -> dict[str, Any]:
     sa = pair["sa"]
     naive = pair.get("naive") or {}
     risk_nodes = [n for n in [sa.get("injected_node"), sa.get("injected_witness_node")] if n]
+    bridge_nodes = [n for n in [sa.get("injected_bridge_node")] if n]
     affected = list(sa.get("injected_affected_nodes") or [])
     core = list(sa.get("core_evidence_risk_subgraph_nodes") or sa.get("risk_subgraph_nodes") or [])
     naive_nodes = list(naive.get("direct_risk_subgraph_nodes") or naive.get("risk_subgraph_nodes") or [])
@@ -1144,11 +1750,15 @@ def create_case_material(case_id: str, pair: dict[str, Any]) -> dict[str, Any]:
     context = list(sa.get("context_evidence_risk_subgraph_nodes") or [])
     metrics_sa = _metric_values(sa)
     metrics_naive = _metric_values(naive) if naive else {}
+    graph = _annotation_graph(str(sa.get("domain") or ""))
+    injected_notes = _conflict_notes_for_case(sa, graph)
+    suggested_nodes = set(core) | set(naive_nodes) | set(oc_nodes)
 
     important_nodes = []
     for role, nodes in [
         ("root", [sa.get("injected_node")]),
         ("witness", [sa.get("injected_witness_node")]),
+        ("bridge", bridge_nodes),
         ("affected", affected),
         ("sa_core", core),
         ("naive_subgraph", naive_nodes),
@@ -1166,20 +1776,61 @@ def create_case_material(case_id: str, pair: dict[str, Any]) -> dict[str, Any]:
                 }
             )
 
+    scc_node_ids = list(sa.get("scc_clause_ids") or [])
+    if not scc_node_ids:
+        scc_node_ids = list((sa.get("node_names") or {}).keys())
+    full_nodes = []
+    for idx, node_id in enumerate(scc_node_ids, 1):
+        title, original_text = _clause_full_text(graph, sa, node_id)
+        injected_note = injected_notes.get(node_id, "")
+        final_text = _clean_text(f"{original_text}\n\n{injected_note}") if injected_note else original_text
+        kind = _node_kind(node_id, set(risk_nodes), set(affected), suggested_nodes)
+        attention_hint = _expert_attention_hint(
+            kind=kind,
+            in_core=node_id in core,
+            in_oc=node_id in oc_nodes,
+            in_context=node_id in context,
+            injected_note=injected_note,
+        )
+        full_nodes.append(
+            {
+                "index": idx,
+                "node_id": node_id,
+                "title": title,
+                "text_en": final_text,
+                "text_zh": NODE_READING_HINTS_ZH[kind],
+                "reading_hint_zh": NODE_READING_HINTS_ZH[kind],
+                "expert_hint_title_zh": attention_hint["title"],
+                "expert_hint_reason_zh": attention_hint["reason"],
+                "expert_hint_level": attention_hint["level"],
+                "kind": kind,
+                "is_risk_endpoint": node_id in risk_nodes,
+                "is_bridge": node_id in bridge_nodes,
+                "is_affected": node_id in affected,
+                "in_sa_core": node_id in core,
+                "in_naive_subgraph": node_id in naive_nodes,
+                "in_oc": node_id in oc_nodes,
+                "in_context": node_id in context,
+                "injected_note": injected_note,
+                "stats": compact_node_stats(sa, node_id),
+            }
+        )
+
     row = {
         "case_id": case_id,
         "domain": sa.get("domain"),
-        "domain_label": DOMAIN_LABELS.get(str(sa.get("domain")), str(sa.get("domain"))),
+        "domain_label": ANNOTATION_DOMAIN_ZH.get(str(sa.get("domain")), DOMAIN_LABELS.get(str(sa.get("domain")), str(sa.get("domain")))),
         "scc_id": sa.get("scc_id"),
         "scc_size": sa.get("scc_size"),
         "model": sa.get("model"),
         "template": template_name(sa),
-        "template_label": TEMPLATE_LABELS.get(template_name(sa), template_name(sa)),
+        "template_label": ANNOTATION_TEMPLATE_ZH.get(template_name(sa), TEMPLATE_LABELS.get(template_name(sa), template_name(sa))),
         "severity": severity_name(sa),
         "root_node": sa.get("injected_node"),
         "root_label": node_name(sa, sa.get("injected_node")),
         "witness_node": sa.get("injected_witness_node"),
         "witness_label": node_name(sa, sa.get("injected_witness_node")),
+        "bridge_node": sa.get("injected_bridge_node") or "",
         "affected_nodes": ";".join(affected),
         "sa_core_nodes": ";".join(core),
         "naive_subgraph_nodes": ";".join(naive_nodes),
@@ -1203,7 +1854,9 @@ def create_case_material(case_id: str, pair: dict[str, Any]) -> dict[str, Any]:
     material = {
         "metadata": row,
         "important_nodes": important_nodes,
+        "full_nodes": full_nodes,
         "risk_nodes": risk_nodes,
+        "bridge_nodes": bridge_nodes,
         "affected_nodes": affected,
         "sa_core_nodes": core,
         "naive_subgraph_nodes": naive_nodes,
@@ -1247,12 +1900,13 @@ def write_case_card(case_id: str, material: dict[str, Any]) -> None:
 
 def role_label(role: str, lang: str = "en") -> str:
     labels = {
-        "root": ("Root / injected node", "Root / 注入节点"),
-        "witness": ("Witness endpoint", "Witness / 远距离证据端点"),
-        "affected": ("Affected node", "受影响节点"),
-        "sa_core": ("SA-MCGS core node", "SA-MCGS 风险子图节点"),
-        "naive_subgraph": ("Naive subgraph node", "Naive 风险子图节点"),
-        "oc": ("OC signal node", "OC 信号节点"),
+        "root": ("Possible conflict paragraph", "可能冲突段落"),
+        "witness": ("Possible matching conflict paragraph", "可能对应冲突段落"),
+        "bridge": ("Possible condition-transfer paragraph", "可能传递条件的段落"),
+        "affected": ("Possibly affected paragraph", "可能受影响段落"),
+        "sa_core": ("System-suggested paragraph", "系统建议关注段落"),
+        "naive_subgraph": ("Comparison-suggested paragraph", "对照方法建议关注段落"),
+        "oc": ("Repeatedly suspicious paragraph", "反复被认为可疑的段落"),
     }
     en, zh = labels.get(role, (role, role))
     return zh if lang == "zh" else en
@@ -1297,6 +1951,18 @@ def enrich_annotation_material(material: dict[str, Any]) -> dict[str, Any]:
         "en": case_explanation(meta, "en"),
         "zh": case_explanation(meta, "zh"),
     }
+    enriched["case_plain_zh"] = ANNOTATION_TEMPLATE_PLAIN_ZH.get(str(meta.get("template") or ""), "")
+    enriched_nodes: list[dict[str, Any]] = []
+    for idx, node in enumerate(material.get("full_nodes", []), 1):
+        enriched_nodes.append(
+            {
+                **node,
+                "display_id": f"段落 {idx:02d}",
+                "short_id": str(node.get("node_id") or "")[-10:],
+                "role_label_zh": role_label(str(node.get("kind") or "context"), "zh"),
+            }
+        )
+    enriched["full_nodes"] = enriched_nodes
     seen: set[tuple[str, str]] = set()
     nodes: list[dict[str, Any]] = []
     for item in material.get("important_nodes", []):
@@ -1314,6 +1980,7 @@ def enrich_annotation_material(material: dict[str, Any]) -> dict[str, Any]:
                 "text_en": label,
                 "text_zh": f"{role_label(role, 'zh')}。原始文本/标题：{label}",
                 "is_risk_endpoint": item.get("node_id") in material.get("risk_nodes", []),
+                "is_bridge": item.get("node_id") in material.get("bridge_nodes", []),
                 "is_affected": item.get("node_id") in material.get("affected_nodes", []),
                 "in_sa_core": item.get("node_id") in material.get("sa_core_nodes", []),
                 "in_naive_subgraph": item.get("node_id") in material.get("naive_subgraph_nodes", []),
@@ -1723,6 +2390,419 @@ renderAll();
     (ANNOT_DIR / "annotation_interface.html").write_text(page.replace("__DATA__", payload), encoding="utf-8")
 
 
+def create_plain_annotation_html(materials: list[dict[str, Any]]) -> None:
+    """Create the expert-facing annotation UI with plain Chinese wording."""
+    ensure_sheetjs_vendor()
+    payload = json.dumps([enrich_annotation_material(m) for m in materials], ensure_ascii=False)
+    payload = payload.replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
+    page = """<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>结构冲突专家标注</title>
+<script src="vendor/xlsx.full.min.js"></script>
+<style>
+:root { --bg:#f5f7fb; --panel:#ffffff; --ink:#111827; --muted:#64748b; --line:#d7dfec; --blue:#2563eb; --green:#059669; --red:#dc2626; --amber:#b45309; --soft:#eff6ff; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif; }
+header { position:sticky; top:0; z-index:20; background:#101827; color:#f8fafc; padding:18px 28px; box-shadow:0 8px 24px rgba(15,23,42,.22); }
+h1 { margin:0 0 6px; font-size:28px; letter-spacing:0; }
+header p { margin:0; color:#cbd5e1; line-height:1.55; }
+button,input,textarea,select { font:inherit; }
+button { border:1px solid #cbd5e1; border-radius:10px; background:#fff; color:#0f172a; padding:9px 14px; font-weight:800; cursor:pointer; }
+button.primary { background:var(--blue); border-color:var(--blue); color:#fff; }
+button.green { background:var(--green); border-color:var(--green); color:#fff; }
+input[type="text"], textarea, select { width:100%; border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:#fff; color:var(--ink); }
+main { display:grid; grid-template-columns:320px minmax(0,1fr); gap:18px; max-width:1560px; margin:22px auto; padding:0 18px 60px; }
+aside,.workspace { background:var(--panel); border:1px solid var(--line); border-radius:16px; box-shadow:0 1px 8px rgba(15,23,42,.05); }
+aside { position:sticky; top:106px; max-height:calc(100vh - 128px); overflow:auto; padding:16px; }
+.workspace { padding:24px; }
+.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:12px 0 16px; }
+.stat { background:#f8fafc; border:1px solid var(--line); border-radius:12px; padding:10px; }
+.stat b { display:block; font-size:24px; }
+.stat span { color:var(--muted); font-size:13px; }
+.case-btn { width:100%; text-align:left; padding:12px; margin:8px 0; background:#fff; border:1px solid var(--line); border-radius:12px; color:var(--ink); }
+.case-btn.active { border-color:var(--blue); background:var(--soft); }
+.case-btn .done { float:right; color:var(--green); font-weight:900; }
+.case-btn strong { display:block; margin-bottom:5px; }
+.case-btn small { display:block; color:var(--muted); line-height:1.45; }
+.case-head { border-bottom:1px solid var(--line); padding-bottom:16px; margin-bottom:20px; }
+.case-head h2 { margin:0 0 10px; font-size:30px; }
+.case-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.pill { display:inline-flex; align-items:center; border-radius:999px; padding:5px 10px; background:#f1f5f9; color:#334155; font-size:13px; font-weight:800; }
+.pill.green { background:#dcfce7; color:#166534; }
+.pill.blue { background:#dbeafe; color:#1d4ed8; }
+.pill.amber { background:#fef3c7; color:#92400e; }
+.guide { background:#f8fafc; border-left:6px solid var(--blue); border-radius:12px; padding:15px 18px; line-height:1.75; color:#243244; margin:16px 0; }
+.section-title { margin:26px 0 12px; font-size:23px; }
+.node-card { display:grid; grid-template-columns:minmax(0,1fr) 330px; gap:18px; border:1px solid var(--line); border-radius:16px; background:#fff; padding:18px; margin:14px 0; }
+.node-card.system-focus { border-color:#86efac; box-shadow:0 0 0 3px rgba(34,197,94,.10); }
+.node-card.risk-focus { border-color:#fca5a5; box-shadow:0 0 0 3px rgba(220,38,38,.10); }
+.node-card.affected-focus { border-color:#bfdbfe; box-shadow:0 0 0 3px rgba(37,99,235,.08); }
+.node-main h3 { margin:0 0 8px; font-size:21px; }
+.node-title { color:#334155; font-weight:800; margin-bottom:10px; }
+.node-text { white-space:pre-wrap; line-height:1.72; color:#1f2937; font-size:16px; }
+.node-id { color:var(--muted); font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:13px; }
+.node-form { border-left:1px solid var(--line); padding-left:18px; }
+.node-form h4 { margin:0 0 10px; font-size:17px; }
+.node-form .desc { color:var(--muted); line-height:1.55; margin:0 0 10px; font-size:14px; }
+.attention-box { border:1px solid var(--line); border-radius:12px; background:#f8fafc; padding:11px 12px; margin:0 0 12px; line-height:1.55; }
+.attention-box.focus { border-color:#86efac; background:#ecfdf5; }
+.attention-box.risk { border-color:#fca5a5; background:#fff1f2; }
+.attention-box.affected { border-color:#bfdbfe; background:#eff6ff; }
+.attention-title { display:flex; align-items:center; gap:8px; font-weight:900; margin-bottom:5px; }
+.attention-dot { width:9px; height:9px; border-radius:999px; background:#94a3b8; flex:0 0 auto; }
+.attention-box.focus .attention-dot { background:#059669; }
+.attention-box.risk .attention-dot { background:#dc2626; }
+.attention-box.affected .attention-dot { background:#2563eb; }
+.attention-reason { color:#334155; font-size:14px; }
+.radio-stack { display:grid; gap:8px; margin-bottom:12px; }
+.radio-stack label,.checkline { display:flex; align-items:flex-start; gap:8px; border:1px solid var(--line); border-radius:10px; padding:9px; cursor:pointer; line-height:1.45; }
+.radio-stack input,.checkline input { margin-top:4px; }
+.node-form textarea { min-height:74px; resize:vertical; }
+.case-form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:14px; }
+.question { border:1px solid var(--line); border-radius:14px; background:#fff; padding:15px; }
+.question h3 { margin:0 0 10px; font-size:18px; }
+.options { display:flex; flex-wrap:wrap; gap:8px; }
+.options label { display:inline-flex; gap:6px; align-items:center; border:1px solid var(--line); border-radius:999px; padding:8px 11px; cursor:pointer; }
+.savebar { position:sticky; bottom:0; margin:24px -24px -24px; padding:14px 24px; display:flex; gap:10px; align-items:center; background:rgba(255,255,255,.94); border-top:1px solid var(--line); border-radius:0 0 16px 16px; backdrop-filter:blur(8px); }
+.hint { color:var(--muted); line-height:1.55; }
+code { background:#f1f5f9; border-radius:6px; padding:2px 5px; }
+@media (max-width:1080px) { main { grid-template-columns:1fr; } aside { position:relative; top:0; max-height:none; } .node-card,.case-form { grid-template-columns:1fr; } .node-form { border-left:0; border-top:1px solid var(--line); padding:16px 0 0; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>结构冲突专家标注</h1>
+  <p>请像阅读一份长合同、公司披露或法条材料一样逐段判断。页面不要求理解算法术语；只需要判断每段文字是否有问题、是否应放入最终修复材料。</p>
+</header>
+<main>
+  <aside>
+    <label class="hint" for="expertSlot">当前标注人</label>
+    <select id="expertSlot" style="margin:6px 0 10px;">
+      <option value="expert_1">专家 1</option>
+      <option value="expert_2">专家 2</option>
+      <option value="expert_3">专家 3</option>
+    </select>
+    <input id="reviewer" type="text" placeholder="标注者姓名或编号">
+    <div class="stats">
+      <div class="stat"><b id="totalCount">0</b><span>样本</span></div>
+      <div class="stat"><b id="doneCount">0</b><span>当前已填</span></div>
+      <div class="stat"><b id="domainCount">0</b><span>总填写份数</span></div>
+    </div>
+    <p class="hint">建议三位专家分别完成同一批样本。切换“专家 1/2/3”后，页面会保存各自独立的标注。</p>
+    <div id="caseList"></div>
+    <button class="green" id="exportBtn" style="width:100%;margin-top:12px;">生成 Excel</button>
+  </aside>
+  <section class="workspace" id="workspace"></section>
+</main>
+<script type="application/json" id="case-data">__DATA__</script>
+<script>
+const CASES = JSON.parse(document.getElementById('case-data').textContent);
+const STORE_KEY = 'plain_structural_conflict_annotations_v2';
+const EXPERTS = [
+  { id: 'expert_1', label: '专家 1' },
+  { id: 'expert_2', label: '专家 2' },
+  { id: 'expert_3', label: '专家 3' },
+];
+let activeIndex = 0;
+let activeExpert = localStorage.getItem(STORE_KEY + '_active_expert') || 'expert_1';
+if (!EXPERTS.some(expert => expert.id === activeExpert)) activeExpert = 'expert_1';
+let annotations = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;'}[c]));
+function expertBucket(expertId = activeExpert) {
+  if (!annotations[expertId]) annotations[expertId] = {};
+  return annotations[expertId];
+}
+const annFor = (caseId, expertId = activeExpert) => (annotations[expertId] || {})[caseId] || {};
+const pct = (v) => (v === null || v === undefined || v === '' || Number.isNaN(Number(v))) ? '-' : Math.round(Number(v) * 100) + '%';
+
+function saveStore() {
+  localStorage.setItem(STORE_KEY, JSON.stringify(annotations));
+  localStorage.setItem(STORE_KEY + '_active_expert', activeExpert);
+  renderCaseList();
+}
+
+function isDone(caseId, expertId = activeExpert) {
+  const a = annFor(caseId, expertId);
+  return Boolean(a.overall_conflict && a.material_sufficient && a.confidence);
+}
+
+function caseTitle(c) {
+  const m = c.metadata;
+  return `${m.domain_label} · ${m.scc_size} 段`;
+}
+
+function renderCaseList() {
+  $('totalCount').textContent = CASES.length;
+  $('doneCount').textContent = CASES.filter(c => isDone(c.metadata.case_id)).length;
+  const totalDone = EXPERTS.reduce((sum, expert) => sum + CASES.filter(c => isDone(c.metadata.case_id, expert.id)).length, 0);
+  $('domainCount').textContent = `${totalDone}/${CASES.length * EXPERTS.length}`;
+  $('caseList').innerHTML = CASES.map((c, i) => {
+    const m = c.metadata;
+    const doneSlots = EXPERTS.filter(expert => isDone(m.case_id, expert.id)).length;
+    return `<button class="case-btn ${i === activeIndex ? 'active' : ''}" data-case-index="${i}">
+      <span class="done">${doneSlots}/3</span>
+      <strong>${esc(caseTitle(c))}</strong>
+      <small>${esc(m.template_label)} · ${esc(m.model)} · ${esc(m.case_id)}</small>
+    </button>`;
+  }).join('');
+  document.querySelectorAll('[data-case-index]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      saveCurrentAnnotation(false);
+      activeIndex = Number(btn.dataset.caseIndex);
+      renderAll();
+    });
+  });
+}
+
+function nodeJudgementLabel(value) {
+  return {
+    clear_risk: '有明显问题',
+    related: '可能有关',
+    no_risk: '没看出问题',
+    unsure: '不确定',
+  }[value] || '';
+}
+
+function renderNodeCard(c, node) {
+  const a = annFor(c.metadata.case_id);
+  const nodeAnn = (a.nodes || {})[node.node_id] || {};
+  const checked = (value) => nodeAnn.judgement === value ? 'checked' : '';
+  const keepChecked = nodeAnn.keep_for_repair ? 'checked' : '';
+  const hintLevel = node.expert_hint_level || 'context';
+  const cardClass = hintLevel === 'risk' ? 'risk-focus' : (hintLevel === 'affected' ? 'affected-focus' : (hintLevel === 'focus' ? 'system-focus' : ''));
+  return `<article class="node-card ${cardClass}" data-node-id="${esc(node.node_id)}">
+    <div class="node-main">
+      <h3>${esc(node.display_id || ('段落 ' + node.index))}</h3>
+      <div class="node-title">${esc(node.title || '')}</div>
+      <div class="node-id">原始编号：${esc(node.node_id)}</div>
+      <div class="node-text">${esc(node.text_en || '')}</div>
+    </div>
+    <div class="node-form">
+      <div class="attention-box ${hintLevel}">
+        <div class="attention-title"><span class="attention-dot"></span>${esc(node.expert_hint_title_zh || '阅读提示')}</div>
+        <div class="attention-reason">${esc(node.expert_hint_reason_zh || '')}</div>
+      </div>
+      <h4>请标注这段</h4>
+      <p class="desc">只根据这段和整组文字来判断：它是否明显有问题，或是否需要放进最终修复材料。</p>
+      <div class="radio-stack">
+        <label><input type="radio" data-node-risk value="clear_risk" ${checked('clear_risk')}> <span><b>有明显问题</b><br>这段自己有问题，或和别的段落放在一起明显冲突。</span></label>
+        <label><input type="radio" data-node-risk value="related" ${checked('related')}> <span><b>可能有关</b><br>这段本身未必错，但修复冲突时可能需要一起看。</span></label>
+        <label><input type="radio" data-node-risk value="no_risk" ${checked('no_risk')}> <span><b>没看出问题</b><br>看起来只是普通上下文。</span></label>
+        <label><input type="radio" data-node-risk value="unsure" ${checked('unsure')}> <span><b>不确定</b><br>需要更多上下文或专业判断。</span></label>
+      </div>
+      <label class="checkline"><input type="checkbox" data-node-keep ${keepChecked}> <span><b>应放入最终修复材料</b><br>如果只给别人看少量段落来修复问题，我会保留这一段。</span></label>
+      <textarea data-node-note placeholder="可选：说明为什么这样判断">${esc(nodeAnn.note || '')}</textarea>
+    </div>
+  </article>`;
+}
+
+function renderCaseForm(c) {
+  const a = annFor(c.metadata.case_id);
+  const radio = (name, value) => a[name] === value ? 'checked' : '';
+  return `<section>
+    <h2 class="section-title">整组文字判断</h2>
+    <div class="case-form">
+      <div class="question">
+        <h3>这组文字整体是否有真实冲突？</h3>
+        <div class="options">
+          <label><input type="radio" name="overall_conflict" value="yes" ${radio('overall_conflict','yes')}>有真实冲突</label>
+          <label><input type="radio" name="overall_conflict" value="maybe" ${radio('overall_conflict','maybe')}>有可疑冲突</label>
+          <label><input type="radio" name="overall_conflict" value="no" ${radio('overall_conflict','no')}>没有明显冲突</label>
+          <label><input type="radio" name="overall_conflict" value="unsure" ${radio('overall_conflict','unsure')}>不确定</label>
+        </div>
+      </div>
+      <div class="question">
+        <h3>你勾选的段落是否足够定位和修复问题？</h3>
+        <div class="options">
+          <label><input type="radio" name="material_sufficient" value="yes" ${radio('material_sufficient','yes')}>足够</label>
+          <label><input type="radio" name="material_sufficient" value="partial" ${radio('material_sufficient','partial')}>部分足够</label>
+          <label><input type="radio" name="material_sufficient" value="no" ${radio('material_sufficient','no')}>不够</label>
+          <label><input type="radio" name="material_sufficient" value="unsure" ${radio('material_sufficient','unsure')}>不确定</label>
+        </div>
+      </div>
+      <div class="question">
+        <h3>是否还需要更多上下文？</h3>
+        <div class="options">
+          <label><input type="radio" name="need_more_context" value="yes" ${radio('need_more_context','yes')}>需要</label>
+          <label><input type="radio" name="need_more_context" value="no" ${radio('need_more_context','no')}>不需要</label>
+          <label><input type="radio" name="need_more_context" value="unsure" ${radio('need_more_context','unsure')}>不确定</label>
+        </div>
+      </div>
+      <div class="question">
+        <h3>标注信心</h3>
+        <select name="confidence">
+          <option value="">请选择</option>
+          ${[1,2,3,4,5].map(v => `<option value="${v}" ${String(a.confidence || '') === String(v) ? 'selected' : ''}>${v} / 5</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="question" style="margin-top:14px;">
+      <h3>备注</h3>
+      <textarea name="comments" rows="5" placeholder="可选：写下你认为真正冲突的段落、缺失材料、或判断理由">${esc(a.comments || '')}</textarea>
+    </div>
+  </section>`;
+}
+
+function renderWorkspace() {
+  const c = CASES[activeIndex];
+  const m = c.metadata;
+  const expert = EXPERTS.find(e => e.id === activeExpert) || EXPERTS[0];
+  $('workspace').innerHTML = `
+    <div class="case-head">
+      <h2>${esc(caseTitle(c))}</h2>
+      <div class="hint">${esc(m.template_label)}。${esc(c.case_plain_zh || c.case_summary?.zh || '')}</div>
+      <div class="case-meta">
+        <span class="pill blue">样本 ${esc(m.case_id)}</span>
+        <span class="pill green">${esc(expert.label)}</span>
+        <span class="pill">模型 ${esc(m.model)}</span>
+        <span class="pill amber">请独立判断，不需要理解算法</span>
+      </div>
+    </div>
+    <div class="guide">
+      <b>怎么标：</b>从上到下读完整组文字。每段右侧选择“有明显问题 / 可能有关 / 没看出问题 / 不确定”。
+      如果你认为某段应该留给后续修复人员，请勾选“应放入最终修复材料”。页面会自动保存在本浏览器，最后点击“生成 Excel”。
+    </div>
+    <h2 class="section-title">完整文本与逐段标注</h2>
+    ${c.full_nodes.map(node => renderNodeCard(c, node)).join('')}
+    ${renderCaseForm(c)}
+    <div class="savebar">
+      <button class="primary" id="saveBtn">保存当前样本</button>
+      <button class="green" id="exportBtnBottom">生成 Excel</button>
+      <span class="hint">切换样本或专家前会自动保存；生成的 Excel 包含三位专家的“样本整体标注”和“逐段标注”。</span>
+    </div>
+  `;
+  $('saveBtn').addEventListener('click', () => saveCurrentAnnotation(true));
+  $('exportBtnBottom').addEventListener('click', exportExcel);
+}
+
+function saveCurrentAnnotation(showMessage = false) {
+  const c = CASES[activeIndex];
+  const root = $('workspace');
+  if (!root || !c) return;
+  const getRadio = (name) => root.querySelector(`input[name="${name}"]:checked`)?.value || '';
+  const nodeData = {};
+  root.querySelectorAll('.node-card').forEach(card => {
+    const nodeId = card.dataset.nodeId;
+    nodeData[nodeId] = {
+      judgement: card.querySelector('input[data-node-risk]:checked')?.value || '',
+      judgement_label: nodeJudgementLabel(card.querySelector('input[data-node-risk]:checked')?.value || ''),
+      keep_for_repair: Boolean(card.querySelector('input[data-node-keep]')?.checked),
+      note: card.querySelector('textarea[data-node-note]')?.value || '',
+    };
+  });
+  expertBucket()[c.metadata.case_id] = {
+    reviewer: $('reviewer').value || '',
+    expert_slot: activeExpert,
+    expert_label: (EXPERTS.find(e => e.id === activeExpert) || {}).label || activeExpert,
+    overall_conflict: getRadio('overall_conflict'),
+    material_sufficient: getRadio('material_sufficient'),
+    need_more_context: getRadio('need_more_context'),
+    confidence: root.querySelector('select[name="confidence"]')?.value || '',
+    comments: root.querySelector('textarea[name="comments"]')?.value || '',
+    nodes: nodeData,
+    saved_at: new Date().toISOString(),
+  };
+  saveStore();
+  if (showMessage) alert('已保存当前样本。');
+}
+
+function exportExcel() {
+  saveCurrentAnnotation(false);
+  const caseRows = [];
+  const nodeRows = [];
+  EXPERTS.forEach(expert => {
+    CASES.forEach(c => {
+      const m = c.metadata;
+      const a = annFor(m.case_id, expert.id);
+      const selected = Object.entries(a.nodes || {}).filter(([, v]) => v.keep_for_repair).map(([id]) => id);
+      caseRows.push({
+        专家编号: expert.label,
+        标注者: a.reviewer || '',
+        样本编号: m.case_id,
+        文本类型: m.domain_label,
+        段落数: m.scc_size,
+        冲突类型: m.template_label,
+        整体是否冲突: a.overall_conflict || '',
+        勾选材料是否足够修复: a.material_sufficient || '',
+        是否需要更多上下文: a.need_more_context || '',
+        标注信心_1到5: a.confidence || '',
+        专家勾选段落: selected.join(';'),
+        备注: a.comments || '',
+        保存时间: a.saved_at || '',
+        隐藏对照_root: m.root_node,
+        隐藏对照_witness: m.witness_node,
+        隐藏对照_affected: m.affected_nodes,
+        隐藏对照_系统建议: m.sa_core_nodes,
+        隐藏对照_对照方法建议: m.naive_subgraph_nodes,
+        隐藏指标_系统risk_any: m.sa_risk_any,
+        隐藏指标_系统risk_all: m.sa_risk_all,
+        隐藏指标_系统compression: m.sa_compression,
+      });
+      c.full_nodes.forEach(node => {
+        const na = (a.nodes || {})[node.node_id] || {};
+        nodeRows.push({
+          专家编号: expert.label,
+          标注者: a.reviewer || '',
+          样本编号: m.case_id,
+          文本类型: m.domain_label,
+          段落序号: node.display_id || node.index,
+          原始编号: node.node_id,
+          标题: node.title || '',
+          原文: node.text_en || '',
+          页面提示: node.expert_hint_title_zh || '',
+          页面提示说明: node.expert_hint_reason_zh || '',
+          专家判断: na.judgement_label || '',
+          专家判断代码: na.judgement || '',
+          是否放入最终修复材料: na.keep_for_repair ? '是' : '否',
+          段落备注: na.note || '',
+          隐藏对照_是否真实冲突端点: node.is_risk_endpoint ? '是' : '否',
+          隐藏对照_是否中间传递段落: node.is_bridge ? '是' : '否',
+          隐藏对照_是否受影响段落: node.is_affected ? '是' : '否',
+          隐藏对照_系统是否保留: node.in_sa_core ? '是' : '否',
+          隐藏对照_对照方法是否保留: node.in_naive_subgraph ? '是' : '否',
+          隐藏对照_是否反复可疑: node.in_oc ? '是' : '否',
+        });
+      });
+    });
+  });
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(caseRows), '样本整体标注');
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(nodeRows), '逐段标注');
+  XLSX.writeFile(wb, `structural_conflict_annotations_${new Date().toISOString().slice(0,10)}.xlsx`);
+}
+
+function renderAll() {
+  renderCaseList();
+  renderWorkspace();
+}
+
+$('exportBtn').addEventListener('click', exportExcel);
+$('reviewer').addEventListener('input', () => {
+  if (!annotations._reviewers) annotations._reviewers = {};
+  annotations._reviewers[activeExpert] = $('reviewer').value || '';
+  localStorage.setItem(STORE_KEY, JSON.stringify(annotations));
+});
+$('expertSlot').addEventListener('change', () => {
+  saveCurrentAnnotation(false);
+  activeExpert = $('expertSlot').value;
+  $('reviewer').value = annotations._reviewers?.[activeExpert] || '';
+  saveStore();
+  renderAll();
+});
+$('expertSlot').value = activeExpert;
+$('reviewer').value = annotations._reviewers?.[activeExpert] || '';
+renderAll();
+</script>
+</body>
+</html>"""
+    (ANNOT_DIR / "annotation_interface.html").write_text(page.replace("__DATA__", payload), encoding="utf-8")
+
+
 def create_annotation_pack(records: list[dict[str, Any]]) -> None:
     # The expert-facing pack is intentionally small.  The full main experiment
     # remains in tables/results, but human audit should be practical to finish.
@@ -1741,8 +2821,8 @@ def create_annotation_pack(records: list[dict[str, Any]]) -> None:
         stale.unlink()
     ANNOT_MATERIAL_DIR.mkdir(parents=True, exist_ok=True)
 
-    full_pairs = select_annotation_pairs(records, per_domain=8)
-    pairs = select_annotation_pairs(records, per_domain=3)
+    full_pairs = select_annotation_pairs(records, per_domain=8, domains=EXPERT_ANNOTATION_DOMAINS)
+    pairs = select_annotation_pairs(records, per_domain=4, domains=EXPERT_ANNOTATION_DOMAINS)
     materials: list[dict[str, Any]] = []
     csv_rows: list[dict[str, Any]] = []
     for idx, pair in enumerate(pairs, 1):
@@ -1755,34 +2835,44 @@ def create_annotation_pack(records: list[dict[str, Any]]) -> None:
 
     write_csv(ANNOT_DIR / "human_annotation_cases.csv", csv_rows)
     write_md_table(ANNOT_DIR / "human_annotation_cases.md", "Human Annotation Case Manifest", csv_rows)
+    expert_index_rows = [
+        {
+            "样本编号": row["case_id"],
+            "文本类型": row["domain_label"],
+            "段落数": row["scc_size"],
+            "冲突类型": row["template_label"],
+            "模型": row["model"],
+        }
+        for row in csv_rows
+    ]
+    write_csv(ANNOT_DIR / "expert_case_index.csv", expert_index_rows)
     full_rows: list[dict[str, Any]] = []
     for idx, pair in enumerate(full_pairs, 1):
         material = create_case_material(f"candidate_{idx:03d}_{pair['domain']}_{pair['size']}_{pair['model']}_{pair['template']}", pair)
         full_rows.append(material["metadata"])
     write_csv(ANNOT_DIR / "full_candidate_manifest_not_for_experts.csv", full_rows)
-    create_annotation_html(materials)
+    create_plain_annotation_html(materials)
     readme = [
         "# Human Annotation Pack / 人工标注包",
         "",
-        "目的：让领域专家快速审阅少量精选 critical SCC case，判断结构性风险和风险子图是否合理。",
+        "目的：让领域专家像阅读长合同、公司披露或法条材料一样，逐段判断哪些文本存在冲突、哪些文本应保留给后续修复。",
         "",
         "包含文件：",
         "",
-        "- `annotation_interface.html`：专家使用的主入口。可切换中英文、弹窗查看节点文本、直接填写标注并导出 Excel。",
-        "- `human_annotation_cases.csv`：专家小样本 manifest。",
-        "- `materials/*.md` / `materials/*.json`：每个入选 case 的备查素材。",
+        "- `annotation_interface.html`：专家使用的主入口。打开后直接看到完整长文本，可在每段旁边打标，并一键导出 Excel。",
+        "- `expert_case_index.csv`：专家可读的小样本清单，只包含文本类型、段落数和冲突类型。",
         "- `vendor/xlsx.full.min.js`：本地 Excel 导出依赖，已打进 zip，打开 HTML 不需要联网。",
-        "- `full_candidate_manifest_not_for_experts.csv`：完整候选清单，只供内部追溯，不建议发给专家。",
+        "- `human_annotation_cases.csv`、`materials/` 和 `full_candidate_manifest_not_for_experts.csv`：只保留在本地目录供内部追溯，不打进专家 zip。",
         "",
         "专家需要填写：",
         "",
-        "- `label_is_structural_conflict`：是否确实存在结构性风险。",
-        "- `label_relevant_risk_nodes`：专家认为应纳入风险子图的节点。",
-        "- `label_core_is_sufficient_for_repair`：SA core 是否足够作为修复入口。",
-        "- `label_confidence_1_to_5`：标注信心。",
-        "- `label_comments`：自由说明或缺失节点。",
+        "- 每一段文字：有明显问题 / 可能有关 / 没看出问题 / 不确定。",
+        "- 每一段文字：是否应放进最终修复材料。",
+        "- 整组文字：是否存在真实冲突、勾选材料是否足够修复、是否需要更多上下文、标注信心和备注。",
         "",
-        f"当前专家包包含 `{len(csv_rows)}` 个精选 case，每个领域约 `{3}` 个；不是全量 80-case 主实验。",
+        f"当前专家包包含 `{len(csv_rows)}` 个精选 case：SEC EX-21、BGB、CUAD 各 4 个。Debian 软件依赖样本不放入专家包，由项目内部单独标注。",
+        "",
+        "页面内置 `专家 1/2/3` 三个独立标注槽位。每个样本需要三位专家分别标一次；导出 Excel 时会按专家展开。",
         "",
         "注意：当前包使用主实验锁定口径生成，不包含旧 diagnostic / smoke / balanced exploratory 数据。",
         "",
@@ -1794,9 +2884,18 @@ def create_annotation_pack(records: list[dict[str, Any]]) -> None:
         zip_path.unlink()
     with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         for path in sorted(ANNOT_DIR.rglob("*")):
+            rel = path.relative_to(ANNOT_DIR)
             if path == zip_path or path.is_dir() or path.name == ".DS_Store":
                 continue
-            zf.write(path, path.relative_to(ANNOT_DIR))
+            if "materials" in rel.parts or "human_annotation_pack" in rel.parts:
+                continue
+            if path.name in {
+                "full_candidate_manifest_not_for_experts.csv",
+                "human_annotation_cases.csv",
+                "human_annotation_cases.md",
+            }:
+                continue
+            zf.write(path, rel)
 
     shutil.copy2(ANNOT_DIR / "human_annotation_cases.csv", TABLE_DIR / "tabE4_human_annotation_cases.csv")
     write_md_table(TABLE_DIR / "tabE4_human_annotation_cases.md", "Table E4. Human Annotation Case Manifest", csv_rows)
@@ -1827,14 +2926,16 @@ def create_asset_readme() -> None:
         "## Recommended Main-paper Assets",
         "",
             "- Figure 1: `figures/fig01_sa_mcgs_framework_architecture.svg` / `.png`",
+        "- Figure 2: `figures/fig02_vanilla_mcts_scc_failure.png`",
         "- Table 1: `tables/tab01_mcts_scc_motivation.md` / `.csv`",
         "- Table 2: `tables/tab02_domain_coverage_authority.md` / `.csv`",
-        "- Table 3: `tables/tab03_main_results_strict.md` / `.csv`",
-        "- Figure 2: `figures/fig02_main_metrics_strict.pdf`",
-        "- Figure 3: `figures/fig03_main_by_scc_size.pdf`",
+        "- Table 3: `tables/tab03_reliability_strict.md` / `.csv`",
+        "- Main-result metric source: `tables/tab03_main_results_strict.md` / `.csv`",
+        "- Figure 3: `figures/fig02_main_results_composite.pdf`",
         "- Figure 4: `figures/fig04_budget_prefix_convergence.pdf`",
         "- Figure 5: `figures/fig05_compression_profile_tradeoff.pdf`",
-        "- Figure 6: `figures/fig06_representative_scc_collapse.pdf`",
+        "- Appendix figure: `figures/fig03_main_by_scc_size.pdf`",
+        "- Appendix figure: `figures/fig06_representative_scc_collapse.pdf`",
         "",
         "## Human Annotation",
         "",
@@ -1903,8 +3004,10 @@ def main() -> int:
     copy_existing_assets()
     create_pipeline_figure()
     create_demo_architecture_figure()
+    create_mcts_failure_figure()
     create_main_metrics_figure(records)
     create_scc_size_figure(records)
+    create_main_results_composite_figure(records)
     create_budget_convergence_figure(records)
     create_compression_tradeoff_figure(records)
     create_case_study_figure(records)
