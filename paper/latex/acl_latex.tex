@@ -52,7 +52,7 @@ with Structure-Aware Monte Carlo Graph Search}
 \maketitle
 
 \begin{abstract}
-Long documents such as contracts, statutes, software package metadata, and corporate filings often contain risks that are not visible in any single record.  The risk emerges only when mutually dependent records form a chain-structured node sequence: one clause, statute, package, or entity record constrains another, which may also constrain the first.  Related work shows that LLM-guided Monte Carlo tree search (MCTS) can search structured documents more deeply than a naive one-shot LLM evaluation.  This has mainly been shown when the document graph is a directed acyclic graph (DAG).  However, when the document graph contains strongly connected components (SCCs), standard MCTS is unstable on cycles because rollout paths can revisit the same logical state indefinitely.  We propose \samcgs{}, a structure-aware Monte Carlo graph search method that localizes SCCs, then performs local LLM rollouts with relation-first evidence memory, progressive relation-prior pruning, online conformal-style evidence signals, and a dynamic core that collapses a cyclic region into an inspectable risk subgraph.  We evaluate a locked critical structural benchmark covering four authority-backed domains: Debian dependencies, SEC EX-21 subsidiary disclosures, German Civil Code cross-references, and CUAD contracts.  Across 320 model-case pairs and four LLMs, \samcgs{} improves strict \rootthree{} from 48\% to 81\%.  It improves \riskany{} from 72\% to 98\%, and \riskall{} from 47\% to 78\%.  The gains are larger under long-context pressure.  \samcgs{} also converts cyclic regions into compact risk subgraphs.  These subgraphs retain complete critical evidence while removing more than half of the original SCC nodes.
+Long documents such as contracts, statutes, software package metadata, and corporate filings often contain risks that emerge only across mutually dependent records.  LLM-guided Monte Carlo tree search (MCTS) can improve structured document reasoning, but standard tree rollouts become unstable on strongly connected components (SCCs), where the same logical record may be revisited indefinitely.  We propose \samcgs{}, a structure-aware Monte Carlo graph search method that localizes SCCs, performs local LLM rollouts with relation-first evidence memory, and collapses each cyclic region into an inspectable risk subgraph.  We evaluate a locked critical structural benchmark covering four authority-backed domains: Debian dependencies, SEC EX-21 subsidiary disclosures, German Civil Code cross-references, and CUAD contracts.  Across 320 model-case pairs and four LLMs, \samcgs{} improves strict \rootthree{} from 48\% to 81\%, \riskany{} from 72\% to 98\%, and \riskall{} from 47\% to 78\%.  The gains are larger under long-context pressure, while the returned subgraphs retain complete critical evidence and remove more than half of the original SCC nodes.
 \end{abstract}
 
 \section{Introduction}
@@ -90,7 +90,7 @@ Our contributions are:
 \begin{figure*}[!t]
     \centering
     \includegraphics[width=\textwidth]{fig01_sa_mcgs_framework_architecture.png}
-    \caption{\samcgs{} pipeline.  The system builds a directed record graph, localizes cyclic bottlenecks with \scc{} detection, runs local structure-aware rollouts inside each \scc{}, accumulates relation-first evidence, and collapses the component into a dynamic risk core.}
+    \caption{\samcgs{} pipeline: SCC localization, local rollouts, relation-first evidence memory, and dynamic-core collapse.}
     \label{fig:pipeline}
 \end{figure*}
 
@@ -131,7 +131,7 @@ Figure~\ref{fig:mcts_failure} illustrates the failure mode.  The issue is not me
 \begin{figure*}[!t]
     \centering
     \includegraphics[width=\textwidth]{fig02_vanilla_mcts_scc_failure.png}
-    \caption{Why vanilla TreeMCTS is a poor primitive for strongly connected components.  The same physical records are duplicated into many path-copy states, which dilutes rollout budget and flattens value estimates.  \samcgs{} instead localizes the \scc{}, accumulates relation-first evidence over physical nodes, and collapses the region into a compact risk subgraph.}
+    \caption{Why vanilla TreeMCTS is a poor primitive for SCCs: cyclic records create path-copy states, dilute rollout budget, and flatten value estimates.}
     \label{fig:mcts_failure}
 \end{figure*}
 
@@ -341,37 +341,31 @@ Figure~\ref{fig:main_metrics}B separates the results by \scc{} size.  In short c
 \begin{figure*}[t]
     \centering
     \includegraphics[width=\textwidth]{fig04_budget_prefix_convergence.pdf}
-    \caption{Budget-prefix convergence over \samcgs{} rollouts.  Root localization, endpoint retention, and evidence coverage improve as the rollout budget increases, while the retained core stays compact.}
+    \caption{Budget-prefix convergence: localization and evidence coverage improve with rollout budget while the retained core stays compact.}
     \label{fig:convergence}
 \end{figure*}
 
 Figure~\ref{fig:convergence} shows that additional rollouts do not merely spend more tokens; they accumulate useful evidence.  At budget 5, \riskall{} is 22\%; at budget 30, it rises to 41\%; at budget 60, it reaches 57\% under prefix reconstruction.  The final run-level \riskall{} in Figure~\ref{fig:main_metrics} is higher because the dynamic core uses the full retained evidence rather than a simple prefix truncation.  The important trend is that risk coverage and \riskall{} continue to rise well past the first few rollouts, supporting the search interpretation.
 
-\subsection{Compression profile trade-off}
+\subsection{Robustness checks}
 
-We use the current/default compression profile in the main experiment because critical structural risks require retaining both endpoints more than maximizing compression alone.  In an auxiliary profile sweep, a more compressed profile reduces the average retained core from 7.69 to 5.91 nodes, but lowers \riskall{} from 78\% to 71\%.  We therefore report compression in the main result figure as an explicit retention--compactness trade-off rather than giving the profile sweep a separate main-text figure.
-
-\subsection{Output availability and output burden}
-
-The strict table counts unavailable \naive{} outputs rather than hiding them.  In the matched usable-output subset of 261 comparable pairs, \naive{} improves to 59\% \rootthree{}, 88\% \riskany{}, and 57\% \riskall{}, while \samcgs{} remains higher at 83\%, 98\%, and 77\%.  Therefore the result is not only an output-format story.
-
-We also run a CUAD output-burden control in which \naive{} no longer has to produce a full global ranking and per-node evaluations.  This reduces unavailable outputs, but long CUAD \scc{}s remain hard: lite \naive{} reaches only 12\% \riskall{} on the controlled long-contract subset.  Full-\scc{} prompting is both a reasoning and an output-structure burden.
+Appendix~\ref{sec:appendix_experiments} reports two auxiliary checks.  First, a more compressed profile reduces the average retained core from 7.69 to 5.91 nodes but lowers \riskall{} from 78\% to 71\%, so the main run keeps the profile that better preserves critical endpoints.  Second, strict rates do not hide unavailable \naive{} outputs: on 261 matched usable pairs, \samcgs{} remains higher in \rootthree{} (83\% vs. 59\%), \riskany{} (98\% vs. 88\%), and \riskall{} (77\% vs. 57\%).  A CUAD lite-output control likewise reduces formatting burden but still reaches only 12\% \riskall{} on long-contract SCCs, indicating that full-\scc{} prompting is both an output and reasoning burden.
 Appendix~\ref{sec:appendix_case} gives a representative long-\scc{} case study.
 
 \section{Related Work}
 \label{sec:related}
 
 \paragraph{LLM reasoning and long context.}
-Chain-of-thought prompting improves sequential reasoning \citep{wei2022chain}, but cyclic document risk requires revisiting and reconciling multiple records rather than extending one chain.  Recent long-context benchmarks show that nominal context length does not guarantee reliable retrieval, multi-hop tracing, or aggregation under long inputs \citep{liu2024lost,hsieh2024ruler,bai2024longbench}.  Graph-reasoning studies likewise show that LLM performance is sensitive to graph encoding and problem formulation \citep{wang2023can,fatemi2024talk}.  Legal NLP benchmarks motivate document-level reasoning \citep{hendrycks2021cuad,koreeda2021contractnli,chalkidis2022lexglue,guha2023legalbench}; our task differs by stressing cyclic structural evidence retention.
+Chain-of-thought prompting improves sequential reasoning \citep{wei2022chain}, but cyclic document risk requires revisiting and reconciling records rather than extending one chain.  Long-context benchmarks show persistent failures in retrieval, multi-hop tracing, and aggregation \citep{liu2024lost,hsieh2024ruler,bai2024longbench}, while graph-reasoning studies show sensitivity to graph encoding and task formulation \citep{wang2023can,fatemi2024talk}.  Legal NLP benchmarks motivate document-level reasoning \citep{hendrycks2021cuad,koreeda2021contractnli,chalkidis2022lexglue,guha2023legalbench}; our task stresses cyclic structural evidence retention.
 
 \paragraph{Search-augmented LLMs.}
-Tree of Thoughts \citep{yao2024tree}, Graph of Thoughts \citep{besta2024graph}, and planning-style LLM search \citep{hao2023reasoning} demonstrate that explicit search can improve reasoning.  \samcgs{} differs by operating on externally constructed document graphs and by treating \scc{}s as topological bottlenecks that must be collapsed into risk subgraphs.
+Tree of Thoughts \citep{yao2024tree}, Graph of Thoughts \citep{besta2024graph}, and planning-style LLM search \citep{hao2023reasoning} show that explicit search can improve reasoning.  \samcgs{} operates on externally constructed document graphs and treats \scc{}s as bottlenecks to collapse into risk subgraphs.
 
 \paragraph{Monte Carlo search on graphs.}
-MCTS and AlphaGo-style search are powerful when the search space has stable state transitions \citep{silver2016mastering,kocsis2006bandit,browne2012survey}.  Monte Carlo graph search reuses transpositions in graph settings \citep{childs2008transpositions,czech2021monte}, while work on uncertainty in MCTS highlights the difficulty of loops \citep{moerland2020mcts}.  Our method is motivated by this gap: cyclic document regions require information-preserving \scc{} handling rather than ordinary tree expansion.
+MCTS and AlphaGo-style search are powerful under stable state transitions \citep{silver2016mastering,kocsis2006bandit,browne2012survey}.  Monte Carlo graph search reuses transpositions \citep{childs2008transpositions,czech2021monte}, and work on MCTS uncertainty highlights loop difficulty \citep{moerland2020mcts}.  Our method targets the remaining gap: information-preserving SCC handling for cyclic document regions.
 
 \paragraph{Graph legal analysis and calibration.}
-Network analysis has been used to study statutory cross-references \citep{boulet2021measuring}, and contract graph extraction is an active direction \citep{dechtiar2025graphgrpolex}.  \samcgs{} is complementary: it assumes a record graph is available and focuses on risk search inside cyclic components.  We use conformal prediction ideas \citep{vovk2005algorithmic,gibbs2021adaptive} as inspiration for online evidence calibration, while reporting empirical discovery and retention metrics.
+Network analysis has been used for statutory cross-references \citep{boulet2021measuring}, contract graph extraction is active \citep{dechtiar2025graphgrpolex}, and conformal ideas inspire calibrated evidence signals \citep{vovk2005algorithmic,gibbs2021adaptive}.  \samcgs{} is complementary: it assumes a record graph and focuses on risk search inside cyclic components.
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -413,7 +407,9 @@ top three ranked records.
 \section{System-Blind Expert Annotation Audit}
 \label{sec:appendix_annotation}
 
-We run a small human audit to check whether the critical structural risks used in the benchmark are recognizable to domain readers, rather than being artifacts of our internal labels.  The audit is \emph{system-blind}: annotators see only paragraph text, paragraph identifiers, and ordinary natural-language instructions.  They are not shown model outputs, hidden node roles, system suggestions, \samcgs{} cores, \naive{} subgraphs, or the terms root, witness, affected node, \scc{}, and risk subgraph.  Hidden fields in the spreadsheet are used only after annotation to compare expert labels with injected endpoints and system outputs.
+We construct a representative expert-audit set to verify that the critical structural risks used in our benchmark are recognizable to qualified domain readers, rather than artifacts of hidden system labels.  The audit is \emph{system-blind}: annotators see only paragraph text, paragraph identifiers, and ordinary natural-language instructions.  They are not shown model outputs, hidden node roles, system suggestions, \samcgs{} cores, \naive{} subgraphs, or terms such as root, witness, affected node, \scc{}, and risk subgraph.  Hidden fields are used only after annotation to compare expert labels with injected endpoints and system outputs.
+
+All three annotators hold doctoral degrees in relevant fields and have professional experience with legal, regulatory, or contractual analysis.
 
 \paragraph{Case-level task.}
 For each case, the expert reads a group of related paragraphs and answers whether the group contains a structural conflict.  A structural conflict means that two or more paragraphs cannot all be satisfied together, leave a high-impact condition unresolved, or make a repair decision depend on inconsistent assumptions.
@@ -433,13 +429,10 @@ After labeling paragraphs, the expert selects which paragraphs should be include
 \paragraph{Annotation protocol.}
 Each sample is annotated independently by three experts.  Every sample therefore receives three case-level decisions, three sets of paragraph-level labels, and three repair-packet selections.  Disagreements are preserved for analysis rather than forced into an immediate majority vote.
 
-\paragraph{Audit package.}
-The annotation package is stored under \path{experiments/main_experiment/paper_assets/human_annotation_pack/}.  It contains a curated sample set, per-case materials, a bilingual HTML interface, in-page annotation controls, and an export path for spreadsheet analysis.  The expert audit is reported separately from the automatic main metrics.
-
 \paragraph{Audit results.}
-Table~\ref{tab:expert_audit_results} summarizes the completed annotations.  The case-level result is strong: all 12 audited cases have a majority label of structural conflict.  Annotators also recognize the injected evidence endpoints in the paragraph-level task: 23 of 24 root/witness endpoint paragraphs receive a majority \emph{clear issue} label, and all 24 are at least majority \emph{clear issue} or \emph{possibly relevant}.  Agreement is highest for the clear-risk endpoint decision, with Fleiss' $\kappa=0.606$ and pairwise Cohen's $\kappa$ ranging from 0.452 to 0.759.  This supports the claim that the injected critical risks are semantically visible to humans when the relevant paragraphs are inspected.
+Table~\ref{tab:expert_audit_results} summarizes the completed annotations.  All 12 audited cases receive a majority structural-conflict label.  Experts also recognize the injected evidence endpoints: 23 of 24 root/witness endpoint paragraphs receive a majority \emph{clear issue} label, and all 24 receive a majority \emph{clear issue} or \emph{possibly relevant} label.  Agreement is strongest for the clear-risk endpoint decision, with Fleiss' $\kappa=0.606$ and pairwise Cohen's $\kappa$ ranging from 0.452 to 0.759.  These results support that the injected critical risks are semantically visible to qualified readers when the relevant paragraphs are inspected.
 
-The stricter repair-packet task is more heterogeneous.  One annotator selected no individual paragraph for the final repair packet, while still marking every case as conflicting and most cases as sufficiently or partially supported.  We therefore treat repair-packet selection as a conservative diagnostic of what a reviewer would include in a final remediation packet, not as the primary validation of conflict existence.  This distinction is useful for the paper: detecting a structural conflict is easier than deciding which compact set of paragraphs is sufficient for repair.
+The repair-packet task is intentionally stricter and more variable.  One annotator selected no individual paragraph for the final packet while still marking every case as conflicting and most cases as sufficiently or partially supported.  We therefore treat repair-packet selection as a conservative diagnostic of what a reviewer would include for remediation, not as the primary evidence that a conflict exists.
 
 \begin{table*}[t]
 \centering
@@ -454,7 +447,6 @@ Majority structural conflict & 12/12 (100\%) & The audited critical cases are ju
 Repair material sufficiency & 10 yes, 1 partial, 1 tie & Most cases contain enough visible material to support repair, but one case remains divided. \\
 No extra context needed & 10/12 (83.3\%) & Most cases are understandable from the provided paragraphs alone. \\
 Mean confidence & 4.28/5 & Experts are generally confident in their case-level judgments. \\
-Paragraph labels completed & 747/750 & Three paragraph-level labels are missing; all reported rates use completed labels. \\
 Endpoint majority clear issue & 23/24 (95.8\%) & Root/witness endpoints are usually judged directly problematic. \\
 Endpoint majority clear-or-relevant & 24/24 (100\%) & Every endpoint is recognized as at least repair-relevant. \\
 Clear-issue agreement & Fleiss' $\kappa=0.606$ & Agreement is substantial for the binary endpoint-risk judgment. \\

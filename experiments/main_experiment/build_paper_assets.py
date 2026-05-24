@@ -1017,14 +1017,14 @@ def create_case_study_figure(records: list[dict[str, Any]]) -> None:
     core = set(record.get("core_evidence_risk_subgraph_nodes") or record.get("risk_subgraph_nodes") or [])
     risk = {n for n in [root, witness] if n}
 
-    fig = plt.figure(figsize=(7.45, 4.64))
+    fig = plt.figure(figsize=(7.45, 4.98))
     gs = fig.add_gridspec(
         2,
         3,
-        height_ratios=[0.92, 1.08],
-        width_ratios=[1.02, 0.90, 1.56],
-        hspace=0.42,
-        wspace=0.32,
+        height_ratios=[0.96, 1.08],
+        width_ratios=[0.88, 0.54, 2.44],
+        hspace=0.58,
+        wspace=0.46,
     )
     size = int(record.get("scc_size") or len(nodes) or 1)
     core_nodes = [node for node in nodes if node in core] + sorted(node for node in core if node not in nodes)
@@ -1041,6 +1041,24 @@ def create_case_study_figure(records: list[dict[str, Any]]) -> None:
     xs = [0.075 + 0.745 * i / max(1, n - 1) for i in range(n)]
     y = 0.45
     ax.plot([xs[0], xs[-1]], [y, y], color="#D7DEE8", linewidth=1.6, transform=ax.transAxes, zorder=0)
+    label_offsets = {
+        "§358": (-0.026, 0.158),
+        "§491": (0.026, 0.200),
+        "§505": (-0.026, 0.158),
+        "§506": (0.026, 0.200),
+        "§491a": (-0.028, -0.158),
+        "§495": (0.028, -0.200),
+        "§512": (-0.026, -0.158),
+        "§514": (0.026, -0.200),
+        "$358": (-0.026, 0.158),
+        "$491": (0.026, 0.200),
+        "$505": (-0.026, 0.158),
+        "$506": (0.026, 0.200),
+        "$491a": (-0.028, -0.158),
+        "$495": (0.028, -0.200),
+        "$512": (-0.026, -0.158),
+        "$514": (0.026, -0.200),
+    }
     for i, node in enumerate(nodes):
         x = xs[i]
         if node in risk:
@@ -1053,9 +1071,13 @@ def create_case_study_figure(records: list[dict[str, Any]]) -> None:
             face, s, label_color = "#E5E7EB", 18, "#6B7280"
         ax.scatter([x], [y], s=s, color=face, edgecolor="#334155", linewidth=0.45, transform=ax.transAxes, zorder=3)
         if node in risk or node in affected or node in core:
-            above = i % 2 == 0
-            yy = y + (0.145 if above else -0.145)
-            ax.text(x, yy, short(node), ha="center", va="center", fontsize=5.6, color="#1F2937", transform=ax.transAxes)
+            label = short(node)
+            if label in label_offsets:
+                dx, dy = label_offsets[label]
+            else:
+                above = i % 2 == 0
+                dx, dy = 0.0, 0.145 if above else -0.145
+            ax.text(x + dx, y + dy, label, ha="center", va="center", fontsize=5.10, color="#1F2937", transform=ax.transAxes)
     ax.annotate(
         "cycle continues",
         xy=(xs[-1], y),
@@ -1081,87 +1103,75 @@ def create_case_study_figure(records: list[dict[str, Any]]) -> None:
         ("final core", PAPER_COLORS["support"]),
         ("other SCC node", "#E5E7EB"),
     ]
-    for i, (label, color) in enumerate(legend_items):
-        x0 = 0.055 + i * 0.205
+    legend_xs = [0.055, 0.315, 0.535, 0.755]
+    for x0, (label, color) in zip(legend_xs, legend_items):
         ax.scatter([x0], [0.09], s=36, color=color, edgecolor="#334155", linewidth=0.45, transform=ax.transAxes)
-        ax.text(x0 + 0.032, 0.09, label, va="center", fontsize=5.8, color="#374151", transform=ax.transAxes)
+        ax.text(x0 + 0.032, 0.09, label, va="center", fontsize=5.35, color="#374151", transform=ax.transAxes)
 
     # B. Final dynamic core.
     ax = fig.add_subplot(gs[0, 2])
     ax.axis("off")
     panel_label(ax, "B", "Final dynamic core")
-    ax.text(0.04, 0.855, f"{len(core_nodes)}/{size}", fontsize=13.6, weight="bold", color=PAPER_COLORS["dark"], transform=ax.transAxes)
-    ax.text(0.04, 0.748, "nodes retained", fontsize=6.4, color="#374151", transform=ax.transAxes)
-    ax.text(0.04, 0.668, f"compression = {compact_percent_label(compression)}", fontsize=6.4, color="#4B5563", transform=ax.transAxes)
+    ax.text(0.035, 0.875, f"{len(core_nodes)}/{size}", fontsize=11.2, weight="bold", color=PAPER_COLORS["dark"], transform=ax.transAxes)
+    ax.text(0.035, 0.758, "nodes retained", fontsize=5.9, color="#374151", transform=ax.transAxes)
+    ax.text(0.035, 0.676, f"compression = {compact_percent_label(compression)}", fontsize=5.9, color="#4B5563", transform=ax.transAxes)
 
     endpoint_nodes = [node for node in core_nodes if node in risk]
     affected_nodes = [node for node in core_nodes if node in affected and node not in risk]
     support_nodes = [node for node in core_nodes if node not in risk and node not in affected]
 
-    ax.plot([0.04, 0.96], [0.604, 0.604], color="#D7DEE8", linewidth=0.7, transform=ax.transAxes)
+    ax.plot([0.035, 0.965], [0.620, 0.620], color="#D7DEE8", linewidth=0.7, transform=ax.transAxes)
 
-    def core_chip(x: float, y0: float, node: Any, *, width: float = 0.28, height: float = 0.062) -> None:
-        if node in risk:
-            fill, edge, color = "#F8E9E7", "#EBCAC6", PAPER_COLORS["risk"]
-        elif node in affected:
-            fill, edge, color = "#F4EAD7", "#E7D5B7", "#8A5B20"
-        else:
-            fill, edge, color = "#E5F1EC", "#C9DED6", "#1F2937"
+    def chip(x: float, y0: float, text: str, face: str, edge: str, color: str, width: float = 0.280) -> None:
         ax.add_patch(
             patches.FancyBboxPatch(
-                (x, y0 - height / 2),
+                (x, y0 - 0.034),
                 width,
-                height,
-                boxstyle="round,pad=0.010,rounding_size=0.014",
-                facecolor=fill,
+                0.078,
+                boxstyle="round,pad=0.016,rounding_size=0.015",
+                facecolor=face,
                 edgecolor=edge,
-                linewidth=0.5,
+                linewidth=0.50,
                 transform=ax.transAxes,
             )
         )
         ax.text(
-            x + width / 2,
-            y0,
-            short(node),
-            fontsize=5.05,
+            x + 0.047,
+            y0 + 0.001,
+            text,
+            fontsize=5.20,
             color=color,
-            ha="center",
+            ha="left",
             va="center",
             transform=ax.transAxes,
-            weight="bold" if node in risk else "normal",
+            weight="bold" if color == PAPER_COLORS["risk"] else None,
         )
 
-    ax.text(0.04, 0.536, "risk endpoints kept", fontsize=6.0, weight="bold", color="#111827", transform=ax.transAxes)
-    for i, node in enumerate(endpoint_nodes[:2]):
-        core_chip(0.04 + i * 0.480, 0.462, node, width=0.400, height=0.088)
+    ax.text(0.035, 0.565, "risk endpoints kept", fontsize=5.85, weight="bold", color="#111827", transform=ax.transAxes)
+    if endpoint_nodes:
+        chip(0.050, 0.472, short(endpoint_nodes[0]), "#F8E9E7", "#EBCAC6", PAPER_COLORS["risk"], width=0.315)
+        if len(endpoint_nodes) > 1:
+            ax.text(0.405, 0.472, "+", fontsize=6.1, weight="bold", color=PAPER_COLORS["risk"], ha="center", va="center", transform=ax.transAxes)
+            chip(0.450, 0.472, short(endpoint_nodes[1]), "#F8E9E7", "#EBCAC6", PAPER_COLORS["risk"], width=0.315)
+    else:
+        ax.text(0.045, 0.480, "-", fontsize=6.0, color="#6B7280", transform=ax.transAxes)
 
-    ax.text(0.04, 0.350, "supporting context", fontsize=6.0, weight="bold", color="#111827", transform=ax.transAxes)
+    ax.text(0.035, 0.360, "supporting context", fontsize=5.85, weight="bold", color="#111827", transform=ax.transAxes)
     context_nodes = (affected_nodes + support_nodes)[:7]
-    ax.add_patch(
-        patches.FancyBboxPatch(
-            (0.04, 0.056),
-            0.90,
-            0.250,
-            boxstyle="round,pad=0.018,rounding_size=0.014",
-            facecolor="#F8FAFC",
-            edgecolor="#D7DEE8",
-            linewidth=0.55,
-            transform=ax.transAxes,
-        )
-    )
     for i, node in enumerate(context_nodes):
-        row = i % 4
-        col = i // 4
-        x = 0.085 + col * 0.455
-        y0 = 0.263 - row * 0.052
+        row = i // 3
+        col = i % 3
+        x = 0.050 + col * 0.315
+        y0 = 0.286 - row * 0.096
         if node in affected:
             color = "#8A5B20"
-            bullet_color = PAPER_COLORS["orange"]
+            face = "#F8EEDC"
+            edge = "#E8D7B6"
         else:
             color = "#1F2937"
-            bullet_color = PAPER_COLORS["support"]
-        ax.scatter([x], [y0], s=11, color=bullet_color, edgecolor="none", transform=ax.transAxes, zorder=3)
-        ax.text(x + 0.030, y0, short(node), fontsize=5.85, color=color, ha="left", va="center", transform=ax.transAxes)
+            face = "#E4F3EE"
+            edge = "#C8E4DA"
+        chip(x, y0, short(node), face, edge, color, width=0.260)
 
     # C. Case-specific rollout trace.
     ax = fig.add_subplot(gs[1, :2])
@@ -1179,10 +1189,10 @@ def create_case_study_figure(records: list[dict[str, Any]]) -> None:
             first_all_i = int(first_all)
             ax.axvline(first_all_i, color=PAPER_COLORS["purple"], linestyle=":", linewidth=1.25, alpha=0.82, zorder=1)
             ax.text(
-                first_all_i + 1.20,
-                1.070,
+                first_all_i + 2.35,
+                1.105,
                 f"risk-all @ {first_all_i}",
-                fontsize=5.9,
+                fontsize=5.75,
                 color=PAPER_COLORS["purple"],
                 ha="left",
                 va="center",
@@ -1194,9 +1204,9 @@ def create_case_study_figure(records: list[dict[str, Any]]) -> None:
         ax.text(x_label, val_cov[-1], "valuable nodes", fontsize=5.7, color=PAPER_COLORS["orange"], va="center")
         ax.text(x_label, comp[-1], "compression", fontsize=5.7, color="#6B7A90", va="center")
         ax.set_xlim(0, max(rxs) + 8)
-    panel_label(ax, "C", "Rollout trace: evidence is retained after discovery")
+    panel_label(ax, "C", "Evidence retained after discovery")
     ax.set_xlabel("Rollout", labelpad=3)
-    set_percent_axis(ax, ylim=(0, 1.13), ylabel="Coverage / compression")
+    set_percent_axis(ax, ylim=(0, 1.16), ylabel="Coverage / compression")
     soft_panel(ax)
 
     # D. Method comparison card.
