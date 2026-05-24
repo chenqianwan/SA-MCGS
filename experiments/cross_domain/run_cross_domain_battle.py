@@ -1415,6 +1415,7 @@ async def run_naive(
     scc: SCCInfo,
     naive_profile: str = "ranked",
     injected_id: str | None = None,
+    temperature: float = 0.0,
 ) -> dict:
     """Run Naive one-shot prompting on a single SCC."""
     t0 = time.time()
@@ -1438,7 +1439,7 @@ async def run_naive(
 
     parsed = await llm.call_json(
         prompt,
-        temperature=0.0,
+        temperature=temperature,
         max_tokens=_model_json_max_tokens(
             model_name,
             4096 if direct_subgraph_lite_naive else (
@@ -1577,6 +1578,8 @@ async def run_naive(
         "scc_id": scc.id,
         "scc_clause_ids": scc.clause_ids,
         "llm_calls": 1,
+        "temperature": temperature,
+        "llm_usage": getattr(llm, "last_usage", {}),
         "time": elapsed,
         "scores": scores,
         "reasonings": reasonings,

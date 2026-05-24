@@ -19,6 +19,7 @@ class OpenAIClient(BaseLLMClient):
         base_url = config.get("base_url", None)
         self.client = AsyncOpenAI(api_key=api_key, base_url=base_url, timeout=self.timeout)
         self.model = config.get("model", "gpt-4o")
+        self.last_usage: dict = {}
 
     async def call(
         self,
@@ -46,13 +47,17 @@ class OpenAIClient(BaseLLMClient):
         response = await self.client.chat.completions.create(**kwargs)
         choice = response.choices[0]
 
+        usage = {
+            "prompt_tokens": response.usage.prompt_tokens if response.usage else 0,
+            "completion_tokens": response.usage.completion_tokens if response.usage else 0,
+        }
+        usage["total_tokens"] = usage["prompt_tokens"] + usage["completion_tokens"]
+        self.last_usage = usage
+
         return LLMResponse(
             content=choice.message.content or "",
             model=response.model,
-            usage={
-                "prompt_tokens": response.usage.prompt_tokens if response.usage else 0,
-                "completion_tokens": response.usage.completion_tokens if response.usage else 0,
-            },
+            usage=usage,
             raw=response,
         )
 
