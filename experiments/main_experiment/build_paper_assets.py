@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build paper-facing figures, tables, and a bilingual annotation pack.
+"""Build paper figures, tables, and a bilingual annotation pack.
 
 This script is intentionally read-only with respect to raw experiment outputs.
 It consolidates the locked main experiment assets into a stable directory that
@@ -48,6 +48,11 @@ from progress_dashboard import _metric_values  # noqa: E402
 
 METHODS = ["naive", "sa-mcgs"]
 METRIC_KEYS = ["root", "risk_any", "risk_all", "compression"]
+BOOSTED_RESULTS_DIR = MAIN_DIR / "boosted_naive_baseline" / "results_canonical80_x10"
+BOOSTED_SUMMARY_CSV = BOOSTED_RESULTS_DIR / "boosted_naive_top3_summary.csv"
+BOOSTED_RAW_JSONL = BOOSTED_RESULTS_DIR / "boosted_naive_raw_attempts.jsonl"
+MAIN_NAIVE_SELECTOR = "oracle_risk_top3"
+MAIN_NAIVE_LABEL = "oracle-risk Naive"
 METRIC_LABELS = {
     "root": "Root@3",
     "risk_any": "Risk-any",
@@ -137,6 +142,101 @@ def fmt(value: Any, digits: int = 2) -> str:
 
 def method_records(records: Iterable[dict[str, Any]], method: str) -> list[dict[str, Any]]:
     return [record for record in records if record.get("method") == method]
+
+
+def as_float(value: Any, default: float = 0.0) -> float:
+    try:
+        if value in (None, ""):
+            return default
+        return float(value)
+    except Exception:
+        return default
+
+
+def as_int(value: Any, default: int = 0) -> int:
+    try:
+        if value in (None, ""):
+            return default
+        return int(float(value))
+    except Exception:
+        return default
+
+
+def load_boosted_summary_rows(selector: str | None = None) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    if not BOOSTED_SUMMARY_CSV.exists():
+        return rows
+    for row in read_csv_rows(BOOSTED_SUMMARY_CSV):
+        if selector and row.get("selector") != selector:
+            continue
+        parsed: dict[str, Any] = dict(row)
+        for key in ("block_id", "actual_size", "requested_size", "attempt_count", "valid_attempt_count", "selected_count"):
+            parsed[key] = as_int(parsed.get(key))
+        for key in ("root_at3", "risk_any", "risk_all", "compression", "avg_total_tokens", "avg_prompt_tokens", "avg_completion_tokens"):
+            parsed[key] = as_float(parsed.get(key))
+        rows.append(parsed)
+    return rows
+
+
+def boosted_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    n = len(rows)
+
+    def avg(key: str) -> float:
+        return sum(as_float(row.get(key)) for row in rows) / n if n else 0.0
+
+    zero_valid = sum(1 for row in rows if as_int(row.get("valid_attempt_count")) == 0)
+    return {
+        "n": n,
+        "errors": zero_valid,
+        "valid": max(0, n - zero_valid),
+        "zero_valid_cases": zero_valid,
+        "root": avg("root_at3"),
+        "risk_any": avg("risk_any"),
+        "risk_all": avg("risk_all"),
+        "compression": avg("compression"),
+        "effective_compression": avg("compression"),
+        "avg_subgraph": None,
+        "valid_attempt_mean": avg("valid_attempt_count"),
+        "avg_total_tokens": avg("avg_total_tokens"),
+    }
+
+
+def paper_naive_rows(selector: str = MAIN_NAIVE_SELECTOR) -> list[dict[str, Any]]:
+    return load_boosted_summary_rows(selector)
+
+
+def paper_method_summary_map(records: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    return {
+        "naive": boosted_summary(paper_naive_rows()),
+        "sa-mcgs": summary(method_records(records, "sa-mcgs")),
+    }
+
+
+def boosted_raw_attempt_summary() -> dict[str, Any]:
+    records: list[dict[str, Any]] = []
+    if BOOSTED_RAW_JSONL.exists():
+        with BOOSTED_RAW_JSONL.open("r", encoding="utf-8") as f:
+            for line in f:
+                if line.strip():
+                    try:
+                        records.append(json.loads(line))
+                    except json.JSONDecodeError:
+                        pass
+    n = len(records)
+    if not n:
+        return {"n": 0, "errors": 0, "root": 0.0, "risk_any": 0.0, "risk_all": 0.0, "compression": 0.0}
+
+    def truthy(value: Any) -> bool:
+        return value is True or value == 1 or str(value).strip().lower() in {"true", "yes", "1"}
+
+    return {
+        "n": n,
+        "errors": sum(1 for record in records if record.get("error")),
+        "root": sum(1.0 for record in records if truthy(record.get("root_top3_hit"))) / n,
+        "risk_any": sum(1.0 for record in records if truthy(record.get("direct_contains_any_risk_node"))) / n,
+        "risk_all": sum(1.0 for record in records if truthy(record.get("direct_contains_all_risk_nodes"))) / n,
+        "compression": sum(as_float(record.get("direct_compression_ratio")) for record in records) / n,
+    }
 
 
 def case_key(record: dict[str, Any]) -> tuple[str, ...]:
@@ -443,7 +543,7 @@ def create_mcts_failure_figure() -> None:
 
 
 def create_main_metrics_figure(records: list[dict[str, Any]]) -> None:
-    summaries = method_summary_map(records)
+    summaries = paper_method_summary_map(records)
     naive = summaries["naive"]
     sa = summaries["sa-mcgs"]
 
@@ -485,7 +585,7 @@ def create_main_metrics_figure(records: list[dict[str, Any]]) -> None:
     ax.set_xticks([0, 0.25, 0.50, 0.75, 1.0], ["0%", "25%", "50%", "75%", "100%"])
     ax.set_xlabel("Strict rate / compression")
     ax.grid(False)
-    ax.scatter([], [], s=38, color=PAPER_COLORS["naive"], label="Naive")
+    ax.scatter([], [], s=38, color=PAPER_COLORS["naive"], label=MAIN_NAIVE_LABEL)
     ax.scatter([], [], s=42, color=PAPER_COLORS["sa"], label="SA-MCGS")
     ax.legend(frameon=False, loc="upper right", ncol=2, handletextpad=0.35, columnspacing=0.8, bbox_to_anchor=(0.98, 1.12))
     soft_panel(ax)
@@ -493,6 +593,7 @@ def create_main_metrics_figure(records: list[dict[str, Any]]) -> None:
 
 
 def create_scc_size_figure(records: list[dict[str, Any]]) -> None:
+    boosted_rows = paper_naive_rows()
     buckets = [
         ("Short\n$\\leq$12", lambda size: size <= 12),
         ("Mid\n14--20", lambda size: 14 <= size <= 20),
@@ -502,14 +603,18 @@ def create_scc_size_figure(records: list[dict[str, Any]]) -> None:
     for label, pred in buckets:
         row: dict[str, Any] = {"bucket": label}
         for method in METHODS:
-            recs = [
-                r
-                for r in records
-                if r.get("method") == method
-                and str(r.get("scc_size") or "").isdigit()
-                and pred(int(r.get("scc_size") or 0))
-            ]
-            row[method] = summary(recs)
+            if method == "naive":
+                recs = [r for r in boosted_rows if pred(as_int(r.get("actual_size")))]
+                row[method] = boosted_summary(recs)
+            else:
+                recs = [
+                    r
+                    for r in records
+                    if r.get("method") == method
+                    and str(r.get("scc_size") or "").isdigit()
+                    and pred(int(r.get("scc_size") or 0))
+                ]
+                row[method] = summary(recs)
         bucket_rows.append(row)
 
     fig = plt.figure(figsize=(7.2, 2.20))
@@ -577,7 +682,7 @@ def create_scc_size_figure(records: list[dict[str, Any]]) -> None:
     ax.set_xticks([0, 0.5, 1.0], ["0%", "50%", "100%"])
     ax.grid(axis="x", color=PAPER_COLORS["grid"], linewidth=0.55)
     ax.grid(axis="y", color=PAPER_COLORS["grid"], linewidth=0.45)
-    ax.scatter([], [], s=31, color=PAPER_COLORS["naive"], label="Naive")
+    ax.scatter([], [], s=31, color=PAPER_COLORS["naive"], label=MAIN_NAIVE_LABEL)
     ax.scatter([], [], s=34, color=PAPER_COLORS["sa"], label="SA-MCGS")
     ax.legend(frameon=False, loc="upper right", handletextpad=0.4, borderaxespad=0.2, ncol=1)
     soft_panel(ax)
@@ -585,7 +690,8 @@ def create_scc_size_figure(records: list[dict[str, Any]]) -> None:
 
 
 def create_main_results_composite_figure(records: list[dict[str, Any]]) -> None:
-    summaries = method_summary_map(records)
+    boosted_rows = paper_naive_rows()
+    summaries = paper_method_summary_map(records)
     naive = summaries["naive"]
     sa = summaries["sa-mcgs"]
 
@@ -598,14 +704,18 @@ def create_main_results_composite_figure(records: list[dict[str, Any]]) -> None:
     for label, pred in buckets:
         row: dict[str, Any] = {"bucket": label}
         for method in METHODS:
-            recs = [
-                r
-                for r in records
-                if r.get("method") == method
-                and str(r.get("scc_size") or "").isdigit()
-                and pred(int(r.get("scc_size") or 0))
-            ]
-            row[method] = summary(recs)
+            if method == "naive":
+                recs = [r for r in boosted_rows if pred(as_int(r.get("actual_size")))]
+                row[method] = boosted_summary(recs)
+            else:
+                recs = [
+                    r
+                    for r in records
+                    if r.get("method") == method
+                    and str(r.get("scc_size") or "").isdigit()
+                    and pred(int(r.get("scc_size") or 0))
+                ]
+                row[method] = summary(recs)
         bucket_rows.append(row)
 
     fig = plt.figure(figsize=(7.2, 2.58))
@@ -662,7 +772,10 @@ def create_main_results_composite_figure(records: list[dict[str, Any]]) -> None:
     ax.set_title(r"$\bf{A.}$ Overall critical-SCC results", loc="left", pad=6, color=PAPER_COLORS["dark"], fontsize=8.0)
     ax.set_yticks(y_base, [label for label, _ in metric_rows])
     ax.set_xlim(0.35, 1.02)
-    ax.set_ylim(-0.55, len(metric_rows) - 0.45)
+    # Leave a real legend band above the first metric row.  The oracle-risk
+    # label is longer than the previous Naive label and otherwise collides
+    # with the Root@3 markers in the compact ACL layout.
+    ax.set_ylim(-0.55, len(metric_rows) + 0.28)
     ax.set_xticks([0.4, 0.6, 0.8, 1.0], ["40", "60", "80", "100"])
     ax.set_xlabel("Rate / compression (%)", labelpad=2.8)
     ax.tick_params(axis="both", colors=text_gray, pad=2)
@@ -673,7 +786,7 @@ def create_main_results_composite_figure(records: list[dict[str, Any]]) -> None:
     ax.spines["left"].set_linewidth(0.7)
     ax.spines["bottom"].set_linewidth(0.7)
     ax.grid(False)
-    ax.scatter([], [], s=27, color=method_colors["naive"], label="Naive")
+    ax.scatter([], [], s=27, color=method_colors["naive"], label=MAIN_NAIVE_LABEL)
     ax.scatter([], [], s=30, color=method_colors["sa-mcgs"], label="SA-MCGS")
     ax.legend(frameon=False, loc="upper right", bbox_to_anchor=(1.00, 1.02), ncol=2, handletextpad=0.35, columnspacing=0.75, fontsize=6.0)
 
@@ -1239,60 +1352,100 @@ def create_case_study_figure(records: list[dict[str, Any]]) -> None:
 
 
 def create_main_tables(records: list[dict[str, Any]]) -> None:
-    main_rows: list[dict[str, Any]] = []
-    for method in METHODS:
-        recs = method_records(records, method)
-        s = summary(recs)
-        main_rows.append(
-            {
-                "method": method,
-                "n": s["n"],
-                "errors": s["errors"],
-                "root_at_3": pct(s["root"]),
-                "risk_any": pct(s["risk_any"]),
-                "risk_all": pct(s["risk_all"]),
-                "compression": pct(s["compression"]),
-                "effective_compression": pct(s["effective_compression"]),
-                "avg_subgraph": fmt(s["avg_subgraph"], 2),
-            }
-        )
-    write_csv(TABLE_DIR / "tab03_main_results_strict.csv", main_rows)
-    write_md_table(TABLE_DIR / "tab03_main_results_strict.md", "Table 3. Main Strict Results", main_rows)
+    boosted_rows = paper_naive_rows()
+    main_naive = boosted_summary(boosted_rows)
+    main_sa = summary(method_records(records, "sa-mcgs"))
+    one_shot_naive = summary(method_records(records, "naive"))
+    raw_boosted = boosted_raw_attempt_summary()
 
-    reliability_rows: list[dict[str, Any]] = []
-    for method in METHODS:
-        recs = method_records(records, method)
-        s = summary(recs)
-        reliability_rows.append(
-            {
-                "method": method,
-                "method_records": s["n"],
-                "usable_structured_outputs": f"{s['n'] - s['errors']}/{s['n']}",
-                "unavailable_structured_outputs": f"{s['errors']}/{s['n']}",
-                "usable_output_rate": pct(1 - s["errors"] / s["n"] if s["n"] else None),
-            }
-        )
+    main_rows = [
+        {
+            "method": MAIN_NAIVE_LABEL,
+            "n": main_naive["n"],
+            "root_at_3": pct(main_naive["root"]),
+            "risk_any": pct(main_naive["risk_any"]),
+            "risk_all": pct(main_naive["risk_all"]),
+            "compression": pct(main_naive["compression"]),
+        },
+        {
+            "method": "sa-mcgs",
+            "n": main_sa["n"],
+            "root_at_3": pct(main_sa["root"]),
+            "risk_any": pct(main_sa["risk_any"]),
+            "risk_all": pct(main_sa["risk_all"]),
+            "compression": pct(main_sa["compression"]),
+        },
+    ]
+    write_csv(TABLE_DIR / "tab03_main_results_strict.csv", main_rows)
+    write_md_table(TABLE_DIR / "tab03_main_results_strict.md", "Table 3. Main Results", main_rows)
+
+    reliability_rows = [
+        {
+            "scope": "locked one-shot",
+            "method": "one-shot Naive",
+            "denominator": "model-cases",
+            "usable": f"{one_shot_naive['valid']}/{one_shot_naive['n']}",
+            "unusable": f"{one_shot_naive['errors']}/{one_shot_naive['n']}",
+            "usable_rate": pct(one_shot_naive["valid"] / one_shot_naive["n"] if one_shot_naive["n"] else None),
+        },
+        {
+            "scope": "locked main",
+            "method": "sa-mcgs",
+            "denominator": "model-cases",
+            "usable": f"{main_sa['valid']}/{main_sa['n']}",
+            "unusable": f"{main_sa['errors']}/{main_sa['n']}",
+            "usable_rate": pct(main_sa["valid"] / main_sa["n"] if main_sa["n"] else None),
+        },
+        {
+            "scope": "boosted Naive x10",
+            "method": MAIN_NAIVE_LABEL,
+            "denominator": "raw attempts",
+            "usable": f"{raw_boosted['n'] - raw_boosted['errors']}/{raw_boosted['n']}",
+            "unusable": f"{raw_boosted['errors']}/{raw_boosted['n']}",
+            "usable_rate": pct((raw_boosted["n"] - raw_boosted["errors"]) / raw_boosted["n"] if raw_boosted["n"] else None),
+        },
+        {
+            "scope": "boosted Naive x10",
+            "method": MAIN_NAIVE_LABEL,
+            "denominator": "model-cases",
+            "usable": f"{main_naive['valid']}/{main_naive['n']}",
+            "unusable": f"{main_naive['zero_valid_cases']}/{main_naive['n']}",
+            "usable_rate": pct(main_naive["valid"] / main_naive["n"] if main_naive["n"] else None),
+        },
+    ]
     write_csv(TABLE_DIR / "tab03_reliability_strict.csv", reliability_rows)
-    write_md_table(TABLE_DIR / "tab03_reliability_strict.md", "Table 3. Strict Output Reliability", reliability_rows)
+    write_md_table(TABLE_DIR / "tab03_reliability_strict.md", "Table 3. Output Reliability", reliability_rows)
 
     model_rows: list[dict[str, Any]] = []
     for model in dash.MODEL_ORDER:
-        for method in METHODS:
-            recs = [r for r in records if r.get("model") == model and r.get("method") == method]
-            if not recs:
-                continue
-            s = summary(recs)
+        naive_subset = [row for row in boosted_rows if row.get("model") == model]
+        if naive_subset:
+            s = boosted_summary(naive_subset)
             model_rows.append(
                 {
                     "model": model,
-                    "method": method,
+                    "method": MAIN_NAIVE_LABEL,
                     "n": s["n"],
-                    "errors": s["errors"],
+                    "zero_valid_cases": s["zero_valid_cases"],
                     "root_at_3": pct(s["root"]),
                     "risk_any": pct(s["risk_any"]),
                     "risk_all": pct(s["risk_all"]),
                     "compression": pct(s["compression"]),
-                    "effective_compression": pct(s["effective_compression"]),
+                }
+            )
+        sa_subset = [r for r in records if r.get("model") == model and r.get("method") == "sa-mcgs"]
+        if sa_subset:
+            s = summary(sa_subset)
+            model_rows.append(
+                {
+                    "model": model,
+                    "method": "sa-mcgs",
+                    "n": s["n"],
+                    "zero_valid_cases": 0,
+                    "root_at_3": pct(s["root"]),
+                    "risk_any": pct(s["risk_any"]),
+                    "risk_all": pct(s["risk_all"]),
+                    "compression": pct(s["compression"]),
                 }
             )
     write_csv(TABLE_DIR / "tabA4_model_breakdown.csv", model_rows)
@@ -1300,35 +1453,70 @@ def create_main_tables(records: list[dict[str, Any]]) -> None:
 
     domain_rows: list[dict[str, Any]] = []
     for domain in dash.DOMAIN_ORDER:
-        for method in METHODS:
-            recs = [r for r in records if r.get("domain") == domain and r.get("method") == method]
-            if not recs:
-                continue
-            s = summary(recs)
+        naive_subset = [row for row in boosted_rows if row.get("domain") == domain]
+        if naive_subset:
+            s = boosted_summary(naive_subset)
             domain_rows.append(
                 {
                     "domain": domain,
-                    "method": method,
+                    "method": MAIN_NAIVE_LABEL,
                     "n": s["n"],
-                    "errors": s["errors"],
+                    "zero_valid_cases": s["zero_valid_cases"],
                     "root_at_3": pct(s["root"]),
                     "risk_any": pct(s["risk_any"]),
                     "risk_all": pct(s["risk_all"]),
                     "compression": pct(s["compression"]),
-                    "effective_compression": pct(s["effective_compression"]),
+                }
+            )
+        sa_subset = [r for r in records if r.get("domain") == domain and r.get("method") == "sa-mcgs"]
+        if sa_subset:
+            s = summary(sa_subset)
+            domain_rows.append(
+                {
+                    "domain": domain,
+                    "method": "sa-mcgs",
+                    "n": s["n"],
+                    "zero_valid_cases": 0,
+                    "root_at_3": pct(s["root"]),
+                    "risk_any": pct(s["risk_any"]),
+                    "risk_all": pct(s["risk_all"]),
+                    "compression": pct(s["compression"]),
                 }
             )
     write_csv(TABLE_DIR / "tabA5_domain_breakdown.csv", domain_rows)
     write_md_table(TABLE_DIR / "tabA5_domain_breakdown.md", "Table A5. Domain-level Breakdown", domain_rows)
 
     scc_rows: list[dict[str, Any]] = []
-    for row in dash._size_trend_rows(records):
-        for method in METHODS:
-            s = row["naive"] if method == "naive" else row["sa"]
+    sizes = sorted(
+        {as_int(row.get("actual_size")) for row in boosted_rows if as_int(row.get("actual_size")) > 0}
+        | {
+            as_int(record.get("scc_size"))
+            for record in records
+            if record.get("method") == "sa-mcgs" and as_int(record.get("scc_size")) > 0
+        }
+    )
+    for size in sizes:
+        naive_subset = [row for row in boosted_rows if as_int(row.get("actual_size")) == size]
+        sa_subset = [record for record in records if record.get("method") == "sa-mcgs" and as_int(record.get("scc_size")) == size]
+        if naive_subset:
+            s = boosted_summary(naive_subset)
             scc_rows.append(
                 {
-                    "scc_size": row["size"],
-                    "method": method,
+                    "scc_size": size,
+                    "method": MAIN_NAIVE_LABEL,
+                    "n": s["n"],
+                    "root_at_3": pct(s["root"]),
+                    "risk_any": pct(s["risk_any"]),
+                    "risk_all": pct(s["risk_all"]),
+                    "compression": pct(s["compression"]),
+                }
+            )
+        if sa_subset:
+            s = summary(sa_subset)
+            scc_rows.append(
+                {
+                    "scc_size": size,
+                    "method": "sa-mcgs",
                     "n": s["n"],
                     "root_at_3": pct(s["root"]),
                     "risk_any": pct(s["risk_any"]),
@@ -1338,6 +1526,60 @@ def create_main_tables(records: list[dict[str, Any]]) -> None:
             )
     write_csv(TABLE_DIR / "tabA6_by_scc_size.csv", scc_rows)
     write_md_table(TABLE_DIR / "tabA6_by_scc_size.md", "Table A6. Metrics by SCC Size", scc_rows)
+
+    selector_rows: list[dict[str, Any]] = []
+    selector_rows.append(
+        {
+            "control": "one-shot Naive",
+            "n": one_shot_naive["n"],
+            "root_at_3": pct(one_shot_naive["root"]),
+            "risk_any": pct(one_shot_naive["risk_any"]),
+            "risk_all": pct(one_shot_naive["risk_all"]),
+            "compression": pct(one_shot_naive["compression"]),
+            "role": "original locked control",
+        }
+    )
+    selector_rows.append(
+        {
+            "control": "boosted Naive single-attempt mean",
+            "n": f"{main_naive['n']} cases / {raw_boosted['n']} attempts",
+            "root_at_3": pct(raw_boosted["root"]),
+            "risk_any": pct(raw_boosted["risk_any"]),
+            "risk_all": pct(raw_boosted["risk_all"]),
+            "compression": pct(raw_boosted["compression"]),
+            "role": "raw repeated-sampling mean",
+        }
+    )
+    for selector, role in (
+        ("self_top3", "non-oracle selector"),
+        ("oracle_risk_top3", "main oracle-risk baseline"),
+        ("oracle_compression_top3", "compression-first diagnostic"),
+    ):
+        s = boosted_summary(load_boosted_summary_rows(selector))
+        selector_rows.append(
+            {
+                "control": f"boosted Naive {selector}",
+                "n": s["n"],
+                "root_at_3": pct(s["root"]),
+                "risk_any": pct(s["risk_any"]),
+                "risk_all": pct(s["risk_all"]),
+                "compression": pct(s["compression"]),
+                "role": role,
+            }
+        )
+    selector_rows.append(
+        {
+            "control": "SA-MCGS",
+            "n": main_sa["n"],
+            "root_at_3": pct(main_sa["root"]),
+            "risk_any": pct(main_sa["risk_any"]),
+            "risk_all": pct(main_sa["risk_all"]),
+            "compression": pct(main_sa["compression"]),
+            "role": "proposed method",
+        }
+    )
+    write_csv(TABLE_DIR / "tabA9_boosted_naive_selector_comparison.csv", selector_rows)
+    write_md_table(TABLE_DIR / "tabA9_boosted_naive_selector_comparison.md", "Table A9. Boosted Naive Selector Comparison", selector_rows)
 
 
 def create_motivation_tables() -> None:
@@ -1421,7 +1663,7 @@ def create_figure_catalog() -> None:
             "id": "Figure 3",
             "file": "fig02_main_results_composite.pdf/png",
             "paper_section": "Main Results",
-            "what_it_shows": "Composite main-result figure: headline strict performance plus SCC-size breakdown of endpoint retention and compression.",
+            "what_it_shows": "Composite main-result figure: oracle-risk Naive versus SA-MCGS, plus SCC-size breakdown of endpoint retention and compression.",
             "use_in_main_text": "Yes",
         },
         {
@@ -1480,7 +1722,8 @@ def create_figure_catalog() -> None:
             "",
             "口径规则：",
             "",
-            "- 主实验图只使用 `current/default + critical + structural_simple_v2 + 4 models + 80 SCC blocks/model`。",
+            "- 主实验图使用 `current/default + critical + structural_simple_v2 + 4 models + 80 SCC blocks/model`。",
+            "- Figure 3 的 Naive baseline 是 `oracle_risk_top3` over ten full-SCC Naive attempts，图例写作 `oracle-risk Naive`。",
             "- `balanced`、`conservative`、Gemini Flash、Wikipedia exploratory、旧 memory_stress diagnostic 不进入主图。",
             "- `Effective OC` 只作为 rollout 发现过程的辅助曲线，不作为主命中指标。",
             "",
@@ -2933,7 +3176,8 @@ def create_asset_readme() -> None:
         "- Table 1: `tables/tab01_mcts_scc_motivation.md` / `.csv`",
         "- Table 2: `tables/tab02_domain_coverage_authority.md` / `.csv`",
         "- Table 3: `tables/tab03_reliability_strict.md` / `.csv`",
-        "- Main-result metric source: `tables/tab03_main_results_strict.md` / `.csv`",
+            "- Main-result metric source: `tables/tab03_main_results_strict.md` / `.csv`",
+            "- Boosted Naive selector comparison: `tables/tabA9_boosted_naive_selector_comparison.md` / `.csv`",
         "- Figure 3: `figures/fig02_main_results_composite.pdf`",
         "- Figure 4: `figures/fig04_budget_prefix_convergence.pdf`",
         "- Figure 5: `figures/fig05_compression_profile_tradeoff.pdf`",
@@ -2965,7 +3209,7 @@ def update_main_readme() -> None:
 - [`paper_assets/tables/`](paper_assets/tables/)：主表和补充表的 CSV/Markdown 源。
 - [`paper_assets/human_annotation_pack/human_annotation_pack.zip`](paper_assets/human_annotation_pack/human_annotation_pack.zip)：给专家标注的精选小包，含 12 个 case、可填写中英文 HTML、节点文本弹窗和一键 Excel 导出。
 
-口径提醒：主实验图表只使用 `current/default + critical + structural_simple_v2 + 4 models + 80 SCC blocks/model`。旧 diagnostic、smoke、balanced exploratory 不作为主结果。
+口径提醒：主实验图表使用 `current/default + critical + structural_simple_v2 + 4 models + 80 SCC blocks/model`，其中 main Naive baseline 为 `oracle_risk_top3` over ten full-SCC Naive attempts。旧 diagnostic、smoke、balanced exploratory 不作为主结果。
 
 """
     if marker in text:

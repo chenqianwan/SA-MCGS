@@ -1,6 +1,8 @@
-# Table 3. Strict Output Reliability
+# Table 3. Output Reliability
 
-| method | method_records | usable_structured_outputs | unavailable_structured_outputs | usable_output_rate |
-|---|---|---|---|---|
-| naive | 320 | 261/320 | 59/320 | 82% |
-| sa-mcgs | 320 | 320/320 | 0/320 | 100% |
+| scope | method | denominator | usable | unusable | usable_rate |
+|---|---|---|---|---|---|
+| locked one-shot | one-shot Naive | model-cases | 261/320 | 59/320 | 82% |
+| locked main | sa-mcgs | model-cases | 320/320 | 0/320 | 100% |
+| boosted Naive x10 | oracle-risk Naive | raw attempts | 2400/3200 | 800/3200 | 75% |
+| boosted Naive x10 | oracle-risk Naive | model-cases | 274/320 | 46/320 | 86% |

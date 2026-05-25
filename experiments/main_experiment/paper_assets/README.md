@@ -26,6 +26,7 @@
 - Table 2: `tables/tab02_domain_coverage_authority.md` / `.csv`
 - Table 3: `tables/tab03_reliability_strict.md` / `.csv`
 - Main-result metric source: `tables/tab03_main_results_strict.md` / `.csv`
+- Boosted Naive selector comparison: `tables/tabA9_boosted_naive_selector_comparison.md` / `.csv`
 - Figure 3: `figures/fig02_main_results_composite.pdf`
 - Figure 4: `figures/fig04_budget_prefix_convergence.pdf`
 - Figure 5: `figures/fig05_compression_profile_tradeoff.pdf`

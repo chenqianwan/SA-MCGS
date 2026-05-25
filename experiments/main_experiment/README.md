@@ -76,7 +76,7 @@ The dashboard reads the files above and reports:
 
 ## Paper Supplements
 
-The paper-facing supplement artifacts are in `supplements/`:
+The paper supplement artifacts are in `supplements/`:
 
 - `E0_MATCHED_VALID_ONLY.md`: strict vs valid-only vs matched usable-output rates.
 - `E1_NAIVE_OUTPUT_BURDEN_CONTROL.md`: CUAD long-SCC Naive-lite output-burden control.
@@ -139,5 +139,4 @@ When writing the paper:
 - [`paper_assets/tables/`](paper_assets/tables/)：主表和补充表的 CSV/Markdown 源。
 - [`paper_assets/human_annotation_pack/human_annotation_pack.zip`](paper_assets/human_annotation_pack/human_annotation_pack.zip)：给专家标注的精选小包，含 12 个 case、可填写中英文 HTML、节点文本弹窗和一键 Excel 导出。
 
-口径提醒：主实验图表只使用 `current/default + critical + structural_simple_v2 + 4 models + 80 SCC blocks/model`。旧 diagnostic、smoke、balanced exploratory 不作为主结果。
-
+口径提醒：主实验图表使用 `current/default + critical + structural_simple_v2 + 4 models + 80 SCC blocks/model`，其中 main Naive baseline 为 `oracle_risk_top3` over ten full-SCC Naive attempts。旧 diagnostic、smoke、balanced exploratory 不作为主结果。

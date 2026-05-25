@@ -43,8 +43,8 @@
 \newcommand{\scc}{SCC}
 \newcommand{\oc}{OC}
 
-\title{Collapsing Strongly Connected Components into Risk Subgraphs\\
-with Structure-Aware Monte Carlo Graph Search}
+\title{Risk Subgraph Extraction in Cyclic Document Graphs\\
+with Structure-Aware Monte Carlo Search}
 
 \author{Anonymous ARR Submission}
 
@@ -52,7 +52,7 @@ with Structure-Aware Monte Carlo Graph Search}
 \maketitle
 
 \begin{abstract}
-Long documents such as contracts, statutes, software package metadata, and corporate filings often contain risks that emerge only across mutually dependent records.  LLM-guided Monte Carlo tree search (MCTS) can improve structured document reasoning, but standard tree rollouts become unstable on strongly connected components (SCCs), where the same logical record may be revisited indefinitely.  We propose \samcgs{}, a structure-aware Monte Carlo graph search method that localizes SCCs, performs local LLM rollouts with relation-first evidence memory, and collapses each cyclic region into an inspectable risk subgraph.  We evaluate a locked critical structural benchmark covering four authority-backed domains: Debian dependencies, SEC EX-21 subsidiary disclosures, German Civil Code cross-references, and CUAD contracts.  Across 320 model-case pairs and four LLMs, \samcgs{} improves strict \rootthree{} from 48\% to 81\%, \riskany{} from 72\% to 98\%, and \riskall{} from 47\% to 78\%.  The gains are larger under long-context pressure, and the returned subgraphs retain core evidence while removing more than half of the original SCC nodes.
+Long documents such as contracts, statutes, software package metadata, and corporate filings often contain risks that emerge only across mutually dependent records.  LLM-guided Monte Carlo tree search (MCTS) can improve structured document reasoning, but standard tree rollouts become unstable on strongly connected components (SCCs), where the same logical record may be revisited indefinitely.  We propose \samcgs{}, a structure-aware Monte Carlo graph search method that localizes SCCs, performs local LLM rollouts with relation-first evidence memory, and collapses each cyclic region into an inspectable risk subgraph.  We evaluate a locked critical structural benchmark covering four authority-backed domains: Debian dependencies, SEC EX-21 subsidiary disclosures, German Civil Code cross-references, and CUAD contracts.  Across 320 model-case pairs and four LLMs, \samcgs{} improves \rootthree{} from 58\% to 81\%, \riskany{} from 79\% to 98\%, and \riskall{} from 62\% to 78\% over an oracle-risk Top-3 full-\scc{} \naive{} baseline selected from ten attempts.  The gains are larger under long-context pressure, and the returned subgraphs retain core evidence while removing more than half of the original SCC nodes.
 \end{abstract}
 
 \section{Introduction}
@@ -84,7 +84,7 @@ Our contributions are:
 \begin{itemize}[leftmargin=*,itemsep=2pt]
     \item We formulate \emph{structural risk subgraph extraction}: given an \scc{} in a document graph, output a compact subgraph that retains the repair-relevant evidence endpoints, in place of single anomalous node.
     \item We introduce \samcgs{}, a structure-aware Monte Carlo graph search method that localizes \scc{}s, accumulates relation-level evidence through local rollouts, and distills persistent signals into a compact dynamic risk core.  Its rollout policy uses upper confidence bound (UCB) selection augmented with progressive relation priors, critical-pair revisiting, and evidence-gated core pruning, so additional search budget is routed toward repeatedly repair-relevant relations, not arbitrary path copies.
-    \item We build a frozen critical-stress benchmark from four authority-backed sources. Debian provides package-dependency graphs, SEC EX-21 provides subsidiary-disclosure graphs, the German Civil Code (BGB) provides statutory cross-reference graphs, and CUAD provides contract-clause graphs. The benchmark contains 320 model-case pairs evaluated with GPT-4o, DeepSeek-V3, Qwen2.5-72B, and Gemini 2.5 Pro. Across these settings, \samcgs{} improves strict \rootthree{}, \riskany{}, and \riskall{} over a full-\scc{} direct-subgraph baseline. It also makes the retention cost visible through an explicit compression metric.
+    \item We build a frozen critical-stress benchmark from four authority-backed sources. Debian provides package-dependency graphs, SEC EX-21 provides subsidiary-disclosure graphs, the German Civil Code (BGB) provides statutory cross-reference graphs, and CUAD provides contract-clause graphs. The benchmark contains 320 model-case pairs evaluated with GPT-4o, DeepSeek-V3, Qwen2.5-72B, and Gemini 2.5 Pro. Across these settings, \samcgs{} improves \rootthree{}, \riskany{}, and \riskall{} over an oracle-risk full-\scc{} direct-subgraph baseline. It also makes the retention cost visible through an explicit compression metric.
 \end{itemize}
 
 \begin{figure*}[!t]
@@ -297,7 +297,7 @@ The four sources differ in surface form. A Debian record exposes package fields,
 \begin{equation}
     \mathcal{A}_d=(\operatorname{serialize}_d,\operatorname{edges}_d,\operatorname{normalize}_d)
 \end{equation}
-to serialize records, expose typed directed edges, and normalize model outputs.  These formatters do not define the target risk type and do not reveal the injected endpoints.  Both \naive{} and \samcgs{} use the same risk rubric that is neutral across domains.  Under this rubric, models flag structural inconsistency or mutual incompatibility, as well as risks that are underspecified or have high impact, using only visible node text and directed edges.  The comparison is therefore computational, contrasting full-\scc{} one-shot generation with \scc{}-aware rollout selection, relation-first memory, critical-pair revisiting, and dynamic-core compression.
+to serialize records, expose typed directed edges, and normalize model outputs.  These formatters do not define the target risk type and do not reveal the injected endpoints.  Both \naive{} and \samcgs{} use the same risk rubric that is neutral across domains.  Under this rubric, models flag structural inconsistency or mutual incompatibility, as well as risks that are underspecified or have high impact, using only visible node text and directed edges.  The comparison is therefore computational, contrasting full-\scc{} direct-subgraph generation and Top-3 aggregation with \scc{}-aware rollout selection, relation-first memory, critical-pair revisiting, and dynamic-core compression.
 
 \subsection{Critical structural injection}
 
@@ -305,9 +305,9 @@ The main experiment uses a locked critical-stress configuration over the same \s
 
 \subsection{Baselines and models}
 
-We compare against a full-context direct-subgraph baseline, where \naive{} sees the full \scc{} in one prompt and outputs both a whole-\scc{} risk ranking and a risk subgraph.  \samcgs{} instead sees smaller local windows over 60 rollouts and aggregates evidence into a dynamic core.  This setup gives \naive{} more context per call but a heavier one-shot output burden.  \samcgs{} trades that burden for iterative search and evidence retention.
+We use oracle-risk \naive{} as the main baseline. It runs the full-\scc{} direct-subgraph prompt ten times. From these attempts, a risk-prioritized oracle chooses the reported Top-3 set using \rootthree{}, \riskany{}, and \riskall{}. Each \naive{} attempt sees the full \scc{} and emits a whole-\scc{} ranking plus a risk subgraph; Appendix~\ref{sec:appendix_experiments} reports non-oracle and compression-first variants. \samcgs{} instead sees smaller local windows over 60 rollouts and aggregates evidence into a dynamic core.
 
-We evaluate GPT-4o, DeepSeek-V3, Qwen2.5-72B-Instruct, and Gemini 2.5 Pro.  The main data contain 320 model-case pairs and 640 method-level records.
+We evaluate GPT-4o, DeepSeek-V3, Qwen2.5-72B-Instruct, and Gemini 2.5 Pro.  The main comparison contains 320 model-case pairs per method; oracle-risk \naive{} is selected from 3,200 raw full-\scc{} attempts.  This gives boosted \naive{} a total token budget comparable to \samcgs{}.
 
 \section{Main Results}
 \label{sec:results}
@@ -315,26 +315,26 @@ We evaluate GPT-4o, DeepSeek-V3, Qwen2.5-72B-Instruct, and Gemini 2.5 Pro.  The 
 \begin{figure*}[t]
     \centering
     \includegraphics[width=\textwidth]{fig02_main_results_composite.pdf}
-    \caption{Main critical-\scc{} results on 320 model-case pairs per method.  Panel A reports strict headline metrics, and Panel B gives a compact \scc{}-size breakdown of endpoint retention and compression.  Higher compression values indicate smaller subgraphs and show the cost of retaining more evidence.}
+    \caption{Main critical-\scc{} results on 320 model-case pairs per method.  Panel A compares \samcgs{} with oracle-risk \naive{}, an oracle-risk Top-3 selection over ten full-\scc{} attempts; Panel B gives a compact \scc{}-size breakdown of endpoint retention and compression.}
     \label{fig:main_metrics}
 \end{figure*}
 
-Figure~\ref{fig:main_metrics} shows the core result.  \samcgs{} improves \rootthree{} by 32 points, \riskany{} by 26 points, and \riskall{} by 31 points.  The strongest claim is not that one-shot LLMs never find risk, since \naive{} often finds at least one suspicious record.  Improvement from \samcgs{} is more reliable preservation of the repair-relevant evidence endpoints in the final subgraph.
+Figure~\ref{fig:main_metrics} shows the core result.  Against oracle-risk \naive{}, \samcgs{} improves \rootthree{} by 23 points, \riskany{} by 19 points, and \riskall{} by 16 points.  The strongest claim is not that full-\scc{} prompting never finds risk, since the baseline is already selected from ten attempts with access to risk metrics.  Improvement from \samcgs{} is more reliable preservation of the repair-relevant evidence endpoints in the final subgraph.
 
-The compression axis should be read as a trade-off, not a loss.  Although \naive{} returns smaller subgraphs on average, it often drops one side of a critical contradiction or produces an output that is too large, incomplete, or otherwise unavailable for scoring.  \samcgs{} deliberately keeps a larger dynamic core when evidence persists across rollouts.
+The compression axis should be read as a trade-off, not a loss.  Oracle-risk \naive{} is slightly more compressed on average, but still retains all critical endpoints less often.  \samcgs{} deliberately keeps a larger dynamic core when evidence persists across rollouts.
 
-Strict rates keep unavailable structured outputs in the denominator; Appendix~\ref{tab:reliability} reports the output-availability audit.
+Appendix~\ref{tab:reliability} separates one-shot output availability from boosted raw-attempt and model-case reliability.
 
 \subsection{Breakdown by model and domain}
 
-The gains are not carried by a single model.  GPT-4o and Qwen2.5-72B show large \riskall{} gains, DeepSeek-V3 is already strong under \naive{} and still improves, and Gemini 2.5 Pro is competitive for both methods.  Domain-wise, CUAD is the hardest setting, as long contract text creates high output burden for full-\scc{} prompting. Debian and SEC are cleaner and still show endpoint-retention gains.
+The gains are not carried by a single model.  Gemini 2.5 Pro and DeepSeek-V3 are strong even under oracle-risk \naive{}, while GPT-4o and Qwen2.5-72B still lag in complete endpoint retention.  Domain-wise, CUAD is the hardest setting: long contract components create both context pressure and output-schema burden for full-\scc{} ranking and subgraph generation.
 
 \section{Analysis}
 \label{sec:analysis}
 
 \subsection{Effect of SCC size}
 
-Figure~\ref{fig:main_metrics}B separates the results by \scc{} size.  In short components ($\leq 12$ nodes), \samcgs{} improves \riskall{} from 55\% to 83\%.  In mid-sized components (14--20 nodes), the improvement is 40\% to 80\%.  In long components ($\geq 24$ nodes), \riskall{} remains difficult, but \samcgs{} still improves 41\% to 65\%.  The pattern is consistent with the task. In longer cycles, plausible distractors are more numerous and native ambiguity is higher, especially in CUAD.
+Figure~\ref{fig:main_metrics}B separates the results by \scc{} size.  In short components ($\leq 12$ nodes), \samcgs{} improves \riskall{} from 79\% to 83\%.  In mid-sized components (14--20 nodes), the improvement is 47\% to 80\%.  In long components ($\geq 24$ nodes), \riskall{} remains difficult, but \samcgs{} still improves 50\% to 65\%.  The pattern is consistent with the task. In longer cycles, plausible distractors are more numerous and native ambiguity is higher, especially in CUAD.
 
 \subsection{Rollout convergence}
 
@@ -349,7 +349,7 @@ Figure~\ref{fig:convergence} shows that additional rollouts accumulate useful ev
 
 \subsection{Robustness checks}
 
-Appendix~\ref{sec:appendix_experiments} reports two auxiliary checks.  First, a more compressed profile reduces the average retained core from 7.69 to 5.91 nodes, although \riskall{} falls from 78\% to 71\%. For the main run, we therefore keep the profile that better preserves critical endpoints.  Second, strict rates do not hide unavailable \naive{} outputs. On 261 matched usable pairs, \samcgs{} remains higher in \rootthree{} (83\% vs. 59\%), \riskany{} (98\% vs. 88\%), and \riskall{} (77\% vs. 57\%).  A CUAD lite-output control likewise reduces formatting burden but still reaches only 12\% \riskall{} on long-contract SCCs, indicating that full-\scc{} prompting is both an output and reasoning burden.
+Appendix~\ref{sec:appendix_experiments} reports selector and reliability checks.  The non-oracle boosted selector reaches 52\% \riskall{}, while compression-first oracle selection raises compression but lowers \riskall{} to 47\%.  A CUAD lite-output control reduces formatting burden but still reaches only 12\% \riskall{} on long-contract SCCs, and a more compressed \samcgs{} profile lowers \riskall{} from 78\% to 71\%.
 Appendix~\ref{sec:appendix_case} gives a representative long-\scc{} case study.
 
 \section{Related Work}
@@ -370,7 +370,7 @@ Network analysis has been used for statutory cross-references \citep{boulet2021m
 \section{Conclusion}
 \label{sec:conclusion}
 
-We introduced \samcgs{}, a structure-aware Monte Carlo graph search method for cyclic document risk.  The central idea is to avoid treating a long \scc{} as either a flat prompt or an ordinary tree-search path.  Instead, \samcgs{} localizes the \scc{}, searches it through local rollouts, stores relation-first evidence, and collapses the component into a dynamic risk core.  Across four domains and four LLMs, this yields substantially stronger root localization and endpoint retention than a full-\scc{} direct-subgraph baseline, while making the cost in compression explicit.
+We introduced \samcgs{}, a structure-aware Monte Carlo graph search method for cyclic document risk.  The central idea is to avoid treating a long \scc{} as either a flat prompt or an ordinary tree-search path.  Instead, \samcgs{} localizes the \scc{}, searches it through local rollouts, stores relation-first evidence, and collapses the component into a dynamic risk core.  Across four domains and four LLMs, this yields stronger root localization and endpoint retention than an oracle-risk Top-3 baseline built from repeated full-\scc{} direct-subgraph attempts. It also makes the cost in compression explicit.
 
 \section*{Limitations}
 \label{sec:limitations}
@@ -700,7 +700,7 @@ $\omega_{\mathrm{explicit}}$ & 0.05 & Explicit conflict reports are useful but l
 \section{Shared Risk Rubric Prompt}
 \label{sec:appendix_shared_rubric}
 
-Reviewer fairness depends on separating the risk definition from the search mechanism.  The following excerpt gives the shared evaluator rubric used by both the full-\scc{} \naive{} baseline and the \samcgs{} local-window evaluator.
+Reviewer fairness depends on separating the risk definition from the search mechanism.  The following excerpt gives the shared evaluator rubric used by both full-\scc{} \naive{} attempts and the \samcgs{} local-window evaluator.
 
 \begin{quote}
 \small
@@ -708,7 +708,7 @@ You are given records from a directed graph of interdependent documents.  Identi
 \end{quote}
 
 \paragraph{Shared semantics.}
-\naive{} and \samcgs{} use this same risk rubric.  The methods differ in input unit and search procedure.  \naive{} reads the complete \scc{} once and emits a global ranking plus a risk subgraph.  \samcgs{} reads local windows over multiple rollouts and aggregates evidence before emitting a final core.  The comparison holds the risk definition fixed and varies the computation, contrasting one-shot full-context evaluation with localized search and evidence compression.
+\naive{} and \samcgs{} use this same risk rubric.  The methods differ in input unit and search procedure.  Each \naive{} attempt reads the complete \scc{} and emits a global ranking plus a risk subgraph; the main baseline aggregates ten such attempts with oracle-risk Top-3 selection.  \samcgs{} reads local windows over multiple rollouts and aggregates evidence before emitting a final core.  The comparison holds the risk definition fixed and varies the computation.
 
 \section{Prompt Templates}
 \label{sec:appendix_prompts}
@@ -728,7 +728,7 @@ Input: a local window from one strongly connected component, including visible n
 \end{quote}
 
 \paragraph{Output contrast.}
-\naive{} requires one generation to rank the entire \scc{} and produce a final subgraph.  In contrast, \samcgs{} asks only for local evidence, leaving final subgraph construction to algorithmic memory and compression.
+\naive{} requires each generation to rank the entire \scc{} and produce a final subgraph.  In contrast, \samcgs{} asks only for local evidence, leaving final subgraph construction to algorithmic memory and compression.
 
 \section{Dataset and Injection Details}
 \label{sec:appendix_datasets}
@@ -784,38 +784,58 @@ Template & Root-side edit & Witness / affected edit & Intended risk \\
 \label{sec:appendix_experiments}
 
 \paragraph{Locked run configuration.}
-Unless otherwise stated, the main tables use the locked profile
+Unless otherwise stated, \samcgs{} uses the locked profile
 \texttt{current/default + memory\_stress(structural\_simple\_v2) + critical}
-with 80 \scc{} blocks per model and four models (GPT-4o, DeepSeek-V3, Qwen2.5-72B, and Gemini 2.5 Pro).  For each model and profile, the same \scc{} block is evaluated by the full-\scc{} direct-subgraph \naive{} baseline and by \samcgs{}.  Strict rates count unusable structured outputs in the denominator.
+with 80 \scc{} blocks per model and four models (GPT-4o, DeepSeek-V3, Qwen2.5-72B, and Gemini 2.5 Pro).  The main \naive{} baseline is oracle-risk Top-3 selection over ten full-\scc{} direct-subgraph attempts per model-case.  One-shot \naive{}, non-oracle boosted selection, and compression-first oracle selection are reported below as controls.
 
-\begin{table}[!t]
+\begin{table*}[!t]
 \centering
 \small
-\begin{tabular}{lrr}
+\begin{tabular}{llrrr}
 \toprule
-Output reliability & \naive{} & \samcgs{} \\
+Scope & Denominator & Usable & Unusable & Rate \\
 \midrule
-Method records & 320 & 320 \\
-Usable structured outputs & 261/320 & \textbf{320/320} \\
-Unavailable structured outputs & 59/320 & \textbf{0/320} \\
-Usable-output rate & 82\% & \textbf{100\%} \\
+one-shot \naive{} & model-cases & 261/320 & 59/320 & 82\% \\
+\samcgs{} & model-cases & 320/320 & 0/320 & 100\% \\
+boosted \naive{} & raw attempts & 2400/3200 & 800/3200 & 75\% \\
+boosted \naive{} & model-cases & 274/320 & 46/320 & 86\% \\
 \bottomrule
 \end{tabular}
-\caption{Strict output reliability.  Unavailable structured outputs remain in the denominator of Figure~\ref{fig:main_metrics}.  The appendix placement reflects the role of output availability as an audit detail, not a headline metric.}
+\caption{Output reliability audit.  Boosted \naive{} has both a raw-attempt denominator and a model-case denominator; the latter counts cases with at least one valid full-\scc{} generation.}
 \label{tab:reliability}
-\end{table}
+\end{table*}
+
+\begin{table*}[!t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{.28\textwidth}rrrrrp{.20\textwidth}}
+\toprule
+Control & N & \rootthree{} & \riskany{} & \riskall{} & Comp. & Role \\
+\midrule
+one-shot \naive{} & 320 & 48\% & 72\% & 47\% & 67\% & original locked control \\
+boosted \naive{} single-attempt mean & 3200 attempts & 47\% & 67\% & 48\% & 50\% & raw repeated-sampling mean \\
+boosted \naive{} self Top-3 & 320 & 52\% & 75\% & 52\% & 60\% & non-oracle selector \\
+boosted \naive{} oracle-risk Top-3 & 320 & 58\% & 79\% & 62\% & 60\% & main oracle-risk baseline \\
+boosted \naive{} oracle-compression Top-3 & 320 & 53\% & 75\% & 47\% & 63\% & compression-first diagnostic \\
+\samcgs{} & 320 & 81\% & 98\% & 78\% & 53\% & proposed method \\
+\bottomrule
+\end{tabular}
+\caption{Boosted \naive{} selector comparison.  Oracle selectors use ground-truth evaluation metrics for selection; oracle-risk Top-3 is the main oracle-risk baseline, while self Top-3 is the non-oracle boosted selector.}
+\label{tab:boosted_selectors}
+\end{table*}
 
 \begin{figure*}[!t]
     \centering
     \includegraphics[width=.88\textwidth]{figA2_naive_output_burden.pdf}
-    \caption{Naive output-burden control.  Reducing the output schema helps full-\scc{} prompting, although it does not close the endpoint-retention gap on long CUAD components.}
+    \caption{Naive output-burden control.  Reducing the output schema improves availability and recovers some risk signal, but it does not close the endpoint-retention gap on long CUAD components.}
     \label{fig:naive_burden}
 \end{figure*}
 
 \begin{table*}[!t]
 \centering
-\footnotesize
-\setlength{\tabcolsep}{2.2pt}
+\scriptsize
+\setlength{\tabcolsep}{2.1pt}
 \renewcommand{\arraystretch}{1.04}
 \textbf{A. Representative critical cases}\\[0.4mm]
 \begin{tabular}{p{.10\textwidth}p{.12\textwidth}p{.18\textwidth}p{.29\textwidth}p{.20\textwidth}}
@@ -832,33 +852,32 @@ Debian & package dependency & \texttt{handoff\_invariant} & A package keeps an o
 \vspace{2mm}
 \begin{minipage}[t]{.37\textwidth}
 \centering
-\textbf{B. Output availability}\\[0.4mm]
-\begin{tabular}{@{}llrrr@{}}
+\textbf{B. Selector summary}\\[0.4mm]
+\begin{tabular}{@{}lrrr@{}}
 \toprule
-Scope & Method & N & \rootthree{} & \riskall{} \\
+Control & N & \rootthree{} & \riskall{} \\
 \midrule
-Strict & \naive{} & 320 & 48\% & 47\% \\
-Strict & \samcgs{} & 320 & 81\% & 78\% \\
-Valid-only & \naive{} & 261 & 59\% & 57\% \\
-Matched & \naive{} & 261 & 59\% & 57\% \\
-Matched & \samcgs{} & 261 & 83\% & 77\% \\
+one-shot \naive{} & 320 & 48\% & 47\% \\
+self Top-3 & 320 & 52\% & 52\% \\
+oracle-risk Top-3 & 320 & 58\% & 62\% \\
+\samcgs{} & 320 & 81\% & 78\% \\
 \bottomrule
 \end{tabular}
 \end{minipage}\hfill
 \begin{minipage}[t]{.59\textwidth}
 \centering
-\textbf{C. Model-level strict breakdown}\\[0.4mm]
+\textbf{C. Model-level breakdown}\\[0.4mm]
 \begin{tabular}{@{}llrrrrrr@{}}
 \toprule
-Model & Method & N & Err. & \rootthree{} & \riskany{} & \riskall{} & Comp. \\
+Model & Method & N & Zero & \rootthree{} & \riskany{} & \riskall{} & Comp. \\
 \midrule
-GPT-4o & \naive{} & 80 & 17 & 26\% & 55\% & 15\% & 68\% \\
+GPT-4o & oracle-risk \naive{} & 80 & 6 & 37\% & 76\% & 37\% & 65\% \\
 GPT-4o & \samcgs{} & 80 & 0 & 86\% & 100\% & 75\% & 51\% \\
-DeepSeek-V3 & \naive{} & 80 & 0 & 75\% & 88\% & 74\% & 70\% \\
+DeepSeek-V3 & oracle-risk \naive{} & 80 & 0 & 87\% & 95\% & 87\% & 74\% \\
 DeepSeek-V3 & \samcgs{} & 80 & 0 & 80\% & 95\% & 76\% & 51\% \\
-Qwen2.5-72B & \naive{} & 80 & 41 & 2\% & 46\% & 14\% & 43\% \\
+Qwen2.5-72B & oracle-risk \naive{} & 80 & 40 & 11\% & 48\% & 28\% & 22\% \\
 Qwen2.5-72B & \samcgs{} & 80 & 0 & 70\% & 98\% & 75\% & 53\% \\
-Gemini 2.5 Pro & \naive{} & 80 & 1 & 90\% & 98\% & 85\% & 75\% \\
+Gemini 2.5 Pro & oracle-risk \naive{} & 80 & 0 & 99\% & 100\% & 97\% & 79\% \\
 Gemini 2.5 Pro & \samcgs{} & 80 & 0 & 88\% & 98\% & 84\% & 56\% \\
 \bottomrule
 \end{tabular}
@@ -867,23 +886,23 @@ Gemini 2.5 Pro & \samcgs{} & 80 & 0 & 88\% & 98\% & 84\% & 56\% \\
 \vspace{1.8mm}
 \begin{minipage}[t]{.97\textwidth}
 \centering
-\textbf{D. Domain-level strict breakdown}\\[0.4mm]
+\textbf{D. Domain-level breakdown}\\[0.4mm]
 \begin{tabular}{@{}llrrrrrr@{}}
 \toprule
-Domain & Method & N & Err. & \rootthree{} & \riskany{} & \riskall{} & Comp. \\
+Domain & Method & N & Zero & \rootthree{} & \riskany{} & \riskall{} & Comp. \\
 \midrule
-Debian & \naive{} & 32 & 0 & 41\% & 94\% & 62\% & 56\% \\
+Debian & oracle-risk \naive{} & 32 & 0 & 65\% & 100\% & 80\% & 61\% \\
 Debian & \samcgs{} & 32 & 0 & 84\% & 100\% & 88\% & 53\% \\
-SEC EX-21 & \naive{} & 80 & 0 & 64\% & 99\% & 62\% & 59\% \\
+SEC EX-21 & oracle-risk \naive{} & 80 & 0 & 74\% & 100\% & 85\% & 62\% \\
 SEC EX-21 & \samcgs{} & 80 & 0 & 96\% & 100\% & 88\% & 50\% \\
-BGB & \naive{} & 48 & 2 & 25\% & 67\% & 25\% & 62\% \\
+BGB & oracle-risk \naive{} & 48 & 1 & 46\% & 89\% & 50\% & 61\% \\
 BGB & \samcgs{} & 48 & 0 & 75\% & 98\% & 62\% & 52\% \\
-CUAD & \naive{} & 160 & 57 & 49\% & 55\% & 42\% & 79\% \\
+CUAD & oracle-risk \naive{} & 160 & 45 & 53\% & 62\% & 51\% & 59\% \\
 CUAD & \samcgs{} & 160 & 0 & 74\% & 96\% & 75\% & 54\% \\
 \bottomrule
 \end{tabular}
 \end{minipage}
-\caption{Supplementary case and result breakdowns.  Representative cases illustrate why remediation often requires more than a single suspicious record.  Strict rates count unusable structured outputs in the denominator.  Matched usable-output rates show that the gap is not only output availability.}
+\caption{Supplementary case and result breakdowns.  ``Zero'' counts boosted \naive{} model-cases with no valid full-\scc{} generation.  CUAD concentrates long-context and output-schema failures, where generations may time out or become unparseable through incomplete, duplicate, or invalid rankings.}
 \label{tab:appendix_breakdowns}
 \end{table*}
 
