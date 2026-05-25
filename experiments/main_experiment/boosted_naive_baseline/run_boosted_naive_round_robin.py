@@ -15,6 +15,7 @@ import os
 import sys
 import time
 from collections import defaultdict
+from itertools import combinations
 from pathlib import Path
 from typing import Any
 
@@ -54,15 +55,16 @@ from experiments.cross_domain.inject_defect import inject_defect
 
 
 THIS_DIR = Path(__file__).resolve().parent
-RESULTS_DIR = THIS_DIR / "results"
-RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+DEFAULT_RESULTS_DIR = THIS_DIR / "results_canonical80_x10"
+RESULTS_DIR = DEFAULT_RESULTS_DIR
+CROSS_RESULTS_DIR = REPO_ROOT / "experiments" / "cross_domain" / "results"
 
 DEFAULT_STATUS = (
     REPO_ROOT
     / "experiments"
     / "cross_domain"
     / "results"
-    / "critical_qwen_current_full80_b60_severity_grid_status.json"
+    / "critical_paper_v3_b60_severity_grid_status.json"
 )
 RAW_JSONL = RESULTS_DIR / "boosted_naive_raw_attempts.jsonl"
 STATUS_JSON = RESULTS_DIR / "boosted_naive_round_robin_status.json"
@@ -95,6 +97,17 @@ def jsonl_append(path: Path, obj: Any) -> None:
         f.write(json.dumps(obj, ensure_ascii=False) + "\n")
 
 
+def set_output_dir(output_dir: Path) -> None:
+    global RESULTS_DIR, RAW_JSONL, STATUS_JSON, SUMMARY_CSV, REPORT_MD
+
+    RESULTS_DIR = output_dir if output_dir.is_absolute() else THIS_DIR / output_dir
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    RAW_JSONL = RESULTS_DIR / "boosted_naive_raw_attempts.jsonl"
+    STATUS_JSON = RESULTS_DIR / "boosted_naive_round_robin_status.json"
+    SUMMARY_CSV = RESULTS_DIR / "boosted_naive_top3_summary.csv"
+    REPORT_MD = RESULTS_DIR / "BOOSTED_NAIVE_BASELINE_REPORT.md"
+
+
 def safe_bool(x: Any) -> bool:
     return bool(x) if x is not None else False
 
@@ -106,13 +119,29 @@ def quota_like(message: str) -> bool:
 
 def result_file_for_task(task: dict) -> Path | None:
     raw = task.get("result_file")
-    if not raw:
-        return None
-    p = Path(raw)
-    if p.exists():
-        return p
-    alt = REPO_ROOT / raw
-    return alt if alt.exists() else None
+    candidates: list[Path] = []
+    if raw:
+        p = Path(raw)
+        candidates.append(p)
+        if not p.is_absolute():
+            candidates.append(REPO_ROOT / p)
+        candidates.append(CROSS_RESULTS_DIR / p.name)
+    run_tag = task.get("run_tag")
+    if run_tag:
+        candidates.extend(sorted(CROSS_RESULTS_DIR.glob(f"*{run_tag}*.json")))
+        candidates.extend(sorted(CROSS_RESULTS_DIR.glob(f"*{run_tag}*.partial.json")))
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return None
+
+
+def source_record_for_block(records: list[dict]) -> dict | None:
+    return (
+        next((r for r in records if r.get("method") == "naive" and r.get("scc_clause_ids")), None)
+        or next((r for r in records if r.get("scc_clause_ids")), None)
+        or next((r for r in records if r.get("method") == "naive"), None)
+    )
 
 
 def build_blocks(status_path: Path, max_blocks: int | None = None) -> list[dict]:
@@ -125,21 +154,23 @@ def build_blocks(status_path: Path, max_blocks: int | None = None) -> list[dict]
         if result_path is None:
             continue
         records = load_json(result_path)
-        naive = next((r for r in records if r.get("method") == "naive"), None)
-        if not naive:
+        source = source_record_for_block(records)
+        if not source:
             continue
         block = {
             "block_id": len(blocks) + 1,
             "source_task_id": task.get("task_id"),
             "domain": task.get("domain"),
             "requested_size": task.get("size"),
-            "actual_size": naive.get("scc_size"),
-            "template": task.get("template") or naive.get("injected_conflict_template") or "handoff_invariant",
+            "actual_size": source.get("scc_size") or task.get("size"),
+            "template": task.get("template") or source.get("injected_conflict_template") or "handoff_invariant",
             "severity": task.get("severity") or "critical",
             "compression_profile": task.get("compression_profile") or "current",
-            "scc_id": naive.get("scc_id"),
-            "scc_clause_ids": naive.get("scc_clause_ids") or [],
+            "scc_id": source.get("scc_id"),
+            "scc_clause_ids": source.get("scc_clause_ids") or [],
             "source_result_file": str(result_path),
+            "source_record_method": source.get("method"),
+            "source_record_model": source.get("model"),
         }
         if block["domain"] and block["scc_id"] and block["scc_clause_ids"]:
             blocks.append(block)
@@ -176,7 +207,7 @@ def make_scc(graph: DependencyGraph, block: dict) -> SCCInfo:
     )
 
 
-def make_llm(model_name: str) -> OpenAIClient:
+def make_llm(model_name: str, timeout: float, max_retries: int) -> OpenAIClient:
     model_lookup = {m["name"]: m["model_id"] for m in BATTLE_MODELS}
     if model_name not in model_lookup:
         raise ValueError(f"Unknown model name: {model_name}")
@@ -186,7 +217,8 @@ def make_llm(model_name: str) -> OpenAIClient:
             "api_key_env": "XHUB_API_KEY",
             "base_url": XHUB_BASE_URL,
             "model": model_lookup[model_name],
-            "timeout": 300,
+            "timeout": timeout,
+            "max_retries": max_retries,
         }
     )
 
@@ -247,15 +279,53 @@ def self_selection_score(result: dict) -> float:
     return score
 
 
-def oracle_score(result: dict) -> float:
-    if result.get("error"):
-        return -1e9
-    return (
-        3.0 * float(safe_bool(result.get("root_top3_hit")))
-        + 2.0 * float(safe_bool(result.get("direct_contains_all_risk_nodes")))
-        + 1.0 * float(safe_bool(result.get("direct_contains_any_risk_node")))
-        + 0.25 * float(result.get("direct_compression_ratio") or 0.0)
-    )
+def selected_metric_means(selected: list[dict]) -> dict[str, float]:
+    if not selected:
+        return {"root_at3": 0.0, "risk_any": 0.0, "risk_all": 0.0, "compression": 0.0}
+    return {
+        "root_at3": sum(float(safe_bool(r.get("root_top3_hit"))) for r in selected) / len(selected),
+        "risk_any": sum(float(safe_bool(r.get("direct_contains_any_risk_node"))) for r in selected) / len(selected),
+        "risk_all": sum(float(safe_bool(r.get("direct_contains_all_risk_nodes"))) for r in selected) / len(selected),
+        "compression": sum(float(r.get("direct_compression_ratio") or 0.0) for r in selected) / len(selected),
+    }
+
+
+def candidate_topk_sets(valid: list[dict], top_k: int) -> list[list[dict]]:
+    if len(valid) <= top_k:
+        return [valid]
+    return [list(combo) for combo in combinations(valid, top_k)]
+
+
+def select_oracle_risk_top3(valid: list[dict], top_k: int) -> list[dict]:
+    """Choose the best Top-k set for the three risk metrics, without fixed weights."""
+    candidates = candidate_topk_sets(valid, top_k)
+
+    def key(selected: list[dict]) -> tuple[float, float, float]:
+        means = selected_metric_means(selected)
+        risk_values = [means["root_at3"], means["risk_any"], means["risk_all"]]
+        return (
+            min(risk_values),  # balanced risk floor: avoid one collapsed risk metric
+            sum(risk_values) / len(risk_values),
+            means["compression"],  # tie-break only
+        )
+
+    return max(candidates, key=key) if candidates else []
+
+
+def select_oracle_compression_top3(valid: list[dict], top_k: int) -> list[dict]:
+    """Choose the best Top-k set for compression, using risk balance only as tie-break."""
+    candidates = candidate_topk_sets(valid, top_k)
+
+    def key(selected: list[dict]) -> tuple[float, float, float]:
+        means = selected_metric_means(selected)
+        risk_values = [means["root_at3"], means["risk_any"], means["risk_all"]]
+        return (
+            means["compression"],
+            min(risk_values),
+            sum(risk_values) / len(risk_values),
+        )
+
+    return max(candidates, key=key) if candidates else []
 
 
 def metric_row_for_selected(block: dict, model: str, selector: str, selected: list[dict], all_attempts: list[dict]) -> dict:
@@ -329,9 +399,19 @@ def summarize(blocks: list[dict], models: list[str], top_k: int) -> dict:
             )
             valid = [r for r in attempts if not r.get("error")]
             self_selected = sorted(valid, key=self_selection_score, reverse=True)[:top_k]
-            oracle_selected = sorted(valid, key=oracle_score, reverse=True)[:top_k]
+            oracle_risk_selected = select_oracle_risk_top3(valid, top_k)
+            oracle_compression_selected = select_oracle_compression_top3(valid, top_k)
             rows.append(metric_row_for_selected(block, model, "self_top3", self_selected, attempts))
-            rows.append(metric_row_for_selected(block, model, "oracle_top3", oracle_selected, attempts))
+            rows.append(metric_row_for_selected(block, model, "oracle_risk_top3", oracle_risk_selected, attempts))
+            rows.append(
+                metric_row_for_selected(
+                    block,
+                    model,
+                    "oracle_compression_top3",
+                    oracle_compression_selected,
+                    attempts,
+                )
+            )
 
     if rows:
         with SUMMARY_CSV.open("w", encoding="utf-8", newline="") as f:
@@ -340,7 +420,7 @@ def summarize(blocks: list[dict], models: list[str], top_k: int) -> dict:
             writer.writerows(rows)
 
     aggregate: dict[str, dict[str, float]] = {}
-    for selector in ("self_top3", "oracle_top3"):
+    for selector in ("self_top3", "oracle_risk_top3", "oracle_compression_top3"):
         subset = [r for r in rows if r["selector"] == selector]
         denom = len(subset) or 1
         aggregate[selector] = {
@@ -394,7 +474,9 @@ def write_report(records: list[dict], rows: list[dict], aggregate: dict, top_k: 
             "## Notes",
             "",
             "- `self_top3` 不看 GT，只按 JSON 完整性、模型自报风险强度、证据一致性和子图合理性选择样本。",
-            "- `oracle_top3` 看真实指标，只作为 boosted Naive 的上界，不应作为默认论文主结果。",
+            "- `oracle_risk_top3` 枚举所有 Top-3 组合，优先最大化 Root@3 / Risk-any / Risk-all 三个风险指标的均衡下限，其次最大化三者均值，compression 只作 tie-break。",
+            "- `oracle_compression_top3` 枚举所有 Top-3 组合，优先最大化 compression，风险均衡只作 tie-break。",
+            "- Oracle selectors 看真实指标，只作为 boosted Naive 的上界，不应作为默认论文主结果。",
             "- 如果某个 model-case 没有任何有效输出，则该 case 记为失败。",
         ]
     )
@@ -407,6 +489,8 @@ async def run_one_attempt(
     attempt_index: int,
     temperature: float,
     graphs: dict[str, DependencyGraph],
+    llm_timeout: float,
+    llm_max_retries: int,
 ) -> dict:
     domain = block["domain"]
     graph = copy.deepcopy(graphs[domain])
@@ -423,7 +507,7 @@ async def run_one_attempt(
     )
     scc = reorder_scc_for_memory_stress(scc, injected_id)
     injection_metadata = get_injection_metadata(graph, injected_id)
-    llm = make_llm(model_name)
+    llm = make_llm(model_name, timeout=llm_timeout, max_retries=llm_max_retries)
     try:
         result = await run_naive(
             llm=llm,
@@ -455,6 +539,7 @@ async def run_one_attempt(
 
 
 async def run_round_robin(args: argparse.Namespace) -> None:
+    set_output_dir(args.output_dir)
     models = args.models
     schedule = [float(x) for x in args.temperatures.split(",")]
     blocks = build_blocks(args.status_path, max_blocks=args.max_blocks)
@@ -479,9 +564,13 @@ async def run_round_robin(args: argparse.Namespace) -> None:
         "attempts_per_model_case": args.attempts_per_model_case,
         "top_k": args.top_k,
         "temperature_schedule": schedule,
+        "llm_timeout": args.llm_timeout,
+        "llm_max_retries": args.llm_max_retries,
+        "status_path": str(args.status_path),
         "planned_attempts": len(planned_keys),
         "completed_attempts": len(completed),
         "remaining_attempts": len(remaining),
+        "output_dir": str(RESULTS_DIR),
         "raw_jsonl": str(RAW_JSONL),
         "summary_csv": str(SUMMARY_CSV),
         "report_md": str(REPORT_MD),
@@ -528,7 +617,15 @@ async def run_round_robin(args: argparse.Namespace) -> None:
                 "started_at": started_at,
             }
             try:
-                result = await run_one_attempt(block, model, attempt_index, temperature, graphs)
+                result = await run_one_attempt(
+                    block,
+                    model,
+                    attempt_index,
+                    temperature,
+                    graphs,
+                    args.llm_timeout,
+                    args.llm_max_retries,
+                )
                 record.update(result)
                 record["error"] = None
             except Exception as exc:
@@ -605,13 +702,16 @@ def parse_args() -> argparse.Namespace:
         nargs="+",
         default=["gpt-4o", "deepseek-v3", "qwen2.5-72b", "gemini-2.5-pro"],
     )
-    parser.add_argument("--attempts-per-model-case", type=int, default=5)
+    parser.add_argument("--attempts-per-model-case", type=int, default=10)
     parser.add_argument("--top-k", type=int, default=3)
     parser.add_argument("--temperatures", default="0.0,0.2,0.4,0.7,1.0")
     parser.add_argument("--concurrency", type=int, default=16)
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--status-every", type=int, default=20)
+    parser.add_argument("--llm-timeout", type=float, default=300)
+    parser.add_argument("--llm-max-retries", type=int, default=0)
     parser.add_argument("--max-blocks", type=int, default=None)
+    parser.add_argument("--output-dir", type=Path, default=DEFAULT_RESULTS_DIR)
     parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
 

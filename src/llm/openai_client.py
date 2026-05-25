@@ -17,7 +17,10 @@ class OpenAIClient(BaseLLMClient):
         super().__init__(config)
         api_key = os.environ.get(config.get("api_key_env", "OPENAI_API_KEY"), "")
         base_url = config.get("base_url", None)
-        self.client = AsyncOpenAI(api_key=api_key, base_url=base_url, timeout=self.timeout)
+        client_kwargs = {"api_key": api_key, "base_url": base_url, "timeout": self.timeout}
+        if "max_retries" in config:
+            client_kwargs["max_retries"] = int(config["max_retries"])
+        self.client = AsyncOpenAI(**client_kwargs)
         self.model = config.get("model", "gpt-4o")
         self.last_usage: dict = {}
 

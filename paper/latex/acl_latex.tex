@@ -52,45 +52,45 @@ with Structure-Aware Monte Carlo Graph Search}
 \maketitle
 
 \begin{abstract}
-Long documents such as contracts, statutes, software package metadata, and corporate filings often contain risks that emerge only across mutually dependent records.  LLM-guided Monte Carlo tree search (MCTS) can improve structured document reasoning, but standard tree rollouts become unstable on strongly connected components (SCCs), where the same logical record may be revisited indefinitely.  We propose \samcgs{}, a structure-aware Monte Carlo graph search method that localizes SCCs, performs local LLM rollouts with relation-first evidence memory, and collapses each cyclic region into an inspectable risk subgraph.  We evaluate a locked critical structural benchmark covering four authority-backed domains: Debian dependencies, SEC EX-21 subsidiary disclosures, German Civil Code cross-references, and CUAD contracts.  Across 320 model-case pairs and four LLMs, \samcgs{} improves strict \rootthree{} from 48\% to 81\%, \riskany{} from 72\% to 98\%, and \riskall{} from 47\% to 78\%.  The gains are larger under long-context pressure, while the returned subgraphs retain complete critical evidence and remove more than half of the original SCC nodes.
+Long documents such as contracts, statutes, software package metadata, and corporate filings often contain risks that emerge only across mutually dependent records.  LLM-guided Monte Carlo tree search (MCTS) can improve structured document reasoning, but standard tree rollouts become unstable on strongly connected components (SCCs), where the same logical record may be revisited indefinitely.  We propose \samcgs{}, a structure-aware Monte Carlo graph search method that localizes SCCs, performs local LLM rollouts with relation-first evidence memory, and collapses each cyclic region into an inspectable risk subgraph.  We evaluate a locked critical structural benchmark covering four authority-backed domains: Debian dependencies, SEC EX-21 subsidiary disclosures, German Civil Code cross-references, and CUAD contracts.  Across 320 model-case pairs and four LLMs, \samcgs{} improves strict \rootthree{} from 48\% to 81\%, \riskany{} from 72\% to 98\%, and \riskall{} from 47\% to 78\%.  The gains are larger under long-context pressure, and the returned subgraphs retain core evidence while removing more than half of the original SCC nodes.
 \end{abstract}
 
 \section{Introduction}
 \label{sec:intro}
 
-Many high-stakes document analysis tasks are graph problems hidden inside text \citep{hendrycks2021cuad,koreeda2021contractnli,boulet2021measuring}.  A contract clause may define a deadline, another clause may suspend it, and a later amendment may restore only part of the obligation.  A statute may create an exception whose scope is limited by a distant cross-reference \citep{boulet2021measuring,holzenberger2020sara}.  A software package may preserve an old interface while a dependent package requires the new one to be present first \citep{debianPolicyRelationships,debianPolicySharedLibraries}.  Each record can look plausible in isolation; the risk appears only when the directed dependencies among records are followed.
+Many high-stakes document analysis tasks are graph problems hidden inside text \citep{hendrycks2021cuad,koreeda2021contractnli,boulet2021measuring}.  In contracts, one clause may define a deadline, another may suspend it, and a later amendment may restore only part of the obligation.  Similar dependencies appear when statutory exceptions are narrowed by distant cross-references \citep{boulet2021measuring,holzenberger2020sara}, or when software packages preserve old interfaces while dependent packages require newer ones to be present first \citep{debianPolicyRelationships,debianPolicySharedLibraries}.  Although each record can look plausible in isolation, the risk appears only when the directed dependencies among records are followed.
 
-Large language models (LLMs) can read long contexts, but nominal context length does not guarantee reliable retrieval, multi-hop tracing, or aggregation under long inputs \citep{liu2024lost,hsieh2024ruler,bai2024longbench}.  Legal NLP benchmarks expose persistent difficulty with distributed evidence \citep{hendrycks2021cuad,koreeda2021contractnli,chalkidis2022lexglue,guha2023legalbench}.  The failure mode we study is sharper: \emph{cyclic} document regions, where evidence is revisitable and diffuse.  A full-\scc{} one-shot prompt may find a suspicious node, but it must simultaneously rank all records, produce a subgraph, and preserve multiple evidence endpoints in one generation.
+Large language models (LLMs) can read long contexts. Nominal context length alone does not guarantee reliable retrieval, multi-hop tracing, or aggregation under long inputs \citep{liu2024lost,hsieh2024ruler,bai2024longbench}.  Legal NLP benchmarks expose persistent difficulty with distributed evidence \citep{hendrycks2021cuad,koreeda2021contractnli,chalkidis2022lexglue,guha2023legalbench}.  We study a sharper failure mode in \emph{cyclic} document regions, where evidence is revisitable and diffuse.  A full-\scc{} one-shot prompt may find a suspicious node, but it must simultaneously rank all records, produce a subgraph, and preserve multiple evidence endpoints in one generation.
 
-One might try to escape one-shot prompting by using AlphaGo-style search
-\citep{silver2016mastering,kocsis2006bandit,browne2012survey}.  Nevertheless, ordinary MCTS is naturally a
-tree-unrolling procedure: in a loopy graph, the search state grows with
-walk prefixes as opposed to physical records.  In an \scc{}, even a
+A natural alternative is AlphaGo-style search
+\citep{silver2016mastering,kocsis2006bandit,browne2012survey}.  Standard MCTS unrolls trajectories as trees.  In a loopy graph, this makes the search state grow with
+walk prefixes instead of physical records.  In an \scc{}, even a
 small set of records can therefore induce many repeated path copies. Related MCTS analyses describe this as a transposition, graph-history, and loop-induced uncertainty
 problem \citep{childs2008transpositions,kishimoto2004general,saffidine2012ucd,moerland2020mcts}.
 Prior Monte Carlo graph search reduces duplicate transpositions for
-AlphaZero-style search by sharing states in a DAG-like search graph
-\citep{czech2021monte}.  Other graph-to-DAG strategies, such as removing
+AlphaZero-style search by sharing states in an acyclic search graph
+\citep{czech2021monte}.  Other graph-to-directed-acyclic-graph (DAG) strategies, such as removing
 or orienting feedback edges to obtain an acyclic approximation
 \citep{eades1993fast,berger1990approximation}, avoid cycles by discarding
 part of the cyclic structure.  Neither line provides a mechanism for
-turning a strongly connected document region itself into a stable and reliable
-evaluation unit.  Our setting instead requires localizing the \scc{} and
-collapsing it into an evidence-preserving risk subgraph, showing more detail in risk source and evidence.
+turning a strongly connected document region into a stable evaluation unit.
+Our setting requires localizing the \scc{} and collapsing it into an
+evidence-preserving risk subgraph. The subgraph must retain explicit risk
+sources and supporting evidence.
 
-We propose \textbf{\samcgs{}}, a structure-aware Monte Carlo graph search method for extracting risk subgraphs from cyclic document regions.  \samcgs{} goal is finding \scc{} bottlenecks at first, then performs local window rollouts inside each \scc{}.  Instead of treating risk as an intrinsic property of a single node, it stores relation-first evidence: a node becomes risky when earlier evidence makes its constraint, exception, or handoff incompatible with the graph context.  The final output is a dynamic core risk subgraph that can be inspected or passed upward as a collapsed evaluation point.
+We propose \textbf{\samcgs{}}, a structure-aware Monte Carlo graph search method for extracting risk subgraphs from cyclic document regions.  \samcgs{} first finds \scc{} bottlenecks, then performs local window rollouts inside each \scc{}.  Instead of treating risk as intrinsic to a single node, it stores relation-first evidence, where a node becomes risky when earlier evidence makes its constraint, exception, or handoff incompatible with the graph context.  The final output is a dynamic core risk subgraph that can be inspected or passed upward as a collapsed evaluation point.
 
 Our contributions are:
 \begin{itemize}[leftmargin=*,itemsep=2pt]
     \item We formulate \emph{structural risk subgraph extraction}: given an \scc{} in a document graph, output a compact subgraph that retains the repair-relevant evidence endpoints, in place of single anomalous node.
-    \item We introduce \samcgs{}, a structure-aware Monte Carlo graph search method that localizes \scc{}s, accumulates relation-level evidence through local rollouts, and distills persistent signals into a compact dynamic risk core.  Its rollout policy uses UCB selection augmented with progressive relation priors, critical-pair revisiting, and evidence-gated core pruning, so additional search budget is routed toward relations that repeatedly look repair-relevant rather than toward arbitrary path copies.
-    \item We build a frozen critical-stress benchmark from four authority-backed sources. Debian provides package-dependency graphs; SEC EX-21 provides subsidiary-disclosure graphs; BGB provides statutory cross-reference graphs; CUAD provides contract-clause graphs. The benchmark contains 320 model-case pairs evaluated with GPT-4o, DeepSeek-V3, Qwen2.5-72B, and Gemini 2.5 Pro. Across these settings, \samcgs{} improves strict \rootthree{}, \riskany{}, and \riskall{} over a full-\scc{} direct-subgraph baseline. It also makes the retention cost visible through an explicit compression metric.
+    \item We introduce \samcgs{}, a structure-aware Monte Carlo graph search method that localizes \scc{}s, accumulates relation-level evidence through local rollouts, and distills persistent signals into a compact dynamic risk core.  Its rollout policy uses upper confidence bound (UCB) selection augmented with progressive relation priors, critical-pair revisiting, and evidence-gated core pruning, so additional search budget is routed toward repeatedly repair-relevant relations, not arbitrary path copies.
+    \item We build a frozen critical-stress benchmark from four authority-backed sources. Debian provides package-dependency graphs, SEC EX-21 provides subsidiary-disclosure graphs, the German Civil Code (BGB) provides statutory cross-reference graphs, and CUAD provides contract-clause graphs. The benchmark contains 320 model-case pairs evaluated with GPT-4o, DeepSeek-V3, Qwen2.5-72B, and Gemini 2.5 Pro. Across these settings, \samcgs{} improves strict \rootthree{}, \riskany{}, and \riskall{} over a full-\scc{} direct-subgraph baseline. It also makes the retention cost visible through an explicit compression metric.
 \end{itemize}
 
 \begin{figure*}[!t]
     \centering
     \includegraphics[width=\textwidth]{fig01_sa_mcgs_framework_architecture.png}
-    \caption{\samcgs{} pipeline: SCC localization, local rollouts, relation-first evidence memory, and dynamic-core collapse.}
+    \caption{\samcgs{} pipeline for \scc{} localization, local rollouts, relation-first evidence memory, and dynamic-core collapse.}
     \label{fig:pipeline}
 \end{figure*}
 
@@ -101,15 +101,15 @@ Our contributions are:
 Let $G=(V,E)$ be a directed graph whose nodes are document records and whose edges denote typed dependencies such as reference, constraint, modification, trigger, or control.  A record may be a clause, statute section, package metadata entry, subsidiary disclosure, or other domain unit.  We use Tarjan's algorithm \citep{tarjan1972depth} to decompose $G$ into strongly connected components.  A component $S\subseteq V$ is a reasoning bottleneck when every node in $S$ can reach every other node through directed dependencies.
 
 \paragraph{Structural risk.}
-We study risks that arise from relations, not merely from suspicious wording.  In the benchmark, an injected critical case modifies existing records only; no new nodes are added.  The core evidence contains a root record, a witness record, and sometimes affected records.  The root and witness can each be locally plausible, but jointly create an incompatible obligation, temporal condition, ownership statement, or dependency handoff.
+We study relational risks whose evidence extends beyond suspicious wording.  In the benchmark, each injected critical case modifies only existing records and introduces no new nodes.  The core evidence contains a root record, a witness record, and sometimes affected records.  The root and witness can each be locally plausible, but jointly create an incompatible obligation, temporal condition, ownership statement, or dependency handoff.
 
 \paragraph{Output.}
 Given a strongly connected component $S$, the system returns a risk subgraph $H\subseteq S$ and, when applicable, a ranking over risky records.  We evaluate:
 \begin{itemize}[leftmargin=*,itemsep=2pt]
     \item \textbf{\rootthree{}}: whether the injected root appears in the top three ranked records.
     \item \textbf{\riskany{}}: whether $H$ contains at least one repair-relevant risk endpoint.
-    \item \textbf{\riskall{}}: whether $H$ retains all core risk endpoints.  This is strict but important for critical risks because remediation often requires seeing both sides of the contradiction.
-    \item \textbf{Compression}: $1-|H|/|S|$, reported higher-is-smaller.  Compression is not optimized alone; a tiny subgraph that drops the evidence endpoints is not useful.
+    \item \textbf{\riskall{}}: whether $H$ retains all core risk endpoints.  This criterion is strict since remediation often requires seeing both sides of the contradiction.
+    \item \textbf{Compression}: $1-|H|/|S|$, where higher values indicate smaller subgraphs.  Compression is not optimized alone; a tiny subgraph that drops the evidence endpoints is not useful.
 \end{itemize}
 We report effective compression and effective \oc{} as diagnostics in Appendix~\ref{app:diagnostics}; they are not primary success metrics.
 
@@ -119,23 +119,23 @@ We report effective compression and effective \oc{} as diagnostics in Appendix~\
 \subsection{Why ordinary MCTS is not enough}
 \label{sec:mcts_motivation}
 
-Standard tree search treats a trajectory as a growing path, following the usual MCTS loop of selection, expansion, simulation, and backpropagation \citep{browne2012survey}.  In a directed acyclic graph this is acceptable: rollouts eventually terminate and backpropagation updates a finite set of states.  In an \scc{}, the same physical record can be revisited through many path copies \citep{childs2008transpositions}.  If a rollout path is $p=(v_1,\ldots,v_\ell)$, ordinary TreeMCTS indexes states by path prefix.  A physical node $v$ can therefore appear as many distinct tree states,
+Standard tree search treats a trajectory as a growing path, following the usual MCTS loop of selection, expansion, simulation, and backpropagation \citep{browne2012survey}.  In a DAG, this assumption is valid. Rollouts eventually terminate, and backpropagation updates a finite set of states.  In an \scc{}, the same physical record can be revisited through many path copies \citep{childs2008transpositions}.  If a rollout path is $p=(v_1,\ldots,v_\ell)$, ordinary TreeMCTS indexes states by path prefix.  A physical node $v$ can therefore appear as many distinct tree states,
 \begin{equation}
     \mathcal{P}_T(v)=
     \{p_{\leq t}: p_t=v,\; p \in \Pi_T\},
 \end{equation}
-where $\Pi_T$ is the set of paths generated before budget $T$.  The effective number of states can therefore grow with path copies instead of $|S|$.  This causes search-tree expansion, rollout truncation, and value dilution.
+where $\Pi_T$ is the set of paths generated before budget $T$.  With this indexing, path multiplicity governs the effective state space in place of $|S|$.  Repeated revisits then consume rollout budget, increase truncation, and dilute value estimates.
 
-Figure~\ref{fig:mcts_failure} illustrates the failure mode.  The issue is not merely that a cycle exists; it is that tree expansion treats revisits as new path states.  A long cyclic document region can therefore consume rollout budget while repeatedly rediscovering the same records, making it harder to preserve the endpoints that jointly create a structural risk.
+Figure~\ref{fig:mcts_failure} illustrates the failure mode.  The issue is not only that a cycle exists. Tree expansion also treats revisits as new path states.  A long cyclic document region can therefore consume rollout budget while repeatedly rediscovering the same records, making it harder to preserve the endpoints that jointly create a structural risk.
 
 \begin{figure*}[!t]
     \centering
     \includegraphics[width=\textwidth]{fig02_vanilla_mcts_scc_failure.png}
-    \caption{Why vanilla TreeMCTS is a poor primitive for SCCs: cyclic records create path-copy states, dilute rollout budget, and flatten value estimates.}
+    \caption{Why vanilla TreeMCTS is ill-suited to \scc{}s. Cyclic records create path-copy states that dilute the rollout budget and flatten value estimates.}
     \label{fig:mcts_failure}
 \end{figure*}
 
-We verify this failure mode with a controlled motivating ablation.  We take matched document-graph components with the same local risk task and compare three search variants under the same rollout budget: ordinary TreeMCTS on an acyclic dependency graph, ordinary TreeMCTS on an \scc{}, and \samcgs{} on the same \scc{} setting.  The ablation is intentionally small and diagnostic; its role is not to establish the final benchmark result, but to test whether SCC topology breaks the assumptions that make tree search attractive in DAG-like document graphs.
+We verify this failure mode with a controlled motivating ablation.  We take matched document-graph components with the same local risk task and compare three search variants under the same rollout budget: ordinary TreeMCTS on an acyclic dependency graph, ordinary TreeMCTS on an \scc{}, and \samcgs{} on the same \scc{} setting.  The ablation is intentionally small and diagnostic. It tests whether \scc{} topology breaks the assumptions behind tree search. Those assumptions underlie the appeal of tree search in DAG-like document graphs.
 
 \begin{table}[!h]
 \centering
@@ -155,16 +155,16 @@ TreeMCTS & SCC & 6.4$\times$ & 100\% & 0.044 & 30\% \\
 \label{tab:mcts_scc}
 \end{table}
 
-Table~\ref{tab:mcts_scc} tests the predicted failure directly: inside an \scc{}, TreeMCTS expands many more path-copy states, truncates every rollout, and produces flatter value estimates.  \samcgs{} avoids path copies by indexing evidence by physical nodes and relations, giving $1.0\times$ expansion and a much larger Q-spread.  Detailed definitions of Expansion, Truncation, Q-spread, and Hit@3 are given in Appendix~\ref{app:diagnostics}.
+Table~\ref{tab:mcts_scc} directly tests the predicted failure. Inside an \scc{}, TreeMCTS expands many path-copy states, which truncates rollouts and flattens value estimates.  \samcgs{} avoids path copies by indexing evidence by physical nodes and relations, giving $1.0\times$ expansion and a much larger Q-spread.  Detailed definitions of Expansion, Truncation, Q-spread, and Hit@3 are given in Appendix~\ref{app:diagnostics}.
 
 \subsection{Objective}
 
-\samcgs{} avoids path-copy states by treating each \scc{} $S$ as a localized graph object.  The desired output is a subgraph $H\subseteq S$ that keeps enough evidence for remediation while remaining smaller than the original component.  Let $R^\star\subseteq S$ denote the latent repair-relevant endpoints in evaluation, e.g., root and witness records.  At inference $R^\star$ is unknown, so the algorithm estimates node and relation utility from rollout evidence.  The empirical objective is:
+\samcgs{} avoids path-copy states by treating each \scc{} $S$ as a localized graph object.  The desired output is a subgraph $H\subseteq S$ that keeps enough evidence for remediation while remaining smaller than the original component.  Let $R^\star\subseteq S$ denote the latent repair-relevant endpoints in evaluation, e.g., root and witness records.  At inference $R^\star$ is unknown, so the algorithm estimates node and relation utility from rollout evidence.  The empirical objective is given by
 \begin{equation}
     \max_{H\subseteq S} \; \widehat{R}(H) - \lambda \frac{|H|}{|S|},
     \label{eq:objective}
 \end{equation}
-where $\widehat{R}(H)$ is estimated evidence retention and $\lambda$ controls compression pressure.  The first term corresponds to \riskany{} and \riskall{}; the second corresponds to compression.  This formulation makes clear why compression alone is insufficient: a small $H$ is useful only if it retains repair-relevant evidence.
+where $\widehat{R}(H)$ estimates evidence retention and $\lambda$ controls compression pressure.  The objective balances risk coverage, measured by \riskany{} and \riskall{}, against compression, reflecting the need for a small $H$ to retain repair-relevant evidence.
 
 \subsection{SCC-aware local rollouts}
 
@@ -174,7 +174,7 @@ We first decompose the record graph using Tarjan's linear-time algorithm \citep{
 \end{equation}
 where $r$ is a small graph radius and $B_t$ contains selected bridge or memory nodes.  The LLM evaluator observes node text and visible directed edges restricted to $W_t$, excluding the remainder of the \scc{}.  It returns local node scores $y_t(v)\in[0,1]$, relation evidence $z_t(u,v)\in[0,1]$, a local risk subgraph $h_t$, and optional \oc{} evidence.
 
-Seed selection and frontier expansion follow the UCB intuition used in MCTS \citep{kocsis2006bandit}, but statistics are keyed by physical graph objects rather than path copies.  Let $x$ denote either a seed node $v$ or a frontier edge $e=(u,v)$.  \samcgs{} scores both with the same exploration template:
+Seed selection and frontier expansion follow the UCB intuition used in MCTS \citep{kocsis2006bandit}. Statistics are keyed by physical graph objects instead of path copies.  Let $x$ denote either a seed node $v$ or a frontier edge $e=(u,v)$.  \samcgs{} scores both with the same exploration template:
 \begin{equation}
     \begin{aligned}
     U_t(x)=&\;\bar{r}_t(x)
@@ -185,22 +185,22 @@ Seed selection and frontier expansion follow the UCB intuition used in MCTS \cit
     \end{aligned}
     \label{eq:ucb}
 \end{equation}
-where $\bar{r}_t(x)$ is the current empirical risk or conflict estimate, $n_t(x)$ is the number of times $x$ has been observed, $\ell_t(x)$ is virtual loss for concurrent workers, $\pi_t(x)$ is a relation-first prior, and $\eta_t(x)$ is exploration noise.  The prior is computed from rollout evidence rather than from domain-specific labels:
+where $\bar{r}_t(x)$ is the current empirical risk or conflict estimate, $n_t(x)$ is the number of times $x$ has been observed, $\ell_t(x)$ is virtual loss for concurrent workers, $\pi_t(x)$ is a relation-first prior, and $\eta_t(x)$ is exploration noise.  The prior is computed from rollout evidence without domain-specific labels.
 \begin{equation}
     \pi_t(x)=
     \frac{[w^\top\phi_t(x)]_+}
     {\max_{x'}[w^\top\phi_t(x')]_+ + \epsilon}.
     \label{eq:relation-prior}
 \end{equation}
-For nodes, $\phi_t(x)$ contains repair-entry counts, local risk-subgraph appearances, conflict-pair endpoint support, AMAF/RAVE-style evidence, path-fragment support, and \oc{} endpoint indicators.  For edges, it contains semantic incompatibility, repeated pair support, explicit conflict reports, reverse-edge support, and accumulated conflict evidence.  The weights $w$ are fixed before the locked evaluation and reported in Appendix~\ref{app:priors}.  The decay term in Eq.~\ref{eq:ucb} prevents an early prior from permanently dominating once the node or edge has been sampled often enough.  This implements progressive relation bias, analogous in spirit to progressive bias and RAVE-style reuse \citep{gelly2007combining,chaslot2008progressive,browne2012survey}, while keeping the update key tied to physical nodes and edges rather than path prefixes \citep{czech2021monte}.
+For nodes, $\phi_t(x)$ contains repair-entry counts, local risk-subgraph appearances, conflict-pair endpoint support, AMAF/RAVE-style evidence, path-fragment support, and \oc{} endpoint indicators.  For edges, it contains semantic incompatibility, repeated pair support, explicit conflict reports, reverse-edge support, and accumulated conflict evidence.  Weights $w$ are fixed before the locked evaluation and reported in Appendix~\ref{app:priors}.  The decay term in Eq.~\ref{eq:ucb} prevents an early prior from dominating after sufficient node or edge samples.  Together, these choices implement progressive relation bias, analogous in spirit to progressive bias and RAVE-style reuse \citep{gelly2007combining,chaslot2008progressive,browne2012survey}, while keeping the update key tied to physical nodes and edges as graph-level objects \citep{czech2021monte}.
 
 \subsection{Relation-first evidence memory}
 
-Structural risk is relational: a node can be harmless until previous evidence makes it incompatible with the graph context.  This follows the relational-inductive-bias view that graph-structured reasoning should represent entities together with the relations that define their roles \citep{battaglia2018relational}.  We therefore maintain memory
+Structural risk is relational in the sense that a node can appear harmless until previous evidence makes it incompatible with the graph context.  This matches the relational-inductive-bias view that graph-structured reasoning should represent entities together with the relations that define their roles \citep{battaglia2018relational}.  We therefore maintain memory
 \begin{equation}
     M_t = \{n_t(v),\bar{q}_t(v),m_t(u,v),o_t(v)\}_{v,u\in S},
 \end{equation}
-where $m_t(u,v)$ stores support that the directed relation $(u,v)$ makes either endpoint risky, and $o_t(v)$ stores whether $v$ has appeared in effective \oc{} evidence.  Node evidence is updated by running averages and relation evidence by smoothed pair support; Appendix~\ref{sec:appendix_formula_details} gives the exact update equations.  Let $r^-_t(v)$ and $r^+_t(v)$ be the strongest incoming and outgoing relation-memory scores around $v$.  The priority score used for core construction combines node evidence, relation evidence, \oc{} support, and a persistent critical-pair ledger:
+where $m_t(u,v)$ stores support that the directed relation $(u,v)$ makes either endpoint risky, and $o_t(v)$ stores whether $v$ has appeared in effective \oc{} evidence.  Node evidence is updated by running averages and relation evidence by smoothed pair support. Appendix~\ref{sec:appendix_formula_details} gives the exact update equations.  Let $r^-_t(v)$ and $r^+_t(v)$ be the strongest incoming and outgoing relation-memory scores around $v$.  The priority score used for core construction combines node evidence, relation evidence, \oc{} support, and a persistent critical-pair ledger:
 \begin{equation}
     \begin{aligned}
     s_t(v)=&\;\bar{q}_t(v)
@@ -210,16 +210,16 @@ where $m_t(u,v)$ stores support that the directed relation $(u,v)$ makes either 
     \end{aligned}
     \label{eq:priority}
 \end{equation}
-Thus a node can become important because earlier or later evidence repeatedly implicates it, even if its isolated text is not obviously defective.  Relation evidence is aggregated by maxima over incoming and outgoing edges to limit degree bias from highly connected nodes.  The \oc{} and pair-ledger terms are bounded bonuses: they route search toward severe recurring hypotheses, but do not let a single local judgment dominate persistent node or relation evidence.  This is the persistence mechanism that prevents a single noisy local judgment from deciding the final core, while still letting strong recurring relations guide pruning.
+Thus a node can become important because incoming or outgoing evidence repeatedly implicates it, even if its isolated text is not obviously defective.  Relation evidence is aggregated by maxima over incoming and outgoing edges to limit degree bias from highly connected nodes.  The bounded bonuses from \oc{} and the pair ledger route search toward severe recurring hypotheses, allowing persistent node or relation evidence to outweigh isolated local judgments.  This persistence mechanism prevents a single noisy local judgment from deciding the final core, while still letting strong recurring relations guide pruning.
 
 \subsection{Online conformal-style evidence signal}
 
-Single LLM judgments are noisy, especially on local windows.  We therefore add a calibration-inspired discovery signal.  At each rollout, \samcgs{} compares the strongest local relation-conflict score against an online quantile of previous conflict scores; Appendix~\ref{sec:appendix_formula_details} gives the exact rule.  We call a threshold crossing an online calibrated conflict signal, abbreviated \oc{}: it indicates that the current local window contains an unusually strong ordered-cycle or contradiction cue relative to earlier rollouts.  When this happens, endpoints of the implicated relation receive an \oc{} bonus in Eq.~\ref{eq:priority}.  This follows the spirit of conformal calibration \citep{vovk2005algorithmic,gibbs2021adaptive}, but we do not claim formal coverage because the LLM evaluator and rollout policy are adaptive.  We use \oc{} as evidence routing and convergence support, while final evaluation is still based on the returned subgraph $H$.
+Single LLM judgments are noisy, especially on local windows.  We therefore add a calibration-inspired discovery signal.  At each rollout, \samcgs{} compares the strongest local relation-conflict score against an online quantile of previous conflict scores. Appendix~\ref{sec:appendix_formula_details} gives the exact rule.  We call a threshold crossing an online calibrated conflict signal (\oc{}). The signal marks a local window whose ordered cycle or contradiction cue is unusually strong relative to earlier rollouts, and endpoints of the implicated relation receive an \oc{} bonus in Eq.~\ref{eq:priority}.  The calibration motivation follows conformal calibration \citep{vovk2005algorithmic,gibbs2021adaptive}. No formal coverage guarantee is claimed because the LLM evaluator and rollout policy are adaptive.  We use \oc{} as evidence routing and convergence support, while final evaluation is still based on the returned subgraph $H$.
 
 \subsection{Dynamic core compression}
 \label{sec:dynamic-core}
 
-The final risk subgraph is maintained as a dynamic core with replacement, avoiding monotonic expansion.  The compression step is a budgeted subset-selection problem; greedy selection is a standard approximation strategy for monotone submodular objectives under cardinality constraints \citep{nemhauser1978analysis}.  After each rollout, \samcgs{} forms a candidate pool $C_t$ from the local risk subgraph, the previous core, \oc{} endpoints, and top-scoring relation endpoints with local neighbors.  The core is selected by maximizing a bounded utility:
+We maintain the final risk subgraph as a dynamic core with replacement, avoiding monotonic expansion.  Core compression is cast as budgeted subset selection, for which greedy selection is a standard approximation strategy under monotone submodular objectives with cardinality constraints \citep{nemhauser1978analysis}.  After each rollout, \samcgs{} forms a candidate pool $C_t$ from the local risk subgraph, the previous core, \oc{} endpoints, and top-scoring relation endpoints with local neighbors.  The core is selected by maximizing a bounded utility:
 \begin{equation}
     \begin{aligned}
     H_t &= \arg\max_{\substack{H\subseteq C_t\\ |H|\leq B(S)}}
@@ -261,10 +261,10 @@ evaluations over windows of at most $w$ records, with prompt cost
 $O(T\cdot\operatorname{tokens}(w))$.  Its evidence memory is keyed by
 physical nodes and observed relations, not path-copy states, and stores
 $O(|S|+|E_S|)$ statistics.  The dynamic core cap $B(S)$ bounds the
-retained subgraph, so additional budget refines the same physical memory
-rather than expanding a cyclic tree indefinitely.  This yields an
-anytime collapsed evaluation point for higher-level graph search;
-budget-prefix behavior is analyzed in Figure~\ref{fig:convergence} and
+retained subgraph, allowing additional budget to refine the same physical
+memory without expanding a cyclic tree indefinitely.  The resulting
+collapsed evaluation point is anytime-compatible for higher-level graph search.
+Budget-prefix behavior is analyzed in Figure~\ref{fig:convergence} and
 Appendix~\ref{app:diagnostics}.
 
 \section{Experimental Setup}
@@ -272,7 +272,7 @@ Appendix~\ref{app:diagnostics}.
 
 \subsection{Domains}
 
-We evaluate on four domains chosen for structural diversity and source authority, not for result cherry-picking.  Table~\ref{tab:domains} summarizes their roles.
+We evaluate on four domains chosen for structural diversity and source authority.  The selection was not designed to favor a particular result.  Table~\ref{tab:domains} summarizes their roles.
 
 \begin{table*}[t]
 \centering
@@ -293,21 +293,21 @@ CUAD & Expert contract review dataset & Long contract clause graph with ambiguit
 
 \subsection{Domain formatting and shared risk semantics}
 
-The four sources differ in surface form: a Debian record exposes package fields, a BGB record is a statutory section, an SEC EX-21 record is a subsidiary disclosure, and a CUAD record is a contract clause.  We therefore use lightweight domain formatters
+The four sources differ in surface form. A Debian record exposes package fields, a BGB record is a statutory section, an SEC EX-21 record is a subsidiary disclosure, and a CUAD record is a contract clause.  We therefore use lightweight domain formatters
 \begin{equation}
     \mathcal{A}_d=(\operatorname{serialize}_d,\operatorname{edges}_d,\operatorname{normalize}_d)
 \end{equation}
-to serialize records, expose typed directed edges, and normalize model outputs.  These formatters do not define the target risk type and do not reveal the injected endpoints.  Both \naive{} and \samcgs{} use the same domain-neutral risk rubric: identify structural inconsistency, mutual incompatibility, underspecification, or high-impact risk from visible node text and visible directed edges.  Thus the comparison is not between different notions of risk.  The difference is computational: full-\scc{} one-shot generation versus \scc{}-aware rollout selection, relation-first memory, critical-pair revisiting, and dynamic-core compression.
+to serialize records, expose typed directed edges, and normalize model outputs.  These formatters do not define the target risk type and do not reveal the injected endpoints.  Both \naive{} and \samcgs{} use the same risk rubric that is neutral across domains.  Under this rubric, models flag structural inconsistency or mutual incompatibility, as well as risks that are underspecified or have high impact, using only visible node text and directed edges.  The comparison is therefore computational, contrasting full-\scc{} one-shot generation with \scc{}-aware rollout selection, relation-first memory, critical-pair revisiting, and dynamic-core compression.
 
 \subsection{Critical structural injection}
 
-The main experiment uses a locked critical-stress configuration over the same \scc{} blocks and models for both methods; the exact run profile is reported in Appendix~\ref{sec:appendix_experiments}.  Each case edits only existing records in a real \scc{}.  A root record and a distant witness or affected record jointly create a structural conflict, while each record remains locally plausible.  Both methods receive the same generic risk semantics and the same visible graph; the exact templates and domain examples are in Appendix~\ref{sec:appendix_datasets}.
+The main experiment uses a locked critical-stress configuration over the same \scc{} blocks and models for both methods. The exact run profile is reported in Appendix~\ref{sec:appendix_experiments}.  Each case edits only existing records in a real \scc{}.  A root record and a distant witness or affected record jointly create a structural conflict, while each record remains locally plausible.  Both methods receive the same generic risk semantics and the same visible graph; the exact templates and domain examples are in Appendix~\ref{sec:appendix_datasets}.
 
 \subsection{Baselines and models}
 
-We compare against a full-context direct-subgraph baseline: \naive{} sees the full \scc{} in one prompt and is asked to output both a whole-\scc{} risk ranking and a risk subgraph.  \samcgs{} sees smaller local windows over 60 rollouts and aggregates evidence into a dynamic core.  Thus \naive{} has more context per call but carries a heavier one-shot output burden, while \samcgs{} trades this for iterative search and evidence retention.
+We compare against a full-context direct-subgraph baseline, where \naive{} sees the full \scc{} in one prompt and outputs both a whole-\scc{} risk ranking and a risk subgraph.  \samcgs{} instead sees smaller local windows over 60 rollouts and aggregates evidence into a dynamic core.  This setup gives \naive{} more context per call but a heavier one-shot output burden.  \samcgs{} trades that burden for iterative search and evidence retention.
 
-We evaluate four models: GPT-4o, DeepSeek-V3, Qwen2.5-72B-Instruct, and Gemini 2.5 Pro.  The main data contain 320 model-case pairs and 640 method-level records.
+We evaluate GPT-4o, DeepSeek-V3, Qwen2.5-72B-Instruct, and Gemini 2.5 Pro.  The main data contain 320 model-case pairs and 640 method-level records.
 
 \section{Main Results}
 \label{sec:results}
@@ -315,26 +315,26 @@ We evaluate four models: GPT-4o, DeepSeek-V3, Qwen2.5-72B-Instruct, and Gemini 2
 \begin{figure*}[t]
     \centering
     \includegraphics[width=\textwidth]{fig02_main_results_composite.pdf}
-    \caption{Main critical-\scc{} results on 320 model-case pairs per method.  Panel A reports strict headline metrics; Panel B gives a compact \scc{}-size breakdown of endpoint retention and compression.  Compression is higher-is-smaller and therefore shows the cost of retaining more evidence.}
+    \caption{Main critical-\scc{} results on 320 model-case pairs per method.  Panel A reports strict headline metrics, and Panel B gives a compact \scc{}-size breakdown of endpoint retention and compression.  Higher compression values indicate smaller subgraphs and show the cost of retaining more evidence.}
     \label{fig:main_metrics}
 \end{figure*}
 
-Figure~\ref{fig:main_metrics} shows the core result.  \samcgs{} improves \rootthree{} by 32 points, \riskany{} by 26 points, and \riskall{} by 31 points.  The strongest claim is not that one-shot LLMs never find risk; the \naive{} baseline often finds at least one suspicious record.  The difference is that \samcgs{} more reliably preserves the repair-relevant evidence endpoints in the final subgraph.
+Figure~\ref{fig:main_metrics} shows the core result.  \samcgs{} improves \rootthree{} by 32 points, \riskany{} by 26 points, and \riskall{} by 31 points.  The strongest claim is not that one-shot LLMs never find risk, since \naive{} often finds at least one suspicious record.  Improvement from \samcgs{} is more reliable preservation of the repair-relevant evidence endpoints in the final subgraph.
 
-The compression axis should be read as a trade-off, not a loss.  \naive{} returns smaller subgraphs on average, but it often drops one side of a critical contradiction or produces an output that is too large, incomplete, or otherwise unavailable for scoring.  \samcgs{} deliberately keeps a larger dynamic core when evidence persists across rollouts.
+The compression axis should be read as a trade-off, not a loss.  Although \naive{} returns smaller subgraphs on average, it often drops one side of a critical contradiction or produces an output that is too large, incomplete, or otherwise unavailable for scoring.  \samcgs{} deliberately keeps a larger dynamic core when evidence persists across rollouts.
 
 Strict rates keep unavailable structured outputs in the denominator; Appendix~\ref{tab:reliability} reports the output-availability audit.
 
 \subsection{Breakdown by model and domain}
 
-The gains are not carried by a single model.  GPT-4o and Qwen2.5-72B show large \riskall{} gains, DeepSeek-V3 is already strong under \naive{} but still improves, and Gemini 2.5 Pro is competitive for both methods.  Domain-wise, CUAD is the hardest setting because long contract text creates high output burden for full-\scc{} prompting; Debian and SEC are cleaner but still show endpoint-retention gains.
+The gains are not carried by a single model.  GPT-4o and Qwen2.5-72B show large \riskall{} gains, DeepSeek-V3 is already strong under \naive{} and still improves, and Gemini 2.5 Pro is competitive for both methods.  Domain-wise, CUAD is the hardest setting, as long contract text creates high output burden for full-\scc{} prompting. Debian and SEC are cleaner and still show endpoint-retention gains.
 
 \section{Analysis}
 \label{sec:analysis}
 
 \subsection{Effect of SCC size}
 
-Figure~\ref{fig:main_metrics}B separates the results by \scc{} size.  In short components ($\leq 12$ nodes), \samcgs{} improves \riskall{} from 55\% to 83\%.  In mid-sized components (14--20 nodes), the improvement is 40\% to 80\%.  In long components ($\geq 24$ nodes), \riskall{} remains difficult, but \samcgs{} still improves 41\% to 65\%.  This is consistent with the task: longer cycles contain more plausible distractors and more native ambiguity, especially in CUAD.
+Figure~\ref{fig:main_metrics}B separates the results by \scc{} size.  In short components ($\leq 12$ nodes), \samcgs{} improves \riskall{} from 55\% to 83\%.  In mid-sized components (14--20 nodes), the improvement is 40\% to 80\%.  In long components ($\geq 24$ nodes), \riskall{} remains difficult, but \samcgs{} still improves 41\% to 65\%.  The pattern is consistent with the task. In longer cycles, plausible distractors are more numerous and native ambiguity is higher, especially in CUAD.
 
 \subsection{Rollout convergence}
 
@@ -345,37 +345,37 @@ Figure~\ref{fig:main_metrics}B separates the results by \scc{} size.  In short c
     \label{fig:convergence}
 \end{figure*}
 
-Figure~\ref{fig:convergence} shows that additional rollouts do not merely spend more tokens; they accumulate useful evidence.  At budget 5, \riskall{} is 22\%; at budget 30, it rises to 41\%; at budget 60, it reaches 57\% under prefix reconstruction.  The final run-level \riskall{} in Figure~\ref{fig:main_metrics} is higher because the dynamic core uses the full retained evidence rather than a simple prefix truncation.  The important trend is that risk coverage and \riskall{} continue to rise well past the first few rollouts, supporting the search interpretation.
+Figure~\ref{fig:convergence} shows that additional rollouts accumulate useful evidence instead of only spending more tokens.  At budget 5, \riskall{} is 22\%; at budget 30, it rises to 41\%; at budget 60, it reaches 57\% under prefix reconstruction.  The final run-level \riskall{} in Figure~\ref{fig:main_metrics} is higher because the dynamic core uses the full retained evidence rather than a simple prefix truncation.  The important trend is that risk coverage and \riskall{} continue to rise well past the first few rollouts, supporting the search interpretation.
 
 \subsection{Robustness checks}
 
-Appendix~\ref{sec:appendix_experiments} reports two auxiliary checks.  First, a more compressed profile reduces the average retained core from 7.69 to 5.91 nodes but lowers \riskall{} from 78\% to 71\%, so the main run keeps the profile that better preserves critical endpoints.  Second, strict rates do not hide unavailable \naive{} outputs: on 261 matched usable pairs, \samcgs{} remains higher in \rootthree{} (83\% vs. 59\%), \riskany{} (98\% vs. 88\%), and \riskall{} (77\% vs. 57\%).  A CUAD lite-output control likewise reduces formatting burden but still reaches only 12\% \riskall{} on long-contract SCCs, indicating that full-\scc{} prompting is both an output and reasoning burden.
+Appendix~\ref{sec:appendix_experiments} reports two auxiliary checks.  First, a more compressed profile reduces the average retained core from 7.69 to 5.91 nodes, although \riskall{} falls from 78\% to 71\%. For the main run, we therefore keep the profile that better preserves critical endpoints.  Second, strict rates do not hide unavailable \naive{} outputs. On 261 matched usable pairs, \samcgs{} remains higher in \rootthree{} (83\% vs. 59\%), \riskany{} (98\% vs. 88\%), and \riskall{} (77\% vs. 57\%).  A CUAD lite-output control likewise reduces formatting burden but still reaches only 12\% \riskall{} on long-contract SCCs, indicating that full-\scc{} prompting is both an output and reasoning burden.
 Appendix~\ref{sec:appendix_case} gives a representative long-\scc{} case study.
 
 \section{Related Work}
 \label{sec:related}
 
 \paragraph{LLM reasoning and long context.}
-Chain-of-thought prompting improves sequential reasoning \citep{wei2022chain}, but cyclic document risk requires revisiting and reconciling records rather than extending one chain.  Long-context benchmarks show persistent failures in retrieval, multi-hop tracing, and aggregation \citep{liu2024lost,hsieh2024ruler,bai2024longbench}, while graph-reasoning studies show sensitivity to graph encoding and task formulation \citep{wang2023can,fatemi2024talk}.  Legal NLP benchmarks motivate document-level reasoning \citep{hendrycks2021cuad,koreeda2021contractnli,chalkidis2022lexglue,guha2023legalbench}; our task stresses cyclic structural evidence retention.
+Chain-of-thought prompting improves sequential reasoning \citep{wei2022chain}, whereas cyclic document risk requires revisiting and reconciling records instead of extending one chain.  Long-context benchmarks show persistent failures in retrieval, multi-hop tracing, and aggregation \citep{liu2024lost,hsieh2024ruler,bai2024longbench}, while graph-reasoning studies show sensitivity to graph encoding and task formulation \citep{wang2023can,fatemi2024talk}.  Legal NLP benchmarks motivate document-level reasoning \citep{hendrycks2021cuad,koreeda2021contractnli,chalkidis2022lexglue,guha2023legalbench}. Our task stresses cyclic structural evidence retention.
 
 \paragraph{Search-augmented LLMs.}
 Tree of Thoughts \citep{yao2024tree}, Graph of Thoughts \citep{besta2024graph}, and planning-style LLM search \citep{hao2023reasoning} show that explicit search can improve reasoning.  \samcgs{} operates on externally constructed document graphs and treats \scc{}s as bottlenecks to collapse into risk subgraphs.
 
 \paragraph{Monte Carlo search on graphs.}
-MCTS and AlphaGo-style search are powerful under stable state transitions \citep{silver2016mastering,kocsis2006bandit,browne2012survey}.  Monte Carlo graph search reuses transpositions \citep{childs2008transpositions,czech2021monte}, and work on MCTS uncertainty highlights loop difficulty \citep{moerland2020mcts}.  Our method targets the remaining gap: information-preserving SCC handling for cyclic document regions.
+MCTS and AlphaGo-style search are powerful under stable state transitions \citep{silver2016mastering,kocsis2006bandit,browne2012survey}.  Monte Carlo graph search reuses transpositions \citep{childs2008transpositions,czech2021monte}, and work on MCTS uncertainty highlights loop difficulty \citep{moerland2020mcts}.  Our method targets the remaining gap in information-preserving \scc{} handling for cyclic document regions.
 
 \paragraph{Graph legal analysis and calibration.}
-Network analysis has been used for statutory cross-references \citep{boulet2021measuring}, contract graph extraction is active \citep{dechtiar2025graphgrpolex}, and conformal ideas inspire calibrated evidence signals \citep{vovk2005algorithmic,gibbs2021adaptive}.  \samcgs{} is complementary: it assumes a record graph and focuses on risk search inside cyclic components.
+Network analysis has been used for statutory cross-references \citep{boulet2021measuring}, contract graph extraction is active \citep{dechtiar2025graphgrpolex}, and conformal ideas inspire calibrated evidence signals \citep{vovk2005algorithmic,gibbs2021adaptive}.  \samcgs{} is complementary because it assumes a record graph and focuses on risk search inside cyclic components.
 
 \section{Conclusion}
 \label{sec:conclusion}
 
-We introduced \samcgs{}, a structure-aware Monte Carlo graph search method for cyclic document risk.  The central idea is to stop treating a long \scc{} as either a flat prompt or an ordinary tree-search path.  Instead, \samcgs{} localizes the \scc{}, searches it through local rollouts, stores relation-first evidence, and collapses the component into a dynamic risk core.  Across four domains and four LLMs, this yields substantially stronger root localization and endpoint retention than a full-\scc{} direct-subgraph baseline, while making the cost in compression explicit.
+We introduced \samcgs{}, a structure-aware Monte Carlo graph search method for cyclic document risk.  The central idea is to avoid treating a long \scc{} as either a flat prompt or an ordinary tree-search path.  Instead, \samcgs{} localizes the \scc{}, searches it through local rollouts, stores relation-first evidence, and collapses the component into a dynamic risk core.  Across four domains and four LLMs, this yields substantially stronger root localization and endpoint retention than a full-\scc{} direct-subgraph baseline, while making the cost in compression explicit.
 
 \section*{Limitations}
 \label{sec:limitations}
 
-\samcgs{} is more expensive than one-shot prompting because it performs many local LLM calls.  The method is intended for high-risk cyclic components, not every record in a document.  Our benchmark uses injected critical risks so that ground truth is controlled; naturally occurring risks may be messier and require human audit.  Graph construction quality also matters: missing or spurious edges can change the \scc{}s that the method receives.  Finally, \riskall{} remains difficult in noisy long-contract settings, which is why we report it explicitly rather than replacing it with the easier \riskany{} metric.
+\samcgs{} incurs higher cost than one-shot prompting due to its local LLM calls.  The method is intended for high-risk cyclic components, not every record in a document.  Our benchmark uses injected critical risks to keep ground truth controlled.  Naturally occurring risks may be less controlled and require human audit.  Graph construction quality also matters, as missing or spurious edges can change the \scc{}s that the method receives.  Finally, \riskall{} remains difficult in noisy long-contract settings, so we report it explicitly without replacing it with the easier \riskany{} metric.
 
 \bibliography{custom}
 
@@ -387,11 +387,11 @@ We introduced \samcgs{}, a structure-aware Monte Carlo graph search method for c
 The main paper evaluates \rootthree{}, \riskany{}, \riskall{}, and
 compression.  We also log two diagnostics.  \textbf{Effective
 compression} is computed only on cases whose returned subgraph retains at
-least one repair-relevant endpoint; it separates useful compression from
+least one repair-relevant endpoint.  It separates useful compression from
 trivial compression that drops all evidence.  \textbf{Effective \oc{}}
 counts an \oc{} discovery only when the implicated relation intersects
 the repair-relevant risk region.  It is useful for convergence analysis,
-but it is cumulative by construction and is therefore not a primary
+although it is cumulative by construction and is therefore not a primary
 success metric.
 
 Table~\ref{tab:mcts_scc} uses four ablation diagnostics.  \textbf{Expansion}
@@ -407,7 +407,7 @@ top three ranked records.
 \section{System-Blind Expert Annotation Audit}
 \label{sec:appendix_annotation}
 
-We construct a representative expert-audit set to verify that the critical structural risks used in our benchmark are recognizable to qualified domain readers, rather than artifacts of hidden system labels.  The audit is \emph{system-blind}: annotators see only paragraph text, paragraph identifiers, and ordinary natural-language instructions.  They are not shown model outputs, hidden node roles, system suggestions, \samcgs{} cores, \naive{} subgraphs, or terms such as root, witness, affected node, \scc{}, and risk subgraph.  Hidden fields are used only after annotation to compare expert labels with injected endpoints and system outputs.
+We construct a representative expert-audit set to verify that the critical structural risks used in our benchmark are recognizable to qualified domain readers, not artifacts of hidden system labels.  The audit is \emph{system-blind}.  Annotators see only paragraph text, paragraph identifiers, and ordinary natural-language instructions.  They are not shown model outputs, hidden node roles, system suggestions, \samcgs{} cores, \naive{} subgraphs, or terms such as root, witness, affected node, \scc{}, and risk subgraph.  Hidden fields are used only after annotation to compare expert labels with injected endpoints and system outputs.
 
 All three annotators hold doctoral degrees in relevant fields and have professional experience with legal, regulatory, or contractual analysis.
 
@@ -424,13 +424,13 @@ For each paragraph, the expert chooses one of four labels:
 \end{itemize}
 
 \paragraph{Repair-material task.}
-After labeling paragraphs, the expert selects which paragraphs should be included in the final repair packet.  This task is stricter than merely identifying a suspicious sentence: the packet should include enough material for a reviewer to understand and fix the conflict.
+After labeling paragraphs, the expert selects which paragraphs should be included in the final repair packet.  This task is stricter than identifying a suspicious sentence because the packet should include enough material for a reviewer to understand and fix the conflict.
 
 \paragraph{Annotation protocol.}
-Each sample is annotated independently by three experts.  Every sample therefore receives three case-level decisions, three sets of paragraph-level labels, and three repair-packet selections.  Disagreements are preserved for analysis rather than forced into an immediate majority vote.
+Each sample is annotated independently by three experts.  Every sample therefore receives three case-level decisions, three sets of paragraph-level labels, and three repair-packet selections.  Disagreements are preserved for analysis without being forced into an immediate majority vote.
 
 \paragraph{Audit results.}
-Table~\ref{tab:expert_audit_results} summarizes the completed annotations.  All 12 audited cases receive a majority structural-conflict label.  Experts also recognize the injected evidence endpoints: 23 of 24 root/witness endpoint paragraphs receive a majority \emph{clear issue} label, and all 24 receive a majority \emph{clear issue} or \emph{possibly relevant} label.  Agreement is strongest for the clear-risk endpoint decision, with Fleiss' $\kappa=0.606$ and pairwise Cohen's $\kappa$ ranging from 0.452 to 0.759.  These results support that the injected critical risks are semantically visible to qualified readers when the relevant paragraphs are inspected.
+Table~\ref{tab:expert_audit_results} summarizes the completed annotations.  All 12 audited cases receive a majority structural-conflict label.  Experts also recognize the injected evidence endpoints.  In total, 23 of 24 root/witness endpoint paragraphs receive a majority \emph{clear issue} label, and all 24 receive a majority \emph{clear issue} or \emph{possibly relevant} label.  Agreement is strongest for the clear-risk endpoint decision, with Fleiss' $\kappa=0.606$ and pairwise Cohen's $\kappa$ ranging from 0.452 to 0.759.  These results support that the injected critical risks are semantically visible to qualified readers when the relevant paragraphs are inspected.
 
 The repair-packet task is intentionally stricter and more variable.  One annotator selected no individual paragraph for the final packet while still marking every case as conflicting and most cases as sufficiently or partially supported.  We therefore treat repair-packet selection as a conservative diagnostic of what a reviewer would include for remediation, not as the primary evidence that a conflict exists.
 
@@ -459,7 +459,7 @@ Repair-packet endpoint-all & 6/12 (50.0\%) & Selecting all endpoints is stricter
 \end{table*}
 
 \paragraph{Role-level sanity check.}
-After annotation, we compare expert paragraph labels with hidden roles.  True endpoints are the only role class with near-universal majority recognition: 95.8\% majority clear issue and 100\% majority clear-or-relevant.  In contrast, affected paragraphs are rarely majority clear issue, and most broader system-core paragraphs are judged ordinary context.  This is expected: the benchmark asks methods to retain the compact repair-relevant endpoints, not to mark every retained context paragraph as intrinsically wrong.  It also explains why \riskall{} is strict: a method may surface useful context or affected nodes while still missing one side of the contradiction.
+After annotation, we compare expert paragraph labels with hidden roles.  True endpoints are the only role class with near-universal majority recognition, with 95.8\% majority clear issue and 100\% majority clear-or-relevant.  In contrast, affected paragraphs are rarely majority clear issue, and most broader system-core paragraphs are judged ordinary context.  This behavior follows from the benchmark design, which asks methods to retain compact endpoints needed for repair, not to mark every retained context paragraph as intrinsically wrong.  The same observation explains why \riskall{} is strict, as a method may surface useful context or affected nodes while still missing one side of the contradiction.
 
 \begin{table*}[t]
 \centering
@@ -488,14 +488,14 @@ Displayed paragraph & Expert-visible text excerpt & Majority annotation \\
 \midrule
 SEC EX-21 entity record A & \emph{Entergy Louisiana Holdings LLC.} ``For this consolidation path, the entity is treated as fully consolidated by the upstream registrant.  The note states that no separate non-controlling interest is retained for this path.'' & Clear issue; included in two experts' repair packet selections. \\
 SEC EX-21 entity record B & \emph{ENTERGY LOUISIANA HOLDINGS INC.} ``The same consolidation path reserves a 20 percent non-controlling interest for the downstream schedule.  This record applies the opposite state immediately on the same path.'' & Clear issue; included in two experts' repair packet selections. \\
-Case-level decision & The two records describe the same consolidation path but assign incompatible ownership states: fully consolidated with no non-controlling interest versus a retained 20\% non-controlling interest. & 3/3 experts mark the case as structurally conflicting; 2/3 mark the provided material sufficient, and 1/3 marks it partially sufficient. \\
+Case-level decision & The two records describe the same consolidation path and assign incompatible ownership states, fully consolidated with no non-controlling interest versus a retained 20\% non-controlling interest. & 3/3 experts mark the case as structurally conflicting; 2/3 mark the provided material sufficient, and 1/3 marks it partially sufficient. \\
 \bottomrule
 \end{tabular}
 \caption{Representative expert-audit example.  Role names in the left column are added here for exposition; the annotators saw paragraph text and identifiers, not root/witness labels or system suggestions.}
 \label{tab:expert_example}
 \end{table*}
 
-The example in Table~\ref{tab:expert_example} illustrates the intended difficulty level.  Neither entity record is a syntactic error by itself.  The conflict appears because both records refer to the same consolidation path while asserting mutually incompatible ownership treatments.  This is the type of structural conflict that a risk-subgraph method should preserve: a reviewer can repair the issue only after seeing both endpoints.
+The example in Table~\ref{tab:expert_example} illustrates the intended difficulty level.  Neither entity record is a syntactic error by itself.  The conflict appears because both records refer to the same consolidation path while asserting mutually incompatible ownership treatments.  A risk-subgraph method should preserve this type of structural conflict because a reviewer can repair the issue only after seeing both endpoints.
 
 \section{Representative Long-\scc{} Case Study}
 \label{sec:appendix_case}
@@ -507,12 +507,12 @@ The example in Table~\ref{tab:expert_example} illustrates the intended difficult
     \label{fig:case}
 \end{figure*}
 
-Figure~\ref{fig:case} illustrates the intended use of the method.  The original \scc{} is too large to treat as a single atomic finding, yet too cyclic for ordinary path search.  \samcgs{} localizes the evidence through rollouts, then returns a core containing the root, witness, and affected records.  This is more useful for review than a single node label: a human can inspect the retained endpoints and decide how the conflict should be repaired.
+Figure~\ref{fig:case} illustrates the intended use of the method.  The original \scc{} is too large to treat as a single atomic finding and too recurrence-heavy for ordinary path search.  \samcgs{} localizes the evidence through rollouts, then returns a core containing the root, witness, and affected records.  For review, this is more useful than a single node label because a human can inspect the retained endpoints and decide how the conflict should be repaired.
 
 \section{Core Algorithm Details}
 \label{sec:appendix_algorithm}
 
-This appendix expands the method into reproducible pseudocode.  The implementation uses the same high-level objects as the main paper: a document graph $G$, strongly connected components $S$, local rollout windows $W_t$, relation-first memory $M_t$, online calibrated conflict signals, and a final dynamic core $H_T$.
+This appendix expands the method into reproducible pseudocode.  The implementation uses the same high-level objects as the main paper, including a document graph $G$, strongly connected components $S$, local rollout windows $W_t$, relation-first memory $M_t$, online calibrated conflict signals, and a final dynamic core $H_T$.
 
 \begin{algorithm}[t]
 \small
@@ -599,12 +599,12 @@ This appendix expands the method into reproducible pseudocode.  The implementati
 \end{algorithmic}
 \end{algorithm}
 
-The core is therefore not a monotone union of all suspicious records.  Later rollouts can replace weak records with stronger evidence, but the update is not allowed to drop repeatedly supported critical endpoints merely to obtain a smaller subgraph.
+The core is therefore not a monotone union of all suspicious records.  Later rollouts can replace weak records with stronger evidence, although the update cannot drop repeatedly supported critical endpoints only to obtain a smaller subgraph.
 
 \section{Formula Details for Evidence Updates}
 \label{sec:appendix_formula_details}
 
-This appendix expands the implementation-level equations that are summarized in Section~3.  The main text keeps only the search template, priority score, and core objective; the details below are fixed before evaluation and are not tuned on test cases.
+Implementation-level equations summarized in Section~\ref{sec:method} are expanded here.  The main text retains the search template plus two scoring components, the priority score and core objective.  Remaining details were fixed before evaluation and left untuned on test cases.
 
 \paragraph{Node and relation updates.}
 For every record observed in rollout $t$, node risk evidence is updated by a visit-counted running average:
@@ -625,7 +625,7 @@ Directed relation evidence is updated by exponential smoothing,
 where $z_t(u,v)$ is the local evaluator's evidence that relation $(u,v)$ creates or supports a repair-relevant conflict.
 
 \paragraph{Relation priors and critical pairs.}
-Equation~\ref{eq:relation-prior} is shared by node and edge priors.  For nodes we set $w=\theta$ and use node features such as repair-entry support, local-subgraph appearance, pair-endpoint support, and \oc{} endpoint evidence.  For edges we set $w=\beta$ and use edge features such as semantic incompatibility, repeated pair support, reverse-edge evidence, and accumulated conflict.  A separate bounded ledger records persistent critical-pair hypotheses:
+Equation~\ref{eq:relation-prior} is shared by node and edge priors.  For nodes we set $w=\theta$ and use node features such as repair-entry support, local-subgraph appearance, pair-endpoint support, and \oc{} endpoint evidence.  For edges we set $w=\beta$ and use edge features such as semantic incompatibility, repeated pair support, reverse-edge evidence, and accumulated conflict evidence.  A separate bounded ledger records persistent critical-pair hypotheses:
 \begin{equation}
     \begin{aligned}
     \mathcal{N}(v)&=\{u:(u,v)\in E \text{ or } (v,u)\in E\},\\
@@ -657,7 +657,7 @@ where $h_t$ is the local risk subgraph, $O_t$ contains \oc{} endpoints, and $K_t
 \section{Fixed Search-Prior Coefficients}
 \label{app:priors}
 
-The numeric values in Table~\ref{tab:prior_coefficients} are fixed search-prior coefficients, not learned parameters.  They were selected on pilot and smoke runs before the locked evaluation.  Domain experts were used only as a sanity check on the ordinal reliability ordering among evidence types, not to tune coefficients on reported test cases.  Prior MCTS work motivates the structure: UCB/UCT exploration \citep{kocsis2006bandit}, visit-decayed heuristic priors through progressive bias \citep{chaslot2008progressive,browne2012survey}, AMAF/RAVE-style evidence reuse \citep{gelly2007combining}, and graph/transposition-aware value reuse \citep{childs2008transpositions,czech2021monte}.  The coefficients instantiate these ideas for structural document risk.
+The numeric values in Table~\ref{tab:prior_coefficients} are fixed search-prior coefficients, not learned parameters.  They were selected using pilot checks before the locked evaluation.  Domain experts were used only as a sanity check on the ordinal reliability ordering among evidence types, not to tune coefficients on reported test cases.  Prior MCTS work motivates the structure, including UCB/UCT exploration \citep{kocsis2006bandit}, visit-decayed heuristic priors through progressive bias \citep{chaslot2008progressive,browne2012survey}, AMAF/RAVE-style evidence reuse \citep{gelly2007combining}, and graph/transposition-aware value reuse \citep{childs2008transpositions,czech2021monte}.  The coefficients instantiate these ideas for structural document risk.
 
 \begin{table*}[t]
 \centering
@@ -667,7 +667,7 @@ The numeric values in Table~\ref{tab:prior_coefficients} are fixed search-prior 
 Parameter & Value & Role and rationale \\
 \midrule
 \multicolumn{3}{l}{\textit{Node-feature weights }$\theta$ for Eq.~\ref{eq:relation-prior}}\\
-$\theta_{\mathrm{repair}}$ & 1.10 & LLM names the record as a repair entry; this is closest to the final remediation target.\\
+$\theta_{\mathrm{repair}}$ & 1.10 & LLM names the record as a repair entry. This is closest to the final remediation target.\\
 $\theta_{\mathrm{local}}$ & 0.90 & The record appears in local risk subgraphs; useful but noisier than explicit repair-entry evidence.\\
 $\theta_{\mathrm{pair}}$ & 0.85 & The record is an endpoint of a supported conflict pair; structural risks often require two endpoints.\\
 $\theta_{\mathrm{node}}$ & 0.70 & AMAF/RAVE-style node evidence reused across rollouts; important but indirect.\\
@@ -700,7 +700,7 @@ $\omega_{\mathrm{explicit}}$ & 0.05 & Explicit conflict reports are useful but l
 \section{Shared Risk Rubric Prompt}
 \label{sec:appendix_shared_rubric}
 
-Reviewer fairness depends on separating the risk definition from the search mechanism.  The following excerpt is the shared evaluator rubric used by both the full-\scc{} \naive{} baseline and the \samcgs{} local-window evaluator:
+Reviewer fairness depends on separating the risk definition from the search mechanism.  The following excerpt gives the shared evaluator rubric used by both the full-\scc{} \naive{} baseline and the \samcgs{} local-window evaluator.
 
 \begin{quote}
 \small
@@ -708,12 +708,12 @@ You are given records from a directed graph of interdependent documents.  Identi
 \end{quote}
 
 \paragraph{Shared semantics.}
-\naive{} and \samcgs{} use this same risk rubric.  The difference is only the input unit.  \naive{} reads the complete \scc{} once and emits a global ranking plus a risk subgraph.  \samcgs{} reads local windows over multiple rollouts and aggregates evidence before emitting a final core.  Thus the comparison is not between two definitions of risk; it is between one-shot full-context evaluation and localized search with evidence compression.
+\naive{} and \samcgs{} use this same risk rubric.  The methods differ in input unit and search procedure.  \naive{} reads the complete \scc{} once and emits a global ranking plus a risk subgraph.  \samcgs{} reads local windows over multiple rollouts and aggregates evidence before emitting a final core.  The comparison holds the risk definition fixed and varies the computation, contrasting one-shot full-context evaluation with localized search and evidence compression.
 
 \section{Prompt Templates}
 \label{sec:appendix_prompts}
 
-The complete prompts include serialization details and JSON schemas.  We report the abstract templates here because they are sufficient to reproduce the evaluation interface without tying the paper to one implementation file.
+Complete prompts include serialization details and JSON schemas.  The abstract templates reported here are sufficient to reproduce the evaluation interface without depending on one implementation file.
 
 \paragraph{\naive{} full-\scc{} direct-subgraph prompt.}
 \begin{quote}
@@ -728,12 +728,12 @@ Input: a local window from one strongly connected component, including visible n
 \end{quote}
 
 \paragraph{Output contrast.}
-The \naive{} prompt requires one generation to rank the entire \scc{} and produce a final subgraph.  The \samcgs{} prompt asks for local evidence only; the final subgraph is produced by the algorithmic memory and compression steps rather than by a single LLM response.
+\naive{} requires one generation to rank the entire \scc{} and produce a final subgraph.  In contrast, \samcgs{} asks only for local evidence, leaving final subgraph construction to algorithmic memory and compression.
 
 \section{Dataset and Injection Details}
 \label{sec:appendix_datasets}
 
-Table~\ref{tab:dataset_processing} summarizes why the four domains are included and how they are converted into directed record graphs.  The selection is intended to cover different forms of authority and structure: technical dependency metadata, public corporate disclosures, official statutory references, and expert-labeled contract clauses.
+Table~\ref{tab:dataset_processing} summarizes the four included domains and their conversion into directed record graphs.  Domain coverage spans several forms of authority and structure, including technical dependency metadata, public corporate disclosures, official statutory references, and expert-labeled contract clauses.
 
 \begin{table*}[t]
 \centering
@@ -754,10 +754,10 @@ CUAD & Expert-labeled commercial contract dataset. & Clauses and definitions bec
 \end{table*}
 
 \paragraph{SCC construction and filtering.}
-For each domain, we construct a directed record graph and enumerate non-trivial \scc{}s using Tarjan's algorithm.  Candidate components are filtered by size and record availability, then locked before model evaluation.  The main experiment uses the same locked \scc{} blocks for \naive{} and \samcgs{} under the same model and profile.
+For each domain, we construct a directed record graph and enumerate non-trivial \scc{}s using Tarjan's algorithm.  Candidate components are filtered by size and record availability and then locked before model evaluation.  The main experiment uses the same locked \scc{} blocks for \naive{} and \samcgs{} under the same model and profile.
 
 \paragraph{Injection constraints.}
-The critical benchmark modifies only existing records in the selected \scc{}.  It never adds a new node.  The root record is the injected endpoint used for \rootthree{} evaluation.  The witness record is a distant evidence endpoint that makes the root-side statement structurally incompatible under the graph context.  Affected records are downstream or neighboring records whose interpretation changes because of the root--witness conflict.  Subgraph metrics count root, witness, and affected records as repair-relevant endpoints when applicable.
+The critical benchmark modifies only existing records in the selected \scc{}.  No new nodes are added.  The injected root record provides the endpoint used for \rootthree{} evaluation.  A distant witness record supplies the evidence that makes the root-side statement structurally incompatible under the graph context.  Affected records are downstream or neighboring records whose interpretation changes under the root--witness conflict.  Subgraph metrics count root, witness, and affected records as repair-relevant endpoints when applicable.
 
 \begin{table*}[t]
 \centering
@@ -778,7 +778,7 @@ Template & Root-side edit & Witness / affected edit & Intended risk \\
 \end{table*}
 
 \paragraph{Why \riskall{} matters.}
-\riskany{} is useful because a repair process can sometimes start from one good entry point.  \riskall{} is stricter and is central for critical cases because fixing a structural contradiction often requires both sides of the incompatibility.  A subgraph that includes only the visibly alarming paragraph but omits the distant condition may be too small to support a reliable repair.
+\riskany{} is useful when a repair process can sometimes start from one good entry point.  \riskall{} is stricter and central for critical cases, where fixing a structural contradiction often requires both sides of the incompatibility.  A subgraph that includes only the obvious-risk paragraph but omits the distant condition may be too small to support a reliable repair.
 
 \section{Additional Experimental Details}
 \label{sec:appendix_experiments}
@@ -786,7 +786,7 @@ Template & Root-side edit & Witness / affected edit & Intended risk \\
 \paragraph{Locked run configuration.}
 Unless otherwise stated, the main tables use the locked profile
 \texttt{current/default + memory\_stress(structural\_simple\_v2) + critical}
-with 80 \scc{} blocks per model and four models (GPT-4o, DeepSeek-V3, Qwen2.5-72B, and Gemini 2.5 Pro).  The same \scc{} block is evaluated by the full-\scc{} direct-subgraph \naive{} baseline and by \samcgs{}; strict rates count unusable structured outputs in the denominator.
+with 80 \scc{} blocks per model and four models (GPT-4o, DeepSeek-V3, Qwen2.5-72B, and Gemini 2.5 Pro).  For each model and profile, the same \scc{} block is evaluated by the full-\scc{} direct-subgraph \naive{} baseline and by \samcgs{}.  Strict rates count unusable structured outputs in the denominator.
 
 \begin{table}[!t]
 \centering
@@ -801,14 +801,14 @@ Unavailable structured outputs & 59/320 & \textbf{0/320} \\
 Usable-output rate & 82\% & \textbf{100\%} \\
 \bottomrule
 \end{tabular}
-\caption{Strict output reliability.  Unavailable structured outputs remain in the denominator of Figure~\ref{fig:main_metrics}; the table is placed in the appendix because output availability is an audit detail rather than a headline metric.}
+\caption{Strict output reliability.  Unavailable structured outputs remain in the denominator of Figure~\ref{fig:main_metrics}.  The appendix placement reflects the role of output availability as an audit detail, not a headline metric.}
 \label{tab:reliability}
 \end{table}
 
 \begin{figure*}[!t]
     \centering
     \includegraphics[width=.88\textwidth]{figA2_naive_output_burden.pdf}
-    \caption{Naive output-burden control.  Reducing the output schema helps full-\scc{} prompting, but does not close the endpoint-retention gap on long CUAD components.}
+    \caption{Naive output-burden control.  Reducing the output schema helps full-\scc{} prompting, although it does not close the endpoint-retention gap on long CUAD components.}
     \label{fig:naive_burden}
 \end{figure*}
 
@@ -822,7 +822,7 @@ Usable-output rate & 82\% & \textbf{100\%} \\
 \toprule
 Domain & Component & Template & Conflict summary & Repair material should include \\
 \midrule
-BGB & 25-record statute & \texttt{condition\_trigger} or \texttt{temporal\_gate} & One section states when an obligation or remedy applies; a distant referenced section changes the trigger or timing in a way that makes the remedy inconsistent. & The remedy section, distant condition, and any bridge section carrying the condition. \\
+BGB & 25-record statute & \texttt{condition\_trigger} or \texttt{temporal\_gate} & One section states when an obligation or remedy applies. A distant referenced section changes the trigger or timing in a way that makes the remedy inconsistent. & The remedy section, distant condition, and any bridge section carrying the condition. \\
 CUAD & 18--25-record contract & \texttt{direct\_mutex} or \texttt{handoff\_invariant} & A clause preserves a right, notice obligation, or approval condition; a later clause makes the prerequisite unavailable or contradicts the preserved condition. & The granting clause, conflicting condition clause, and any definition that determines applicability. \\
 SEC EX-21 & 9--18-record entity & \texttt{direct\_mutex} & One disclosure states full consolidation or no minority interest; another record in the same control chain retains a non-controlling interest or incompatible ownership state. & The consolidation record, ownership witness, and affected subsidiaries when present. \\
 Debian & package dependency & \texttt{handoff\_invariant} & A package keeps an old ABI or compatibility surface during migration, while a dependent package requires the new interface to exist first. & The invariant package, dependent package, and handoff relation that makes ordering impossible. \\
@@ -883,7 +883,7 @@ CUAD & \samcgs{} & 160 & 0 & 74\% & 96\% & 75\% & 54\% \\
 \bottomrule
 \end{tabular}
 \end{minipage}
-\caption{Supplementary case and result breakdowns.  The representative cases illustrate why a single suspicious record is often insufficient for remediation.  Strict rates count unusable structured outputs in the denominator; matched usable-output rates show that the difference is not only output availability.}
+\caption{Supplementary case and result breakdowns.  Representative cases illustrate why remediation often requires more than a single suspicious record.  Strict rates count unusable structured outputs in the denominator.  Matched usable-output rates show that the gap is not only output availability.}
 \label{tab:appendix_breakdowns}
 \end{table*}
 

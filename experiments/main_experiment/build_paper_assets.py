@@ -1021,9 +1021,9 @@ def create_case_study_figure(records: list[dict[str, Any]]) -> None:
     gs = fig.add_gridspec(
         2,
         3,
-        height_ratios=[0.96, 1.08],
-        width_ratios=[0.88, 0.54, 2.44],
-        hspace=0.58,
+        height_ratios=[1.04, 1.08],
+        width_ratios=[1.35, 0.80, 1.78],
+        hspace=0.56,
         wspace=0.46,
     )
     size = int(record.get("scc_size") or len(nodes) or 1)
@@ -1038,26 +1038,30 @@ def create_case_study_figure(records: list[dict[str, Any]]) -> None:
     ax.axis("off")
     panel_label(ax, "A", "Original SCC context: endpoints are far apart")
     n = max(1, len(nodes))
-    xs = [0.075 + 0.745 * i / max(1, n - 1) for i in range(n)]
+    xs = [0.025 + 0.950 * i / max(1, n - 1) for i in range(n)]
     y = 0.45
     ax.plot([xs[0], xs[-1]], [y, y], color="#D7DEE8", linewidth=1.6, transform=ax.transAxes, zorder=0)
     label_offsets = {
-        "§358": (-0.026, 0.158),
-        "§491": (0.026, 0.200),
-        "§505": (-0.026, 0.158),
-        "§506": (0.026, 0.200),
-        "§491a": (-0.028, -0.158),
-        "§495": (0.028, -0.200),
-        "§512": (-0.026, -0.158),
-        "§514": (0.026, -0.200),
-        "$358": (-0.026, 0.158),
-        "$491": (0.026, 0.200),
-        "$505": (-0.026, 0.158),
-        "$506": (0.026, 0.200),
-        "$491a": (-0.028, -0.158),
-        "$495": (0.028, -0.200),
-        "$512": (-0.026, -0.158),
-        "$514": (0.026, -0.200),
+        "§312f": (0.000, -0.095),
+        "§356": (0.000, -0.095),
+        "§358": (0.000, 0.140),
+        "§491": (0.000, 0.140),
+        "§505": (0.000, 0.140),
+        "§506": (0.000, 0.140),
+        "§491a": (0.000, -0.095),
+        "§495": (0.000, -0.095),
+        "§512": (0.000, -0.095),
+        "§514": (0.000, -0.095),
+        "$312f": (0.000, -0.095),
+        "$356": (0.000, -0.095),
+        "$358": (0.000, 0.140),
+        "$491": (0.000, 0.140),
+        "$505": (0.000, 0.140),
+        "$506": (0.000, 0.140),
+        "$491a": (0.000, -0.095),
+        "$495": (0.000, -0.095),
+        "$512": (0.000, -0.095),
+        "$514": (0.000, -0.095),
     }
     for i, node in enumerate(nodes):
         x = xs[i]
@@ -1075,24 +1079,30 @@ def create_case_study_figure(records: list[dict[str, Any]]) -> None:
             if label in label_offsets:
                 dx, dy = label_offsets[label]
             else:
-                above = i % 2 == 0
-                dx, dy = 0.0, 0.145 if above else -0.145
-            ax.text(x + dx, y + dy, label, ha="center", va="center", fontsize=5.10, color="#1F2937", transform=ax.transAxes)
+                lane = i % 4
+                dx, dy = {
+                    0: (0.000, 0.185),
+                    1: (0.000, 0.240),
+                    2: (0.000, -0.095),
+                    3: (0.000, -0.095),
+                }[lane]
+            ax.text(x + dx, y + dy, label, ha="center", va="center", fontsize=4.85, color="#1F2937", transform=ax.transAxes)
     ax.annotate(
         "cycle continues",
         xy=(xs[-1], y),
-        xytext=(0.705, 0.725),
+        xytext=(0.955, 0.755),
         xycoords=ax.transAxes,
         textcoords=ax.transAxes,
         arrowprops=dict(arrowstyle="->", color="#7A8798", lw=0.7),
-        fontsize=5.9,
+        fontsize=5.15,
         color="#4B5563",
+        ha="right",
     )
     ax.text(
         0.05,
-        0.83,
+        0.875,
         f"{size} records in one strongly connected component",
-        fontsize=6.7,
+        fontsize=6.5,
         weight="bold",
         color="#111827",
         transform=ax.transAxes,
@@ -1103,10 +1113,10 @@ def create_case_study_figure(records: list[dict[str, Any]]) -> None:
         ("final core", PAPER_COLORS["support"]),
         ("other SCC node", "#E5E7EB"),
     ]
-    legend_xs = [0.055, 0.315, 0.535, 0.755]
+    legend_xs = [0.055, 0.290, 0.535, 0.760]
     for x0, (label, color) in zip(legend_xs, legend_items):
-        ax.scatter([x0], [0.09], s=36, color=color, edgecolor="#334155", linewidth=0.45, transform=ax.transAxes)
-        ax.text(x0 + 0.032, 0.09, label, va="center", fontsize=5.35, color="#374151", transform=ax.transAxes)
+        ax.scatter([x0], [0.085], s=31, color=color, edgecolor="#334155", linewidth=0.45, transform=ax.transAxes)
+        ax.text(x0 + 0.029, 0.085, label, va="center", fontsize=4.95, color="#374151", transform=ax.transAxes)
 
     # B. Final dynamic core.
     ax = fig.add_subplot(gs[0, 2])
@@ -1120,23 +1130,10 @@ def create_case_study_figure(records: list[dict[str, Any]]) -> None:
     affected_nodes = [node for node in core_nodes if node in affected and node not in risk]
     support_nodes = [node for node in core_nodes if node not in risk and node not in affected]
 
-    ax.plot([0.035, 0.965], [0.620, 0.620], color="#D7DEE8", linewidth=0.7, transform=ax.transAxes)
-
-    def chip(x: float, y0: float, text: str, face: str, edge: str, color: str, width: float = 0.280) -> None:
-        ax.add_patch(
-            patches.FancyBboxPatch(
-                (x, y0 - 0.034),
-                width,
-                0.078,
-                boxstyle="round,pad=0.016,rounding_size=0.015",
-                facecolor=face,
-                edgecolor=edge,
-                linewidth=0.50,
-                transform=ax.transAxes,
-            )
-        )
+    def node_item(x: float, y0: float, text: str, dot: str, color: str, *, bold: bool = False) -> None:
+        ax.scatter([x], [y0], s=13, color=dot, edgecolor="none", transform=ax.transAxes, zorder=3)
         ax.text(
-            x + 0.047,
+            x + 0.035,
             y0 + 0.001,
             text,
             fontsize=5.20,
@@ -1144,15 +1141,13 @@ def create_case_study_figure(records: list[dict[str, Any]]) -> None:
             ha="left",
             va="center",
             transform=ax.transAxes,
-            weight="bold" if color == PAPER_COLORS["risk"] else None,
+            weight="bold" if bold else None,
         )
 
     ax.text(0.035, 0.565, "risk endpoints kept", fontsize=5.85, weight="bold", color="#111827", transform=ax.transAxes)
     if endpoint_nodes:
-        chip(0.050, 0.472, short(endpoint_nodes[0]), "#F8E9E7", "#EBCAC6", PAPER_COLORS["risk"], width=0.315)
-        if len(endpoint_nodes) > 1:
-            ax.text(0.405, 0.472, "+", fontsize=6.1, weight="bold", color=PAPER_COLORS["risk"], ha="center", va="center", transform=ax.transAxes)
-            chip(0.450, 0.472, short(endpoint_nodes[1]), "#F8E9E7", "#EBCAC6", PAPER_COLORS["risk"], width=0.315)
+        for i, node in enumerate(endpoint_nodes[:2]):
+            node_item(0.050 + i * 0.280, 0.480, short(node), PAPER_COLORS["risk"], PAPER_COLORS["risk"], bold=True)
     else:
         ax.text(0.045, 0.480, "-", fontsize=6.0, color="#6B7280", transform=ax.transAxes)
 
@@ -1165,13 +1160,11 @@ def create_case_study_figure(records: list[dict[str, Any]]) -> None:
         y0 = 0.286 - row * 0.096
         if node in affected:
             color = "#8A5B20"
-            face = "#F8EEDC"
-            edge = "#E8D7B6"
+            dot = PAPER_COLORS["orange"]
         else:
             color = "#1F2937"
-            face = "#E4F3EE"
-            edge = "#C8E4DA"
-        chip(x, y0, short(node), face, edge, color, width=0.260)
+            dot = PAPER_COLORS["support"]
+        node_item(x, y0, short(node), dot, color)
 
     # C. Case-specific rollout trace.
     ax = fig.add_subplot(gs[1, :2])
