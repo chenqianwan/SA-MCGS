@@ -2,10 +2,10 @@
 
 状态：独立补充实验报告；不更新 paper / LaTeX / paper figures。
 
-- Raw attempts: `3160`
+- Raw attempts: `3162`
 - Top-k aggregation: `Top-3`
-- Errors recorded in denominator: `776`
-- Observed tokens: prompt `39,102,833`, completion `11,513,992`, total `50,616,825`
+- Errors recorded in denominator: `777`
+- Observed tokens: prompt `39,159,372`, completion `11,520,584`, total `50,679,956`
 
 ## Aggregate
 
