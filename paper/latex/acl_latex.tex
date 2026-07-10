@@ -52,7 +52,7 @@ with Structure-Aware Monte Carlo Search}
 \maketitle
 
 \begin{abstract}
-Long documents such as contracts, statutes, software package metadata, and corporate filings often contain risks that emerge only across mutually dependent records.  LLM-guided Monte Carlo tree search (MCTS) can improve structured document reasoning, but standard tree rollouts become unstable on strongly connected components (SCCs), where the same logical record may be revisited indefinitely.  We propose \samcgs{}, a structure-aware Monte Carlo graph search method that localizes SCCs, performs local LLM rollouts with relation-first evidence memory, and collapses each cyclic region into an inspectable risk subgraph.  We evaluate a locked critical structural benchmark covering four authority-backed domains: Debian dependencies, SEC EX-21 subsidiary disclosures, German Civil Code cross-references, and CUAD contracts.  Across 320 model-case pairs and four LLMs, \samcgs{} improves \rootthree{} from 58\% to 81\%, \riskany{} from 79\% to 98\%, and \riskall{} from 62\% to 78\% over an oracle-risk Top-3 full-\scc{} \naive{} baseline selected from ten attempts.  The gains are larger under long-context pressure, and the returned subgraphs retain core evidence while removing more than half of the original SCC nodes.
+Long documents such as contracts, statutes, software package metadata, and corporate filings often contain risks that emerge through mutually dependent records.  LLM-guided Monte Carlo tree search (MCTS) can improve structured document reasoning, but standard tree rollouts become unstable on strongly connected components (SCCs), where the same logical record may be revisited indefinitely.  We propose \samcgs{}, a structure-aware Monte Carlo graph search method that localizes SCCs, performs local LLM rollouts with relation-first evidence memory, and collapses each cyclic region into an inspectable risk subgraph.  We evaluate a locked critical structural benchmark covering four authority-backed domains: Debian dependencies, SEC EX-21 subsidiary disclosures, German Civil Code cross-references, and CUAD contracts.  Across 320 model-case pairs and four LLMs, \samcgs{} improves \rootthree{} from 58\% to 81\%, \riskany{} from 79\% to 98\%, and \riskall{} from 62\% to 78\% over an oracle-risk Top-3 full-\scc{} \naive{} baseline selected from ten attempts.  The gains are larger under long-context pressure, and the returned subgraphs retain core evidence while removing more than half of the original SCC nodes.
 \end{abstract}
 
 \section{Introduction}
@@ -60,7 +60,7 @@ Long documents such as contracts, statutes, software package metadata, and corpo
 
 Many high-stakes document analysis tasks are graph problems hidden inside text \citep{hendrycks2021cuad,koreeda2021contractnli,boulet2021measuring}.  In contracts, one clause may define a deadline, another may suspend it, and a later amendment may restore only part of the obligation.  Similar dependencies appear when statutory exceptions are narrowed by distant cross-references \citep{boulet2021measuring,holzenberger2020sara}, or when software packages preserve old interfaces while dependent packages require newer ones to be present first \citep{debianPolicyRelationships,debianPolicySharedLibraries}.  Although each record can look plausible in isolation, the risk appears only when the directed dependencies among records are followed.
 
-Large language models (LLMs) can read long contexts. Nominal context length alone does not guarantee reliable retrieval, multi-hop tracing, or aggregation under long inputs \citep{liu2024lost,hsieh2024ruler,bai2024longbench}.  Legal NLP benchmarks expose persistent difficulty with distributed evidence \citep{hendrycks2021cuad,koreeda2021contractnli,chalkidis2022lexglue,guha2023legalbench}.  We study a sharper failure mode in \emph{cyclic} document regions, where evidence is revisitable and diffuse.  A full-\scc{} one-shot prompt may find a suspicious node, but it must simultaneously rank all records, produce a subgraph, and preserve multiple evidence endpoints in one generation.
+Large language models (LLMs) can read long contexts. Nominal context length alone does not guarantee reliable retrieval, multi-hop tracing, or aggregation under long inputs \citep{liu2024lost,hsieh2024ruler,bai2024longbench}.  Legal NLP benchmarks expose persistent difficulty with distributed evidence \citep{hendrycks2021cuad,koreeda2021contractnli,chalkidis2022lexglue,guha2023legalbench}.  We study a sharper failure mode in \emph{cyclic} document regions, where evidence is revisitable and diffuse.  A full-\scc{} one-shot prompt may find a suspicious node, but it is asked to simultaneously rank all records, produce a subgraph, and preserve multiple evidence endpoints in one generation.
 
 A natural alternative is AlphaGo-style search
 \citep{silver2016mastering,kocsis2006bandit,browne2012survey}.  Standard MCTS unrolls trajectories as trees.  In a loopy graph, this makes the search state grow with
@@ -75,7 +75,7 @@ or orienting feedback edges to obtain an acyclic approximation
 part of the cyclic structure.  Neither line provides a mechanism for
 turning a strongly connected document region into a stable evaluation unit.
 Our setting requires localizing the \scc{} and collapsing it into an
-evidence-preserving risk subgraph. The subgraph must retain explicit risk
+evidence-preserving risk subgraph. The subgraph should retain explicit risk
 sources and supporting evidence.
 
 We propose \textbf{\samcgs{}}, a structure-aware Monte Carlo graph search method for extracting risk subgraphs from cyclic document regions.  \samcgs{} first finds \scc{} bottlenecks, then performs local window rollouts inside each \scc{}.  Instead of treating risk as intrinsic to a single node, it stores relation-first evidence, where a node becomes risky when earlier evidence makes its constraint, exception, or handoff incompatible with the graph context.  The final output is a dynamic core risk subgraph that can be inspected or passed upward as a collapsed evaluation point.
@@ -126,7 +126,7 @@ Standard tree search treats a trajectory as a growing path, following the usual 
 \end{equation}
 where $\Pi_T$ is the set of paths generated before budget $T$.  With this indexing, path multiplicity governs the effective state space in place of $|S|$.  Repeated revisits then consume rollout budget, increase truncation, and dilute value estimates.
 
-Figure~\ref{fig:mcts_failure} illustrates the failure mode.  The issue is not only that a cycle exists. Tree expansion also treats revisits as new path states.  A long cyclic document region can therefore consume rollout budget while repeatedly rediscovering the same records, making it harder to preserve the endpoints that jointly create a structural risk.
+Figure~\ref{fig:mcts_failure} illustrates the failure mode.  The issue is not simply that a cycle exists. Tree expansion also treats revisits as new path states.  A long cyclic document region can therefore consume rollout budget while repeatedly rediscovering the same records, making it harder to preserve the endpoints that jointly create a structural risk.
 
 \begin{figure*}[!t]
     \centering
@@ -495,7 +495,7 @@ Case-level decision & The two records describe the same consolidation path and a
 \label{tab:expert_example}
 \end{table*}
 
-The example in Table~\ref{tab:expert_example} illustrates the intended difficulty level.  Neither entity record is a syntactic error by itself.  The conflict appears because both records refer to the same consolidation path while asserting mutually incompatible ownership treatments.  A risk-subgraph method should preserve this type of structural conflict because a reviewer can repair the issue only after seeing both endpoints.
+The example in Table~\ref{tab:expert_example} illustrates the intended difficulty level.  Neither entity record is a syntactic error by itself.  The conflict appears because both records refer to the same consolidation path while asserting mutually incompatible ownership treatments.  A risk-subgraph method should preserve this type of structural conflict because a reviewer can reliably repair the issue after seeing both endpoints.
 
 \section{Representative Long-\scc{} Case Study}
 \label{sec:appendix_case}
@@ -718,7 +718,7 @@ Complete prompts include serialization details and JSON schemas.  The abstract t
 \paragraph{\naive{} full-\scc{} direct-subgraph prompt.}
 \begin{quote}
 \small
-Input: the complete node list for one strongly connected component, the text of every node, and all directed edges among the nodes.  Apply the shared risk rubric to the full component.  Return valid JSON with \texttt{global\_ranking}, \texttt{risk\_subgraph\_nodes}, \texttt{risk\_factor\_distribution}, and \texttt{explanation}.  Rankings and subgraph selections must be grounded in node IDs and visible edges.
+Input: the complete node list for one strongly connected component, the text of every node, and all directed edges among the nodes.  Apply the shared risk rubric to the full component.  Return valid JSON with \texttt{global\_ranking}, \texttt{risk\_subgraph\_nodes}, \texttt{risk\_factor\_distribution}, and \texttt{explanation}.  Rankings and subgraph selections should be grounded in node IDs and visible edges.
 \end{quote}
 
 \paragraph{\samcgs{} local-window prompt.}
@@ -767,8 +767,8 @@ The critical benchmark modifies only existing records in the selected \scc{}.  N
 \toprule
 Template & Root-side edit & Witness / affected edit & Intended risk \\
 \midrule
-\texttt{direct\_mutex} & Adds a direct obligation, ownership, compatibility, or condition statement that must hold. & Adds a distant statement that requires the opposite state under the same dependency chain. & Two records are individually plausible but mutually incompatible when the component context is followed. \\
-\texttt{handoff\_invariant} & States that an invariant must be preserved before control, migration, or responsibility is handed off. & States that the downstream record can proceed only after the invariant has been changed or removed. & The handoff cannot be completed because the precondition and downstream entry condition disagree. \\
+\texttt{direct\_mutex} & Adds a direct obligation, ownership, compatibility, or condition statement expected to hold. & Adds a distant statement that requires the opposite state under the same dependency chain. & Two records are individually plausible but mutually incompatible when the component context is followed. \\
+\texttt{handoff\_invariant} & States that an invariant is expected to be preserved before control, migration, or responsibility is handed off. & States that the downstream record can proceed only after the invariant has been changed or removed. & The handoff cannot be completed because the precondition and downstream entry condition disagree. \\
 \texttt{temporal\_gate} & Specifies a deadline, waiting period, migration window, vesting condition, or trigger order. & Requires a conflicting temporal gate, such as earlier execution, delayed activation, or a missing prerequisite. & The same chain imposes incompatible timing constraints. \\
 \texttt{condition\_trigger} & Makes a right, remedy, interface, or ownership statement conditional on a trigger. & Makes the same trigger impossible, optional, or reversed for a dependent record. & A dependent record relies on a condition whose truth value is changed elsewhere in the component. \\
 \bottomrule
