@@ -1,0 +1,611 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "gemini-2.5-pro",
+  "domain": "cuad",
+  "scc_id": "scc_21",
+  "scc_size": 24,
+  "scc_clause_ids": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.3",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.4",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.3",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 10,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.4",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 11,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 12,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 13,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 14,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5"
+      ]
+    },
+    {
+      "window_index": 15,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5"
+      ]
+    },
+    {
+      "window_index": 16,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6"
+      ]
+    },
+    {
+      "window_index": 17,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6"
+      ]
+    },
+    {
+      "window_index": 18,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 19,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5"
+      ]
+    },
+    {
+      "window_index": 20,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 21,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.1"
+      ]
+    },
+    {
+      "window_index": 22,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 23,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5"
+      ]
+    },
+    {
+      "window_index": 24,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5"
+      ]
+    }
+  ],
+  "llm_calls": 18,
+  "tt_hits": 6,
+  "time": 471.1219458580017,
+  "scores": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1": 0.1285714285714286,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4": 0.19999999999999998,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5": 0.1285714285714286,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1": 0.12000000000000001,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2": 0.8846153846153848,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3": 0.0846153846153846,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1": 0.1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2": 0.1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.3": 0.1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.4": 0.1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5": 0.1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.1": 0.0,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2": 0.25,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1": 0.1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1": 0.3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5": 0.3666666666666667,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7": 0.8500000000000001,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6": 0.3666666666666667,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1": 0.1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2": 0.4666666666666666,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1": 0.8,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2": 0.45,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.1": 0.15,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2": 0.3
+  },
+  "visit_counts": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1": 7,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4": 7,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5": 7,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1": 4,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1": 15,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2": 13,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3": 13,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1": 4,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.3": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.4": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.1": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2": 1
+  },
+  "ranking": [
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      0.8846153846153848
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+      0.8500000000000001
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1",
+      0.8
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+      0.4666666666666666
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2",
+      0.45
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5",
+      0.3666666666666667
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6",
+      0.3666666666666667
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1",
+      0.3
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2",
+      0.3
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2",
+      0.25
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+      0.19999999999999998
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.1",
+      0.15
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+      0.1285714285714286
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+      0.1285714285714286
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      0.12000000000000001
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1",
+      0.1
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2",
+      0.1
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.3",
+      0.1
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.4",
+      0.1
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5",
+      0.1
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1",
+      0.1
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1",
+      0.1
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+      0.0846153846153846
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.1",
+      0.0
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4": 5,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2": 13,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5": 1
+  },
+  "repair_entry_counts": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4": 5,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2": 13,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1": 1
+  },
+  "local_conflict_endpoint_counts": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6": 4,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2": 4,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2": 4
+  },
+  "lea_risk_subgraph_nodes": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2"
+  ],
+  "lea_risk_subgraph_size": 11,
+  "lea_compression_ratio": 0.5416666666666667,
+  "conflicts": [
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6",
+      "description": "Circular dependency between the event of termination and the effect of termination, leading to underspecified resolution paths."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+      "description": "Node 6.7 requires strict adherence to its terms by downstream nodes under threat of acceleration and termination, but downstream node 7.2 contains no text to satisfy this requirement."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6",
+      "description": "Section 2.2 dictates immediate operative status on a path with payment acceleration and loss of cure rights, which fundamentally conflicts with standard termination and cure mechanics expected to be handled in 6.6."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2",
+      "description": "Both sections reference each other but lack substantive content, creating a meaningless loop."
+    }
+  ],
+  "ground_truth_nodes": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7"
+  ],
+  "top1_hit": false,
+  "top3_hit": true,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": true,
+  "lea_risk_nodes_retained": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": false,
+  "lea_evidence_nodes_retained": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2"
+  ],
+  "lea_contains_any_affected_node": false,
+  "lea_contains_all_affected_nodes": false,
+  "lea_affected_nodes_retained": [],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": false,
+  "lea_valuable_nodes_retained": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2"
+  ],
+  "inject_mode": true,
+  "injected_node": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "case_template": "condition_trigger",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+  "injected_witness_distance": 12,
+  "injected_bridge_node": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2",
+  "injected_bridge_distance": 6,
+  "injected_risk_nodes": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2"
+  ],
+  "injected_evidence_nodes": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2"
+  ],
+  "injected_affected_nodes": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+  ],
+  "injected_conflict_family": "condition_trigger",
+  "injected_conflict_difficulty": "hard",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "cuad_condition_trigger_unconfirmed_exception_critical",
+  "injected_rank": 2,
+  "top1_margin": 0.034615384615384714,
+  "risk_node_ranks": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2": 9,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 9,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1": 22,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3": 23
+  },
+  "affected_best_rank": 22,
+  "affected_worst_rank": 23,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1": 22,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3": 23
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 23,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "case_id": "118_gemini-2.5-pro_cuad24_scc_21_condition_trigger",
+  "case_order": 118,
+  "audit_started_at": 1783796452.298193,
+  "audit_completed_at": 1783796923.44002,
+  "audit_started_at_iso": "2026-07-12T03:00:52+0800",
+  "audit_completed_at_iso": "2026-07-12T03:08:43+0800",
+  "case_concurrency": 4,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 29,
+    "successful_api_calls": 29,
+    "failed_api_calls": 0,
+    "prompt_tokens": 64334,
+    "completion_tokens": 41222,
+    "total_tokens": 105556,
+    "api_runtime_sec_sum": 457.0863766670227
+  }
+}

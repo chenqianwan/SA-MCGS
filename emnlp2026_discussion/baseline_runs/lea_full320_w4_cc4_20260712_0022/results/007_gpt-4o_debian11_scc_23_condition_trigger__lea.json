@@ -1,0 +1,487 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "gpt-4o",
+  "domain": "debian",
+  "scc_id": "scc_23",
+  "scc_size": 11,
+  "scc_clause_ids": [
+    "libjs-util",
+    "node-assert",
+    "node-debbundle-es-to-primitive",
+    "node-deep-equal",
+    "node-define-properties",
+    "node-es-abstract",
+    "node-istanbul",
+    "node-parse-json",
+    "node-read-pkg",
+    "node-tape",
+    "node-util"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "libjs-util",
+        "node-deep-equal",
+        "node-util",
+        "node-assert"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "node-assert",
+        "node-parse-json",
+        "node-util",
+        "node-debbundle-es-to-primitive"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "node-debbundle-es-to-primitive",
+        "node-deep-equal",
+        "node-define-properties",
+        "node-es-abstract"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "node-deep-equal",
+        "libjs-util",
+        "node-debbundle-es-to-primitive",
+        "node-define-properties"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "node-define-properties",
+        "node-debbundle-es-to-primitive",
+        "node-deep-equal",
+        "node-es-abstract"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "node-es-abstract",
+        "node-debbundle-es-to-primitive",
+        "node-deep-equal",
+        "node-define-properties"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "node-istanbul",
+        "node-read-pkg",
+        "node-tape",
+        "node-parse-json"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "node-parse-json",
+        "node-assert",
+        "node-read-pkg",
+        "node-istanbul"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "node-read-pkg",
+        "node-istanbul",
+        "node-parse-json",
+        "node-tape"
+      ]
+    },
+    {
+      "window_index": 10,
+      "window": [
+        "node-tape",
+        "node-debbundle-es-to-primitive",
+        "node-deep-equal",
+        "node-define-properties"
+      ]
+    },
+    {
+      "window_index": 11,
+      "window": [
+        "node-util",
+        "libjs-util",
+        "node-assert",
+        "node-tape"
+      ]
+    }
+  ],
+  "llm_calls": 11,
+  "tt_hits": 0,
+  "time": 79.18134093284607,
+  "scores": {
+    "libjs-util": 0.16666666666666666,
+    "node-assert": 0.125,
+    "node-debbundle-es-to-primitive": 0.25000000000000006,
+    "node-deep-equal": 0.4666666666666666,
+    "node-define-properties": 0.15999999999999998,
+    "node-es-abstract": 0.4666666666666666,
+    "node-istanbul": 0.3333333333333333,
+    "node-parse-json": 0.37499999999999994,
+    "node-read-pkg": 0.2333333333333333,
+    "node-tape": 0.275,
+    "node-util": 0.16666666666666666
+  },
+  "visit_counts": {
+    "libjs-util": 3,
+    "node-deep-equal": 6,
+    "node-util": 3,
+    "node-assert": 4,
+    "node-parse-json": 4,
+    "node-debbundle-es-to-primitive": 6,
+    "node-define-properties": 5,
+    "node-es-abstract": 3,
+    "node-istanbul": 3,
+    "node-read-pkg": 3,
+    "node-tape": 4
+  },
+  "ranking": [
+    [
+      "node-deep-equal",
+      0.4666666666666666
+    ],
+    [
+      "node-es-abstract",
+      0.4666666666666666
+    ],
+    [
+      "node-parse-json",
+      0.37499999999999994
+    ],
+    [
+      "node-istanbul",
+      0.3333333333333333
+    ],
+    [
+      "node-tape",
+      0.275
+    ],
+    [
+      "node-debbundle-es-to-primitive",
+      0.25000000000000006
+    ],
+    [
+      "node-read-pkg",
+      0.2333333333333333
+    ],
+    [
+      "libjs-util",
+      0.16666666666666666
+    ],
+    [
+      "node-util",
+      0.16666666666666666
+    ],
+    [
+      "node-define-properties",
+      0.15999999999999998
+    ],
+    [
+      "node-assert",
+      0.125
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "libjs-util": 2,
+    "node-deep-equal": 6,
+    "node-util": 3,
+    "node-assert": 3,
+    "node-parse-json": 4,
+    "node-debbundle-es-to-primitive": 5,
+    "node-define-properties": 3,
+    "node-es-abstract": 3,
+    "node-istanbul": 3,
+    "node-read-pkg": 3,
+    "node-tape": 3
+  },
+  "repair_entry_counts": {
+    "node-deep-equal": 6,
+    "libjs-util": 1,
+    "node-util": 1,
+    "node-parse-json": 2,
+    "node-assert": 1,
+    "node-debbundle-es-to-primitive": 4,
+    "node-es-abstract": 2,
+    "node-istanbul": 2,
+    "node-tape": 1,
+    "node-read-pkg": 1
+  },
+  "local_conflict_endpoint_counts": {
+    "libjs-util": 2,
+    "node-deep-equal": 10,
+    "node-util": 2,
+    "node-assert": 2,
+    "node-parse-json": 4,
+    "node-debbundle-es-to-primitive": 7,
+    "node-es-abstract": 5,
+    "node-istanbul": 4,
+    "node-read-pkg": 5,
+    "node-tape": 3
+  },
+  "lea_risk_subgraph_nodes": [
+    "node-debbundle-es-to-primitive",
+    "node-deep-equal",
+    "node-es-abstract",
+    "node-istanbul",
+    "node-parse-json"
+  ],
+  "lea_risk_subgraph_size": 5,
+  "lea_compression_ratio": 0.5454545454545454,
+  "conflicts": [
+    {
+      "clause_a": "node-util",
+      "clause_b": "libjs-util",
+      "description": "node-util depends on an exact version of libjs-util. Any update to libjs-util could cause compatibility issues for node-util."
+    },
+    {
+      "clause_a": "libjs-util",
+      "clause_b": "node-deep-equal",
+      "description": "libjs-util depends on node-deep-equal, which has a complex dependency tree. Any issues in node-deep-equal's dependencies could propagate to libjs-util."
+    },
+    {
+      "clause_a": "node-assert",
+      "clause_b": "node-util",
+      "description": "node-assert references node-util with a version range constraint. Changes in node-util could potentially cause issues for node-assert."
+    },
+    {
+      "clause_a": "node-parse-json",
+      "clause_b": "node-assert",
+      "description": "node-parse-json depends on node-assert, which has a dependency on node-util. If node-util fails to meet compatibility requirements, this could create a cascading failure affecting both node-assert and node-parse-json."
+    },
+    {
+      "clause_a": "node-debbundle-es-to-primitive",
+      "clause_b": "node-deep-equal",
+      "description": "Circular dependency detected between these two records, which may lead to runtime issues or blocking inconsistencies."
+    },
+    {
+      "clause_a": "node-deep-equal",
+      "clause_b": "node-es-abstract",
+      "description": "Circular dependency detected between these two records, which increases the risk of structural inconsistency."
+    },
+    {
+      "clause_a": "node-es-abstract",
+      "clause_b": "node-debbundle-es-to-primitive",
+      "description": "Circular dependency detected between these two records, contributing to potential runtime issues."
+    },
+    {
+      "clause_a": "node-debbundle-es-to-primitive",
+      "clause_b": "node-deep-equal",
+      "description": "node-debbundle-es-to-primitive provides multiple overlapping versions of node-es-to-primitive, which could lead to ambiguity or incompatibility in how node-deep-equal resolves its dependencies."
+    },
+    {
+      "clause_a": "node-debbundle-es-to-primitive",
+      "clause_b": "node-deep-equal",
+      "description": "These records reference each other, creating a circular dependency that could lead to runtime issues or version mismatches if not carefully managed."
+    },
+    {
+      "clause_a": "node-deep-equal",
+      "clause_b": "node-es-abstract",
+      "description": "node-deep-equal depends on node-es-abstract, which references node-deep-equal multiple times. This creates a complex dependency cycle that increases the risk of inconsistencies."
+    },
+    {
+      "clause_a": "node-es-abstract",
+      "clause_b": "node-debbundle-es-to-primitive",
+      "description": "node-es-abstract references node-debbundle-es-to-primitive, which also references node-es-abstract indirectly through node-deep-equal. This could result in cascading versioning issues or runtime errors."
+    },
+    {
+      "clause_a": "node-debbundle-es-to-primitive",
+      "clause_b": "node-deep-equal",
+      "description": "Bidirectional dependency between these records creates a potential circular dependency and increases the risk of cascading failures."
+    },
+    {
+      "clause_a": "node-es-abstract",
+      "clause_b": "node-deep-equal",
+      "description": "Multiple references to node-deep-equal from node-es-abstract increase the risk of structural inconsistencies and blocking issues."
+    },
+    {
+      "clause_a": "node-istanbul",
+      "clause_b": "node-read-pkg",
+      "description": "node-istanbul references node-read-pkg, which provides node-type-fest. Conflicts may arise if other packages require a different version of node-type-fest."
+    },
+    {
+      "clause_a": "node-tape",
+      "clause_b": "node-istanbul",
+      "description": "node-tape references node-istanbul, which has a large dependency tree. Transitive dependency conflicts may occur."
+    },
+    {
+      "clause_a": "node-read-pkg",
+      "clause_b": "node-parse-json",
+      "description": "node-read-pkg references node-parse-json, which provides node-types-parse-json. Conflicts may arise if other packages require a different version of node-types-parse-json."
+    },
+    {
+      "clause_a": "node-read-pkg",
+      "clause_b": "node-parse-json",
+      "description": "node-parse-json requires two independent compatibility notes, one of which is open. This unresolved state creates a risk for node-read-pkg, which depends on it."
+    },
+    {
+      "clause_a": "node-istanbul",
+      "clause_b": "node-read-pkg",
+      "description": "node-istanbul references node-read-pkg, which depends on node-parse-json. Any structural issues in node-parse-json could propagate through this dependency chain."
+    },
+    {
+      "clause_a": "node-read-pkg",
+      "clause_b": "node-parse-json",
+      "description": "The staged compatibility notes in node-parse-json are incomplete, which could lead to downstream incompatibilities for node-read-pkg."
+    },
+    {
+      "clause_a": "node-tape",
+      "clause_b": "node-istanbul",
+      "description": "node-tape relies on node-istanbul, which references node-read-pkg. Compatibility concerns in node-read-pkg propagate through this chain, creating a high-risk dependency path."
+    },
+    {
+      "clause_a": "node-debbundle-es-to-primitive",
+      "clause_b": "node-deep-equal",
+      "description": "Bidirectional dependency creates a tightly coupled structure that may lead to mutual incompatibilities or blocking inconsistencies. The provision of multiple versions of node-es-to-primitive by node-debbundle-es-to-primitive adds further ambiguity to dependency resolution."
+    }
+  ],
+  "ground_truth_nodes": [
+    "node-parse-json"
+  ],
+  "top1_hit": false,
+  "top3_hit": true,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": true,
+  "lea_risk_nodes_retained": [
+    "node-parse-json",
+    "node-deep-equal"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": false,
+  "lea_evidence_nodes_retained": [
+    "node-parse-json",
+    "node-deep-equal"
+  ],
+  "lea_contains_any_affected_node": true,
+  "lea_contains_all_affected_nodes": false,
+  "lea_affected_nodes_retained": [
+    "node-debbundle-es-to-primitive"
+  ],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": false,
+  "lea_valuable_nodes_retained": [
+    "node-parse-json",
+    "node-deep-equal",
+    "node-debbundle-es-to-primitive"
+  ],
+  "inject_mode": true,
+  "injected_node": "node-parse-json",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "case_template": "condition_trigger",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "node-deep-equal",
+  "injected_witness_distance": 5,
+  "injected_bridge_node": "node-tape",
+  "injected_bridge_distance": 2,
+  "injected_risk_nodes": [
+    "node-parse-json",
+    "node-deep-equal"
+  ],
+  "injected_evidence_nodes": [
+    "node-parse-json",
+    "node-tape",
+    "node-deep-equal"
+  ],
+  "injected_affected_nodes": [
+    "node-read-pkg",
+    "node-debbundle-es-to-primitive"
+  ],
+  "injected_conflict_family": "condition_trigger",
+  "injected_conflict_difficulty": "hard",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "debian_condition_trigger_partial_compatibility_critical",
+  "injected_rank": 3,
+  "top1_margin": 0.0,
+  "risk_node_ranks": {
+    "node-parse-json": 3,
+    "node-deep-equal": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 3,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "node-parse-json": 3,
+    "node-tape": 5,
+    "node-deep-equal": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 5,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "node-read-pkg": 7,
+    "node-debbundle-es-to-primitive": 6
+  },
+  "affected_best_rank": 6,
+  "affected_worst_rank": 7,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "node-parse-json": 3,
+    "node-deep-equal": 1,
+    "node-read-pkg": 7,
+    "node-debbundle-es-to-primitive": 6
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 7,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 3,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "case_id": "007_gpt-4o_debian11_scc_23_condition_trigger",
+  "case_order": 7,
+  "audit_started_at": 1783787516.867491,
+  "audit_completed_at": 1783787597.307652,
+  "audit_started_at_iso": "2026-07-12T00:31:56+0800",
+  "audit_completed_at_iso": "2026-07-12T00:33:17+0800",
+  "case_concurrency": 4,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 11,
+    "successful_api_calls": 11,
+    "failed_api_calls": 0,
+    "prompt_tokens": 16943,
+    "completion_tokens": 7588,
+    "total_tokens": 24531,
+    "api_runtime_sec_sum": 79.16856217384338
+  }
+}

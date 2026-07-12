@@ -1,0 +1,471 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "gpt-4o",
+  "domain": "debian",
+  "scc_id": "scc_8",
+  "scc_size": 12,
+  "scc_clause_ids": [
+    "libecore-drm2-1",
+    "libecore-evas1",
+    "libecore-fb1",
+    "libecore-input1",
+    "libecore-wl2-1",
+    "libelput1",
+    "libevas1",
+    "libevas1-engines-drm",
+    "libecore-x1",
+    "libevas1-engines-fb",
+    "libevas1-engines-wayland",
+    "libevas1-engines-x"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "libecore-drm2-1",
+        "libecore-evas1",
+        "libelput1",
+        "libevas1-engines-drm"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "libecore-evas1",
+        "libecore-drm2-1",
+        "libecore-fb1",
+        "libecore-input1"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "libecore-fb1",
+        "libecore-evas1",
+        "libecore-input1",
+        "libecore-wl2-1"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "libecore-input1",
+        "libecore-evas1",
+        "libecore-fb1",
+        "libecore-wl2-1"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "libecore-wl2-1",
+        "libecore-evas1",
+        "libecore-input1",
+        "libevas1-engines-wayland"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "libelput1",
+        "libecore-drm2-1",
+        "libecore-evas1",
+        "libecore-input1"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "libevas1",
+        "libecore-evas1",
+        "libecore-input1",
+        "libevas1-engines-drm"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "libevas1-engines-drm",
+        "libecore-drm2-1",
+        "libevas1",
+        "libecore-x1"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "libecore-x1",
+        "libecore-evas1",
+        "libecore-input1",
+        "libevas1-engines-wayland"
+      ]
+    },
+    {
+      "window_index": 10,
+      "window": [
+        "libevas1-engines-fb",
+        "libevas1",
+        "libevas1-engines-wayland",
+        "libecore-x1"
+      ]
+    },
+    {
+      "window_index": 11,
+      "window": [
+        "libevas1-engines-wayland",
+        "libecore-evas1",
+        "libecore-input1",
+        "libecore-wl2-1"
+      ]
+    },
+    {
+      "window_index": 12,
+      "window": [
+        "libevas1-engines-x",
+        "libevas1",
+        "libecore-x1",
+        "libecore-drm2-1"
+      ]
+    }
+  ],
+  "llm_calls": 11,
+  "tt_hits": 1,
+  "time": 67.28523087501526,
+  "scores": {
+    "libecore-drm2-1": 0.08,
+    "libecore-evas1": 0.16666666666666666,
+    "libecore-fb1": 0.0,
+    "libecore-input1": 0.225,
+    "libecore-wl2-1": 0.025,
+    "libelput1": 0.1,
+    "libevas1": 0.3,
+    "libevas1-engines-drm": 0.3666666666666667,
+    "libecore-x1": 0.24999999999999997,
+    "libevas1-engines-fb": 0.2,
+    "libevas1-engines-wayland": 0.35,
+    "libevas1-engines-x": 0.3
+  },
+  "visit_counts": {
+    "libecore-drm2-1": 5,
+    "libecore-evas1": 9,
+    "libelput1": 2,
+    "libevas1-engines-drm": 3,
+    "libecore-fb1": 3,
+    "libecore-input1": 8,
+    "libecore-wl2-1": 4,
+    "libevas1-engines-wayland": 4,
+    "libevas1": 4,
+    "libecore-x1": 4,
+    "libevas1-engines-fb": 1,
+    "libevas1-engines-x": 1
+  },
+  "ranking": [
+    [
+      "libevas1-engines-drm",
+      0.3666666666666667
+    ],
+    [
+      "libevas1-engines-wayland",
+      0.35
+    ],
+    [
+      "libevas1",
+      0.3
+    ],
+    [
+      "libevas1-engines-x",
+      0.3
+    ],
+    [
+      "libecore-x1",
+      0.24999999999999997
+    ],
+    [
+      "libecore-input1",
+      0.225
+    ],
+    [
+      "libevas1-engines-fb",
+      0.2
+    ],
+    [
+      "libecore-evas1",
+      0.16666666666666666
+    ],
+    [
+      "libelput1",
+      0.1
+    ],
+    [
+      "libecore-drm2-1",
+      0.08
+    ],
+    [
+      "libecore-wl2-1",
+      0.025
+    ],
+    [
+      "libecore-fb1",
+      0.0
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "libecore-drm2-1": 4,
+    "libecore-evas1": 9,
+    "libelput1": 2,
+    "libevas1-engines-drm": 3,
+    "libecore-fb1": 3,
+    "libecore-input1": 8,
+    "libecore-wl2-1": 4,
+    "libevas1-engines-wayland": 4,
+    "libevas1": 4,
+    "libecore-x1": 2,
+    "libevas1-engines-fb": 1,
+    "libevas1-engines-x": 1
+  },
+  "repair_entry_counts": {
+    "libecore-input1": 2,
+    "libelput1": 1,
+    "libecore-evas1": 1,
+    "libevas1": 4,
+    "libevas1-engines-drm": 2,
+    "libecore-x1": 1,
+    "libevas1-engines-wayland": 1,
+    "libevas1-engines-x": 1
+  },
+  "local_conflict_endpoint_counts": {
+    "libecore-input1": 6,
+    "libecore-wl2-1": 1,
+    "libecore-evas1": 7,
+    "libevas1-engines-wayland": 3,
+    "libelput1": 4,
+    "libecore-drm2-1": 3,
+    "libevas1": 6,
+    "libevas1-engines-drm": 3,
+    "libecore-x1": 1,
+    "libevas1-engines-fb": 1,
+    "libevas1-engines-x": 1
+  },
+  "lea_risk_subgraph_nodes": [
+    "libecore-drm2-1",
+    "libecore-evas1",
+    "libecore-input1",
+    "libevas1",
+    "libevas1-engines-drm",
+    "libevas1-engines-wayland"
+  ],
+  "lea_risk_subgraph_size": 6,
+  "lea_compression_ratio": 0.5,
+  "conflicts": [
+    {
+      "clause_a": "libecore-input1",
+      "clause_b": "libecore-wl2-1",
+      "description": "libecore-input1's activation note indicates a blocking inconsistency that could affect libecore-wl2-1 due to their dependency relationship."
+    },
+    {
+      "clause_a": "libecore-input1",
+      "clause_b": "libecore-evas1",
+      "description": "libecore-input1's activation note indicates a blocking inconsistency that could affect libecore-evas1 due to their dependency relationship."
+    },
+    {
+      "clause_a": "libecore-input1",
+      "clause_b": "libevas1-engines-wayland",
+      "description": "libecore-input1's activation note indicates a blocking inconsistency that could affect libevas1-engines-wayland due to their dependency relationship."
+    },
+    {
+      "clause_a": "libelput1",
+      "clause_b": "libecore-evas1",
+      "description": "Cyclic dependency between libelput1 and libecore-evas1 creates a structural inconsistency that could lead to issues during dependency resolution."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-drm2-1",
+      "description": "libecore-evas1 references libecore-drm2-1, which indirectly depends on libelput1, contributing to a cyclic dependency."
+    },
+    {
+      "clause_a": "libevas1",
+      "clause_b": "libevas1-engines-drm",
+      "description": "Potential conflict due to 'Replaces' clause in libevas1-engines-drm, which could interfere with libevas1 dependencies."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libevas1",
+      "description": "Dependency chain involving libeina1a could cause issues if libeina1a is not updated to a compatible version."
+    },
+    {
+      "clause_a": "libevas1",
+      "clause_b": "libevas1-engines-drm",
+      "description": "Circular dependency between libevas1 and libevas1-engines-drm creates ambiguity in dependency resolution."
+    },
+    {
+      "clause_a": "libevas1-engines-drm",
+      "clause_b": "libecore-drm2-1",
+      "description": "Dependency on libecore-drm2-1 introduces potential incompatibility due to libecore-drm2-1 breaking older versions of libeina1a, which is also required by libevas1-engines-drm."
+    },
+    {
+      "clause_a": "libecore-x1",
+      "clause_b": "libecore-input1",
+      "description": "libecore-x1 mandates a specific state during transition freeze, but libecore-input1 applies an opposite state on the same dependency path, creating a blocking inconsistency."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-input1",
+      "description": "libecore-evas1 depends on libecore-input1, which has a structural conflict due to its opposite state application, potentially propagating the inconsistency."
+    },
+    {
+      "clause_a": "libevas1-engines-wayland",
+      "clause_b": "libecore-evas1",
+      "description": "libevas1-engines-wayland depends on libecore-evas1, which is affected by structural conflicts in its dependencies, including libecore-input1 and libecore-x1."
+    },
+    {
+      "clause_a": "libevas1",
+      "clause_b": "libevas1-engines-fb",
+      "description": "Dependency ambiguity: libevas1 depends on libevas1-engine, which is provided by both libevas1-engines-fb and libevas1-engines-wayland. This could lead to inconsistent dependency resolution."
+    },
+    {
+      "clause_a": "libevas1",
+      "clause_b": "libevas1-engines-wayland",
+      "description": "Dependency ambiguity: libevas1 depends on libevas1-engine, which is provided by both libevas1-engines-fb and libevas1-engines-wayland. This could lead to inconsistent dependency resolution."
+    },
+    {
+      "clause_a": "libevas1-engines-x",
+      "clause_b": "libevas1",
+      "description": "Circular dependency detected. libevas1 depends on libevas1-engines-x, which in turn references libevas1. This could lead to issues in dependency resolution."
+    }
+  ],
+  "ground_truth_nodes": [
+    "libecore-x1"
+  ],
+  "top1_hit": false,
+  "top3_hit": false,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": false,
+  "lea_risk_nodes_retained": [
+    "libecore-input1"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": false,
+  "lea_evidence_nodes_retained": [
+    "libecore-input1"
+  ],
+  "lea_contains_any_affected_node": true,
+  "lea_contains_all_affected_nodes": false,
+  "lea_affected_nodes_retained": [
+    "libevas1"
+  ],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": false,
+  "lea_valuable_nodes_retained": [
+    "libecore-input1",
+    "libevas1"
+  ],
+  "inject_mode": true,
+  "injected_node": "libecore-x1",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "case_template": "temporal_gate",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "libecore-input1",
+  "injected_witness_distance": 6,
+  "injected_bridge_node": "libevas1-engines-x",
+  "injected_bridge_distance": 3,
+  "injected_risk_nodes": [
+    "libecore-x1",
+    "libecore-input1"
+  ],
+  "injected_evidence_nodes": [
+    "libecore-x1",
+    "libevas1-engines-x",
+    "libecore-input1"
+  ],
+  "injected_affected_nodes": [
+    "libevas1-engines-fb",
+    "libevas1"
+  ],
+  "injected_conflict_family": "temporal_gate",
+  "injected_conflict_difficulty": "subtle",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "debian_temporal_receipt_gate_critical",
+  "injected_rank": 5,
+  "top1_margin": 0.01666666666666672,
+  "risk_node_ranks": {
+    "libecore-x1": 5,
+    "libecore-input1": 6
+  },
+  "risk_best_rank": 5,
+  "risk_worst_rank": 6,
+  "risk_top1_hit": false,
+  "risk_top3_hit": false,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": false,
+  "evidence_node_ranks": {
+    "libecore-x1": 5,
+    "libevas1-engines-x": 4,
+    "libecore-input1": 6
+  },
+  "evidence_best_rank": 4,
+  "evidence_worst_rank": 6,
+  "evidence_top1_hit": false,
+  "evidence_top3_hit": false,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "libevas1-engines-fb": 7,
+    "libevas1": 3
+  },
+  "affected_best_rank": 3,
+  "affected_worst_rank": 7,
+  "affected_top1_hit": false,
+  "affected_top3_hit": true,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "libecore-x1": 5,
+    "libecore-input1": 6,
+    "libevas1-engines-fb": 7,
+    "libevas1": 3
+  },
+  "valuable_best_rank": 3,
+  "valuable_worst_rank": 7,
+  "valuable_top1_hit": false,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 5,
+  "root_top1_hit": false,
+  "root_top3_hit": false,
+  "case_id": "007_gpt-4o_debian12_scc_8_temporal_gate",
+  "case_order": 7,
+  "audit_started_at": 1783789621.2557561,
+  "audit_completed_at": 1783789689.745321,
+  "audit_started_at_iso": "2026-07-12T01:07:01+0800",
+  "audit_completed_at_iso": "2026-07-12T01:08:09+0800",
+  "case_concurrency": 4,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 11,
+    "successful_api_calls": 11,
+    "failed_api_calls": 0,
+    "prompt_tokens": 18164,
+    "completion_tokens": 6846,
+    "total_tokens": 25010,
+    "api_runtime_sec_sum": 67.27101373672485
+  }
+}

@@ -1,0 +1,473 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gpt-4o",
+  "domain": "debian",
+  "scc_size": 11,
+  "scc_id": "scc_23",
+  "scc_clause_ids": [
+    "libjs-util",
+    "node-assert",
+    "node-debbundle-es-to-primitive",
+    "node-deep-equal",
+    "node-define-properties",
+    "node-es-abstract",
+    "node-istanbul",
+    "node-parse-json",
+    "node-read-pkg",
+    "node-tape",
+    "node-util"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 3799,
+    "completion_tokens": 1834,
+    "total_tokens": 5633
+  },
+  "time": 10.380406856536865,
+  "scores": {
+    "libjs-util": 0.1,
+    "node-assert": 0.3,
+    "node-debbundle-es-to-primitive": 0.5,
+    "node-deep-equal": 0.9,
+    "node-define-properties": 0.4,
+    "node-es-abstract": 0.7,
+    "node-istanbul": 0.1,
+    "node-parse-json": 0.8,
+    "node-read-pkg": 0.2,
+    "node-tape": 0.6,
+    "node-util": 0.1
+  },
+  "reasonings": {
+    "libjs-util": "Low risk due to simple dependency structure.",
+    "node-assert": "Moderate risk due to dependency depth and indirect cycle involvement.",
+    "node-debbundle-es-to-primitive": "Participation in cycles with high-risk nodes increases structural risk.",
+    "node-deep-equal": "Critical blocking inconsistency and ABI compatibility issues.",
+    "node-define-properties": "Contributes to cycles involving high-risk nodes.",
+    "node-es-abstract": "Deep dependencies and participation in cycles increase risk.",
+    "node-istanbul": "Low risk despite large dependency count.",
+    "node-parse-json": "Contradictory ABI requirements create structural risk.",
+    "node-read-pkg": "Low risk despite dependency on high-risk `node-parse-json`.",
+    "node-tape": "References multiple high-risk nodes, amplifying structural risk.",
+    "node-util": "Low risk due to simple dependency structure."
+  },
+  "ranking": [
+    [
+      "node-deep-equal",
+      0.9
+    ],
+    [
+      "node-parse-json",
+      0.8
+    ],
+    [
+      "node-es-abstract",
+      0.7
+    ],
+    [
+      "node-tape",
+      0.6
+    ],
+    [
+      "node-debbundle-es-to-primitive",
+      0.5
+    ],
+    [
+      "node-define-properties",
+      0.4
+    ],
+    [
+      "node-assert",
+      0.3
+    ],
+    [
+      "node-read-pkg",
+      0.2
+    ],
+    [
+      "node-util",
+      0.1
+    ],
+    [
+      "libjs-util",
+      0.1
+    ],
+    [
+      "node-istanbul",
+      0.1
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "node-deep-equal",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "ABI compatibility",
+        "blocking inconsistencies",
+        "dependency cycles"
+      ],
+      "reasoning": "This record has a critical dependency on `node-parse-json` exposing a new ABI, but also requires the legacy ABI to remain available, creating a blocking inconsistency. It also participates in multiple dependency cycles."
+    },
+    {
+      "rank": 2,
+      "clause_id": "node-parse-json",
+      "risk_score": 0.8,
+      "risk_factors": [
+        "ABI compatibility",
+        "blocking inconsistencies"
+      ],
+      "reasoning": "This record is responsible for maintaining the legacy ABI during a migration window, but downstream records like `node-deep-equal` impose contradictory requirements, creating structural risk."
+    },
+    {
+      "rank": 3,
+      "clause_id": "node-es-abstract",
+      "risk_score": 0.7,
+      "risk_factors": [
+        "dependency cycles",
+        "dependency depth"
+      ],
+      "reasoning": "This record has deep dependencies and participates in multiple cycles, increasing structural complexity and risk."
+    },
+    {
+      "rank": 4,
+      "clause_id": "node-tape",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "dependency cycles",
+        "dependency depth"
+      ],
+      "reasoning": "This record references multiple high-risk nodes (`node-deep-equal`, `node-es-abstract`, etc.), amplifying risk through its position in the graph."
+    },
+    {
+      "rank": 5,
+      "clause_id": "node-debbundle-es-to-primitive",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "dependency cycles"
+      ],
+      "reasoning": "This record participates in cycles with `node-deep-equal` and `node-es-abstract`, contributing to structural risk."
+    },
+    {
+      "rank": 6,
+      "clause_id": "node-define-properties",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "dependency cycles"
+      ],
+      "reasoning": "This record is referenced by multiple high-risk nodes and contributes to cycles involving `node-es-abstract` and `node-deep-equal`."
+    },
+    {
+      "rank": 7,
+      "clause_id": "node-assert",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "dependency depth"
+      ],
+      "reasoning": "This record has moderate risk due to its dependency on `node-util` and indirect involvement in cycles."
+    },
+    {
+      "rank": 8,
+      "clause_id": "node-read-pkg",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "dependency depth"
+      ],
+      "reasoning": "This record depends on `node-parse-json`, which is high-risk, but its own structure is relatively simple."
+    },
+    {
+      "rank": 9,
+      "clause_id": "node-util",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "dependency depth"
+      ],
+      "reasoning": "This record has low risk due to its simple dependency on `libjs-util`."
+    },
+    {
+      "rank": 10,
+      "clause_id": "libjs-util",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "dependency depth"
+      ],
+      "reasoning": "This record has low risk due to its simple dependency structure."
+    },
+    {
+      "rank": 11,
+      "clause_id": "node-istanbul",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "dependency depth"
+      ],
+      "reasoning": "This record has low risk despite its large number of dependencies, as it does not participate in cycles or impose blocking inconsistencies."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "ABI compatibility",
+      "importance_weight": 0.4,
+      "description": "Captures risks related to mismatched or conflicting application binary interfaces (ABI)."
+    },
+    {
+      "factor": "dependency cycles",
+      "importance_weight": 0.3,
+      "description": "Captures risks related to circular dependencies that may lead to deadlocks or unresolved states."
+    },
+    {
+      "factor": "blocking inconsistencies",
+      "importance_weight": 0.2,
+      "description": "Captures risks where records impose contradictory requirements on dependencies."
+    },
+    {
+      "factor": "dependency depth",
+      "importance_weight": 0.1,
+      "description": "Captures risks related to deeply nested dependencies that may increase complexity and failure points."
+    }
+  ],
+  "risk_factor_weight_sum": 1.0,
+  "direct_risk_subgraph_nodes": [
+    "node-deep-equal",
+    "node-parse-json",
+    "node-es-abstract",
+    "node-tape",
+    "node-debbundle-es-to-primitive"
+  ],
+  "direct_risk_subgraph_size": 5,
+  "direct_compression_ratio": 0.5454545454545454,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "This subgraph captures the core of the structural risk, including nodes involved in blocking inconsistencies, ABI compatibility issues, and dependency cycles. These nodes are sufficient to explain and localize the risk without including unrelated or low-risk nodes.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "node-deep-equal",
+      "target": "node-parse-json",
+      "reason": "Dependency on `node-parse-json` exposes ABI compatibility issues and blocking inconsistencies."
+    },
+    {
+      "source": "node-deep-equal",
+      "target": "node-es-abstract",
+      "reason": "Dependency on `node-es-abstract` contributes to cycles and structural complexity."
+    },
+    {
+      "source": "node-es-abstract",
+      "target": "node-debbundle-es-to-primitive",
+      "reason": "Dependency on `node-debbundle-es-to-primitive` contributes to cycles and structural complexity."
+    },
+    {
+      "source": "node-tape",
+      "target": "node-deep-equal",
+      "reason": "Dependency on `node-deep-equal` amplifies risk through its position in the graph."
+    },
+    {
+      "source": "node-tape",
+      "target": "node-es-abstract",
+      "reason": "Dependency on `node-es-abstract` amplifies risk through its position in the graph."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "node-deep-equal",
+    "node-parse-json",
+    "node-es-abstract",
+    "node-tape",
+    "node-debbundle-es-to-primitive"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 9,
+  "largest_tie_count": 3,
+  "tied_score_groups": [
+    {
+      "score": 0.1,
+      "count": 3,
+      "nodes": [
+        "libjs-util",
+        "node-istanbul",
+        "node-util"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "clause_a": "node-deep-equal",
+      "clause_b": "node-parse-json",
+      "description": "Blocking inconsistency due to contradictory ABI requirements."
+    }
+  ],
+  "score_spread": 0.8,
+  "ranking_score_spread": 0.8,
+  "score_mean": 0.4272727272727273,
+  "score_max": 0.9,
+  "node_names": {
+    "libjs-util": "libjs-util",
+    "node-assert": "node-assert",
+    "node-debbundle-es-to-primitive": "node-debbundle-es-to-primitive",
+    "node-deep-equal": "node-deep-equal",
+    "node-define-properties": "node-define-properties",
+    "node-es-abstract": "node-es-abstract",
+    "node-istanbul": "node-istanbul",
+    "node-parse-json": "node-parse-json",
+    "node-read-pkg": "node-read-pkg",
+    "node-tape": "node-tape",
+    "node-util": "node-util"
+  },
+  "ground_truth_nodes": [
+    "node-parse-json"
+  ],
+  "gt_evidence": {
+    "node-parse-json": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": true,
+  "prompt_word_count": 1262,
+  "injected_title_occurrences_in_prompt": 9,
+  "injected_id_occurrences_in_prompt": 9,
+  "injected_title_first_word_ratio": 0.20839936608557844,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.4405705229793978,
+  "inject_mode": true,
+  "injected_node": "node-parse-json",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "node-deep-equal",
+  "injected_witness_distance": 5,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "node-parse-json",
+    "node-deep-equal"
+  ],
+  "injected_evidence_nodes": [
+    "node-parse-json",
+    "node-deep-equal"
+  ],
+  "injected_affected_nodes": [
+    "node-read-pkg",
+    "node-debbundle-es-to-primitive"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "debian_direct_legacy_vs_new_abi_critical",
+  "injected_rank": 2,
+  "top1_margin": 0.09999999999999998,
+  "risk_node_ranks": {
+    "node-parse-json": 2,
+    "node-deep-equal": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "node-parse-json": 2,
+    "node-deep-equal": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 2,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "node-read-pkg": 8,
+    "node-debbundle-es-to-primitive": 5
+  },
+  "affected_best_rank": 5,
+  "affected_worst_rank": 8,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "node-parse-json": 2,
+    "node-deep-equal": 1,
+    "node-read-pkg": 8,
+    "node-debbundle-es-to-primitive": 5
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 8,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "direct_subgraph_nodes_retained": [
+    "node-deep-equal",
+    "node-parse-json",
+    "node-es-abstract",
+    "node-tape",
+    "node-debbundle-es-to-primitive"
+  ],
+  "direct_contains_injected_node": true,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": true,
+  "direct_risk_nodes_retained": [
+    "node-parse-json",
+    "node-deep-equal"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": true,
+  "direct_evidence_nodes_retained": [
+    "node-parse-json",
+    "node-deep-equal"
+  ],
+  "direct_contains_any_affected_node": true,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [
+    "node-debbundle-es-to-primitive"
+  ],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "node-parse-json",
+    "node-deep-equal",
+    "node-debbundle-es-to-primitive"
+  ],
+  "case_id": "16_debian11_scc_23_direct_mutex",
+  "case_order": 16,
+  "audit_started_at": 1783718267.235421,
+  "audit_completed_at": 1783718277.616228,
+  "audit_started_at_iso": "2026-07-11T05:17:47+0800",
+  "audit_completed_at_iso": "2026-07-11T05:17:57+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 3799,
+    "completion_tokens": 1834,
+    "total_tokens": 5633,
+    "api_runtime_sec_sum": 10.37374496459961
+  }
+}

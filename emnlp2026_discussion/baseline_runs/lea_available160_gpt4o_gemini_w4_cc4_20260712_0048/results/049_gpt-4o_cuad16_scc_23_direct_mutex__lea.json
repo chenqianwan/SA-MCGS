@@ -1,0 +1,662 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "gpt-4o",
+  "domain": "cuad",
+  "scc_id": "scc_23",
+  "scc_size": 16,
+  "scc_clause_ids": [
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__13.4",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__3.3",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.3.2",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.5",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__6.3",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.1",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.2",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.3.4",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.4.6"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__13.4",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__3.3",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__3.3"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.3.2",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3"
+      ]
+    },
+    {
+      "window_index": 10,
+      "window": [
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.5",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3"
+      ]
+    },
+    {
+      "window_index": 11,
+      "window": [
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__13.4",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__3.3"
+      ]
+    },
+    {
+      "window_index": 12,
+      "window": [
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__6.3",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3"
+      ]
+    },
+    {
+      "window_index": 13,
+      "window": [
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.1",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.2",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.3.4"
+      ]
+    },
+    {
+      "window_index": 14,
+      "window": [
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.2",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.1",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.3.4",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.4.6"
+      ]
+    },
+    {
+      "window_index": 15,
+      "window": [
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.3.4",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.1",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.2"
+      ]
+    },
+    {
+      "window_index": 16,
+      "window": [
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.4.6",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1",
+        "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.3.2"
+      ]
+    }
+  ],
+  "llm_calls": 16,
+  "tt_hits": 0,
+  "time": 187.11875009536743,
+  "scores": {
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3": 0.4222222222222223,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12": 0.6666666666666666,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2": 0.288888888888889,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3": 0.3272727272727273,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__13.4": 0.44999999999999996,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2": 0.38,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__3.3": 0.6333333333333333,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1": 0.8000000000000002,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.3.2": 0.44999999999999996,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.5": 0.3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6": 0.7999999999999999,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__6.3": 0.3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.1": 0.7000000000000001,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.2": 0.5,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.3.4": 0.5666666666666667,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.4.6": 0.44999999999999996
+  },
+  "visit_counts": {
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3": 9,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2": 9,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3": 11,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2": 5,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__13.4": 2,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6": 4,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__3.3": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.3.2": 2,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.5": 1,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__6.3": 1,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.1": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.2": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.3.4": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.4.6": 2
+  },
+  "ranking": [
+    [
+      "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1",
+      0.8000000000000002
+    ],
+    [
+      "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+      0.7999999999999999
+    ],
+    [
+      "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.1",
+      0.7000000000000001
+    ],
+    [
+      "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12",
+      0.6666666666666666
+    ],
+    [
+      "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__3.3",
+      0.6333333333333333
+    ],
+    [
+      "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.3.4",
+      0.5666666666666667
+    ],
+    [
+      "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.2",
+      0.5
+    ],
+    [
+      "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__13.4",
+      0.44999999999999996
+    ],
+    [
+      "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.3.2",
+      0.44999999999999996
+    ],
+    [
+      "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.4.6",
+      0.44999999999999996
+    ],
+    [
+      "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+      0.4222222222222223
+    ],
+    [
+      "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2",
+      0.38
+    ],
+    [
+      "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+      0.3272727272727273
+    ],
+    [
+      "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.5",
+      0.3
+    ],
+    [
+      "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__6.3",
+      0.3
+    ],
+    [
+      "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+      0.288888888888889
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3": 9,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2": 9,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3": 11,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2": 5,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__13.4": 2,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6": 4,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__3.3": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.3.2": 2,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.5": 1,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__6.3": 1,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.1": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.2": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.3.4": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.4.6": 1
+  },
+  "repair_entry_counts": {
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3": 5,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2": 1,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__13.4": 2,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6": 4,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2": 2,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3": 2,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__3.3": 1,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.5": 1,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__6.3": 1,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.1": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.4.6": 1
+  },
+  "local_conflict_endpoint_counts": {
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2": 14,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3": 14,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3": 12,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2": 4,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6": 6,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__13.4": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__3.3": 4,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1": 5,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.3.2": 2,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.5": 2,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__6.3": 1,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.1": 6,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.3.4": 4,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.2": 3,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.4.6": 1
+  },
+  "lea_risk_subgraph_nodes": [
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.1"
+  ],
+  "lea_risk_subgraph_size": 8,
+  "lea_compression_ratio": 0.5,
+  "conflicts": [
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+      "description": "Circular dependency between the two clauses regarding debarment or exclusion proceedings creates interpretative challenges."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2",
+      "description": "Clause 10.2.3 depends on clause 2.1.2, but the latter is underspecified, leading to ambiguity in interpreting sublicensing constraints."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+      "description": "Circular dependency between __12.2 and __12.3 creates interpretive ambiguity and potential logical deadlock."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+      "description": "Circular dependency involving __12.3 and __10.2.3 creates interpretive ambiguity and potential logical deadlock."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+      "description": "Potential conflict due to mirrored obligations on opposite parties (Bioeq vs. Licensee) regarding debarred persons."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+      "description": "Conflict between 10.2.3's restrictions on amendments and 12.3's obligations for handling debarred persons, which may impose conflicting requirements."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+      "description": "Clause 12 is referenced by 12.2 but lacks content, creating ambiguity in the obligations and relationships."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+      "description": "Record 12 is underspecified and creates ambiguity for 12.2, which references it."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+      "description": "Record 12 is underspecified and creates ambiguity for 12.3, which references it."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__13.4",
+      "description": "Clause __9.6's automatic suspension and acceleration provisions conflict with the limitations outlined in __13.4, creating an incompatibility in termination scenarios."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2",
+      "description": "Clause __12.3 depends on __2.1.2 for sublicensing terms, but the lack of specificity in __2.1.2 creates ambiguity in enforcing debarment restrictions."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+      "description": "Clauses 12.2 and 12.3 create mirrored obligations for Bioeq and Licensee, respectively, regarding debarred employees. These obligations reference each other and may lead to circular enforcement issues."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+      "description": "Clause 10.2.3 restricts amendments to the [***] Agreement, which may conflict with the obligations in clause 12.2 regarding the prohibition of debarred employees."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+      "description": "Clause 10.2.3's restrictions on amendments could conflict with the obligations in clause 12.3 regarding Licensee's prohibition of debarred employees."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__3.3",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1",
+      "description": "Clause 3.3 imposes obligations that may conflict with the high-impact termination path and payment acceleration outlined in clause 4.1.1. Without clear fallback mechanisms, this creates a severe incompatibility."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+      "description": "Bidirectional references between clauses 12.2 and 12.3 create potential enforcement ambiguity, as both clauses rely on each other for compliance."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+      "description": "The immediate operative status and payment acceleration in 4.1.1 conflict with the amendment constraints in 10.2.3, especially if amendments affect termination or payment terms."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1",
+      "description": "The restriction to sublicensing to affiliates in 2.1.2 may interfere with compliance under the termination path in 4.1.1 if broader sublicensing is needed."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__3.3",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1",
+      "description": "Reporting obligations in 3.3 may conflict with the immediate operative status in 4.1.1 if delays or mismatches occur in reporting material development results."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+      "description": "Potential conflict in enforcement of debarment obligations between Bioeq and Licensee."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.3.2",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+      "description": "Regulatory communications under clause 4.3.2 could necessitate amendments to the [***] Agreement, potentially conflicting with clause 10.2.3's restrictions."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.5",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+      "description": "Potential misalignment between Licensee's obligations to enforce attendance at meetings and compliance restrictions on debarred individuals."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+      "description": "Restrictions on amendments to the '[***] Agreement' could impact compliance measures outlined in clause 12.2."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__13.4",
+      "description": "Termination for convenience in 9.6 may conflict with the limitation of liability in 13.4 due to lack of clarity in the latter clause."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__3.3",
+      "description": "The dependency of 3.3 on 9.6 creates ambiguity due to the lack of clarity in 3.3's references to unspecified sections (3.3.1 and 3.3.2)."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__13.4",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__2.1.2",
+      "description": "The limitation of liability in 13.4 may conflict with sublicensing restrictions in 2.1.2 due to insufficient detail in both clauses."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__6.3",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+      "description": "Clause 6.3's ambiguity in timing ([***]) creates uncertainty in how it aligns with the rights and obligations referenced in clause 10.2.3."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.2",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+      "description": "Clauses 12.2 and 12.3 are nearly identical and reference each other, creating potential redundancy or confusion in enforcement."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.1",
+      "description": "Clause 9.6's high-impact termination rules depend on the content of 9.1, which is underspecified, creating a structural conflict."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.3.4",
+      "description": "Clause 9.6's termination and acceleration terms may conflict with the undefined obligations in 9.3.4."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.2",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.1",
+      "description": "Clause 9.2 depends on Section 9.1.3, which is missing, creating ambiguity and structural risk."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.2",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.1",
+      "description": "Section 9.2 depends on Section 9.1.3, which is missing, leading to underspecification in obligations regarding Joint Improvements."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.3.4",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.1",
+      "description": "Section 9.3.4 references Section 9.1, which lacks substantive content, creating ambiguity in obligations regarding Joint Inventions."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.3.4",
+      "description": "Clause 9.6 allows termination for convenience, which may conflict with obligations or dependencies in Clause 9.3.4."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.1",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.2",
+      "description": "Clause 9.1 is underspecified and forms a circular dependency with Clause 9.2, creating potential ambiguity."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.4.6",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1",
+      "description": "Clause 9.4.6's coordination and notification obligations may conflict with Clause 4.1.1's termination and payment acceleration provisions, particularly in scenarios involving upstream mismatches."
+    },
+    {
+      "clause_a": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__12.3",
+      "clause_b": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.3.2",
+      "description": "Clause 12.3's notification requirements about debarred personnel may overlap or conflict with Clause 4.3.2's obligations to forward regulatory communications and discuss potential changes."
+    }
+  ],
+  "ground_truth_nodes": [
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6"
+  ],
+  "top1_hit": false,
+  "top3_hit": true,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": true,
+  "lea_risk_nodes_retained": [
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": true,
+  "lea_evidence_nodes_retained": [
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1"
+  ],
+  "lea_contains_any_affected_node": true,
+  "lea_contains_all_affected_nodes": false,
+  "lea_affected_nodes_retained": [
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3"
+  ],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": false,
+  "lea_valuable_nodes_retained": [
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3"
+  ],
+  "inject_mode": true,
+  "injected_node": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "case_template": "direct_mutex",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1",
+  "injected_witness_distance": 8,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1"
+  ],
+  "injected_evidence_nodes": [
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1"
+  ],
+  "injected_affected_nodes": [
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3",
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.3.2"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "cuad_direct_no_fee_vs_fee_critical",
+  "injected_rank": 2,
+  "top1_margin": 2.220446049250313e-16,
+  "risk_node_ranks": {
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6": 2,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6": 2,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 2,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3": 11,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.3.2": 9
+  },
+  "affected_best_rank": 9,
+  "affected_worst_rank": 11,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__9.6": 2,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.1.1": 1,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__10.2.3": 11,
+    "cuad_CoherusBiosciencesInc_20200227_10_K_EX_1__cuad_CoherusBiosciencesInc_20200227_10_K__a1c18676__4.3.2": 9
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 11,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "case_id": "049_gpt-4o_cuad16_scc_23_direct_mutex",
+  "case_order": 49,
+  "audit_started_at": 1783790737.426919,
+  "audit_completed_at": 1783790924.564426,
+  "audit_started_at_iso": "2026-07-12T01:25:37+0800",
+  "audit_completed_at_iso": "2026-07-12T01:28:44+0800",
+  "case_concurrency": 4,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 17,
+    "successful_api_calls": 17,
+    "failed_api_calls": 0,
+    "prompt_tokens": 46679,
+    "completion_tokens": 30243,
+    "total_tokens": 76922,
+    "api_runtime_sec_sum": 186.10220670700073
+  }
+}

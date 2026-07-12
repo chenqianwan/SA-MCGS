@@ -1,0 +1,952 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "gpt-4o",
+  "domain": "cuad",
+  "scc_id": "scc_21",
+  "scc_size": 24,
+  "scc_clause_ids": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.3",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.4",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.3",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 10,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.4",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 11,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 12,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 13,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 14,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5"
+      ]
+    },
+    {
+      "window_index": 15,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5"
+      ]
+    },
+    {
+      "window_index": 16,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6"
+      ]
+    },
+    {
+      "window_index": 17,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6"
+      ]
+    },
+    {
+      "window_index": 18,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 19,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5"
+      ]
+    },
+    {
+      "window_index": 20,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 21,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.1"
+      ]
+    },
+    {
+      "window_index": 22,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+      ]
+    },
+    {
+      "window_index": 23,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5"
+      ]
+    },
+    {
+      "window_index": 24,
+      "window": [
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+        "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5"
+      ]
+    }
+  ],
+  "llm_calls": 24,
+  "tt_hits": 0,
+  "time": 224.7596390247345,
+  "scores": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1": 0.7428571428571429,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4": 0.7,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5": 0.7000000000000001,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1": 0.6666666666666666,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2": 0.8307692307692307,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3": 0.6461538461538462,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1": 0.7250000000000001,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2": 0.8,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.3": 0.8,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.4": 0.8,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5": 0.8,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.1": 0.7,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2": 0.55,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1": 0.825,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1": 0.3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5": 0.6333333333333333,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7": 0.8500000000000001,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6": 0.7333333333333334,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1": 0.5,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2": 0.6666666666666666,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1": 0.7,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2": 0.8500000000000001,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.1": 0.4,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2": 0.8
+  },
+  "visit_counts": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1": 7,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4": 7,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5": 7,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1": 4,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1": 15,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2": 13,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3": 13,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1": 4,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.3": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.4": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.1": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2": 1
+  },
+  "ranking": [
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+      0.8500000000000001
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2",
+      0.8500000000000001
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      0.8307692307692307
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1",
+      0.825
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2",
+      0.8
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.3",
+      0.8
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.4",
+      0.8
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5",
+      0.8
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2",
+      0.8
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+      0.7428571428571429
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6",
+      0.7333333333333334
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1",
+      0.7250000000000001
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+      0.7000000000000001
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+      0.7
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.1",
+      0.7
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1",
+      0.7
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      0.6666666666666666
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+      0.6666666666666666
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+      0.6461538461538462
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5",
+      0.6333333333333333
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2",
+      0.55
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1",
+      0.5
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.1",
+      0.4
+    ],
+    [
+      "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1",
+      0.3
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1": 7,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4": 7,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5": 7,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1": 4,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1": 15,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2": 13,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3": 13,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1": 4,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.3": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.4": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2": 1
+  },
+  "repair_entry_counts": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1": 7,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1": 6,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2": 11,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.3": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.4": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.1": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2": 1
+  },
+  "local_conflict_endpoint_counts": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1": 15,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4": 13,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5": 12,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1": 9,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1": 26,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2": 27,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1": 6,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3": 12,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.3": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.4": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.1": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6": 4,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2": 5,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2": 5,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1": 2,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.1": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2": 2
+  },
+  "lea_risk_subgraph_nodes": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2"
+  ],
+  "lea_risk_subgraph_size": 11,
+  "lea_compression_ratio": 0.5416666666666667,
+  "conflicts": [
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+      "description": "Cyclic dependency creates ambiguity in the interpretation of these clauses."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+      "description": "Cyclic dependency creates ambiguity in the interpretation of these clauses."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1",
+      "description": "Cyclic dependency creates ambiguity in the interpretation of these clauses."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+      "description": "Cyclic dependency creates ambiguity in the interpretation of these clauses."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+      "description": "Circular references between Public Announcements and Taxes clauses create ambiguity in determining precedence or dependency."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1",
+      "description": "Circular references between Severability and Licensor Enforcement clauses create ambiguity in resolving enforcement and severability conflicts."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+      "description": "Taxes and Public Announcements reference each other in a cycle, leading to unclear precedence in interpretation."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1",
+      "description": "Public Announcements and Licensor Enforcement are cyclically interdependent, risking operational conflicts."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1",
+      "description": "Severability and Licensor Enforcement interact cyclically, which could lead to structural ambiguity."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "description": "Circular dependency and incompatible termination clock logic create a structural inconsistency."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1",
+      "description": "Conflicting control and termination conditions lead to ambiguity and potential enforcement issues."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+      "description": "Clause 2.2 introduces termination conditions that are incompatible with the lack of specificity in clause 2.3, leading to ambiguity in how these conditions are applied."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1",
+      "description": "Clause 3.1's vague definition of 'Licensee Control' conflicts with the high-impact termination conditions in clause 2.2, creating structural inconsistency and risk."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "description": "The downstream termination clock behavior in __2.2 is incompatible with the upstream behavior in __2.1, creating a logical inconsistency."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+      "description": "The termination clock behavior in __2.2 conflicts with the operative status in __2.3, forming a severe incompatibility."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "description": "The control responsibilities in __3.1 are ambiguous and may conflict with the Operating Content provisions in __2.2, leading to potential disputes."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "description": "Circular dependency and conflicting interpretations of license grants and Operating Content usage lead to ambiguity in rights and obligations."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.1",
+      "description": "Ambiguity in how Operating Content interacts with Licensor's software creates potential for conflicting obligations and termination risks."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "description": "Clause 3.2 treats upstream mismatches as material defaults with severe consequences, while Clause 2.2 allows the Licensee to independently procure and upload Operating Content, potentially leading to conflicts in interpretation and enforcement."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "description": "Clause 2.1 grants licenses but references 2.2, which introduces ambiguity regarding Operating Content, potentially conflicting with the scope of the license grant."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.2",
+      "description": "Clause 2.3 is underspecified but references 3.2, which contains high-impact provisions, creating structural ambiguity and risk."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.3",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "description": "Clause 3.3's monitoring and censoring provisions conflict with clause 2.2's independent licensing of 'Operating Content,' especially regarding the use of Licensor's software."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "description": "Ambiguity arises between clause 2.1's grant of licenses and clause 2.2's independent licensing of 'Operating Content,' potentially leading to scope conflicts."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "description": "Clause 2.3's lack of specification creates ambiguity in its relationship with clause 2.1, which is central to licensing."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.4",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "description": "Clause 3.4's immediate operative status conflicts with the licensing terms in Clause 2.1, particularly regarding timing and payment acceleration."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+      "description": "Clause 2.2's references to Operating Content agreements are ambiguous due to the underspecified nature of Clause 2.3, creating enforcement uncertainty."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "description": "Clause 3.5's termination provisions conflict with clause 2.1's dependencies on written notice."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__3.5",
+      "description": "Clause 2.2's independent procurement of Operating Content conflicts with clause 3.5's payment acceleration and termination provisions."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "description": "Clause 2.3's references to clause 2.1 are ambiguous, creating potential structural inconsistency."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "description": "Potential conflict between the broad license grants in clause 2.1 and the restrictions or permissions related to 'Operating Content' in clause 2.2."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.1",
+      "description": "Ownership constraints in clause 4.1 might conflict with the permissions granted for 'Operating Content' in clause 2.2."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "description": "Ownership constraints in clause 4.1 could impose limitations that are inconsistent with the license grants in clause 2.1."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "description": "Cyclic dependency and ambiguous license grant conditions create potential for structural inconsistency."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2",
+      "description": "Termination clock mismatch interacts with prosecution and maintenance ambiguities, creating high-impact structural risks."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "description": "References between these clauses lack clear resolution mechanisms, leading to structural inconsistency."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+      "description": "Circular dependency between these clauses creates structural ambiguity and potential for misinterpretation."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+      "description": "Circular dependency between these clauses creates structural ambiguity and potential for misinterpretation."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1",
+      "description": "Circular dependency between these clauses creates structural ambiguity and potential for misinterpretation."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__5.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+      "description": "Circular dependency between these clauses creates structural ambiguity and potential for misinterpretation."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "description": "Clause 6.5 relies on Clause 2.1 for termination conditions, but Clause 2.1 is too vague to provide clear guidance, leading to potential disputes or misinterpretation."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1",
+      "description": "Clause 2.1 references Clause 6.1, but the lack of detail in Clause 2.1 creates ambiguity about how the term of the agreement is defined and applied."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__4.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.1",
+      "description": "Clause 4.2 references Clause 6.1, but both clauses are vague, leading to potential structural inconsistency in how prosecution and maintenance interact with the term of the agreement."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+      "description": "Clause 6.5 references 6.7, but 6.7 introduces strict procedural requirements and downstream effects that may conflict with termination conditions outlined in 6.5."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "description": "Clause 6.6 references 2.1, but 2.1 is underspecified, leading to potential misalignment in termination effects and license grant implications."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.5",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "description": "Clause 6.5 references 2.1, but the lack of specificity in 2.1 creates ambiguity in how termination conditions affect license grants."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6",
+      "description": "6.7's rigid termination provisions conflict with the undefined termination effects in 6.6, creating ambiguity and potential enforcement issues."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+      "description": "6.7 references 7.2, but 7.2's lack of content creates a structural gap in understanding how 6.7's provisions interact with 7.2."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+      "description": "6.6 references 7.2, but the lack of content in 7.2 creates ambiguity in how the termination effects in 6.6 are defined or constrained."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.6",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "description": "The termination provisions in 6.6 conflict with the licensing terms in 2.1, particularly regarding the timing and process of termination."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "description": "The ambiguity in 'Operating Content' in 2.2 creates potential conflicts with the licensing terms in 2.1."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "description": "The underspecified nature of 2.3 creates potential for misalignment with the licensing terms in 2.1."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+      "description": "Circular references between these clauses create ambiguity in determining precedence or interpretation."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+      "description": "Circular references between these clauses create ambiguity in determining precedence or interpretation."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "description": "Conflicting interpretations of termination clock behavior create a severe incompatibility with no fallback mechanism."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "description": "Circular dependency introduces structural ambiguity and complicates the resolution of dependencies."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "description": "Circular reference between these clauses increases the risk of structural inconsistency and complicates interpretation."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2",
+      "description": "Circular referencing between 8.1 and 8.2 creates structural ambiguity, making it unclear how these clauses interact and which takes precedence."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.2",
+      "description": "8.2 references 7.2, which indirectly contributes to the circular referencing issue involving 8.1 and 8.2."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.1",
+      "description": "Conflict arises due to bidirectional references and incompatible treatment of termination clocks and material default mechanisms."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__8.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3",
+      "description": "Dependency loops and lack of substantive content in both clauses create structural ambiguity and potential for unresolved obligations."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.1",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+      "description": "Circular dependency between 'Confidential Information' and 'Taxes' creates ambiguity due to the vague content of 'Confidential Information.'"
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.5",
+      "description": "Circular dependency between 'Public Announcements' and 'Severability' could lead to interpretative conflicts."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.1",
+      "description": "The binding pass-through status in 9.2 may conflict with unspecified tax obligations in 10.1, creating ambiguity in transaction paths."
+    },
+    {
+      "clause_a": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__10.4",
+      "clause_b": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2",
+      "description": "The SEC filing exception in 10.4 may conflict with the binding pass-through status in 9.2, particularly if amendments to the Form F-1 affect transaction paths."
+    }
+  ],
+  "ground_truth_nodes": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7"
+  ],
+  "top1_hit": true,
+  "top3_hit": true,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": false,
+  "lea_risk_nodes_retained": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": false,
+  "lea_evidence_nodes_retained": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2"
+  ],
+  "lea_contains_any_affected_node": true,
+  "lea_contains_all_affected_nodes": false,
+  "lea_affected_nodes_retained": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+  ],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": false,
+  "lea_valuable_nodes_retained": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+  ],
+  "inject_mode": true,
+  "injected_node": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "case_template": "temporal_gate",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2",
+  "injected_witness_distance": 12,
+  "injected_bridge_node": "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2",
+  "injected_bridge_distance": 6,
+  "injected_risk_nodes": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2"
+  ],
+  "injected_evidence_nodes": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2"
+  ],
+  "injected_affected_nodes": [
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1",
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3"
+  ],
+  "injected_conflict_family": "temporal_gate",
+  "injected_conflict_difficulty": "subtle",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "cuad_temporal_notice_receipt_gate_critical",
+  "injected_rank": 1,
+  "top1_margin": 0.0,
+  "risk_node_ranks": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2": 3
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 3,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__9.2": 9,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2": 3
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 9,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1": 22,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3": 19
+  },
+  "affected_best_rank": 19,
+  "affected_worst_rank": 22,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__6.7": 1,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.2": 3,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__7.1": 22,
+    "cuad_ChinaRealEstateInformationCorp_20090929___cuad_ChinaRealEstateInformationCorp_20090_cde1bad6__2.3": 19
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 22,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 1,
+  "root_top1_hit": true,
+  "root_top3_hit": true,
+  "case_id": "067_gpt-4o_cuad24_scc_21_temporal_gate",
+  "case_order": 67,
+  "audit_started_at": 1783791849.0752242,
+  "audit_completed_at": 1783792073.856426,
+  "audit_started_at_iso": "2026-07-12T01:44:09+0800",
+  "audit_completed_at_iso": "2026-07-12T01:47:53+0800",
+  "case_concurrency": 4,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 25,
+    "successful_api_calls": 25,
+    "failed_api_calls": 0,
+    "prompt_tokens": 46969,
+    "completion_tokens": 38816,
+    "total_tokens": 85785,
+    "api_runtime_sec_sum": 223.73667192459106
+  }
+}

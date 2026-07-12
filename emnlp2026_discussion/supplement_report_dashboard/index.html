@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EMNLP 2026 Discussion Supplemental Report</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --paper: #ffffff;
+      --ink: #17211b;
+      --muted: #657267;
+      --line: #d9dfd6;
+      --teal: #23756d;
+      --green: #5f8f56;
+      --amber: #bf7f2f;
+      --rose: #b25a5a;
+      --blue: #506f9f;
+      --soft-teal: rgba(35,117,109,.12);
+      --soft-amber: rgba(191,127,47,.15);
+      --soft-rose: rgba(178,90,90,.16);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+    main { max-width: 1320px; margin: 0 auto; padding: 32px 24px 64px; }
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+      padding: 8px 0 24px;
+      border-bottom: 1px solid var(--line);
+    }
+    h1 { margin: 0; font-size: 34px; line-height: 1.15; letter-spacing: 0; }
+    h2 { margin: 0 0 14px; font-size: 24px; line-height: 1.2; letter-spacing: 0; }
+    h3 { margin: 0 0 10px; font-size: 17px; letter-spacing: 0; }
+    p { margin: 0; }
+    .subhead { color: var(--muted); margin-top: 10px; max-width: 920px; }
+    .stamp { text-align: right; color: var(--muted); font-size: 14px; white-space: nowrap; }
+    section { padding: 28px 0; border-bottom: 1px solid var(--line); }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .metric {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      min-height: 118px;
+    }
+    .metric b { display: block; font-size: 28px; margin-top: 6px; }
+    .metric span { color: var(--muted); font-size: 14px; }
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(420px, 1.08fr);
+      gap: 20px;
+      align-items: start;
+    }
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 820px; }
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    th { color: var(--muted); font-weight: 700; background: rgba(0,0,0,.025); }
+    tr:last-child td { border-bottom: 0; }
+    .claim table { min-width: 940px; }
+    .claim td { white-space: normal; }
+    .note { color: var(--muted); font-size: 14px; margin: 10px 0 0; }
+    .chart-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    .chart {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 280px;
+    }
+    .chart.short { min-height: 230px; }
+    .chart-title { font-weight: 700; margin-bottom: 8px; }
+    svg { width: 100%; height: auto; display: block; }
+    .axis { stroke: var(--line); stroke-width: 1; }
+    .tick { fill: var(--muted); font-size: 12px; }
+    .label { fill: var(--ink); font-size: 12px; }
+    .value { fill: var(--ink); font-size: 12px; font-weight: 700; }
+    .legend { display: flex; gap: 14px; flex-wrap: wrap; color: var(--muted); font-size: 13px; margin-top: 8px; }
+    .swatch { width: 11px; height: 11px; border-radius: 2px; display: inline-block; margin-right: 6px; vertical-align: -1px; }
+    .callout {
+      border-left: 4px solid var(--teal);
+      background: var(--soft-teal);
+      padding: 12px 14px;
+      border-radius: 6px;
+      margin-top: 12px;
+      color: var(--ink);
+    }
+    .risk { color: var(--rose); font-weight: 700; }
+    .good { color: var(--teal); font-weight: 700; }
+    @media (max-width: 980px) {
+      main { padding: 24px 14px 48px; }
+      header, .two-col, .summary-grid { grid-template-columns: 1fr; }
+      .stamp { text-align: left; }
+      h1 { font-size: 28px; }
+      .chart { min-height: 240px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>EMNLP 2026 Discussion 补充实验报告</h1>
+        <p class="subhead">三个补充方向已经形成可展示证据：推理成本核算、组件级消融、以及 GraphRAG-style Local Evidence Aggregation baseline。页面只使用冻结记录中的数据。</p>
+      </div>
+      <div class="stamp">Updated<br>2026-07-12</div>
+    </header>
+
+    <section>
+      <h2>Reviewer-facing Summary</h2>
+      <div class="summary-grid">
+        <div class="metric"><span>Cost audit</span><b>20 cases</b><span>Naive / LEA / SA-MCGS with tokens, calls, runtime</span></div>
+        <div class="metric"><span>Component ablation</span><b>80 + 40</b><span>Stage 1 search modules + Stage 2 dynamic core modules</span></div>
+        <div class="metric"><span>Graph-aware baseline</span><b>160 cases</b><span>Clean LEA run on gpt-4o and Gemini, matched to locked SA-MCGS</span></div>
+      </div>
+      <div class="claim" style="margin-top:16px"><div class="table-wrap"><table><thead><tr><th>Reviewer concern</th><th>New evidence</th><th>Careful claim</th></tr></thead><tbody><tr><td>Cost accounting</td><td>20-case low-concurrency audit with calls/tokens/runtime; LEA included in the same accounting.</td><td>Report cost-performance tradeoff by case scale; SA-MCGS uses more calls, while LEA reduces calls substantially.</td></tr><tr><td>Component-level ablations</td><td>Stage 1: 80 cases for search/memory modules. Stage 2: 40 dynamic cases for OC/core and final-core policies.</td><td>Critical-pair ledger/revisit and dynamic core construction are the strongest supported modules; relation memory and pair closure should be framed cautiously.</td></tr><tr><td>Baseline fairness</td><td>160 clean cases for GraphRAG-style LEA on gpt-4o and Gemini 2.5 Pro, matched against locked Full SA-MCGS.</td><td>LEA is competitive, especially on Gemini; SA-MCGS still improves endpoint completeness overall, with non-uniform model-level behavior.</td></tr></tbody></table></div></div>
+    </section>
+
+    <section>
+      <div class="two-col">
+        <div>
+          <h2>1. 推理成本与可靠性</h2>
+          <div class="table-wrap"><table><thead><tr><th>Method</th><th>Cases</th><th>Invalid</th><th>Calls/case</th><th>Input tok.</th><th>Output tok.</th><th>Total tok.</th><th>Runtime</th><th>Root@3</th><th>Risk-any</th><th>Risk-all</th><th>Compression</th></tr></thead><tbody><tr><td>Full-SCC Naive (single attempt)</td><td>20</td><td>15.0%</td><td>1.0</td><td>20,429</td><td>3,182</td><td>23,611</td><td>20.4s</td><td>41.2%</td><td>76.5%</td><td>47.1%</td><td>69.3%</td></tr><tr><td>GraphRAG-style LEA</td><td>20</td><td>0.0%</td><td>17.4</td><td>35,726</td><td>22,721</td><td>58,447</td><td>175.6s</td><td>75.0%</td><td>90.0%</td><td>40.0%</td><td>51.5%</td></tr><tr><td>SA-MCGS</td><td>20</td><td>0.0%</td><td>50.5</td><td>99,108</td><td>62,057</td><td>161,166</td><td>524.6s</td><td>85.0%</td><td>85.0%</td><td>75.0%</td><td>51.5%</td></tr></tbody></table></div>
+          <p class="note">Scope: low-concurrency 20-case audit. LEA is included in the same accounting table to support the baseline-fairness response.</p>
+          <div class="callout">可以对 reviewer 说：我们会同时报告 performance 和 cost，包含 input/output tokens、API calls、runtime，并按 SCC scale 拆分。</div>
+        </div>
+        <div class="chart-grid">
+          <div class="chart"><div class="chart-title">Performance by method</div><div id="costPerf"></div></div>
+          <div class="chart short"><div class="chart-title">Cost profile by method</div><div id="costProfile"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="two-col">
+        <div>
+          <h2>2. 组件级消融</h2>
+          <h3>Stage 1: search / memory modules, 80 cases</h3>
+          <div class="table-wrap"><table><thead><tr><th>Variant</th><th>N</th><th>Root@3</th><th>Risk-any</th><th>Risk-all</th><th>Compression</th><th>Delta Risk-all</th><th>Avg core</th></tr></thead><tbody><tr><td>Full SA-MCGS (locked main)</td><td>80</td><td>86.2%</td><td>100.0%</td><td>75.0%</td><td>51.3%</td><td>0.0%</td><td>8.1</td></tr><tr><td>No relation-first memory</td><td>80</td><td>88.8%</td><td>98.8%</td><td>80.0%</td><td>51.8%</td><td>5.0%</td><td>8.0</td></tr><tr><td>No critical-pair ledger/revisit</td><td>80</td><td>83.8%</td><td>88.8%</td><td>53.8%</td><td>72.0%</td><td>-21.3%</td><td>4.2</td></tr><tr><td>Random local-window selection</td><td>80</td><td>90.0%</td><td>96.2%</td><td>63.7%</td><td>51.8%</td><td>-11.3%</td><td>8.0</td></tr></tbody></table></div>
+          <h3 style="margin-top:18px">Stage 2: dynamic core modules, 40 cases</h3>
+          <div class="table-wrap"><table><thead><tr><th>Variant</th><th>N</th><th>Root@3</th><th>Risk-any</th><th>Risk-all</th><th>Compression</th><th>Delta Risk-all</th><th>Avg core</th></tr></thead><tbody><tr><td>Full SA-MCGS (locked main)</td><td>40</td><td>85.0%</td><td>100.0%</td><td>70.0%</td><td>52.1%</td><td>0.0%</td><td>10.0</td></tr><tr><td>No OC/core signal</td><td>40</td><td>85.0%</td><td>100.0%</td><td>60.0%</td><td>52.2%</td><td>-10.0%</td><td>9.7</td></tr><tr><td>Monotone core</td><td>40</td><td>77.5%</td><td>87.5%</td><td>45.0%</td><td>76.1%</td><td>-25.0%</td><td>4.8</td></tr><tr><td>No pair closure in final core</td><td>40</td><td>80.0%</td><td>95.0%</td><td>67.5%</td><td>53.0%</td><td>-2.5%</td><td>9.4</td></tr></tbody></table></div>
+          <div class="callout">最强证据：critical-pair ledger/revisit 和 dynamic/replacement core。relation-first memory 接近 Full，pair closure 影响较小，应谨慎表述。</div>
+        </div>
+        <div class="chart-grid">
+          <div class="chart"><div class="chart-title">Risk-all delta vs Full SA-MCGS</div><div id="ablationDelta"></div></div>
+          <div class="chart"><div class="chart-title">Stage 2: compression and endpoint retention</div><div id="stage2Core"></div></div>
+          <div class="chart short"><div class="chart-title">Large SCC: Stage 1 Risk-all</div><div id="stage1Large"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="two-col">
+        <div>
+          <h2>3. Graph-aware Decomposed Baseline</h2>
+          <div class="table-wrap"><table><thead><tr><th>Group</th><th>N</th><th>LEA Root@3</th><th>SA Root@3</th><th>Delta</th><th>LEA Risk-all</th><th>SA Risk-all</th><th>Delta</th><th>LEA calls</th><th>SA calls</th></tr></thead><tbody><tr><td>overall</td><td>160</td><td>83.8%</td><td>86.9%</td><td>3.1%</td><td>66.2%</td><td>79.4%</td><td>13.1%</td><td>15.7</td><td>55.7</td></tr><tr><td>model=gemini-2.5-pro</td><td>80</td><td>88.8%</td><td>87.5%</td><td>-1.2%</td><td>88.8%</td><td>83.8%</td><td>-5.0%</td><td>14.9</td><td>53.0</td></tr><tr><td>model=gpt-4o</td><td>80</td><td>78.8%</td><td>86.2%</td><td>7.5%</td><td>43.8%</td><td>75.0%</td><td>31.2%</td><td>16.5</td><td>58.5</td></tr><tr><td>scale=large&gt;=21</td><td>40</td><td>85.0%</td><td>77.5%</td><td>-7.5%</td><td>55.0%</td><td>72.5%</td><td>17.5%</td><td>25.6</td><td>56.5</td></tr><tr><td>scale=medium13-20</td><td>48</td><td>75.0%</td><td>83.3%</td><td>8.3%</td><td>64.6%</td><td>75.0%</td><td>10.4%</td><td>14.7</td><td>57.8</td></tr><tr><td>scale=small&lt;=12</td><td>72</td><td>88.9%</td><td>94.4%</td><td>5.6%</td><td>73.6%</td><td>86.1%</td><td>12.5%</td><td>10.8</td><td>54.0</td></tr></tbody></table></div>
+          <p class="note">Matched 160-case overall: LEA Risk-all 66.2%, SA-MCGS Risk-all 79.4%, delta 13.1%.</p>
+          <div class="callout">这张表非常适合回应 baseline fairness：LEA 很强，尤其 Gemini 上更强；SA-MCGS 的优势主要体现在 overall endpoint completeness / Risk-all，且 model-level non-uniformity 需要如实说明。</div>
+        </div>
+        <div class="chart-grid">
+          <div class="chart"><div class="chart-title">Matched LEA vs Full SA-MCGS</div><div id="leaMatched"></div></div>
+          <div class="chart short"><div class="chart-title">Risk-all by model</div><div id="leaModel"></div></div>
+          <div class="chart short"><div class="chart-title">Calls/runtime tradeoff</div><div id="leaCost"></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const DATA = {"costOverall": [{"method": "Naive", "calls": 1.0, "tokens": 23611.1, "runtime": 20.3822585105896, "root": 0.4117647058823529, "any": 0.7647058823529411, "all": 0.47058823529411764, "invalid": 0.15}, {"method": "LEA", "calls": 17.35, "tokens": 58447.1, "runtime": 175.59617533683777, "root": 0.75, "any": 0.9, "all": 0.4, "invalid": 0.0}, {"method": "SA-MCGS", "calls": 50.45, "tokens": 161165.6, "runtime": 524.634985589981, "root": 0.85, "any": 0.85, "all": 0.75, "invalid": 0.0}], "stage1": [{"variant": "Full", "riskAll": 0.75, "deltaRiskAll": 0.0, "compression": 0.5125728503522622}, {"variant": "No relation memory", "riskAll": 0.8, "deltaRiskAll": 0.050000000000000044, "compression": 0.5180652745946863}, {"variant": "No critical-pair", "riskAll": 0.5375, "deltaRiskAll": -0.21250000000000002, "compression": 0.7201909138655462}, {"variant": "Random window", "riskAll": 0.6375, "deltaRiskAll": -0.11250000000000004, "compression": 0.5180652745946863}], "stage1Large": [{"variant": "Full", "bin": "large (20-34)", "riskAll": 0.5833333333333334, "deltaRiskAll": 0.0}, {"variant": "No relation memory", "bin": "large (20-34)", "riskAll": 0.5833333333333334, "deltaRiskAll": 0.0}, {"variant": "No critical-pair", "bin": "large (20-34)", "riskAll": 0.16666666666666666, "deltaRiskAll": -0.41666666666666674}, {"variant": "Random window", "bin": "large (20-34)", "riskAll": 0.4583333333333333, "deltaRiskAll": -0.12500000000000006}], "stage2": [{"variant": "Full", "riskAll": 0.7, "deltaRiskAll": 0.0, "compression": 0.5210458789576438, "core": 9.975}, {"variant": "No OC/core", "riskAll": 0.6, "deltaRiskAll": -0.09999999999999998, "compression": 0.5215286478227654, "core": 9.725}, {"variant": "Monotone", "riskAll": 0.45, "deltaRiskAll": -0.24999999999999994, "compression": 0.7606331168831169, "core": 4.75}, {"variant": "No pair closure", "riskAll": 0.675, "deltaRiskAll": -0.02499999999999991, "compression": 0.5296168831168832, "core": 9.45}], "leaOverall": [{"metric": "Root@3", "lea": 0.8375, "sa": 0.86875}, {"metric": "Risk-any", "lea": 0.9625, "sa": 0.9875}, {"metric": "Risk-all", "lea": 0.6625, "sa": 0.79375}], "leaModels": [{"model": "gemini-2.5-pro", "lea": 0.8875, "sa": 0.8375}, {"model": "gpt-4o", "lea": 0.4375, "sa": 0.75}], "leaCost": [{"method": "LEA", "calls": 15.6875, "runtime": 311.2982130885124}, {"method": "SA-MCGS", "calls": 55.74375, "runtime": 394.21925359070303}]};
+    const colors = {
+      teal: getComputedStyle(document.documentElement).getPropertyValue('--teal').trim(),
+      amber: getComputedStyle(document.documentElement).getPropertyValue('--amber').trim(),
+      rose: getComputedStyle(document.documentElement).getPropertyValue('--rose').trim(),
+      green: getComputedStyle(document.documentElement).getPropertyValue('--green').trim(),
+      blue: getComputedStyle(document.documentElement).getPropertyValue('--blue').trim(),
+      line: getComputedStyle(document.documentElement).getPropertyValue('--line').trim(),
+      ink: getComputedStyle(document.documentElement).getPropertyValue('--ink').trim(),
+      muted: getComputedStyle(document.documentElement).getPropertyValue('--muted').trim()
+    };
+
+    function fmtPct(v) { return (v * 100).toFixed(1) + '%'; }
+    function fmtNum(v) { return v >= 1000 ? Math.round(v).toLocaleString() : v.toFixed(1); }
+
+    function groupedBars(rootId, data, keys, labels, opts = {}) {
+      const root = document.getElementById(rootId);
+      const width = 720, height = opts.height || 260;
+      const margin = {top: 18, right: 20, bottom: 52, left: 84};
+      const plotW = width - margin.left - margin.right;
+      const plotH = height - margin.top - margin.bottom;
+      const max = opts.max ?? Math.max(...data.flatMap(d => keys.map(k => d[k] || 0)), 1);
+      const groupW = plotW / data.length;
+      const barW = Math.min(28, groupW / (keys.length + 1.4));
+      const seriesColors = opts.colors || [colors.teal, colors.amber, colors.blue];
+      let svg = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${opts.label || 'bar chart'}">`;
+      for (let i = 0; i <= 4; i++) {
+        const y = margin.top + plotH - (plotH * i / 4);
+        svg += `<line class="axis" x1="${margin.left}" y1="${y}" x2="${width - margin.right}" y2="${y}"></line>`;
+        svg += `<text class="tick" x="${margin.left - 10}" y="${y + 4}" text-anchor="end">${opts.percent ? fmtPct(max * i / 4) : fmtNum(max * i / 4)}</text>`;
+      }
+      data.forEach((d, i) => {
+        const gx = margin.left + i * groupW + groupW / 2;
+        keys.forEach((k, j) => {
+          const val = d[k] || 0;
+          const h = plotH * val / max;
+          const x = gx - (keys.length * barW + (keys.length - 1) * 6) / 2 + j * (barW + 6);
+          const y = margin.top + plotH - h;
+          svg += `<rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="3" fill="${seriesColors[j]}"></rect>`;
+          svg += `<text class="value" x="${x + barW / 2}" y="${Math.max(12, y - 5)}" text-anchor="middle">${opts.percent ? Math.round(val * 100) : Math.round(val)}</text>`;
+        });
+        svg += `<text class="tick" x="${gx}" y="${height - 22}" text-anchor="middle">${d.method || d.metric || d.model || d.variant}</text>`;
+      });
+      svg += `</svg><div class="legend">`;
+      labels.forEach((label, i) => {
+        svg += `<span><i class="swatch" style="background:${seriesColors[i]}"></i>${label}</span>`;
+      });
+      svg += `</div>`;
+      root.innerHTML = svg;
+    }
+
+    function horizontalDelta(rootId, rows, opts = {}) {
+      const root = document.getElementById(rootId);
+      const width = 720, rowH = 34, height = 60 + rows.length * rowH;
+      const margin = {top: 20, right: 86, bottom: 28, left: 210};
+      const plotW = width - margin.left - margin.right;
+      const vals = rows.map(r => r.deltaRiskAll || 0);
+      const min = Math.min(-0.45, ...vals), max = Math.max(0.12, ...vals);
+      const zeroX = margin.left + ((0 - min) / (max - min)) * plotW;
+      let svg = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Risk-all delta chart">`;
+      svg += `<line class="axis" x1="${zeroX}" y1="${margin.top}" x2="${zeroX}" y2="${height - margin.bottom}"></line>`;
+      rows.forEach((r, i) => {
+        const y = margin.top + i * rowH + 8;
+        const val = r.deltaRiskAll || 0;
+        const x = margin.left + ((Math.min(0, val) - min) / (max - min)) * plotW;
+        const w = Math.abs(val) / (max - min) * plotW;
+        const fill = val < -0.08 ? colors.rose : val < 0 ? colors.amber : colors.teal;
+        svg += `<text class="label" x="${margin.left - 10}" y="${y + 13}" text-anchor="end">${r.group ? r.group + ': ' : ''}${r.variant}</text>`;
+        svg += `<rect x="${val < 0 ? x : zeroX}" y="${y}" width="${Math.max(2, w)}" height="18" rx="3" fill="${fill}"></rect>`;
+        svg += `<text class="value" x="${val < 0 ? x - 8 : zeroX + w + 8}" y="${y + 13}" text-anchor="${val < 0 ? 'end' : 'start'}">${fmtPct(val)}</text>`;
+      });
+      svg += `</svg>`;
+      root.innerHTML = svg;
+    }
+
+    function singleBars(rootId, rows, key, opts = {}) {
+      const root = document.getElementById(rootId);
+      const width = 720, rowH = 38, height = 54 + rows.length * rowH;
+      const margin = {top: 16, right: 84, bottom: 24, left: opts.left || 190};
+      const plotW = width - margin.left - margin.right;
+      const max = opts.max ?? Math.max(...rows.map(r => r[key] || 0), 1);
+      let svg = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${opts.label || 'bar chart'}">`;
+      rows.forEach((r, i) => {
+        const y = margin.top + i * rowH + 8;
+        const val = r[key] || 0;
+        const w = plotW * val / max;
+        svg += `<text class="label" x="${margin.left - 10}" y="${y + 13}" text-anchor="end">${r.variant || r.method || r.model}</text>`;
+        svg += `<rect x="${margin.left}" y="${y}" width="${w}" height="18" rx="3" fill="${opts.color || colors.teal}"></rect>`;
+        svg += `<text class="value" x="${margin.left + w + 8}" y="${y + 13}">${opts.percent ? fmtPct(val) : fmtNum(val)}</text>`;
+      });
+      svg += `</svg>`;
+      root.innerHTML = svg;
+    }
+
+    function dualBars(rootId, rows, keys, opts = {}) {
+      const expanded = rows.map(r => ({...r, method: r.metric || r.model || r.method}));
+      groupedBars(rootId, expanded, keys, opts.labels, {...opts, colors: opts.colors || [colors.amber, colors.teal]});
+    }
+
+    groupedBars('costPerf', DATA.costOverall, ['root', 'any', 'all'], ['Root@3', 'Risk-any', 'Risk-all'], {percent: true, max: 1, height: 260, colors: [colors.blue, colors.green, colors.teal]});
+    groupedBars('costProfile', DATA.costOverall, ['calls'], ['API calls / case'], {height: 210, colors: [colors.amber]});
+    singleBars('stage1Large', DATA.stage1Large, 'riskAll', {percent: true, max: 1, color: colors.teal, left: 180});
+    horizontalDelta('ablationDelta', [
+      ...DATA.stage1.filter(r => r.variant !== 'Full').map(r => ({...r, group: 'S1'})),
+      ...DATA.stage2.filter(r => r.variant !== 'Full').map(r => ({...r, group: 'S2'}))
+    ]);
+    dualBars('stage2Core', DATA.stage2, ['riskAll', 'compression'], {labels: ['Risk-all', 'Compression'], percent: true, max: 1, height: 260, colors: [colors.teal, colors.rose]});
+    dualBars('leaMatched', DATA.leaOverall, ['lea', 'sa'], {labels: ['LEA', 'SA-MCGS'], percent: true, max: 1, height: 250});
+    dualBars('leaModel', DATA.leaModels, ['lea', 'sa'], {labels: ['LEA', 'SA-MCGS'], percent: true, max: 1, height: 220});
+    groupedBars('leaCost', DATA.leaCost, ['calls'], ['Calls / case'], {height: 210, colors: [colors.amber]});
+  </script>
+</body>
+</html>

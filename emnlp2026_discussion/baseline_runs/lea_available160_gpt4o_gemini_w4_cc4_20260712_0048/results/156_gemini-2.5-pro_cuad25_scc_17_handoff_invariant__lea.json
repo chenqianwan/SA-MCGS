@@ -1,0 +1,634 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "gemini-2.5-pro",
+  "domain": "cuad",
+  "scc_id": "scc_17",
+  "scc_size": 25,
+  "scc_clause_ids": [
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1.12.2",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__15",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__16",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__17",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__18",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__18.1.4",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__2",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__3.2.4",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__3.3",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.5.2",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.6",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.8.2",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__5.1",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__5.3",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__7",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__8"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__16"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1.12.2",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1.12.2",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1.12.2",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1.12.2",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__15"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__15",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__17"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__15",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__17"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__16",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1.12.2",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10"
+      ]
+    },
+    {
+      "window_index": 10,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__17",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1.12.2",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11"
+      ]
+    },
+    {
+      "window_index": 11,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__18",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__16"
+      ]
+    },
+    {
+      "window_index": 12,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__18.1.4",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1.12.2",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11"
+      ]
+    },
+    {
+      "window_index": 13,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__2",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__17",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__3.2.4"
+      ]
+    },
+    {
+      "window_index": 14,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__3.2.4",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__18",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2"
+      ]
+    },
+    {
+      "window_index": 15,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__3.3",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__17",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.5.2"
+      ]
+    },
+    {
+      "window_index": 16,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1.12.2",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10"
+      ]
+    },
+    {
+      "window_index": 17,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__18",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__3.2.4"
+      ]
+    },
+    {
+      "window_index": 18,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.5.2"
+      ]
+    },
+    {
+      "window_index": 19,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.5.2",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1.12.2",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11"
+      ]
+    },
+    {
+      "window_index": 20,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.6",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__18",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__3.2.4",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4"
+      ]
+    },
+    {
+      "window_index": 21,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.8.2",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__3.2.4",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2"
+      ]
+    },
+    {
+      "window_index": 22,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__5.1",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__17",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__3.2.4"
+      ]
+    },
+    {
+      "window_index": 23,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__5.3",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__17",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__18"
+      ]
+    },
+    {
+      "window_index": 24,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__7",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1.12.2",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11"
+      ]
+    },
+    {
+      "window_index": 25,
+      "window": [
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__8",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__15",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__17",
+        "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__7"
+      ]
+    }
+  ],
+  "llm_calls": 22,
+  "tt_hits": 3,
+  "time": 473.1977140903473,
+  "scores": {
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1": 0.14285714285714285,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1.12.2": 0.10999999999999999,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10": 0.16,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11": 0.13999999999999999,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1": 0.9,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14": 0.125,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3": 0.41111111111111115,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__15": 0.15,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__16": 0.06666666666666667,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__17": 0.15000000000000002,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__18": 0.16,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__18.1.4": 0.1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__2": 0.6,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__3.2.4": 0.11666666666666665,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__3.3": 0.1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4": 0.3333333333333333,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2": 0.8250000000000001,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2": 0.3,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.5.2": 0.16666666666666666,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.6": 0.6,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.8.2": 0.1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__5.1": 0.1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__5.3": 0.5,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__7": 0.35,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__8": 0.1
+  },
+  "visit_counts": {
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1": 7,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11": 10,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14": 4,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__16": 3,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1.12.2": 10,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10": 10,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1": 3,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3": 9,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__15": 4,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__17": 8,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__18": 5,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__18.1.4": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__2": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__3.2.4": 6,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2": 4,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__3.3": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.5.2": 3,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4": 3,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.6": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.8.2": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__5.1": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__5.3": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__7": 2,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__8": 1
+  },
+  "ranking": [
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1",
+      0.9
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2",
+      0.8250000000000001
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__2",
+      0.6
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.6",
+      0.6
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__5.3",
+      0.5
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3",
+      0.41111111111111115
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__7",
+      0.35
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4",
+      0.3333333333333333
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2",
+      0.3
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.5.2",
+      0.16666666666666666
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10",
+      0.16
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__18",
+      0.16
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__17",
+      0.15000000000000002
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__15",
+      0.15
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1",
+      0.14285714285714285
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11",
+      0.13999999999999999
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14",
+      0.125
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__3.2.4",
+      0.11666666666666665
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1.12.2",
+      0.10999999999999999
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__18.1.4",
+      0.1
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__3.3",
+      0.1
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.8.2",
+      0.1
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__5.1",
+      0.1
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__8",
+      0.1
+    ],
+    [
+      "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__16",
+      0.06666666666666667
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1": 3,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3": 6,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__15": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__2": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__17": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2": 4,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4": 2,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.5.2": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10": 2,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11": 2,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.6": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__7": 1
+  },
+  "repair_entry_counts": {
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1": 3,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__15": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3": 3,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__2": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__17": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2": 4,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4": 2,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10": 2,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11": 2,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.6": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__7": 1
+  },
+  "local_conflict_endpoint_counts": {
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__2": 2,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__17": 2,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2": 2,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3": 2,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4": 2,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.5.2": 2,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__7": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11": 1
+  },
+  "lea_risk_subgraph_nodes": [
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__1",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__10",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__17",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__2",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.5.2",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.6",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__7"
+  ],
+  "lea_risk_subgraph_size": 12,
+  "lea_compression_ratio": 0.52,
+  "conflicts": [
+    {
+      "clause_a": "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2",
+      "clause_b": "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3",
+      "description": "4.2.2 triggers automatic termination and accelerates payments without notice, which may conflict with the specific termination conditions and subsequent IP rights allocations defined in 14.3."
+    },
+    {
+      "clause_a": "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2",
+      "clause_b": "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__14.3",
+      "description": "Clause 4.2.2 dictates automatic termination without notice for 'contrary downstream treatment', whereas 14.3 relies on specific termination conditions (e.g., breach, ceasing activities) under Article 14.1."
+    },
+    {
+      "clause_a": "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__7",
+      "clause_b": "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__11",
+      "description": "Record 7 is titled 'REPORTS' but contains payment-related boilerplate, while Record 11 is titled 'Reporting' but is completely empty. The reporting obligations are undefined and structurally confused."
+    }
+  ],
+  "ground_truth_nodes": [
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2"
+  ],
+  "top1_hit": false,
+  "top3_hit": true,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": true,
+  "lea_risk_nodes_retained": [
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": true,
+  "lea_evidence_nodes_retained": [
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__7",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1"
+  ],
+  "lea_contains_any_affected_node": true,
+  "lea_contains_all_affected_nodes": false,
+  "lea_affected_nodes_retained": [
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.5.2"
+  ],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": false,
+  "lea_valuable_nodes_retained": [
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.5.2"
+  ],
+  "inject_mode": true,
+  "injected_node": "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "case_template": "handoff_invariant",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1",
+  "injected_witness_distance": 12,
+  "injected_bridge_node": "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__7",
+  "injected_bridge_distance": 6,
+  "injected_risk_nodes": [
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1"
+  ],
+  "injected_evidence_nodes": [
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__7",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1"
+  ],
+  "injected_affected_nodes": [
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.5.2",
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__16"
+  ],
+  "injected_conflict_family": "handoff_invariant",
+  "injected_conflict_difficulty": "moderate",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "cuad_handoff_invariant_payment_status_critical",
+  "injected_rank": 2,
+  "top1_margin": 0.07499999999999996,
+  "risk_node_ranks": {
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2": 2,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2": 2,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__7": 7,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 7,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.5.2": 10,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__16": 25
+  },
+  "affected_best_rank": 10,
+  "affected_worst_rank": 25,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.2.2": 2,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__13.1": 1,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__4.5.2": 10,
+    "cuad_CERES_INC_01_25_2012_EX_10_20_Collaborat__cuad_CERES_INC_01_25_2012_EX_10_20_Collab_836bcf4c__16": 25
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 25,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "case_id": "156_gemini-2.5-pro_cuad25_scc_17_handoff_invariant",
+  "case_order": 156,
+  "audit_started_at": 1783801004.139135,
+  "audit_completed_at": 1783801477.355208,
+  "audit_started_at_iso": "2026-07-12T04:16:44+0800",
+  "audit_completed_at_iso": "2026-07-12T04:24:37+0800",
+  "case_concurrency": 4,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 31,
+    "successful_api_calls": 31,
+    "failed_api_calls": 0,
+    "prompt_tokens": 97210,
+    "completion_tokens": 43390,
+    "total_tokens": 140600,
+    "api_runtime_sec_sum": 462.1620454788208
+  }
+}

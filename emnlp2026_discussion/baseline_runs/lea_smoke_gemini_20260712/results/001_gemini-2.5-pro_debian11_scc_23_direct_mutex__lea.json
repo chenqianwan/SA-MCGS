@@ -1,0 +1,389 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "gemini-2.5-pro",
+  "domain": "debian",
+  "scc_id": "scc_23",
+  "scc_size": 11,
+  "scc_clause_ids": [
+    "libjs-util",
+    "node-assert",
+    "node-debbundle-es-to-primitive",
+    "node-deep-equal",
+    "node-define-properties",
+    "node-es-abstract",
+    "node-istanbul",
+    "node-parse-json",
+    "node-read-pkg",
+    "node-tape",
+    "node-util"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "libjs-util",
+        "node-deep-equal",
+        "node-util",
+        "node-assert"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "node-assert",
+        "node-parse-json",
+        "node-util",
+        "node-debbundle-es-to-primitive"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "node-debbundle-es-to-primitive",
+        "node-deep-equal",
+        "node-define-properties",
+        "node-es-abstract"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "node-deep-equal",
+        "libjs-util",
+        "node-debbundle-es-to-primitive",
+        "node-define-properties"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "node-define-properties",
+        "node-debbundle-es-to-primitive",
+        "node-deep-equal",
+        "node-es-abstract"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "node-es-abstract",
+        "node-debbundle-es-to-primitive",
+        "node-deep-equal",
+        "node-define-properties"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "node-istanbul",
+        "node-read-pkg",
+        "node-tape",
+        "node-parse-json"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "node-parse-json",
+        "node-assert",
+        "node-read-pkg",
+        "node-istanbul"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "node-read-pkg",
+        "node-istanbul",
+        "node-parse-json",
+        "node-tape"
+      ]
+    },
+    {
+      "window_index": 10,
+      "window": [
+        "node-tape",
+        "node-debbundle-es-to-primitive",
+        "node-deep-equal",
+        "node-define-properties"
+      ]
+    },
+    {
+      "window_index": 11,
+      "window": [
+        "node-util",
+        "libjs-util",
+        "node-assert",
+        "node-tape"
+      ]
+    }
+  ],
+  "llm_calls": 8,
+  "tt_hits": 3,
+  "time": 226.18562412261963,
+  "scores": {
+    "libjs-util": 0.06666666666666667,
+    "node-assert": 0.175,
+    "node-debbundle-es-to-primitive": 0.35000000000000003,
+    "node-deep-equal": 0.9,
+    "node-define-properties": 0.22000000000000003,
+    "node-es-abstract": 0.3,
+    "node-istanbul": 0.2333333333333333,
+    "node-parse-json": 0.575,
+    "node-read-pkg": 0.2333333333333333,
+    "node-tape": 0.07500000000000001,
+    "node-util": 0.06666666666666667
+  },
+  "visit_counts": {
+    "libjs-util": 3,
+    "node-deep-equal": 6,
+    "node-util": 3,
+    "node-assert": 4,
+    "node-parse-json": 4,
+    "node-debbundle-es-to-primitive": 6,
+    "node-define-properties": 5,
+    "node-es-abstract": 3,
+    "node-istanbul": 3,
+    "node-read-pkg": 3,
+    "node-tape": 4
+  },
+  "ranking": [
+    [
+      "node-deep-equal",
+      0.9
+    ],
+    [
+      "node-parse-json",
+      0.575
+    ],
+    [
+      "node-debbundle-es-to-primitive",
+      0.35000000000000003
+    ],
+    [
+      "node-es-abstract",
+      0.3
+    ],
+    [
+      "node-istanbul",
+      0.2333333333333333
+    ],
+    [
+      "node-read-pkg",
+      0.2333333333333333
+    ],
+    [
+      "node-define-properties",
+      0.22000000000000003
+    ],
+    [
+      "node-assert",
+      0.175
+    ],
+    [
+      "node-tape",
+      0.07500000000000001
+    ],
+    [
+      "libjs-util",
+      0.06666666666666667
+    ],
+    [
+      "node-util",
+      0.06666666666666667
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "node-deep-equal": 6,
+    "node-parse-json": 3,
+    "node-debbundle-es-to-primitive": 5,
+    "node-define-properties": 3,
+    "node-es-abstract": 3,
+    "node-read-pkg": 2
+  },
+  "repair_entry_counts": {
+    "node-deep-equal": 6,
+    "node-parse-json": 3
+  },
+  "local_conflict_endpoint_counts": {
+    "node-deep-equal": 10,
+    "node-debbundle-es-to-primitive": 7,
+    "node-es-abstract": 3,
+    "node-read-pkg": 2,
+    "node-parse-json": 2
+  },
+  "lea_risk_subgraph_nodes": [
+    "node-debbundle-es-to-primitive",
+    "node-deep-equal",
+    "node-es-abstract",
+    "node-parse-json",
+    "node-read-pkg"
+  ],
+  "lea_risk_subgraph_size": 5,
+  "lea_compression_ratio": 0.5454545454545454,
+  "conflicts": [
+    {
+      "clause_a": "node-deep-equal",
+      "clause_b": "node-debbundle-es-to-primitive",
+      "description": "Circular dependency: node-debbundle-es-to-primitive depends on node-call-bind (provided by node-deep-equal), while node-deep-equal depends on node-debbundle-es-to-primitive."
+    },
+    {
+      "clause_a": "node-deep-equal",
+      "clause_b": "node-debbundle-es-to-primitive",
+      "description": "Cyclic dependency where node-deep-equal requires node-debbundle-es-to-primitive, and node-debbundle-es-to-primitive requires node-call-bind which is provided by node-deep-equal."
+    },
+    {
+      "clause_a": "node-deep-equal",
+      "clause_b": "node-debbundle-es-to-primitive",
+      "description": "Circular dependency: node-debbundle-es-to-primitive depends on node-call-bind (provided by node-deep-equal), while node-deep-equal depends on node-debbundle-es-to-primitive."
+    },
+    {
+      "clause_a": "node-deep-equal",
+      "clause_b": "node-debbundle-es-to-primitive",
+      "description": "Circular dependency: node-debbundle-es-to-primitive depends on node-call-bind (provided by node-deep-equal), while node-deep-equal depends on node-debbundle-es-to-primitive."
+    },
+    {
+      "clause_a": "node-debbundle-es-to-primitive",
+      "clause_b": "node-deep-equal",
+      "description": "Circular dependency: node-debbundle-es-to-primitive requires node-call-bind (provided by node-deep-equal), and node-deep-equal requires node-debbundle-es-to-primitive."
+    }
+  ],
+  "ground_truth_nodes": [
+    "node-parse-json"
+  ],
+  "top1_hit": false,
+  "top3_hit": true,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": true,
+  "lea_risk_nodes_retained": [
+    "node-parse-json",
+    "node-deep-equal"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": true,
+  "lea_evidence_nodes_retained": [
+    "node-parse-json",
+    "node-deep-equal"
+  ],
+  "lea_contains_any_affected_node": true,
+  "lea_contains_all_affected_nodes": true,
+  "lea_affected_nodes_retained": [
+    "node-read-pkg",
+    "node-debbundle-es-to-primitive"
+  ],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": true,
+  "lea_valuable_nodes_retained": [
+    "node-parse-json",
+    "node-deep-equal",
+    "node-read-pkg",
+    "node-debbundle-es-to-primitive"
+  ],
+  "inject_mode": true,
+  "injected_node": "node-parse-json",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "case_template": "direct_mutex",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "node-deep-equal",
+  "injected_witness_distance": 5,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "node-parse-json",
+    "node-deep-equal"
+  ],
+  "injected_evidence_nodes": [
+    "node-parse-json",
+    "node-deep-equal"
+  ],
+  "injected_affected_nodes": [
+    "node-read-pkg",
+    "node-debbundle-es-to-primitive"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "debian_direct_legacy_vs_new_abi_critical",
+  "injected_rank": 2,
+  "top1_margin": 0.32500000000000007,
+  "risk_node_ranks": {
+    "node-parse-json": 2,
+    "node-deep-equal": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "node-parse-json": 2,
+    "node-deep-equal": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 2,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "node-read-pkg": 6,
+    "node-debbundle-es-to-primitive": 3
+  },
+  "affected_best_rank": 3,
+  "affected_worst_rank": 6,
+  "affected_top1_hit": false,
+  "affected_top3_hit": true,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "node-parse-json": 2,
+    "node-deep-equal": 1,
+    "node-read-pkg": 6,
+    "node-debbundle-es-to-primitive": 3
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 6,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "case_id": "001_gemini-2.5-pro_debian11_scc_23_direct_mutex",
+  "case_order": 1,
+  "audit_started_at": 1783787962.990198,
+  "audit_completed_at": 1783788190.569041,
+  "audit_started_at_iso": "2026-07-12T00:39:22+0800",
+  "audit_completed_at_iso": "2026-07-12T00:43:10+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 13,
+    "successful_api_calls": 13,
+    "failed_api_calls": 0,
+    "prompt_tokens": 21724,
+    "completion_tokens": 19507,
+    "total_tokens": 41231,
+    "api_runtime_sec_sum": 219.1635866165161
+  }
+}

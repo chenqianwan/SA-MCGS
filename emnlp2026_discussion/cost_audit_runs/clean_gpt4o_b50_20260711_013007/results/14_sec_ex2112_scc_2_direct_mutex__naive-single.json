@@ -1,0 +1,414 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (sec_ex21); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gpt-4o",
+  "domain": "sec_ex21",
+  "scc_size": 9,
+  "scc_id": "scc_2",
+  "scc_clause_ids": [
+    "us-cw-1017834",
+    "us-cw-3674429",
+    "us-cw-3682211",
+    "us-cw-3682213",
+    "us-cw-3682810",
+    "us-cw-3682811",
+    "us-cw-3682212",
+    "us-cw-3684902",
+    "us-cw-617657"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 1464,
+    "completion_tokens": 1592,
+    "total_tokens": 3056
+  },
+  "time": 9.375098943710327,
+  "scores": {
+    "us-cw-1017834": 0.2,
+    "us-cw-3674429": 0.3,
+    "us-cw-3682211": 0.5,
+    "us-cw-3682213": 0.7,
+    "us-cw-3682810": 0.9,
+    "us-cw-3682811": 1.0,
+    "us-cw-3682212": 0.8,
+    "us-cw-3684902": 0.4,
+    "us-cw-617657": 0.6
+  },
+  "reasonings": {
+    "us-cw-1017834": "Central position in the graph, but its risk is lower compared to others.",
+    "us-cw-3674429": "References us-cw-3684902, but its dependency relationships are ambiguous.",
+    "us-cw-3682211": "Referenced by multiple nodes, but its dependency relationships are not fully clear.",
+    "us-cw-3682213": "Referenced by multiple nodes, but its dependency relationships are ambiguous.",
+    "us-cw-3682810": "Part of a cycle with us-cw-3682811.",
+    "us-cw-3682811": "Part of a cycle and has contradictory consolidation requirements.",
+    "us-cw-3682212": "Conflicting consolidation paths create mutually incompatible states.",
+    "us-cw-3684902": "References us-cw-617657, but its dependency relationships are not fully specified.",
+    "us-cw-617657": "Central position in the graph, connecting multiple high-risk nodes."
+  },
+  "ranking": [
+    [
+      "us-cw-3682811",
+      1.0
+    ],
+    [
+      "us-cw-3682810",
+      0.9
+    ],
+    [
+      "us-cw-3682212",
+      0.8
+    ],
+    [
+      "us-cw-3682213",
+      0.7
+    ],
+    [
+      "us-cw-617657",
+      0.6
+    ],
+    [
+      "us-cw-3682211",
+      0.5
+    ],
+    [
+      "us-cw-3684902",
+      0.4
+    ],
+    [
+      "us-cw-3674429",
+      0.3
+    ],
+    [
+      "us-cw-1017834",
+      0.2
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "us-cw-3682811",
+      "risk_score": 1.0,
+      "risk_factors": [
+        "dependency_cycle",
+        "contradictory_consolidation"
+      ],
+      "reasoning": "This node is part of a cycle with us-cw-3682810 and has contradictory consolidation requirements, making it structurally inconsistent."
+    },
+    {
+      "rank": 2,
+      "clause_id": "us-cw-3682810",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "dependency_cycle"
+      ],
+      "reasoning": "This node is part of a cycle with us-cw-3682811, creating structural inconsistency."
+    },
+    {
+      "rank": 3,
+      "clause_id": "us-cw-3682212",
+      "risk_score": 0.8,
+      "risk_factors": [
+        "contradictory_consolidation"
+      ],
+      "reasoning": "This node has conflicting consolidation paths, leading to mutually incompatible states."
+    },
+    {
+      "rank": 4,
+      "clause_id": "us-cw-3682213",
+      "risk_score": 0.7,
+      "risk_factors": [
+        "underspecified_dependency"
+      ],
+      "reasoning": "This node is referenced by multiple upstream nodes, but its dependency relationships are ambiguous."
+    },
+    {
+      "rank": 5,
+      "clause_id": "us-cw-617657",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "high-impact position"
+      ],
+      "reasoning": "This node connects multiple high-risk nodes and has a central position in the graph."
+    },
+    {
+      "rank": 6,
+      "clause_id": "us-cw-3682211",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "underspecified_dependency"
+      ],
+      "reasoning": "This node is referenced by us-cw-1017834 and us-cw-3682213, but its dependency relationships are not fully clear."
+    },
+    {
+      "rank": 7,
+      "clause_id": "us-cw-3684902",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "underspecified_dependency"
+      ],
+      "reasoning": "This node references us-cw-617657, but its dependency relationships are not fully specified."
+    },
+    {
+      "rank": 8,
+      "clause_id": "us-cw-3674429",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "underspecified_dependency"
+      ],
+      "reasoning": "This node references us-cw-3684902, but its dependency relationships are ambiguous."
+    },
+    {
+      "rank": 9,
+      "clause_id": "us-cw-1017834",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "high-impact position"
+      ],
+      "reasoning": "This node is referenced by multiple nodes and has a central position, but its risk is lower compared to others."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "dependency_cycle",
+      "importance_weight": 0.4,
+      "description": "Captures cycles in the graph where records depend on each other in a circular manner, leading to structural inconsistency."
+    },
+    {
+      "factor": "contradictory_consolidation",
+      "importance_weight": 0.3,
+      "description": "Captures records with mutually incompatible consolidation paths or conflicting dependency states."
+    },
+    {
+      "factor": "underspecified_dependency",
+      "importance_weight": 0.2,
+      "description": "Captures records with ambiguous or incomplete dependency relationships."
+    },
+    {
+      "factor": "high-impact position",
+      "importance_weight": 0.1,
+      "description": "Captures records that are central to the graph structure and affect many other nodes."
+    }
+  ],
+  "risk_factor_weight_sum": 1.0,
+  "direct_risk_subgraph_nodes": [
+    "us-cw-3682811",
+    "us-cw-3682810",
+    "us-cw-3682212"
+  ],
+  "direct_risk_subgraph_size": 3,
+  "direct_compression_ratio": 0.6666666666666667,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "This subgraph captures the smallest set of nodes involved in cycles, contradictory consolidation paths, and high structural risk. Removing or resolving these nodes would address the most severe inconsistencies in the graph.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "us-cw-3682811",
+      "target": "us-cw-3682810",
+      "reason": "Forms a cycle, leading to structural inconsistency."
+    },
+    {
+      "source": "us-cw-3682810",
+      "target": "us-cw-3682811",
+      "reason": "Forms a cycle, leading to structural inconsistency."
+    },
+    {
+      "source": "us-cw-3682212",
+      "target": "us-cw-3682213",
+      "reason": "Conflicting consolidation paths create mutually incompatible states."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "us-cw-3682811",
+    "us-cw-3682810",
+    "us-cw-3682212"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 9,
+  "largest_tie_count": 1,
+  "tied_score_groups": [],
+  "conflicts": [
+    {
+      "clause_a": "us-cw-3682811",
+      "clause_b": "us-cw-3682810",
+      "description": "Forms a cycle, leading to structural inconsistency."
+    },
+    {
+      "clause_a": "us-cw-3682212",
+      "clause_b": "us-cw-3682213",
+      "description": "Conflicting consolidation paths create mutually incompatible states."
+    }
+  ],
+  "score_spread": 0.8,
+  "ranking_score_spread": 0.8,
+  "score_mean": 0.6000000000000001,
+  "score_max": 1.0,
+  "node_names": {
+    "us-cw-1017834": "SkillSoft Corporation",
+    "us-cw-3674429": "Pointwell Limited",
+    "us-cw-3682211": "Skillsoft Finance I Inc",
+    "us-cw-3682213": "Skillsoft Finance II Inc",
+    "us-cw-3682810": "Software Luxembourg Acquisition S.a r.l.",
+    "us-cw-3682811": "Software Luxembourg Intermediate S.a r.l.",
+    "us-cw-3682212": "Skillsoft Finance I LLC",
+    "us-cw-3684902": "SSI Investments I Limited",
+    "us-cw-617657": "SSI Investments II Limited"
+  },
+  "ground_truth_nodes": [
+    "us-cw-3682212"
+  ],
+  "gt_evidence": {
+    "us-cw-3682212": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": true,
+  "prompt_word_count": 781,
+  "injected_title_occurrences_in_prompt": 4,
+  "injected_id_occurrences_in_prompt": 3,
+  "injected_title_first_word_ratio": 0.2471190781049936,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.2535211267605634,
+  "inject_mode": true,
+  "injected_node": "us-cw-3682212",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-3682811",
+  "injected_witness_distance": 4,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "us-cw-3682212",
+    "us-cw-3682811"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-3682212",
+    "us-cw-3682811"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-1017834",
+    "us-cw-3682810"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_direct_full_consolidation_vs_retained_interest_critical",
+  "injected_rank": 3,
+  "top1_margin": 0.09999999999999998,
+  "risk_node_ranks": {
+    "us-cw-3682212": 3,
+    "us-cw-3682811": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 3,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "us-cw-3682212": 3,
+    "us-cw-3682811": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 3,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "us-cw-1017834": 9,
+    "us-cw-3682810": 2
+  },
+  "affected_best_rank": 2,
+  "affected_worst_rank": 9,
+  "affected_top1_hit": false,
+  "affected_top3_hit": true,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-3682212": 3,
+    "us-cw-3682811": 1,
+    "us-cw-1017834": 9,
+    "us-cw-3682810": 2
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 9,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 3,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "direct_subgraph_nodes_retained": [
+    "us-cw-3682811",
+    "us-cw-3682810",
+    "us-cw-3682212"
+  ],
+  "direct_contains_injected_node": true,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": true,
+  "direct_risk_nodes_retained": [
+    "us-cw-3682212",
+    "us-cw-3682811"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": true,
+  "direct_evidence_nodes_retained": [
+    "us-cw-3682212",
+    "us-cw-3682811"
+  ],
+  "direct_contains_any_affected_node": true,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [
+    "us-cw-3682810"
+  ],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "us-cw-3682212",
+    "us-cw-3682811",
+    "us-cw-3682810"
+  ],
+  "case_id": "14_sec_ex2112_scc_2_direct_mutex",
+  "case_order": 14,
+  "audit_started_at": 1783717391.078611,
+  "audit_completed_at": 1783717400.454085,
+  "audit_started_at_iso": "2026-07-11T05:03:11+0800",
+  "audit_completed_at_iso": "2026-07-11T05:03:20+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 1464,
+    "completion_tokens": 1592,
+    "total_tokens": 3056,
+    "api_runtime_sec_sum": 9.374161005020142
+  }
+}

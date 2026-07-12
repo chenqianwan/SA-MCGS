@@ -1,0 +1,594 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (sec_ex21); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gpt-4o",
+  "domain": "sec_ex21",
+  "scc_size": 18,
+  "scc_id": "scc_4",
+  "scc_clause_ids": [
+    "us-cw-1001720",
+    "us-cw-1001721",
+    "us-cw-1180",
+    "us-cw-118216",
+    "us-cw-1196",
+    "us-cw-1280",
+    "us-cw-130",
+    "us-cw-2080",
+    "us-cw-3379182",
+    "us-cw-42654",
+    "us-cw-590084",
+    "us-cw-590085",
+    "us-cw-841126",
+    "us-cw-59234",
+    "us-cw-702872",
+    "us-cw-822",
+    "us-cw-903404",
+    "us-cw-907597"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 6446,
+    "completion_tokens": 2565,
+    "total_tokens": 9011
+  },
+  "time": 11.53616189956665,
+  "scores": {
+    "us-cw-1001720": 0.1,
+    "us-cw-1001721": 0.1,
+    "us-cw-1180": 0.9,
+    "us-cw-118216": 1.0,
+    "us-cw-1196": 0.7,
+    "us-cw-1280": 0.6,
+    "us-cw-130": 0.5,
+    "us-cw-2080": 0.4,
+    "us-cw-3379182": 0.3,
+    "us-cw-42654": 0.8,
+    "us-cw-590084": 0.1,
+    "us-cw-590085": 0.2,
+    "us-cw-841126": 0.2,
+    "us-cw-59234": 0.1,
+    "us-cw-702872": 0.2,
+    "us-cw-822": 0.1,
+    "us-cw-903404": 0.2,
+    "us-cw-907597": 0.1
+  },
+  "reasonings": {
+    "us-cw-1001720": "Referenced by multiple nodes but does not directly contribute to conflicts.",
+    "us-cw-1001721": "Referenced by multiple nodes but does not directly contribute to conflicts.",
+    "us-cw-1180": "Central node with numerous references, including to high-risk nodes, amplifying structural concerns.",
+    "us-cw-118216": "Conflicting dependency paths and mandatory state mismatch with upstream and downstream records.",
+    "us-cw-1196": "References high-risk nodes and amplifies structural concerns due to its position in the graph.",
+    "us-cw-1280": "References nodes with conflicting states, contributing to structural inconsistency.",
+    "us-cw-130": "References nodes with structural concerns but has fewer direct conflicts.",
+    "us-cw-2080": "References multiple nodes but does not directly contribute to conflicts.",
+    "us-cw-3379182": "Duplicate of us-cw-1180 with less information, creating ambiguity.",
+    "us-cw-42654": "References multiple nodes with conflicting states, contributing to structural inconsistency.",
+    "us-cw-590084": "Referenced by multiple nodes but lacks sufficient information to resolve dependencies.",
+    "us-cw-590085": "Referenced by multiple nodes but lacks sufficient information to resolve dependencies.",
+    "us-cw-841126": "References us-cw-42654 but does not introduce direct conflicts.",
+    "us-cw-59234": "References multiple nodes but does not directly contribute to conflicts.",
+    "us-cw-702872": "References us-cw-590085, which is underspecified, creating potential ambiguity.",
+    "us-cw-822": "References multiple nodes but does not directly contribute to conflicts.",
+    "us-cw-903404": "References nodes with structural concerns but does not directly contribute to conflicts.",
+    "us-cw-907597": "Referenced by multiple nodes but does not directly contribute to conflicts."
+  },
+  "ranking": [
+    [
+      "us-cw-118216",
+      1.0
+    ],
+    [
+      "us-cw-1180",
+      0.9
+    ],
+    [
+      "us-cw-42654",
+      0.8
+    ],
+    [
+      "us-cw-1196",
+      0.7
+    ],
+    [
+      "us-cw-1280",
+      0.6
+    ],
+    [
+      "us-cw-130",
+      0.5
+    ],
+    [
+      "us-cw-2080",
+      0.4
+    ],
+    [
+      "us-cw-3379182",
+      0.3
+    ],
+    [
+      "us-cw-590085",
+      0.2
+    ],
+    [
+      "us-cw-702872",
+      0.2
+    ],
+    [
+      "us-cw-841126",
+      0.2
+    ],
+    [
+      "us-cw-903404",
+      0.2
+    ],
+    [
+      "us-cw-59234",
+      0.1
+    ],
+    [
+      "us-cw-822",
+      0.1
+    ],
+    [
+      "us-cw-590084",
+      0.1
+    ],
+    [
+      "us-cw-1001720",
+      0.1
+    ],
+    [
+      "us-cw-1001721",
+      0.1
+    ],
+    [
+      "us-cw-907597",
+      0.1
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "us-cw-118216",
+      "risk_score": 1.0,
+      "risk_factors": [
+        "structural_inconsistency",
+        "mutual_incompatibility"
+      ],
+      "reasoning": "Conflicting dependency paths and mandatory state mismatch with upstream and downstream records."
+    },
+    {
+      "rank": 2,
+      "clause_id": "us-cw-1180",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "structural_inconsistency",
+        "high-impact_dependency"
+      ],
+      "reasoning": "Central node with numerous references, including to high-risk nodes, amplifying structural concerns."
+    },
+    {
+      "rank": 3,
+      "clause_id": "us-cw-42654",
+      "risk_score": 0.8,
+      "risk_factors": [
+        "structural_inconsistency",
+        "mutual_incompatibility"
+      ],
+      "reasoning": "References multiple nodes with conflicting states, including high-risk nodes."
+    },
+    {
+      "rank": 4,
+      "clause_id": "us-cw-1196",
+      "risk_score": 0.7,
+      "risk_factors": [
+        "structural_inconsistency",
+        "high-impact_dependency"
+      ],
+      "reasoning": "References high-risk nodes and amplifies structural concerns due to its position in the graph."
+    },
+    {
+      "rank": 5,
+      "clause_id": "us-cw-1280",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "structural_inconsistency"
+      ],
+      "reasoning": "References nodes with conflicting states, contributing to structural inconsistency."
+    },
+    {
+      "rank": 6,
+      "clause_id": "us-cw-130",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "structural_inconsistency"
+      ],
+      "reasoning": "References nodes with structural concerns but has fewer direct conflicts."
+    },
+    {
+      "rank": 7,
+      "clause_id": "us-cw-2080",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "high-impact_dependency"
+      ],
+      "reasoning": "References multiple nodes but does not directly contribute to conflicts."
+    },
+    {
+      "rank": 8,
+      "clause_id": "us-cw-3379182",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "underspecification"
+      ],
+      "reasoning": "Duplicate of us-cw-1180 with less information, creating ambiguity."
+    },
+    {
+      "rank": 9,
+      "clause_id": "us-cw-590085",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "underspecification"
+      ],
+      "reasoning": "Referenced by multiple nodes but lacks sufficient information to resolve dependencies."
+    },
+    {
+      "rank": 10,
+      "clause_id": "us-cw-702872",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "underspecification"
+      ],
+      "reasoning": "References us-cw-590085, which is underspecified, creating potential ambiguity."
+    },
+    {
+      "rank": 11,
+      "clause_id": "us-cw-841126",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "underspecification"
+      ],
+      "reasoning": "References us-cw-42654 but does not introduce direct conflicts."
+    },
+    {
+      "rank": 12,
+      "clause_id": "us-cw-903404",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "underspecification"
+      ],
+      "reasoning": "References nodes with structural concerns but does not directly contribute to conflicts."
+    },
+    {
+      "rank": 13,
+      "clause_id": "us-cw-59234",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "high-impact_dependency"
+      ],
+      "reasoning": "References multiple nodes but does not directly contribute to conflicts."
+    },
+    {
+      "rank": 14,
+      "clause_id": "us-cw-822",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "high-impact_dependency"
+      ],
+      "reasoning": "References multiple nodes but does not directly contribute to conflicts."
+    },
+    {
+      "rank": 15,
+      "clause_id": "us-cw-590084",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "underspecification"
+      ],
+      "reasoning": "Referenced by multiple nodes but lacks sufficient information to resolve dependencies."
+    },
+    {
+      "rank": 16,
+      "clause_id": "us-cw-1001720",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "underspecification"
+      ],
+      "reasoning": "Referenced by multiple nodes but does not directly contribute to conflicts."
+    },
+    {
+      "rank": 17,
+      "clause_id": "us-cw-1001721",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "underspecification"
+      ],
+      "reasoning": "Referenced by multiple nodes but does not directly contribute to conflicts."
+    },
+    {
+      "rank": 18,
+      "clause_id": "us-cw-907597",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "underspecification"
+      ],
+      "reasoning": "Referenced by multiple nodes but does not directly contribute to conflicts."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "structural_inconsistency",
+      "importance_weight": 0.4,
+      "description": "Captures nodes with conflicting dependencies or incompatible states."
+    },
+    {
+      "factor": "mutual_incompatibility",
+      "importance_weight": 0.3,
+      "description": "Captures nodes that are simultaneously allowed and barred due to dependency paths."
+    },
+    {
+      "factor": "underspecification",
+      "importance_weight": 0.2,
+      "description": "Captures nodes with insufficient information to resolve dependencies or conflicts."
+    },
+    {
+      "factor": "high-impact_dependency",
+      "importance_weight": 0.1,
+      "description": "Captures nodes with many downstream dependencies, amplifying risks."
+    }
+  ],
+  "risk_factor_weight_sum": 1.0,
+  "direct_risk_subgraph_nodes": [
+    "us-cw-118216",
+    "us-cw-1180",
+    "us-cw-42654"
+  ],
+  "direct_risk_subgraph_size": 3,
+  "direct_compression_ratio": 0.8333333333333334,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "This subgraph captures the core structural inconsistency and mutual incompatibility issues. These nodes are directly involved in conflicting dependency paths and mandatory state mismatches, making them sufficient and minimal for localizing and repairing the risk.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "us-cw-118216",
+      "target": "us-cw-1180",
+      "reason": "us-cw-118216 references us-cw-1180, creating a circular dependency and structural inconsistency."
+    },
+    {
+      "source": "us-cw-118216",
+      "target": "us-cw-42654",
+      "reason": "us-cw-118216 references us-cw-42654, which is involved in conflicting dependency paths."
+    },
+    {
+      "source": "us-cw-1180",
+      "target": "us-cw-42654",
+      "reason": "us-cw-1180 references us-cw-42654, amplifying structural concerns due to its central position."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "us-cw-118216",
+    "us-cw-1180",
+    "us-cw-42654"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 10,
+  "largest_tie_count": 6,
+  "tied_score_groups": [
+    {
+      "score": 0.1,
+      "count": 6,
+      "nodes": [
+        "us-cw-1001720",
+        "us-cw-1001721",
+        "us-cw-590084",
+        "us-cw-59234",
+        "us-cw-822",
+        "us-cw-907597"
+      ]
+    },
+    {
+      "score": 0.2,
+      "count": 4,
+      "nodes": [
+        "us-cw-590085",
+        "us-cw-841126",
+        "us-cw-702872",
+        "us-cw-903404"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "clause_a": "us-cw-118216",
+      "clause_b": "us-cw-1180",
+      "description": "Circular dependency and conflicting mandatory state between these nodes."
+    },
+    {
+      "clause_a": "us-cw-118216",
+      "clause_b": "us-cw-42654",
+      "description": "Conflicting dependency paths and mandatory state mismatch between these nodes."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-42654",
+      "description": "Structural inconsistency due to conflicting references and high-impact dependencies."
+    }
+  ],
+  "score_spread": 0.9,
+  "ranking_score_spread": 0.9,
+  "score_mean": 0.36666666666666664,
+  "score_max": 1.0,
+  "node_names": {
+    "us-cw-1001720": "Entergy International Holdings Ltd",
+    "us-cw-1001721": "Entergy Louisiana Holdings Inc",
+    "us-cw-1180": "ENTERGY CORP",
+    "us-cw-118216": "ENTERGY LOUISIANA HOLDINGS INC",
+    "us-cw-1196": "Entergy Mississippi, Inc",
+    "us-cw-1280": "Entergy New Orleans, Inc",
+    "us-cw-130": "Entergy Arkansas, Inc",
+    "us-cw-2080": "System Energy Resources, Inc",
+    "us-cw-3379182": "ENTERGY CORP",
+    "us-cw-42654": "Entergy Louisiana LLC",
+    "us-cw-590084": "Entergy Holdings Company LLC",
+    "us-cw-590085": "Entergy International Ltd LLC",
+    "us-cw-841126": "Entergy Louisiana Holdings LLC",
+    "us-cw-59234": "Entergy Texas, Inc",
+    "us-cw-702872": "Entergy International Holdings LLC",
+    "us-cw-822": "ENTERGY GULF STATES INC",
+    "us-cw-903404": "Entergy Utility Holding Co LLC",
+    "us-cw-907597": "Louisiana Power & Light Co LLC"
+  },
+  "ground_truth_nodes": [
+    "us-cw-841126"
+  ],
+  "gt_evidence": {
+    "us-cw-841126": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": false,
+  "prompt_word_count": 2726,
+  "injected_title_occurrences_in_prompt": 4,
+  "injected_id_occurrences_in_prompt": 3,
+  "injected_title_first_word_ratio": 0.2450476889214967,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.24688187820983126,
+  "inject_mode": true,
+  "injected_node": "us-cw-841126",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-118216",
+  "injected_witness_distance": 9,
+  "injected_bridge_node": "us-cw-130",
+  "injected_bridge_distance": 4,
+  "injected_risk_nodes": [
+    "us-cw-841126",
+    "us-cw-118216"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-841126",
+    "us-cw-130",
+    "us-cw-118216"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-1001720",
+    "us-cw-1280"
+  ],
+  "injected_conflict_family": "temporal_gate",
+  "injected_conflict_difficulty": "subtle",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_temporal_quarter_close_gate_critical",
+  "injected_rank": 11,
+  "top1_margin": 0.09999999999999998,
+  "risk_node_ranks": {
+    "us-cw-841126": 11,
+    "us-cw-118216": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 11,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": false,
+  "evidence_node_ranks": {
+    "us-cw-841126": 11,
+    "us-cw-130": 6,
+    "us-cw-118216": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 11,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "us-cw-1001720": 16,
+    "us-cw-1280": 5
+  },
+  "affected_best_rank": 5,
+  "affected_worst_rank": 16,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-841126": 11,
+    "us-cw-118216": 1,
+    "us-cw-1001720": 16,
+    "us-cw-1280": 5
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 16,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 11,
+  "root_top1_hit": false,
+  "root_top3_hit": false,
+  "direct_subgraph_nodes_retained": [
+    "us-cw-118216",
+    "us-cw-1180",
+    "us-cw-42654"
+  ],
+  "direct_contains_injected_node": false,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": false,
+  "direct_risk_nodes_retained": [
+    "us-cw-118216"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": false,
+  "direct_evidence_nodes_retained": [
+    "us-cw-118216"
+  ],
+  "direct_contains_any_affected_node": false,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "us-cw-118216"
+  ],
+  "case_id": "34_sec_ex2112_scc_4_temporal_gate",
+  "case_order": 34,
+  "audit_started_at": 1783835322.539096,
+  "audit_completed_at": 1783835334.075734,
+  "audit_started_at_iso": "2026-07-12T13:48:42+0800",
+  "audit_completed_at_iso": "2026-07-12T13:48:54+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 6446,
+    "completion_tokens": 2565,
+    "total_tokens": 9011,
+    "api_runtime_sec_sum": 11.534443140029907
+  }
+}

@@ -1,0 +1,331 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "gemini-2.5-pro",
+  "domain": "bgb",
+  "scc_id": "scc_7",
+  "scc_size": 9,
+  "scc_clause_ids": [
+    "bgb_555c",
+    "bgb_555d",
+    "bgb_558",
+    "bgb_559",
+    "bgb_559a",
+    "bgb_559b",
+    "bgb_559e",
+    "bgb_559c",
+    "bgb_559d"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "bgb_555c",
+        "bgb_555d",
+        "bgb_559",
+        "bgb_559b"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "bgb_555d",
+        "bgb_555c",
+        "bgb_559",
+        "bgb_558"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "bgb_558",
+        "bgb_559",
+        "bgb_559a",
+        "bgb_555d"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "bgb_559",
+        "bgb_555c",
+        "bgb_555d",
+        "bgb_558"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "bgb_559a",
+        "bgb_558",
+        "bgb_559",
+        "bgb_559b"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "bgb_559b",
+        "bgb_555c",
+        "bgb_559",
+        "bgb_559a"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "bgb_559e",
+        "bgb_559",
+        "bgb_559a",
+        "bgb_559b"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "bgb_559c",
+        "bgb_555c",
+        "bgb_559",
+        "bgb_559a"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "bgb_559d",
+        "bgb_555c",
+        "bgb_559e",
+        "bgb_559c"
+      ]
+    }
+  ],
+  "llm_calls": 8,
+  "tt_hits": 1,
+  "time": 230.08845901489258,
+  "scores": {
+    "bgb_555c": 0.15833333333333335,
+    "bgb_555d": 0.15000000000000002,
+    "bgb_558": 0.5,
+    "bgb_559": 0.175,
+    "bgb_559a": 0.16999999999999998,
+    "bgb_559b": 0.0625,
+    "bgb_559e": 0.9,
+    "bgb_559c": 0.35,
+    "bgb_559d": 0.3
+  },
+  "visit_counts": {
+    "bgb_555c": 6,
+    "bgb_555d": 4,
+    "bgb_559": 8,
+    "bgb_559b": 4,
+    "bgb_558": 4,
+    "bgb_559a": 5,
+    "bgb_559e": 2,
+    "bgb_559c": 2,
+    "bgb_559d": 1
+  },
+  "ranking": [
+    [
+      "bgb_559e",
+      0.9
+    ],
+    [
+      "bgb_558",
+      0.5
+    ],
+    [
+      "bgb_559c",
+      0.35
+    ],
+    [
+      "bgb_559d",
+      0.3
+    ],
+    [
+      "bgb_559",
+      0.175
+    ],
+    [
+      "bgb_559a",
+      0.16999999999999998
+    ],
+    [
+      "bgb_555c",
+      0.15833333333333335
+    ],
+    [
+      "bgb_555d",
+      0.15000000000000002
+    ],
+    [
+      "bgb_559b",
+      0.0625
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "bgb_555d": 2,
+    "bgb_559": 2,
+    "bgb_558": 2,
+    "bgb_559e": 2,
+    "bgb_559d": 1
+  },
+  "repair_entry_counts": {
+    "bgb_555c": 2,
+    "bgb_558": 2,
+    "bgb_559e": 2
+  },
+  "local_conflict_endpoint_counts": {
+    "bgb_555d": 4,
+    "bgb_559": 4,
+    "bgb_559e": 1,
+    "bgb_559d": 1
+  },
+  "lea_risk_subgraph_nodes": [
+    "bgb_555d",
+    "bgb_558",
+    "bgb_559",
+    "bgb_559e",
+    "bgb_559d"
+  ],
+  "lea_risk_subgraph_size": 5,
+  "lea_compression_ratio": 0.4444444444444444,
+  "conflicts": [
+    {
+      "clause_a": "bgb_559e",
+      "clause_b": "bgb_559d",
+      "description": "bgb_559e introduces a strict 3-month cure rule that prevents default, which structurally conflicts with the 12-month timeline for presumed breach of duty in bgb_559d."
+    }
+  ],
+  "ground_truth_nodes": [
+    "bgb_559e"
+  ],
+  "top1_hit": true,
+  "top3_hit": true,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": true,
+  "lea_risk_nodes_retained": [
+    "bgb_559e",
+    "bgb_558"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": true,
+  "lea_evidence_nodes_retained": [
+    "bgb_559e",
+    "bgb_558"
+  ],
+  "lea_contains_any_affected_node": false,
+  "lea_contains_all_affected_nodes": false,
+  "lea_affected_nodes_retained": [],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": false,
+  "lea_valuable_nodes_retained": [
+    "bgb_559e",
+    "bgb_558"
+  ],
+  "inject_mode": true,
+  "injected_node": "bgb_559e",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "case_template": "direct_mutex",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "bgb_558",
+  "injected_witness_distance": 4,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "bgb_559e",
+    "bgb_558"
+  ],
+  "injected_evidence_nodes": [
+    "bgb_559e",
+    "bgb_558"
+  ],
+  "injected_affected_nodes": [
+    "bgb_555c",
+    "bgb_559a"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "bgb_direct_timely_cure_vs_extra_charge_critical",
+  "injected_rank": 1,
+  "top1_margin": 0.4,
+  "risk_node_ranks": {
+    "bgb_559e": 1,
+    "bgb_558": 2
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "bgb_559e": 1,
+    "bgb_558": 2
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 2,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "bgb_555c": 7,
+    "bgb_559a": 6
+  },
+  "affected_best_rank": 6,
+  "affected_worst_rank": 7,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "bgb_559e": 1,
+    "bgb_558": 2,
+    "bgb_555c": 7,
+    "bgb_559a": 6
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 7,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 1,
+  "root_top1_hit": true,
+  "root_top3_hit": true,
+  "case_id": "135_gemini-2.5-pro_bgb9_scc_7_direct_mutex",
+  "case_order": 135,
+  "audit_started_at": 1783798413.408349,
+  "audit_completed_at": 1783798643.509234,
+  "audit_started_at_iso": "2026-07-12T03:33:33+0800",
+  "audit_completed_at_iso": "2026-07-12T03:37:23+0800",
+  "case_concurrency": 4,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 13,
+    "successful_api_calls": 13,
+    "failed_api_calls": 0,
+    "prompt_tokens": 35333,
+    "completion_tokens": 17417,
+    "total_tokens": 52750,
+    "api_runtime_sec_sum": 223.07137155532837
+  }
+}
