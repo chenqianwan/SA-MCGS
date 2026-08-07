@@ -1,0 +1,462 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gemini-2.5-flash",
+  "domain": "debian",
+  "scc_size": 12,
+  "scc_id": "scc_8",
+  "scc_clause_ids": [
+    "libecore-drm2-1",
+    "libecore-evas1",
+    "libecore-fb1",
+    "libecore-input1",
+    "libecore-wl2-1",
+    "libelput1",
+    "libevas1",
+    "libevas1-engines-drm",
+    "libecore-x1",
+    "libevas1-engines-fb",
+    "libevas1-engines-wayland",
+    "libevas1-engines-x"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 5186,
+    "completion_tokens": 1479,
+    "total_tokens": 6665
+  },
+  "time": 8.156744241714478,
+  "scores": {
+    "libecore-drm2-1": 0.15,
+    "libecore-evas1": 0.55,
+    "libecore-fb1": 0.1,
+    "libecore-input1": 0.95,
+    "libecore-wl2-1": 0.3,
+    "libelput1": 0.25,
+    "libevas1": 0.6,
+    "libevas1-engines-drm": 0.2,
+    "libecore-x1": 0.9,
+    "libevas1-engines-fb": 0.05,
+    "libevas1-engines-wayland": 0.5,
+    "libevas1-engines-x": 0.8
+  },
+  "reasonings": {
+    "libecore-drm2-1": "Standard dependency node.",
+    "libecore-evas1": "High centrality; orchestrator of display systems.",
+    "libecore-fb1": "Standard dependency node.",
+    "libecore-input1": "Primary root of interface class mismatch.",
+    "libecore-wl2-1": "Dependent on input1; propagates instability.",
+    "libelput1": "Dependent on input1; lower impact.",
+    "libevas1": "High centrality; propagates engine conflicts.",
+    "libevas1-engines-drm": "Dependent on core, relatively stable.",
+    "libecore-x1": "Secondary root; triggers the 'allowed and barred' condition.",
+    "libevas1-engines-fb": "Isolated engine record.",
+    "libevas1-engines-wayland": "Aggregator of interface conflicts.",
+    "libevas1-engines-x": "Pass-through maintenance node misinterpreting the state transition."
+  },
+  "ranking": [
+    [
+      "libecore-input1",
+      0.95
+    ],
+    [
+      "libecore-x1",
+      0.9
+    ],
+    [
+      "libevas1-engines-x",
+      0.8
+    ],
+    [
+      "libevas1",
+      0.6
+    ],
+    [
+      "libecore-evas1",
+      0.55
+    ],
+    [
+      "libevas1-engines-wayland",
+      0.5
+    ],
+    [
+      "libecore-wl2-1",
+      0.3
+    ],
+    [
+      "libelput1",
+      0.25
+    ],
+    [
+      "libevas1-engines-drm",
+      0.2
+    ],
+    [
+      "libecore-drm2-1",
+      0.15
+    ],
+    [
+      "libecore-fb1",
+      0.1
+    ],
+    [
+      "libevas1-engines-fb",
+      0.05
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "libecore-input1",
+      "risk_score": 0.95,
+      "risk_factors": [
+        "interface_mismatch"
+      ],
+      "reasoning": "Explicitly declares a blocking inconsistency regarding handoff interface classes."
+    },
+    {
+      "rank": 2,
+      "clause_id": "libecore-x1",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "interface_mismatch"
+      ],
+      "reasoning": "Describes a mandatory state mismatch where the record is simultaneously allowed and barred based on downstream state."
+    },
+    {
+      "rank": 3,
+      "clause_id": "libevas1-engines-x",
+      "risk_score": 0.8,
+      "risk_factors": [
+        "interface_mismatch"
+      ],
+      "reasoning": "Acts as the bridge between mandatory legacy and new interface classes; propagates the conflict."
+    },
+    {
+      "rank": 4,
+      "clause_id": "libevas1",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "dependency_cycle_risk"
+      ],
+      "reasoning": "Core dependency for all engine records; central point for recursive graph resolution."
+    },
+    {
+      "rank": 5,
+      "clause_id": "libecore-evas1",
+      "risk_score": 0.55,
+      "risk_factors": [
+        "dependency_cycle_risk"
+      ],
+      "reasoning": "High-fanout node connecting multiple display sub-systems."
+    },
+    {
+      "rank": 6,
+      "clause_id": "libevas1-engines-wayland",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "transitive_fragility"
+      ],
+      "reasoning": "Depends on both conflicting records (x1 and input1) and multiple engine types."
+    },
+    {
+      "rank": 7,
+      "clause_id": "libecore-wl2-1",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "transitive_fragility"
+      ],
+      "reasoning": "Secondary dependency for wayland engines, vulnerable to input1 shifts."
+    },
+    {
+      "rank": 8,
+      "clause_id": "libelput1",
+      "risk_score": 0.25,
+      "risk_factors": [
+        "transitive_fragility"
+      ],
+      "reasoning": "Intermediate dependency affected by libecore-input1 configuration."
+    },
+    {
+      "rank": 9,
+      "clause_id": "libevas1-engines-drm",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "transitive_fragility"
+      ],
+      "reasoning": "Relies on ecore-drm2-1 and libevas1; moderate stability."
+    },
+    {
+      "rank": 10,
+      "clause_id": "libecore-drm2-1",
+      "risk_score": 0.15,
+      "risk_factors": [
+        "transitive_fragility"
+      ],
+      "reasoning": "Low impact but propagates libecore configuration."
+    },
+    {
+      "rank": 11,
+      "clause_id": "libecore-fb1",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "transitive_fragility"
+      ],
+      "reasoning": "Minimal dependency footprint."
+    },
+    {
+      "rank": 12,
+      "clause_id": "libevas1-engines-fb",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "transitive_fragility"
+      ],
+      "reasoning": "Most isolated engine record."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "interface_mismatch",
+      "importance_weight": 0.9,
+      "description": "Records explicitly declaring blocking inconsistencies or legacy/new interface mismatches."
+    },
+    {
+      "factor": "dependency_cycle_risk",
+      "importance_weight": 0.7,
+      "description": "High centrality nodes that propagate state changes across potential feedback loops."
+    },
+    {
+      "factor": "transitive_fragility",
+      "importance_weight": 0.5,
+      "description": "Downstream impact on engine-based resolution for GUI libraries."
+    }
+  ],
+  "risk_factor_weight_sum": 2.1,
+  "direct_risk_subgraph_nodes": [
+    "libecore-input1",
+    "libecore-x1",
+    "libevas1-engines-x",
+    "libevas1-engines-wayland"
+  ],
+  "direct_risk_subgraph_size": 4,
+  "direct_compression_ratio": 0.6666666666666667,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "This subgraph captures the primary interface mismatch (input1 vs x1) and its propagation through the maintenance node (engines-x) into the multi-dependent consumer (engines-wayland).",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "libecore-x1",
+      "target": "libecore-input1",
+      "reason": "Structural dependency linking the two conflicting interface definitions."
+    },
+    {
+      "source": "libevas1-engines-x",
+      "target": "libecore-x1",
+      "reason": "Direct propagation of the legacy interface class."
+    },
+    {
+      "source": "libevas1-engines-wayland",
+      "target": "libecore-x1",
+      "reason": "Downstream consumer subject to the barred state."
+    },
+    {
+      "source": "libevas1-engines-wayland",
+      "target": "libecore-input1",
+      "reason": "Downstream consumer subject to blocking inconsistency."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "libecore-input1",
+    "libecore-x1",
+    "libevas1-engines-x",
+    "libevas1-engines-wayland"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 12,
+  "largest_tie_count": 1,
+  "tied_score_groups": [],
+  "conflicts": [
+    {
+      "clause_a": "libecore-input1",
+      "clause_b": "libecore-x1",
+      "description": "Interface mismatch where one requires a specific migration state and the other preserves legacy state, causing a circular logic failure in dependency resolution."
+    }
+  ],
+  "score_spread": 0.8999999999999999,
+  "ranking_score_spread": 0.8999999999999999,
+  "score_mean": 0.4458333333333333,
+  "score_max": 0.95,
+  "node_names": {
+    "libecore-drm2-1": "libecore-drm2-1",
+    "libecore-evas1": "libecore-evas1",
+    "libecore-fb1": "libecore-fb1",
+    "libecore-input1": "libecore-input1",
+    "libecore-wl2-1": "libecore-wl2-1",
+    "libelput1": "libelput1",
+    "libevas1": "libevas1",
+    "libevas1-engines-drm": "libevas1-engines-drm",
+    "libecore-x1": "libecore-x1",
+    "libevas1-engines-fb": "libevas1-engines-fb",
+    "libevas1-engines-wayland": "libevas1-engines-wayland",
+    "libevas1-engines-x": "libevas1-engines-x"
+  },
+  "ground_truth_nodes": [
+    "libecore-x1"
+  ],
+  "gt_evidence": {
+    "libecore-x1": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": true,
+  "prompt_word_count": 1371,
+  "injected_title_occurrences_in_prompt": 14,
+  "injected_id_occurrences_in_prompt": 14,
+  "injected_title_first_word_ratio": 0.08971553610503283,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.3727206418672502,
+  "inject_mode": true,
+  "injected_node": "libecore-x1",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "libecore-input1",
+  "injected_witness_distance": 6,
+  "injected_bridge_node": "libevas1-engines-x",
+  "injected_bridge_distance": 3,
+  "injected_risk_nodes": [
+    "libecore-x1",
+    "libecore-input1"
+  ],
+  "injected_evidence_nodes": [
+    "libecore-x1",
+    "libevas1-engines-x",
+    "libecore-input1"
+  ],
+  "injected_affected_nodes": [
+    "libevas1-engines-fb",
+    "libevas1"
+  ],
+  "injected_conflict_family": "handoff_invariant",
+  "injected_conflict_difficulty": "moderate",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "debian_handoff_invariant_abi_class_critical",
+  "injected_rank": 2,
+  "top1_margin": 0.04999999999999993,
+  "risk_node_ranks": {
+    "libecore-x1": 2,
+    "libecore-input1": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "libecore-x1": 2,
+    "libevas1-engines-x": 3,
+    "libecore-input1": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 3,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "libevas1-engines-fb": 12,
+    "libevas1": 4
+  },
+  "affected_best_rank": 4,
+  "affected_worst_rank": 12,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "libecore-x1": 2,
+    "libecore-input1": 1,
+    "libevas1-engines-fb": 12,
+    "libevas1": 4
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 12,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "direct_subgraph_nodes_retained": [
+    "libecore-input1",
+    "libecore-x1",
+    "libevas1-engines-x",
+    "libevas1-engines-wayland"
+  ],
+  "direct_contains_injected_node": true,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": true,
+  "direct_risk_nodes_retained": [
+    "libecore-x1",
+    "libecore-input1"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": true,
+  "direct_evidence_nodes_retained": [
+    "libecore-x1",
+    "libevas1-engines-x",
+    "libecore-input1"
+  ],
+  "direct_contains_any_affected_node": false,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "libecore-x1",
+    "libecore-input1"
+  ],
+  "case_id": "33_debian12_scc_8_handoff_invariant",
+  "case_order": 33,
+  "audit_started_at": 1783867935.884249,
+  "audit_completed_at": 1783867944.041358,
+  "audit_started_at_iso": "2026-07-12T22:52:15+0800",
+  "audit_completed_at_iso": "2026-07-12T22:52:24+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 5186,
+    "completion_tokens": 1479,
+    "total_tokens": 6665,
+    "api_runtime_sec_sum": 8.15012502670288
+  }
+}

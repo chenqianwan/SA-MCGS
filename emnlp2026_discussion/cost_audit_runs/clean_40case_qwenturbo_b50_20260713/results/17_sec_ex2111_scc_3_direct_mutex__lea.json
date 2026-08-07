@@ -1,0 +1,426 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "qwen-turbo",
+  "domain": "sec_ex21",
+  "scc_id": "scc_3",
+  "scc_size": 10,
+  "scc_clause_ids": [
+    "us-cw-1011764",
+    "us-cw-1020294",
+    "us-cw-121873",
+    "us-cw-515912",
+    "us-cw-712455",
+    "us-cw-749749",
+    "us-cw-515909",
+    "us-cw-749750",
+    "us-cw-749751",
+    "us-cw-997003"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "us-cw-1011764",
+        "us-cw-1020294",
+        "us-cw-997003",
+        "us-cw-121873"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "us-cw-1020294",
+        "us-cw-1011764",
+        "us-cw-749750",
+        "us-cw-997003"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "us-cw-121873",
+        "us-cw-749749",
+        "us-cw-515909",
+        "us-cw-515912"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "us-cw-515912",
+        "us-cw-712455",
+        "us-cw-997003",
+        "us-cw-121873"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "us-cw-712455",
+        "us-cw-515912",
+        "us-cw-515909",
+        "us-cw-749749"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "us-cw-749749",
+        "us-cw-121873",
+        "us-cw-749751",
+        "us-cw-515909"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "us-cw-515909",
+        "us-cw-121873",
+        "us-cw-712455",
+        "us-cw-749750"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "us-cw-749750",
+        "us-cw-1020294",
+        "us-cw-749751",
+        "us-cw-515909"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "us-cw-749751",
+        "us-cw-749749",
+        "us-cw-749750",
+        "us-cw-997003"
+      ]
+    },
+    {
+      "window_index": 10,
+      "window": [
+        "us-cw-997003",
+        "us-cw-1020294",
+        "us-cw-515912",
+        "us-cw-1011764"
+      ]
+    }
+  ],
+  "llm_calls": 10,
+  "tt_hits": 0,
+  "time": 50.4456090927124,
+  "scores": {
+    "us-cw-1011764": 0.43333333333333335,
+    "us-cw-1020294": 0.65,
+    "us-cw-121873": 0.13999999999999999,
+    "us-cw-515912": 0.125,
+    "us-cw-712455": 0.3666666666666667,
+    "us-cw-749749": 0.175,
+    "us-cw-515909": 0.32,
+    "us-cw-749750": 0.275,
+    "us-cw-749751": 0.3333333333333333,
+    "us-cw-997003": 0.25999999999999995
+  },
+  "visit_counts": {
+    "us-cw-1011764": 3,
+    "us-cw-1020294": 4,
+    "us-cw-997003": 5,
+    "us-cw-121873": 5,
+    "us-cw-749750": 4,
+    "us-cw-749749": 4,
+    "us-cw-515909": 5,
+    "us-cw-515912": 4,
+    "us-cw-712455": 3,
+    "us-cw-749751": 3
+  },
+  "ranking": [
+    [
+      "us-cw-1020294",
+      0.65
+    ],
+    [
+      "us-cw-1011764",
+      0.43333333333333335
+    ],
+    [
+      "us-cw-712455",
+      0.3666666666666667
+    ],
+    [
+      "us-cw-749751",
+      0.3333333333333333
+    ],
+    [
+      "us-cw-515909",
+      0.32
+    ],
+    [
+      "us-cw-749750",
+      0.275
+    ],
+    [
+      "us-cw-997003",
+      0.25999999999999995
+    ],
+    [
+      "us-cw-749749",
+      0.175
+    ],
+    [
+      "us-cw-121873",
+      0.13999999999999999
+    ],
+    [
+      "us-cw-515912",
+      0.125
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "us-cw-1011764": 2,
+    "us-cw-1020294": 4,
+    "us-cw-121873": 2,
+    "us-cw-515909": 3,
+    "us-cw-749749": 3,
+    "us-cw-515912": 2,
+    "us-cw-712455": 3,
+    "us-cw-997003": 2,
+    "us-cw-749751": 3,
+    "us-cw-749750": 2
+  },
+  "repair_entry_counts": {
+    "us-cw-1020294": 3,
+    "us-cw-121873": 1,
+    "us-cw-515909": 2,
+    "us-cw-749749": 3,
+    "us-cw-515912": 1,
+    "us-cw-712455": 2,
+    "us-cw-749751": 3,
+    "us-cw-749750": 1,
+    "us-cw-1011764": 1
+  },
+  "local_conflict_endpoint_counts": {
+    "us-cw-1011764": 3,
+    "us-cw-1020294": 8,
+    "us-cw-997003": 4,
+    "us-cw-749750": 4,
+    "us-cw-121873": 5,
+    "us-cw-515909": 5,
+    "us-cw-749749": 4,
+    "us-cw-515912": 3,
+    "us-cw-712455": 4,
+    "us-cw-749751": 4
+  },
+  "lea_risk_subgraph_nodes": [
+    "us-cw-1020294",
+    "us-cw-712455",
+    "us-cw-749749",
+    "us-cw-515909",
+    "us-cw-749751"
+  ],
+  "lea_risk_subgraph_size": 5,
+  "lea_compression_ratio": 0.5,
+  "conflicts": [
+    {
+      "clause_a": "us-cw-1011764",
+      "clause_b": "us-cw-1020294",
+      "description": "The bidirectional reference between these two records may create a circular dependency or mutual constraint that could lead to structural inconsistencies."
+    },
+    {
+      "clause_a": "us-cw-1020294",
+      "clause_b": "us-cw-997003",
+      "description": "The reference from us-cw-1020294 to us-cw-997003 introduces potential for incompatibility due to the latter's connection to a conflicting statement."
+    },
+    {
+      "clause_a": "us-cw-1020294",
+      "clause_b": "us-cw-1011764",
+      "description": "Mutual reference between two records suggests a possible dependency loop, which could lead to structural inconsistencies if not resolved."
+    },
+    {
+      "clause_a": "us-cw-1020294",
+      "clause_b": "us-cw-997003",
+      "description": "Cross-border reference between a US-based and an IL-based entity may introduce ambiguity or incompatibility depending on the context of their interdependence."
+    },
+    {
+      "clause_a": "us-cw-121873",
+      "clause_b": "us-cw-515909",
+      "description": "Ambiguity in the dependency relationship between us-cw-121873 and us-cw-515909, as the former references the latter without clear specification of the nature of the dependency."
+    },
+    {
+      "clause_a": "us-cw-749749",
+      "clause_b": "us-cw-121873",
+      "description": "Unclear dependency relationship between us-cw-749749 and us-cw-121873, which could cause issues in determining consolidation paths."
+    },
+    {
+      "clause_a": "us-cw-515912",
+      "clause_b": "us-cw-997003",
+      "description": "Ambiguity in the reference relationship between Nielsen Co (Singapore) Pte. Ltd and Buzzmetrics Ltd. The exact nature of the dependency is unclear."
+    },
+    {
+      "clause_a": "us-cw-712455",
+      "clause_b": "us-cw-515912",
+      "description": "Unclear dependency between PT. The Nielsen Co Indonesia and Nielsen Co (Singapore) Pte. Ltd. Potential for confusion due to similar names."
+    },
+    {
+      "clause_a": "us-cw-712455",
+      "clause_b": "us-cw-515912",
+      "description": "The consolidation note in us-cw-712455 suggests a mandatory state for the same dependency path, which could conflict with the behavior of us-cw-515912 if it is treated differently downstream."
+    },
+    {
+      "clause_a": "us-cw-515909",
+      "clause_b": "us-cw-712455",
+      "description": "The mandatory consolidation state of us-cw-515909 may conflict with how us-cw-712455 is treated if it does not follow the same path rules."
+    },
+    {
+      "clause_a": "us-cw-749750",
+      "clause_b": "us-cw-749751",
+      "description": "Conflict in consolidation logic: one record treats the entity as partially consolidated with a non-controlling interest, while the other treats it as fully consolidated without such an interest."
+    },
+    {
+      "clause_a": "us-cw-749751",
+      "clause_b": "us-cw-749749",
+      "description": "Ambiguity in naming and country codes suggests possible identity confusion or conflicting dependencies."
+    },
+    {
+      "clause_a": "us-cw-1011764",
+      "clause_b": "us-cw-1020294",
+      "description": "They reference each other, and the text indicates a 'blocking inconsistency' related to a non-controlling interest, suggesting mutual incompatibility."
+    }
+  ],
+  "ground_truth_nodes": [
+    "us-cw-515909"
+  ],
+  "top1_hit": false,
+  "top3_hit": false,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": true,
+  "lea_risk_nodes_retained": [
+    "us-cw-515909",
+    "us-cw-1020294"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": true,
+  "lea_evidence_nodes_retained": [
+    "us-cw-515909",
+    "us-cw-1020294"
+  ],
+  "lea_contains_any_affected_node": true,
+  "lea_contains_all_affected_nodes": false,
+  "lea_affected_nodes_retained": [
+    "us-cw-712455"
+  ],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": false,
+  "lea_valuable_nodes_retained": [
+    "us-cw-515909",
+    "us-cw-1020294",
+    "us-cw-712455"
+  ],
+  "inject_mode": true,
+  "injected_node": "us-cw-515909",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-1020294",
+  "injected_witness_distance": 5,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "us-cw-515909",
+    "us-cw-1020294"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-515909",
+    "us-cw-1020294"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-712455",
+    "us-cw-749750"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_direct_full_consolidation_vs_retained_interest_critical",
+  "injected_rank": 5,
+  "top1_margin": 0.21666666666666667,
+  "risk_node_ranks": {
+    "us-cw-515909": 5,
+    "us-cw-1020294": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 5,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "us-cw-515909": 5,
+    "us-cw-1020294": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 5,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "us-cw-712455": 3,
+    "us-cw-749750": 6
+  },
+  "affected_best_rank": 3,
+  "affected_worst_rank": 6,
+  "affected_top1_hit": false,
+  "affected_top3_hit": true,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-515909": 5,
+    "us-cw-1020294": 1,
+    "us-cw-712455": 3,
+    "us-cw-749750": 6
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 6,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 5,
+  "root_top1_hit": false,
+  "root_top3_hit": false,
+  "case_id": "17_sec_ex2111_scc_3_direct_mutex",
+  "case_order": 17,
+  "audit_started_at": 1783910107.3581922,
+  "audit_completed_at": 1783910157.803914,
+  "audit_started_at_iso": "2026-07-13T10:35:07+0800",
+  "audit_completed_at_iso": "2026-07-13T10:35:57+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 10,
+    "successful_api_calls": 10,
+    "failed_api_calls": 0,
+    "prompt_tokens": 8417,
+    "completion_tokens": 6310,
+    "total_tokens": 14727,
+    "api_runtime_sec_sum": 50.438318490982056
+  }
+}

@@ -1,0 +1,441 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (bgb); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gemini-2.5-flash",
+  "domain": "bgb",
+  "scc_size": 11,
+  "scc_id": "scc_0",
+  "scc_clause_ids": [
+    "bgb_275",
+    "bgb_280",
+    "bgb_281",
+    "bgb_282",
+    "bgb_283",
+    "bgb_285",
+    "bgb_326",
+    "bgb_311a",
+    "bgb_346",
+    "bgb_347",
+    "bgb_441"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 5142,
+    "completion_tokens": 1637,
+    "total_tokens": 6779
+  },
+  "time": 6.508228063583374,
+  "scores": {
+    "bgb_275": 0.8,
+    "bgb_280": 0.65,
+    "bgb_281": 0.95,
+    "bgb_282": 0.2,
+    "bgb_283": 0.85,
+    "bgb_285": 0.6,
+    "bgb_326": 0.9,
+    "bgb_311a": 0.75,
+    "bgb_346": 0.55,
+    "bgb_347": 0.3,
+    "bgb_441": 0.4
+  },
+  "reasonings": {
+    "bgb_275": "Foundational impossibility clause; high impact due to its centrality.",
+    "bgb_280": "Necessary but broad; acts as a routing layer for damages.",
+    "bgb_281": "Contains the 'exclusion' mandate that triggers terminal conflicts with other remedies.",
+    "bgb_282": "Low risk; limited in scope.",
+    "bgb_283": "Direct link between impossibility and damage exclusion; high risk of misapplication.",
+    "bgb_285": "Requires valuation, which can lead to disputes and inconsistency.",
+    "bgb_326": "Crucial for rescission logic; binary state often conflicts with partial fulfillment.",
+    "bgb_311a": "Overlaps with standard damage logic; potential for parallel-claim confusion.",
+    "bgb_346": "Complex requirements; potential for conflict with damage calculations.",
+    "bgb_347": "Secondary effect of rescission; minor structural impact.",
+    "bgb_441": "Alternative path; reduces risk if utilized properly, but adds complexity."
+  },
+  "ranking": [
+    [
+      "bgb_281",
+      0.95
+    ],
+    [
+      "bgb_326",
+      0.9
+    ],
+    [
+      "bgb_283",
+      0.85
+    ],
+    [
+      "bgb_275",
+      0.8
+    ],
+    [
+      "bgb_311a",
+      0.75
+    ],
+    [
+      "bgb_280",
+      0.65
+    ],
+    [
+      "bgb_285",
+      0.6
+    ],
+    [
+      "bgb_346",
+      0.55
+    ],
+    [
+      "bgb_441",
+      0.4
+    ],
+    [
+      "bgb_347",
+      0.3
+    ],
+    [
+      "bgb_282",
+      0.2
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "bgb_281",
+      "risk_score": 0.95,
+      "risk_factors": [
+        "Remedy Incompatibility"
+      ],
+      "reasoning": "Specifically defines the exclusion of the claim for performance once damages are demanded, causing a definitive conflict with pending notice requirements."
+    },
+    {
+      "rank": 2,
+      "clause_id": "bgb_326",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "Remedy Incompatibility"
+      ],
+      "reasoning": "Interacts directly with bgb_275 to gate counter-performance, creating binary states that conflict with partial remediation."
+    },
+    {
+      "rank": 3,
+      "clause_id": "bgb_283",
+      "risk_score": 0.85,
+      "risk_factors": [
+        "Dependency Circularity"
+      ],
+      "reasoning": "Links impossibility (bgb_275) to damages, pulling in bgb_281's logic for exclusions, complicating enforcement flows."
+    },
+    {
+      "rank": 4,
+      "clause_id": "bgb_275",
+      "risk_score": 0.8,
+      "risk_factors": [
+        "Dependency Circularity"
+      ],
+      "reasoning": "Central hub of impossibility; references most other clauses, making it the origin point for almost all enforcement conflicts."
+    },
+    {
+      "rank": 5,
+      "clause_id": "bgb_311a",
+      "risk_score": 0.75,
+      "risk_factors": [
+        "Remedy Incompatibility"
+      ],
+      "reasoning": "Provides an alternative remedy path that creates potential parallel-liability risks with bgb_281."
+    },
+    {
+      "rank": 6,
+      "clause_id": "bgb_280",
+      "risk_score": 0.65,
+      "risk_factors": [
+        "Dependency Circularity"
+      ],
+      "reasoning": "Fundamental but broad; serves as the common dependency for almost all remedy clauses."
+    },
+    {
+      "rank": 7,
+      "clause_id": "bgb_285",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "Remedy Ambiguity"
+      ],
+      "reasoning": "Requires valuation of replacement, which is often difficult to reconcile with the total exclusion of performance."
+    },
+    {
+      "rank": 8,
+      "clause_id": "bgb_346",
+      "risk_score": 0.55,
+      "risk_factors": [
+        "Remedy Ambiguity"
+      ],
+      "reasoning": "Governs post-rescission effects but relies on complex interplay with damages that can conflict with bgb_281."
+    },
+    {
+      "rank": 9,
+      "clause_id": "bgb_441",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "Remedy Ambiguity"
+      ],
+      "reasoning": "Specialized remedy (Minderung) that creates an alternative performance path to rescission/damages."
+    },
+    {
+      "rank": 10,
+      "clause_id": "bgb_347",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "Remedy Ambiguity"
+      ],
+      "reasoning": "Secondary impact of bgb_346, adds minimal direct conflict."
+    },
+    {
+      "rank": 11,
+      "clause_id": "bgb_282",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "Remedy Ambiguity"
+      ],
+      "reasoning": "Narrowly focused on secondary duty breaches, least likely to cause systemic conflicts."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "Remedy Incompatibility",
+      "importance_weight": 0.9,
+      "description": "Logical conflict where the application of one remedy triggers the exclusion of another, creating an enforcement deadlock."
+    },
+    {
+      "factor": "Dependency Circularity",
+      "importance_weight": 0.7,
+      "description": "Interdependent references that complicate the determination of which condition (e.g., notice or impossibility) takes precedence."
+    },
+    {
+      "factor": "Remedy Ambiguity",
+      "importance_weight": 0.5,
+      "description": "Lack of clarity in priority when multiple remedies are triggered simultaneously by a single performance failure."
+    }
+  ],
+  "risk_factor_weight_sum": 2.1,
+  "direct_risk_subgraph_nodes": [
+    "bgb_281",
+    "bgb_275",
+    "bgb_326",
+    "bgb_283"
+  ],
+  "direct_risk_subgraph_size": 4,
+  "direct_compression_ratio": 0.6363636363636364,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "This minimal subgraph contains the primary conflict logic: impossibility (bgb_275) triggers either rescission (bgb_326) or substitute damages (bgb_283), both of which hit the exclusionary limiters defined in bgb_281, creating a structural deadlock.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "bgb_283",
+      "target": "bgb_281",
+      "reason": "bgb_283 incorporates bgb_281, inheriting the exclusionary logic."
+    },
+    {
+      "source": "bgb_326",
+      "target": "bgb_275",
+      "reason": "bgb_326 is the reactive remedy to the state of impossibility defined in bgb_275."
+    },
+    {
+      "source": "bgb_275",
+      "target": "bgb_283",
+      "reason": "bgb_275 triggers the availability of bgb_283 damages."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "bgb_281",
+    "bgb_275",
+    "bgb_326",
+    "bgb_283"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 11,
+  "largest_tie_count": 1,
+  "tied_score_groups": [],
+  "conflicts": [
+    {
+      "clause_a": "bgb_281",
+      "clause_b": "bgb_326",
+      "description": "The requirement to terminate the performance claim (bgb_281) may conflict with the return of benefits defined by the rescission in bgb_326 if not sequenced correctly."
+    },
+    {
+      "clause_a": "bgb_283",
+      "clause_b": "bgb_281",
+      "description": "Incorporation of exclusion clauses from bgb_281 into bgb_283 creates a scenario where the debtor is released from the original obligation but simultaneously held liable for total failure damages, risking double-jeopardy in terms of record classification."
+    }
+  ],
+  "score_spread": 0.75,
+  "ranking_score_spread": 0.75,
+  "score_mean": 0.6318181818181818,
+  "score_max": 0.95,
+  "node_names": {
+    "bgb_275": "§275 Ausschluss der Leistungspflicht",
+    "bgb_280": "§280 Schadensersatz wegen Pflichtverletzung",
+    "bgb_281": "§281 Schadensersatz statt der Leistung wegen nicht oder nicht wie geschuldet\nerbrachter Leistung",
+    "bgb_282": "§282 Schadensersatz statt der Leistung wegen Verletzung einer Pflicht nach §\n241 Abs. 2",
+    "bgb_283": "§283 Schadensersatz statt der Leistung bei Ausschluss der Leistungspflicht",
+    "bgb_285": "§285 Herausgabe des Ersatzes",
+    "bgb_326": "§326 Befreiung von der Gegenleistung und Rücktritt beim Ausschluss der Leistungspflicht",
+    "bgb_311a": "§311a Leistungshindernis bei Vertragsschluss",
+    "bgb_346": "§346 Wirkungen des Rücktritts",
+    "bgb_347": "§347 Nutzungen und Verwendungen nach Rücktritt",
+    "bgb_441": "§441 Minderung"
+  },
+  "ground_truth_nodes": [
+    "bgb_311a"
+  ],
+  "gt_evidence": {
+    "bgb_311a": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": false,
+  "prompt_word_count": 2479,
+  "injected_title_occurrences_in_prompt": 4,
+  "injected_id_occurrences_in_prompt": 4,
+  "injected_title_first_word_ratio": 0.417910447761194,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.4199273900766438,
+  "inject_mode": true,
+  "injected_node": "bgb_311a",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "bgb_280",
+  "injected_witness_distance": 5,
+  "injected_bridge_node": "bgb_347",
+  "injected_bridge_distance": 2,
+  "injected_risk_nodes": [
+    "bgb_311a",
+    "bgb_280"
+  ],
+  "injected_evidence_nodes": [
+    "bgb_311a",
+    "bgb_347",
+    "bgb_280"
+  ],
+  "injected_affected_nodes": [
+    "bgb_326",
+    "bgb_281"
+  ],
+  "injected_conflict_family": "condition_trigger",
+  "injected_conflict_difficulty": "hard",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "bgb_condition_trigger_pending_notice_critical",
+  "injected_rank": 5,
+  "top1_margin": 0.04999999999999993,
+  "risk_node_ranks": {
+    "bgb_311a": 5,
+    "bgb_280": 6
+  },
+  "risk_best_rank": 5,
+  "risk_worst_rank": 6,
+  "risk_top1_hit": false,
+  "risk_top3_hit": false,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": false,
+  "evidence_node_ranks": {
+    "bgb_311a": 5,
+    "bgb_347": 10,
+    "bgb_280": 6
+  },
+  "evidence_best_rank": 5,
+  "evidence_worst_rank": 10,
+  "evidence_top1_hit": false,
+  "evidence_top3_hit": false,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "bgb_326": 2,
+    "bgb_281": 1
+  },
+  "affected_best_rank": 1,
+  "affected_worst_rank": 2,
+  "affected_top1_hit": true,
+  "affected_top3_hit": true,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": true,
+  "affected_all_top5_hit": true,
+  "valuable_node_ranks": {
+    "bgb_311a": 5,
+    "bgb_280": 6,
+    "bgb_326": 2,
+    "bgb_281": 1
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 6,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 5,
+  "root_top1_hit": false,
+  "root_top3_hit": false,
+  "direct_subgraph_nodes_retained": [
+    "bgb_281",
+    "bgb_275",
+    "bgb_326",
+    "bgb_283"
+  ],
+  "direct_contains_injected_node": false,
+  "direct_contains_any_risk_node": false,
+  "direct_contains_all_risk_nodes": false,
+  "direct_risk_nodes_retained": [],
+  "direct_contains_any_evidence_node": false,
+  "direct_contains_all_evidence_nodes": false,
+  "direct_evidence_nodes_retained": [],
+  "direct_contains_any_affected_node": true,
+  "direct_contains_all_affected_nodes": true,
+  "direct_affected_nodes_retained": [
+    "bgb_326",
+    "bgb_281"
+  ],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "bgb_326",
+    "bgb_281"
+  ],
+  "case_id": "35_bgb11_scc_0_condition_trigger",
+  "case_order": 35,
+  "audit_started_at": 1783868294.095619,
+  "audit_completed_at": 1783868300.6043148,
+  "audit_started_at_iso": "2026-07-12T22:58:14+0800",
+  "audit_completed_at_iso": "2026-07-12T22:58:20+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 5142,
+    "completion_tokens": 1637,
+    "total_tokens": 6779,
+    "api_runtime_sec_sum": 6.506335020065308
+  }
+}

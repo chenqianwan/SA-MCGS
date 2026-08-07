@@ -108,6 +108,152 @@
     .value { fill: var(--ink); font-size: 12px; font-weight: 700; }
     .legend { display: flex; gap: 14px; flex-wrap: wrap; color: var(--muted); font-size: 13px; margin-top: 8px; }
     .swatch { width: 11px; height: 11px; border-radius: 2px; display: inline-block; margin-right: 6px; vertical-align: -1px; }
+    .cost-chart { min-height: 430px; }
+    .cost-profile-panel { display: grid; gap: 12px; }
+    .cost-model-block {
+      display: grid;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: rgba(35,117,109,.045);
+    }
+    .cost-model-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+    .cost-metric-block {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,.012);
+    }
+    .cost-metric-title {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+    .cost-row {
+      display: grid;
+      grid-template-columns: 74px minmax(80px, 1fr) 92px;
+      align-items: center;
+      gap: 10px;
+      margin: 6px 0;
+    }
+    .cost-method {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .cost-track {
+      height: 14px;
+      border-radius: 999px;
+      background: #eef2ea;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+    .cost-fill {
+      display: block;
+      height: 100%;
+      border-radius: 999px;
+    }
+    .cost-value {
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .parallel-formula {
+      border-left: 4px solid var(--amber);
+      background: #fbf4e7;
+      border-radius: 7px;
+      padding: 11px 12px;
+      color: var(--ink);
+    }
+    .formula-title { font-weight: 800; margin-bottom: 7px; }
+    .parallel-formula code {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,.74);
+      border: 1px solid rgba(191,127,47,.28);
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.45;
+      white-space: normal;
+    }
+    .parallel-formula p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .stage2-compare-panel { display: grid; gap: 10px; }
+    .stage2-reference {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 10px 12px;
+      border-radius: 7px;
+      background: var(--soft-teal);
+      border: 1px solid rgba(35,117,109,.22);
+      color: var(--ink);
+    }
+    .stage2-reference strong { font-size: 14px; }
+    .stage2-reference span:not(.zh) {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .stage2-compare-row {
+      display: grid;
+      grid-template-columns: minmax(130px, 1.2fr) minmax(120px, 1fr) minmax(120px, 1fr);
+      gap: 10px;
+      align-items: stretch;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: rgba(0,0,0,.012);
+    }
+    .compare-name strong { display: block; font-size: 14px; }
+    .compare-metric {
+      display: grid;
+      gap: 3px;
+      padding-left: 10px;
+      border-left: 1px solid var(--line);
+    }
+    .compare-metric span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .compare-metric b {
+      color: var(--ink);
+      font-size: 20px;
+      line-height: 1;
+    }
+    .compare-metric em {
+      width: max-content;
+      border-radius: 999px;
+      padding: 2px 7px;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 800;
+    }
+    .delta-bad { color: #8f2f2f; background: #f7e4e4; }
+    .delta-warn { color: #8a5a1e; background: #fbefd8; }
+    .delta-good { color: #17695f; background: #dff0ea; }
+    .delta-neutral { color: var(--muted); background: #edf1ea; }
+    .compare-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
     .callout {
       border-left: 4px solid var(--teal);
       background: var(--soft-teal);
@@ -118,12 +264,32 @@
     }
     .risk { color: var(--rose); font-weight: 700; }
     .good { color: var(--teal); font-weight: 700; }
+    .zh {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+      margin-top: 3px;
+      font-weight: 500;
+      white-space: normal;
+    }
+    h2 .zh, h3 .zh, .chart-title .zh {
+      font-size: .72em;
+      font-weight: 600;
+    }
+    .metric b .zh {
+      display: inline;
+      font-size: .54em;
+      margin-left: 6px;
+    }
     @media (max-width: 980px) {
       main { padding: 24px 14px 48px; }
       header, .two-col, .summary-grid { grid-template-columns: 1fr; }
       .stamp { text-align: left; }
       h1 { font-size: 28px; }
       .chart { min-height: 240px; }
+      .stage2-compare-row { grid-template-columns: 1fr; }
+      .compare-metric { border-left: 0; padding-left: 0; }
     }
   </style>
 </head>
@@ -132,32 +298,39 @@
     <header>
       <div>
         <h1>EMNLP 2026 Discussion 补充实验报告</h1>
-        <p class="subhead">三个补充方向已经形成可展示证据：推理成本核算、组件级消融、以及 GraphRAG-style Local Evidence Aggregation baseline。页面只使用冻结记录中的数据。</p>
+        <p class="subhead">三个补充方向已经形成可展示证据：推理成本核算、组件级消融、以及 GraphRAG-style Local Evidence Aggregation baseline（图感知局部证据聚合基线）。页面只使用冻结记录中的数据。</p>
       </div>
-      <div class="stamp">Updated<br>2026-07-12</div>
+      <div class="stamp">Updated / 更新<br>2026-07-13</div>
     </header>
 
     <section>
-      <h2>Reviewer-facing Summary</h2>
+      <h2>Reviewer-facing Summary<span class="zh">面向审稿人的证据总览</span></h2>
       <div class="summary-grid">
-        <div class="metric"><span>Cost audit</span><b>20 cases</b><span>Naive / LEA / SA-MCGS with tokens, calls, runtime</span></div>
-        <div class="metric"><span>Component ablation</span><b>80 + 40</b><span>Stage 1 search modules + Stage 2 dynamic core modules</span></div>
-        <div class="metric"><span>Graph-aware baseline</span><b>160 cases</b><span>Clean LEA run on gpt-4o and Gemini, matched to locked SA-MCGS</span></div>
+        <div class="metric"><span>Cost audit<span class="zh">成本核算</span></span><b>2 × 40 cases <span class="zh">两组 40 案例</span></b><span>gpt-4o + Gemini Flash; Naive / LEA / SA-MCGS with tokens, calls, low-rollout runtime<span class="zh">gpt-4o 与 Gemini Flash；同时记录 token、调用数和低 rollout 运行时间</span></span></div>
+        <div class="metric"><span>Component ablation<span class="zh">组件级消融</span></span><b>80 + 40</b><span>Stage 1 search modules + Stage 2 dynamic core modules<span class="zh">Stage 1 分析搜索/记忆模块，Stage 2 分析 dynamic core 模块</span></span></div>
+        <div class="metric"><span>Graph-aware baseline<span class="zh">图感知 baseline</span></span><b>160 cases <span class="zh">160 个案例</span></b><span>Clean LEA run on gpt-4o and Gemini, matched to locked SA-MCGS<span class="zh">在 gpt-4o 和 Gemini 上运行 LEA，并与冻结的 SA-MCGS 匹配比较</span></span></div>
       </div>
-      <div class="claim" style="margin-top:16px"><div class="table-wrap"><table><thead><tr><th>Reviewer concern</th><th>New evidence</th><th>Careful claim</th></tr></thead><tbody><tr><td>Cost accounting</td><td>20-case low-concurrency audit with calls/tokens/runtime; LEA included in the same accounting.</td><td>Report cost-performance tradeoff by case scale; SA-MCGS uses more calls, while LEA reduces calls substantially.</td></tr><tr><td>Component-level ablations</td><td>Stage 1: 80 cases for search/memory modules. Stage 2: 40 dynamic cases for OC/core and final-core policies.</td><td>Critical-pair ledger/revisit and dynamic core construction are the strongest supported modules; relation memory and pair closure should be framed cautiously.</td></tr><tr><td>Baseline fairness</td><td>160 clean cases for GraphRAG-style LEA on gpt-4o and Gemini 2.5 Pro, matched against locked Full SA-MCGS.</td><td>LEA is competitive, especially on Gemini; SA-MCGS still improves endpoint completeness overall, with non-uniform model-level behavior.</td></tr></tbody></table></div></div>
+      <div class="claim" style="margin-top:16px"><div class="table-wrap"><table><thead><tr><th>Reviewer concern / 审稿人关切</th><th>New evidence / 新增证据</th><th>Careful claim / 谨慎结论</th></tr></thead><tbody><tr><td>Cost accounting<span class="zh">成本核算</span></td><td>Two completed 40-case low-rollout audits on gpt-4o and Gemini 2.5 Flash, with calls/tokens/runtime for Naive, LEA, and SA-MCGS.<span class="zh">已完成 gpt-4o 与 Gemini 2.5 Flash 两组 40 案例低 rollout 审计，记录 Naive、LEA 与 SA-MCGS 的调用数、token 和运行时间。</span></td><td>Report cost-performance tradeoff by model and method; runtime is measured under low concurrency and can be reduced by parallel rollout.<span class="zh">按模型和方法报告成本-性能权衡；runtime 采用低并发测量，可通过并行 rollout 进一步缩短。</span></td></tr><tr><td>Component-level ablations<span class="zh">组件级消融</span></td><td>Stage 1: 80 cases for search/memory modules. Stage 2: 40 dynamic cases for OC/core and final-core policies.<span class="zh">Stage 1 用 80 个案例分析搜索/记忆模块；Stage 2 用 40 个动态案例分析 OC/core 与最终 core 策略。</span></td><td>Critical-pair ledger/revisit and dynamic core construction are the strongest supported modules; relation memory and pair closure should be framed cautiously.<span class="zh">证据最强的是 critical-pair 记录/重访和 dynamic core 构造；relation memory 与 pair closure 需要谨慎表述。</span></td></tr><tr><td>Baseline fairness<span class="zh">Baseline 公平性</span></td><td>160 clean cases for GraphRAG-style LEA on gpt-4o and Gemini 2.5 Pro, matched against locked Full SA-MCGS.<span class="zh">在 gpt-4o 和 Gemini 2.5 Pro 上完成 160 个干净 LEA 案例，并与冻结的 Full SA-MCGS 匹配比较。</span></td><td>LEA is competitive, especially on Gemini; SA-MCGS still improves endpoint completeness overall, with non-uniform model-level behavior.<span class="zh">LEA 很有竞争力，尤其在 Gemini 上；SA-MCGS 仍提升总体 endpoint completeness，但模型层面的表现并不均匀。</span></td></tr></tbody></table></div></div>
     </section>
 
     <section>
       <div class="two-col">
         <div>
           <h2>1. 推理成本与可靠性</h2>
-          <div class="table-wrap"><table><thead><tr><th>Method</th><th>Cases</th><th>Invalid</th><th>Calls/case</th><th>Input tok.</th><th>Output tok.</th><th>Total tok.</th><th>Runtime</th><th>Root@3</th><th>Risk-any</th><th>Risk-all</th><th>Compression</th></tr></thead><tbody><tr><td>Full-SCC Naive (single attempt)</td><td>20</td><td>15.0%</td><td>1.0</td><td>20,429</td><td>3,182</td><td>23,611</td><td>20.4s</td><td>41.2%</td><td>76.5%</td><td>47.1%</td><td>69.3%</td></tr><tr><td>GraphRAG-style LEA</td><td>20</td><td>0.0%</td><td>17.4</td><td>35,726</td><td>22,721</td><td>58,447</td><td>175.6s</td><td>75.0%</td><td>90.0%</td><td>40.0%</td><td>51.5%</td></tr><tr><td>SA-MCGS</td><td>20</td><td>0.0%</td><td>50.5</td><td>99,108</td><td>62,057</td><td>161,166</td><td>524.6s</td><td>85.0%</td><td>85.0%</td><td>75.0%</td><td>51.5%</td></tr></tbody></table></div>
-          <p class="note">Scope: low-concurrency 20-case audit. LEA is included in the same accounting table to support the baseline-fairness response.</p>
-          <div class="callout">可以对 reviewer 说：我们会同时报告 performance 和 cost，包含 input/output tokens、API calls、runtime，并按 SCC scale 拆分。</div>
+          <div class="table-wrap"><table><thead><tr><th>Model / 模型</th><th>Method / 方法</th><th>Valid/Total / 有效/总数</th><th>Invalid / 无效</th><th>Calls/case / 每例调用</th><th>Input tok. / 输入 token</th><th>Output tok. / 输出 token</th><th>Total tok. / 总 token</th><th>Runtime / 运行时间</th><th>Root@3</th><th>Risk-any</th><th>Risk-all</th><th>Compression / 压缩率</th></tr></thead><tbody><tr><td>gpt-4o</td><td>Full-SCC Naive, single attempt<span class="zh">完整 SCC Naive（单次生成）</span></td><td>34/40</td><td>15.0%</td><td>1.0</td><td>15,330</td><td>2,897</td><td>18,227</td><td>17.7s</td><td>29.4%</td><td>73.5%</td><td>29.4%</td><td>70.2%</td></tr><tr><td>gpt-4o</td><td>GraphRAG-style LEA<span class="zh">图感知局部证据聚合（LEA）</span></td><td>40/40</td><td>0.0%</td><td>16.7</td><td>35,767</td><td>23,010</td><td>58,778</td><td>162.7s</td><td>75.0%</td><td>90.0%</td><td>42.5%</td><td>51.9%</td></tr><tr><td>gpt-4o</td><td>SA-MCGS<span class="zh">SA-MCGS 主方法</span></td><td>40/40</td><td>0.0%</td><td>48.9</td><td>100,078</td><td>63,495</td><td>163,573</td><td>498.1s</td><td>87.5%</td><td>92.5%</td><td>77.5%</td><td>51.9%</td></tr><tr><td>gemini-2.5-flash</td><td>Full-SCC Naive, single attempt<span class="zh">完整 SCC Naive（单次生成）</span></td><td>40/40</td><td>0.0%</td><td>1.0</td><td>23,930</td><td>2,657</td><td>26,586</td><td>9.4s</td><td>75.0%</td><td>87.5%</td><td>57.5%</td><td>80.8%</td></tr><tr><td>gemini-2.5-flash</td><td>GraphRAG-style LEA<span class="zh">图感知局部证据聚合（LEA）</span></td><td>40/40</td><td>0.0%</td><td>15.6</td><td>42,187</td><td>11,017</td><td>53,204</td><td>54.9s</td><td>82.5%</td><td>100.0%</td><td>65.0%</td><td>51.1%</td></tr><tr><td>gemini-2.5-flash</td><td>SA-MCGS<span class="zh">SA-MCGS 主方法</span></td><td>40/40</td><td>0.0%</td><td>45.9</td><td>115,811</td><td>32,409</td><td>148,220</td><td>164.5s</td><td>92.5%</td><td>100.0%</td><td>95.0%</td><td>58.2%</td></tr></tbody></table></div>
+          <p class="note">Scope: completed low-rollout / low-concurrency 40-case audits on gpt-4o and Gemini 2.5 Flash. Qwen is still running and is not included in this version. Runtime is conservative wall-clock, not a fixed lower bound.<span class="zh">范围：已完成的 gpt-4o 与 Gemini 2.5 Flash 两组低 rollout / 低并发 40 案例审计。Qwen 仍在运行，本版本不纳入。runtime 是偏保守的 wall-clock，而不是固定下界。</span></p>
+          <div class="callout">可以对 reviewer 说：我们会同时报告 performance 和 cost，包含 input/output tokens、API calls、runtime；其中 runtime 采用低 rollout 测得，可通过有效并发参数 c_parallel 进一步并行优化。当前表格只纳入已经完成的 gpt-4o 与 Gemini Flash。</div>
         </div>
         <div class="chart-grid">
-          <div class="chart"><div class="chart-title">Performance by method</div><div id="costPerf"></div></div>
-          <div class="chart short"><div class="chart-title">Cost profile by method</div><div id="costProfile"></div></div>
+          <div class="chart"><div class="chart-title">Performance by model and method<span class="zh">不同模型与方法的性能</span></div><div id="costPerf"></div></div>
+          <div class="chart cost-chart"><div class="chart-title">Cost profile by model and method<span class="zh">不同模型与方法的调用、token 与低 rollout 时间</span></div><div class="cost-profile-panel"><div class="cost-model-block"><div class="cost-model-title">gpt-4o<span class="zh">40-case 成本审计</span></div><div class="cost-metric-block"><div class="cost-metric-title">API calls / case<span class="zh">每例 API 调用</span></div><div class="cost-row"><span class="cost-method">Naive</span><span class="cost-track"><span class="cost-fill" style="width:2.0%; background:var(--blue)"></span></span><span class="cost-value">1.0</span></div><div class="cost-row"><span class="cost-method">LEA</span><span class="cost-track"><span class="cost-fill" style="width:34.1%; background:var(--green)"></span></span><span class="cost-value">16.7</span></div><div class="cost-row"><span class="cost-method">SA-MCGS</span><span class="cost-track"><span class="cost-fill" style="width:100.0%; background:var(--amber)"></span></span><span class="cost-value">48.9</span></div></div><div class="cost-metric-block"><div class="cost-metric-title">Total tokens / case<span class="zh">每例总 token</span></div><div class="cost-row"><span class="cost-method">Naive</span><span class="cost-track"><span class="cost-fill" style="width:11.1%; background:var(--blue)"></span></span><span class="cost-value">18,227</span></div><div class="cost-row"><span class="cost-method">LEA</span><span class="cost-track"><span class="cost-fill" style="width:35.9%; background:var(--green)"></span></span><span class="cost-value">58,778</span></div><div class="cost-row"><span class="cost-method">SA-MCGS</span><span class="cost-track"><span class="cost-fill" style="width:100.0%; background:var(--amber)"></span></span><span class="cost-value">163,573</span></div></div><div class="cost-metric-block"><div class="cost-metric-title">Runtime / case (low rollout)<span class="zh">每例运行时间（低 rollout / 低并发）</span></div><div class="cost-row"><span class="cost-method">Naive</span><span class="cost-track"><span class="cost-fill" style="width:3.6%; background:var(--blue)"></span></span><span class="cost-value">17.7s</span></div><div class="cost-row"><span class="cost-method">LEA</span><span class="cost-track"><span class="cost-fill" style="width:32.7%; background:var(--green)"></span></span><span class="cost-value">162.7s</span></div><div class="cost-row"><span class="cost-method">SA-MCGS</span><span class="cost-track"><span class="cost-fill" style="width:100.0%; background:var(--amber)"></span></span><span class="cost-value">498.1s</span></div></div></div><div class="cost-model-block"><div class="cost-model-title">gemini-2.5-flash<span class="zh">40-case 成本审计</span></div><div class="cost-metric-block"><div class="cost-metric-title">API calls / case<span class="zh">每例 API 调用</span></div><div class="cost-row"><span class="cost-method">Naive</span><span class="cost-track"><span class="cost-fill" style="width:2.2%; background:var(--blue)"></span></span><span class="cost-value">1.0</span></div><div class="cost-row"><span class="cost-method">LEA</span><span class="cost-track"><span class="cost-fill" style="width:34.0%; background:var(--green)"></span></span><span class="cost-value">15.6</span></div><div class="cost-row"><span class="cost-method">SA-MCGS</span><span class="cost-track"><span class="cost-fill" style="width:100.0%; background:var(--amber)"></span></span><span class="cost-value">45.9</span></div></div><div class="cost-metric-block"><div class="cost-metric-title">Total tokens / case<span class="zh">每例总 token</span></div><div class="cost-row"><span class="cost-method">Naive</span><span class="cost-track"><span class="cost-fill" style="width:17.9%; background:var(--blue)"></span></span><span class="cost-value">26,586</span></div><div class="cost-row"><span class="cost-method">LEA</span><span class="cost-track"><span class="cost-fill" style="width:35.9%; background:var(--green)"></span></span><span class="cost-value">53,204</span></div><div class="cost-row"><span class="cost-method">SA-MCGS</span><span class="cost-track"><span class="cost-fill" style="width:100.0%; background:var(--amber)"></span></span><span class="cost-value">148,220</span></div></div><div class="cost-metric-block"><div class="cost-metric-title">Runtime / case (low rollout)<span class="zh">每例运行时间（低 rollout / 低并发）</span></div><div class="cost-row"><span class="cost-method">Naive</span><span class="cost-track"><span class="cost-fill" style="width:5.7%; background:var(--blue)"></span></span><span class="cost-value">9.4s</span></div><div class="cost-row"><span class="cost-method">LEA</span><span class="cost-track"><span class="cost-fill" style="width:33.4%; background:var(--green)"></span></span><span class="cost-value">54.9s</span></div><div class="cost-row"><span class="cost-method">SA-MCGS</span><span class="cost-track"><span class="cost-fill" style="width:100.0%; background:var(--amber)"></span></span><span class="cost-value">164.5s</span></div></div></div>
+      <div class="parallel-formula">
+        <div class="formula-title">Parallelizable wall-clock model<span class="zh">可并行优化的 wall-clock 时间模型</span></div>
+        <code>T_wall(c_parallel) ≈ T_serial + T_LLM / c_parallel<br>c_parallel = min(C_rollout, C_worker, C_api)</code>
+        <p>Reported runtime uses a low-rollout / low-concurrency audit, so it is a conservative wall-clock measurement. Increasing the effective rollout concurrency c_parallel can shorten the parallel LLM-call portion by multiples, subject to worker and API-rate limits; token and call counts remain the accounting cost.</p>
+        <p class="zh">这里报告的 runtime 来自低 rollout / 低并发审计，因此是偏保守的 wall-clock 时间。增大有效 rollout 并发参数 c_parallel，可以在 worker 和 API 速率限制内近似按倍数压缩可并行的 LLM 调用时间；token 与调用数仍然是实际成本核算口径。</p>
+      </div>
+    </div></div>
         </div>
       </div>
     </section>
@@ -166,16 +339,16 @@
       <div class="two-col">
         <div>
           <h2>2. 组件级消融</h2>
-          <h3>Stage 1: search / memory modules, 80 cases</h3>
-          <div class="table-wrap"><table><thead><tr><th>Variant</th><th>N</th><th>Root@3</th><th>Risk-any</th><th>Risk-all</th><th>Compression</th><th>Delta Risk-all</th><th>Avg core</th></tr></thead><tbody><tr><td>Full SA-MCGS (locked main)</td><td>80</td><td>86.2%</td><td>100.0%</td><td>75.0%</td><td>51.3%</td><td>0.0%</td><td>8.1</td></tr><tr><td>No relation-first memory</td><td>80</td><td>88.8%</td><td>98.8%</td><td>80.0%</td><td>51.8%</td><td>5.0%</td><td>8.0</td></tr><tr><td>No critical-pair ledger/revisit</td><td>80</td><td>83.8%</td><td>88.8%</td><td>53.8%</td><td>72.0%</td><td>-21.3%</td><td>4.2</td></tr><tr><td>Random local-window selection</td><td>80</td><td>90.0%</td><td>96.2%</td><td>63.7%</td><td>51.8%</td><td>-11.3%</td><td>8.0</td></tr></tbody></table></div>
-          <h3 style="margin-top:18px">Stage 2: dynamic core modules, 40 cases</h3>
-          <div class="table-wrap"><table><thead><tr><th>Variant</th><th>N</th><th>Root@3</th><th>Risk-any</th><th>Risk-all</th><th>Compression</th><th>Delta Risk-all</th><th>Avg core</th></tr></thead><tbody><tr><td>Full SA-MCGS (locked main)</td><td>40</td><td>85.0%</td><td>100.0%</td><td>70.0%</td><td>52.1%</td><td>0.0%</td><td>10.0</td></tr><tr><td>No OC/core signal</td><td>40</td><td>85.0%</td><td>100.0%</td><td>60.0%</td><td>52.2%</td><td>-10.0%</td><td>9.7</td></tr><tr><td>Monotone core</td><td>40</td><td>77.5%</td><td>87.5%</td><td>45.0%</td><td>76.1%</td><td>-25.0%</td><td>4.8</td></tr><tr><td>No pair closure in final core</td><td>40</td><td>80.0%</td><td>95.0%</td><td>67.5%</td><td>53.0%</td><td>-2.5%</td><td>9.4</td></tr></tbody></table></div>
+          <h3>Stage 1: search / memory modules, 80 cases<span class="zh">Stage 1：搜索/记忆模块，80 个案例</span></h3>
+          <div class="table-wrap"><table><thead><tr><th>Variant / 变体</th><th>N</th><th>Root@3</th><th>Risk-any</th><th>Risk-all</th><th>Compression / 压缩率</th><th>Delta Risk-all / Risk-all 变化</th><th>Avg core / 平均 core 大小</th></tr></thead><tbody><tr><td>Full SA-MCGS (locked main)<span class="zh">完整 SA-MCGS（冻结主设置）</span></td><td>80</td><td>86.2%</td><td>100.0%</td><td>75.0%</td><td>51.3%</td><td>0.0%</td><td>8.1</td></tr><tr><td>No relation-first memory<span class="zh">移除 relation-first memory</span></td><td>80</td><td>88.8%</td><td>98.8%</td><td>80.0%</td><td>51.8%</td><td>5.0%</td><td>8.0</td></tr><tr><td>No critical-pair ledger/revisit<span class="zh">移除 critical-pair 记录与重访</span></td><td>80</td><td>83.8%</td><td>88.8%</td><td>53.8%</td><td>72.0%</td><td>-21.3%</td><td>4.2</td></tr><tr><td>Random local-window selection<span class="zh">随机选择局部窗口</span></td><td>80</td><td>90.0%</td><td>96.2%</td><td>63.7%</td><td>51.8%</td><td>-11.3%</td><td>8.0</td></tr></tbody></table></div>
+          <h3 style="margin-top:18px">Stage 2: dynamic core modules, 40 cases<span class="zh">Stage 2：dynamic core 模块，40 个案例</span></h3>
+          <div class="table-wrap"><table><thead><tr><th>Variant / 变体</th><th>N</th><th>Root@3</th><th>Risk-any</th><th>Risk-all</th><th>Compression / 压缩率</th><th>Delta Risk-all / Risk-all 变化</th><th>Avg core / 平均 core 大小</th></tr></thead><tbody><tr><td>Full SA-MCGS (locked main)<span class="zh">完整 SA-MCGS（冻结主设置）</span></td><td>40</td><td>85.0%</td><td>100.0%</td><td>70.0%</td><td>52.1%</td><td>0.0%</td><td>10.0</td></tr><tr><td>No OC/core signal<span class="zh">移除 OC/core 信号</span></td><td>40</td><td>85.0%</td><td>100.0%</td><td>60.0%</td><td>52.2%</td><td>-10.0%</td><td>9.7</td></tr><tr><td>Monotone core<span class="zh">单调累积 core</span></td><td>40</td><td>77.5%</td><td>87.5%</td><td>45.0%</td><td>76.1%</td><td>-25.0%</td><td>4.8</td></tr><tr><td>No pair closure in final core<span class="zh">最终 core 不做 pair closure</span></td><td>40</td><td>80.0%</td><td>95.0%</td><td>67.5%</td><td>53.0%</td><td>-2.5%</td><td>9.4</td></tr></tbody></table></div>
           <div class="callout">最强证据：critical-pair ledger/revisit 和 dynamic/replacement core。relation-first memory 接近 Full，pair closure 影响较小，应谨慎表述。</div>
         </div>
         <div class="chart-grid">
-          <div class="chart"><div class="chart-title">Risk-all delta vs Full SA-MCGS</div><div id="ablationDelta"></div></div>
-          <div class="chart"><div class="chart-title">Stage 2: compression and endpoint retention</div><div id="stage2Core"></div></div>
-          <div class="chart short"><div class="chart-title">Large SCC: Stage 1 Risk-all</div><div id="stage1Large"></div></div>
+          <div class="chart"><div class="chart-title">Risk-all delta vs Full SA-MCGS<span class="zh">相对完整 SA-MCGS 的 Risk-all 变化</span></div><div id="ablationDelta"></div></div>
+          <div class="chart"><div class="chart-title">Stage 2: ablations vs Full<span class="zh">Stage 2：相对 Full 的消融对比</span></div><div class="stage2-compare-panel"><div class="stage2-reference"><strong>Full reference</strong><span class="zh">完整 SA-MCGS 作为对照</span><span>Risk-all 70.0%</span><span>Compression 52.1%</span></div><div class="stage2-compare-row"><div class="compare-name"><strong>No OC/core</strong><span class="zh">移除 OC/core 信号</span></div><div class="compare-metric"><span>Risk-all</span><b>60.0%</b><em class="delta-bad">-10.0 pp</em></div><div class="compare-metric"><span>Compression</span><b>52.2%</b><em class="delta-neutral">+0.0 pp</em></div></div><div class="stage2-compare-row"><div class="compare-name"><strong>Monotone</strong><span class="zh">单调累积 core</span></div><div class="compare-metric"><span>Risk-all</span><b>45.0%</b><em class="delta-bad">-25.0 pp</em></div><div class="compare-metric"><span>Compression</span><b>76.1%</b><em class="delta-good">+24.0 pp</em></div></div><div class="stage2-compare-row"><div class="compare-name"><strong>No pair closure</strong><span class="zh">最终 core 不做 pair closure</span></div><div class="compare-metric"><span>Risk-all</span><b>67.5%</b><em class="delta-warn">-2.5 pp</em></div><div class="compare-metric"><span>Compression</span><b>53.0%</b><em class="delta-neutral">+0.9 pp</em></div></div><p class="compare-note">Each row reports the ablated variant and its point-change against Full SA-MCGS.<span class="zh">每一行都是消融变体，并显式给出相对 Full SA-MCGS 的百分点变化。</span></p></div></div>
+          <div class="chart short"><div class="chart-title">Large SCC: Stage 1 Risk-all<span class="zh">大 SCC：Stage 1 的 Risk-all</span></div><div id="stage1Large"></div></div>
         </div>
       </div>
     </section>
@@ -183,22 +356,23 @@
     <section>
       <div class="two-col">
         <div>
-          <h2>3. Graph-aware Decomposed Baseline</h2>
-          <div class="table-wrap"><table><thead><tr><th>Group</th><th>N</th><th>LEA Root@3</th><th>SA Root@3</th><th>Delta</th><th>LEA Risk-all</th><th>SA Risk-all</th><th>Delta</th><th>LEA calls</th><th>SA calls</th></tr></thead><tbody><tr><td>overall</td><td>160</td><td>83.8%</td><td>86.9%</td><td>3.1%</td><td>66.2%</td><td>79.4%</td><td>13.1%</td><td>15.7</td><td>55.7</td></tr><tr><td>model=gemini-2.5-pro</td><td>80</td><td>88.8%</td><td>87.5%</td><td>-1.2%</td><td>88.8%</td><td>83.8%</td><td>-5.0%</td><td>14.9</td><td>53.0</td></tr><tr><td>model=gpt-4o</td><td>80</td><td>78.8%</td><td>86.2%</td><td>7.5%</td><td>43.8%</td><td>75.0%</td><td>31.2%</td><td>16.5</td><td>58.5</td></tr><tr><td>scale=large&gt;=21</td><td>40</td><td>85.0%</td><td>77.5%</td><td>-7.5%</td><td>55.0%</td><td>72.5%</td><td>17.5%</td><td>25.6</td><td>56.5</td></tr><tr><td>scale=medium13-20</td><td>48</td><td>75.0%</td><td>83.3%</td><td>8.3%</td><td>64.6%</td><td>75.0%</td><td>10.4%</td><td>14.7</td><td>57.8</td></tr><tr><td>scale=small&lt;=12</td><td>72</td><td>88.9%</td><td>94.4%</td><td>5.6%</td><td>73.6%</td><td>86.1%</td><td>12.5%</td><td>10.8</td><td>54.0</td></tr></tbody></table></div>
-          <p class="note">Matched 160-case overall: LEA Risk-all 66.2%, SA-MCGS Risk-all 79.4%, delta 13.1%.</p>
+          <h2>3. Graph-aware Decomposed Baseline<span class="zh">图感知分解式 Baseline</span></h2>
+          <div class="table-wrap"><table><thead><tr><th>Group / 分组</th><th>N</th><th>LEA Root@3</th><th>SA Root@3</th><th>Delta / 差值</th><th>LEA Risk-all</th><th>SA Risk-all</th><th>Delta / 差值</th><th>LEA calls / LEA 调用</th><th>SA calls / SA 调用</th></tr></thead><tbody><tr><td>overall<span class="zh">总体</span></td><td>160</td><td>83.8%</td><td>86.9%</td><td>3.1%</td><td>66.2%</td><td>79.4%</td><td>13.1%</td><td>15.7</td><td>55.7</td></tr><tr><td>model=gemini-2.5-pro<span class="zh">模型：Gemini 2.5 Pro</span></td><td>80</td><td>88.8%</td><td>87.5%</td><td>-1.2%</td><td>88.8%</td><td>83.8%</td><td>-5.0%</td><td>14.9</td><td>53.0</td></tr><tr><td>model=gpt-4o<span class="zh">模型：gpt-4o</span></td><td>80</td><td>78.8%</td><td>86.2%</td><td>7.5%</td><td>43.8%</td><td>75.0%</td><td>31.2%</td><td>16.5</td><td>58.5</td></tr><tr><td>model=gemini-2.5-flash (cost audit)<span class="zh">模型：Gemini 2.5 Flash（40-case 成本审计）</span></td><td>40</td><td>82.5%</td><td>92.5%</td><td>10.0%</td><td>65.0%</td><td>95.0%</td><td>30.0%</td><td>15.6</td><td>45.9</td></tr><tr><td>scale=large&gt;=21<span class="zh">大 SCC（&gt;=21）</span></td><td>40</td><td>85.0%</td><td>77.5%</td><td>-7.5%</td><td>55.0%</td><td>72.5%</td><td>17.5%</td><td>25.6</td><td>56.5</td></tr><tr><td>scale=medium13-20<span class="zh">中等 SCC（13-20）</span></td><td>48</td><td>75.0%</td><td>83.3%</td><td>8.3%</td><td>64.6%</td><td>75.0%</td><td>10.4%</td><td>14.7</td><td>57.8</td></tr><tr><td>scale=small&lt;=12<span class="zh">小 SCC（&lt;=12）</span></td><td>72</td><td>88.9%</td><td>94.4%</td><td>5.6%</td><td>73.6%</td><td>86.1%</td><td>12.5%</td><td>10.8</td><td>54.0</td></tr></tbody></table></div>
+          <p class="note">Matched 160-case overall: LEA Risk-all 66.2%, SA-MCGS Risk-all 79.4%, delta 13.1%.<span class="zh">匹配的 160 个案例总体结果：LEA Risk-all 为 66.2%，SA-MCGS Risk-all 为 79.4%，差值为 13.1%。</span></p>
+          <p class="note">gemini-2.5-flash are additional 40-case cost-audit slices and are not included in the matched 160-case overall.<span class="zh">gemini-2.5-flash 是额外的 40 案例成本审计切片，不计入 matched 160-case overall。</span></p>
           <div class="callout">这张表非常适合回应 baseline fairness：LEA 很强，尤其 Gemini 上更强；SA-MCGS 的优势主要体现在 overall endpoint completeness / Risk-all，且 model-level non-uniformity 需要如实说明。</div>
         </div>
         <div class="chart-grid">
-          <div class="chart"><div class="chart-title">Matched LEA vs Full SA-MCGS</div><div id="leaMatched"></div></div>
-          <div class="chart short"><div class="chart-title">Risk-all by model</div><div id="leaModel"></div></div>
-          <div class="chart short"><div class="chart-title">Calls/runtime tradeoff</div><div id="leaCost"></div></div>
+          <div class="chart"><div class="chart-title">Matched LEA vs Full SA-MCGS<span class="zh">匹配案例上的 LEA 与完整 SA-MCGS 对比</span></div><div id="leaMatched"></div></div>
+          <div class="chart short"><div class="chart-title">Risk-all by model<span class="zh">不同模型上的 Risk-all</span></div><div id="leaModel"></div></div>
+          <div class="chart short"><div class="chart-title">Calls/runtime tradeoff<span class="zh">调用数/运行时间权衡</span></div><div id="leaCost"></div></div>
         </div>
       </div>
     </section>
   </main>
 
   <script>
-    const DATA = {"costOverall": [{"method": "Naive", "calls": 1.0, "tokens": 23611.1, "runtime": 20.3822585105896, "root": 0.4117647058823529, "any": 0.7647058823529411, "all": 0.47058823529411764, "invalid": 0.15}, {"method": "LEA", "calls": 17.35, "tokens": 58447.1, "runtime": 175.59617533683777, "root": 0.75, "any": 0.9, "all": 0.4, "invalid": 0.0}, {"method": "SA-MCGS", "calls": 50.45, "tokens": 161165.6, "runtime": 524.634985589981, "root": 0.85, "any": 0.85, "all": 0.75, "invalid": 0.0}], "stage1": [{"variant": "Full", "riskAll": 0.75, "deltaRiskAll": 0.0, "compression": 0.5125728503522622}, {"variant": "No relation memory", "riskAll": 0.8, "deltaRiskAll": 0.050000000000000044, "compression": 0.5180652745946863}, {"variant": "No critical-pair", "riskAll": 0.5375, "deltaRiskAll": -0.21250000000000002, "compression": 0.7201909138655462}, {"variant": "Random window", "riskAll": 0.6375, "deltaRiskAll": -0.11250000000000004, "compression": 0.5180652745946863}], "stage1Large": [{"variant": "Full", "bin": "large (20-34)", "riskAll": 0.5833333333333334, "deltaRiskAll": 0.0}, {"variant": "No relation memory", "bin": "large (20-34)", "riskAll": 0.5833333333333334, "deltaRiskAll": 0.0}, {"variant": "No critical-pair", "bin": "large (20-34)", "riskAll": 0.16666666666666666, "deltaRiskAll": -0.41666666666666674}, {"variant": "Random window", "bin": "large (20-34)", "riskAll": 0.4583333333333333, "deltaRiskAll": -0.12500000000000006}], "stage2": [{"variant": "Full", "riskAll": 0.7, "deltaRiskAll": 0.0, "compression": 0.5210458789576438, "core": 9.975}, {"variant": "No OC/core", "riskAll": 0.6, "deltaRiskAll": -0.09999999999999998, "compression": 0.5215286478227654, "core": 9.725}, {"variant": "Monotone", "riskAll": 0.45, "deltaRiskAll": -0.24999999999999994, "compression": 0.7606331168831169, "core": 4.75}, {"variant": "No pair closure", "riskAll": 0.675, "deltaRiskAll": -0.02499999999999991, "compression": 0.5296168831168832, "core": 9.45}], "leaOverall": [{"metric": "Root@3", "lea": 0.8375, "sa": 0.86875}, {"metric": "Risk-any", "lea": 0.9625, "sa": 0.9875}, {"metric": "Risk-all", "lea": 0.6625, "sa": 0.79375}], "leaModels": [{"model": "gemini-2.5-pro", "lea": 0.8875, "sa": 0.8375}, {"model": "gpt-4o", "lea": 0.4375, "sa": 0.75}], "leaCost": [{"method": "LEA", "calls": 15.6875, "runtime": 311.2982130885124}, {"method": "SA-MCGS", "calls": 55.74375, "runtime": 394.21925359070303}]};
+    const DATA = {"costOverall": [{"method": "4o/Naive", "calls": 1.0, "tokens": 18227.441176470587, "runtime": 17.739921310368707, "root": 0.29411764705882354, "any": 0.7352941176470589, "all": 0.29411764705882354, "invalid": 0.15}, {"method": "4o/LEA", "calls": 16.675, "tokens": 58777.725, "runtime": 162.7083696305752, "root": 0.75, "any": 0.9, "all": 0.425, "invalid": 0.0}, {"method": "4o/SA-MCGS", "calls": 48.9, "tokens": 163573.325, "runtime": 498.0652573466301, "root": 0.875, "any": 0.925, "all": 0.775, "invalid": 0.0}, {"method": "Flash/Naive", "calls": 1.0, "tokens": 26586.475, "runtime": 9.35166694521904, "root": 0.75, "any": 0.875, "all": 0.575, "invalid": 0.0}, {"method": "Flash/LEA", "calls": 15.6, "tokens": 53203.9, "runtime": 54.90644811987877, "root": 0.825, "any": 1.0, "all": 0.65, "invalid": 0.0}, {"method": "Flash/SA-MCGS", "calls": 45.925, "tokens": 148219.875, "runtime": 164.52676996588707, "root": 0.925, "any": 1.0, "all": 0.95, "invalid": 0.0}], "stage1": [{"variant": "Full", "riskAll": 0.75, "deltaRiskAll": 0.0, "compression": 0.5125728503522622}, {"variant": "No relation memory", "riskAll": 0.8, "deltaRiskAll": 0.050000000000000044, "compression": 0.5180652745946863}, {"variant": "No critical-pair", "riskAll": 0.5375, "deltaRiskAll": -0.21250000000000002, "compression": 0.7201909138655462}, {"variant": "Random window", "riskAll": 0.6375, "deltaRiskAll": -0.11250000000000004, "compression": 0.5180652745946863}], "stage1Large": [{"variant": "Full", "bin": "large (20-34)", "riskAll": 0.5833333333333334, "deltaRiskAll": 0.0}, {"variant": "No relation memory", "bin": "large (20-34)", "riskAll": 0.5833333333333334, "deltaRiskAll": 0.0}, {"variant": "No critical-pair", "bin": "large (20-34)", "riskAll": 0.16666666666666666, "deltaRiskAll": -0.41666666666666674}, {"variant": "Random window", "bin": "large (20-34)", "riskAll": 0.4583333333333333, "deltaRiskAll": -0.12500000000000006}], "stage2": [{"variant": "Full", "riskAll": 0.7, "deltaRiskAll": 0.0, "compression": 0.5210458789576438, "core": 9.975}, {"variant": "No OC/core", "riskAll": 0.6, "deltaRiskAll": -0.09999999999999998, "compression": 0.5215286478227654, "core": 9.725}, {"variant": "Monotone", "riskAll": 0.45, "deltaRiskAll": -0.24999999999999994, "compression": 0.7606331168831169, "core": 4.75}, {"variant": "No pair closure", "riskAll": 0.675, "deltaRiskAll": -0.02499999999999991, "compression": 0.5296168831168832, "core": 9.45}], "leaOverall": [{"metric": "Root@3", "lea": 0.8375, "sa": 0.86875}, {"metric": "Risk-any", "lea": 0.9625, "sa": 0.9875}, {"metric": "Risk-all", "lea": 0.6625, "sa": 0.79375}], "leaModels": [{"model": "gemini-2.5-pro", "lea": 0.8875, "sa": 0.8375}, {"model": "gpt-4o", "lea": 0.4375, "sa": 0.75}, {"model": "gemini-2.5-flash", "lea": 0.65, "sa": 0.95}], "leaCost": [{"method": "LEA", "calls": 15.6875, "runtime": 311.2982130885124}, {"method": "SA-MCGS", "calls": 55.74375, "runtime": 394.21925359070303}]};
     const colors = {
       teal: getComputedStyle(document.documentElement).getPropertyValue('--teal').trim(),
       amber: getComputedStyle(document.documentElement).getPropertyValue('--amber').trim(),
@@ -298,16 +472,14 @@
     }
 
     groupedBars('costPerf', DATA.costOverall, ['root', 'any', 'all'], ['Root@3', 'Risk-any', 'Risk-all'], {percent: true, max: 1, height: 260, colors: [colors.blue, colors.green, colors.teal]});
-    groupedBars('costProfile', DATA.costOverall, ['calls'], ['API calls / case'], {height: 210, colors: [colors.amber]});
     singleBars('stage1Large', DATA.stage1Large, 'riskAll', {percent: true, max: 1, color: colors.teal, left: 180});
     horizontalDelta('ablationDelta', [
       ...DATA.stage1.filter(r => r.variant !== 'Full').map(r => ({...r, group: 'S1'})),
       ...DATA.stage2.filter(r => r.variant !== 'Full').map(r => ({...r, group: 'S2'}))
     ]);
-    dualBars('stage2Core', DATA.stage2, ['riskAll', 'compression'], {labels: ['Risk-all', 'Compression'], percent: true, max: 1, height: 260, colors: [colors.teal, colors.rose]});
     dualBars('leaMatched', DATA.leaOverall, ['lea', 'sa'], {labels: ['LEA', 'SA-MCGS'], percent: true, max: 1, height: 250});
     dualBars('leaModel', DATA.leaModels, ['lea', 'sa'], {labels: ['LEA', 'SA-MCGS'], percent: true, max: 1, height: 220});
-    groupedBars('leaCost', DATA.leaCost, ['calls'], ['Calls / case'], {height: 210, colors: [colors.amber]});
+    groupedBars('leaCost', DATA.leaCost, ['calls'], ['Calls / case / 每例调用'], {height: 210, colors: [colors.amber]});
   </script>
 </body>
 </html>

@@ -1,0 +1,392 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (bgb); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gemini-2.5-flash",
+  "domain": "bgb",
+  "scc_size": 9,
+  "scc_id": "scc_7",
+  "scc_clause_ids": [
+    "bgb_555c",
+    "bgb_555d",
+    "bgb_558",
+    "bgb_559",
+    "bgb_559a",
+    "bgb_559b",
+    "bgb_559e",
+    "bgb_559c",
+    "bgb_559d"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 6496,
+    "completion_tokens": 1188,
+    "total_tokens": 7684
+  },
+  "time": 4.703330039978027,
+  "scores": {
+    "bgb_555c": 0.55,
+    "bgb_555d": 0.5,
+    "bgb_558": 0.2,
+    "bgb_559": 0.6,
+    "bgb_559a": 0.3,
+    "bgb_559b": 0.45,
+    "bgb_559e": 0.85,
+    "bgb_559c": 0.95,
+    "bgb_559d": 0.7
+  },
+  "reasonings": {
+    "bgb_555c": "High centrality; anchor for the entire notification cycle.",
+    "bgb_555d": "Dependency on bgb_555c; links to enforcement limits.",
+    "bgb_558": "Standard reference; structurally stable.",
+    "bgb_559": "Core complexity; high interconnectivity increases propagation of errors.",
+    "bgb_559a": "Secondary functional dependency.",
+    "bgb_559b": "Enforcement procedural timing is ambiguous.",
+    "bgb_559e": "Complex override logic creates high risk of invalid calculation.",
+    "bgb_559c": "Contains explicit statement of non-curable enforcement conflict.",
+    "bgb_559d": "Introduces subjective legal presumptions."
+  },
+  "ranking": [
+    [
+      "bgb_559c",
+      0.95
+    ],
+    [
+      "bgb_559e",
+      0.85
+    ],
+    [
+      "bgb_559d",
+      0.7
+    ],
+    [
+      "bgb_559",
+      0.6
+    ],
+    [
+      "bgb_555c",
+      0.55
+    ],
+    [
+      "bgb_555d",
+      0.5
+    ],
+    [
+      "bgb_559b",
+      0.45
+    ],
+    [
+      "bgb_559a",
+      0.3
+    ],
+    [
+      "bgb_558",
+      0.2
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "bgb_559c",
+      "risk_score": 0.95,
+      "risk_factors": [
+        "Enforcement Logic Inconsistency"
+      ],
+      "reasoning": "Contains logic explicitly noted as creating non-curable enforcement conflicts and incompatible remedy classes."
+    },
+    {
+      "rank": 2,
+      "clause_id": "bgb_559e",
+      "risk_score": 0.85,
+      "risk_factors": [
+        "Enforcement Logic Inconsistency"
+      ],
+      "reasoning": "Inherits conflict dynamics while adding complex layerings on top of §559 and §559a."
+    },
+    {
+      "rank": 3,
+      "clause_id": "bgb_559d",
+      "risk_score": 0.7,
+      "risk_factors": [
+        "Operational Ambiguity"
+      ],
+      "reasoning": "Introduces subjective presumption of fault that interacts poorly with rigid notice requirements."
+    },
+    {
+      "rank": 4,
+      "clause_id": "bgb_559",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "Structural Circularity"
+      ],
+      "reasoning": "Central node for rent increases with high incoming and outgoing edge density."
+    },
+    {
+      "rank": 5,
+      "clause_id": "bgb_555c",
+      "risk_score": 0.55,
+      "risk_factors": [
+        "Structural Circularity"
+      ],
+      "reasoning": "Critical dependency node for all modernization procedures."
+    },
+    {
+      "rank": 6,
+      "clause_id": "bgb_555d",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "Structural Circularity"
+      ],
+      "reasoning": "Deeply linked to bgb_555c, creates bottleneck for modernization rights."
+    },
+    {
+      "rank": 7,
+      "clause_id": "bgb_559b",
+      "risk_score": 0.45,
+      "risk_factors": [
+        "Operational Ambiguity"
+      ],
+      "reasoning": "Procedural enforcement gatekeeper that complicates timelines."
+    },
+    {
+      "rank": 8,
+      "clause_id": "bgb_559a",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "Structural Circularity"
+      ],
+      "reasoning": "Secondary dependency node for calculation of rent adjustments."
+    },
+    {
+      "rank": 9,
+      "clause_id": "bgb_558",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "Operational Ambiguity"
+      ],
+      "reasoning": "Baseline reference for rent, least affected by the modernizing modification cycle."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "Enforcement Logic Inconsistency",
+      "importance_weight": 0.9,
+      "description": "Contradictions between immediate penalty triggers and cure periods within a single obligation path."
+    },
+    {
+      "factor": "Structural Circularity",
+      "importance_weight": 0.7,
+      "description": "Excessive bidirectional dependencies between modernization, notification, and rent increase clauses."
+    },
+    {
+      "factor": "Operational Ambiguity",
+      "importance_weight": 0.5,
+      "description": "Difficulty in determining which enforcement mechanism prevails during overlapping procedural requirements."
+    }
+  ],
+  "risk_factor_weight_sum": 2.1,
+  "direct_risk_subgraph_nodes": [
+    "bgb_559c",
+    "bgb_559e",
+    "bgb_559"
+  ],
+  "direct_risk_subgraph_size": 3,
+  "direct_compression_ratio": 0.6666666666666667,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "These three nodes contain the specific text defining the non-curable enforcement conflict (bgb_559c and the interpolated logic) and the core rent increase logic (bgb_559/bgb_559e) where the conflicting remedies originate.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "bgb_559c",
+      "target": "bgb_559e",
+      "reason": "defines simplified process vs specialized heating system increases"
+    },
+    {
+      "source": "bgb_559e",
+      "target": "bgb_559",
+      "reason": "specialized increase rules override general increase rules"
+    }
+  ],
+  "direct_subgraph_raw": [
+    "bgb_559c",
+    "bgb_559e",
+    "bgb_559"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 9,
+  "largest_tie_count": 1,
+  "tied_score_groups": [],
+  "conflicts": [
+    {
+      "clause_a": "bgb_559c",
+      "clause_b": "bgb_559e",
+      "description": "The requirement to pay an additional 20 percent charge for curing within three months in one path creates a non-curable enforcement conflict with the immediate release/default treatment defined in adjacent sections."
+    }
+  ],
+  "score_spread": 0.75,
+  "ranking_score_spread": 0.75,
+  "score_mean": 0.5666666666666667,
+  "score_max": 0.95,
+  "node_names": {
+    "bgb_555c": "§555c Ankündigung von Modernisierungsmaßnahmen",
+    "bgb_555d": "§555d Duldung von Modernisierungsmaßnahmen, Ausschlussfrist",
+    "bgb_558": "§558 Mieterhöhung bis zur ortsüblichen Vergleichsmiete",
+    "bgb_559": "§559 Mieterhöhung nach Modernisierungsmaßnahmen",
+    "bgb_559a": "§559a Anrechnung von Drittmitteln",
+    "bgb_559b": "§559b Geltendmachung der Erhöhung, Wirkung der Erhöhungserklärung",
+    "bgb_559e": "§559e Mieterhöhung nach Einbau oder Aufstellung einer Heizungsanlage",
+    "bgb_559c": "§559c Vereinfachtes Verfahren",
+    "bgb_559d": "§559d Pflichtverletzungen bei Ankündigung oder Durchführung einer baulichen Veränderung"
+  },
+  "ground_truth_nodes": [
+    "bgb_559e"
+  ],
+  "gt_evidence": {
+    "bgb_559e": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": true,
+  "prompt_word_count": 3121,
+  "injected_title_occurrences_in_prompt": 6,
+  "injected_id_occurrences_in_prompt": 6,
+  "injected_title_first_word_ratio": 0.5414931111823134,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.5443768023069528,
+  "inject_mode": true,
+  "injected_node": "bgb_559e",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "bgb_558",
+  "injected_witness_distance": 4,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "bgb_559e",
+    "bgb_558"
+  ],
+  "injected_evidence_nodes": [
+    "bgb_559e",
+    "bgb_558"
+  ],
+  "injected_affected_nodes": [
+    "bgb_555c",
+    "bgb_559a"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "bgb_direct_timely_cure_vs_extra_charge_critical",
+  "injected_rank": 2,
+  "top1_margin": 0.09999999999999998,
+  "risk_node_ranks": {
+    "bgb_559e": 2,
+    "bgb_558": 9
+  },
+  "risk_best_rank": 2,
+  "risk_worst_rank": 9,
+  "risk_top1_hit": false,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": false,
+  "evidence_node_ranks": {
+    "bgb_559e": 2,
+    "bgb_558": 9
+  },
+  "evidence_best_rank": 2,
+  "evidence_worst_rank": 9,
+  "evidence_top1_hit": false,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "bgb_555c": 5,
+    "bgb_559a": 8
+  },
+  "affected_best_rank": 5,
+  "affected_worst_rank": 8,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "bgb_559e": 2,
+    "bgb_558": 9,
+    "bgb_555c": 5,
+    "bgb_559a": 8
+  },
+  "valuable_best_rank": 2,
+  "valuable_worst_rank": 9,
+  "valuable_top1_hit": false,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "direct_subgraph_nodes_retained": [
+    "bgb_559c",
+    "bgb_559e",
+    "bgb_559"
+  ],
+  "direct_contains_injected_node": true,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": false,
+  "direct_risk_nodes_retained": [
+    "bgb_559e"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": false,
+  "direct_evidence_nodes_retained": [
+    "bgb_559e"
+  ],
+  "direct_contains_any_affected_node": false,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "bgb_559e"
+  ],
+  "case_id": "19_bgb9_scc_7_direct_mutex",
+  "case_order": 19,
+  "audit_started_at": 1783864244.080333,
+  "audit_completed_at": 1783864248.784041,
+  "audit_started_at_iso": "2026-07-12T21:50:44+0800",
+  "audit_completed_at_iso": "2026-07-12T21:50:48+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 6496,
+    "completion_tokens": 1188,
+    "total_tokens": 7684,
+    "api_runtime_sec_sum": 4.701246023178101
+  }
+}

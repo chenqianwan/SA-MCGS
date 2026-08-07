@@ -1,0 +1,438 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (sec_ex21); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gemini-2.5-flash",
+  "domain": "sec_ex21",
+  "scc_size": 12,
+  "scc_id": "scc_3",
+  "scc_clause_ids": [
+    "us-cw-1055194",
+    "us-cw-502062",
+    "us-cw-502091",
+    "us-cw-652416",
+    "us-cw-705648",
+    "us-cw-708557",
+    "us-cw-708560",
+    "us-cw-748266",
+    "us-cw-708556",
+    "us-cw-748274",
+    "us-cw-7565",
+    "us-cw-911364"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 3137,
+    "completion_tokens": 1489,
+    "total_tokens": 4626
+  },
+  "time": 5.534567832946777,
+  "scores": {
+    "us-cw-1055194": 0.15,
+    "us-cw-502062": 0.98,
+    "us-cw-502091": 0.4,
+    "us-cw-652416": 0.35,
+    "us-cw-705648": 0.45,
+    "us-cw-708557": 0.2,
+    "us-cw-708560": 0.5,
+    "us-cw-748266": 0.6,
+    "us-cw-708556": 0.95,
+    "us-cw-748274": 0.55,
+    "us-cw-7565": 0.75,
+    "us-cw-911364": 0.3
+  },
+  "reasonings": {
+    "us-cw-1055194": "Low structural risk.",
+    "us-cw-502062": "Defines a 20% non-controlling interest that triggers an immediate blocking inconsistency.",
+    "us-cw-502091": "Referenced by high-risk nodes.",
+    "us-cw-652416": "Participates in dependency chains.",
+    "us-cw-705648": "Participates in dependency chains.",
+    "us-cw-708557": "Minor structural participant.",
+    "us-cw-708560": "Deeply linked to primary nodes.",
+    "us-cw-748266": "Significant bridging node.",
+    "us-cw-708556": "Mandates full consolidation, creating a conflict with 502062.",
+    "us-cw-748274": "Structural participant.",
+    "us-cw-7565": "The root of the dependency network propagating internal contradictions.",
+    "us-cw-911364": "Minor structural participant."
+  },
+  "ranking": [
+    [
+      "us-cw-502062",
+      0.98
+    ],
+    [
+      "us-cw-708556",
+      0.95
+    ],
+    [
+      "us-cw-7565",
+      0.75
+    ],
+    [
+      "us-cw-748266",
+      0.6
+    ],
+    [
+      "us-cw-748274",
+      0.55
+    ],
+    [
+      "us-cw-708560",
+      0.5
+    ],
+    [
+      "us-cw-705648",
+      0.45
+    ],
+    [
+      "us-cw-502091",
+      0.4
+    ],
+    [
+      "us-cw-652416",
+      0.35
+    ],
+    [
+      "us-cw-911364",
+      0.3
+    ],
+    [
+      "us-cw-708557",
+      0.2
+    ],
+    [
+      "us-cw-1055194",
+      0.15
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "us-cw-502062",
+      "risk_score": 0.98,
+      "risk_factors": [
+        "Structural Consolidation Inconsistency"
+      ],
+      "reasoning": "Explicitly contains conflicting logic regarding non-controlling interest versus upstream full-consolidation mandates."
+    },
+    {
+      "rank": 2,
+      "clause_id": "us-cw-708556",
+      "risk_score": 0.95,
+      "risk_factors": [
+        "Structural Consolidation Inconsistency"
+      ],
+      "reasoning": "Contains the mandatory 'fully consolidated' constraint which creates the 'barred/allowed' paradox."
+    },
+    {
+      "rank": 3,
+      "clause_id": "us-cw-7565",
+      "risk_score": 0.75,
+      "risk_factors": [
+        "Node Centrality"
+      ],
+      "reasoning": "The root registrant hub propagating inconsistent policies to the entire network."
+    },
+    {
+      "rank": 4,
+      "clause_id": "us-cw-748266",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "Cyclic Dependency Logic"
+      ],
+      "reasoning": "Key bridge node in the circular references linking regional entities."
+    },
+    {
+      "rank": 5,
+      "clause_id": "us-cw-748274",
+      "risk_score": 0.55,
+      "risk_factors": [
+        "Cyclic Dependency Logic"
+      ],
+      "reasoning": "Secondary hub involved in complex dependency chains."
+    },
+    {
+      "rank": 6,
+      "clause_id": "us-cw-708560",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "Cyclic Dependency Logic"
+      ],
+      "reasoning": "Deeply nested in the references of the core entities."
+    },
+    {
+      "rank": 7,
+      "clause_id": "us-cw-705648",
+      "risk_score": 0.45,
+      "risk_factors": [
+        "Cyclic Dependency Logic"
+      ],
+      "reasoning": "High-degree node participating in circularity."
+    },
+    {
+      "rank": 8,
+      "clause_id": "us-cw-502091",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "Cyclic Dependency Logic"
+      ],
+      "reasoning": "Referenced by multiple conflicting records."
+    },
+    {
+      "rank": 9,
+      "clause_id": "us-cw-652416",
+      "risk_score": 0.35,
+      "risk_factors": [
+        "Cyclic Dependency Logic"
+      ],
+      "reasoning": "Structural participant in dependency chains."
+    },
+    {
+      "rank": 10,
+      "clause_id": "us-cw-911364",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "Cyclic Dependency Logic"
+      ],
+      "reasoning": "Participant in dependency chains."
+    },
+    {
+      "rank": 11,
+      "clause_id": "us-cw-708557",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "Node Centrality"
+      ],
+      "reasoning": "Low impact but structurally rigid."
+    },
+    {
+      "rank": 12,
+      "clause_id": "us-cw-1055194",
+      "risk_score": 0.15,
+      "risk_factors": [
+        "Node Centrality"
+      ],
+      "reasoning": "Peripheral to the primary consistency failure."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "Structural Consolidation Inconsistency",
+      "importance_weight": 0.95,
+      "description": "Contradictory consolidation instructions regarding non-controlling interest and upstream registration states."
+    },
+    {
+      "factor": "Cyclic Dependency Logic",
+      "importance_weight": 0.85,
+      "description": "Circular references that exacerbate the impact of inconsistent consolidation rules."
+    },
+    {
+      "factor": "Node Centrality",
+      "importance_weight": 0.7,
+      "description": "High-degree nodes acting as primary hubs for conflicting information."
+    }
+  ],
+  "risk_factor_weight_sum": 2.5,
+  "direct_risk_subgraph_nodes": [
+    "us-cw-502062",
+    "us-cw-708556"
+  ],
+  "direct_risk_subgraph_size": 2,
+  "direct_compression_ratio": 0.8333333333333334,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "The conflict originates from the direct contradiction between the instructions in us-cw-502062 (which enforces a 20% interest, creating a blocking mismatch) and the mandate in us-cw-708556 (which requires full consolidation, barring any non-controlling interest). These two nodes are the source of the paradox.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "us-cw-708556",
+      "target": "us-cw-502062",
+      "reason": "Mandatory consolidation state in 708556 conflicts with the minority interest rule defined in 502062"
+    }
+  ],
+  "direct_subgraph_raw": [
+    "us-cw-502062",
+    "us-cw-708556"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 12,
+  "largest_tie_count": 1,
+  "tied_score_groups": [],
+  "conflicts": [
+    {
+      "clause_a": "us-cw-502062",
+      "clause_b": "us-cw-708556",
+      "description": "Conflict between minority interest reservation (502062) and mandatory full-consolidation/no-NCI requirement (708556)."
+    }
+  ],
+  "score_spread": 0.83,
+  "ranking_score_spread": 0.83,
+  "score_mean": 0.515,
+  "score_max": 0.98,
+  "node_names": {
+    "us-cw-1055194": "Proservia Polska z.o.o.",
+    "us-cw-502062": "Manpower Professional & Executive Recruitment Co Ltd",
+    "us-cw-502091": "Manpower Tunisie International Sarl",
+    "us-cw-652416": "Right Management Inc",
+    "us-cw-705648": "HR Power Solution Co. Ltd.",
+    "us-cw-708557": "Manpower Business Services Tunisie S.A.R.L.",
+    "us-cw-708560": "Manpower Middle East FZ LLC",
+    "us-cw-748266": "Manpower Professional Singapore Pte Ltd",
+    "us-cw-708556": "Manpower Borderless Talent Solution Limited",
+    "us-cw-748274": "ManpowerGroup Portugal - SGPS, S.A.",
+    "us-cw-7565": "ManpowerGroup Inc",
+    "us-cw-911364": "Right Management Consulting Taiwan"
+  },
+  "ground_truth_nodes": [
+    "us-cw-708556"
+  ],
+  "gt_evidence": {
+    "us-cw-708556": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": true,
+  "prompt_word_count": 1217,
+  "injected_title_occurrences_in_prompt": 6,
+  "injected_id_occurrences_in_prompt": 5,
+  "injected_title_first_word_ratio": 0.21281840591618734,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.21774856203779785,
+  "inject_mode": true,
+  "injected_node": "us-cw-708556",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-502062",
+  "injected_witness_distance": 6,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "us-cw-708556",
+    "us-cw-502062"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-708556",
+    "us-cw-502062"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-708557",
+    "us-cw-502091"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_direct_full_consolidation_vs_retained_interest_critical",
+  "injected_rank": 2,
+  "top1_margin": 0.030000000000000027,
+  "risk_node_ranks": {
+    "us-cw-708556": 2,
+    "us-cw-502062": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "us-cw-708556": 2,
+    "us-cw-502062": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 2,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "us-cw-708557": 11,
+    "us-cw-502091": 8
+  },
+  "affected_best_rank": 8,
+  "affected_worst_rank": 11,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-708556": 2,
+    "us-cw-502062": 1,
+    "us-cw-708557": 11,
+    "us-cw-502091": 8
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 11,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "direct_subgraph_nodes_retained": [
+    "us-cw-502062",
+    "us-cw-708556"
+  ],
+  "direct_contains_injected_node": true,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": true,
+  "direct_risk_nodes_retained": [
+    "us-cw-708556",
+    "us-cw-502062"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": true,
+  "direct_evidence_nodes_retained": [
+    "us-cw-708556",
+    "us-cw-502062"
+  ],
+  "direct_contains_any_affected_node": false,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "us-cw-708556",
+    "us-cw-502062"
+  ],
+  "case_id": "17_sec_ex2111_scc_3_direct_mutex",
+  "case_order": 17,
+  "audit_started_at": 1783863942.284588,
+  "audit_completed_at": 1783863947.819378,
+  "audit_started_at_iso": "2026-07-12T21:45:42+0800",
+  "audit_completed_at_iso": "2026-07-12T21:45:47+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 3137,
+    "completion_tokens": 1489,
+    "total_tokens": 4626,
+    "api_runtime_sec_sum": 5.533137798309326
+  }
+}

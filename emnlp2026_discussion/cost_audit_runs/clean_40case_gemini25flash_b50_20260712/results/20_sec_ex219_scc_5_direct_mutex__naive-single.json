@@ -1,0 +1,479 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (sec_ex21); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gemini-2.5-flash",
+  "domain": "sec_ex21",
+  "scc_size": 12,
+  "scc_id": "scc_5",
+  "scc_clause_ids": [
+    "us-cw-133461",
+    "us-cw-133692",
+    "us-cw-133693",
+    "us-cw-133694",
+    "us-cw-133695",
+    "us-cw-133696",
+    "us-cw-133698",
+    "us-cw-133699",
+    "us-cw-470337",
+    "us-cw-465574",
+    "us-cw-470271",
+    "us-cw-470336"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 2155,
+    "completion_tokens": 1577,
+    "total_tokens": 3732
+  },
+  "time": 5.204485893249512,
+  "scores": {
+    "us-cw-133461": 0.6,
+    "us-cw-133692": 0.55,
+    "us-cw-133693": 0.95,
+    "us-cw-133694": 0.4,
+    "us-cw-133695": 0.4,
+    "us-cw-133696": 0.3,
+    "us-cw-133698": 0.3,
+    "us-cw-133699": 0.7,
+    "us-cw-470337": 0.92,
+    "us-cw-465574": 0.2,
+    "us-cw-470271": 0.5,
+    "us-cw-470336": 0.2
+  },
+  "reasonings": {
+    "us-cw-133461": "Root node for the dependency graph.",
+    "us-cw-133692": "Early path node.",
+    "us-cw-133693": "Contains conflicting requirement for 20% interest.",
+    "us-cw-133694": "Downstream of inconsistency.",
+    "us-cw-133695": "Downstream hub.",
+    "us-cw-133696": "Downstream node.",
+    "us-cw-133698": "Downstream node.",
+    "us-cw-133699": "Critical dependency bridge.",
+    "us-cw-470337": "Contains conflicting requirement for full consolidation.",
+    "us-cw-465574": "Minor branch.",
+    "us-cw-470271": "Dependency bridge.",
+    "us-cw-470336": "Minor branch."
+  },
+  "ranking": [
+    [
+      "us-cw-133693",
+      0.95
+    ],
+    [
+      "us-cw-470337",
+      0.92
+    ],
+    [
+      "us-cw-133699",
+      0.7
+    ],
+    [
+      "us-cw-133461",
+      0.6
+    ],
+    [
+      "us-cw-133692",
+      0.55
+    ],
+    [
+      "us-cw-470271",
+      0.5
+    ],
+    [
+      "us-cw-133694",
+      0.4
+    ],
+    [
+      "us-cw-133695",
+      0.4
+    ],
+    [
+      "us-cw-133696",
+      0.3
+    ],
+    [
+      "us-cw-133698",
+      0.3
+    ],
+    [
+      "us-cw-465574",
+      0.2
+    ],
+    [
+      "us-cw-470336",
+      0.2
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "us-cw-133693",
+      "risk_score": 0.95,
+      "risk_factors": [
+        "Structural Consolidation Incompatibility"
+      ],
+      "reasoning": "Explicitly mandates a 20% non-controlling interest, which conflicts with downstream mandatory full-consolidation paths."
+    },
+    {
+      "rank": 2,
+      "clause_id": "us-cw-470337",
+      "risk_score": 0.92,
+      "risk_factors": [
+        "Structural Consolidation Incompatibility"
+      ],
+      "reasoning": "Explicitly mandates full consolidation, contradicting the upstream 20% non-controlling interest requirement."
+    },
+    {
+      "rank": 3,
+      "clause_id": "us-cw-133699",
+      "risk_score": 0.7,
+      "risk_factors": [
+        "Structural Dependency"
+      ],
+      "reasoning": "Critical bridge between the conflicting nodes in the dependency cycle."
+    },
+    {
+      "rank": 4,
+      "clause_id": "us-cw-133461",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "Structural Dependency"
+      ],
+      "reasoning": "Primary root of the graph and participant in the main cycle."
+    },
+    {
+      "rank": 5,
+      "clause_id": "us-cw-133692",
+      "risk_score": 0.55,
+      "risk_factors": [
+        "Structural Dependency"
+      ],
+      "reasoning": "Direct dependency link from the root to the high-risk node us-cw-133693."
+    },
+    {
+      "rank": 6,
+      "clause_id": "us-cw-470271",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "Structural Dependency"
+      ],
+      "reasoning": "Connector between root and high-risk nodes."
+    },
+    {
+      "rank": 7,
+      "clause_id": "us-cw-133694",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "Structural Dependency"
+      ],
+      "reasoning": "Downstream of high-risk node us-cw-133693."
+    },
+    {
+      "rank": 8,
+      "clause_id": "us-cw-133695",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "Structural Dependency"
+      ],
+      "reasoning": "Downstream hub for multiple paths."
+    },
+    {
+      "rank": 9,
+      "clause_id": "us-cw-133696",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "Structural Dependency"
+      ],
+      "reasoning": "Downstream chain participant."
+    },
+    {
+      "rank": 10,
+      "clause_id": "us-cw-133698",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "Structural Dependency"
+      ],
+      "reasoning": "Downstream chain participant."
+    },
+    {
+      "rank": 11,
+      "clause_id": "us-cw-465574",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "Structural Dependency"
+      ],
+      "reasoning": "Peripheral dependency."
+    },
+    {
+      "rank": 12,
+      "clause_id": "us-cw-470336",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "Structural Dependency"
+      ],
+      "reasoning": "Peripheral dependency."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "Structural Consolidation Incompatibility",
+      "importance_weight": 0.95,
+      "description": "Direct contradiction between records requiring non-controlling interest and mandatory full consolidation."
+    },
+    {
+      "factor": "Logical Deadlock",
+      "importance_weight": 0.85,
+      "description": "The presence of cycle-induced mutually exclusive state requirements creates non-terminating dependency constraints."
+    },
+    {
+      "factor": "Structural Dependency",
+      "importance_weight": 0.5,
+      "description": "Nodes serving as critical hubs or participants in logical cycles."
+    }
+  ],
+  "risk_factor_weight_sum": 2.3,
+  "direct_risk_subgraph_nodes": [
+    "us-cw-133693",
+    "us-cw-133699",
+    "us-cw-133461",
+    "us-cw-470337"
+  ],
+  "direct_risk_subgraph_size": 4,
+  "direct_compression_ratio": 0.6666666666666667,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "This minimal set of nodes captures the core logical conflict where us-cw-133693 (non-controlling interest) and us-cw-470337 (mandatory full consolidation) exist in a cyclic dependency chain.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "us-cw-133693",
+      "target": "us-cw-133694",
+      "reason": "Path propagation"
+    },
+    {
+      "source": "us-cw-133699",
+      "target": "us-cw-133461",
+      "reason": "Completes cycle closure"
+    },
+    {
+      "source": "us-cw-133699",
+      "target": "us-cw-470337",
+      "reason": "Direct propagation of conflicting state"
+    }
+  ],
+  "direct_subgraph_raw": [
+    "us-cw-133693",
+    "us-cw-133699",
+    "us-cw-133461",
+    "us-cw-470337"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 9,
+  "largest_tie_count": 2,
+  "tied_score_groups": [
+    {
+      "score": 0.4,
+      "count": 2,
+      "nodes": [
+        "us-cw-133694",
+        "us-cw-133695"
+      ]
+    },
+    {
+      "score": 0.3,
+      "count": 2,
+      "nodes": [
+        "us-cw-133696",
+        "us-cw-133698"
+      ]
+    },
+    {
+      "score": 0.2,
+      "count": 2,
+      "nodes": [
+        "us-cw-465574",
+        "us-cw-470336"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "clause_a": "us-cw-133693",
+      "clause_b": "us-cw-470337",
+      "description": "Conflict between requirement for 20% non-controlling interest in us-cw-133693 and mandatory full consolidation in us-cw-470337 on the same logical path."
+    }
+  ],
+  "score_spread": 0.75,
+  "ranking_score_spread": 0.75,
+  "score_mean": 0.5016666666666666,
+  "score_max": 0.95,
+  "node_names": {
+    "us-cw-133461": "First Tennessee Bank National Association",
+    "us-cw-133692": "First Horizon Merchant Services Inc",
+    "us-cw-133693": "FHEL Inc",
+    "us-cw-133694": "FHTOF Inc",
+    "us-cw-133695": "First Horizon Mortgage Loan Corp",
+    "us-cw-133696": "FT Real Estate Securities Co Inc",
+    "us-cw-133698": "FHTRS Inc",
+    "us-cw-133699": "FH FF Mortgage Services LLC",
+    "us-cw-470337": "FTRE Holding LLC",
+    "us-cw-465574": "FHRF Inc",
+    "us-cw-470271": "FT Mortgage Holding Corp",
+    "us-cw-470336": "FTRE Holding II LLC"
+  },
+  "ground_truth_nodes": [
+    "us-cw-470337"
+  ],
+  "gt_evidence": {
+    "us-cw-470337": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": true,
+  "prompt_word_count": 899,
+  "injected_title_occurrences_in_prompt": 4,
+  "injected_id_occurrences_in_prompt": 3,
+  "injected_title_first_word_ratio": 0.26696329254727474,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.271412680756396,
+  "inject_mode": true,
+  "injected_node": "us-cw-470337",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-133693",
+  "injected_witness_distance": 6,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "us-cw-470337",
+    "us-cw-133693"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-470337",
+    "us-cw-133693"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-470336",
+    "us-cw-133694"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_direct_full_consolidation_vs_retained_interest_critical",
+  "injected_rank": 2,
+  "top1_margin": 0.029999999999999916,
+  "risk_node_ranks": {
+    "us-cw-470337": 2,
+    "us-cw-133693": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "us-cw-470337": 2,
+    "us-cw-133693": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 2,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "us-cw-470336": 12,
+    "us-cw-133694": 7
+  },
+  "affected_best_rank": 7,
+  "affected_worst_rank": 12,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-470337": 2,
+    "us-cw-133693": 1,
+    "us-cw-470336": 12,
+    "us-cw-133694": 7
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 12,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "direct_subgraph_nodes_retained": [
+    "us-cw-133693",
+    "us-cw-133699",
+    "us-cw-133461",
+    "us-cw-470337"
+  ],
+  "direct_contains_injected_node": true,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": true,
+  "direct_risk_nodes_retained": [
+    "us-cw-470337",
+    "us-cw-133693"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": true,
+  "direct_evidence_nodes_retained": [
+    "us-cw-470337",
+    "us-cw-133693"
+  ],
+  "direct_contains_any_affected_node": false,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "us-cw-470337",
+    "us-cw-133693"
+  ],
+  "case_id": "20_sec_ex219_scc_5_direct_mutex",
+  "case_order": 20,
+  "audit_started_at": 1783864400.629815,
+  "audit_completed_at": 1783864405.834721,
+  "audit_started_at_iso": "2026-07-12T21:53:20+0800",
+  "audit_completed_at_iso": "2026-07-12T21:53:25+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 2155,
+    "completion_tokens": 1577,
+    "total_tokens": 3732,
+    "api_runtime_sec_sum": 5.203074216842651
+  }
+}

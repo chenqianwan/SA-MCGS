@@ -1,0 +1,494 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "qwen-turbo",
+  "domain": "bgb",
+  "scc_id": "scc_0",
+  "scc_size": 11,
+  "scc_clause_ids": [
+    "bgb_275",
+    "bgb_280",
+    "bgb_281",
+    "bgb_282",
+    "bgb_283",
+    "bgb_285",
+    "bgb_326",
+    "bgb_311a",
+    "bgb_346",
+    "bgb_347",
+    "bgb_441"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "bgb_275",
+        "bgb_280",
+        "bgb_283",
+        "bgb_285"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "bgb_280",
+        "bgb_275",
+        "bgb_281",
+        "bgb_282"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "bgb_281",
+        "bgb_280",
+        "bgb_283",
+        "bgb_311a"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "bgb_282",
+        "bgb_280",
+        "bgb_283",
+        "bgb_281"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "bgb_283",
+        "bgb_275",
+        "bgb_280",
+        "bgb_281"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "bgb_285",
+        "bgb_275",
+        "bgb_326",
+        "bgb_283"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "bgb_326",
+        "bgb_275",
+        "bgb_285",
+        "bgb_346"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "bgb_311a",
+        "bgb_275",
+        "bgb_281",
+        "bgb_346"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "bgb_346",
+        "bgb_280",
+        "bgb_281",
+        "bgb_283"
+      ]
+    },
+    {
+      "window_index": 10,
+      "window": [
+        "bgb_347",
+        "bgb_346",
+        "bgb_441",
+        "bgb_275"
+      ]
+    },
+    {
+      "window_index": 11,
+      "window": [
+        "bgb_441",
+        "bgb_326",
+        "bgb_346",
+        "bgb_347"
+      ]
+    }
+  ],
+  "llm_calls": 11,
+  "tt_hits": 0,
+  "time": 1121.8842658996582,
+  "scores": {
+    "bgb_275": 0.4,
+    "bgb_280": 0.6666666666666666,
+    "bgb_281": 0.7166666666666667,
+    "bgb_282": 0.75,
+    "bgb_283": 0.65,
+    "bgb_285": 0.5,
+    "bgb_326": 0.5333333333333333,
+    "bgb_311a": 0.65,
+    "bgb_346": 0.6000000000000001,
+    "bgb_347": 0.6,
+    "bgb_441": 0.55
+  },
+  "visit_counts": {
+    "bgb_275": 7,
+    "bgb_280": 6,
+    "bgb_283": 6,
+    "bgb_285": 3,
+    "bgb_281": 6,
+    "bgb_282": 2,
+    "bgb_311a": 2,
+    "bgb_326": 3,
+    "bgb_346": 5,
+    "bgb_347": 2,
+    "bgb_441": 2
+  },
+  "ranking": [
+    [
+      "bgb_282",
+      0.75
+    ],
+    [
+      "bgb_281",
+      0.7166666666666667
+    ],
+    [
+      "bgb_280",
+      0.6666666666666666
+    ],
+    [
+      "bgb_283",
+      0.65
+    ],
+    [
+      "bgb_311a",
+      0.65
+    ],
+    [
+      "bgb_346",
+      0.6000000000000001
+    ],
+    [
+      "bgb_347",
+      0.6
+    ],
+    [
+      "bgb_441",
+      0.55
+    ],
+    [
+      "bgb_326",
+      0.5333333333333333
+    ],
+    [
+      "bgb_285",
+      0.5
+    ],
+    [
+      "bgb_275",
+      0.4
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "bgb_275": 3,
+    "bgb_280": 6,
+    "bgb_283": 5,
+    "bgb_285": 3,
+    "bgb_281": 6,
+    "bgb_282": 2,
+    "bgb_326": 2,
+    "bgb_346": 5,
+    "bgb_311a": 1,
+    "bgb_347": 2,
+    "bgb_441": 2
+  },
+  "repair_entry_counts": {
+    "bgb_275": 3,
+    "bgb_283": 2,
+    "bgb_280": 4,
+    "bgb_282": 1,
+    "bgb_281": 3,
+    "bgb_326": 2,
+    "bgb_311a": 1,
+    "bgb_346": 3,
+    "bgb_347": 1,
+    "bgb_441": 2
+  },
+  "local_conflict_endpoint_counts": {
+    "bgb_283": 10,
+    "bgb_275": 4,
+    "bgb_280": 12,
+    "bgb_281": 12,
+    "bgb_282": 3,
+    "bgb_285": 2,
+    "bgb_326": 5,
+    "bgb_346": 9,
+    "bgb_311a": 1,
+    "bgb_347": 4,
+    "bgb_441": 4
+  },
+  "lea_risk_subgraph_nodes": [
+    "bgb_275",
+    "bgb_280",
+    "bgb_281",
+    "bgb_283",
+    "bgb_346"
+  ],
+  "lea_risk_subgraph_size": 5,
+  "lea_compression_ratio": 0.5454545454545454,
+  "conflicts": [
+    {
+      "clause_a": "bgb_275",
+      "clause_b": "bgb_283",
+      "description": "Bgb_275 establishes conditions under which performance is excluded, while bgb_283 allows for damages instead of performance. If both apply simultaneously, it may create an enforcement conflict without clear resolution."
+    },
+    {
+      "clause_a": "bgb_280",
+      "clause_b": "bgb_283",
+      "description": "Bgb_280 outlines general damage rights, while bgb_283 provides specific conditions for damages instead of performance. This could lead to overlapping or conflicting interpretations of when and how damages are recoverable."
+    },
+    {
+      "clause_a": "bgb_280",
+      "clause_b": "bgb_282",
+      "description": "Both allow for damage compensation under different conditions, potentially leading to overlapping or conflicting claims if both are triggered."
+    },
+    {
+      "clause_a": "bgb_280",
+      "clause_b": "bgb_281",
+      "description": "Both relate to damage compensation but under different circumstances, which may result in ambiguity or conflict in application."
+    },
+    {
+      "clause_a": "bgb_281",
+      "clause_b": "bgb_283",
+      "description": "Both address damages instead of performance, but bgb_281 imposes restrictions (e.g., no interest in partial performance, minor breach) that may conflict with bgb_283's broader scope in cases of excluded obligation."
+    },
+    {
+      "clause_a": "bgb_281",
+      "clause_b": "bgb_280",
+      "description": "bgb_281 is a condition for applying bgb_280's damages, but also imposes limitations that may limit or contradict bgb_280's general provisions."
+    },
+    {
+      "clause_a": "bgb_280",
+      "clause_b": "bgb_281",
+      "description": "§280 restricts damages in lieu of performance to cases covered by §281, but §281 imposes specific conditions (e.g., setting a deadline). If these conditions are not met, a conflict arises."
+    },
+    {
+      "clause_a": "bgb_280",
+      "clause_b": "bgb_282",
+      "description": "§280 restricts damages in lieu of performance to cases covered by §282, which requires a violation of §241(2). If this condition is not met, a conflict arises."
+    },
+    {
+      "clause_a": "bgb_280",
+      "clause_b": "bgb_283",
+      "description": "§280 restricts damages in lieu of performance to cases covered by §283, which applies when the debtor is no longer obligated to perform. If this condition is not satisfied, a conflict arises."
+    },
+    {
+      "clause_a": "bgb_283",
+      "clause_b": "bgb_281",
+      "description": "Both clauses deal with damages instead of performance, and their mutual referencing creates a potential for enforcement conflict if both are triggered on the same obligation path."
+    },
+    {
+      "clause_a": "bgb_280",
+      "clause_b": "bgb_281",
+      "description": "Both clauses address damages from performance failures, and their interdependencies may lead to conflicting interpretations or outcomes."
+    },
+    {
+      "clause_a": "bgb_285",
+      "clause_b": "bgb_326",
+      "description": "§285 allows the creditor to demand the return of an 'Ersatz' or the assignment of an 'Ersatzanspruch', while §326 limits the creditor's right to counter-performance based on the value of the Ersatz. This creates potential for inconsistency in determining the extent of the creditor's entitlement."
+    },
+    {
+      "clause_a": "bgb_326",
+      "clause_b": "bgb_275",
+      "description": "Bgb_326 relies on the conditions of non-performance outlined in 275, but introduces additional rules about counter-performance and withdrawal. This may lead to ambiguity in how the non-performance conditions affect the counter-performance rights described in 326."
+    },
+    {
+      "clause_a": "bgb_326",
+      "clause_b": "bgb_285",
+      "description": "Bgb_326 references 285’s provisions on the return of indemnity, but also introduces conditions under which the counter-performance right is retained or diminished. This may lead to conflict in determining whether the Gläubiger is still obligated to provide counter-performance after receiving an indemnity."
+    },
+    {
+      "clause_a": "bgb_326",
+      "clause_b": "bgb_346",
+      "description": "Bgb_326 allows for withdrawal under certain conditions, while 346 governs the consequences of withdrawal. The interplay between these two clauses may lead to ambiguity in how withdrawal affects the obligation to return performance or provide value compensation."
+    },
+    {
+      "clause_a": "bgb_311a",
+      "clause_b": "bgb_281",
+      "description": "§311a permits damages without notice, while §281 requires notice and cure period before damages can be claimed. This creates a direct conflict in the procedural requirements for claiming damages."
+    },
+    {
+      "clause_a": "bgb_281",
+      "clause_b": "bgb_346",
+      "description": "§281 enables damages for non-performance, while §346 allows for withdrawal and return of performance. This could lead to ambiguity on whether damages or withdrawal is the appropriate remedy in cases of non-performance."
+    },
+    {
+      "clause_a": "bgb_346",
+      "clause_b": "bgb_281",
+      "description": "§346 requires restitution or value compensation, while §281 allows for damages instead of performance. This creates a potential enforcement conflict if both are triggered on the same obligation path."
+    },
+    {
+      "clause_a": "bgb_347",
+      "clause_b": "bgb_346",
+      "description": "Both clauses address value compensation after withdrawal, but §347 focuses on the debtor's obligation when they misuse benefits, while §346 outlines general rules for return or compensation. The overlap may cause ambiguity in determining which rule applies."
+    },
+    {
+      "clause_a": "bgb_441",
+      "clause_b": "bgb_346",
+      "description": "§441 allows for price reduction instead of withdrawal, referencing §346. However, §346 deals with return or compensation after withdrawal, which may create confusion about whether the buyer can claim both price reduction and value compensation."
+    },
+    {
+      "clause_a": "bgb_441",
+      "clause_b": "bgb_347",
+      "description": "§441 references §347, and both involve value compensation after withdrawal. This may lead to ambiguity in whether the buyer can claim both price reduction and value compensation under different provisions."
+    },
+    {
+      "clause_a": "bgb_441",
+      "clause_b": "bgb_346",
+      "description": "§441 allows for price reduction and refund, while §346 requires return of benefits. If a buyer pays more than the reduced price, §441 mandates a refund, but §346 may require returning the full amount received, creating a potential conflict in how to handle overpayment."
+    },
+    {
+      "clause_a": "bgb_441",
+      "clause_b": "bgb_347",
+      "description": "§441 allows for price reduction based on value, while §347 governs the use of benefits. If the buyer has already used the goods or services, it is unclear whether the price reduction applies before or after calculating benefits under §347."
+    }
+  ],
+  "ground_truth_nodes": [
+    "bgb_311a"
+  ],
+  "top1_hit": false,
+  "top3_hit": false,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": false,
+  "lea_risk_nodes_retained": [
+    "bgb_280"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": false,
+  "lea_evidence_nodes_retained": [
+    "bgb_280"
+  ],
+  "lea_contains_any_affected_node": true,
+  "lea_contains_all_affected_nodes": false,
+  "lea_affected_nodes_retained": [
+    "bgb_281"
+  ],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": false,
+  "lea_valuable_nodes_retained": [
+    "bgb_280",
+    "bgb_281"
+  ],
+  "inject_mode": true,
+  "injected_node": "bgb_311a",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "bgb_280",
+  "injected_witness_distance": 5,
+  "injected_bridge_node": "bgb_347",
+  "injected_bridge_distance": 2,
+  "injected_risk_nodes": [
+    "bgb_311a",
+    "bgb_280"
+  ],
+  "injected_evidence_nodes": [
+    "bgb_311a",
+    "bgb_347",
+    "bgb_280"
+  ],
+  "injected_affected_nodes": [
+    "bgb_326",
+    "bgb_281"
+  ],
+  "injected_conflict_family": "condition_trigger",
+  "injected_conflict_difficulty": "hard",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "bgb_condition_trigger_pending_notice_critical",
+  "injected_rank": 5,
+  "top1_margin": 0.033333333333333326,
+  "risk_node_ranks": {
+    "bgb_311a": 5,
+    "bgb_280": 3
+  },
+  "risk_best_rank": 3,
+  "risk_worst_rank": 5,
+  "risk_top1_hit": false,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "bgb_311a": 5,
+    "bgb_347": 7,
+    "bgb_280": 3
+  },
+  "evidence_best_rank": 3,
+  "evidence_worst_rank": 7,
+  "evidence_top1_hit": false,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "bgb_326": 9,
+    "bgb_281": 2
+  },
+  "affected_best_rank": 2,
+  "affected_worst_rank": 9,
+  "affected_top1_hit": false,
+  "affected_top3_hit": true,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "bgb_311a": 5,
+    "bgb_280": 3,
+    "bgb_326": 9,
+    "bgb_281": 2
+  },
+  "valuable_best_rank": 2,
+  "valuable_worst_rank": 9,
+  "valuable_top1_hit": false,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 5,
+  "root_top1_hit": false,
+  "root_top3_hit": false,
+  "case_id": "35_bgb11_scc_0_condition_trigger",
+  "case_order": 35,
+  "audit_started_at": 1783920980.846059,
+  "audit_completed_at": 1783922102.7304268,
+  "audit_started_at_iso": "2026-07-13T13:36:20+0800",
+  "audit_completed_at_iso": "2026-07-13T13:55:02+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 11,
+    "successful_api_calls": 11,
+    "failed_api_calls": 0,
+    "prompt_tokens": 21493,
+    "completion_tokens": 9617,
+    "total_tokens": 31110,
+    "api_runtime_sec_sum": 1121.8753805160522
+  }
+}

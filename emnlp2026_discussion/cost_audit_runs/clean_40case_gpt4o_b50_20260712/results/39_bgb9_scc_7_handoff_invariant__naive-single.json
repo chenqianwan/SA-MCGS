@@ -1,0 +1,433 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (bgb); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gpt-4o",
+  "domain": "bgb",
+  "scc_size": 9,
+  "scc_id": "scc_7",
+  "scc_clause_ids": [
+    "bgb_555c",
+    "bgb_555d",
+    "bgb_558",
+    "bgb_559",
+    "bgb_559a",
+    "bgb_559b",
+    "bgb_559e",
+    "bgb_559c",
+    "bgb_559d"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 5665,
+    "completion_tokens": 1629,
+    "total_tokens": 7294
+  },
+  "time": 12.424891948699951,
+  "scores": {
+    "bgb_555c": 0.8,
+    "bgb_555d": 0.9,
+    "bgb_558": 0.2,
+    "bgb_559": 1.0,
+    "bgb_559a": 0.3,
+    "bgb_559b": 0.7,
+    "bgb_559e": 0.4,
+    "bgb_559c": 0.5,
+    "bgb_559d": 0.6
+  },
+  "reasonings": {
+    "bgb_555c": "Underspecified in its interaction with bgb_555d and bgb_559, leading to potential enforcement ambiguities.",
+    "bgb_555d": "Creates a dependency on bgb_555c and conflicts with bgb_559 regarding hardship exceptions.",
+    "bgb_558": "Referenced by bgb_559 but does not introduce direct conflicts.",
+    "bgb_559": "Conflicts with bgb_555d and bgb_558 regarding the treatment of Mieterhöhung and hardship considerations.",
+    "bgb_559a": "Downstream effects on bgb_559 and bgb_559e, but no direct conflicts.",
+    "bgb_559b": "Relies on bgb_555c and bgb_559 but introduces timing conflicts with bgb_559d.",
+    "bgb_559e": "Interacts with multiple clauses (bgb_559, bgb_559a, bgb_559b) but lacks clarity on precedence.",
+    "bgb_559c": "Simplified procedure introduces ambiguities in cost allocation and overlaps with bgb_559e.",
+    "bgb_559d": "Conflicts with bgb_555c regarding timing and procedural requirements for announcements."
+  },
+  "ranking": [
+    [
+      "bgb_559",
+      1.0
+    ],
+    [
+      "bgb_555d",
+      0.9
+    ],
+    [
+      "bgb_555c",
+      0.8
+    ],
+    [
+      "bgb_559b",
+      0.7
+    ],
+    [
+      "bgb_559d",
+      0.6
+    ],
+    [
+      "bgb_559c",
+      0.5
+    ],
+    [
+      "bgb_559e",
+      0.4
+    ],
+    [
+      "bgb_559a",
+      0.3
+    ],
+    [
+      "bgb_558",
+      0.2
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "bgb_559",
+      "risk_score": 1.0,
+      "risk_factors": [
+        "structural_inconsistency",
+        "mutual_incompatibility"
+      ],
+      "reasoning": "Conflicts with bgb_555d and bgb_558 regarding the treatment of Mieterhöhung and hardship considerations."
+    },
+    {
+      "rank": 2,
+      "clause_id": "bgb_555d",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "structural_inconsistency",
+        "mutual_incompatibility"
+      ],
+      "reasoning": "Creates a dependency on bgb_555c and conflicts with bgb_559 regarding hardship exceptions."
+    },
+    {
+      "rank": 3,
+      "clause_id": "bgb_555c",
+      "risk_score": 0.8,
+      "risk_factors": [
+        "structural_inconsistency",
+        "underspecification"
+      ],
+      "reasoning": "Underspecified in its interaction with bgb_555d and bgb_559, leading to potential enforcement ambiguities."
+    },
+    {
+      "rank": 4,
+      "clause_id": "bgb_559b",
+      "risk_score": 0.7,
+      "risk_factors": [
+        "structural_inconsistency"
+      ],
+      "reasoning": "Relies on bgb_555c and bgb_559 but introduces timing conflicts with bgb_559d."
+    },
+    {
+      "rank": 5,
+      "clause_id": "bgb_559d",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "structural_inconsistency"
+      ],
+      "reasoning": "Conflicts with bgb_555c regarding timing and procedural requirements for announcements."
+    },
+    {
+      "rank": 6,
+      "clause_id": "bgb_559c",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "underspecification"
+      ],
+      "reasoning": "Simplified procedure introduces ambiguities in cost allocation and overlaps with bgb_559e."
+    },
+    {
+      "rank": 7,
+      "clause_id": "bgb_559e",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "structural_inconsistency"
+      ],
+      "reasoning": "Interacts with multiple clauses (bgb_559, bgb_559a, bgb_559b) but lacks clarity on precedence."
+    },
+    {
+      "rank": 8,
+      "clause_id": "bgb_559a",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "high-impact"
+      ],
+      "reasoning": "Downstream effects on bgb_559 and bgb_559e, but no direct conflicts."
+    },
+    {
+      "rank": 9,
+      "clause_id": "bgb_558",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "high-impact"
+      ],
+      "reasoning": "Referenced by bgb_559 but does not introduce direct conflicts."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "structural_inconsistency",
+      "importance_weight": 0.4,
+      "description": "Captures conflicts or contradictions in the graph structure or text."
+    },
+    {
+      "factor": "mutual_incompatibility",
+      "importance_weight": 0.3,
+      "description": "Captures clauses that impose mutually exclusive obligations or remedies."
+    },
+    {
+      "factor": "underspecification",
+      "importance_weight": 0.2,
+      "description": "Captures clauses that lack sufficient detail to resolve conflicts or ambiguities."
+    },
+    {
+      "factor": "high-impact",
+      "importance_weight": 0.1,
+      "description": "Captures clauses with significant downstream effects or dependencies."
+    }
+  ],
+  "risk_factor_weight_sum": 1.0,
+  "direct_risk_subgraph_nodes": [
+    "bgb_555c",
+    "bgb_555d",
+    "bgb_559",
+    "bgb_559b",
+    "bgb_559d"
+  ],
+  "direct_risk_subgraph_size": 5,
+  "direct_compression_ratio": 0.4444444444444444,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "This subgraph captures the core structural inconsistencies and mutual incompatibilities. bgb_555c and bgb_555d define the initial obligations and exceptions for modernization measures, while bgb_559, bgb_559b, and bgb_559d introduce conflicting or ambiguous downstream effects, particularly regarding hardship considerations, timing, and procedural requirements.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "bgb_555d",
+      "target": "bgb_555c",
+      "reason": "Dependency on modernization announcement requirements."
+    },
+    {
+      "source": "bgb_555d",
+      "target": "bgb_559",
+      "reason": "Conflict regarding hardship exceptions and their consideration in rent increases."
+    },
+    {
+      "source": "bgb_555c",
+      "target": "bgb_559",
+      "reason": "Dependency on modernization announcement for rent increase justification."
+    },
+    {
+      "source": "bgb_559b",
+      "target": "bgb_555c",
+      "reason": "Dependency on proper announcement for rent increase declaration."
+    },
+    {
+      "source": "bgb_559d",
+      "target": "bgb_555c",
+      "reason": "Conflict regarding timing and procedural requirements for announcements."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "bgb_555c",
+    "bgb_555d",
+    "bgb_559",
+    "bgb_559b",
+    "bgb_559d"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 9,
+  "largest_tie_count": 1,
+  "tied_score_groups": [],
+  "conflicts": [
+    {
+      "clause_a": "bgb_555d",
+      "clause_b": "bgb_559",
+      "description": "Hardship exceptions are treated differently in these clauses, leading to potential conflicts in enforcement."
+    },
+    {
+      "clause_a": "bgb_555c",
+      "clause_b": "bgb_559",
+      "description": "Dependency on proper modernization announcement for rent increase justification is underspecified."
+    },
+    {
+      "clause_a": "bgb_559b",
+      "clause_b": "bgb_559d",
+      "description": "Timing and procedural requirements for announcements and rent increases are inconsistent."
+    }
+  ],
+  "score_spread": 0.8,
+  "ranking_score_spread": 0.8,
+  "score_mean": 0.6000000000000001,
+  "score_max": 1.0,
+  "node_names": {
+    "bgb_555c": "§555c Ankündigung von Modernisierungsmaßnahmen",
+    "bgb_555d": "§555d Duldung von Modernisierungsmaßnahmen, Ausschlussfrist",
+    "bgb_558": "§558 Mieterhöhung bis zur ortsüblichen Vergleichsmiete",
+    "bgb_559": "§559 Mieterhöhung nach Modernisierungsmaßnahmen",
+    "bgb_559a": "§559a Anrechnung von Drittmitteln",
+    "bgb_559b": "§559b Geltendmachung der Erhöhung, Wirkung der Erhöhungserklärung",
+    "bgb_559e": "§559e Mieterhöhung nach Einbau oder Aufstellung einer Heizungsanlage",
+    "bgb_559c": "§559c Vereinfachtes Verfahren",
+    "bgb_559d": "§559d Pflichtverletzungen bei Ankündigung oder Durchführung einer baulichen Veränderung"
+  },
+  "ground_truth_nodes": [
+    "bgb_559e"
+  ],
+  "gt_evidence": {
+    "bgb_559e": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": false,
+  "prompt_word_count": 3148,
+  "injected_title_occurrences_in_prompt": 6,
+  "injected_id_occurrences_in_prompt": 6,
+  "injected_title_first_word_ratio": 0.5460609911054638,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.5489199491740788,
+  "inject_mode": true,
+  "injected_node": "bgb_559e",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "bgb_558",
+  "injected_witness_distance": 4,
+  "injected_bridge_node": "bgb_555d",
+  "injected_bridge_distance": 2,
+  "injected_risk_nodes": [
+    "bgb_559e",
+    "bgb_558"
+  ],
+  "injected_evidence_nodes": [
+    "bgb_559e",
+    "bgb_555d",
+    "bgb_558"
+  ],
+  "injected_affected_nodes": [
+    "bgb_555c",
+    "bgb_559a"
+  ],
+  "injected_conflict_family": "handoff_invariant",
+  "injected_conflict_difficulty": "moderate",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "bgb_handoff_invariant_cure_class_critical",
+  "injected_rank": 7,
+  "top1_margin": 0.09999999999999998,
+  "risk_node_ranks": {
+    "bgb_559e": 7,
+    "bgb_558": 9
+  },
+  "risk_best_rank": 7,
+  "risk_worst_rank": 9,
+  "risk_top1_hit": false,
+  "risk_top3_hit": false,
+  "risk_top5_hit": false,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": false,
+  "evidence_node_ranks": {
+    "bgb_559e": 7,
+    "bgb_555d": 2,
+    "bgb_558": 9
+  },
+  "evidence_best_rank": 2,
+  "evidence_worst_rank": 9,
+  "evidence_top1_hit": false,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "bgb_555c": 3,
+    "bgb_559a": 8
+  },
+  "affected_best_rank": 3,
+  "affected_worst_rank": 8,
+  "affected_top1_hit": false,
+  "affected_top3_hit": true,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "bgb_559e": 7,
+    "bgb_558": 9,
+    "bgb_555c": 3,
+    "bgb_559a": 8
+  },
+  "valuable_best_rank": 3,
+  "valuable_worst_rank": 9,
+  "valuable_top1_hit": false,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 7,
+  "root_top1_hit": false,
+  "root_top3_hit": false,
+  "direct_subgraph_nodes_retained": [
+    "bgb_555c",
+    "bgb_555d",
+    "bgb_559",
+    "bgb_559b",
+    "bgb_559d"
+  ],
+  "direct_contains_injected_node": false,
+  "direct_contains_any_risk_node": false,
+  "direct_contains_all_risk_nodes": false,
+  "direct_risk_nodes_retained": [],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": false,
+  "direct_evidence_nodes_retained": [
+    "bgb_555d"
+  ],
+  "direct_contains_any_affected_node": true,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [
+    "bgb_555c"
+  ],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "bgb_555c"
+  ],
+  "case_id": "39_bgb9_scc_7_handoff_invariant",
+  "case_order": 39,
+  "audit_started_at": 1783859577.552151,
+  "audit_completed_at": 1783859589.9774861,
+  "audit_started_at_iso": "2026-07-12T20:32:57+0800",
+  "audit_completed_at_iso": "2026-07-12T20:33:09+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 5665,
+    "completion_tokens": 1629,
+    "total_tokens": 7294,
+    "api_runtime_sec_sum": 12.42286491394043
+  }
+}

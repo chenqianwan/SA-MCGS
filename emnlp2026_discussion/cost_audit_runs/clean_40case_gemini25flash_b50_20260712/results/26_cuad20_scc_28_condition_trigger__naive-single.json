@@ -1,0 +1,597 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (cuad); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gemini-2.5-flash",
+  "domain": "cuad",
+  "scc_size": 20,
+  "scc_id": "scc_28",
+  "scc_clause_ids": [
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.2",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.3",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.4",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.5",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__15.1",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__16.6",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.2",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.3",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__20.3",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__4.2",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__5.3",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__5.5",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__6.3",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__7.1",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__8.10",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__8.2",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.3.6"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 52728,
+    "completion_tokens": 5202,
+    "total_tokens": 57930
+  },
+  "time": 16.27944779396057,
+  "scores": {
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.2": 0.1,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.3": 0.05,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.4": 0.02,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.5": 0.45,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__15.1": 0.65,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__16.6": 0.9,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.2": 0.5,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.3": 0.75,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3": 0.95,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__20.3": 0.25,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__4.2": 0.55,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__5.3": 0.7,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__5.5": 0.35,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9": 0.92,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__6.3": 0.4,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__7.1": 0.85,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__8.10": 0.3,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__8.2": 0.15,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2": 0.01,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.3.6": 0.2
+  },
+  "reasonings": {
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.2": "Standard preamble.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.3": "Standard informational clause.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.4": "Routine audit rights.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.5": "Scope of inspections is linked to potentially punitive default sections.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__15.1": "Strict insurance requirements; low flexibility.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__16.6": "Defines binding status leading to automatic default.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.2": "Central node for termination.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.3": "Cure rights are undermined by 19.3.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3": "Contains severe termination/acceleration logic.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__20.3": "Limited contest rights.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__4.2": "Definitions integral to financial default penalties.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__5.3": "Liability disclaimer creates gaps.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__5.5": "Operational equipment constraints.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9": "Strict enforcement/reimbursement obligations.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__6.3": "Training/cost burden.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__7.1": "High-impact termination clause.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__8.10": "LLC governance strictness.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__8.2": "Opening condition constraint.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2": "Minimal header risk.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.3.6": "Competitive friction."
+  },
+  "ranking": [
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3",
+      0.95
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9",
+      0.92
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__16.6",
+      0.9
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__7.1",
+      0.85
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.3",
+      0.75
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__5.3",
+      0.7
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__15.1",
+      0.65
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__4.2",
+      0.55
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.2",
+      0.5
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.5",
+      0.45
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__6.3",
+      0.4
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__5.5",
+      0.35
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__8.10",
+      0.3
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__20.3",
+      0.25
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.3.6",
+      0.2
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__8.2",
+      0.15
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.2",
+      0.1
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.3",
+      0.05
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.4",
+      0.02
+    ],
+    [
+      "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2",
+      0.01
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3",
+      "risk_score": 0.95,
+      "risk_factors": [
+        "Termination Trigger/Cure Right Conflict"
+      ],
+      "reasoning": "This clause contains a logic bomb: it makes opposite audit statuses immediately operative, triggering acceleration and loss of cure rights without notice."
+    },
+    {
+      "rank": 2,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9",
+      "risk_score": 0.92,
+      "risk_factors": [
+        "Materiality and Acceleration Risk"
+      ],
+      "reasoning": "Contains explicit language regarding non-waivable status and summary termination paths that clash with Section 17.2."
+    },
+    {
+      "rank": 3,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__16.6",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "Termination Trigger/Cure Right Conflict"
+      ],
+      "reasoning": "Defines audit status and binding nature in a way that directly contradicts standard cure provisions."
+    },
+    {
+      "rank": 4,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__7.1",
+      "risk_score": 0.85,
+      "risk_factors": [
+        "Termination Trigger/Cure Right Conflict"
+      ],
+      "reasoning": "Establishes immediate termination rights upon selling prohibited products, linking to 17.2 in a high-stakes context."
+    },
+    {
+      "rank": 5,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.3",
+      "risk_score": 0.75,
+      "risk_factors": [
+        "Termination Trigger/Cure Right Conflict"
+      ],
+      "reasoning": "Claims to provide opportunity to cure, which is effectively nullified by the immediate triggers in 19.3 and 9.2.9."
+    },
+    {
+      "rank": 6,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__5.3",
+      "risk_score": 0.7,
+      "risk_factors": [
+        "Operational Compliance Ambiguity"
+      ],
+      "reasoning": "Disclaims responsibility for ADA/code compliance, creating potential structural blind spots in obligations."
+    },
+    {
+      "rank": 7,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__15.1",
+      "risk_score": 0.65,
+      "risk_factors": [
+        "Materiality and Acceleration Risk"
+      ],
+      "reasoning": "Rigid insurance coverage requirements lacking adjustment flexibility."
+    },
+    {
+      "rank": 8,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__4.2",
+      "risk_score": 0.55,
+      "risk_factors": [
+        "Materiality and Acceleration Risk"
+      ],
+      "reasoning": "Defines revenue and fee structures that are critical for the acceleration math in 19.3."
+    },
+    {
+      "rank": 9,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.2",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "Termination Trigger/Cure Right Conflict"
+      ],
+      "reasoning": "Reference point for all termination logic; central node in risk propagation."
+    },
+    {
+      "rank": 10,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.5",
+      "risk_score": 0.45,
+      "risk_factors": [
+        "Operational Compliance Ambiguity"
+      ],
+      "reasoning": "Inspections could trigger the material default paths defined in higher-risk nodes."
+    },
+    {
+      "rank": 11,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__6.3",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "Operational Compliance Ambiguity"
+      ],
+      "reasoning": "Training and cost requirements that are subject to rigid enforcement."
+    },
+    {
+      "rank": 12,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__5.5",
+      "risk_score": 0.35,
+      "risk_factors": [
+        "Operational Compliance Ambiguity"
+      ],
+      "reasoning": "Construction/remodeling requirements that lack clear dispute resolution mechanics."
+    },
+    {
+      "rank": 13,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__8.10",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "Materiality and Acceleration Risk"
+      ],
+      "reasoning": "LLC specific constraints that are subject to strict adherence."
+    },
+    {
+      "rank": 14,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__20.3",
+      "risk_score": 0.25,
+      "risk_factors": [
+        "Materiality and Acceleration Risk"
+      ],
+      "reasoning": "Right to contest is limited by the fast-tracked default provisions."
+    },
+    {
+      "rank": 15,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.3.6",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "Materiality and Acceleration Risk"
+      ],
+      "reasoning": "Development rights that may conflict with the franchisee's exclusive activities."
+    },
+    {
+      "rank": 16,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__8.2",
+      "risk_score": 0.15,
+      "risk_factors": [
+        "Operational Compliance Ambiguity"
+      ],
+      "reasoning": "Opening conditions are tied to training completion, creating a potential trigger for default."
+    },
+    {
+      "rank": 17,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.2",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "Operational Compliance Ambiguity"
+      ],
+      "reasoning": "General statement on financial statements with broad linkage."
+    },
+    {
+      "rank": 18,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.3",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "Operational Compliance Ambiguity"
+      ],
+      "reasoning": "Supporting documentation; low standalone risk."
+    },
+    {
+      "rank": 19,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.4",
+      "risk_score": 0.02,
+      "risk_factors": [
+        "Operational Compliance Ambiguity"
+      ],
+      "reasoning": "Routine inspection rights; low standalone risk."
+    },
+    {
+      "rank": 20,
+      "clause_id": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2",
+      "risk_score": 0.01,
+      "risk_factors": [
+        "Operational Compliance Ambiguity"
+      ],
+      "reasoning": "Section header; minimal risk."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "Termination Trigger/Cure Right Conflict",
+      "importance_weight": 0.95,
+      "description": "Direct contradiction between audit status/cure rights and immediate termination triggers."
+    },
+    {
+      "factor": "Materiality and Acceleration Risk",
+      "importance_weight": 0.85,
+      "description": "Clauses that trigger automatic payment acceleration upon ambiguous status mismatches."
+    },
+    {
+      "factor": "Operational Compliance Ambiguity",
+      "importance_weight": 0.6,
+      "description": "Uncertainty regarding responsibility for local/ADA code compliance despite franchisor approval."
+    }
+  ],
+  "risk_factor_weight_sum": 2.4,
+  "direct_risk_subgraph_nodes": [
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.3",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.2"
+  ],
+  "direct_risk_subgraph_size": 4,
+  "direct_compression_ratio": 0.8,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "This subgraph isolates the contradictory termination and acceleration logic where 'cure rights' are promised in one section (17.3) but explicitly extinguished via 'material default' and 'acceleration' clauses in 19.3 and 9.2.9.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3",
+      "target": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.2",
+      "reason": "19.3 bypasses the cure process defined by 17.2"
+    },
+    {
+      "source": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9",
+      "target": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.2",
+      "reason": "9.2.9 establishes non-waivable termination path"
+    },
+    {
+      "source": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.3",
+      "target": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.2",
+      "reason": "17.3 references the primary termination mechanics"
+    }
+  ],
+  "direct_subgraph_raw": [
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.3",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.2"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 20,
+  "largest_tie_count": 1,
+  "tied_score_groups": [],
+  "conflicts": [
+    {
+      "clause_a": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.3",
+      "clause_b": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3",
+      "description": "Section 17.3 provides for notice and opportunity to cure, whereas 19.3 provides for immediate termination without cure for certain defaults."
+    },
+    {
+      "clause_a": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9",
+      "clause_b": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.2",
+      "description": "16.6 and 9.2.9 establish a non-waivable, immediate material default status that contradicts the cure-oriented framework of 17.2."
+    }
+  ],
+  "score_spread": 0.94,
+  "ranking_score_spread": 0.94,
+  "score_mean": 0.4525,
+  "score_max": 0.95,
+  "node_names": {
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.2": "Financial Statements",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.3": "Additional Information",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.4": "Our Right to Inspect Your Books and Records",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__12.5": "Operational Inspections",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__15.1": "8 If your Approved Location is located in a flood zone other than B, C or X, as determined by the Federal Emergency Management Agency, you must also obtain flood insurance coverage in the amount of the lesser of 90% of the replacement cost or the maximum coverage available from the National Flood Insurance Program. 15.1.9 Any other insurance coverage that is required by federal, state, or municipal law.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__16.6": "1 The executor, administrator, or personal representative of such person will transfer such interest to a third party approved by us within six (6) months after such death or mental incapacity.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.2": "Section 17.2",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.3": "Termination with Notice and Opportunity to Cure.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3": "1 Divert or attempt to divert any actual or potential business or customer of any Goosehead Business to any competitor or otherwise take any action injurious or prejudicial to the goodwill associated with the Marks and the System. 19.3.2 Employ or seek to employ any person who is then employed by us or any other Goosehead Business franchisee or developer, or otherwise directly or indirectly induce such person to leave his or her employment. In addition to any other rights and remedies available to us under this Agreement, in the event of a violation of this Section, we will have the right to require you to pay to us (or such other Goosehead Business developer or franchisee, as the case may be) an amount equal to three times the annual salary of the person(s) involved in such violation, plus an amount equal to our costs and attorney's fees incurred in connection with such violation. 19.3.3 Own, maintain, develop, operate, engage in, franchise or license, make loans to, lease real or personal property to, be associated with, accept any compensation or remuneration from, and/or have any whatsoever interest in, or render services or give advice to, any Competitive Business.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__20.3": "Your Right to Contest Liabilities.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__4.2": "5 the term \"Month\" means a calendar month or such other four (4) to five (5) week period that we may designate (provided that there will not be more than 13 \"Months\" during any year); and 4.2.6 the term \"Net Revenues\" means Gross Revenues net of all amounts due to us under this Agreement, including, without limitation, Royalty Fees, Marketing Contributions (if applicable), Technology Fees, and payments due to us under the Promissory Note (if applicable). 4.2.7 the term \"Premiums\" will mean fees that are paid to the insurance carrier for insurance coverage. 4.2.8 the term \"Policy Fees\" will mean fees to be paid to the insurance carrier for the issuance of a policy. 4.2.9 the term \"Royalty Fee\" is charged in consideration of you and your Managers' and Producers' use of our business processes, ongoing carrier relationships, trade secrets, know-how, trade names, trademarks, service marks, logos, emblems, trade dress, intellectual property, and back office support functions. The Royalty Fee will be the following amounts: (a) the greater of (i) twenty percent (20%) of Gross Revenues on insurance policies in their initial term, or (ii) the Minimum Royalty (defined below); and (b) fifty percent (50%) of Gross Revenues on policies in their renewal terms and policies written for existing customers on the same risk profile within a one-year period of the cancellation of their existing policy (also known as \"re-writes\"). 4.2.10 The \"Technology Fee\" will be an amount necessary to reimburse us for our costs of providing Required Software (defined in Section 14 below) to you. The Technology Fee may vary during the term of this Agreement, and we have the right to adjust the amount of the Technology Fee to account for our increased or decreased costs, separate from the Index.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__5.3": "1 You acknowledge and agree that our review and approval of a site, lease, sublease, design plans or renovation plans for the Franchised Business does not constitute a recommendation, endorsement, or guarantee of the suitability of that location or the terms of the lease, or sublease, or purchase agreement. 5.3.2 You agree to take all steps necessary to determine for yourself whether a particular location and the terms of any lease, sublease, or purchase agreement for the site are beneficial and acceptable to you. Additionally, no matter to what extent (if any) that we participate in any lease or purchase negotiations, discussions with the landlords or property owners, and/or otherwise in connection with reviewing the lease or purchase agreement, you have to make the final decision as to whether or not the proposed contract is sensible for your business, and the final decision as to whether or not to sign the lease or purchase agreement is yours, and we will not be responsible for the terms and conditions of your lease or purchase agreement. 5.3.3 You acknowledge and agree that: (a) any standard layout and plans that we provide to you, as well as any review and comments that we provide to the plans that you develop for your Franchised Business, are not meant to address the requirements of any Operating Codes (as defined in Section 8.7 below); (b) our standard plans or comments to your modified plans, will not reflect the requirements of, nor may they be used for, construction drawings or other documentation that you will need in order to obtain permits or authorization to build a specific Franchised Business; (c) you will be solely responsible to comply with all local laws, requirements, architectural needs, and similar design and construction obligations associated with the site, at your expense; and (d) our review, comment, and approval of your plans will be limited to reviewing those plans to assess compliance with our standards (including issues such as trade dress, presentation of Proprietary Marks, and the provision to the potential customer of certain products and services that are central to the purpose, atmosphere, and functioning of Goosehead Businesses). 5.3.4 We will not review nor may our approval be deemed to address whether or not you have complied with any of the Operating Codes, including provisions of the Americans with Disabilities Act (the \"ADA\"); and you acknowledge and agree that compliance with such laws is and will be your sole responsibility.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__5.5": "2 purchase or lease equipment, fixtures, furniture and signs as required under this Agreement (including the specifications we have provided in writing, whether in the Manual or otherwise); 5.5.3 complete the construction and/or remodeling as described in Section 5.6 below; and 5.5.4 obtain all customary contractors' partial and final waivers of lien for construction, remodeling, decorating and installation services.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9": "3 We agree to reimburse you for your out-of-pocket travel costs in doing such acts and things, and you will bear the salary costs of your employees, and we will bear the costs of any judgment or settlement, unless such litigation is the result of your use of the Proprietary Marks in a manner that does not comply with this Agreement. 9.2.9.4 To the extent that such litigation is the result of your use of the Proprietary Marks in a manner inconsistent with the terms of this Agreement, then you agree to reimburse us (upon our request, which may be periodic and/or upon the conclusion of the proceedings) for the cost of such litigation and/or upon our written request, pay our legal fees directly (your obligation under this Section includes reasonable attorneys' fees, court costs, discovery costs, and all other related expenses, as well as the cost of any judgment or settlement). 9.2.9.5 If we undertake the defense or prosecution of any litigation or other similar proceeding relating to the Proprietary Marks, then you agree to sign any and all documents, and do those acts and things that may, in our counsel's opinion, be necessary to carry out the defense or prosecution of that matter (including becoming a nominal party to any legal action).",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__6.3": "4 Training Costs and Expenses. 6.3.4.1 The Initial Franchise Fee will cover the cost of providing the instruction and required materials, except as otherwise provided in Sections 6.3.1 and 6.5 of this Agreement. 6.3.4.2 You will be responsible for all travel, fees, lodging and living expenses, including meals, for you, your Manager(s) or employees, which are incurred in connection with initial and additional training. In addition, except for the initial management training for you and your Manager and any Producer you wish to have trained prior to commencing business under this Agreement, we may charge you our then-current per diem training charges, and/or require a deposit, for any other training that we provide. 6.3.4.3 You also agree to cover all of your employees at all times (including the pre-opening period, and including those attending training) under the insurance policies required in Section 15 below. 6.3.4.4 We have the right to reduce the duration or content of the training program for any trainee who has prior experience with our System or in similar businesses. 6.4 Conventions and Meetings. You agree to attend the conventions and meetings that we may periodically require and to pay a reasonable fee (if we charge a fee) for each person who is required to attend (and, if applicable, additional attendees that you choose to send as well). You will also be responsible for all of the other costs of attendance, including travel, room and board, and your employees' wages, benefits and other expenses. 7 PURCHASE OF PRODUCTS AND SERVICES",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__7.1": "10 You acknowledge and agree that we have the right to collect and retain all manufacturing allowances, marketing allowances, rebates, contingencies, credits, monies, payments or benefits (collectively, \"Allowances\") offered by suppliers to you or to us (or our affiliates) based upon your purchases of Products and other goods and services. These Allowances include those based on purchases of Products, other products, paper goods, ink, and other items (such as packaging). You assign to us or our designee all of your right, title and interest in and to any and all such Allowances and authorize us (or our designee) to collect and retain any or all such Allowances without restriction. 7.2 Prohibited Products. You acknowledge and agree that your Franchised Business will not use and/or offer for sale such products or services which we have prohibited you from using and/or selling (\"Prohibited Products and Services\"). Prohibited Products and Services will include selling any services or products other than personal lines property and casualty, small commercial property and casualty, and life insurance with insurance carriers that we have made available to you through our appointment process. We may periodically update the list of Prohibited Products and Services. You also acknowledge and agree that if your Franchised Business uses or sells any Prohibited Products or Services, we will have the right to immediately terminate this Agreement upon notice pursuant to Section 17.2.15 below. 7.3 Use of the Marks. You must require all marketing materials, signs, decorations, paper goods (including, without limitation, and all forms and stationery used in the Franchised Business), and other items which we may designate to bear the Proprietary Marks in the form, color, location, and manner we prescribe (and subject to our prior written approval, for example as provided in Section 13.9 below). 8 YOUR DUTIES",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__8.10": "3 LLC Franchisee. If you are a limited liability company (LLC), then you agree to: (a) confine your activities, and your governing documents will at all times provide that your activities are confined, exclusively to operating the Franchised Business; (b) furnish us with a copy of your articles of organization and operating agreement, as well as such other documents as we may reasonably request, and any amendments thereto; (c) prepare and furnish to us, upon request, a current list of all members and managers in your LLC; and (d) maintain stop transfer instructions on your records against the transfer of equity securities and will only issue securities upon the face of which bear a legend, in a form satisfactory to us, which references the transfer restrictions imposed by this Agreement.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__8.2": "4 You agree not to open the Franchised Business until all required individuals have successfully completed all training that we require.",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2": "9.2",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.3.6": "3 To develop and establish other systems using the same or similar Proprietary Marks, or any other proprietary marks, and to grant licenses or franchises for those other marks without giving you any rights to those other marks."
+  },
+  "ground_truth_nodes": [
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9"
+  ],
+  "gt_evidence": {
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": true,
+  "prompt_word_count": 26875,
+  "injected_title_occurrences_in_prompt": 15,
+  "injected_id_occurrences_in_prompt": 14,
+  "injected_title_first_word_ratio": 0.08837209302325581,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.09637209302325582,
+  "inject_mode": true,
+  "injected_node": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3",
+  "injected_witness_distance": 10,
+  "injected_bridge_node": "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__16.6",
+  "injected_bridge_distance": 5,
+  "injected_risk_nodes": [
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3"
+  ],
+  "injected_evidence_nodes": [
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__16.6",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3"
+  ],
+  "injected_affected_nodes": [
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.3.6",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__20.3"
+  ],
+  "injected_conflict_family": "condition_trigger",
+  "injected_conflict_difficulty": "hard",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "cuad_condition_trigger_unconfirmed_exception_critical",
+  "injected_rank": 2,
+  "top1_margin": 0.029999999999999916,
+  "risk_node_ranks": {
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9": 2,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9": 2,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__16.6": 3,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 3,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.3.6": 15,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__20.3": 14
+  },
+  "affected_best_rank": 14,
+  "affected_worst_rank": 15,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9": 2,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3": 1,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.3.6": 15,
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__20.3": 14
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 15,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "direct_subgraph_nodes_retained": [
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.3",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__17.2"
+  ],
+  "direct_contains_injected_node": true,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": true,
+  "direct_risk_nodes_retained": [
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": false,
+  "direct_evidence_nodes_retained": [
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3"
+  ],
+  "direct_contains_any_affected_node": false,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__9.2.9",
+    "cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_10___cuad_GOOSEHEADINSURANCE_INC_04_02_2018_EX_05df4e9e__19.3"
+  ],
+  "case_id": "26_cuad20_scc_28_condition_trigger",
+  "case_order": 26,
+  "audit_started_at": 1783866139.105209,
+  "audit_completed_at": 1783866155.386168,
+  "audit_started_at_iso": "2026-07-12T22:22:19+0800",
+  "audit_completed_at_iso": "2026-07-12T22:22:35+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 52728,
+    "completion_tokens": 5202,
+    "total_tokens": 57930,
+    "api_runtime_sec_sum": 16.272672653198242
+  }
+}

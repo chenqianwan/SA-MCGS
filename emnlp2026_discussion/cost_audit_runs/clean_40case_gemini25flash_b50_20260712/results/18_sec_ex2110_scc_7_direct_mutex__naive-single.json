@@ -1,0 +1,392 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (sec_ex21); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gemini-2.5-flash",
+  "domain": "sec_ex21",
+  "scc_size": 9,
+  "scc_id": "scc_7",
+  "scc_clause_ids": [
+    "us-cw-1017834",
+    "us-cw-3674429",
+    "us-cw-3682211",
+    "us-cw-3682213",
+    "us-cw-3682810",
+    "us-cw-3682811",
+    "us-cw-3682212",
+    "us-cw-3684902",
+    "us-cw-617657"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 1892,
+    "completion_tokens": 1167,
+    "total_tokens": 3059
+  },
+  "time": 4.117984056472778,
+  "scores": {
+    "us-cw-1017834": 0.4,
+    "us-cw-3674429": 0.3,
+    "us-cw-3682211": 0.1,
+    "us-cw-3682213": 0.2,
+    "us-cw-3682810": 0.3,
+    "us-cw-3682811": 0.95,
+    "us-cw-3682212": 0.9,
+    "us-cw-3684902": 0.3,
+    "us-cw-617657": 0.5
+  },
+  "reasonings": {
+    "us-cw-1017834": "Participates in cycle.",
+    "us-cw-3674429": "Participates in cycle.",
+    "us-cw-3682211": "Minimal structural risk.",
+    "us-cw-3682213": "Intermediate dependency.",
+    "us-cw-3682810": "Participates in cycle.",
+    "us-cw-3682811": "Explicit logical blocking conflict.",
+    "us-cw-3682212": "Mandatory state triggers downstream failure.",
+    "us-cw-3684902": "Participates in cycle.",
+    "us-cw-617657": "Cycle participant with ambiguous geo-data."
+  },
+  "ranking": [
+    [
+      "us-cw-3682811",
+      0.95
+    ],
+    [
+      "us-cw-3682212",
+      0.9
+    ],
+    [
+      "us-cw-617657",
+      0.5
+    ],
+    [
+      "us-cw-1017834",
+      0.4
+    ],
+    [
+      "us-cw-3684902",
+      0.3
+    ],
+    [
+      "us-cw-3674429",
+      0.3
+    ],
+    [
+      "us-cw-3682810",
+      0.3
+    ],
+    [
+      "us-cw-3682213",
+      0.2
+    ],
+    [
+      "us-cw-3682211",
+      0.1
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "us-cw-3682811",
+      "risk_score": 0.95,
+      "risk_factors": [
+        "Structural Logical Inconsistency"
+      ],
+      "reasoning": "Explicitly defined as a 'blocking inconsistency' regarding consolidation rules."
+    },
+    {
+      "rank": 2,
+      "clause_id": "us-cw-3682212",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "Structural Logical Inconsistency"
+      ],
+      "reasoning": "Contains mandatory state that conflicts with downstream downstream constraints."
+    },
+    {
+      "rank": 3,
+      "clause_id": "us-cw-617657",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "Cyclic Dependency",
+        "Ambiguous Localization"
+      ],
+      "reasoning": "Part of a cyclic reference chain and presents dual country codes (us; ie)."
+    },
+    {
+      "rank": 4,
+      "clause_id": "us-cw-1017834",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "Cyclic Dependency"
+      ],
+      "reasoning": "Closing node of the identified cyclic dependency."
+    },
+    {
+      "rank": 5,
+      "clause_id": "us-cw-3684902",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "Cyclic Dependency"
+      ],
+      "reasoning": "Transit node in cyclic path."
+    },
+    {
+      "rank": 6,
+      "clause_id": "us-cw-3674429",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "Cyclic Dependency"
+      ],
+      "reasoning": "Transit node in cyclic path."
+    },
+    {
+      "rank": 7,
+      "clause_id": "us-cw-3682810",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "Cyclic Dependency"
+      ],
+      "reasoning": "Transit node in cyclic path."
+    },
+    {
+      "rank": 8,
+      "clause_id": "us-cw-3682213",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "Cyclic Dependency"
+      ],
+      "reasoning": "Upstream node to identified high-risk nodes."
+    },
+    {
+      "rank": 9,
+      "clause_id": "us-cw-3682211",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "Cyclic Dependency"
+      ],
+      "reasoning": "Minor upstream node."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "Structural Logical Inconsistency",
+      "importance_weight": 0.6,
+      "description": "Contradictory consolidation mandates creating blocking states for downstream dependencies."
+    },
+    {
+      "factor": "Cyclic Dependency",
+      "importance_weight": 0.3,
+      "description": "Circular references in ownership/structure indicating potential structural circularity."
+    },
+    {
+      "factor": "Ambiguous Localization",
+      "importance_weight": 0.1,
+      "description": "Multi-jurisdictional indicators or missing metadata."
+    }
+  ],
+  "risk_factor_weight_sum": 1.0,
+  "direct_risk_subgraph_nodes": [
+    "us-cw-3682811",
+    "us-cw-3682212"
+  ],
+  "direct_risk_subgraph_size": 2,
+  "direct_compression_ratio": 0.7777777777777778,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "These two nodes contain the explicit contradictory consolidation logic described in the input. While other nodes exist in the graph, these are the only ones defining the logical 'blocking inconsistency' that makes the state simultaneously allowed and barred.",
+  "direct_risk_subgraph_edges": [],
+  "direct_subgraph_raw": [
+    "us-cw-3682811",
+    "us-cw-3682212"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 7,
+  "largest_tie_count": 3,
+  "tied_score_groups": [
+    {
+      "score": 0.3,
+      "count": 3,
+      "nodes": [
+        "us-cw-3674429",
+        "us-cw-3682810",
+        "us-cw-3684902"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "clause_a": "us-cw-3682811",
+      "clause_b": "us-cw-3682212",
+      "description": "Conflict between 20% non-controlling interest requirement in us-cw-3682811 and the mandatory full consolidation/no-interest requirement defined in us-cw-3682212."
+    }
+  ],
+  "score_spread": 0.85,
+  "ranking_score_spread": 0.85,
+  "score_mean": 0.4388888888888889,
+  "score_max": 0.95,
+  "node_names": {
+    "us-cw-1017834": "SkillSoft Corporation",
+    "us-cw-3674429": "Pointwell Limited",
+    "us-cw-3682211": "Skillsoft Finance I Inc",
+    "us-cw-3682213": "Skillsoft Finance II Inc",
+    "us-cw-3682810": "Software Luxembourg Acquisition S.a r.l.",
+    "us-cw-3682811": "Software Luxembourg Intermediate S.a r.l.",
+    "us-cw-3682212": "Skillsoft Finance I LLC",
+    "us-cw-3684902": "SSI Investments I Limited",
+    "us-cw-617657": "SSI Investments II Limited"
+  },
+  "ground_truth_nodes": [
+    "us-cw-3682212"
+  ],
+  "gt_evidence": {
+    "us-cw-3682212": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": true,
+  "prompt_word_count": 781,
+  "injected_title_occurrences_in_prompt": 4,
+  "injected_id_occurrences_in_prompt": 3,
+  "injected_title_first_word_ratio": 0.2471190781049936,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.2535211267605634,
+  "inject_mode": true,
+  "injected_node": "us-cw-3682212",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-3682811",
+  "injected_witness_distance": 4,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "us-cw-3682212",
+    "us-cw-3682811"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-3682212",
+    "us-cw-3682811"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-1017834",
+    "us-cw-3682810"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_direct_full_consolidation_vs_retained_interest_critical",
+  "injected_rank": 2,
+  "top1_margin": 0.04999999999999993,
+  "risk_node_ranks": {
+    "us-cw-3682212": 2,
+    "us-cw-3682811": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "us-cw-3682212": 2,
+    "us-cw-3682811": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 2,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "us-cw-1017834": 4,
+    "us-cw-3682810": 7
+  },
+  "affected_best_rank": 4,
+  "affected_worst_rank": 7,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-3682212": 2,
+    "us-cw-3682811": 1,
+    "us-cw-1017834": 4,
+    "us-cw-3682810": 7
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 7,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "direct_subgraph_nodes_retained": [
+    "us-cw-3682811",
+    "us-cw-3682212"
+  ],
+  "direct_contains_injected_node": true,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": true,
+  "direct_risk_nodes_retained": [
+    "us-cw-3682212",
+    "us-cw-3682811"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": true,
+  "direct_evidence_nodes_retained": [
+    "us-cw-3682212",
+    "us-cw-3682811"
+  ],
+  "direct_contains_any_affected_node": false,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "us-cw-3682212",
+    "us-cw-3682811"
+  ],
+  "case_id": "18_sec_ex2110_scc_7_direct_mutex",
+  "case_order": 18,
+  "audit_started_at": 1783864094.4938722,
+  "audit_completed_at": 1783864098.6120782,
+  "audit_started_at_iso": "2026-07-12T21:48:14+0800",
+  "audit_completed_at_iso": "2026-07-12T21:48:18+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 1892,
+    "completion_tokens": 1167,
+    "total_tokens": 3059,
+    "api_runtime_sec_sum": 4.1170361042022705
+  }
+}

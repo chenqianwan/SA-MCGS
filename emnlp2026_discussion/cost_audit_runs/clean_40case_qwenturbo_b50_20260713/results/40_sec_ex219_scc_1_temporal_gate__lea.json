@@ -1,0 +1,627 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "qwen-turbo",
+  "domain": "sec_ex21",
+  "scc_id": "scc_1",
+  "scc_size": 18,
+  "scc_clause_ids": [
+    "us-cw-1001720",
+    "us-cw-1001721",
+    "us-cw-1180",
+    "us-cw-118216",
+    "us-cw-1196",
+    "us-cw-1280",
+    "us-cw-130",
+    "us-cw-2080",
+    "us-cw-3379182",
+    "us-cw-42654",
+    "us-cw-590084",
+    "us-cw-590085",
+    "us-cw-841126",
+    "us-cw-59234",
+    "us-cw-702872",
+    "us-cw-822",
+    "us-cw-903404",
+    "us-cw-907597"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "us-cw-1001720",
+        "us-cw-1180",
+        "us-cw-1196",
+        "us-cw-1280"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "us-cw-1001721",
+        "us-cw-1180",
+        "us-cw-3379182",
+        "us-cw-42654"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "us-cw-1180",
+        "us-cw-1001720",
+        "us-cw-1001721",
+        "us-cw-118216"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "us-cw-118216",
+        "us-cw-1180",
+        "us-cw-1196",
+        "us-cw-1280"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "us-cw-1196",
+        "us-cw-1001720",
+        "us-cw-1180",
+        "us-cw-118216"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "us-cw-1280",
+        "us-cw-1001720",
+        "us-cw-1180",
+        "us-cw-118216"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "us-cw-130",
+        "us-cw-1001720",
+        "us-cw-1180",
+        "us-cw-118216"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "us-cw-2080",
+        "us-cw-1001720",
+        "us-cw-1180",
+        "us-cw-118216"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "us-cw-3379182",
+        "us-cw-1001721",
+        "us-cw-1180",
+        "us-cw-1196"
+      ]
+    },
+    {
+      "window_index": 10,
+      "window": [
+        "us-cw-42654",
+        "us-cw-1001720",
+        "us-cw-1001721",
+        "us-cw-1180"
+      ]
+    },
+    {
+      "window_index": 11,
+      "window": [
+        "us-cw-590084",
+        "us-cw-1180",
+        "us-cw-1196",
+        "us-cw-1280"
+      ]
+    },
+    {
+      "window_index": 12,
+      "window": [
+        "us-cw-590085",
+        "us-cw-1001720",
+        "us-cw-42654",
+        "us-cw-590084"
+      ]
+    },
+    {
+      "window_index": 13,
+      "window": [
+        "us-cw-841126",
+        "us-cw-1180",
+        "us-cw-42654",
+        "us-cw-59234"
+      ]
+    },
+    {
+      "window_index": 14,
+      "window": [
+        "us-cw-59234",
+        "us-cw-1001720",
+        "us-cw-1180",
+        "us-cw-1196"
+      ]
+    },
+    {
+      "window_index": 15,
+      "window": [
+        "us-cw-702872",
+        "us-cw-1180",
+        "us-cw-3379182",
+        "us-cw-42654"
+      ]
+    },
+    {
+      "window_index": 16,
+      "window": [
+        "us-cw-822",
+        "us-cw-1001720",
+        "us-cw-1180",
+        "us-cw-118216"
+      ]
+    },
+    {
+      "window_index": 17,
+      "window": [
+        "us-cw-903404",
+        "us-cw-1180",
+        "us-cw-1196",
+        "us-cw-1280"
+      ]
+    },
+    {
+      "window_index": 18,
+      "window": [
+        "us-cw-907597",
+        "us-cw-1180",
+        "us-cw-1196",
+        "us-cw-1280"
+      ]
+    }
+  ],
+  "llm_calls": 18,
+  "tt_hits": 0,
+  "time": 95.49878597259521,
+  "scores": {
+    "us-cw-1001720": 0.25,
+    "us-cw-1001721": 0.325,
+    "us-cw-1180": 0.27058823529411763,
+    "us-cw-118216": 0.5857142857142857,
+    "us-cw-1196": 0.1875,
+    "us-cw-1280": 0.18333333333333335,
+    "us-cw-130": 0.8,
+    "us-cw-2080": 0.5,
+    "us-cw-3379182": 0.43333333333333335,
+    "us-cw-42654": 0.4,
+    "us-cw-590084": 0.0,
+    "us-cw-590085": 0.0,
+    "us-cw-841126": 0.7,
+    "us-cw-59234": 0.44999999999999996,
+    "us-cw-702872": 0.5,
+    "us-cw-822": 0.5,
+    "us-cw-903404": 0.0,
+    "us-cw-907597": 0.3
+  },
+  "visit_counts": {
+    "us-cw-1001720": 10,
+    "us-cw-1180": 17,
+    "us-cw-1196": 8,
+    "us-cw-1280": 6,
+    "us-cw-1001721": 4,
+    "us-cw-3379182": 3,
+    "us-cw-42654": 5,
+    "us-cw-118216": 7,
+    "us-cw-130": 1,
+    "us-cw-2080": 1,
+    "us-cw-590084": 2,
+    "us-cw-590085": 1,
+    "us-cw-841126": 1,
+    "us-cw-59234": 2,
+    "us-cw-702872": 1,
+    "us-cw-822": 1,
+    "us-cw-903404": 1,
+    "us-cw-907597": 1
+  },
+  "ranking": [
+    [
+      "us-cw-130",
+      0.8
+    ],
+    [
+      "us-cw-841126",
+      0.7
+    ],
+    [
+      "us-cw-118216",
+      0.5857142857142857
+    ],
+    [
+      "us-cw-2080",
+      0.5
+    ],
+    [
+      "us-cw-702872",
+      0.5
+    ],
+    [
+      "us-cw-822",
+      0.5
+    ],
+    [
+      "us-cw-59234",
+      0.44999999999999996
+    ],
+    [
+      "us-cw-3379182",
+      0.43333333333333335
+    ],
+    [
+      "us-cw-42654",
+      0.4
+    ],
+    [
+      "us-cw-1001721",
+      0.325
+    ],
+    [
+      "us-cw-907597",
+      0.3
+    ],
+    [
+      "us-cw-1180",
+      0.27058823529411763
+    ],
+    [
+      "us-cw-1001720",
+      0.25
+    ],
+    [
+      "us-cw-1196",
+      0.1875
+    ],
+    [
+      "us-cw-1280",
+      0.18333333333333335
+    ],
+    [
+      "us-cw-590084",
+      0.0
+    ],
+    [
+      "us-cw-590085",
+      0.0
+    ],
+    [
+      "us-cw-903404",
+      0.0
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "us-cw-1180": 13,
+    "us-cw-1001721": 2,
+    "us-cw-3379182": 3,
+    "us-cw-42654": 5,
+    "us-cw-118216": 7,
+    "us-cw-1196": 4,
+    "us-cw-1280": 3,
+    "us-cw-130": 1,
+    "us-cw-2080": 1,
+    "us-cw-1001720": 1,
+    "us-cw-590085": 1,
+    "us-cw-590084": 1,
+    "us-cw-841126": 1,
+    "us-cw-59234": 2,
+    "us-cw-822": 1,
+    "us-cw-903404": 1,
+    "us-cw-907597": 1
+  },
+  "repair_entry_counts": {
+    "us-cw-1180": 12,
+    "us-cw-1001721": 1,
+    "us-cw-42654": 5,
+    "us-cw-118216": 6,
+    "us-cw-1280": 2,
+    "us-cw-130": 1,
+    "us-cw-2080": 1,
+    "us-cw-3379182": 2,
+    "us-cw-841126": 1,
+    "us-cw-1196": 1,
+    "us-cw-822": 1
+  },
+  "local_conflict_endpoint_counts": {
+    "us-cw-1180": 20,
+    "us-cw-1001721": 3,
+    "us-cw-42654": 11,
+    "us-cw-3379182": 5,
+    "us-cw-118216": 11,
+    "us-cw-1196": 5,
+    "us-cw-1280": 4,
+    "us-cw-130": 1,
+    "us-cw-2080": 2,
+    "us-cw-1001720": 2,
+    "us-cw-590084": 2,
+    "us-cw-590085": 1,
+    "us-cw-59234": 2,
+    "us-cw-841126": 1,
+    "us-cw-822": 1,
+    "us-cw-907597": 1
+  },
+  "lea_risk_subgraph_nodes": [
+    "us-cw-1001721",
+    "us-cw-1180",
+    "us-cw-118216",
+    "us-cw-1196",
+    "us-cw-1280",
+    "us-cw-2080",
+    "us-cw-3379182",
+    "us-cw-42654",
+    "us-cw-59234"
+  ],
+  "lea_risk_subgraph_size": 9,
+  "lea_compression_ratio": 0.5,
+  "conflicts": [
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-3379182",
+      "description": "Both records share the same name and registration number but have slightly different address formats, which could lead to conflicts in dependency resolution."
+    },
+    {
+      "clause_a": "us-cw-42654",
+      "clause_b": "us-cw-1001721",
+      "description": "us-cw-42654 references us-cw-1001721, but the lack of a shared registration number between them may create ambiguity in their dependency relationship."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-118216",
+      "description": "Circular reference between Entergy Corporation and Entergy Louisiana Holdings Inc, suggesting potential structural inconsistency or conflicting ownership information."
+    },
+    {
+      "clause_a": "us-cw-118216",
+      "clause_b": "us-cw-1180",
+      "description": "Bidirectional reference between Entergy Louisiana Holdings Inc and Entergy Corp may lead to ambiguity in dependency resolution."
+    },
+    {
+      "clause_a": "us-cw-118216",
+      "clause_b": "us-cw-1196",
+      "description": "Bidirectional reference between Entergy Louisiana Holdings Inc and Entergy Mississippi, Inc may complicate hierarchical relationships."
+    },
+    {
+      "clause_a": "us-cw-118216",
+      "clause_b": "us-cw-1280",
+      "description": "Bidirectional reference between Entergy Louisiana Holdings Inc and Entergy New Orleans, Inc may create overlapping dependencies."
+    },
+    {
+      "clause_a": "us-cw-118216",
+      "clause_b": "us-cw-1180",
+      "description": "Bidirectional references between these two records suggest a potential circular dependency or mutual ownership structure, which may lead to structural inconsistencies in the graph."
+    },
+    {
+      "clause_a": "us-cw-1196",
+      "clause_b": "us-cw-1180",
+      "description": "us-cw-1196 is both referenced by and references us-cw-1180, indicating a potential for circular dependency or conflicting ownership logic."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-118216",
+      "description": "Bidirectional references between parent and subsidiary raise questions about the exact nature of their relationship and potential for structural conflict."
+    },
+    {
+      "clause_a": "us-cw-1280",
+      "clause_b": "us-cw-1180",
+      "description": "Ambiguous naming and mutual references suggest possible duplication or misalignment in the organizational hierarchy."
+    },
+    {
+      "clause_a": "us-cw-130",
+      "clause_b": "us-cw-118216",
+      "description": "Both records have overlapping references to each other and to us-cw-1180, creating a potential for conflicting interpretations of their hierarchical roles."
+    },
+    {
+      "clause_a": "us-cw-130",
+      "clause_b": "us-cw-1001720",
+      "description": "us-cw-130 references us-cw-1001720, but us-cw-1001720 has limited information, which may lead to incomplete or ambiguous dependency resolution."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-118216",
+      "description": "Bidirectional reference suggests a potential circular dependency that may complicate the interpretation of their relationship."
+    },
+    {
+      "clause_a": "us-cw-2080",
+      "clause_b": "us-cw-1180",
+      "description": "Mutual referencing between System Energy Resources and Entergy Corp may imply overlapping roles or unclear dependency chains."
+    },
+    {
+      "clause_a": "us-cw-118216",
+      "clause_b": "us-cw-2080",
+      "description": "Both records reference each other, potentially creating a loop that complicates interpretation of their relationship."
+    },
+    {
+      "clause_a": "us-cw-3379182",
+      "clause_b": "us-cw-1180",
+      "description": "Both have the same name 'ENTERGY CORP' and registration number '721229752', but different addresses. This indicates possible duplication or conflicting records."
+    },
+    {
+      "clause_a": "us-cw-841126",
+      "clause_b": "us-cw-42654",
+      "description": "The text in us-cw-841126 implies a potential for incompatibility if the dependency path is altered, which could conflict with the structure involving us-cw-42654."
+    },
+    {
+      "clause_a": "us-cw-59234",
+      "clause_b": "us-cw-1196",
+      "description": "Both records share the same address (639 LOYOLA AVE, NEW ORLEANS, LA 70113), which may suggest redundancy or conflict in their roles within the graph."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-3379182",
+      "description": "Both have identical names, addresses, and registration numbers, which may indicate duplication or conflicting information."
+    },
+    {
+      "clause_a": "us-cw-42654",
+      "clause_b": "us-cw-1180",
+      "description": "Conflicting registration numbers between two records that are connected by a reference relationship, causing ambiguity in their interdependence."
+    },
+    {
+      "clause_a": "us-cw-42654",
+      "clause_b": "us-cw-3379182",
+      "description": "Same registration number but different addresses, suggesting inconsistency in the graph structure."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-118216",
+      "description": "The bidirectional reference between the parent company (us-cw-1180) and its subsidiary (us-cw-118216) may create ambiguity in dependency structure, especially if their roles are not clearly defined."
+    },
+    {
+      "clause_a": "us-cw-822",
+      "clause_b": "us-cw-1180",
+      "description": "Multiple references between a subsidiary (us-cw-822) and its parent (us-cw-1180) could indicate over-reliance or potential conflicts in how dependencies are structured."
+    },
+    {
+      "clause_a": "us-cw-907597",
+      "clause_b": "us-cw-1280",
+      "description": "Circular reference between Louisiana Power & Light Co LLC and Entergy New Orleans, Inc. This could suggest conflicting or overlapping dependencies."
+    }
+  ],
+  "ground_truth_nodes": [
+    "us-cw-841126"
+  ],
+  "top1_hit": false,
+  "top3_hit": true,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": false,
+  "lea_risk_nodes_retained": [
+    "us-cw-118216"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": false,
+  "lea_evidence_nodes_retained": [
+    "us-cw-118216"
+  ],
+  "lea_contains_any_affected_node": true,
+  "lea_contains_all_affected_nodes": false,
+  "lea_affected_nodes_retained": [
+    "us-cw-1280"
+  ],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": false,
+  "lea_valuable_nodes_retained": [
+    "us-cw-118216",
+    "us-cw-1280"
+  ],
+  "inject_mode": true,
+  "injected_node": "us-cw-841126",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-118216",
+  "injected_witness_distance": 9,
+  "injected_bridge_node": "us-cw-130",
+  "injected_bridge_distance": 4,
+  "injected_risk_nodes": [
+    "us-cw-841126",
+    "us-cw-118216"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-841126",
+    "us-cw-130",
+    "us-cw-118216"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-1001720",
+    "us-cw-1280"
+  ],
+  "injected_conflict_family": "temporal_gate",
+  "injected_conflict_difficulty": "subtle",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_temporal_quarter_close_gate_critical",
+  "injected_rank": 2,
+  "top1_margin": 0.10000000000000009,
+  "risk_node_ranks": {
+    "us-cw-841126": 2,
+    "us-cw-118216": 3
+  },
+  "risk_best_rank": 2,
+  "risk_worst_rank": 3,
+  "risk_top1_hit": false,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "us-cw-841126": 2,
+    "us-cw-130": 1,
+    "us-cw-118216": 3
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 3,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "us-cw-1001720": 13,
+    "us-cw-1280": 15
+  },
+  "affected_best_rank": 13,
+  "affected_worst_rank": 15,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-841126": 2,
+    "us-cw-118216": 3,
+    "us-cw-1001720": 13,
+    "us-cw-1280": 15
+  },
+  "valuable_best_rank": 2,
+  "valuable_worst_rank": 15,
+  "valuable_top1_hit": false,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "case_id": "40_sec_ex219_scc_1_temporal_gate",
+  "case_order": 40,
+  "audit_started_at": 1783923587.740021,
+  "audit_completed_at": 1783923683.23893,
+  "audit_started_at_iso": "2026-07-13T14:19:47+0800",
+  "audit_completed_at_iso": "2026-07-13T14:21:23+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 18,
+    "successful_api_calls": 18,
+    "failed_api_calls": 0,
+    "prompt_tokens": 22080,
+    "completion_tokens": 10243,
+    "total_tokens": 32323,
+    "api_runtime_sec_sum": 95.48468542098999
+  }
+}

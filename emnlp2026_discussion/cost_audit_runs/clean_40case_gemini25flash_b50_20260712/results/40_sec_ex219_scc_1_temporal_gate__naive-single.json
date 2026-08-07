@@ -1,0 +1,583 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (sec_ex21); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gemini-2.5-flash",
+  "domain": "sec_ex21",
+  "scc_size": 18,
+  "scc_id": "scc_1",
+  "scc_clause_ids": [
+    "us-cw-1001720",
+    "us-cw-1001721",
+    "us-cw-1180",
+    "us-cw-118216",
+    "us-cw-1196",
+    "us-cw-1280",
+    "us-cw-130",
+    "us-cw-2080",
+    "us-cw-3379182",
+    "us-cw-42654",
+    "us-cw-590084",
+    "us-cw-590085",
+    "us-cw-841126",
+    "us-cw-59234",
+    "us-cw-702872",
+    "us-cw-822",
+    "us-cw-903404",
+    "us-cw-907597"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 7566,
+    "completion_tokens": 2085,
+    "total_tokens": 9651
+  },
+  "time": 10.576303958892822,
+  "scores": {
+    "us-cw-1001720": 0.6,
+    "us-cw-1001721": 0.9,
+    "us-cw-1180": 0.85,
+    "us-cw-118216": 0.75,
+    "us-cw-1196": 0.45,
+    "us-cw-1280": 0.45,
+    "us-cw-130": 0.45,
+    "us-cw-2080": 0.45,
+    "us-cw-3379182": 0.8,
+    "us-cw-42654": 0.7,
+    "us-cw-590084": 0.3,
+    "us-cw-590085": 0.3,
+    "us-cw-841126": 0.95,
+    "us-cw-59234": 0.45,
+    "us-cw-702872": 0.2,
+    "us-cw-822": 0.4,
+    "us-cw-903404": 0.5,
+    "us-cw-907597": 0.1
+  },
+  "reasonings": {
+    "us-cw-1001720": "Disconnected/underspecified node.",
+    "us-cw-1001721": "Linked to the primary scheduling conflict.",
+    "us-cw-1180": "Structural redundancy in the graph root.",
+    "us-cw-118216": "Path dependency issues.",
+    "us-cw-1196": "Graph bloat.",
+    "us-cw-1280": "Graph bloat.",
+    "us-cw-130": "Graph bloat.",
+    "us-cw-2080": "Graph bloat.",
+    "us-cw-3379182": "Unnecessary duplication of root records.",
+    "us-cw-42654": "Centralized conflict node.",
+    "us-cw-590084": "Incomplete entry.",
+    "us-cw-590085": "Incomplete entry.",
+    "us-cw-841126": "Direct source of the scheduling conflict.",
+    "us-cw-59234": "Graph bloat.",
+    "us-cw-702872": "Incomplete entry.",
+    "us-cw-822": "Naming inconsistency.",
+    "us-cw-903404": "Underspecified entity.",
+    "us-cw-907597": "Minor impact."
+  },
+  "ranking": [
+    [
+      "us-cw-841126",
+      0.95
+    ],
+    [
+      "us-cw-1001721",
+      0.9
+    ],
+    [
+      "us-cw-1180",
+      0.85
+    ],
+    [
+      "us-cw-3379182",
+      0.8
+    ],
+    [
+      "us-cw-118216",
+      0.75
+    ],
+    [
+      "us-cw-42654",
+      0.7
+    ],
+    [
+      "us-cw-1001720",
+      0.6
+    ],
+    [
+      "us-cw-903404",
+      0.5
+    ],
+    [
+      "us-cw-1196",
+      0.45
+    ],
+    [
+      "us-cw-1280",
+      0.45
+    ],
+    [
+      "us-cw-130",
+      0.45
+    ],
+    [
+      "us-cw-2080",
+      0.45
+    ],
+    [
+      "us-cw-59234",
+      0.45
+    ],
+    [
+      "us-cw-822",
+      0.4
+    ],
+    [
+      "us-cw-590084",
+      0.3
+    ],
+    [
+      "us-cw-590085",
+      0.3
+    ],
+    [
+      "us-cw-702872",
+      0.2
+    ],
+    [
+      "us-cw-907597",
+      0.1
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "us-cw-841126",
+      "risk_score": 0.95,
+      "risk_factors": [
+        "Structural Contradiction"
+      ],
+      "reasoning": "Directly involved in a mandatory state conflict where an ownership change is backdated or blocked by the quarter-close schedule."
+    },
+    {
+      "rank": 2,
+      "clause_id": "us-cw-1001721",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "Structural Contradiction"
+      ],
+      "reasoning": "Participates in the blocking inconsistency path identified for minority interest records."
+    },
+    {
+      "rank": 3,
+      "clause_id": "us-cw-1180",
+      "risk_score": 0.85,
+      "risk_factors": [
+        "Graph Redundancy"
+      ],
+      "reasoning": "Core entity duplicated; significant redundancy in references causes cycle instability."
+    },
+    {
+      "rank": 4,
+      "clause_id": "us-cw-3379182",
+      "risk_score": 0.8,
+      "risk_factors": [
+        "Graph Redundancy"
+      ],
+      "reasoning": "Duplicate node for Entergy Corp; causes multi-path ambiguity."
+    },
+    {
+      "rank": 5,
+      "clause_id": "us-cw-118216",
+      "risk_score": 0.75,
+      "risk_factors": [
+        "Structural Contradiction"
+      ],
+      "reasoning": "Intermediate node forwarding contradictory states."
+    },
+    {
+      "rank": 6,
+      "clause_id": "us-cw-42654",
+      "risk_score": 0.7,
+      "risk_factors": [
+        "Structural Contradiction"
+      ],
+      "reasoning": "Bridge node caught in the middle of conflicting ownership schedules."
+    },
+    {
+      "rank": 7,
+      "clause_id": "us-cw-1001720",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "Incomplete Metadata"
+      ],
+      "reasoning": "Poorly defined node linked to multiple high-risk cycles."
+    },
+    {
+      "rank": 8,
+      "clause_id": "us-cw-903404",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "Incomplete Metadata"
+      ],
+      "reasoning": "Under-specified entity, high connectivity."
+    },
+    {
+      "rank": 9,
+      "clause_id": "us-cw-1196",
+      "risk_score": 0.45,
+      "risk_factors": [
+        "Graph Redundancy"
+      ],
+      "reasoning": "Part of a high-density reference cluster."
+    },
+    {
+      "rank": 10,
+      "clause_id": "us-cw-1280",
+      "risk_score": 0.45,
+      "risk_factors": [
+        "Graph Redundancy"
+      ],
+      "reasoning": "Part of a high-density reference cluster."
+    },
+    {
+      "rank": 11,
+      "clause_id": "us-cw-130",
+      "risk_score": 0.45,
+      "risk_factors": [
+        "Graph Redundancy"
+      ],
+      "reasoning": "Part of a high-density reference cluster."
+    },
+    {
+      "rank": 12,
+      "clause_id": "us-cw-2080",
+      "risk_score": 0.45,
+      "risk_factors": [
+        "Graph Redundancy"
+      ],
+      "reasoning": "Part of a high-density reference cluster."
+    },
+    {
+      "rank": 13,
+      "clause_id": "us-cw-59234",
+      "risk_score": 0.45,
+      "risk_factors": [
+        "Graph Redundancy"
+      ],
+      "reasoning": "Part of a high-density reference cluster."
+    },
+    {
+      "rank": 14,
+      "clause_id": "us-cw-822",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "Incomplete Metadata"
+      ],
+      "reasoning": "Legacy naming inconsistency."
+    },
+    {
+      "rank": 15,
+      "clause_id": "us-cw-590084",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "Incomplete Metadata"
+      ],
+      "reasoning": "Minimal descriptive data."
+    },
+    {
+      "rank": 16,
+      "clause_id": "us-cw-590085",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "Incomplete Metadata"
+      ],
+      "reasoning": "Minimal descriptive data."
+    },
+    {
+      "rank": 17,
+      "clause_id": "us-cw-702872",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "Incomplete Metadata"
+      ],
+      "reasoning": "Minimal descriptive data."
+    },
+    {
+      "rank": 18,
+      "clause_id": "us-cw-907597",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "Incomplete Metadata"
+      ],
+      "reasoning": "Low impact node."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "Structural Contradiction",
+      "importance_weight": 0.5,
+      "description": "Records claiming opposite states on the same dependency path."
+    },
+    {
+      "factor": "Graph Redundancy",
+      "importance_weight": 0.3,
+      "description": "Duplicated entity nodes creating cycle noise."
+    },
+    {
+      "factor": "Incomplete Metadata",
+      "importance_weight": 0.2,
+      "description": "Nodes with minimal information content relative to their graph connectivity."
+    }
+  ],
+  "risk_factor_weight_sum": 1.0,
+  "direct_risk_subgraph_nodes": [
+    "us-cw-841126",
+    "us-cw-1001721",
+    "us-cw-42654",
+    "us-cw-118216"
+  ],
+  "direct_risk_subgraph_size": 4,
+  "direct_compression_ratio": 0.7777777777777778,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "This subgraph isolates the specific conflict regarding ownership and minority interest retention, which prevents the effective date of the schedule from being resolved.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "us-cw-1001721",
+      "target": "us-cw-42654",
+      "reason": "Reference links the parent holding to the LLC causing the ownership mismatch."
+    },
+    {
+      "source": "us-cw-841126",
+      "target": "us-cw-42654",
+      "reason": "Constraint on retained minority interest is tested against this node."
+    },
+    {
+      "source": "us-cw-118216",
+      "target": "us-cw-42654",
+      "reason": "Conflicting path dependency path propagation."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "us-cw-841126",
+    "us-cw-1001721",
+    "us-cw-42654",
+    "us-cw-118216"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 13,
+  "largest_tie_count": 5,
+  "tied_score_groups": [
+    {
+      "score": 0.45,
+      "count": 5,
+      "nodes": [
+        "us-cw-1196",
+        "us-cw-1280",
+        "us-cw-130",
+        "us-cw-2080",
+        "us-cw-59234"
+      ]
+    },
+    {
+      "score": 0.3,
+      "count": 2,
+      "nodes": [
+        "us-cw-590084",
+        "us-cw-590085"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "clause_a": "us-cw-841126",
+      "clause_b": "us-cw-42654",
+      "description": "The ownership retention at the downstream node contradicts the parent's pre-close state, resulting in a locking error."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-3379182",
+      "description": "Duplicated identity records create ambiguous reference paths."
+    }
+  ],
+  "score_spread": 0.85,
+  "ranking_score_spread": 0.85,
+  "score_mean": 0.5333333333333333,
+  "score_max": 0.95,
+  "node_names": {
+    "us-cw-1001720": "Entergy International Holdings Ltd",
+    "us-cw-1001721": "Entergy Louisiana Holdings Inc",
+    "us-cw-1180": "ENTERGY CORP",
+    "us-cw-118216": "ENTERGY LOUISIANA HOLDINGS INC",
+    "us-cw-1196": "Entergy Mississippi, Inc",
+    "us-cw-1280": "Entergy New Orleans, Inc",
+    "us-cw-130": "Entergy Arkansas, Inc",
+    "us-cw-2080": "System Energy Resources, Inc",
+    "us-cw-3379182": "ENTERGY CORP",
+    "us-cw-42654": "Entergy Louisiana LLC",
+    "us-cw-590084": "Entergy Holdings Company LLC",
+    "us-cw-590085": "Entergy International Ltd LLC",
+    "us-cw-841126": "Entergy Louisiana Holdings LLC",
+    "us-cw-59234": "Entergy Texas, Inc",
+    "us-cw-702872": "Entergy International Holdings LLC",
+    "us-cw-822": "ENTERGY GULF STATES INC",
+    "us-cw-903404": "Entergy Utility Holding Co LLC",
+    "us-cw-907597": "Louisiana Power & Light Co LLC"
+  },
+  "ground_truth_nodes": [
+    "us-cw-841126"
+  ],
+  "gt_evidence": {
+    "us-cw-841126": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": true,
+  "top3_hit": true,
+  "prompt_word_count": 2726,
+  "injected_title_occurrences_in_prompt": 4,
+  "injected_id_occurrences_in_prompt": 3,
+  "injected_title_first_word_ratio": 0.2450476889214967,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.24688187820983126,
+  "inject_mode": true,
+  "injected_node": "us-cw-841126",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-118216",
+  "injected_witness_distance": 9,
+  "injected_bridge_node": "us-cw-130",
+  "injected_bridge_distance": 4,
+  "injected_risk_nodes": [
+    "us-cw-841126",
+    "us-cw-118216"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-841126",
+    "us-cw-130",
+    "us-cw-118216"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-1001720",
+    "us-cw-1280"
+  ],
+  "injected_conflict_family": "temporal_gate",
+  "injected_conflict_difficulty": "subtle",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_temporal_quarter_close_gate_critical",
+  "injected_rank": 1,
+  "top1_margin": 0.04999999999999993,
+  "risk_node_ranks": {
+    "us-cw-841126": 1,
+    "us-cw-118216": 5
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 5,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "us-cw-841126": 1,
+    "us-cw-130": 11,
+    "us-cw-118216": 5
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 11,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "us-cw-1001720": 7,
+    "us-cw-1280": 10
+  },
+  "affected_best_rank": 7,
+  "affected_worst_rank": 10,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-841126": 1,
+    "us-cw-118216": 5,
+    "us-cw-1001720": 7,
+    "us-cw-1280": 10
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 10,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 1,
+  "root_top1_hit": true,
+  "root_top3_hit": true,
+  "direct_subgraph_nodes_retained": [
+    "us-cw-841126",
+    "us-cw-1001721",
+    "us-cw-42654",
+    "us-cw-118216"
+  ],
+  "direct_contains_injected_node": true,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": true,
+  "direct_risk_nodes_retained": [
+    "us-cw-841126",
+    "us-cw-118216"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": false,
+  "direct_evidence_nodes_retained": [
+    "us-cw-841126",
+    "us-cw-118216"
+  ],
+  "direct_contains_any_affected_node": false,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "us-cw-841126",
+    "us-cw-118216"
+  ],
+  "case_id": "40_sec_ex219_scc_1_temporal_gate",
+  "case_order": 40,
+  "audit_started_at": 1783869185.534223,
+  "audit_completed_at": 1783869196.110992,
+  "audit_started_at_iso": "2026-07-12T23:13:05+0800",
+  "audit_completed_at_iso": "2026-07-12T23:13:16+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 7566,
+    "completion_tokens": 2085,
+    "total_tokens": 9651,
+    "api_runtime_sec_sum": 10.574398040771484
+  }
+}

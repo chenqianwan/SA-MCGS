@@ -1,0 +1,406 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (sec_ex21); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gemini-2.5-flash",
+  "domain": "sec_ex21",
+  "scc_size": 10,
+  "scc_id": "scc_2",
+  "scc_clause_ids": [
+    "us-cw-1011764",
+    "us-cw-1020294",
+    "us-cw-121873",
+    "us-cw-515912",
+    "us-cw-712455",
+    "us-cw-749749",
+    "us-cw-515909",
+    "us-cw-749750",
+    "us-cw-749751",
+    "us-cw-997003"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 1993,
+    "completion_tokens": 1341,
+    "total_tokens": 3334
+  },
+  "time": 4.762193918228149,
+  "scores": {
+    "us-cw-1011764": 0.1,
+    "us-cw-1020294": 0.85,
+    "us-cw-121873": 0.35,
+    "us-cw-515912": 0.6,
+    "us-cw-712455": 0.3,
+    "us-cw-749749": 0.4,
+    "us-cw-515909": 0.95,
+    "us-cw-749750": 0.5,
+    "us-cw-749751": 0.45,
+    "us-cw-997003": 0.2
+  },
+  "reasonings": {
+    "us-cw-1011764": "Referential loop with 1020294, but no internal logic conflicts.",
+    "us-cw-1020294": "Explicitly identifies a 20 percent mismatch as a blocking inconsistency.",
+    "us-cw-121873": "Participates in cycle connectivity.",
+    "us-cw-515912": "Intermediate register, potentially masking state propagation issues.",
+    "us-cw-712455": "Downstream from Mauritius, caught in cyclic flow.",
+    "us-cw-749749": "Cyclic participant.",
+    "us-cw-515909": "Directly indicates the mandatory control amendment has not been filed, causing downstream invalidation.",
+    "us-cw-749750": "Cyclic participant.",
+    "us-cw-749751": "Cyclic participant.",
+    "us-cw-997003": "Connects Singapore chain to US Holdings."
+  },
+  "ranking": [
+    [
+      "us-cw-515909",
+      0.95
+    ],
+    [
+      "us-cw-1020294",
+      0.85
+    ],
+    [
+      "us-cw-515912",
+      0.6
+    ],
+    [
+      "us-cw-749750",
+      0.5
+    ],
+    [
+      "us-cw-749751",
+      0.45
+    ],
+    [
+      "us-cw-749749",
+      0.4
+    ],
+    [
+      "us-cw-121873",
+      0.35
+    ],
+    [
+      "us-cw-712455",
+      0.3
+    ],
+    [
+      "us-cw-997003",
+      0.2
+    ],
+    [
+      "us-cw-1011764",
+      0.1
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "us-cw-515909",
+      "risk_score": 0.95,
+      "risk_factors": [
+        "logic_contradiction"
+      ],
+      "reasoning": "Explicitly triggers an unresolvable state due to a missing mandatory control amendment."
+    },
+    {
+      "rank": 2,
+      "clause_id": "us-cw-1020294",
+      "risk_score": 0.85,
+      "risk_factors": [
+        "logic_contradiction"
+      ],
+      "reasoning": "Contains a blocking inconsistency regarding the 20 percent outside interest rule."
+    },
+    {
+      "rank": 3,
+      "clause_id": "us-cw-515912",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "information_gap"
+      ],
+      "reasoning": "Intermediate register that forwards state without conversion; prone to data propagation errors."
+    },
+    {
+      "rank": 4,
+      "clause_id": "us-cw-749750",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "cycle_dependency_instability"
+      ],
+      "reasoning": "Part of a long cycle that complicates the enforcement of the rule in us-cw-515909."
+    },
+    {
+      "rank": 5,
+      "clause_id": "us-cw-749751",
+      "risk_score": 0.45,
+      "risk_factors": [
+        "cycle_dependency_instability"
+      ],
+      "reasoning": "Intermediary in the cycle affecting consolidation path."
+    },
+    {
+      "rank": 6,
+      "clause_id": "us-cw-749749",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "cycle_dependency_instability"
+      ],
+      "reasoning": "Intermediary in the cycle affecting consolidation path."
+    },
+    {
+      "rank": 7,
+      "clause_id": "us-cw-121873",
+      "risk_score": 0.35,
+      "risk_factors": [
+        "cycle_dependency_instability"
+      ],
+      "reasoning": "Upstream from the Mauritius register, linking external entities into the cycle."
+    },
+    {
+      "rank": 8,
+      "clause_id": "us-cw-712455",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "cycle_dependency_instability"
+      ],
+      "reasoning": "Downstream from Mauritius; trapped by the circular reference logic."
+    },
+    {
+      "rank": 9,
+      "clause_id": "us-cw-997003",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "information_gap"
+      ],
+      "reasoning": "End-point of the Singapore reference chain; low structural risk."
+    },
+    {
+      "rank": 10,
+      "clause_id": "us-cw-1011764",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "information_gap"
+      ],
+      "reasoning": "Minimal risk, standard circular referencing."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "logic_contradiction",
+      "importance_weight": 0.5,
+      "description": "Records that define mutually exclusive states on the same dependency path."
+    },
+    {
+      "factor": "cycle_dependency_instability",
+      "importance_weight": 0.3,
+      "description": "Circular dependencies that trap validation states."
+    },
+    {
+      "factor": "information_gap",
+      "importance_weight": 0.2,
+      "description": "Ambiguity regarding mandatory amendment filings."
+    }
+  ],
+  "risk_factor_weight_sum": 1.0,
+  "direct_risk_subgraph_nodes": [
+    "us-cw-515909",
+    "us-cw-1020294"
+  ],
+  "direct_risk_subgraph_size": 2,
+  "direct_compression_ratio": 0.8,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "These two nodes represent the primary sources of logical invalidation. us-cw-515909 provides the mandatory state requirement that is unmet, while us-cw-1020294 defines the blocking inconsistency mechanics.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "us-cw-997003",
+      "target": "us-cw-1020294",
+      "reason": "Links the Singapore reference chain to the identified blocking inconsistency."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "us-cw-515909",
+    "us-cw-1020294"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 10,
+  "largest_tie_count": 1,
+  "tied_score_groups": [],
+  "conflicts": [
+    {
+      "clause_a": "us-cw-515909",
+      "clause_b": "us-cw-1020294",
+      "description": "Conflict between the requirement for a control amendment (515909) and the enforcement of the 20 percent outside interest rule (1020294), where the missing amendment renders the consolidation path invalid."
+    }
+  ],
+  "score_spread": 0.85,
+  "ranking_score_spread": 0.85,
+  "score_mean": 0.47000000000000003,
+  "score_max": 0.95,
+  "node_names": {
+    "us-cw-1011764": "The Nielsen Company (US) LLC",
+    "us-cw-1020294": "TNC (US) Holdings Inc",
+    "us-cw-121873": "NetRatings Australia Pty. Ltd",
+    "us-cw-515912": "Nielsen Co (Singapore) Pte. Ltd",
+    "us-cw-712455": "PT. The Nielsen Co Indonesia",
+    "us-cw-749749": "Nielsen Co Ltd",
+    "us-cw-515909": "Nielsen Co (Mauritius) Ltd",
+    "us-cw-749750": "Nielsen Innovate Fund LP",
+    "us-cw-749751": "Nielsen Innovate Ltd",
+    "us-cw-997003": "Buzzmetrics Ltd"
+  },
+  "ground_truth_nodes": [
+    "us-cw-515909"
+  ],
+  "gt_evidence": {
+    "us-cw-515909": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": true,
+  "top3_hit": true,
+  "prompt_word_count": 848,
+  "injected_title_occurrences_in_prompt": 4,
+  "injected_id_occurrences_in_prompt": 3,
+  "injected_title_first_word_ratio": 0.2959905660377358,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.3018867924528302,
+  "inject_mode": true,
+  "injected_node": "us-cw-515909",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-1020294",
+  "injected_witness_distance": 5,
+  "injected_bridge_node": "us-cw-515912",
+  "injected_bridge_distance": 2,
+  "injected_risk_nodes": [
+    "us-cw-515909",
+    "us-cw-1020294"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-515909",
+    "us-cw-515912",
+    "us-cw-1020294"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-712455",
+    "us-cw-749750"
+  ],
+  "injected_conflict_family": "condition_trigger",
+  "injected_conflict_difficulty": "hard",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_condition_trigger_unfiled_amendment_critical",
+  "injected_rank": 1,
+  "top1_margin": 0.09999999999999998,
+  "risk_node_ranks": {
+    "us-cw-515909": 1,
+    "us-cw-1020294": 2
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "us-cw-515909": 1,
+    "us-cw-515912": 3,
+    "us-cw-1020294": 2
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 3,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "us-cw-712455": 8,
+    "us-cw-749750": 4
+  },
+  "affected_best_rank": 4,
+  "affected_worst_rank": 8,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-515909": 1,
+    "us-cw-1020294": 2,
+    "us-cw-712455": 8,
+    "us-cw-749750": 4
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 8,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 1,
+  "root_top1_hit": true,
+  "root_top3_hit": true,
+  "direct_subgraph_nodes_retained": [
+    "us-cw-515909",
+    "us-cw-1020294"
+  ],
+  "direct_contains_injected_node": true,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": true,
+  "direct_risk_nodes_retained": [
+    "us-cw-515909",
+    "us-cw-1020294"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": false,
+  "direct_evidence_nodes_retained": [
+    "us-cw-515909",
+    "us-cw-1020294"
+  ],
+  "direct_contains_any_affected_node": false,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "us-cw-515909",
+    "us-cw-1020294"
+  ],
+  "case_id": "38_sec_ex2110_scc_2_condition_trigger",
+  "case_order": 38,
+  "audit_started_at": 1783868806.429837,
+  "audit_completed_at": 1783868811.192416,
+  "audit_started_at_iso": "2026-07-12T23:06:46+0800",
+  "audit_completed_at_iso": "2026-07-12T23:06:51+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 1993,
+    "completion_tokens": 1341,
+    "total_tokens": 3334,
+    "api_runtime_sec_sum": 4.761155128479004
+  }
+}

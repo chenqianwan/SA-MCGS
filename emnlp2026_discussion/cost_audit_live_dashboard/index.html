@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cost Audit Live Progress</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f7f8f5;
+      --fg: #17211c;
+      --muted: #657267;
+      --line: #d9ded6;
+      --panel: #ffffff;
+      --panel-soft: #eef4f0;
+      --accent: #2f7f76;
+      --accent-2: #446f9d;
+      --warn: #a15c22;
+      --bad: #a33a33;
+      --shadow: 0 1px 2px rgba(20, 34, 27, .06);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #151917;
+        --fg: #edf1ec;
+        --muted: #a8b3aa;
+        --line: #303832;
+        --panel: #1d231f;
+        --panel-soft: #26312b;
+        --accent: #73b8ae;
+        --accent-2: #8db4e1;
+        --warn: #e0ae75;
+        --bad: #e1817b;
+        --shadow: none;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+    main {
+      width: min(1480px, calc(100% - 40px));
+      margin: 30px auto 48px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 3.8vw, 46px);
+      letter-spacing: 0;
+      line-height: 1.05;
+      font-weight: 700;
+    }
+    h2 {
+      margin: 0 0 12px;
+      font-size: 22px;
+      letter-spacing: 0;
+      font-weight: 700;
+    }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      letter-spacing: 0;
+      font-weight: 700;
+    }
+    .subtle, .muted { color: var(--muted); }
+    .top-meta {
+      text-align: right;
+      min-width: 220px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .time {
+      display: block;
+      color: var(--fg);
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 26px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--panel-soft);
+      color: var(--fg);
+      font-weight: 700;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: inline-block;
+    }
+    .dot.warn { background: var(--warn); }
+    .dot.bad { background: var(--bad); }
+    .hero {
+      padding: 26px 28px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      margin-bottom: 22px;
+    }
+    .hero-row {
+      display: grid;
+      grid-template-columns: 1.1fr 2fr auto;
+      gap: 22px;
+      align-items: center;
+    }
+    .big-number {
+      font-size: clamp(38px, 7vw, 74px);
+      line-height: .95;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+    .bar {
+      height: 18px;
+      border-radius: 999px;
+      background: var(--panel-soft);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      position: relative;
+    }
+    .fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width .4s ease;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+    .stat-label {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .stat-value {
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 800;
+      word-break: break-word;
+    }
+    .model-card {
+      display: grid;
+      gap: 12px;
+    }
+    .model-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .model-name {
+      font-size: 22px;
+      font-weight: 800;
+    }
+    .current {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .kv {
+      min-width: 0;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+    }
+    .kv span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 3px;
+    }
+    .kv strong {
+      font-size: 15px;
+      overflow-wrap: anywhere;
+    }
+    section {
+      margin-top: 26px;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 900px;
+      font-size: 14px;
+    }
+    th, td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      white-space: nowrap;
+    }
+    th {
+      color: var(--muted);
+      font-weight: 800;
+      background: color-mix(in srgb, var(--panel-soft) 55%, transparent);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    tr:last-child td { border-bottom: 0; }
+    .logs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    pre {
+      margin: 0;
+      padding: 14px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--fg);
+      font-size: 12px;
+      line-height: 1.45;
+      max-height: 410px;
+    }
+    .error {
+      color: var(--bad);
+      font-weight: 700;
+      margin-top: 10px;
+    }
+    .mini-bars {
+      display: grid;
+      gap: 12px;
+    }
+    .mini-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 90px;
+      gap: 12px;
+      align-items: center;
+    }
+    .mini-row .bar { height: 12px; }
+    @media (max-width: 980px) {
+      main { width: min(100% - 24px, 1480px); margin-top: 18px; }
+      header, .hero-row { grid-template-columns: 1fr; display: grid; }
+      .top-meta { text-align: left; min-width: 0; }
+      .grid, .grid.two, .logs { grid-template-columns: 1fr; }
+      .current { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .mini-row { grid-template-columns: 1fr; gap: 6px; }
+    }
+    @media (max-width: 560px) {
+      .hero, .card { padding: 16px; }
+      .current { grid-template-columns: 1fr; }
+      h1 { font-size: 31px; }
+      .stat-value { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Cost Audit Live Progress</h1>
+        <div class="subtle" id="subtitle">Loading current run state...</div>
+      </div>
+      <div class="top-meta">
+        Last refresh
+        <span class="time" id="refreshTime">--:--:--</span>
+        <span class="pill" id="agentPill"><span class="dot warn"></span>checking</span>
+      </div>
+    </header>
+
+    <div class="hero">
+      <div class="hero-row">
+        <div>
+          <div class="stat-label">Overall progress</div>
+          <div class="big-number" id="overallPercent">--%</div>
+        </div>
+        <div>
+          <div class="bar" aria-label="Overall progress"><div class="fill" id="overallFill"></div></div>
+          <div class="subtle" id="overallText" style="margin-top: 8px;">-- / -- method-cases</div>
+        </div>
+        <div><span class="pill" id="activeModel">active: --</span></div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card"><div class="stat-label">Completed</div><div class="stat-value" id="completed">--</div></div>
+      <div class="card"><div class="stat-label">Remaining</div><div class="stat-value" id="remaining">--</div></div>
+      <div class="card"><div class="stat-label">Failed / invalid</div><div class="stat-value" id="failed">--</div></div>
+      <div class="card"><div class="stat-label">Rough ETA</div><div class="stat-value" id="eta">--</div></div>
+    </div>
+
+    <div class="grid two" id="modelCards"></div>
+
+    <section class="card">
+      <h2>Current Task</h2>
+      <div id="currentTask" class="subtle">No active task reported.</div>
+    </section>
+
+    <section>
+      <h2>Model Summary Tables</h2>
+      <div class="mini-bars" id="methodSummaries"></div>
+    </section>
+
+    <section>
+      <h2>Recent API Calls</h2>
+      <div class="table-wrap"><table id="recentCalls"></table></div>
+    </section>
+
+    <section class="logs">
+      <div>
+        <h2>Launch Log Tail</h2>
+        <pre id="launchLog"></pre>
+      </div>
+      <div>
+        <h2>Status JSON</h2>
+        <pre id="statusJson"></pre>
+      </div>
+    </section>
+
+    <div class="error" id="error"></div>
+  </main>
+
+  <script>
+    const refreshMs = 5000;
+    const fmtInt = (v) => Number.isFinite(Number(v)) ? Number(v).toLocaleString() : '--';
+    const fmtPct = (v, d = 1) => Number.isFinite(Number(v)) ? `${Number(v).toFixed(d)}%` : '--';
+    const fmtSec = (v) => {
+      const n = Number(v);
+      if (!Number.isFinite(n)) return '--';
+      if (n < 60) return `${n.toFixed(0)}s`;
+      const m = Math.floor(n / 60);
+      const s = Math.round(n % 60);
+      if (m < 60) return `${m}m ${s}s`;
+      const h = Math.floor(m / 60);
+      return `${h}h ${m % 60}m`;
+    };
+    const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[ch]));
+    const shortTime = (value) => {
+      if (!value) return '--';
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return String(value);
+      return d.toLocaleTimeString('en-GB', { hour12: false });
+    };
+    const methodName = (row) => row.Method || row.method || '--';
+    const pctFromFraction = (v, d = 1) => {
+      const n = Number(v);
+      return Number.isFinite(n) ? `${(n * 100).toFixed(d)}%` : '--';
+    };
+
+    function renderModelCards(runs) {
+      const html = runs.map((run) => {
+        const p = run.progress || {};
+        const status = run.status || {};
+        const current = status.current;
+        const badgeDot = p.remaining > 0 ? '<span class="dot"></span>' : '<span class="dot warn"></span>';
+        const badgeText = p.remaining > 0 ? 'running/queued' : 'complete';
+        return `
+          <div class="card model-card">
+            <div class="model-head">
+              <div class="model-name">${esc(run.model)}</div>
+              <span class="pill">${badgeDot}${badgeText}</span>
+            </div>
+            <div class="bar" aria-label="${esc(run.model)} progress"><div class="fill" style="width:${Math.max(0, Math.min(100, p.percent || 0))}%"></div></div>
+            <div class="subtle">${fmtInt(p.completed)} / ${fmtInt(p.total)} completed · ${fmtInt(p.remaining)} remaining · ${fmtInt(p.failed)} failed/invalid</div>
+            <div class="current">
+              <div class="kv"><span>Updated</span><strong>${esc(shortTime(status.updated_at))}</strong></div>
+              <div class="kv"><span>Current age</span><strong>${fmtSec(p.current_age_sec)}</strong></div>
+              <div class="kv"><span>Recent call runtime</span><strong>${fmtSec(run.recent_call_summary?.avg_runtime_sec_recent)}</strong></div>
+              <div class="kv"><span>Recent tokens/call</span><strong>${fmtInt(run.recent_call_summary?.avg_total_tokens_recent)}</strong></div>
+              <div class="kv"><span>Method rows</span><strong>${fmtInt(run.method_case_count)}</strong></div>
+            </div>
+            ${current ? `<div class="subtle">Now: #${esc(current.case_order)} ${esc(current.case_id)} · ${esc(current.method)}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+      document.getElementById('modelCards').innerHTML = html;
+    }
+
+    function renderCurrent(runs) {
+      const active = runs.find((run) => run.status && run.status.current);
+      const el = document.getElementById('currentTask');
+      if (!active) {
+        el.innerHTML = '<span class="pill"><span class="dot warn"></span>no active task</span>';
+        return;
+      }
+      const c = active.status.current;
+      el.innerHTML = `
+        <div class="current">
+          <div class="kv"><span>Model</span><strong>${esc(active.model)}</strong></div>
+          <div class="kv"><span>Case</span><strong>#${esc(c.case_order)} ${esc(c.case_id)}</strong></div>
+          <div class="kv"><span>Domain / SCC</span><strong>${esc(c.domain)} · ${esc(c.scc_size)}</strong></div>
+          <div class="kv"><span>Template</span><strong>${esc(c.template)}</strong></div>
+          <div class="kv"><span>Method</span><strong>${esc(c.method)}</strong></div>
+        </div>
+        <div class="subtle" style="margin-top:10px;">Started ${esc(c.started_at)} · running ${fmtSec(active.progress.current_age_sec)}</div>
+      `;
+    }
+
+    function renderSummaryTables(runs) {
+      const parts = runs.map((run) => {
+        const rows = (run.summary_cost_table || []).filter((row) => row.Scale === 'Overall');
+        const tableRows = rows.map((row) => `
+          <tr>
+            <td>${esc(row.Method)}</td>
+            <td>${esc(row.Cases)}</td>
+            <td>${Number(row['Calls / case'] || 0).toFixed(1)}</td>
+            <td>${fmtInt(row['Total tok. / case'])}</td>
+            <td>${fmtSec(row['Runtime / case'])}</td>
+            <td>${pctFromFraction(row['Invalid output'])}</td>
+            <td>${pctFromFraction(row['Root@3'])}</td>
+            <td>${pctFromFraction(row['Risk-any'])}</td>
+            <td>${pctFromFraction(row['Risk-all'])}</td>
+            <td>${pctFromFraction(row.Compression)}</td>
+          </tr>
+        `).join('');
+        return `
+          <div>
+            <h3>${esc(run.model)}</h3>
+            <div class="table-wrap">
+              <table>
+                <thead><tr>
+                  <th>Method</th><th>Cases</th><th>Calls/case</th><th>Total tokens/case</th><th>Runtime/case</th><th>Invalid</th><th>Root@3</th><th>Risk-any</th><th>Risk-all</th><th>Compression</th>
+                </tr></thead>
+                <tbody>${tableRows || '<tr><td colspan="10">No summary yet</td></tr>'}</tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      }).join('');
+      document.getElementById('methodSummaries').innerHTML = parts;
+    }
+
+    function renderRecentCalls(runs) {
+      const rows = [];
+      for (const run of runs) {
+        for (const call of run.recent_calls || []) {
+          rows.push({ ...call, model_name: run.model });
+        }
+      }
+      rows.sort((a, b) => String(b.ended_at || b.started_at).localeCompare(String(a.ended_at || a.started_at)));
+      const head = '<thead><tr><th>Ended</th><th>Model</th><th>Case</th><th>Method</th><th>Call</th><th>Runtime</th><th>Total tokens</th><th>Status</th></tr></thead>';
+      const body = rows.slice(0, 28).map((c) => `
+        <tr>
+          <td>${esc(shortTime(c.ended_at || c.started_at))}</td>
+          <td>${esc(c.model_name)}</td>
+          <td>${esc(c.case_order)} · ${esc(c.case_id)}</td>
+          <td>${esc(c.method)}</td>
+          <td>${esc(c.call_index)}</td>
+          <td>${fmtSec(c.runtime_sec)}</td>
+          <td>${fmtInt(c.usage?.total_tokens)}</td>
+          <td>${c.ok ? 'ok' : 'error'}</td>
+        </tr>
+      `).join('');
+      document.getElementById('recentCalls').innerHTML = head + `<tbody>${body}</tbody>`;
+    }
+
+    function update(data) {
+      const overall = data.overall || {};
+      const launch = data.launch_agent || {};
+      const runs = data.runs || [];
+      document.getElementById('subtitle').textContent = `40 cases × 3 methods × 2 models · ${data.generated_at || ''}`;
+      document.getElementById('refreshTime').textContent = shortTime(data.generated_at);
+      const agentPill = document.getElementById('agentPill');
+      const agentOk = launch.loaded && launch.state === 'running';
+      agentPill.innerHTML = `<span class="dot ${agentOk ? '' : 'bad'}"></span>${agentOk ? `running · pid ${launch.pid || '--'}` : 'not running'}`;
+      document.getElementById('overallPercent').textContent = fmtPct(overall.percent);
+      document.getElementById('overallFill').style.width = `${Math.max(0, Math.min(100, overall.percent || 0))}%`;
+      document.getElementById('overallText').textContent = `${fmtInt(overall.completed)} / ${fmtInt(overall.total)} method-cases · ${fmtInt(overall.remaining)} remaining`;
+      document.getElementById('activeModel').textContent = `active: ${overall.active_model || 'none'}`;
+      document.getElementById('completed').textContent = fmtInt(overall.completed);
+      document.getElementById('remaining').textContent = fmtInt(overall.remaining);
+      document.getElementById('failed').textContent = fmtInt(overall.failed);
+      const activeRun = runs.find((run) => run.model === overall.active_model) || runs.find((run) => run.progress?.remaining);
+      document.getElementById('eta').textContent = fmtSec(activeRun?.progress?.eta_seconds);
+      renderModelCards(runs);
+      renderCurrent(runs);
+      renderSummaryTables(runs);
+      renderRecentCalls(runs);
+      document.getElementById('launchLog').textContent = (data.launch_log_tail || []).join('\n');
+      document.getElementById('statusJson').textContent = JSON.stringify({
+        generated_at: data.generated_at,
+        launch_agent: data.launch_agent,
+        overall: data.overall,
+        runs: runs.map((run) => ({ model: run.model, progress: run.progress, status: run.status }))
+      }, null, 2);
+      document.getElementById('error').textContent = '';
+    }
+
+    async function refresh() {
+      try {
+        const res = await fetch(`/api/status?t=${Date.now()}`, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        update(await res.json());
+      } catch (err) {
+        document.getElementById('error').textContent = `Refresh failed: ${err.message}`;
+      }
+    }
+
+    refresh();
+    setInterval(refresh, refreshMs);
+  </script>
+</body>
+</html>

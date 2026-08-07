@@ -65,7 +65,7 @@ Your baseline-fairness concern is important, especially regarding prompt decompo
 2. **lite-Naive / output-burden controls**;
 3. **GraphRAG-style Local Evidence Aggregation**, using deterministic graph-window retrieval and the same local evidence schema as SA-MCGS, but without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic core. This baseline is intended to separate the benefit of local decomposition / schema simplification from the benefit of SA-MCGS's search and memory mechanisms, and will be included in the same token/call/runtime accounting as Naive and SA-MCGS.
 
-We will also revise the model-level discussion: Gemini 2.5 Pro and DeepSeek-V3 are already strong under oracle-risk Naive, so we will not frame SA-MCGS as uniformly superior across models. Instead, we will emphasize **robustness, output reliability, and endpoint retention under cyclic long-context pressure**. For ablations, we are preparing a component-level table covering relation-first memory, critical-pair ledger/revisiting, OC/core signals, local-window selection, and dynamic/replacement core construction.
+We will also revise the model-level discussion to emphasize where the method is strongest. Gemini 2.5 Pro and DeepSeek-V3 are already strong under oracle-risk Naive, while SA-MCGS shows its clearest value in **robustness, output reliability, and endpoint retention under cyclic long-context pressure**. For ablations, we are preparing a component-level table covering relation-first memory, critical-pair ledger/revisiting, OC/core signals, local-window selection, and dynamic/replacement core construction.
 
 On injected versus naturally occurring risks, we will handle this as a scope and limitation revision rather than adding a naturally occurring main experiment during the discussion period. Specifically, we will:
 
@@ -105,3 +105,564 @@ For baselines and cost, we will add two concrete analyses:
 2. **Cost-performance accounting.** We will report provider-observed input/output tokens, LLM calls, and runtime, stratified by case scale / SCC size. The table will cover oracle-risk/full-SCC Naive, SA-MCGS, and GraphRAG-style Local Evidence Aggregation, and will be reported together with Root@3, Risk-any, Risk-all, and Compression. We will also add a complexity note distinguishing full-SCC prompting, deterministic local-window evidence aggregation, and local rollout-based search.
 
 Finally, we will expand the limitations and societal-impact discussion to state that **SA-MCGS should be used as a decision-support tool**, not as an automated risk adjudication system. Thank you again for these concrete and expert suggestions; they will help make the contribution boundary, evidence, and deployment implications clearer.
+
+---
+
+# Round-2 Follow-up Response Draft
+
+用途：第二轮 author follow-up comment 草稿。**建议作为统一回复发给三位 reviewer**，不要为不同 reviewer 改出三套不一致的说法。核心口径：我们在第一轮承诺补充三类证据，现在用同一套实验口径回应三类共同关切：**graph-aware decomposed baseline、component ablations、cost / reliability accounting**。英文版本更接近 OpenReview 可提交文本；中文版本用于内部核对。
+
+## English Draft
+
+**Comment title:** Follow-up evidence: strengthened graph-aware baseline, component ablations, and completed cost accounting
+
+Thank you again for the careful and constructive reviews. Because the three reviews raise overlapping concerns, we use a single evidence frame in this follow-up response. This avoids giving different reviewers different versions of the claim. In our initial responses, we identified three gaps that needed additional evidence: **(i) component-level ablations**, **(ii) a fairer graph-aware decomposed baseline**, and **(iii) inference cost / reliability accounting**. We have now completed these follow-up analyses and will incorporate them into the revision.
+
+The new results support a more targeted and stronger claim. **SA-MCGS shows substantial gains on gpt-4o and Gemini 2.5 Flash**, especially for strict endpoint completeness / Risk-all. On **Gemini 2.5 Pro**, both LEA and SA-MCGS operate at a high level, confirming that the strengthened graph-aware baseline is strong while SA-MCGS remains competitive. The component ablations show sizeable mechanism effects, and the cost audits show that rollout parallelism can substantially reduce wall-clock runtime while calls/tokens remain the accounting cost. Together, these results position SA-MCGS as an additional inference-time compute option for difficult cyclic SCCs requiring endpoint-complete risk-subgraph recovery.
+
+## Shared Evidence Frame for All Reviewers
+
+| Reviewer concern | New evidence | Consistent takeaway for revision |
+|---|---|---|
+| Baseline fairness / prompt-decomposition confound | Added a **GraphRAG-style Local Evidence Aggregation (LEA)** baseline. We also report **Gemini 2.5 Flash** as a model-sensitive diagnostic. | LEA is a strong graph-aware baseline. On Gemini 2.5 Pro the current cases are comparable; on gpt-4o and Gemini 2.5 Flash, SA-MCGS substantially improves strict endpoint completeness. |
+| Component-level contribution | Added **Stage 1 search/memory ablations** and **Stage 2 dynamic-core ablations**. | The ablation effects are substantial; the strongest support is for **critical-pair ledger/revisit**, **graph-guided local-window selection**, and **dynamic/replacement core construction**. Relation memory and final pair closure should be framed cautiously. |
+| Inference cost and reliability | Completed **low-rollout cost audits** on **gpt-4o** and **Gemini 2.5 Flash**, covering Naive / LEA / SA-MCGS with calls, input/output tokens, total tokens, runtime, invalid rate, and performance. | SA-MCGS costs more calls and tokens, but improves strict endpoint completeness. High-concurrency rollout can substantially reduce wall-clock time, while token/call consumption remains the unavoidable accounting cost. This gives an additional inference-time compute option for difficult cases. |
+| Scope of the benchmark | We keep the current benchmark framing as a controlled evaluation setting. | The benchmark should be described as a **controlled structural-risk stress test**, not as a direct sample of naturally occurring high-stakes risk distributions. |
+
+## 1. Graph-Aware Decomposed Baseline
+
+To address the concern that the original Full-SCC Naive baseline may confound method quality with prompt decomposition and output-schema difficulty, we implemented a **GraphRAG-style Local Evidence Aggregation (LEA)** baseline.
+
+LEA uses deterministic graph-window retrieval and the same local evidence schema as SA-MCGS, followed by transparent aggregation. It does **not** use relation-first memory, critical-pair revisiting, OC/core signals, rollout selection, or dynamic-core replacement. This makes it a stronger test of whether the gains come merely from local decomposition / graph-window prompting, or from the SCC-aware search and memory mechanisms in SA-MCGS.
+
+| Group | LEA Root@3 | SA Root@3 | Delta | LEA Risk-all | SA Risk-all | Delta | LEA calls | SA calls |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Matched overall | 83.8% | **86.9%** | +3.1 | 66.2% | **79.4%** | **+13.1** | 15.7 | 55.7 |
+| Gemini 2.5 Pro | **88.8%** | 87.5% | -1.2 | **88.8%** | 83.8% | -5.0 | 14.9 | 53.0 |
+| gpt-4o | 78.8% | **86.2%** | **+7.5** | 43.8% | **75.0%** | **+31.2** | 16.5 | 58.5 |
+| Gemini 2.5 Flash | 82.5% | **92.5%** | **+10.0** | 65.0% | **95.0%** | **+30.0** | 15.6 | 45.9 |
+| Large SCCs | **85.0%** | 77.5% | -7.5 | 55.0% | **72.5%** | **+17.5** | 25.6 | 56.5 |
+| Medium SCCs | 75.0% | **83.3%** | **+8.3** | 64.6% | **75.0%** | **+10.4** | 14.7 | 57.8 |
+| Small SCCs | 88.9% | **94.4%** | **+5.6** | 73.6% | **86.1%** | **+12.5** | 10.8 | 54.0 |
+
+- on **Gemini 2.5 Pro**, LEA and SA-MCGS are comparable in the current cases: LEA is slightly ahead on Risk-all, while Root@3 is nearly tied;
+- on **gpt-4o**, SA-MCGS improves Risk-all by **31.2 points**;
+- on **Gemini 2.5 Flash**, SA-MCGS improves Risk-all by **30.0 points**;
+- overall, on the matched set, SA-MCGS improves Risk-all by **13.1 points**.
+
+The consistent interpretation is that **SA-MCGS shows the clearest gains on gpt-4o and Gemini 2.5 Flash**, while Gemini 2.5 Pro keeps both LEA and SA-MCGS at a high level. LEA validates the reviewers' baseline-fairness concern by serving as a strong graph-aware comparator. The overall pattern suggests that SA-MCGS is most useful when the model benefits from repeated structured evidence accumulation and endpoint-complete subgraph construction.
+
+## 2. Component-Level Ablations
+
+We added component-level ablations to identify which modules are most responsible for the gains.
+
+### Stage 1: Search / Memory Ablations
+
+| Variant | Root@3 | Risk-any | Risk-all | Compression | Delta Risk-all | Avg core |
+|---|---:|---:|---:|---:|---:|---:|
+| Full SA-MCGS | 86.2% | **100.0%** | **75.0%** | 51.3% | 0.0 | 8.1 |
+| No relation-first memory | 88.8% | 98.8% | 80.0% | 51.8% | +5.0 | 8.0 |
+| No critical-pair ledger/revisit | 83.8% | 88.8% | 53.8% | 72.0% | **-21.3** | 4.2 |
+| Random local-window selection | **90.0%** | 96.2% | 63.7% | 51.8% | **-11.3** | 8.0 |
+
+The clearest Stage-1 result is that removing the **critical-pair ledger/revisit** mechanism substantially reduces endpoint completeness: Risk-all drops from **75.0% to 53.8%**. Random local-window selection also lowers Risk-all from **75.0% to 63.7%**, suggesting that graph-guided selection matters beyond simply repeating local prompts.
+
+The relation-first memory ablation is more nuanced: in this sample, removing it does not reduce aggregate Risk-all. We therefore will not overstate relation memory as an independently dominant module. Instead, we will frame it as part of the evidence organization mechanism whose effect can be model- and setting-dependent.
+
+### Stage 2: Dynamic-Core Ablations
+
+| Variant | Root@3 | Risk-any | Risk-all | Compression | Delta Risk-all | Avg core |
+|---|---:|---:|---:|---:|---:|---:|
+| Full SA-MCGS | **85.0%** | **100.0%** | **70.0%** | 52.1% | 0.0 | 10.0 |
+| No OC/core signal | **85.0%** | **100.0%** | 60.0% | 52.2% | **-10.0** | 9.7 |
+| Monotone core | 77.5% | 87.5% | 45.0% | 76.1% | **-25.0** | 4.8 |
+| No pair closure in final core | 80.0% | 95.0% | 67.5% | 53.0% | -2.5 | 9.4 |
+
+The Stage-2 ablation shows that replacing the dynamic/replacement core with monotone accumulation strongly hurts endpoint completeness: Risk-all drops from **70.0% to 45.0%**. Removing OC/core signals reduces Risk-all by **10.0 points**. Final pair closure has a smaller effect in this sample and will be framed cautiously.
+
+## 3. Completed Cost and Reliability Accounting
+
+We agree with the reviewers that practical inference cost must be reported explicitly. We therefore ran completed low-rollout cost audits on **gpt-4o** and **Gemini 2.5 Flash**, measuring calls, input tokens, output tokens, total tokens, wall-clock runtime, invalid-output rate, and performance.
+
+### gpt-4o audit
+
+| Method | Invalid | Calls / case | Total tokens / case | Runtime / case | Root@3 | Risk-any | Risk-all |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Full-SCC Naive | 15.0% | 1.0 | 18.2K on valid outputs | 17.7s on valid outputs | 29.4% | 73.5% | 29.4% |
+| LEA | **0.0%** | 16.7 | 58.8K | 162.7s | 75.0% | 90.0% | 42.5% |
+| SA-MCGS | **0.0%** | 48.9 | 163.6K | 498.1s | **87.5%** | **92.5%** | **77.5%** |
+
+For gpt-4o Naive, some outputs were invalid; the displayed Naive performance is computed on valid outputs in the current summary. Treating invalid outputs as failures would only strengthen the reliability conclusion.
+
+### Gemini 2.5 Flash audit
+
+| Method | Invalid | Calls / case | Total tokens / case | Runtime / case | Root@3 | Risk-any | Risk-all |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Full-SCC Naive | **0.0%** | 1.0 | 26.6K | 9.4s | 75.0% | 87.5% | 57.5% |
+| LEA | **0.0%** | 15.6 | 53.2K | 54.9s | 82.5% | **100.0%** | 65.0% |
+| SA-MCGS | **0.0%** | 45.9 | 148.2K | 164.5s | **92.5%** | **100.0%** | **95.0%** |
+
+These results clarify the cost-performance tradeoff. **SA-MCGS is more expensive** than LEA and Naive in calls and tokens. However, it substantially improves strict endpoint completeness, especially on Risk-all. LEA is a strong lower-cost middle point: it uses roughly one third of the calls of SA-MCGS and is competitive on several metrics, but it does not preserve all endpoints as reliably on gpt-4o and Gemini 2.5 Flash.
+
+Runtime should also be interpreted carefully. These audits use low rollout / low concurrency, so wall-clock time is conservative and not a fixed lower bound. Because many rollout calls are independent or weakly coupled, **large-scale concurrent rollout can substantially improve wall-clock efficiency**. The token and call counts, however, cannot be parallelized away; they remain the real accounting cost. We will therefore present SA-MCGS as a deliberate inference-time-compute option: it spends more tokens/calls to solve difficult cyclic cases more reliably, providing an alternative to relying only on a single long-context or single-pass "deep reasoning" generation.
+
+We will add an explicit parallelizable-time discussion:
+
+```text
+T_wall(c_parallel) ~= T_serial + T_LLM / c_parallel
+c_parallel = min(C_rollout, C_worker, C_api)
+```
+
+Increasing effective rollout concurrency can reduce the parallel LLM-call portion by multiples, subject to worker and API-rate limits. Token count and call count remain the accounting costs and should be reported alongside performance.
+
+## 4. Scope and Societal-Impact Revisions
+
+We also agree that the current benchmark should be framed more carefully. The benchmark is best described as a **controlled structural-risk stress test**, not as a direct sample of naturally occurring high-stakes risk distributions. The expert audit supports semantic recognizability of the injected structural risks, but it does not establish distributional equivalence with naturally occurring legal, regulatory, or software-dependency risks.
+
+In the revision, we will:
+
+- explicitly describe the benchmark as a controlled structural-risk stress test;
+- weaken broad claims about direct high-stakes deployment;
+- define oracle-risk Naive as a boosted full-SCC baseline selected using ground-truth risk metrics;
+- add the LEA baseline and component ablations;
+- report calls, tokens, runtime, invalid outputs, and performance together;
+- describe SA-MCGS as a **decision-support tool**, not an automated risk adjudicator;
+- discuss false positives, false negatives, graph-construction errors, and overtrust risks on naturally occurring cases.
+
+## Revised Overall Claim
+
+The new evidence supports a more focused strength claim:
+
+> SA-MCGS shows substantial Risk-all gains on **gpt-4o by 31.2 points** and **Gemini 2.5 Flash by 30.0 points**, and improves the matched overall aggregate by **13.1 points**. On **Gemini 2.5 Pro**, both LEA and SA-MCGS are in a high-performance regime, showing that the strengthened graph-aware baseline is strong while SA-MCGS remains competitive. These gains come with more calls and tokens, but rollout parallelism can substantially reduce wall-clock runtime. Component ablations show sizeable effects, with critical-pair revisiting and dynamic/replacement core construction receiving the strongest support.
+
+We appreciate the reviewers' suggestions; they led us to add stronger baselines, clearer ablations, and explicit cost accounting. We will incorporate these results and the more careful framing into the revised manuscript.
+
+---
+
+## 中文翻译
+
+**评论标题：** 补充证据：强化后的图感知 baseline、组件级消融与完整成本核算
+
+再次感谢各位审稿人的仔细和建设性意见。由于三位审稿人的关切高度重叠，我们在第二轮回复中使用同一套证据口径，避免给不同 reviewer 不同版本的主张。在第一轮回复中，我们指出有三类证据需要补充：**(i) 组件级消融**、**(ii) 更公平的图感知分解式 baseline**，以及 **(iii) 推理成本 / 可靠性核算**。现在这些补充分析已经完成，我们会把它们纳入修订稿。
+
+新的结果支持一个更聚焦的优势结论：**SA-MCGS 在 gpt-4o 和 Gemini 2.5 Flash 上取得显著提升**，尤其体现在严格 endpoint completeness / Risk-all 上。在 **Gemini 2.5 Pro** 上，LEA 和 SA-MCGS 都表现出较高水平，说明强化后的 graph-aware baseline 本身很强，同时 SA-MCGS 仍保持竞争力。组件消融效果非常可观；成本审计也表明，提高 rollout 并发可以显著优化 wall-clock runtime，calls/tokens 则仍是实际成本核算口径。整体上，SA-MCGS 为需要 endpoint-complete risk-subgraph recovery 的困难 cyclic SCCs 提供了一种额外的 inference-time compute 选择。
+
+## 三位 Reviewer 共用的证据口径
+
+| 审稿人关切 | 新增证据 | 修订稿中的统一结论 |
+|---|---|---|
+| Baseline fairness / prompt decomposition 混杂 | 加入 **GraphRAG-style Local Evidence Aggregation (LEA)** baseline。另报告 **Gemini 2.5 Flash** 作为模型敏感性诊断。 | LEA 是强 graph-aware baseline。Gemini 2.5 Pro 当前样本中两者表现相当；gpt-4o 和 Gemini 2.5 Flash 上 SA-MCGS 对严格 endpoint completeness 的提升显著。 |
+| 组件级贡献 | 加入 **Stage 1 搜索/记忆消融** 和 **Stage 2 dynamic-core 消融**。 | 组件消融效果非常可观；证据最强的是 **critical-pair ledger/revisit**、**graph-guided local-window selection** 和 **dynamic/replacement core construction**。Relation memory 和 final pair closure 需要谨慎表述。 |
+| 推理成本和可靠性 | 在 **gpt-4o** 和 **Gemini 2.5 Flash** 上完成 **low-rollout cost audits**，覆盖 Naive / LEA / SA-MCGS，并记录 calls、input/output tokens、total tokens、runtime、invalid rate 和 performance。 | SA-MCGS 的 calls/tokens 成本更高，但严格 endpoint completeness 更好。高并发 rollout 可以显著缩短 wall-clock 时间，但 token/call 消耗是无法并行消除的实际成本。这为困难案例提供了一种额外的 inference-time compute 选择。 |
+| Benchmark scope | 当前 benchmark 保持为 controlled evaluation setting。 | Benchmark 应描述为 **controlled structural-risk stress test**，而不是 naturally occurring high-stakes risk distribution 的直接样本。 |
+
+## 1. 图感知分解式 Baseline
+
+为回应审稿人关于 Full-SCC Naive baseline 可能混入 prompt decomposition 和 output-schema difficulty 的担忧，我们实现了一个 **GraphRAG-style Local Evidence Aggregation (LEA)** baseline。
+
+LEA 使用 deterministic graph-window retrieval，并采用与 SA-MCGS 相同的 local evidence schema，然后通过透明 aggregation 汇总结果。它**不使用** relation-first memory、critical-pair revisiting、OC/core signals、rollout selection 或 dynamic-core replacement。因此，它能更直接地检验：增益究竟只是来自 local decomposition / graph-window prompting，还是来自 SA-MCGS 的 SCC-aware search 和 memory mechanisms。
+
+| Group | LEA Root@3 | SA Root@3 | Delta | LEA Risk-all | SA Risk-all | Delta | LEA calls | SA calls |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Matched overall | 83.8% | **86.9%** | +3.1 | 66.2% | **79.4%** | **+13.1** | 15.7 | 55.7 |
+| Gemini 2.5 Pro | **88.8%** | 87.5% | -1.2 | **88.8%** | 83.8% | -5.0 | 14.9 | 53.0 |
+| gpt-4o | 78.8% | **86.2%** | **+7.5** | 43.8% | **75.0%** | **+31.2** | 16.5 | 58.5 |
+| Gemini 2.5 Flash | 82.5% | **92.5%** | **+10.0** | 65.0% | **95.0%** | **+30.0** | 15.6 | 45.9 |
+| Large SCCs | **85.0%** | 77.5% | -7.5 | 55.0% | **72.5%** | **+17.5** | 25.6 | 56.5 |
+| Medium SCCs | 75.0% | **83.3%** | **+8.3** | 64.6% | **75.0%** | **+10.4** | 14.7 | 57.8 |
+| Small SCCs | 88.9% | **94.4%** | **+5.6** | 73.6% | **86.1%** | **+12.5** | 10.8 | 54.0 |
+
+
+- 在 **Gemini 2.5 Pro** 当前样本上，LEA 和 SA-MCGS 表现相当：LEA 的 Risk-all 略高，但 Root@3 基本接近；
+- 在 **gpt-4o** 上，SA-MCGS 的 Risk-all 提升 **31.2 points**；
+- 在**Gemini 2.5 Flash** 上，SA-MCGS 的 Risk-all 提升 **30.0 points**；
+- 在 matched set 的总体结果上，SA-MCGS 的 Risk-all 提升 **13.1 points**。
+
+统一解读是：**SA-MCGS 在 gpt-4o 和 Gemini 2.5 Flash 上提升最明显**，而 Gemini 2.5 Pro 上 LEA 和 SA-MCGS 都保持较高水平。LEA 作为强 graph-aware comparator，也回应了审稿人关于 baseline fairness 的关切。整体模式说明，SA-MCGS 的价值主要体现在模型需要反复结构化证据积累、并构造 endpoint-complete subgraph 的场景中。
+
+## 2. 组件级消融
+
+我们补充了组件级消融，用来识别哪些模块最主要地贡献了增益。
+
+### Stage 1：搜索 / 记忆消融
+
+| Variant | Root@3 | Risk-any | Risk-all | Compression | Delta Risk-all | Avg core |
+|---|---:|---:|---:|---:|---:|---:|
+| Full SA-MCGS | 86.2% | **100.0%** | **75.0%** | 51.3% | 0.0 | 8.1 |
+| No relation-first memory | 88.8% | 98.8% | 80.0% | 51.8% | +5.0 | 8.0 |
+| No critical-pair ledger/revisit | 83.8% | 88.8% | 53.8% | 72.0% | **-21.3** | 4.2 |
+| Random local-window selection | **90.0%** | 96.2% | 63.7% | 51.8% | **-11.3** | 8.0 |
+
+Stage 1 最清楚的结果是：移除 **critical-pair ledger/revisit** 会显著降低 endpoint completeness，Risk-all 从 **75.0% 降到 53.8%**。随机 local-window selection 也会把 Risk-all 从 **75.0% 降到 63.7%**，说明 graph-guided selection 的作用不只是“重复 local prompts”。
+
+Relation-first memory 的结果更复杂：在这个样本里，移除它并没有降低 aggregate Risk-all。因此我们不会把它写成单独主导模块，而会把 relation memory 表述为 evidence organization mechanism 的一部分，其效果可能与模型和设置有关。
+
+### Stage 2：Dynamic-Core 消融
+
+| Variant | Root@3 | Risk-any | Risk-all | Compression | Delta Risk-all | Avg core |
+|---|---:|---:|---:|---:|---:|---:|
+| Full SA-MCGS | **85.0%** | **100.0%** | **70.0%** | 52.1% | 0.0 | 10.0 |
+| No OC/core signal | **85.0%** | **100.0%** | 60.0% | 52.2% | **-10.0** | 9.7 |
+| Monotone core | 77.5% | 87.5% | 45.0% | 76.1% | **-25.0** | 4.8 |
+| No pair closure in final core | 80.0% | 95.0% | 67.5% | 53.0% | -2.5 | 9.4 |
+
+Stage 2 消融显示，如果用 monotone accumulation 替代 dynamic/replacement core，endpoint completeness 会显著下降：Risk-all 从 **70.0% 降到 45.0%**。移除 OC/core signals 也会使 Risk-all 下降 **10.0 points**。Final pair closure 在该样本中的影响较小，因此需要谨慎表述。
+
+## 3. 完整成本与可靠性核算
+
+我们同意审稿人关于 practical inference cost 必须显式报告的意见。因此，我们在 **gpt-4o** 和 **Gemini 2.5 Flash** 上完成了 low-rollout cost audits，记录 calls、input tokens、output tokens、total tokens、wall-clock runtime、invalid-output rate 和 performance。
+
+### gpt-4o audit
+
+| Method | Invalid | Calls / case | Total tokens / case | Runtime / case | Root@3 | Risk-any | Risk-all |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Full-SCC Naive | 15.0% | 1.0 | valid outputs 上 18.2K | valid outputs 上 17.7s | 29.4% | 73.5% | 29.4% |
+| LEA | **0.0%** | 16.7 | 58.8K | 162.7s | 75.0% | 90.0% | 42.5% |
+| SA-MCGS | **0.0%** | 48.9 | 163.6K | 498.1s | **87.5%** | **92.5%** | **77.5%** |
+
+对 gpt-4o Naive 来说，部分输出为 invalid；表中 Naive 的 performance 是当前 summary 对 valid outputs 的计算结果。如果把 invalid outputs 直接视为失败，则可靠性方面的结论只会更强。
+
+### Gemini 2.5 Flash audit
+
+| Method | Invalid | Calls / case | Total tokens / case | Runtime / case | Root@3 | Risk-any | Risk-all |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Full-SCC Naive | **0.0%** | 1.0 | 26.6K | 9.4s | 75.0% | 87.5% | 57.5% |
+| LEA | **0.0%** | 15.6 | 53.2K | 54.9s | 82.5% | **100.0%** | 65.0% |
+| SA-MCGS | **0.0%** | 45.9 | 148.2K | 164.5s | **92.5%** | **100.0%** | **95.0%** |
+
+这些结果澄清了 cost-performance tradeoff。**SA-MCGS 的 calls 和 tokens 成本更高**。不过，它显著提升了严格的 endpoint completeness，尤其是 Risk-all。LEA 是一个强 lower-cost middle point：它的调用数大约是 SA-MCGS 的三分之一，并且在若干指标上很有竞争力；但在 gpt-4o 和 Gemini 2.5 Flash 上，它对完整 endpoints 的保留不如 SA-MCGS 稳定。
+
+Runtime 也需要谨慎解释。这些 audit 使用 low rollout / low concurrency，因此 wall-clock time 是偏保守测量，不是固定下界。由于许多 rollout 调用彼此独立或弱耦合，**大规模高并发 rollout 可以显著提升 wall-clock 运行效率**。但是 token 和 call count 不会因为并行而消失，它们仍然是实际成本核算口径。因此我们会把 SA-MCGS 表述为一种 deliberate inference-time-compute 选择：它用更多 token/calls 换取困难循环案例上更可靠的 endpoint-complete 解，提供了不同于单次长上下文或单次“深度思考”生成的另一条路线。
+
+我们会加入明确的并行时间讨论：
+
+```text
+T_wall(c_parallel) ~= T_serial + T_LLM / c_parallel
+c_parallel = min(C_rollout, C_worker, C_api)
+```
+
+增大有效 rollout 并发可以在 worker 和 API-rate 限制内近似按倍数缩短可并行的 LLM-call 部分。Token count 和 call count 仍然是实际成本核算口径，需要和 performance 一起报告。
+
+## 4. Scope 和 Societal Impact 修订
+
+我们也同意当前 benchmark 的定位需要更谨慎。这个 benchmark 最准确的说法是 **controlled structural-risk stress test**，而不是 naturally occurring high-stakes risk distribution 的直接样本。Expert audit 支持 injected structural risks 在语义上可被专业读者识别，但不能证明其与真实法律、监管或软件依赖风险具有相同分布。
+
+在修订稿中，我们会：
+
+- 明确把 benchmark 描述为 controlled structural-risk stress test；
+- 弱化直接 high-stakes deployment 的宽泛表述；
+- 定义 oracle-risk Naive 为一个由 ground-truth risk metrics 选择的 boosted full-SCC baseline；
+- 加入 LEA baseline 和组件级消融；
+- 一起报告 calls、tokens、runtime、invalid outputs 和 performance；
+- 把 SA-MCGS 描述为 **decision-support tool**，不是 automated risk adjudicator；
+- 讨论 false positives、false negatives、graph-construction errors，以及在 naturally occurring cases 上的 overtrust 风险。
+
+## 修订后的总体主张
+
+新增证据支持一个更聚焦的优势主张：
+
+> SA-MCGS 在 **gpt-4o Risk-all 上提升 31.2 points**，并在 **Gemini 2.5 Flash 上提升 30.0 points**，matched overall aggregate 提升 **13.1 points**。在 **Gemini 2.5 Pro** 上，LEA 和 SA-MCGS 都处于较高水平，说明强化后的 graph-aware baseline 本身很强，同时 SA-MCGS 仍保持竞争力。这些提升的代价是更多 calls 和 tokens，但 rollout 并发可以显著优化 wall-clock runtime。组件级消融显示出可观效果，其中 critical-pair revisiting 和 dynamic/replacement core construction 是证据最强的机制。
+
+我们感谢审稿人的建议；这些建议促使我们加入更强 baseline、更清楚的消融和显式成本核算。我们会把这些结果和更谨慎的 framing 纳入修订稿。
+
+---
+
+---
+
+# Round-2 Per-Reviewer Sendable Comments
+
+用途：下面三条均为可直接发送的独立英文回复；每条英文正文都已经把三张表格计入字符数并控制在 5000 characters 以内。每条英文回复后都附上对应中文翻译，便于核对和进一步修改。
+
+## To Reviewer iMEC
+
+**Comment title:** Follow-up evidence on strengthened baseline, ablations, cost accounting, and model-level behavior
+
+Thank you again for the careful and concrete review. In our first response, we said that the follow-up would focus on **(1) component-level ablations**, **(2) practical cost/complexity accounting**, and **(3) a fairer graph-aware decomposed baseline**. We have now completed these analyses. The strongest new signal is that SA-MCGS gives large Risk-all gains on **gpt-4o** and **Gemini 2.5 Flash**, supporting its value for cyclic SCCs that require repeated structure-aware evidence accumulation to recover endpoint-complete risk subgraphs. On **Gemini 2.5 Pro**, both LEA and SA-MCGS reach a high-performance regime, showing that the strengthened baseline is strong while SA-MCGS remains competitive. The component ablations also show substantial mechanism effects. The cost audit further shows a useful cost-performance route: SA-MCGS spends more calls/tokens, but wall-clock time can be substantially reduced by increasing rollout parallelism/concurrency, giving practitioners an additional inference-time compute option for hard cyclic cases.
+
+Concretely, LEA is a strong graph-aware comparator rather than merely another full-SCC prompt variant. It decomposes each SCC into deterministic graph windows, applies the same local evidence schema as SA-MCGS, and aggregates root/endpoint evidence with fixed rules. The removed parts are exactly the SA-MCGS mechanisms under test: relation memory, critical-pair revisiting, OC/core signals, rollout selection, and dynamic/replacement core construction.
+
+**Evidence tables included in this comment.** All performance entries are percentages.
+
+**T1. Strengthened baseline: LEA vs. SA-MCGS**
+
+|Slice|LEA R@3/All|SA R@3/All|Delta All|
+|---|---:|---:|---:|
+|Matched|83.8/66.2|86.9/**79.4**|**+13.1**|
+|Gemini 2.5 Pro|88.8/**88.8**|87.5/83.8|-5.0|
+|gpt-4o|78.8/43.8|86.2/**75.0**|**+31.2**|
+|Gemini 2.5 Flash|82.5/65.0|92.5/**95.0**|**+30.0**|
+
+**T2. Component ablations: Risk-all**
+
+|Ablation|Full|Ablated|Delta|
+|---|---:|---:|---:|
+|No critical-pair revisit|75.0|53.8|**-21.3**|
+|Random local window|75.0|63.7|**-11.3**|
+|No relation memory|75.0|80.0|+5.0|
+|No OC/core signal|70.0|60.0|**-10.0**|
+|Monotone core|70.0|45.0|**-25.0**|
+|No final pair closure|70.0|67.5|-2.5|
+
+The ablations give mechanism-level evidence, not only aggregate deltas. Removing **critical-pair revisiting** costs 21.3 Risk-all points, showing that unresolved endpoint pairs must be revisited rather than treated as one-shot local judgments. Random local windows cost 11.3 points, supporting graph-guided selection. In Stage 2, **monotone core** loses 25.0 points and removing **OC/core signals** loses 10.0 points, showing that dynamic replacement and core signals are central to endpoint retention.
+
+**T3. Completed cost audits**
+
+|Run|Invalid|Calls|Tokens|Time|Risk-all|
+|---|---:|---:|---:|---:|---:|
+|gpt-4o Naive|15.0%|1.0|18.2K|17.7s|29.4|
+|gpt-4o LEA|0|16.7|58.8K|162.7s|42.5|
+|gpt-4o SA|0|48.9|163.6K|498.1s|**77.5**|
+|Flash Naive|0|1.0|26.6K|9.4s|57.5|
+|Flash LEA|0|15.6|53.2K|54.9s|65.0|
+|Flash SA|0|45.9|148.2K|164.5s|**95.0**|
+
+We will add the cost/time relation explicitly:
+
+`T_wall(p) ~= T_serial + sum_g ceil(n_g / p_g) * t_g`, where `n_g` is the number of rollout calls in group `g`, `p_g` is effective parallelism, and `t_g` is per-call latency. Increasing `p_g` reduces wall-clock time, while total calls and tokens remain `sum_g n_g` and `sum(tokens)`.
+
+The component ablations show substantial effect sizes: the best-supported mechanisms are **critical-pair revisiting**, **graph-guided local-window selection**, and **dynamic/replacement core construction**. We will be more cautious about relation memory and final pair closure, whose current ablations are mixed or small. The cost audits also clarify that SA-MCGS is an inference-time-compute option: higher rollout concurrency can substantially reduce wall-clock runtime, while calls/tokens remain the accounting cost. This gives practitioners another way to spend compute for difficult cyclic cases, beyond relying only on a single long-context or single deep-reasoning generation. We will also fix 'Appendix 9' to 'Appendix J' and define oracle-risk Naive as a boosted full-SCC baseline selected using ground-truth risk metrics.
+
+### 中文翻译
+
+**评论标题：** 关于强化 baseline、消融、成本核算和模型层面表现的补充证据
+
+再次感谢您细致而具体的审阅。在第一轮回复中，我们说明后续证据会集中在 **(1) 组件级消融**、**(2) 实际成本/复杂度核算** 和 **(3) 更公平的 graph-aware decomposed baseline** 三处；现在这些分析已经完成。最强的新信号是：SA-MCGS 在 **gpt-4o** 和 **Gemini 2.5 Flash** 上带来显著 Risk-all 提升，支持其在 cyclic SCCs 需要反复结构感知证据积累、以恢复 endpoint-complete risk subgraphs 的场景中的价值。在 **Gemini 2.5 Pro** 上，LEA 和 SA-MCGS 都达到较高水平，说明强化后的 baseline 本身很强，同时 SA-MCGS 仍保持竞争力。组件消融也显示出非常可观的机制效应。成本审计进一步说明了一条有用的 cost-performance 路线：SA-MCGS 会使用更多 calls/tokens，但可以通过提高 rollout 并行度/并发度显著优化 wall-clock 时间，为困难 cyclic cases 提供一种额外的 inference-time compute 选择。
+
+具体来说，LEA 是一个强 graph-aware comparator，而不只是另一个 full-SCC prompt variant。它把每个 SCC 分解成 deterministic graph windows，使用与 SA-MCGS 相同的 local evidence schema，并用固定规则聚合 root/endpoint evidence。被移除的正是 SA-MCGS 中待检验的机制：relation memory、critical-pair revisiting、OC/core signals、rollout selection 和 dynamic/replacement core construction。
+
+**本评论包含的证据表。** 所有性能数值均为百分比。
+
+**表 1. 强化后的 baseline：LEA vs. SA-MCGS**
+
+|口径|LEA R@3/All|SA R@3/All|All 差值|
+|---|---:|---:|---:|
+|Matched 总体|83.8/66.2|86.9/**79.4**|**+13.1**|
+|Gemini 2.5 Pro|88.8/**88.8**|87.5/83.8|-5.0|
+|gpt-4o|78.8/43.8|86.2/**75.0**|**+31.2**|
+|Gemini 2.5 Flash|82.5/65.0|92.5/**95.0**|**+30.0**|
+
+**表 2. 组件级消融：Risk-all**
+
+|消融项|完整方法|消融后|差值|
+|---|---:|---:|---:|
+|去掉 critical-pair revisit|75.0|53.8|**-21.3**|
+|随机 local window|75.0|63.7|**-11.3**|
+|去掉 relation memory|75.0|80.0|+5.0|
+|去掉 OC/core signal|70.0|60.0|**-10.0**|
+|Monotone core|70.0|45.0|**-25.0**|
+|去掉 final pair closure|70.0|67.5|-2.5|
+
+消融实验给出的不是单纯 aggregate delta，而是组件级机制证据。去掉 **critical-pair revisiting** 会损失 21.3 个 Risk-all points，说明未解决的 endpoint pairs 需要被反复 revisited，而不能只作为一次性 local judgment。随机 local windows 损失 11.3 points，支持 graph-guided selection 的作用。Stage 2 中，**monotone core** 损失 25.0 points，去掉 **OC/core signals** 损失 10.0 points，说明 dynamic replacement 和 core signals 对 endpoint retention 很关键。
+
+**表 3. 已完成的成本审计**
+
+|实验/方法|Invalid|调用数|Tokens|时间|Risk-all|
+|---|---:|---:|---:|---:|---:|
+|gpt-4o Naive|15.0%|1.0|18.2K|17.7s|29.4|
+|gpt-4o LEA|0|16.7|58.8K|162.7s|42.5|
+|gpt-4o SA|0|48.9|163.6K|498.1s|**77.5**|
+|Flash Naive|0|1.0|26.6K|9.4s|57.5|
+|Flash LEA|0|15.6|53.2K|54.9s|65.0|
+|Flash SA|0|45.9|148.2K|164.5s|**95.0**|
+
+我们会显式加入成本/时间关系式：
+
+`T_wall(p) ~= T_serial + sum_g ceil(n_g / p_g) * t_g`，其中 `n_g` 是第 `g` 组 rollout 调用数，`p_g` 是有效并行度，`t_g` 是单次调用延迟。提高 `p_g` 可以缩短 wall-clock time，但总调用数和 token 总量仍是 `sum_g n_g` 和 `sum(tokens)`。
+
+组件消融的效果非常可观：证据最强的是 **critical-pair revisiting**、**graph-guided local-window selection** 和 **dynamic/replacement core construction**。relation memory 与 final pair closure 当前消融结果混合或影响较小，我们会更谨慎表述。成本审计也说明，SA-MCGS 可以作为一种 inference-time-compute 选择：提高 rollout 并发可以显著优化 wall-clock runtime，calls/tokens 则仍是实际成本核算口径。这为困难 cyclic cases 提供了单次长上下文或单次 deep-reasoning generation 之外的额外选择。我们也会把 “Appendix 9” 修正为 “Appendix J”，并明确 oracle-risk Naive 是由 ground-truth risk metrics 选择的 boosted full-SCC baseline。
+
+## To Reviewer rxvy
+
+**Comment title:** Follow-up evidence on strengthened baseline fairness, benchmark scope, and responsible interpretation
+
+Thank you again for the thoughtful review. We especially appreciated that your comments separated baseline fairness, model-level behavior, injected-risk scope, component attribution, and deployment risk. Following our first response, we now provide the promised evidence in the same structure: **(1) a stronger graph-aware decomposed comparator**, **(2) component-level ablations**, **(3) cost/reliability accounting with an explicit parallel-time formula**, and **(4) a narrower benchmark/deployment framing**. The resulting interpretation is more specific: **SA-MCGS gives substantial Risk-all gains on gpt-4o and Gemini 2.5 Flash, while Gemini 2.5 Pro puts both LEA and SA-MCGS in a high-performance regime**. This supports SA-MCGS most clearly when cyclic SCCs require repeated structure-aware evidence accumulation for endpoint-complete subgraphs. The component ablations show sizeable effects, making the mechanism story much more concrete. The cost audit also shows that increasing rollout parallelism/concurrency can substantially reduce SA-MCGS wall-clock time, while calls/tokens remain the accounting cost; this gives an additional inference-time compute choice for hard cases.
+
+LEA directly addresses the baseline-fairness issue: it keeps deterministic graph-window retrieval and the same local evidence schema, then uses fixed aggregation, while excluding relation memory, critical-pair revisiting, OC/core signals, rollout selection, and dynamic/replacement core construction. Thus the comparison separates graph-aware decomposition from the additional SCC-aware search and memory mechanisms.
+
+**Evidence tables included in this comment.** All performance entries are percentages.
+
+**T1. Strengthened baseline: LEA vs. SA-MCGS**
+
+|Slice|LEA R@3/All|SA R@3/All|Delta All|
+|---|---:|---:|---:|
+|Matched|83.8/66.2|86.9/**79.4**|**+13.1**|
+|Gemini 2.5 Pro|88.8/**88.8**|87.5/83.8|-5.0|
+|gpt-4o|78.8/43.8|86.2/**75.0**|**+31.2**|
+|Gemini 2.5 Flash|82.5/65.0|92.5/**95.0**|**+30.0**|
+
+**T2. Component ablations: Risk-all**
+
+|Ablation|Full|Ablated|Delta|
+|---|---:|---:|---:|
+|No critical-pair revisit|75.0|53.8|**-21.3**|
+|Random local window|75.0|63.7|**-11.3**|
+|No relation memory|75.0|80.0|+5.0|
+|No OC/core signal|70.0|60.0|**-10.0**|
+|Monotone core|70.0|45.0|**-25.0**|
+|No final pair closure|70.0|67.5|-2.5|
+
+The ablations also sharpen component attribution. The largest drops are **monotone core** (-25.0) and **no critical-pair revisit** (-21.3), which supports the claim that endpoint-complete recovery requires both dynamic core replacement and repeated attention to unresolved critical pairs. The random-window drop (-11.3) supports graph-guided local-window selection, while the OC/core-signal drop (-10.0) shows that core construction benefits from explicit structural signals.
+
+**T3. Completed cost audits**
+
+|Run|Invalid|Calls|Tokens|Time|Risk-all|
+|---|---:|---:|---:|---:|---:|
+|gpt-4o Naive|15.0%|1.0|18.2K|17.7s|29.4|
+|gpt-4o LEA|0|16.7|58.8K|162.7s|42.5|
+|gpt-4o SA|0|48.9|163.6K|498.1s|**77.5**|
+|Flash Naive|0|1.0|26.6K|9.4s|57.5|
+|Flash LEA|0|15.6|53.2K|54.9s|65.0|
+|Flash SA|0|45.9|148.2K|164.5s|**95.0**|
+
+We will add the cost/time relation explicitly:
+
+`T_wall(p) ~= T_serial + sum_g ceil(n_g / p_g) * t_g`, where `n_g` is the number of rollout calls in group `g`, `p_g` is effective parallelism, and `t_g` is per-call latency. Increasing `p_g` reduces wall-clock time, while total calls and tokens remain `sum_g n_g` and `sum(tokens)`.
+
+The same evidence also narrows the benchmark claim. We will describe the benchmark as a **controlled structural-risk stress test**, not as a direct sample of naturally occurring high-stakes risk distributions. The expert audit supports recognizability and semantic plausibility of the injected risks, but not distributional equivalence. Deployment-wise, we will frame SA-MCGS as **decision support**, not automated risk adjudication. The cost audit provides an important additional choice: SA-MCGS spends more calls/tokens for higher strict endpoint completeness, but rollout parallelism can substantially reduce wall-clock runtime. The component ablations are also large enough to make the mechanism story more concrete, especially for critical-pair revisiting and dynamic/replacement core construction.
+
+### 中文翻译
+
+**评论标题：** 关于强化 baseline fairness、benchmark scope 和 responsible interpretation 的补充证据
+
+再次感谢您深入的审阅。您的意见帮助我们区分 baseline fairness、model-level behavior、injected-risk scope、组件归因和部署风险。承接第一轮回复，我们现在按同一结构补充承诺过的证据：**(1) 更强的 graph-aware decomposed comparator**、**(2) 组件级消融**、**(3) 带并行时间公式的成本/可靠性核算**，以及 **(4) 更收窄的 benchmark/deployment framing**。新的解释更加聚焦：**SA-MCGS 在 gpt-4o 和 Gemini 2.5 Flash 上带来显著 Risk-all 提升；Gemini 2.5 Pro 上 LEA 和 SA-MCGS 都表现出较高水平**。这说明 SA-MCGS 的优势最清楚地体现在 cyclic SCCs 需要反复结构感知证据积累、以保留 endpoint-complete subgraphs 的场景中。组件消融显示出非常可观的效果，使机制解释更具体。成本审计也表明，提高 rollout 并行度/并发度可以显著优化 SA-MCGS 的 wall-clock 时间，而 calls/tokens 仍是实际成本核算口径；这为困难案例提供了一种额外的 inference-time compute 选择。
+
+LEA 直接回应 baseline fairness 问题：它保留 deterministic graph-window retrieval 和相同的 local evidence schema，然后使用固定聚合规则；同时排除 relation memory、critical-pair revisiting、OC/core signals、rollout selection 和 dynamic/replacement core construction。因此，这个比较可以区分 graph-aware decomposition 的收益和额外 SCC-aware search/memory 机制的收益。
+
+**本评论包含的证据表。** 所有性能数值均为百分比。
+
+**表 1. 强化后的 baseline：LEA vs. SA-MCGS**
+
+|口径|LEA R@3/All|SA R@3/All|All 差值|
+|---|---:|---:|---:|
+|Matched 总体|83.8/66.2|86.9/**79.4**|**+13.1**|
+|Gemini 2.5 Pro|88.8/**88.8**|87.5/83.8|-5.0|
+|gpt-4o|78.8/43.8|86.2/**75.0**|**+31.2**|
+|Gemini 2.5 Flash|82.5/65.0|92.5/**95.0**|**+30.0**|
+
+**表 2. 组件级消融：Risk-all**
+
+|消融项|完整方法|消融后|差值|
+|---|---:|---:|---:|
+|去掉 critical-pair revisit|75.0|53.8|**-21.3**|
+|随机 local window|75.0|63.7|**-11.3**|
+|去掉 relation memory|75.0|80.0|+5.0|
+|去掉 OC/core signal|70.0|60.0|**-10.0**|
+|Monotone core|70.0|45.0|**-25.0**|
+|去掉 final pair closure|70.0|67.5|-2.5|
+
+消融也让组件归因更清楚。下降最大的是 **monotone core**（-25.0）和 **no critical-pair revisit**（-21.3），支持 endpoint-complete recovery 同时需要 dynamic core replacement 和对 unresolved critical pairs 的反复关注。Random-window 下降 11.3 points，支持 graph-guided local-window selection；OC/core-signal 下降 10.0 points，说明 core construction 受益于显式结构信号。
+
+**表 3. 已完成的成本审计**
+
+|实验/方法|Invalid|调用数|Tokens|时间|Risk-all|
+|---|---:|---:|---:|---:|---:|
+|gpt-4o Naive|15.0%|1.0|18.2K|17.7s|29.4|
+|gpt-4o LEA|0|16.7|58.8K|162.7s|42.5|
+|gpt-4o SA|0|48.9|163.6K|498.1s|**77.5**|
+|Flash Naive|0|1.0|26.6K|9.4s|57.5|
+|Flash LEA|0|15.6|53.2K|54.9s|65.0|
+|Flash SA|0|45.9|148.2K|164.5s|**95.0**|
+
+我们会显式加入成本/时间关系式：
+
+`T_wall(p) ~= T_serial + sum_g ceil(n_g / p_g) * t_g`，其中 `n_g` 是第 `g` 组 rollout 调用数，`p_g` 是有效并行度，`t_g` 是单次调用延迟。提高 `p_g` 可以缩短 wall-clock time，但总调用数和 token 总量仍是 `sum_g n_g` 和 `sum(tokens)`。
+
+同一组证据也会收窄 benchmark 的主张。我们会把 benchmark 描述为 **controlled structural-risk stress test**，而不是真实高风险分布的直接样本；expert audit 支持 injected risks 的可识别性和语义合理性，但不证明分布等价。部署上，SA-MCGS 会被定位为 **decision support**，不是 automated risk adjudication。成本审计提供了一个重要的额外选择：SA-MCGS 用更多 calls/tokens 换取更高的严格 endpoint completeness，但提高 rollout 并发可以显著优化 wall-clock runtime。组件消融的幅度也非常可观，使机制解释更具体，尤其是 critical-pair revisiting 和 dynamic/replacement core construction。
+
+## To Reviewer wWUk
+
+**Comment title:** Follow-up evidence on strengthened graph-aware baseline and cost-performance tradeoffs
+
+Thank you again for the constructive review and for recognizing the motivation, cyclic-graph failure mode, framework integration, and reproducibility effort. Your first-round suggestions focused on representative graph-aware baselines and cost-performance analysis, so our follow-up is organized around those promised additions: **GraphRAG-style LEA**, component ablations, and cost accounting with an explicit parallel-time formula. LEA uses deterministic graph-window retrieval and the same local evidence schema as SA-MCGS, but without relation memory, critical-pair revisiting, OC/core signals, rollout selection, or dynamic-core replacement. The resulting pattern is clear: SA-MCGS gives large Risk-all gains on **gpt-4o** and **Gemini 2.5 Flash**, while **Gemini 2.5 Pro** keeps both LEA and SA-MCGS at a high level. The component ablations show substantial effects, and the cost audit shows that SA-MCGS wall-clock time can be improved by increasing rollout parallelism/concurrency, giving practitioners an additional inference-time compute choice.
+
+Operationally, LEA retrieves deterministic local graph windows, asks the model to fill the same local evidence schema used by SA-MCGS, and aggregates root/endpoint evidence with fixed rules. It therefore represents a strengthened graph-aware baseline rather than another full-SCC prompting variant, while leaving out the search, memory, and dynamic-core components that distinguish SA-MCGS.
+
+**Evidence tables included in this comment.** All performance entries are percentages.
+
+**T1. Strengthened baseline: LEA vs. SA-MCGS**
+
+|Slice|LEA R@3/All|SA R@3/All|Delta All|
+|---|---:|---:|---:|
+|Matched|83.8/66.2|86.9/**79.4**|**+13.1**|
+|Gemini 2.5 Pro|88.8/**88.8**|87.5/83.8|-5.0|
+|gpt-4o|78.8/43.8|86.2/**75.0**|**+31.2**|
+|Gemini 2.5 Flash|82.5/65.0|92.5/**95.0**|**+30.0**|
+
+**T2. Component ablations: Risk-all**
+
+|Ablation|Full|Ablated|Delta|
+|---|---:|---:|---:|
+|No critical-pair revisit|75.0|53.8|**-21.3**|
+|Random local window|75.0|63.7|**-11.3**|
+|No relation memory|75.0|80.0|+5.0|
+|No OC/core signal|70.0|60.0|**-10.0**|
+|Monotone core|70.0|45.0|**-25.0**|
+|No final pair closure|70.0|67.5|-2.5|
+
+The ablation table further shows why the method is not just a larger prompt decomposition. **Critical-pair revisiting** and **dynamic/replacement core construction** have the largest measured effects (-21.3 and -25.0 Risk-all points when removed/flattened). Graph-guided window selection and OC/core signals also matter (-11.3 and -10.0). This supports a mechanism story centered on repeated pair resolution and adaptive core construction.
+
+**T3. Completed cost audits**
+
+|Run|Invalid|Calls|Tokens|Time|Risk-all|
+|---|---:|---:|---:|---:|---:|
+|gpt-4o Naive|15.0%|1.0|18.2K|17.7s|29.4|
+|gpt-4o LEA|0|16.7|58.8K|162.7s|42.5|
+|gpt-4o SA|0|48.9|163.6K|498.1s|**77.5**|
+|Flash Naive|0|1.0|26.6K|9.4s|57.5|
+|Flash LEA|0|15.6|53.2K|54.9s|65.0|
+|Flash SA|0|45.9|148.2K|164.5s|**95.0**|
+
+We will add the cost/time relation explicitly:
+
+`T_wall(p) ~= T_serial + sum_g ceil(n_g / p_g) * t_g`, where `n_g` is the number of rollout calls in group `g`, `p_g` is effective parallelism, and `t_g` is per-call latency. Increasing `p_g` reduces wall-clock time, while total calls and tokens remain `sum_g n_g` and `sum(tokens)`.
+
+The result identifies a strong target setting. SA-MCGS gives large Risk-all gains on gpt-4o and Gemini 2.5 Flash, while **Gemini 2.5 Pro keeps both LEA and SA-MCGS at a high level**. We will present SA-MCGS as a **cost-performance tradeoff**, not a free improvement: it uses more inference-time compute to solve difficult cyclic cases more reliably. At the same time, the cost audit shows that increasing rollout concurrency can substantially reduce wall-clock runtime, giving practitioners an additional inference-time compute choice. The ablation effects are also substantial and support critical-pair revisiting, graph-guided local windows, and dynamic/replacement core construction, while weaker components will be described cautiously.
+
+### 中文翻译
+
+**评论标题：** 关于强化后的 graph-aware baseline 和 cost-performance tradeoff 的补充证据
+
+再次感谢您建设性的审阅，也感谢您认可本文的问题动机、cyclic-graph failure mode、框架整合和 reproducibility 工作。您第一轮建议重点集中在 representative graph-aware baselines 和 cost-performance analysis，因此我们这次 follow-up 也围绕这些承诺补充：**GraphRAG-style LEA**、组件消融，以及带并行时间公式的成本核算。LEA 使用 deterministic graph-window retrieval 和与 SA-MCGS 相同的 local evidence schema，但不使用 relation memory、critical-pair revisiting、OC/core signals、rollout selection 或 dynamic-core replacement。结果模式很清楚：SA-MCGS 在 **gpt-4o** 和 **Gemini 2.5 Flash** 上带来显著 Risk-all 提升；在 **Gemini 2.5 Pro** 上，LEA 和 SA-MCGS 都保持较高水平。组件消融显示出非常可观的效果；成本审计也表明，可以通过提高 rollout 并行度/并发度优化 SA-MCGS 的 wall-clock 时间，为实践者提供一种额外的 inference-time compute 选择。
+
+操作上，LEA 会检索 deterministic local graph windows，让模型填写与 SA-MCGS 相同的 local evidence schema，并用固定规则聚合 root/endpoint evidence。因此它是一个强化后的 graph-aware baseline，而不是另一个 full-SCC prompting variant；同时它不包含 SA-MCGS 中用于区分方法贡献的 search、memory 和 dynamic-core components。
+
+**本评论包含的证据表。** 所有性能数值均为百分比。
+
+**表 1. 强化后的 baseline：LEA vs. SA-MCGS**
+
+|口径|LEA R@3/All|SA R@3/All|All 差值|
+|---|---:|---:|---:|
+|Matched 总体|83.8/66.2|86.9/**79.4**|**+13.1**|
+|Gemini 2.5 Pro|88.8/**88.8**|87.5/83.8|-5.0|
+|gpt-4o|78.8/43.8|86.2/**75.0**|**+31.2**|
+|Gemini 2.5 Flash|82.5/65.0|92.5/**95.0**|**+30.0**|
+
+**表 2. 组件级消融：Risk-all**
+
+|消融项|完整方法|消融后|差值|
+|---|---:|---:|---:|
+|去掉 critical-pair revisit|75.0|53.8|**-21.3**|
+|随机 local window|75.0|63.7|**-11.3**|
+|去掉 relation memory|75.0|80.0|+5.0|
+|去掉 OC/core signal|70.0|60.0|**-10.0**|
+|Monotone core|70.0|45.0|**-25.0**|
+|去掉 final pair closure|70.0|67.5|-2.5|
+
+消融表进一步说明，该方法并不只是更大的 prompt decomposition。**Critical-pair revisiting** 和 **dynamic/replacement core construction** 的测得作用最大，移除或压平成 monotone core 时分别损失 21.3 和 25.0 个 Risk-all points。Graph-guided window selection 与 OC/core signals 也有明显作用，分别损失 11.3 和 10.0 points。这支持以 repeated pair resolution 和 adaptive core construction 为中心的机制解释。
+
+**表 3. 已完成的成本审计**
+
+|实验/方法|Invalid|调用数|Tokens|时间|Risk-all|
+|---|---:|---:|---:|---:|---:|
+|gpt-4o Naive|15.0%|1.0|18.2K|17.7s|29.4|
+|gpt-4o LEA|0|16.7|58.8K|162.7s|42.5|
+|gpt-4o SA|0|48.9|163.6K|498.1s|**77.5**|
+|Flash Naive|0|1.0|26.6K|9.4s|57.5|
+|Flash LEA|0|15.6|53.2K|54.9s|65.0|
+|Flash SA|0|45.9|148.2K|164.5s|**95.0**|
+
+我们会显式加入成本/时间关系式：
+
+`T_wall(p) ~= T_serial + sum_g ceil(n_g / p_g) * t_g`，其中 `n_g` 是第 `g` 组 rollout 调用数，`p_g` 是有效并行度，`t_g` 是单次调用延迟。提高 `p_g` 可以缩短 wall-clock time，但总调用数和 token 总量仍是 `sum_g n_g` 和 `sum(tokens)`。
+
+结果给出了清晰的优势场景：SA-MCGS 在 gpt-4o 和 Gemini 2.5 Flash 上 Risk-all 提升显著；**Gemini 2.5 Pro 上 LEA 和 SA-MCGS 都保持较高水平**。我们会把 SA-MCGS 表述为 **cost-performance tradeoff**，而不是“免费提升”：它使用更多 inference-time compute 来更可靠地解决困难 cyclic cases。同时，成本审计表明，提高 rollout 并发可以显著优化 wall-clock runtime，为实践者提供一种额外的 inference-time compute 选择。组件消融的效果也非常可观，进一步支持 critical-pair revisiting、graph-guided local windows 和 dynamic/replacement core construction；证据较弱的组件会谨慎表述。
