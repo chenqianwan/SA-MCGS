@@ -1,0 +1,409 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (sec_ex21); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gemini-2.5-flash",
+  "domain": "sec_ex21",
+  "scc_size": 9,
+  "scc_id": "scc_7",
+  "scc_clause_ids": [
+    "us-cw-1017834",
+    "us-cw-3674429",
+    "us-cw-3682211",
+    "us-cw-3682213",
+    "us-cw-3682810",
+    "us-cw-3682811",
+    "us-cw-3682212",
+    "us-cw-3684902",
+    "us-cw-617657"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 1919,
+    "completion_tokens": 1342,
+    "total_tokens": 3261
+  },
+  "time": 4.8035500049591064,
+  "scores": {
+    "us-cw-1017834": 0.3,
+    "us-cw-3674429": 0.2,
+    "us-cw-3682211": 0.6,
+    "us-cw-3682213": 0.4,
+    "us-cw-3682810": 0.5,
+    "us-cw-3682811": 0.95,
+    "us-cw-3682212": 0.9,
+    "us-cw-3684902": 0.1,
+    "us-cw-617657": 0.1
+  },
+  "reasonings": {
+    "us-cw-1017834": "Systemic root, no intrinsic conflict.",
+    "us-cw-3674429": "Downstream reference dependency.",
+    "us-cw-3682211": "Lacks conversion point definition.",
+    "us-cw-3682213": "Convergent dependency node.",
+    "us-cw-3682810": "Associated with blocking inconsistency.",
+    "us-cw-3682811": "Identifies blocking inconsistency.",
+    "us-cw-3682212": "Identifies mutually exclusive state path.",
+    "us-cw-3684902": "Neutral reference.",
+    "us-cw-617657": "Neutral reference."
+  },
+  "ranking": [
+    [
+      "us-cw-3682811",
+      0.95
+    ],
+    [
+      "us-cw-3682212",
+      0.9
+    ],
+    [
+      "us-cw-3682211",
+      0.6
+    ],
+    [
+      "us-cw-3682810",
+      0.5
+    ],
+    [
+      "us-cw-3682213",
+      0.4
+    ],
+    [
+      "us-cw-1017834",
+      0.3
+    ],
+    [
+      "us-cw-3674429",
+      0.2
+    ],
+    [
+      "us-cw-3684902",
+      0.1
+    ],
+    [
+      "us-cw-617657",
+      0.1
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "us-cw-3682811",
+      "risk_score": 0.95,
+      "risk_factors": [
+        "logic_contradiction"
+      ],
+      "reasoning": "Explicitly identifies a 'blocking inconsistency' regarding minority interest state application."
+    },
+    {
+      "rank": 2,
+      "clause_id": "us-cw-3682212",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "logic_contradiction"
+      ],
+      "reasoning": "Creates an invalid state where the record is 'simultaneously allowed and barred' due to conflicting dependency paths."
+    },
+    {
+      "rank": 3,
+      "clause_id": "us-cw-3682211",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "structural_inconsistency"
+      ],
+      "reasoning": "Forwards mandatory state without defining a conversion point, propagating risk downstream."
+    },
+    {
+      "rank": 4,
+      "clause_id": "us-cw-3682810",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "structural_inconsistency"
+      ],
+      "reasoning": "Part of the immediate conflict path with us-cw-3682811."
+    },
+    {
+      "rank": 5,
+      "clause_id": "us-cw-3682213",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "dependency_load"
+      ],
+      "reasoning": "Central convergence point for inconsistent dependency paths."
+    },
+    {
+      "rank": 6,
+      "clause_id": "us-cw-1017834",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "dependency_load"
+      ],
+      "reasoning": "Root influence point for multiple dependency paths."
+    },
+    {
+      "rank": 7,
+      "clause_id": "us-cw-3674429",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "dependency_load"
+      ],
+      "reasoning": "Upstream reference in the Luxembourg path."
+    },
+    {
+      "rank": 8,
+      "clause_id": "us-cw-3684902",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "structural_inconsistency"
+      ],
+      "reasoning": "Low risk, incidental structural reference."
+    },
+    {
+      "rank": 9,
+      "clause_id": "us-cw-617657",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "structural_inconsistency"
+      ],
+      "reasoning": "Low risk, terminal node in the current assessment."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "logic_contradiction",
+      "importance_weight": 0.9,
+      "description": "Directly conflicting state logic (mandatory vs. barred) within the same dependency chain."
+    },
+    {
+      "factor": "structural_inconsistency",
+      "importance_weight": 0.7,
+      "description": "Records that fail to provide a valid fallback state during dependency transition."
+    },
+    {
+      "factor": "dependency_load",
+      "importance_weight": 0.4,
+      "description": "High-impact nodes that propagate ambiguity through the dependency graph."
+    }
+  ],
+  "risk_factor_weight_sum": 2.0,
+  "direct_risk_subgraph_nodes": [
+    "us-cw-3682811",
+    "us-cw-3682810",
+    "us-cw-3682212"
+  ],
+  "direct_risk_subgraph_size": 3,
+  "direct_compression_ratio": 0.6666666666666667,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "These nodes capture the specific locations of the 'blocking inconsistency' and the 'simultaneously allowed and barred' logical failure. They represent the active failure points in the state logic.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "us-cw-3682811",
+      "target": "us-cw-3682810",
+      "reason": "Direct reference where the downstream blocking inconsistency is triggered."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "us-cw-3682811",
+    "us-cw-3682810",
+    "us-cw-3682212"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 8,
+  "largest_tie_count": 2,
+  "tied_score_groups": [
+    {
+      "score": 0.1,
+      "count": 2,
+      "nodes": [
+        "us-cw-3684902",
+        "us-cw-617657"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "clause_a": "us-cw-3682811",
+      "clause_b": "us-cw-3682810",
+      "description": "Downstream record treats minority interest as a blocking inconsistency against the upstream state."
+    },
+    {
+      "clause_a": "us-cw-3682212",
+      "clause_b": "us-cw-3682212",
+      "description": "Internal contradiction where the same record is simultaneously allowed and barred due to quarter-close scheduling."
+    }
+  ],
+  "score_spread": 0.85,
+  "ranking_score_spread": 0.85,
+  "score_mean": 0.44999999999999996,
+  "score_max": 0.95,
+  "node_names": {
+    "us-cw-1017834": "SkillSoft Corporation",
+    "us-cw-3674429": "Pointwell Limited",
+    "us-cw-3682211": "Skillsoft Finance I Inc",
+    "us-cw-3682213": "Skillsoft Finance II Inc",
+    "us-cw-3682810": "Software Luxembourg Acquisition S.a r.l.",
+    "us-cw-3682811": "Software Luxembourg Intermediate S.a r.l.",
+    "us-cw-3682212": "Skillsoft Finance I LLC",
+    "us-cw-3684902": "SSI Investments I Limited",
+    "us-cw-617657": "SSI Investments II Limited"
+  },
+  "ground_truth_nodes": [
+    "us-cw-3682212"
+  ],
+  "gt_evidence": {
+    "us-cw-3682212": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": true,
+  "prompt_word_count": 803,
+  "injected_title_occurrences_in_prompt": 4,
+  "injected_id_occurrences_in_prompt": 3,
+  "injected_title_first_word_ratio": 0.2777085927770859,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.28393524283935245,
+  "inject_mode": true,
+  "injected_node": "us-cw-3682212",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-3682811",
+  "injected_witness_distance": 4,
+  "injected_bridge_node": "us-cw-3682211",
+  "injected_bridge_distance": 2,
+  "injected_risk_nodes": [
+    "us-cw-3682212",
+    "us-cw-3682811"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-3682212",
+    "us-cw-3682211",
+    "us-cw-3682811"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-1017834",
+    "us-cw-3682810"
+  ],
+  "injected_conflict_family": "temporal_gate",
+  "injected_conflict_difficulty": "subtle",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_temporal_quarter_close_gate_critical",
+  "injected_rank": 2,
+  "top1_margin": 0.04999999999999993,
+  "risk_node_ranks": {
+    "us-cw-3682212": 2,
+    "us-cw-3682811": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "us-cw-3682212": 2,
+    "us-cw-3682211": 3,
+    "us-cw-3682811": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 3,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "us-cw-1017834": 6,
+    "us-cw-3682810": 4
+  },
+  "affected_best_rank": 4,
+  "affected_worst_rank": 6,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-3682212": 2,
+    "us-cw-3682811": 1,
+    "us-cw-1017834": 6,
+    "us-cw-3682810": 4
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 6,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "direct_subgraph_nodes_retained": [
+    "us-cw-3682811",
+    "us-cw-3682810",
+    "us-cw-3682212"
+  ],
+  "direct_contains_injected_node": true,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": true,
+  "direct_risk_nodes_retained": [
+    "us-cw-3682212",
+    "us-cw-3682811"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": false,
+  "direct_evidence_nodes_retained": [
+    "us-cw-3682212",
+    "us-cw-3682811"
+  ],
+  "direct_contains_any_affected_node": true,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [
+    "us-cw-3682810"
+  ],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "us-cw-3682212",
+    "us-cw-3682811",
+    "us-cw-3682810"
+  ],
+  "case_id": "28_sec_ex2118_scc_7_temporal_gate",
+  "case_order": 28,
+  "audit_started_at": 1783866697.407228,
+  "audit_completed_at": 1783866702.211155,
+  "audit_started_at_iso": "2026-07-12T22:31:37+0800",
+  "audit_completed_at_iso": "2026-07-12T22:31:42+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 1919,
+    "completion_tokens": 1342,
+    "total_tokens": 3261,
+    "api_runtime_sec_sum": 4.802137136459351
+  }
+}

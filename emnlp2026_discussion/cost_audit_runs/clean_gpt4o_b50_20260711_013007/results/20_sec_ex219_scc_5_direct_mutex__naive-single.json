@@ -1,0 +1,465 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (sec_ex21); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gpt-4o",
+  "domain": "sec_ex21",
+  "scc_size": 11,
+  "scc_id": "scc_5",
+  "scc_clause_ids": [
+    "us-cw-1021205",
+    "us-cw-1113239",
+    "us-cw-1843",
+    "us-cw-423245",
+    "us-cw-489773",
+    "us-cw-592095",
+    "us-cw-74745",
+    "us-cw-406176",
+    "us-cw-74754",
+    "us-cw-74755",
+    "us-cw-904366"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 1968,
+    "completion_tokens": 1824,
+    "total_tokens": 3792
+  },
+  "time": 12.751648902893066,
+  "scores": {
+    "us-cw-1021205": 0.4,
+    "us-cw-1113239": 0.3,
+    "us-cw-1843": 1.0,
+    "us-cw-423245": 0.9,
+    "us-cw-489773": 0.2,
+    "us-cw-592095": 0.2,
+    "us-cw-74745": 0.6,
+    "us-cw-406176": 0.7,
+    "us-cw-74754": 0.1,
+    "us-cw-74755": 0.5,
+    "us-cw-904366": 0.1
+  },
+  "reasonings": {
+    "us-cw-1021205": "Referenced by multiple nodes but lacks sufficient detail to resolve dependencies.",
+    "us-cw-1113239": "Moderately central node with multiple references, but no direct conflicts identified.",
+    "us-cw-1843": "Central node with numerous dependencies and part of a cycle with us-cw-423245.",
+    "us-cw-423245": "Part of a cycle with us-cw-1843, creating structural inconsistency.",
+    "us-cw-489773": "Depends on us-cw-74755, which is itself underspecified, propagating ambiguity.",
+    "us-cw-592095": "Depends on us-cw-74755, which is itself underspecified, propagating ambiguity.",
+    "us-cw-74745": "Highly central node with multiple outgoing references, amplifying the impact of any inconsistencies.",
+    "us-cw-406176": "Contains mutually incompatible consolidation rules that conflict with downstream states.",
+    "us-cw-74754": "Depends on us-cw-74755, but the impact is less severe due to fewer dependencies.",
+    "us-cw-74755": "Depends on multiple nodes with ambiguous relationships, leading to potential structural issues.",
+    "us-cw-904366": "Depends on us-cw-74755, but the impact is less severe due to fewer dependencies."
+  },
+  "ranking": [
+    [
+      "us-cw-1843",
+      1.0
+    ],
+    [
+      "us-cw-423245",
+      0.9
+    ],
+    [
+      "us-cw-406176",
+      0.7
+    ],
+    [
+      "us-cw-74745",
+      0.6
+    ],
+    [
+      "us-cw-74755",
+      0.5
+    ],
+    [
+      "us-cw-1021205",
+      0.4
+    ],
+    [
+      "us-cw-1113239",
+      0.3
+    ],
+    [
+      "us-cw-489773",
+      0.2
+    ],
+    [
+      "us-cw-592095",
+      0.2
+    ],
+    [
+      "us-cw-74754",
+      0.1
+    ],
+    [
+      "us-cw-904366",
+      0.1
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "us-cw-1843",
+      "risk_score": 1.0,
+      "risk_factors": [
+        "cyclic_dependency",
+        "high_dependency_centrality"
+      ],
+      "reasoning": "This node is central to the graph, with numerous outgoing references, and participates in a cycle with us-cw-423245."
+    },
+    {
+      "rank": 2,
+      "clause_id": "us-cw-423245",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "cyclic_dependency"
+      ],
+      "reasoning": "This node is part of a cycle with us-cw-1843, creating structural inconsistency."
+    },
+    {
+      "rank": 3,
+      "clause_id": "us-cw-406176",
+      "risk_score": 0.7,
+      "risk_factors": [
+        "mutual_incompatibility"
+      ],
+      "reasoning": "Contains conflicting consolidation rules that are incompatible with downstream states."
+    },
+    {
+      "rank": 4,
+      "clause_id": "us-cw-74745",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "high_dependency_centrality"
+      ],
+      "reasoning": "Highly central node with multiple outgoing references, amplifying the impact of any inconsistencies."
+    },
+    {
+      "rank": 5,
+      "clause_id": "us-cw-74755",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "underspecified_dependency"
+      ],
+      "reasoning": "Depends on multiple nodes with ambiguous relationships, leading to potential structural issues."
+    },
+    {
+      "rank": 6,
+      "clause_id": "us-cw-1021205",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "underspecified_dependency"
+      ],
+      "reasoning": "Referenced by multiple nodes but lacks sufficient detail to resolve dependencies."
+    },
+    {
+      "rank": 7,
+      "clause_id": "us-cw-1113239",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "high_dependency_centrality"
+      ],
+      "reasoning": "Moderately central node with multiple references, but no direct conflicts identified."
+    },
+    {
+      "rank": 8,
+      "clause_id": "us-cw-489773",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "underspecified_dependency"
+      ],
+      "reasoning": "Depends on us-cw-74755, which is itself underspecified, propagating ambiguity."
+    },
+    {
+      "rank": 9,
+      "clause_id": "us-cw-592095",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "underspecified_dependency"
+      ],
+      "reasoning": "Depends on us-cw-74755, which is itself underspecified, propagating ambiguity."
+    },
+    {
+      "rank": 10,
+      "clause_id": "us-cw-74754",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "underspecified_dependency"
+      ],
+      "reasoning": "Depends on us-cw-74755, but the impact is less severe due to fewer dependencies."
+    },
+    {
+      "rank": 11,
+      "clause_id": "us-cw-904366",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "underspecified_dependency"
+      ],
+      "reasoning": "Depends on us-cw-74755, but the impact is less severe due to fewer dependencies."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "cyclic_dependency",
+      "importance_weight": 0.4,
+      "description": "Captures cycles in the graph where records depend on each other in a loop, leading to structural inconsistency."
+    },
+    {
+      "factor": "underspecified_dependency",
+      "importance_weight": 0.3,
+      "description": "Captures records that depend on others without sufficient detail or clarity, leading to ambiguity."
+    },
+    {
+      "factor": "mutual_incompatibility",
+      "importance_weight": 0.2,
+      "description": "Captures records with conflicting states or constraints that cannot coexist."
+    },
+    {
+      "factor": "high_dependency_centrality",
+      "importance_weight": 0.1,
+      "description": "Captures records that are highly central in the graph and thus have a high impact on structural consistency."
+    }
+  ],
+  "risk_factor_weight_sum": 1.0,
+  "direct_risk_subgraph_nodes": [
+    "us-cw-1843",
+    "us-cw-423245",
+    "us-cw-406176"
+  ],
+  "direct_risk_subgraph_size": 3,
+  "direct_compression_ratio": 0.7272727272727273,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "This subgraph captures the key nodes involved in the most severe structural inconsistencies. us-cw-1843 and us-cw-423245 form a cycle, while us-cw-406176 introduces mutual incompatibility through conflicting consolidation rules.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "us-cw-1843",
+      "target": "us-cw-423245",
+      "reason": "Part of a cycle that creates structural inconsistency."
+    },
+    {
+      "source": "us-cw-423245",
+      "target": "us-cw-1843",
+      "reason": "Part of a cycle that creates structural inconsistency."
+    },
+    {
+      "source": "us-cw-1843",
+      "target": "us-cw-406176",
+      "reason": "References a node with mutually incompatible consolidation rules."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "us-cw-1843",
+    "us-cw-423245",
+    "us-cw-406176"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 9,
+  "largest_tie_count": 2,
+  "tied_score_groups": [
+    {
+      "score": 0.2,
+      "count": 2,
+      "nodes": [
+        "us-cw-489773",
+        "us-cw-592095"
+      ]
+    },
+    {
+      "score": 0.1,
+      "count": 2,
+      "nodes": [
+        "us-cw-74754",
+        "us-cw-904366"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "clause_a": "us-cw-1843",
+      "clause_b": "us-cw-423245",
+      "description": "These nodes form a cycle, creating structural inconsistency."
+    },
+    {
+      "clause_a": "us-cw-1843",
+      "clause_b": "us-cw-406176",
+      "description": "Conflicting consolidation rules create mutual incompatibility."
+    }
+  ],
+  "score_spread": 0.9,
+  "ranking_score_spread": 0.9,
+  "score_mean": 0.45454545454545453,
+  "score_max": 1.0,
+  "node_names": {
+    "us-cw-1021205": "UMB Fund Services Inc",
+    "us-cw-1113239": "UMB Financial Corp (Registrant & Parent Co)",
+    "us-cw-1843": "UMB FINANCIAL CORP",
+    "us-cw-423245": "b. Grand Avenue Distribution Services LLC",
+    "us-cw-489773": "j. Kansas City Realty Co",
+    "us-cw-592095": "i. Kansas City Realty Co",
+    "us-cw-74745": "UMB Bank n.a.",
+    "us-cw-406176": ". Warsaw Financial Corp",
+    "us-cw-74754": "Kansas City Realty Co",
+    "us-cw-74755": "UMB Realty Co LLC",
+    "us-cw-904366": "g. Kansas City Realty Co"
+  },
+  "ground_truth_nodes": [
+    "us-cw-406176"
+  ],
+  "gt_evidence": {
+    "us-cw-406176": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": true,
+  "prompt_word_count": 1023,
+  "injected_title_occurrences_in_prompt": 5,
+  "injected_id_occurrences_in_prompt": 3,
+  "injected_title_first_word_ratio": 0.2561094819159335,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.26099706744868034,
+  "inject_mode": true,
+  "injected_node": "us-cw-406176",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-423245",
+  "injected_witness_distance": 5,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "us-cw-406176",
+    "us-cw-423245"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-406176",
+    "us-cw-423245"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-592095",
+    "us-cw-1843"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_direct_full_consolidation_vs_retained_interest_critical",
+  "injected_rank": 3,
+  "top1_margin": 0.09999999999999998,
+  "risk_node_ranks": {
+    "us-cw-406176": 3,
+    "us-cw-423245": 2
+  },
+  "risk_best_rank": 2,
+  "risk_worst_rank": 3,
+  "risk_top1_hit": false,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "us-cw-406176": 3,
+    "us-cw-423245": 2
+  },
+  "evidence_best_rank": 2,
+  "evidence_worst_rank": 3,
+  "evidence_top1_hit": false,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "us-cw-592095": 9,
+    "us-cw-1843": 1
+  },
+  "affected_best_rank": 1,
+  "affected_worst_rank": 9,
+  "affected_top1_hit": true,
+  "affected_top3_hit": true,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-406176": 3,
+    "us-cw-423245": 2,
+    "us-cw-592095": 9,
+    "us-cw-1843": 1
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 9,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 3,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "direct_subgraph_nodes_retained": [
+    "us-cw-1843",
+    "us-cw-423245",
+    "us-cw-406176"
+  ],
+  "direct_contains_injected_node": true,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": true,
+  "direct_risk_nodes_retained": [
+    "us-cw-406176",
+    "us-cw-423245"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": true,
+  "direct_evidence_nodes_retained": [
+    "us-cw-406176",
+    "us-cw-423245"
+  ],
+  "direct_contains_any_affected_node": true,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [
+    "us-cw-1843"
+  ],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "us-cw-406176",
+    "us-cw-423245",
+    "us-cw-1843"
+  ],
+  "case_id": "20_sec_ex219_scc_5_direct_mutex",
+  "case_order": 20,
+  "audit_started_at": 1783720214.6790311,
+  "audit_completed_at": 1783720227.431079,
+  "audit_started_at_iso": "2026-07-11T05:50:14+0800",
+  "audit_completed_at_iso": "2026-07-11T05:50:27+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 1968,
+    "completion_tokens": 1824,
+    "total_tokens": 3792,
+    "api_runtime_sec_sum": 12.750498056411743
+  }
+}

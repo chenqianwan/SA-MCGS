@@ -1,0 +1,196 @@
+{
+  "method": "sa-mcgs",
+  "model": "gpt-4o",
+  "domain": "debian",
+  "scc_id": "scc_23",
+  "scc_size": 11,
+  "case_id": "16_debian11_scc_23_direct_mutex",
+  "case_order": 16,
+  "ablation_variant": "no-pair-closure-final-core",
+  "ablation_label": "No pair closure in final core (replay)",
+  "root_top3_hit": true,
+  "top3_hit": true,
+  "evidence_risk_subgraph_nodes": [
+    "node-deep-equal",
+    "node-es-abstract",
+    "node-parse-json",
+    "node-read-pkg",
+    "node-tape"
+  ],
+  "core_evidence_risk_subgraph_nodes": [
+    "node-deep-equal",
+    "node-es-abstract",
+    "node-parse-json",
+    "node-read-pkg",
+    "node-tape"
+  ],
+  "core_evidence_risk_subgraph_size": 5,
+  "core_evidence_compression_ratio": 0.5454545454545454,
+  "core_evidence_contains_any_risk_node": true,
+  "core_evidence_contains_all_risk_nodes": true,
+  "core_evidence_risk_nodes_retained": [
+    "node-parse-json",
+    "node-deep-equal"
+  ],
+  "core_evidence_risk_coverage": 1.0,
+  "core_evidence_contains_any_affected_node": true,
+  "core_evidence_contains_all_affected_nodes": false,
+  "core_evidence_contains_any_valuable_node": true,
+  "core_evidence_contains_all_valuable_nodes": false,
+  "injected_risk_nodes": [
+    "node-parse-json",
+    "node-deep-equal"
+  ],
+  "injected_affected_nodes": [
+    "node-read-pkg",
+    "node-debbundle-es-to-primitive"
+  ],
+  "source_full_result_file": "/Users/chenlong/WorkSpace/MCGS_Law/emnlp2026_discussion/component_ablation_runs/stage1_gpt4o_b60_ic4_cc4_20260711_main20/results/16_debian11_scc_23_direct_mutex__full-sa-mcgs-locked.json",
+  "stage2_replay_no_llm_calls": true,
+  "replay_completed_at_iso": "2026-07-11T21:13:20+0800",
+  "dynamic_core_priority_rows": [
+    {
+      "policy": "no-pair-closure-final-core",
+      "stop_reason": "hit_cap",
+      "cap": 5,
+      "core_size": 5,
+      "context_size": 11,
+      "hit_cap": true,
+      "oc_removed": false,
+      "monotone": false,
+      "pair_closure_enabled": false,
+      "protected_critical_nodes": [
+        "node-assert",
+        "node-debbundle-es-to-primitive",
+        "node-deep-equal",
+        "node-es-abstract",
+        "node-parse-json",
+        "node-read-pkg",
+        "node-tape"
+      ]
+    },
+    {
+      "clause_id": "node-deep-equal",
+      "priority": 1.4,
+      "evidence_score": 1.0,
+      "pair_score": 1.0,
+      "pair_endpoint_count": 6,
+      "support_count": 10,
+      "oc": true,
+      "selected": true,
+      "relative_priority": 1.0
+    },
+    {
+      "clause_id": "node-parse-json",
+      "priority": 1.1239181276073913,
+      "evidence_score": 0.7239181276073913,
+      "pair_score": 1.0,
+      "pair_endpoint_count": 3,
+      "support_count": 10,
+      "oc": true,
+      "selected": true,
+      "relative_priority": 0.8027986625767081
+    },
+    {
+      "clause_id": "node-es-abstract",
+      "priority": 0.8085975980389846,
+      "evidence_score": 0.5685975980389846,
+      "pair_score": 1.0,
+      "pair_endpoint_count": 4,
+      "support_count": 9,
+      "oc": false,
+      "selected": true,
+      "relative_priority": 0.577569712884989
+    },
+    {
+      "clause_id": "node-tape",
+      "priority": 0.6252524274315154,
+      "evidence_score": 0.3852524274315155,
+      "pair_score": 1.0,
+      "pair_endpoint_count": 4,
+      "support_count": 9,
+      "oc": false,
+      "selected": true,
+      "relative_priority": 0.4466088767367968
+    },
+    {
+      "clause_id": "node-read-pkg",
+      "priority": 0.5997859805435019,
+      "evidence_score": 0.35978598054350186,
+      "pair_score": 1.0,
+      "pair_endpoint_count": 2,
+      "support_count": 8,
+      "oc": false,
+      "selected": true,
+      "relative_priority": 0.4284185575310728
+    },
+    {
+      "clause_id": "node-debbundle-es-to-primitive",
+      "priority": 0.4499351709682702,
+      "evidence_score": 0.2142551709682702,
+      "pair_score": 0.9820000000000001,
+      "pair_endpoint_count": 3,
+      "support_count": 8,
+      "oc": false,
+      "selected": false,
+      "relative_priority": 0.32138226497733585
+    },
+    {
+      "clause_id": "node-assert",
+      "priority": 0.3439406083950068,
+      "evidence_score": 0.10584183508712837,
+      "pair_score": 0.9920782221161601,
+      "pair_endpoint_count": 1,
+      "support_count": 8,
+      "oc": false,
+      "selected": false,
+      "relative_priority": 0.24567186313929057
+    },
+    {
+      "clause_id": "node-istanbul",
+      "priority": 0.33830449764781856,
+      "evidence_score": 0.18049611080919126,
+      "pair_score": 0.6575349451609471,
+      "pair_endpoint_count": 2,
+      "support_count": 9,
+      "oc": false,
+      "selected": false,
+      "relative_priority": 0.24164606974844186
+    },
+    {
+      "clause_id": "node-define-properties",
+      "priority": 0.14282582197095073,
+      "evidence_score": 0.04374356180138253,
+      "pair_score": 0.4128427507065342,
+      "pair_endpoint_count": 2,
+      "support_count": 6,
+      "oc": false,
+      "selected": false,
+      "relative_priority": 0.10201844426496481
+    },
+    {
+      "clause_id": "libjs-util",
+      "priority": 0.12985453603609862,
+      "evidence_score": 0.03100163062765745,
+      "pair_score": 0.41188710586850485,
+      "pair_endpoint_count": 1,
+      "support_count": 5,
+      "oc": false,
+      "selected": false,
+      "relative_priority": 0.09275324002578474
+    },
+    {
+      "clause_id": "node-util",
+      "priority": 0.01837690551510724,
+      "evidence_score": 0.01837690551510724,
+      "pair_score": 0.0,
+      "pair_endpoint_count": 0,
+      "support_count": 5,
+      "oc": false,
+      "selected": false,
+      "relative_priority": 0.013126361082219458
+    }
+  ],
+  "ablation_source": "stage2_core_only_replay",
+  "canonical_scc_size_bin": "small (9-11)"
+}

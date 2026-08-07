@@ -1,0 +1,412 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (sec_ex21); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gemini-2.5-flash",
+  "domain": "sec_ex21",
+  "scc_size": 10,
+  "scc_id": "scc_2",
+  "scc_clause_ids": [
+    "us-cw-1011764",
+    "us-cw-1020294",
+    "us-cw-121873",
+    "us-cw-515912",
+    "us-cw-712455",
+    "us-cw-749749",
+    "us-cw-515909",
+    "us-cw-749750",
+    "us-cw-749751",
+    "us-cw-997003"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 1960,
+    "completion_tokens": 1586,
+    "total_tokens": 3546
+  },
+  "time": 6.5347912311553955,
+  "scores": {
+    "us-cw-1011764": 0.85,
+    "us-cw-1020294": 0.95,
+    "us-cw-121873": 0.1,
+    "us-cw-515912": 0.3,
+    "us-cw-712455": 0.25,
+    "us-cw-749749": 0.5,
+    "us-cw-515909": 0.2,
+    "us-cw-749750": 0.7,
+    "us-cw-749751": 0.6,
+    "us-cw-997003": 0.4
+  },
+  "reasonings": {
+    "us-cw-1011764": "Part of the structural cycle grounding the contradiction.",
+    "us-cw-1020294": "Contains two mutually exclusive consolidation rules for its children.",
+    "us-cw-121873": "Low risk, distant node in the dependency graph.",
+    "us-cw-515912": "Linked to the conflict propagation chain.",
+    "us-cw-712455": "Linked to the conflict propagation chain.",
+    "us-cw-749749": "Part of the propagation cycle.",
+    "us-cw-515909": "Standard dependency node.",
+    "us-cw-749750": "Downstream subject of the contradictory consolidation rules.",
+    "us-cw-749751": "Inherits risk from the innovation fund path.",
+    "us-cw-997003": "Bridging node linking international structures to the conflicting US node."
+  },
+  "ranking": [
+    [
+      "us-cw-1020294",
+      0.95
+    ],
+    [
+      "us-cw-1011764",
+      0.85
+    ],
+    [
+      "us-cw-749750",
+      0.7
+    ],
+    [
+      "us-cw-749751",
+      0.6
+    ],
+    [
+      "us-cw-749749",
+      0.5
+    ],
+    [
+      "us-cw-997003",
+      0.4
+    ],
+    [
+      "us-cw-515912",
+      0.3
+    ],
+    [
+      "us-cw-712455",
+      0.25
+    ],
+    [
+      "us-cw-515909",
+      0.2
+    ],
+    [
+      "us-cw-121873",
+      0.1
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "us-cw-1020294",
+      "risk_score": 0.95,
+      "risk_factors": [
+        "Logical Contradiction"
+      ],
+      "reasoning": "Serves as the central nexus where conflicting consolidation requirements (20% NCI vs. fully consolidated) converge and propagate."
+    },
+    {
+      "rank": 2,
+      "clause_id": "us-cw-1011764",
+      "risk_score": 0.85,
+      "risk_factors": [
+        "Structural Cycle Instability"
+      ],
+      "reasoning": "Forms a tight bidirectional cycle with the primary conflict node (us-cw-1020294), locking the contradiction."
+    },
+    {
+      "rank": 3,
+      "clause_id": "us-cw-749750",
+      "risk_score": 0.7,
+      "risk_factors": [
+        "Logical Contradiction"
+      ],
+      "reasoning": "Directly linked to the conflicting consolidation logic originating from the parent holdings."
+    },
+    {
+      "rank": 4,
+      "clause_id": "us-cw-749751",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "Structural Cycle Instability"
+      ],
+      "reasoning": "Dependency path segment passing through the high-risk innovation fund chain."
+    },
+    {
+      "rank": 5,
+      "clause_id": "us-cw-749749",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "Structural Cycle Instability"
+      ],
+      "reasoning": "Completes a multi-node cycle that ties international entities into the US-based conflict."
+    },
+    {
+      "rank": 6,
+      "clause_id": "us-cw-997003",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "Structural Cycle Instability"
+      ],
+      "reasoning": "Acts as a bridge between the international network and the US-based conflicting holdings."
+    },
+    {
+      "rank": 7,
+      "clause_id": "us-cw-515912",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "Structural Cycle Instability"
+      ],
+      "reasoning": "Downstream from the conflicting logic chain, susceptible to inherited constraints."
+    },
+    {
+      "rank": 8,
+      "clause_id": "us-cw-712455",
+      "risk_score": 0.25,
+      "risk_factors": [
+        "Structural Cycle Instability"
+      ],
+      "reasoning": "Intermediate node in the international consolidation reference chain."
+    },
+    {
+      "rank": 9,
+      "clause_id": "us-cw-515909",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "Structural Cycle Instability"
+      ],
+      "reasoning": "Peripheral to the primary conflict, but part of the dependency graph path."
+    },
+    {
+      "rank": 10,
+      "clause_id": "us-cw-121873",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "Structural Cycle Instability"
+      ],
+      "reasoning": "Deeply nested in the dependency chain with lower immediate impact on the consolidation core."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "Logical Contradiction",
+      "importance_weight": 0.9,
+      "description": "Records that define mutually exclusive consolidation states (e.g., mandatory full consolidation vs. mandatory non-controlling interest) within the same dependency chain."
+    },
+    {
+      "factor": "Structural Cycle Instability",
+      "importance_weight": 0.6,
+      "description": "Circular dependencies that propagate conflicting state requirements across legal entities."
+    }
+  ],
+  "risk_factor_weight_sum": 1.5,
+  "direct_risk_subgraph_nodes": [
+    "us-cw-1011764",
+    "us-cw-1020294",
+    "us-cw-749750"
+  ],
+  "direct_risk_subgraph_size": 3,
+  "direct_compression_ratio": 0.7,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "These three nodes encapsulate the definition of the conflict. us-cw-1020294 is the primary site of both logical definitions; us-cw-1011764 creates the circular structural dependency; us-cw-749750 serves as the primary downstream entity where the conflicting requirements are applied.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "us-cw-1011764",
+      "target": "us-cw-1020294",
+      "reason": "Bidirectional reference reinforces the structural loop."
+    },
+    {
+      "source": "us-cw-1020294",
+      "target": "us-cw-1011764",
+      "reason": "Bidirectional reference reinforces the structural loop."
+    },
+    {
+      "source": "us-cw-1020294",
+      "target": "us-cw-749750",
+      "reason": "Direct reference where the conflicting 20% vs full consolidation requirement is imposed."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "us-cw-1011764",
+    "us-cw-1020294",
+    "us-cw-749750"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 10,
+  "largest_tie_count": 1,
+  "tied_score_groups": [],
+  "conflicts": [
+    {
+      "clause_a": "us-cw-1020294",
+      "clause_b": "us-cw-1020294",
+      "description": "Internal record conflict: The record mandates both a 20% non-controlling interest and full consolidation for the same path."
+    }
+  ],
+  "score_spread": 0.85,
+  "ranking_score_spread": 0.85,
+  "score_mean": 0.485,
+  "score_max": 0.95,
+  "node_names": {
+    "us-cw-1011764": "The Nielsen Company (US) LLC",
+    "us-cw-1020294": "TNC (US) Holdings Inc",
+    "us-cw-121873": "NetRatings Australia Pty. Ltd",
+    "us-cw-515912": "Nielsen Co (Singapore) Pte. Ltd",
+    "us-cw-712455": "PT. The Nielsen Co Indonesia",
+    "us-cw-749749": "Nielsen Co Ltd",
+    "us-cw-515909": "Nielsen Co (Mauritius) Ltd",
+    "us-cw-749750": "Nielsen Innovate Fund LP",
+    "us-cw-749751": "Nielsen Innovate Ltd",
+    "us-cw-997003": "Buzzmetrics Ltd"
+  },
+  "ground_truth_nodes": [
+    "us-cw-515909"
+  ],
+  "gt_evidence": {
+    "us-cw-515909": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": false,
+  "prompt_word_count": 813,
+  "injected_title_occurrences_in_prompt": 4,
+  "injected_id_occurrences_in_prompt": 3,
+  "injected_title_first_word_ratio": 0.26691266912669126,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.2730627306273063,
+  "inject_mode": true,
+  "injected_node": "us-cw-515909",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-1020294",
+  "injected_witness_distance": 5,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "us-cw-515909",
+    "us-cw-1020294"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-515909",
+    "us-cw-1020294"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-712455",
+    "us-cw-749750"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_direct_full_consolidation_vs_retained_interest_critical",
+  "injected_rank": 9,
+  "top1_margin": 0.09999999999999998,
+  "risk_node_ranks": {
+    "us-cw-515909": 9,
+    "us-cw-1020294": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 9,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": false,
+  "evidence_node_ranks": {
+    "us-cw-515909": 9,
+    "us-cw-1020294": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 9,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "us-cw-712455": 8,
+    "us-cw-749750": 3
+  },
+  "affected_best_rank": 3,
+  "affected_worst_rank": 8,
+  "affected_top1_hit": false,
+  "affected_top3_hit": true,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-515909": 9,
+    "us-cw-1020294": 1,
+    "us-cw-712455": 8,
+    "us-cw-749750": 3
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 9,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 9,
+  "root_top1_hit": false,
+  "root_top3_hit": false,
+  "direct_subgraph_nodes_retained": [
+    "us-cw-1011764",
+    "us-cw-1020294",
+    "us-cw-749750"
+  ],
+  "direct_contains_injected_node": false,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": false,
+  "direct_risk_nodes_retained": [
+    "us-cw-1020294"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": false,
+  "direct_evidence_nodes_retained": [
+    "us-cw-1020294"
+  ],
+  "direct_contains_any_affected_node": true,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [
+    "us-cw-749750"
+  ],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "us-cw-1020294",
+    "us-cw-749750"
+  ],
+  "case_id": "14_sec_ex2112_scc_2_direct_mutex",
+  "case_order": 14,
+  "audit_started_at": 1783863458.912251,
+  "audit_completed_at": 1783863465.447244,
+  "audit_started_at_iso": "2026-07-12T21:37:38+0800",
+  "audit_completed_at_iso": "2026-07-12T21:37:45+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 1960,
+    "completion_tokens": 1586,
+    "total_tokens": 3546,
+    "api_runtime_sec_sum": 6.533865928649902
+  }
+}

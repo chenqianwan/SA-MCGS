@@ -1,0 +1,358 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "gemini-2.5-pro",
+  "domain": "sec_ex21",
+  "scc_id": "scc_1",
+  "scc_size": 9,
+  "scc_clause_ids": [
+    "us-cw-1017834",
+    "us-cw-3674429",
+    "us-cw-3682211",
+    "us-cw-3682213",
+    "us-cw-3682810",
+    "us-cw-3682811",
+    "us-cw-3682212",
+    "us-cw-3684902",
+    "us-cw-617657"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "us-cw-1017834",
+        "us-cw-3682211",
+        "us-cw-3682212",
+        "us-cw-617657"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "us-cw-3674429",
+        "us-cw-3682810",
+        "us-cw-3684902",
+        "us-cw-3682211"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "us-cw-3682211",
+        "us-cw-1017834",
+        "us-cw-3682213",
+        "us-cw-3674429"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "us-cw-3682213",
+        "us-cw-3682211",
+        "us-cw-3682811",
+        "us-cw-3682212"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "us-cw-3682810",
+        "us-cw-3674429",
+        "us-cw-3682811",
+        "us-cw-3682213"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "us-cw-3682811",
+        "us-cw-3682213",
+        "us-cw-3682810",
+        "us-cw-3682212"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "us-cw-3682212",
+        "us-cw-1017834",
+        "us-cw-3682213",
+        "us-cw-3684902"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "us-cw-3684902",
+        "us-cw-3674429",
+        "us-cw-617657",
+        "us-cw-3682212"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "us-cw-617657",
+        "us-cw-1017834",
+        "us-cw-3684902",
+        "us-cw-3674429"
+      ]
+    }
+  ],
+  "llm_calls": 9,
+  "tt_hits": 0,
+  "time": 183.94366908073425,
+  "scores": {
+    "us-cw-1017834": 0.07500000000000001,
+    "us-cw-3674429": 0.04,
+    "us-cw-3682211": 0.2,
+    "us-cw-3682213": 0.2,
+    "us-cw-3682810": 0.10000000000000002,
+    "us-cw-3682811": 0.9,
+    "us-cw-3682212": 0.68,
+    "us-cw-3684902": 0.025,
+    "us-cw-617657": 0.20000000000000004
+  },
+  "visit_counts": {
+    "us-cw-1017834": 4,
+    "us-cw-3682211": 4,
+    "us-cw-3682212": 5,
+    "us-cw-617657": 3,
+    "us-cw-3674429": 5,
+    "us-cw-3682810": 3,
+    "us-cw-3684902": 4,
+    "us-cw-3682213": 5,
+    "us-cw-3682811": 3
+  },
+  "ranking": [
+    [
+      "us-cw-3682811",
+      0.9
+    ],
+    [
+      "us-cw-3682212",
+      0.68
+    ],
+    [
+      "us-cw-617657",
+      0.20000000000000004
+    ],
+    [
+      "us-cw-3682211",
+      0.2
+    ],
+    [
+      "us-cw-3682213",
+      0.2
+    ],
+    [
+      "us-cw-3682810",
+      0.10000000000000002
+    ],
+    [
+      "us-cw-1017834",
+      0.07500000000000001
+    ],
+    [
+      "us-cw-3674429",
+      0.04
+    ],
+    [
+      "us-cw-3684902",
+      0.025
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "us-cw-1017834": 2,
+    "us-cw-3682211": 1,
+    "us-cw-3682212": 4,
+    "us-cw-3682213": 4,
+    "us-cw-3682811": 3,
+    "us-cw-3682810": 1,
+    "us-cw-3674429": 1,
+    "us-cw-3684902": 1,
+    "us-cw-617657": 2
+  },
+  "repair_entry_counts": {
+    "us-cw-1017834": 1,
+    "us-cw-3682212": 4,
+    "us-cw-3682811": 3,
+    "us-cw-617657": 2
+  },
+  "local_conflict_endpoint_counts": {
+    "us-cw-1017834": 2,
+    "us-cw-3682212": 7,
+    "us-cw-3682211": 2,
+    "us-cw-3682213": 5,
+    "us-cw-3682811": 5,
+    "us-cw-3682810": 1
+  },
+  "lea_risk_subgraph_nodes": [
+    "us-cw-1017834",
+    "us-cw-3682213",
+    "us-cw-3682811",
+    "us-cw-3682212",
+    "us-cw-617657"
+  ],
+  "lea_risk_subgraph_size": 5,
+  "lea_compression_ratio": 0.4444444444444444,
+  "conflicts": [
+    {
+      "clause_a": "us-cw-3682211",
+      "clause_b": "us-cw-3682212",
+      "description": "Sibling nodes under us-cw-1017834 have conflicting amendment states. One forwards a mandatory state while the other asserts the amendment is unfiled and warns of simultaneous allowed/barred states."
+    },
+    {
+      "clause_a": "us-cw-3682212",
+      "clause_b": "us-cw-3682811",
+      "description": "us-cw-3682212 states that a control amendment has not been filed (blocking outside interest recognition), while us-cw-3682811 reserves a 20 percent outside interest on the same path, creating a blocking inconsistency."
+    },
+    {
+      "clause_a": "us-cw-3682811",
+      "clause_b": "us-cw-3682810",
+      "description": "Software Luxembourg Intermediate S.a r.l. contains a blocking inconsistency regarding a 20 percent outside interest on the same consolidation path, affecting downstream entities."
+    },
+    {
+      "clause_a": "us-cw-3682212",
+      "clause_b": "us-cw-3682811",
+      "description": "us-cw-3682212 dictates that an outside interest cannot be recognized because a control amendment has not been filed. us-cw-3682811, which is downstream, applies an opposite state regarding a 20 percent outside interest, triggering a blocking inconsistency."
+    }
+  ],
+  "ground_truth_nodes": [
+    "us-cw-3682212"
+  ],
+  "top1_hit": false,
+  "top3_hit": true,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": true,
+  "lea_risk_nodes_retained": [
+    "us-cw-3682212",
+    "us-cw-3682811"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": false,
+  "lea_evidence_nodes_retained": [
+    "us-cw-3682212",
+    "us-cw-3682811"
+  ],
+  "lea_contains_any_affected_node": true,
+  "lea_contains_all_affected_nodes": false,
+  "lea_affected_nodes_retained": [
+    "us-cw-1017834"
+  ],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": false,
+  "lea_valuable_nodes_retained": [
+    "us-cw-3682212",
+    "us-cw-3682811",
+    "us-cw-1017834"
+  ],
+  "inject_mode": true,
+  "injected_node": "us-cw-3682212",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "case_template": "condition_trigger",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-3682811",
+  "injected_witness_distance": 4,
+  "injected_bridge_node": "us-cw-3682211",
+  "injected_bridge_distance": 2,
+  "injected_risk_nodes": [
+    "us-cw-3682212",
+    "us-cw-3682811"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-3682212",
+    "us-cw-3682211",
+    "us-cw-3682811"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-1017834",
+    "us-cw-3682810"
+  ],
+  "injected_conflict_family": "condition_trigger",
+  "injected_conflict_difficulty": "hard",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_condition_trigger_unfiled_amendment_critical",
+  "injected_rank": 2,
+  "top1_margin": 0.21999999999999997,
+  "risk_node_ranks": {
+    "us-cw-3682212": 2,
+    "us-cw-3682811": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "us-cw-3682212": 2,
+    "us-cw-3682211": 4,
+    "us-cw-3682811": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 4,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "us-cw-1017834": 7,
+    "us-cw-3682810": 6
+  },
+  "affected_best_rank": 6,
+  "affected_worst_rank": 7,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-3682212": 2,
+    "us-cw-3682811": 1,
+    "us-cw-1017834": 7,
+    "us-cw-3682810": 6
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 7,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "case_id": "096_gemini-2.5-pro_sec_ex2112_scc_1_condition_trigger",
+  "case_order": 96,
+  "audit_started_at": 1783794068.214427,
+  "audit_completed_at": 1783794252.159352,
+  "audit_started_at_iso": "2026-07-12T02:21:08+0800",
+  "audit_completed_at_iso": "2026-07-12T02:24:12+0800",
+  "case_concurrency": 4,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 12,
+    "successful_api_calls": 12,
+    "failed_api_calls": 0,
+    "prompt_tokens": 11005,
+    "completion_tokens": 16800,
+    "total_tokens": 27805,
+    "api_runtime_sec_sum": 179.93021488189697
+  }
+}

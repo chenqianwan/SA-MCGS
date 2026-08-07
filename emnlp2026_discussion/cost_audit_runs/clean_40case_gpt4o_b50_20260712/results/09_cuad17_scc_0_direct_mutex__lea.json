@@ -1,0 +1,685 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "gpt-4o",
+  "domain": "cuad",
+  "scc_id": "scc_0",
+  "scc_size": 17,
+  "scc_clause_ids": [
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__11",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14.1.2",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.2",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.3",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.1",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.3",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.2",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.4",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__6.2",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.1.2",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__11"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__11"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__11"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__11",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14.1.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.2"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14.1.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.2"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.3",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.1"
+      ]
+    },
+    {
+      "window_index": 10,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.1",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3"
+      ]
+    },
+    {
+      "window_index": 11,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.3",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3"
+      ]
+    },
+    {
+      "window_index": 12,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.1.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.2"
+      ]
+    },
+    {
+      "window_index": 13,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3"
+      ]
+    },
+    {
+      "window_index": 14,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.4",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3"
+      ]
+    },
+    {
+      "window_index": 15,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__6.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.1",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.1.2"
+      ]
+    },
+    {
+      "window_index": 16,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.1.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2"
+      ]
+    },
+    {
+      "window_index": 17,
+      "window": [
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14.1.2",
+        "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2"
+      ]
+    }
+  ],
+  "llm_calls": 17,
+  "tt_hits": 0,
+  "time": 179.1793999671936,
+  "scores": {
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1": 0.27,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2": 0.39999999999999997,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3": 0.33999999999999997,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__11": 0.175,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14": 0.37500000000000006,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14.1.2": 0.6,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2": 0.4833333333333334,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.2": 0.3333333333333333,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.3": 0.5,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.1": 0.30000000000000004,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.3": 0.3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3": 0.35,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.2": 0.425,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.4": 0.3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__6.2": 0.3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.1.2": 0.3666666666666667,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2": 0.8000000000000002
+  },
+  "visit_counts": {
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1": 10,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2": 9,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3": 10,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__11": 4,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14": 4,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14.1.2": 3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2": 6,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.2": 3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2": 3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.3": 1,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.2": 4,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.1": 3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.3": 1,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3": 2,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.1.2": 3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.4": 1,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__6.2": 1
+  },
+  "ranking": [
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2",
+      0.8000000000000002
+    ],
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14.1.2",
+      0.6
+    ],
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.3",
+      0.5
+    ],
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2",
+      0.4833333333333334
+    ],
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.2",
+      0.425
+    ],
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+      0.39999999999999997
+    ],
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14",
+      0.37500000000000006
+    ],
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.1.2",
+      0.3666666666666667
+    ],
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3",
+      0.35
+    ],
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+      0.33999999999999997
+    ],
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.2",
+      0.3333333333333333
+    ],
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.1",
+      0.30000000000000004
+    ],
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.3",
+      0.3
+    ],
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.4",
+      0.3
+    ],
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__6.2",
+      0.3
+    ],
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+      0.27
+    ],
+    [
+      "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__11",
+      0.175
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1": 10,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2": 9,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3": 9,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__11": 2,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14": 4,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14.1.2": 3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2": 4,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.2": 3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2": 3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.3": 1,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.2": 3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.1": 3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.3": 1,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3": 2,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.1.2": 2,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.4": 1,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__6.2": 1
+  },
+  "repair_entry_counts": {
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1": 4,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2": 9,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__11": 1,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14": 2,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14.1.2": 3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2": 3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2": 2,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.2": 1,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.3": 1,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.2": 2,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.1": 2,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.3": 1,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3": 1,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__6.2": 1,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.1.2": 1
+  },
+  "local_conflict_endpoint_counts": {
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1": 11,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2": 11,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3": 13,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__11": 2,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14.1.2": 5,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14": 4,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.2": 3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2": 3,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2": 4,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.3": 2,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.2": 5,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.1": 4,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.3": 2,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3": 4,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.1.2": 4,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.4": 1,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__6.2": 2
+  },
+  "lea_risk_subgraph_nodes": [
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14.1.2",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.2",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2"
+  ],
+  "lea_risk_subgraph_size": 8,
+  "lea_compression_ratio": 0.5294117647058824,
+  "conflicts": [
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+      "description": "The vague approvals in 10.1 may not adequately cover the redacted variations in 10.2, leading to a potential conflict in scope."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+      "description": "The redacted variations in 10.2 may not align with the due diligence described in 10.3.3, leading to potential misalignment in responsibilities."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__11",
+      "description": "The broad due diligence in 10.3.3 may not fully align with the insurance requirements in 11, leading to a potential gap in coverage or responsibilities."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+      "description": "Clause 10.3.3 depends on 10.2, which lacks specificity due to redacted details ([***]), creating ambiguity in the scope of due diligence."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+      "description": "Clause 10.3.3 references 10.1, which is underspecified regarding consents and approvals, leading to potential inconsistencies in due diligence claims."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+      "description": "Clause 10.2's lack of clarity regarding antibody variations ([***]) could lead to ambiguity or conflict with Clause 10.1's assertion that all necessary consents and approvals are obtained, as these approvals might depend on precise definitions of the antibody."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__11",
+      "description": "The redacted content in 10.2 ([***]) creates ambiguity that may conflict with the underspecified nature of 11 ('5 Insurance'). Their dependency relationship is unclear and potentially incompatible."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+      "description": "10.3.3 depends on 10.2, but the redacted content in 10.2 introduces ambiguity that could propagate to 10.3.3, creating potential inconsistencies."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14.1.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14",
+      "description": "The redacted licensing terms in __14.1.2 depend on the interpretation of __14 ('7 Rights in Bankruptcy'), which is underspecified. This creates a conflict in understanding the scope and enforceability of the license."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2",
+      "description": "The reference from __2.2 ('3 Upstream Agreement') to __2 ('2') is ambiguous due to the lack of detail in both records. This creates a conflict in understanding the nature of the upstream agreement and its relationship to other clauses."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14.1.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2",
+      "description": "The perpetual and royalty-bearing license in 14.1.2 conflicts with the payment acceleration and default provisions in 9.4.2, creating a high-risk incompatibility during termination scenarios."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14.1.2",
+      "description": "The bankruptcy rights in clause 14 are ambiguous and may lead to conflicting interpretations with the irrevocable license granted in 14.1.2 during insolvency."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14",
+      "description": "Circular reference and mutual underspecification create ambiguity in dependency resolution."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+      "description": "Circular reference between '3 Upstream Agreement' and 'due diligence' complicates dependency resolution."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+      "description": "The redacted variations of the Antibody in 10.2 make it unclear whether the consents and approvals in 10.1 cover all necessary variations."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+      "description": "The vague '3 Upstream Agreement' in 2.2 does not clarify its relationship with the due diligence described in 10.3.3, potentially causing misalignment."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2.3",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.2",
+      "description": "Circular reference creates ambiguity in how dependencies are resolved, with no clear fallback."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.1",
+      "description": "Dependency on underspecified record __4.1 increases the risk of misinterpretation."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+      "description": "The ambiguity in the redacted antibody variations in 10.2 creates a potential conflict with the due diligence claims in 10.3.3, as the exact scope of what is excluded is unclear."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.1",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+      "description": "The minimal content of 4.1 ('5 Safety Reporting') makes its reference to 10.1 ('All Consents and Approvals Obtained') underspecified and potentially problematic."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+      "description": "Circular dependency between due diligence and consents/approvals creates potential for interpretive issues."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.3",
+      "description": "Ambiguity in 10.2 regarding antibody variations may conflict with recall/withdrawal obligations in 4.3."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.3",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+      "description": "Recall/withdrawal obligations in 4.3 may conflict with due diligence assessments in 10.3.3."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.1.2",
+      "description": "Potential conflict between cooperation obligations and strict assignment requirements for inventions. Cooperation may require flexibility that contradicts rigid assignment principles."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.1.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.2",
+      "description": "Ambiguity in commercialization obligations under Section 5.1 may lead to inconsistent application of invention assignment principles during commercialization activities."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+      "description": "The obligations in clause 5.2 depend on the exclusions listed in clause 10.2, but the redacted content in 10.2 prevents clear alignment, creating a conflict."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+      "description": "Clause 10.1's assertion that all consents and approvals have been obtained may conflict with 10.3.3's reference to due diligence, which could imply unresolved issues."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+      "description": "Clause 10.3.3 references 10.1, but 10.1 lacks specificity about consents and approvals, which creates ambiguity in the due diligence assertion."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.3.3",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.2",
+      "description": "Clause 10.3.3 references 10.2, but the redacted content in 10.2 makes it unclear whether the due diligence conducted by Aimmune is complete or accurate."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__5.4",
+      "description": "Clause 10.1 references 5.4, but it is unclear how consents and approvals relate to the restriction on Xencor logos, creating a potential for inconsistency."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__6.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+      "description": "Circular dependency between these two records creates ambiguity in determining the order of operations or precedence."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.1",
+      "description": "Circular dependency between these two records creates ambiguity in determining the order of operations or precedence."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__4.1",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__6.2",
+      "description": "Circular dependency between these two records creates ambiguity in determining the order of operations or precedence."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.1.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3",
+      "description": "Section 9.3.3 relies on Section 9.1.2 for ownership principles, but Section 9.1.2's reliance on an unspecified Section 9.1.1 creates ambiguity."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.1.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2",
+      "description": "The termination provisions in Section 9.1.2 and Section 9.4.2 are structurally incompatible, with conflicting requirements for early termination fees."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2",
+      "description": "Section 9.3.3's cooperation requirements may be disrupted by the termination conditions in Section 9.4.2, leading to potential structural inconsistency."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14.1.2",
+      "description": "The termination fee and payment acceleration in 9.4.2 are incompatible with the unilateral termination and royalty forgoing rights in 14.1.2."
+    },
+    {
+      "clause_a": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14",
+      "clause_b": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__14.1.2",
+      "description": "The bankruptcy rights in 14 lack detail on how they interact with the perpetual licensing provisions in 14.1.2, creating ambiguity."
+    }
+  ],
+  "ground_truth_nodes": [
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3"
+  ],
+  "top1_hit": false,
+  "top3_hit": false,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": false,
+  "lea_risk_nodes_retained": [
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": false,
+  "lea_evidence_nodes_retained": [
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2"
+  ],
+  "lea_contains_any_affected_node": true,
+  "lea_contains_all_affected_nodes": true,
+  "lea_affected_nodes_retained": [
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2"
+  ],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": false,
+  "lea_valuable_nodes_retained": [
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2"
+  ],
+  "inject_mode": true,
+  "injected_node": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2",
+  "injected_witness_distance": 8,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2"
+  ],
+  "injected_evidence_nodes": [
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2"
+  ],
+  "injected_affected_nodes": [
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1",
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "cuad_direct_no_fee_vs_fee_critical",
+  "injected_rank": 9,
+  "top1_margin": 0.20000000000000018,
+  "risk_node_ranks": {
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3": 9,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 9,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": false,
+  "evidence_node_ranks": {
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3": 9,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 9,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1": 16,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2": 4
+  },
+  "affected_best_rank": 4,
+  "affected_worst_rank": 16,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.3.3": 9,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__9.4.2": 1,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__10.1": 16,
+    "cuad_AimmuneTherapeuticsInc_20200205_8_K_EX_1__cuad_AimmuneTherapeuticsInc_20200205_8_K__a14c0805__2": 4
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 16,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 9,
+  "root_top1_hit": false,
+  "root_top3_hit": false,
+  "case_id": "09_cuad17_scc_0_direct_mutex",
+  "case_order": 9,
+  "audit_started_at": 1783714040.261705,
+  "audit_completed_at": 1783714219.441184,
+  "audit_started_at_iso": "2026-07-11T04:07:20+0800",
+  "audit_completed_at_iso": "2026-07-11T04:10:19+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 17,
+    "successful_api_calls": 17,
+    "failed_api_calls": 0,
+    "prompt_tokens": 40116,
+    "completion_tokens": 26540,
+    "total_tokens": 66656,
+    "api_runtime_sec_sum": 179.16588258743286
+  }
+}

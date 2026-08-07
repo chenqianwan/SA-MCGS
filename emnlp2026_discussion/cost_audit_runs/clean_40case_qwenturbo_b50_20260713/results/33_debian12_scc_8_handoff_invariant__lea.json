@@ -1,0 +1,580 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "qwen-turbo",
+  "domain": "debian",
+  "scc_id": "scc_8",
+  "scc_size": 12,
+  "scc_clause_ids": [
+    "libecore-drm2-1",
+    "libecore-evas1",
+    "libecore-fb1",
+    "libecore-input1",
+    "libecore-wl2-1",
+    "libelput1",
+    "libevas1",
+    "libevas1-engines-drm",
+    "libecore-x1",
+    "libevas1-engines-fb",
+    "libevas1-engines-wayland",
+    "libevas1-engines-x"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "libecore-drm2-1",
+        "libecore-evas1",
+        "libelput1",
+        "libevas1-engines-drm"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "libecore-evas1",
+        "libecore-drm2-1",
+        "libecore-fb1",
+        "libecore-input1"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "libecore-fb1",
+        "libecore-evas1",
+        "libecore-input1",
+        "libecore-wl2-1"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "libecore-input1",
+        "libecore-evas1",
+        "libecore-fb1",
+        "libecore-wl2-1"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "libecore-wl2-1",
+        "libecore-evas1",
+        "libecore-input1",
+        "libevas1-engines-wayland"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "libelput1",
+        "libecore-drm2-1",
+        "libecore-evas1",
+        "libecore-input1"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "libevas1",
+        "libecore-evas1",
+        "libecore-input1",
+        "libevas1-engines-drm"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "libevas1-engines-drm",
+        "libecore-drm2-1",
+        "libevas1",
+        "libecore-x1"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "libecore-x1",
+        "libecore-evas1",
+        "libecore-input1",
+        "libevas1-engines-wayland"
+      ]
+    },
+    {
+      "window_index": 10,
+      "window": [
+        "libevas1-engines-fb",
+        "libevas1",
+        "libevas1-engines-wayland",
+        "libecore-x1"
+      ]
+    },
+    {
+      "window_index": 11,
+      "window": [
+        "libevas1-engines-wayland",
+        "libecore-evas1",
+        "libecore-input1",
+        "libecore-wl2-1"
+      ]
+    },
+    {
+      "window_index": 12,
+      "window": [
+        "libevas1-engines-x",
+        "libevas1",
+        "libecore-x1",
+        "libecore-drm2-1"
+      ]
+    }
+  ],
+  "llm_calls": 10,
+  "tt_hits": 2,
+  "time": 63.37238335609436,
+  "scores": {
+    "libecore-drm2-1": 0.28,
+    "libecore-evas1": 0.47777777777777786,
+    "libecore-fb1": 0.3666666666666667,
+    "libecore-input1": 0.575,
+    "libecore-wl2-1": 0.35000000000000003,
+    "libelput1": 0.4,
+    "libevas1": 0.325,
+    "libevas1-engines-drm": 0.5333333333333333,
+    "libecore-x1": 0.35000000000000003,
+    "libevas1-engines-fb": 0.5,
+    "libevas1-engines-wayland": 0.7000000000000001,
+    "libevas1-engines-x": 0.5
+  },
+  "visit_counts": {
+    "libecore-drm2-1": 5,
+    "libecore-evas1": 9,
+    "libelput1": 2,
+    "libevas1-engines-drm": 3,
+    "libecore-fb1": 3,
+    "libecore-input1": 8,
+    "libecore-wl2-1": 4,
+    "libevas1-engines-wayland": 4,
+    "libevas1": 4,
+    "libecore-x1": 4,
+    "libevas1-engines-fb": 1,
+    "libevas1-engines-x": 1
+  },
+  "ranking": [
+    [
+      "libevas1-engines-wayland",
+      0.7000000000000001
+    ],
+    [
+      "libecore-input1",
+      0.575
+    ],
+    [
+      "libevas1-engines-drm",
+      0.5333333333333333
+    ],
+    [
+      "libevas1-engines-fb",
+      0.5
+    ],
+    [
+      "libevas1-engines-x",
+      0.5
+    ],
+    [
+      "libecore-evas1",
+      0.47777777777777786
+    ],
+    [
+      "libelput1",
+      0.4
+    ],
+    [
+      "libecore-fb1",
+      0.3666666666666667
+    ],
+    [
+      "libecore-wl2-1",
+      0.35000000000000003
+    ],
+    [
+      "libecore-x1",
+      0.35000000000000003
+    ],
+    [
+      "libevas1",
+      0.325
+    ],
+    [
+      "libecore-drm2-1",
+      0.28
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "libecore-evas1": 8,
+    "libecore-drm2-1": 3,
+    "libelput1": 2,
+    "libevas1-engines-drm": 3,
+    "libecore-fb1": 3,
+    "libecore-input1": 7,
+    "libecore-wl2-1": 4,
+    "libevas1-engines-wayland": 4,
+    "libevas1": 4,
+    "libecore-x1": 2,
+    "libevas1-engines-x": 1
+  },
+  "repair_entry_counts": {
+    "libelput1": 1,
+    "libecore-drm2-1": 2,
+    "libevas1-engines-drm": 3,
+    "libecore-evas1": 4,
+    "libecore-input1": 6,
+    "libevas1-engines-wayland": 4,
+    "libevas1": 4,
+    "libecore-x1": 1,
+    "libevas1-engines-x": 1
+  },
+  "local_conflict_endpoint_counts": {
+    "libecore-drm2-1": 5,
+    "libelput1": 5,
+    "libecore-evas1": 18,
+    "libevas1-engines-drm": 4,
+    "libecore-fb1": 5,
+    "libecore-input1": 17,
+    "libecore-wl2-1": 10,
+    "libevas1-engines-wayland": 9,
+    "libevas1": 5,
+    "libecore-x1": 3,
+    "libevas1-engines-x": 1
+  },
+  "lea_risk_subgraph_nodes": [
+    "libecore-evas1",
+    "libecore-input1",
+    "libecore-wl2-1",
+    "libevas1",
+    "libevas1-engines-drm",
+    "libevas1-engines-wayland"
+  ],
+  "lea_risk_subgraph_size": 6,
+  "lea_compression_ratio": 0.5,
+  "conflicts": [
+    {
+      "clause_a": "libecore-drm2-1",
+      "clause_b": "libelput1",
+      "description": "Both have dependencies on libeina1a with version constraints. If libeina1a is updated, both could become incompatible."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libevas1-engines-drm",
+      "description": "Both depend on libecore-drm2-1 and libeina1a, increasing the risk of versioning conflicts between them."
+    },
+    {
+      "clause_a": "libevas1-engines-drm",
+      "clause_b": "libecore-evas1",
+      "description": "Both depend on libecore-drm2-1 and libeina1a, creating a shared dependency risk that could lead to incompatibility."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-input1",
+      "description": "libecore-evas1 depends on libecore-input1, and libecore-input1 has a dependency on libeina1a (>= 1.26.3-0~eo), which could conflict with other packages that have different version requirements."
+    },
+    {
+      "clause_a": "libecore-fb1",
+      "clause_b": "libecore-input1",
+      "description": "libecore-fb1 depends on libecore-input1, and libecore-input1 has a dependency on libeina1a (>= 1.26.3-0~eo), which could create a conflict if another package requires a different version of libeina1a."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-fb1",
+      "description": "libecore-evas1 depends on libecore-fb1, which may lead to incompatibility if their versions or interfaces do not align."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-input1",
+      "description": "libecore-evas1 depends on libecore-input1, which is also used by other packages, increasing the risk of version mismatches."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-wl2-1",
+      "description": "libecore-evas1 depends on libecore-wl2-1, which may have conflicting dependencies or interface requirements."
+    },
+    {
+      "clause_a": "libecore-fb1",
+      "clause_b": "libecore-input1",
+      "description": "libecore-fb1 depends on libecore-input1, which is a central dependency and could cause cascading incompatibilities."
+    },
+    {
+      "clause_a": "libecore-wl2-1",
+      "clause_b": "libecore-input1",
+      "description": "libecore-wl2-1 depends on libecore-input1, which is also used by other packages, increasing the risk of version mismatches."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-fb1",
+      "description": "libecore-evas1 depends on libecore-fb1, which may lead to incompatibility if their versions or interfaces do not align."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-input1",
+      "description": "libecore-evas1 depends on libecore-input1, which is also used by other packages, increasing the risk of version mismatches."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-wl2-1",
+      "description": "libecore-evas1 depends on libecore-wl2-1, which may have conflicting dependencies or interface requirements."
+    },
+    {
+      "clause_a": "libecore-fb1",
+      "clause_b": "libecore-input1",
+      "description": "libecore-fb1 depends on libecore-input1, which is a central dependency and could cause cascading incompatibilities."
+    },
+    {
+      "clause_a": "libecore-wl2-1",
+      "clause_b": "libecore-input1",
+      "description": "libecore-wl2-1 depends on libecore-input1, which is also used by other packages, increasing the risk of version mismatches."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-input1",
+      "description": "Both packages have dependencies on libecore1 and libeina1a, which could lead to version conflicts if not aligned."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-wl2-1",
+      "description": "Both packages depend on libecore1 and libeina1a, which could lead to version conflicts if not aligned."
+    },
+    {
+      "clause_a": "libecore-wl2-1",
+      "clause_b": "libecore-input1",
+      "description": "Both packages depend on libecore1 and libeina1a, which could lead to version conflicts if not aligned."
+    },
+    {
+      "clause_a": "libevas1-engines-wayland",
+      "clause_b": "libecore-evas1",
+      "description": "Both packages depend on libecore1, libeina1a, and libevas1, which could lead to version conflicts if not aligned."
+    },
+    {
+      "clause_a": "libevas1-engines-wayland",
+      "clause_b": "libecore-input1",
+      "description": "Both packages depend on libecore1, libeina1a, and libevas1, which could lead to version conflicts if not aligned."
+    },
+    {
+      "clause_a": "libevas1-engines-wayland",
+      "clause_b": "libecore-wl2-1",
+      "description": "Both packages depend on libecore1, libeina1a, and libevas1, which could lead to version conflicts if not aligned."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-drm2-1",
+      "description": "libecore-evas1 depends on libecore-drm2-1, but both have complex dependencies on other EFL libraries. A version mismatch between them could cause cascading issues."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libelput1",
+      "description": "libecore-evas1 depends on libelput1, which is also referenced by libecore-drm2-1 and libecore-input1. A version mismatch between these packages could lead to incompatibilities."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-input1",
+      "description": "libecore-evas1 depends on libecore-input1, which is also referenced by libelput1. This creates a potential for version conflicts across multiple packages."
+    },
+    {
+      "clause_a": "libevas1",
+      "clause_b": "libevas1-engines-drm",
+      "description": "The mutual reference between libevas1 and libevas1-engines-drm could create a circular dependency, leading to installation or runtime issues if not resolved."
+    },
+    {
+      "clause_a": "libevas1-engines-drm",
+      "clause_b": "libevas1",
+      "description": "Circular reference may cause dependency resolution failures or version mismatches."
+    },
+    {
+      "clause_a": "libecore-x1",
+      "clause_b": "libecore-input1",
+      "description": "libecore-x1 is in a legacy interface class and must remain so for the same dependency path, while libecore-input1 requires a new interface class, leading to a blocking inconsistency."
+    },
+    {
+      "clause_a": "libevas1-engines-wayland",
+      "clause_b": "libeina1a",
+      "description": "libevas1-engines-wayland breaks libeina1a (<< 1.26.3), which is required by several other packages, potentially causing widespread incompatibility."
+    },
+    {
+      "clause_a": "libevas1-engines-wayland",
+      "clause_b": "libecore-x1",
+      "description": "libevas1-engines-wayland depends on libecore-x1, which may cause compatibility issues if libecore-x1 is updated or removed."
+    },
+    {
+      "clause_a": "libevas1-engines-wayland",
+      "clause_b": "libevas1",
+      "description": "libevas1-engines-wayland references libevas1, which is a critical dependency. Version mismatches could lead to runtime failures."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-input1",
+      "description": "Both packages have dependencies on libecore1 and libeina1a, which could lead to version conflicts if not aligned."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-wl2-1",
+      "description": "Both packages depend on libecore1 and libeina1a, which could lead to version conflicts if not aligned."
+    },
+    {
+      "clause_a": "libecore-wl2-1",
+      "clause_b": "libecore-input1",
+      "description": "Both packages depend on libecore1 and libeina1a, which could lead to version conflicts if not aligned."
+    },
+    {
+      "clause_a": "libevas1-engines-wayland",
+      "clause_b": "libecore-evas1",
+      "description": "Both packages depend on libecore1, libeina1a, and libevas1, which could lead to version conflicts if not aligned."
+    },
+    {
+      "clause_a": "libevas1-engines-wayland",
+      "clause_b": "libecore-input1",
+      "description": "Both packages depend on libecore1, libeina1a, and libevas1, which could lead to version conflicts if not aligned."
+    },
+    {
+      "clause_a": "libevas1-engines-wayland",
+      "clause_b": "libecore-wl2-1",
+      "description": "Both packages depend on libecore1, libeina1a, and libevas1, which could lead to version conflicts if not aligned."
+    },
+    {
+      "clause_a": "libevas1-engines-x",
+      "clause_b": "libevas1",
+      "description": "Circular dependency between libevas1 and libevas1-engines-x may cause unresolved dependency chains."
+    }
+  ],
+  "ground_truth_nodes": [
+    "libecore-x1"
+  ],
+  "top1_hit": false,
+  "top3_hit": false,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": false,
+  "lea_risk_nodes_retained": [
+    "libecore-input1"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": false,
+  "lea_evidence_nodes_retained": [
+    "libecore-input1"
+  ],
+  "lea_contains_any_affected_node": true,
+  "lea_contains_all_affected_nodes": false,
+  "lea_affected_nodes_retained": [
+    "libevas1"
+  ],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": false,
+  "lea_valuable_nodes_retained": [
+    "libecore-input1",
+    "libevas1"
+  ],
+  "inject_mode": true,
+  "injected_node": "libecore-x1",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "libecore-input1",
+  "injected_witness_distance": 6,
+  "injected_bridge_node": "libevas1-engines-x",
+  "injected_bridge_distance": 3,
+  "injected_risk_nodes": [
+    "libecore-x1",
+    "libecore-input1"
+  ],
+  "injected_evidence_nodes": [
+    "libecore-x1",
+    "libevas1-engines-x",
+    "libecore-input1"
+  ],
+  "injected_affected_nodes": [
+    "libevas1-engines-fb",
+    "libevas1"
+  ],
+  "injected_conflict_family": "handoff_invariant",
+  "injected_conflict_difficulty": "moderate",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "debian_handoff_invariant_abi_class_critical",
+  "injected_rank": 10,
+  "top1_margin": 0.1250000000000001,
+  "risk_node_ranks": {
+    "libecore-x1": 10,
+    "libecore-input1": 2
+  },
+  "risk_best_rank": 2,
+  "risk_worst_rank": 10,
+  "risk_top1_hit": false,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": false,
+  "evidence_node_ranks": {
+    "libecore-x1": 10,
+    "libevas1-engines-x": 5,
+    "libecore-input1": 2
+  },
+  "evidence_best_rank": 2,
+  "evidence_worst_rank": 10,
+  "evidence_top1_hit": false,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "libevas1-engines-fb": 4,
+    "libevas1": 11
+  },
+  "affected_best_rank": 4,
+  "affected_worst_rank": 11,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "libecore-x1": 10,
+    "libecore-input1": 2,
+    "libevas1-engines-fb": 4,
+    "libevas1": 11
+  },
+  "valuable_best_rank": 2,
+  "valuable_worst_rank": 11,
+  "valuable_top1_hit": false,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 10,
+  "root_top1_hit": false,
+  "root_top3_hit": false,
+  "case_id": "33_debian12_scc_8_handoff_invariant",
+  "case_order": 33,
+  "audit_started_at": 1783920356.9406238,
+  "audit_completed_at": 1783920420.3130722,
+  "audit_started_at_iso": "2026-07-13T13:25:56+0800",
+  "audit_completed_at_iso": "2026-07-13T13:27:00+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 10,
+    "successful_api_calls": 10,
+    "failed_api_calls": 0,
+    "prompt_tokens": 17143,
+    "completion_tokens": 6941,
+    "total_tokens": 24084,
+    "api_runtime_sec_sum": 63.359375953674316
+  }
+}

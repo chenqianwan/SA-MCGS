@@ -1,0 +1,756 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "gpt-4o",
+  "domain": "sec_ex21",
+  "scc_id": "scc_4",
+  "scc_size": 18,
+  "scc_clause_ids": [
+    "us-cw-1001720",
+    "us-cw-1001721",
+    "us-cw-1180",
+    "us-cw-118216",
+    "us-cw-1196",
+    "us-cw-1280",
+    "us-cw-130",
+    "us-cw-2080",
+    "us-cw-3379182",
+    "us-cw-42654",
+    "us-cw-590084",
+    "us-cw-590085",
+    "us-cw-841126",
+    "us-cw-59234",
+    "us-cw-702872",
+    "us-cw-822",
+    "us-cw-903404",
+    "us-cw-907597"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "us-cw-1001720",
+        "us-cw-1180",
+        "us-cw-1196",
+        "us-cw-1280"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "us-cw-1001721",
+        "us-cw-1180",
+        "us-cw-3379182",
+        "us-cw-42654"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "us-cw-1180",
+        "us-cw-1001720",
+        "us-cw-1001721",
+        "us-cw-118216"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "us-cw-118216",
+        "us-cw-1180",
+        "us-cw-1196",
+        "us-cw-1280"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "us-cw-1196",
+        "us-cw-1001720",
+        "us-cw-1180",
+        "us-cw-118216"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "us-cw-1280",
+        "us-cw-1001720",
+        "us-cw-1180",
+        "us-cw-118216"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "us-cw-130",
+        "us-cw-1001720",
+        "us-cw-1180",
+        "us-cw-118216"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "us-cw-2080",
+        "us-cw-1001720",
+        "us-cw-1180",
+        "us-cw-118216"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "us-cw-3379182",
+        "us-cw-1001721",
+        "us-cw-1180",
+        "us-cw-1196"
+      ]
+    },
+    {
+      "window_index": 10,
+      "window": [
+        "us-cw-42654",
+        "us-cw-1001720",
+        "us-cw-1001721",
+        "us-cw-1180"
+      ]
+    },
+    {
+      "window_index": 11,
+      "window": [
+        "us-cw-590084",
+        "us-cw-1180",
+        "us-cw-1196",
+        "us-cw-1280"
+      ]
+    },
+    {
+      "window_index": 12,
+      "window": [
+        "us-cw-590085",
+        "us-cw-1001720",
+        "us-cw-42654",
+        "us-cw-590084"
+      ]
+    },
+    {
+      "window_index": 13,
+      "window": [
+        "us-cw-841126",
+        "us-cw-1180",
+        "us-cw-42654",
+        "us-cw-59234"
+      ]
+    },
+    {
+      "window_index": 14,
+      "window": [
+        "us-cw-59234",
+        "us-cw-1001720",
+        "us-cw-1180",
+        "us-cw-1196"
+      ]
+    },
+    {
+      "window_index": 15,
+      "window": [
+        "us-cw-702872",
+        "us-cw-1180",
+        "us-cw-3379182",
+        "us-cw-42654"
+      ]
+    },
+    {
+      "window_index": 16,
+      "window": [
+        "us-cw-822",
+        "us-cw-1001720",
+        "us-cw-1180",
+        "us-cw-118216"
+      ]
+    },
+    {
+      "window_index": 17,
+      "window": [
+        "us-cw-903404",
+        "us-cw-1180",
+        "us-cw-1196",
+        "us-cw-1280"
+      ]
+    },
+    {
+      "window_index": 18,
+      "window": [
+        "us-cw-907597",
+        "us-cw-1180",
+        "us-cw-1196",
+        "us-cw-1280"
+      ]
+    }
+  ],
+  "llm_calls": 18,
+  "tt_hits": 0,
+  "time": 148.12465000152588,
+  "scores": {
+    "us-cw-1001720": 0.21000000000000002,
+    "us-cw-1001721": 0.25,
+    "us-cw-1180": 0.4411764705882353,
+    "us-cw-118216": 0.6285714285714287,
+    "us-cw-1196": 0.38749999999999996,
+    "us-cw-1280": 0.3333333333333333,
+    "us-cw-130": 0.7,
+    "us-cw-2080": 0.4,
+    "us-cw-3379182": 0.5333333333333333,
+    "us-cw-42654": 0.45999999999999996,
+    "us-cw-590084": 0.15000000000000002,
+    "us-cw-590085": 0.2,
+    "us-cw-841126": 1.0,
+    "us-cw-59234": 0.25,
+    "us-cw-702872": 0.3,
+    "us-cw-822": 0.7,
+    "us-cw-903404": 0.1,
+    "us-cw-907597": 0.2
+  },
+  "visit_counts": {
+    "us-cw-1001720": 10,
+    "us-cw-1180": 17,
+    "us-cw-1196": 8,
+    "us-cw-1280": 6,
+    "us-cw-1001721": 4,
+    "us-cw-3379182": 3,
+    "us-cw-42654": 5,
+    "us-cw-118216": 7,
+    "us-cw-130": 1,
+    "us-cw-2080": 1,
+    "us-cw-590084": 2,
+    "us-cw-590085": 1,
+    "us-cw-841126": 1,
+    "us-cw-59234": 2,
+    "us-cw-702872": 1,
+    "us-cw-822": 1,
+    "us-cw-903404": 1,
+    "us-cw-907597": 1
+  },
+  "ranking": [
+    [
+      "us-cw-841126",
+      1.0
+    ],
+    [
+      "us-cw-130",
+      0.7
+    ],
+    [
+      "us-cw-822",
+      0.7
+    ],
+    [
+      "us-cw-118216",
+      0.6285714285714287
+    ],
+    [
+      "us-cw-3379182",
+      0.5333333333333333
+    ],
+    [
+      "us-cw-42654",
+      0.45999999999999996
+    ],
+    [
+      "us-cw-1180",
+      0.4411764705882353
+    ],
+    [
+      "us-cw-2080",
+      0.4
+    ],
+    [
+      "us-cw-1196",
+      0.38749999999999996
+    ],
+    [
+      "us-cw-1280",
+      0.3333333333333333
+    ],
+    [
+      "us-cw-702872",
+      0.3
+    ],
+    [
+      "us-cw-1001721",
+      0.25
+    ],
+    [
+      "us-cw-59234",
+      0.25
+    ],
+    [
+      "us-cw-1001720",
+      0.21000000000000002
+    ],
+    [
+      "us-cw-590085",
+      0.2
+    ],
+    [
+      "us-cw-907597",
+      0.2
+    ],
+    [
+      "us-cw-590084",
+      0.15000000000000002
+    ],
+    [
+      "us-cw-903404",
+      0.1
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "us-cw-1001720": 3,
+    "us-cw-1180": 16,
+    "us-cw-1196": 8,
+    "us-cw-1280": 5,
+    "us-cw-1001721": 2,
+    "us-cw-3379182": 3,
+    "us-cw-42654": 5,
+    "us-cw-118216": 7,
+    "us-cw-130": 1,
+    "us-cw-2080": 1,
+    "us-cw-590085": 1,
+    "us-cw-590084": 1,
+    "us-cw-841126": 1,
+    "us-cw-59234": 1,
+    "us-cw-822": 1,
+    "us-cw-903404": 1,
+    "us-cw-907597": 1
+  },
+  "repair_entry_counts": {
+    "us-cw-1196": 6,
+    "us-cw-1280": 4,
+    "us-cw-1180": 10,
+    "us-cw-3379182": 3,
+    "us-cw-118216": 7,
+    "us-cw-130": 1,
+    "us-cw-42654": 2,
+    "us-cw-590085": 1,
+    "us-cw-841126": 1,
+    "us-cw-822": 1,
+    "us-cw-907597": 1
+  },
+  "local_conflict_endpoint_counts": {
+    "us-cw-1196": 14,
+    "us-cw-1280": 10,
+    "us-cw-1180": 30,
+    "us-cw-3379182": 5,
+    "us-cw-1001721": 2,
+    "us-cw-42654": 11,
+    "us-cw-118216": 14,
+    "us-cw-130": 2,
+    "us-cw-2080": 2,
+    "us-cw-1001720": 3,
+    "us-cw-590085": 3,
+    "us-cw-590084": 2,
+    "us-cw-841126": 1,
+    "us-cw-59234": 2,
+    "us-cw-822": 2,
+    "us-cw-907597": 1
+  },
+  "lea_risk_subgraph_nodes": [
+    "us-cw-1001720",
+    "us-cw-1180",
+    "us-cw-118216",
+    "us-cw-1196",
+    "us-cw-1280",
+    "us-cw-130",
+    "us-cw-3379182",
+    "us-cw-42654",
+    "us-cw-590085"
+  ],
+  "lea_risk_subgraph_size": 9,
+  "lea_compression_ratio": 0.5,
+  "conflicts": [
+    {
+      "clause_a": "us-cw-1196",
+      "clause_b": "us-cw-1280",
+      "description": "Both records have overlapping previous names and registration numbers, which could lead to ambiguity in determining their unique identities or operational scope."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-1196",
+      "description": "The parent record references the subsidiary, but the subsidiary's multiple previous names and registration numbers may create ambiguity in the dependency relationship."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-1280",
+      "description": "The parent record references the subsidiary, but the subsidiary's duplicated address formats and previous names may create inconsistency in the dependency relationship."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-3379182",
+      "description": "Both records share the same registration number (721229752) and similar names, suggesting a potential duplication or inconsistency."
+    },
+    {
+      "clause_a": "us-cw-1001721",
+      "clause_b": "us-cw-42654",
+      "description": "us-cw-1001721 references us-cw-42654, but lacks sufficient attributes (e.g., registration number, address) to clarify the relationship."
+    },
+    {
+      "clause_a": "us-cw-42654",
+      "clause_b": "us-cw-1180",
+      "description": "us-cw-42654 references us-cw-1180, but the presence of multiple registration numbers in us-cw-42654 creates ambiguity in the relationship."
+    },
+    {
+      "clause_a": "us-cw-42654",
+      "clause_b": "us-cw-3379182",
+      "description": "us-cw-42654 references us-cw-3379182, but the presence of multiple registration numbers in us-cw-42654 creates ambiguity in the relationship."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-118216",
+      "description": "Bidirectional references create a circular dependency risk. Historical naming complexity in us-cw-118216 exacerbates the potential for underspecification or structural inconsistency."
+    },
+    {
+      "clause_a": "us-cw-118216",
+      "clause_b": "us-cw-1180",
+      "description": "The downstream worksheet mentions a blocking inconsistency related to a retained minority interest, suggesting a conflict in how these records interact."
+    },
+    {
+      "clause_a": "us-cw-118216",
+      "clause_b": "us-cw-1196",
+      "description": "Both records have multiple names and previous names, which could lead to ambiguity in resolving references between them."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-1196",
+      "description": "Dense interdependencies between these records increase the risk of cascading structural issues."
+    },
+    {
+      "clause_a": "us-cw-1196",
+      "clause_b": "us-cw-1180",
+      "description": "Shared address '639 LOYOLA AVE, NEW ORLEANS, LA 70113' creates ambiguity about which entity operates there."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-118216",
+      "description": "Overlapping names (e.g., 'Entergy Corporation' vs. 'Entergy Louisiana, Inc') and mutual references create potential conflicts in entity identification."
+    },
+    {
+      "clause_a": "us-cw-1196",
+      "clause_b": "us-cw-118216",
+      "description": "Naming overlaps (e.g., 'Entergy Mississippi LLC' vs. 'Entergy Louisiana, Inc') and mutual references create ambiguity in entity relationships."
+    },
+    {
+      "clause_a": "us-cw-1280",
+      "clause_b": "us-cw-1180",
+      "description": "Overlapping names and sectors create ambiguity in identifying distinct entities."
+    },
+    {
+      "clause_a": "us-cw-1280",
+      "clause_b": "us-cw-118216",
+      "description": "Overlapping names, addresses, and sectors create a severe conflict, particularly as both records are on the same path in the graph."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-118216",
+      "description": "Overlapping names and sectors, along with shared references, create potential for misidentification or misattribution."
+    },
+    {
+      "clause_a": "us-cw-130",
+      "clause_b": "us-cw-118216",
+      "description": "Both records have overlapping names and references, which could lead to ambiguity and structural inconsistency."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-130",
+      "description": "The centrality of us-cw-1180 and its references to us-cw-130 create a risk of cascading inconsistencies if the latter record is ambiguous or incorrect."
+    },
+    {
+      "clause_a": "us-cw-118216",
+      "clause_b": "us-cw-1180",
+      "description": "Bidirectional references between these records increase the risk of mutual inconsistency, especially given the structural complexity of us-cw-118216."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-118216",
+      "description": "Significant inconsistencies in address and name fields between these records create ambiguity in their references and dependencies."
+    },
+    {
+      "clause_a": "us-cw-2080",
+      "clause_b": "us-cw-1180",
+      "description": "Inconsistencies in address and name fields in both records could lead to propagation of errors in references."
+    },
+    {
+      "clause_a": "us-cw-2080",
+      "clause_b": "us-cw-118216",
+      "description": "High variability in us-cw-118216's fields, combined with us-cw-2080's duplicate address entries, creates potential for mismatches in references."
+    },
+    {
+      "clause_a": "us-cw-3379182",
+      "clause_b": "us-cw-1180",
+      "description": "Conflicting address fields and potential duplication (same registration number and overlapping names)."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-1196",
+      "description": "Overlapping address fields and shared references to 'us-cw-3379182' suggest structural dependency issues."
+    },
+    {
+      "clause_a": "us-cw-42654",
+      "clause_b": "us-cw-1180",
+      "description": "Potential conflict due to different addresses for entities operating in the same sector and referencing each other."
+    },
+    {
+      "clause_a": "us-cw-1001721",
+      "clause_b": "us-cw-42654",
+      "description": "Ambiguity caused by overlapping names ('Entergy Louisiana') between these two records."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-1001720",
+      "description": "Ambiguity caused by shared 'Entergy' name and unclear relationship between these two records."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-1196",
+      "description": "Potential conflict in sector descriptions and registration numbers."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-1280",
+      "description": "Potential conflict in addresses and previous names."
+    },
+    {
+      "clause_a": "us-cw-1196",
+      "clause_b": "us-cw-1280",
+      "description": "Potential conflict in addresses and previous names."
+    },
+    {
+      "clause_a": "us-cw-590085",
+      "clause_b": "us-cw-590084",
+      "description": "Naming conventions overlap significantly ('Entergy Holdings Company LLC' vs. 'Entergy International Ltd LLC'). This creates ambiguity in references and dependencies."
+    },
+    {
+      "clause_a": "us-cw-42654",
+      "clause_b": "us-cw-1001720",
+      "description": "References 'us-cw-1001720', which itself has naming overlap with other records. Potential for cascading ambiguity due to 'us-cw-42654's central role in the graph."
+    },
+    {
+      "clause_a": "us-cw-42654",
+      "clause_b": "us-cw-590085",
+      "description": "References 'us-cw-590085', which overlaps in naming conventions with 'us-cw-590084'. Ambiguity in dependencies could propagate through the graph."
+    },
+    {
+      "clause_a": "us-cw-841126",
+      "clause_b": "us-cw-42654",
+      "description": "us-cw-841126's dependency path requires a specific state from us-cw-42654, but the contradictory nature of us-cw-841126's dependency path creates a conflict with no valid fallback."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-1196",
+      "description": "Naming conventions and registration numbers differ, potentially conflicting when resolving dependencies."
+    },
+    {
+      "clause_a": "us-cw-1196",
+      "clause_b": "us-cw-59234",
+      "description": "Ambiguity in naming conventions and addresses could cause issues in dependency resolution."
+    },
+    {
+      "clause_a": "us-cw-59234",
+      "clause_b": "us-cw-1180",
+      "description": "Multiple addresses in both records could lead to ambiguity in determining the correct location for dependencies."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-3379182",
+      "description": "The two records appear to represent the same entity but have inconsistent formatting in the registration number ('/DE/' vs '/'), and slight variations in address formatting."
+    },
+    {
+      "clause_a": "us-cw-42654",
+      "clause_b": "us-cw-1180",
+      "description": "us-cw-42654 has multiple registration numbers, one of which may overlap with the registration number in us-cw-1180, creating ambiguity."
+    },
+    {
+      "clause_a": "us-cw-42654",
+      "clause_b": "us-cw-3379182",
+      "description": "us-cw-42654 has multiple registration numbers, one of which may overlap with the registration number in us-cw-3379182, creating ambiguity."
+    },
+    {
+      "clause_a": "us-cw-822",
+      "clause_b": "us-cw-1180",
+      "description": "Overlapping aliases and previous names create ambiguity in dependency identification."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-118216",
+      "description": "Overlapping aliases and previous names, combined with us-cw-1180's central role, increase the risk of propagating inconsistencies."
+    },
+    {
+      "clause_a": "us-cw-118216",
+      "clause_b": "us-cw-822",
+      "description": "Overlapping aliases and previous names create potential ambiguity in dependency resolution."
+    },
+    {
+      "clause_a": "us-cw-1196",
+      "clause_b": "us-cw-1280",
+      "description": "Overlapping previousName fields ('MISSISSIPPI POWER & LIGHT CO' vs. 'NEW ORLEANS PUBLIC SERVICE INC') and shared sectors suggest potential misclassification or unclear delineation between entities."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-1280",
+      "description": "Address overlap ('639 LOYOLA AVE, NEW ORLEANS, LA 70113') creates ambiguity about whether these are distinct entities or related entities."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-1196",
+      "description": "Sector and registration number overlaps create ambiguity about the relationships between these entities."
+    },
+    {
+      "clause_a": "us-cw-1196",
+      "clause_b": "us-cw-1280",
+      "description": "Both records share overlapping previous names and registration numbers, which could lead to identity ambiguity and downstream incompatibility."
+    },
+    {
+      "clause_a": "us-cw-907597",
+      "clause_b": "us-cw-1280",
+      "description": "The underspecified record 'us-cw-907597' references 'us-cw-1280,' which has structural ambiguity due to overlapping previous names and registration numbers."
+    }
+  ],
+  "ground_truth_nodes": [
+    "us-cw-841126"
+  ],
+  "top1_hit": true,
+  "top3_hit": true,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": false,
+  "lea_risk_nodes_retained": [
+    "us-cw-118216"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": false,
+  "lea_evidence_nodes_retained": [
+    "us-cw-130",
+    "us-cw-118216"
+  ],
+  "lea_contains_any_affected_node": true,
+  "lea_contains_all_affected_nodes": true,
+  "lea_affected_nodes_retained": [
+    "us-cw-1001720",
+    "us-cw-1280"
+  ],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": false,
+  "lea_valuable_nodes_retained": [
+    "us-cw-118216",
+    "us-cw-1001720",
+    "us-cw-1280"
+  ],
+  "inject_mode": true,
+  "injected_node": "us-cw-841126",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "case_template": "temporal_gate",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-118216",
+  "injected_witness_distance": 9,
+  "injected_bridge_node": "us-cw-130",
+  "injected_bridge_distance": 4,
+  "injected_risk_nodes": [
+    "us-cw-841126",
+    "us-cw-118216"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-841126",
+    "us-cw-130",
+    "us-cw-118216"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-1001720",
+    "us-cw-1280"
+  ],
+  "injected_conflict_family": "temporal_gate",
+  "injected_conflict_difficulty": "subtle",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_temporal_quarter_close_gate_critical",
+  "injected_rank": 1,
+  "top1_margin": 0.30000000000000004,
+  "risk_node_ranks": {
+    "us-cw-841126": 1,
+    "us-cw-118216": 4
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 4,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "us-cw-841126": 1,
+    "us-cw-130": 2,
+    "us-cw-118216": 4
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 4,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "us-cw-1001720": 14,
+    "us-cw-1280": 10
+  },
+  "affected_best_rank": 10,
+  "affected_worst_rank": 14,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-841126": 1,
+    "us-cw-118216": 4,
+    "us-cw-1001720": 14,
+    "us-cw-1280": 10
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 14,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 1,
+  "root_top1_hit": true,
+  "root_top3_hit": true,
+  "case_id": "023_gpt-4o_sec_ex2112_scc_4_temporal_gate",
+  "case_order": 23,
+  "audit_started_at": 1783789892.795614,
+  "audit_completed_at": 1783790040.921531,
+  "audit_started_at_iso": "2026-07-12T01:11:32+0800",
+  "audit_completed_at_iso": "2026-07-12T01:14:00+0800",
+  "case_concurrency": 4,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 18,
+    "successful_api_calls": 18,
+    "failed_api_calls": 0,
+    "prompt_tokens": 19692,
+    "completion_tokens": 14288,
+    "total_tokens": 33980,
+    "api_runtime_sec_sum": 148.11038661003113
+  }
+}

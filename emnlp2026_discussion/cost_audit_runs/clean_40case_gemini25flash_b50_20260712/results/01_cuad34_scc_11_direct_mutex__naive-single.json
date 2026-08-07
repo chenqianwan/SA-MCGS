@@ -1,0 +1,845 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (cuad); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gemini-2.5-flash",
+  "domain": "cuad",
+  "scc_size": 34,
+  "scc_id": "scc_11",
+  "scc_clause_ids": [
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.115",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.19",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.25",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__10",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__10.1.5",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.2",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.4.3",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12.4.2",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.1",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.2",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.3.7",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__14.4.2",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__14.5",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.2",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.3.2",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.4.2",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.8",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.2",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.5",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.9",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__4.1",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.2",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.3",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.4",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__6.2",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__7.10",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__7.2",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__8",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__8.2",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9.2"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 69603,
+    "completion_tokens": 5824,
+    "total_tokens": 75427
+  },
+  "time": 17.574147939682007,
+  "scores": {
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.115": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.19": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.25": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__10": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__10.1.5": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.2": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.4.3": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12.4.2": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.1": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.2": 0.65,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.3.7": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__14.4.2": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__14.5": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.2": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.3.2": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.4.2": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.8": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.2": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.5": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.9": 0.95,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__4.1": 0.45,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.2": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.3": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.4": 0.5,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__6.2": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__7.10": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__7.2": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__8": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__8.2": 0.0,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9.2": 0.0
+  },
+  "reasonings": {
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.115": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.19": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.25": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__10": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__10.1.5": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.2": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.4.3": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12.4.2": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.1": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.2": "Bankruptcy provisions complicate the already uncertain termination rules.",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.3.7": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__14.4.2": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__14.5": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.2": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.3.2": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.4.2": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.8": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.2": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.5": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.9": "Contains fundamental self-contradictory logic concerning termination notice and cure rights.",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__4.1": "Survival of terms is ambiguously linked to early termination.",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.2": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.3": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.4": "Failure to supply directly intersects with acceleration triggers.",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__6.2": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__7.10": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__7.2": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__8": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__8.2": "",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9.2": ""
+  },
+  "ranking": [
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.9",
+      0.95
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.4.3",
+      0.7
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.2",
+      0.65
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.4",
+      0.5
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__4.1",
+      0.45
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.115",
+      0.4
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.19",
+      0.35
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.2",
+      0.3
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.1",
+      0.25
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.5",
+      0.25
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12.4.2",
+      0.2
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.2",
+      0.2
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__6.2",
+      0.2
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__14.4.2",
+      0.15
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__8.2",
+      0.15
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__7.2",
+      0.15
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.3",
+      0.15
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.3.2",
+      0.1
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__10",
+      0.1
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11",
+      0.1
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__14.5",
+      0.1
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__7.10",
+      0.1
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.2",
+      0.1
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.2",
+      0.05
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.8",
+      0.05
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9.2",
+      0.05
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.25",
+      0.05
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12",
+      0.05
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__10.1.5",
+      0.05
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.4.2",
+      0.05
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.3.7",
+      0.05
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1",
+      0.0
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9",
+      0.0
+    ],
+    [
+      "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__8",
+      0.0
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.9",
+      "risk_score": 0.95,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Contains irreconcilable logic regarding termination for convenience, early termination fees, and automatic acceleration/loss of cure rights."
+    },
+    {
+      "rank": 2,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.4.3",
+      "risk_score": 0.7,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "High-impact provision linking asset liens to potential default and acceleration, sensitive to the inconsistent termination rules."
+    },
+    {
+      "rank": 3,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.2",
+      "risk_score": 0.65,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Bankruptcy clause triggers potential cross-defaults that are compounded by the ambiguity in the notice and cure provisions."
+    },
+    {
+      "rank": 4,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.4",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Failure to supply directly intersects with the acceleration of unpaid amounts mentioned in the termination section."
+    },
+    {
+      "rank": 5,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__4.1",
+      "risk_score": 0.45,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Survival of terms after early termination is ambiguously linked to the disputed termination conditions."
+    },
+    {
+      "rank": 6,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.115",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "References to payment of amounts upon termination create potential for conflict with the 30-day notice period requirements."
+    },
+    {
+      "rank": 7,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.19",
+      "risk_score": 0.35,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Cost attribution rules tied to workflow development which may be abandoned prematurely."
+    },
+    {
+      "rank": 8,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.2",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Retooling costs are susceptible to dispute if the agreement is terminated early without notice."
+    },
+    {
+      "rank": 9,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.1",
+      "risk_score": 0.25,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "General effects of expiration cross-referenced by the conflict-heavy notice clause."
+    },
+    {
+      "rank": 10,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.5",
+      "risk_score": 0.25,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Expert panel resolution procedure is dependent on efficient notice periods."
+    },
+    {
+      "rank": 11,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12.4.2",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Insurance requirements persist post-termination, sensitive to the timing of notice."
+    },
+    {
+      "rank": 12,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.2",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Non-compete during term is effectively modified by premature termination."
+    },
+    {
+      "rank": 13,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__6.2",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Restrictions on prohibitions are tied to the Term, affected by termination acceleration."
+    },
+    {
+      "rank": 14,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__14.4.2",
+      "risk_score": 0.15,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Transferee obligations could be undermined by the lack of cure rights in disputed termination."
+    },
+    {
+      "rank": 15,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__8.2",
+      "risk_score": 0.15,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "IP ownership might be impacted if early termination occurs during ongoing development."
+    },
+    {
+      "rank": 16,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__7.2",
+      "risk_score": 0.15,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Purchase targets are logically linked to active term/supply obligations."
+    },
+    {
+      "rank": 17,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.3",
+      "risk_score": 0.15,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Delivery payment timing is critical during rapid termination scenarios."
+    },
+    {
+      "rank": 18,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.3.2",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Amendment process must address the conflicting termination terms."
+    },
+    {
+      "rank": 19,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__10",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Confidentiality obligations post-termination."
+    },
+    {
+      "rank": 20,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Warranty disclaimer impacted by termination timing."
+    },
+    {
+      "rank": 21,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__14.5",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Dispute resolution impact."
+    },
+    {
+      "rank": 22,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__7.10",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Late payment interests upon acceleration."
+    },
+    {
+      "rank": 23,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.2",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "Termination Logic Conflict"
+      ],
+      "reasoning": "Pricing adjustments impacted by termination."
+    },
+    {
+      "rank": 24,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.2",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "Structural Dependency Clutter"
+      ],
+      "reasoning": "General oversight functionality."
+    },
+    {
+      "rank": 25,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.8",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "Structural Dependency Clutter"
+      ],
+      "reasoning": "Record-keeping standards."
+    },
+    {
+      "rank": 26,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9.2",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "Structural Dependency Clutter"
+      ],
+      "reasoning": "Granting provisions."
+    },
+    {
+      "rank": 27,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.25",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "Structural Dependency Clutter"
+      ],
+      "reasoning": "General references."
+    },
+    {
+      "rank": 28,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "Structural Dependency Clutter"
+      ],
+      "reasoning": "General indemnification."
+    },
+    {
+      "rank": 29,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__10.1.5",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "Structural Dependency Clutter"
+      ],
+      "reasoning": "Disclosure consent."
+    },
+    {
+      "rank": 30,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.4.2",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "Structural Dependency Clutter"
+      ],
+      "reasoning": "Payment mechanism."
+    },
+    {
+      "rank": 31,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.3.7",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "Structural Dependency Clutter"
+      ],
+      "reasoning": "Annual update mechanism."
+    },
+    {
+      "rank": 32,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1",
+      "risk_score": 0.0,
+      "risk_factors": [],
+      "reasoning": "Root node for reference."
+    },
+    {
+      "rank": 33,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9",
+      "risk_score": 0.0,
+      "risk_factors": [],
+      "reasoning": "Neutral node."
+    },
+    {
+      "rank": 34,
+      "clause_id": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__8",
+      "risk_score": 0.0,
+      "risk_factors": [],
+      "reasoning": "Header node."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "Termination Logic Conflict",
+      "importance_weight": 0.9,
+      "description": "Direct contradiction between termination notice requirements and acceleration/cure rights across transaction paths."
+    },
+    {
+      "factor": "Structural Dependency Clutter",
+      "importance_weight": 0.1,
+      "description": "Dense graph connectivity causing ambiguity in override hierarchy."
+    }
+  ],
+  "risk_factor_weight_sum": 1.0,
+  "direct_risk_subgraph_nodes": [
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.9",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__4.1",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.4",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.2"
+  ],
+  "direct_risk_subgraph_size": 4,
+  "direct_compression_ratio": 0.8823529411764706,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "This set captures the core of the termination conflict where notice periods, non-waiver status, acceleration, and insolvency-driven defaults intersect, creating the primary legal risk.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.9",
+      "target": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__4.1",
+      "reason": "Interdependent termination and survival logic."
+    },
+    {
+      "source": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.9",
+      "target": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.4",
+      "reason": "Acceleration of unpaid amounts due to failure to supply."
+    },
+    {
+      "source": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.2",
+      "target": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.9",
+      "reason": "Bankruptcy as an immediate trigger for accelerated termination."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.9",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__4.1",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.4",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.2"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 5,
+  "largest_tie_count": 30,
+  "tied_score_groups": [
+    {
+      "score": 0.0,
+      "count": 30,
+      "nodes": [
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.115",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.19",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.25",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__10",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__10.1.5",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.2",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.4.3",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12.4.2",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.1",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.3.7",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__14.4.2",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__14.5",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.2",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.3.2",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.4.2",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.8",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.2",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.5",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.2",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.3",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__6.2",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__7.10",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__7.2",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__8",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__8.2",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9.2"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "clause_a": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.9",
+      "clause_b": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.9",
+      "description": "Internal contradiction: The record states customer may terminate for convenience on 30 days notice with no fee, but then immediately posits that any upstream mismatch leads to no cure window and automatic acceleration/termination."
+    }
+  ],
+  "score_spread": 0.95,
+  "ranking_score_spread": 0.95,
+  "score_mean": 0.075,
+  "score_max": 0.95,
+  "node_names": {
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1": "1",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.115": "6 any other amounts, including for [***] (including for Beacon Optofluidic Machines or any Consumable as applicable, properly charged and invoiced to Ginkgo and paid by Ginkgo under this Agreement in connection with the supply or provision of goods and services by BLI, which are not Development Purchases.",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.19": "5 other out-of-pocket costs paid by BLI to permitted Third Party subcontractors and vendors attributable to the development of the Workflow or Hardware under such Workflow Development Plan, [***].",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1.25": "3 [***];",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__10": "6 Destruction or Return of Confidential Information.",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__10.1.5": "5 Receiving Party obtains written consent from Disclosing Party to disclose.",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11": "WARRANTIES AND DISCLAIMER; LIMITATION OF LIABILITY",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.2": "4 it shall not, during the Term, enter into an agreement with a Third Party, or grant any right or license to any Third Party relating to any of the intellectual property rights it Controls, or otherwise encumber such intellectual property rights it Controls, that would conflict with any of the rights, obligations or licenses granted to the other Party hereunder. Page 52 of 85",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.4.3": "3 neither Ginkgo nor its Affiliates have granted, and Ginkgo and its Affiliates will not grant, any liens or security interest on any assets, including Intellectual Property, that would limit the scope of any rights or licenses granted to BLI hereunder.",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12": "INDEMNIFICATION; INSURANCE",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12.4.2": "2 Certificates of Insurance. Upon request by a Party, the other Party will provide Certificates of Insurance evidencing compliance with this Section 12.4 (Insurance). The insurance policies will be under an occurrence form, but if only a claims-made form is available to a Party, then such Party will continue to maintain such insurance after Expiration or the termination of this Agreement for a period of [***] ([***]) years following the end of the Term. 13. TERM AND TERMINATION",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.1": "2 Effects of Expiration",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.2": "2 Bankruptcy",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.3.7": "7 Annual Royalty Update",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__14.4.2": "2 Transferee",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__14.5": "Governing Law; Dispute Resolution; Equitable Remedies",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.2": "3 Retooling and Development Costs.",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.3.2": "Amendments by the Parties",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.4.2": "2 Payment.",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__2.8": "Records",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.2": "12 performing such other functions as expressly set forth in this Agreement as being under the purview of the JRC or as the Parties may mutually agree in writing, except where in conflict with any provision of this Agreement.",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.5": "3 if the matter is determining (a) whether [***] or (b) whether [***] (including with respect to [***]), with respect to each, at either Party's request, the dispute shall be resolved in an accelerated manner by a panel of three (3) independent Third Parties, each having expertise with respect to the subject matter of the applicable Workflow Development Plan (such panel, an \"Expert Panel\"), subject to the following process: (i) each Party will engage one independent Third Party expert for the Expert Panel [***] after [***] to serve on the Expert Panel, (ii) within [***] ([***]) days of any request to refer the matter to an Expert Panel or, if earlier, as promptly as reasonably practicable after each Party's engagement of its Third Party Expert, the Parties' two (2) Third Party experts shall mutually agree on a third (3rd) independent Third Party expert who will serve on such panel and as chairperson of the panel, (iii) the Expert Panel will reach a decision as to such matter (including whether [***]) as promptly as practicable, which may include having the JRC or Parties submit information in support of the Expert Panel making a determination, Page 23 of 85",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9": "9",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.9": "Expenses",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__4.1": "10 the BLI Terms and Conditions that apply with respect to any Beacon Optofluidic Machines (including related Hardware and Software), Consumables or Services for which Ginkgo has placed a Purchase Order pursuant to this Agreement shall not terminate absent mutual written consent of the Parties, unless this Agreement has been terminated early (e.g. prior to its Expiration) in which case such BLI Terms and Conditions shall survive only for so long and to the extent as Ginkgo continues to have the right to use Beacon Optofluidic Machines or Consumables or receive Services pursuant to Section 13.3 (Effects of Termination). 5. FORECASTS; ORDERS; SERVICE STANDARDS AND RELATED OBLIGATIONS",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.2": "2 Adjustments. Notwithstanding anything else to the contrary in this Agreement, and [***], with respect to the prices charged by BLI to Ginkgo under Section 5.3.2 (Purchase Orders - Acceptance and Rejection):",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.3": "3 Delivery and Payment.",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.4": "3 Failure to Supply.",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__6.2": "2 No Further Restrictions by Ginkgo. During the Term, Ginkgo shall not [***] prohibit (i.e. by [***]), as part of any [***] arrangement with a Third Party, a Third Party from purchasing a Beacon Platform or other BLI products or services, or otherwise using or utilizing such Beacon Platforms for [***], including [***]. For clarity, such obligation shall not prohibit or limit Ginkgo from entering into generally exclusive relationships with Third Parties (e.g., [***]). 7. ECONOMICS",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__7.10": "Late Payments",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__7.2": "2 Contract Year Purchase Targets and Commitments",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__8": "Intellectual Property Ownership; Use of Data",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__8.2": "2 BLI Inventions. Unless otherwise agreed to in writing by the Parties, as between the Parties, BLI shall own:",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9.2": "Grants to BLI"
+  },
+  "ground_truth_nodes": [
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9"
+  ],
+  "gt_evidence": {
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": false,
+  "prompt_word_count": 17190,
+  "injected_title_occurrences_in_prompt": 776,
+  "injected_id_occurrences_in_prompt": 39,
+  "injected_title_first_word_ratio": 0.0030250145433391505,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.07707969749854567,
+  "inject_mode": true,
+  "injected_node": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.4.3",
+  "injected_witness_distance": 17,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.4.3"
+  ],
+  "injected_evidence_nodes": [
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.4.3"
+  ],
+  "injected_affected_nodes": [
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9.2",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12.4.2"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "cuad_direct_no_fee_vs_fee_critical",
+  "injected_rank": 33,
+  "top1_margin": 0.25,
+  "risk_node_ranks": {
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9": 33,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.4.3": 2
+  },
+  "risk_best_rank": 2,
+  "risk_worst_rank": 33,
+  "risk_top1_hit": false,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": false,
+  "evidence_node_ranks": {
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9": 33,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.4.3": 2
+  },
+  "evidence_best_rank": 2,
+  "evidence_worst_rank": 33,
+  "evidence_top1_hit": false,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9.2": 26,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12.4.2": 11
+  },
+  "affected_best_rank": 11,
+  "affected_worst_rank": 26,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9": 33,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__11.4.3": 2,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__9.2": 26,
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__12.4.2": 11
+  },
+  "valuable_best_rank": 2,
+  "valuable_worst_rank": 33,
+  "valuable_top1_hit": false,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 33,
+  "root_top1_hit": false,
+  "root_top3_hit": false,
+  "direct_subgraph_nodes_retained": [
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.9",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__4.1",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.4",
+    "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__13.2"
+  ],
+  "direct_contains_injected_node": false,
+  "direct_contains_any_risk_node": false,
+  "direct_contains_all_risk_nodes": false,
+  "direct_risk_nodes_retained": [],
+  "direct_contains_any_evidence_node": false,
+  "direct_contains_all_evidence_nodes": false,
+  "direct_evidence_nodes_retained": [],
+  "direct_contains_any_affected_node": false,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [],
+  "direct_contains_any_valuable_node": false,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [],
+  "case_id": "01_cuad34_scc_11_direct_mutex",
+  "case_order": 1,
+  "audit_started_at": 1783860346.343466,
+  "audit_completed_at": 1783860363.918995,
+  "audit_started_at_iso": "2026-07-12T20:45:46+0800",
+  "audit_completed_at_iso": "2026-07-12T20:46:03+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 69603,
+    "completion_tokens": 5824,
+    "total_tokens": 75427,
+    "api_runtime_sec_sum": 17.56563091278076
+  }
+}

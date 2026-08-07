@@ -1,0 +1,490 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (debian); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gpt-4o",
+  "domain": "debian",
+  "scc_size": 12,
+  "scc_id": "scc_8",
+  "scc_clause_ids": [
+    "libecore-drm2-1",
+    "libecore-evas1",
+    "libecore-fb1",
+    "libecore-input1",
+    "libecore-wl2-1",
+    "libelput1",
+    "libevas1",
+    "libevas1-engines-drm",
+    "libecore-x1",
+    "libevas1-engines-fb",
+    "libevas1-engines-wayland",
+    "libevas1-engines-x"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 4531,
+    "completion_tokens": 1934,
+    "total_tokens": 6465
+  },
+  "time": 10.723449230194092,
+  "scores": {
+    "libecore-drm2-1": 0.2,
+    "libecore-evas1": 0.5,
+    "libecore-fb1": 0.1,
+    "libecore-input1": 0.9,
+    "libecore-wl2-1": 0.1,
+    "libelput1": 0.1,
+    "libevas1": 0.6,
+    "libevas1-engines-drm": 0.3,
+    "libecore-x1": 0.8,
+    "libevas1-engines-fb": 0.2,
+    "libevas1-engines-wayland": 0.7,
+    "libevas1-engines-x": 0.4
+  },
+  "reasonings": {
+    "libecore-drm2-1": "Referenced by multiple nodes but dependencies are straightforward.",
+    "libecore-evas1": "References many nodes, increasing the risk of dependency mismatches.",
+    "libecore-fb1": "Limited dependencies and no major structural concerns.",
+    "libecore-input1": "Blocking inconsistency in handoff logic and high centrality in the graph.",
+    "libecore-wl2-1": "Few dependencies and no major structural concerns.",
+    "libelput1": "Referenced by libecore-drm2-1 but no significant structural concerns.",
+    "libevas1": "Central to the graph and has multiple dependencies, increasing risk of cascading failures.",
+    "libevas1-engines-drm": "References libecore-drm2-1 and libevas1, but dependencies are manageable.",
+    "libecore-x1": "Mandatory state creates structural incompatibility in downstream dependencies.",
+    "libevas1-engines-fb": "References libevas1 but has fewer dependencies overall.",
+    "libevas1-engines-wayland": "Breaks clause conflicts with enlightenment and references multiple nodes.",
+    "libevas1-engines-x": "Pass-through maintenance record with no independent conversion point."
+  },
+  "ranking": [
+    [
+      "libecore-input1",
+      0.9
+    ],
+    [
+      "libecore-x1",
+      0.8
+    ],
+    [
+      "libevas1-engines-wayland",
+      0.7
+    ],
+    [
+      "libevas1",
+      0.6
+    ],
+    [
+      "libecore-evas1",
+      0.5
+    ],
+    [
+      "libevas1-engines-x",
+      0.4
+    ],
+    [
+      "libevas1-engines-drm",
+      0.3
+    ],
+    [
+      "libevas1-engines-fb",
+      0.2
+    ],
+    [
+      "libecore-drm2-1",
+      0.2
+    ],
+    [
+      "libecore-fb1",
+      0.1
+    ],
+    [
+      "libecore-wl2-1",
+      0.1
+    ],
+    [
+      "libelput1",
+      0.1
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "libecore-input1",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "dependency_mismatch",
+        "handoff_inconsistency"
+      ],
+      "reasoning": "This record has a blocking inconsistency in its handoff logic and is referenced by multiple nodes, amplifying its impact."
+    },
+    {
+      "rank": 2,
+      "clause_id": "libecore-x1",
+      "risk_score": 0.8,
+      "risk_factors": [
+        "handoff_inconsistency",
+        "graph_centrality"
+      ],
+      "reasoning": "This record has a mandatory state for the dependency path but creates a contradictory downstream state, leading to structural incompatibility."
+    },
+    {
+      "rank": 3,
+      "clause_id": "libevas1-engines-wayland",
+      "risk_score": 0.7,
+      "risk_factors": [
+        "dependency_mismatch",
+        "breaks_conflict"
+      ],
+      "reasoning": "This record has a 'Breaks' clause that conflicts with another record and references multiple nodes, increasing its impact."
+    },
+    {
+      "rank": 4,
+      "clause_id": "libevas1",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "dependency_mismatch",
+        "graph_centrality"
+      ],
+      "reasoning": "This record is central to the graph and has multiple dependencies, increasing the risk of cascading failures."
+    },
+    {
+      "rank": 5,
+      "clause_id": "libecore-evas1",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "dependency_mismatch"
+      ],
+      "reasoning": "This record references many nodes, creating a high potential for dependency mismatches."
+    },
+    {
+      "rank": 6,
+      "clause_id": "libevas1-engines-x",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "handoff_inconsistency"
+      ],
+      "reasoning": "This record acts as a pass-through maintenance record but does not resolve inconsistencies in the dependency path."
+    },
+    {
+      "rank": 7,
+      "clause_id": "libevas1-engines-drm",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "dependency_mismatch"
+      ],
+      "reasoning": "This record references multiple nodes, including libecore-drm2-1, which is a critical dependency."
+    },
+    {
+      "rank": 8,
+      "clause_id": "libevas1-engines-fb",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "dependency_mismatch"
+      ],
+      "reasoning": "This record has fewer dependencies but still references libevas1, which is central to the graph."
+    },
+    {
+      "rank": 9,
+      "clause_id": "libecore-drm2-1",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "dependency_mismatch"
+      ],
+      "reasoning": "This record is referenced by multiple nodes, but its dependencies are relatively straightforward."
+    },
+    {
+      "rank": 10,
+      "clause_id": "libecore-fb1",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "dependency_mismatch"
+      ],
+      "reasoning": "This record has a limited number of dependencies and does not introduce significant structural concerns."
+    },
+    {
+      "rank": 11,
+      "clause_id": "libecore-wl2-1",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "dependency_mismatch"
+      ],
+      "reasoning": "This record has a few dependencies but does not introduce major risks."
+    },
+    {
+      "rank": 12,
+      "clause_id": "libelput1",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "dependency_mismatch"
+      ],
+      "reasoning": "This record is referenced by libecore-drm2-1 but does not introduce significant structural concerns."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "dependency_mismatch",
+      "importance_weight": 0.4,
+      "description": "Captures cases where dependencies are underspecified, mismatched, or conflicting."
+    },
+    {
+      "factor": "handoff_inconsistency",
+      "importance_weight": 0.3,
+      "description": "Captures cases where interface handoffs are inconsistent or contradictory."
+    },
+    {
+      "factor": "breaks_conflict",
+      "importance_weight": 0.2,
+      "description": "Captures cases where 'Breaks' clauses create structural incompatibilities."
+    },
+    {
+      "factor": "graph_centrality",
+      "importance_weight": 0.1,
+      "description": "Captures nodes with high centrality in the dependency graph, which may amplify risks."
+    }
+  ],
+  "risk_factor_weight_sum": 1.0,
+  "direct_risk_subgraph_nodes": [
+    "libecore-input1",
+    "libecore-x1",
+    "libevas1-engines-wayland"
+  ],
+  "direct_risk_subgraph_size": 3,
+  "direct_compression_ratio": 0.75,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "These nodes represent the core of the structural inconsistencies and conflicts in the graph. Removing or resolving issues in these nodes would address the highest-risk areas without affecting unrelated records.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "libecore-input1",
+      "target": "libevas1",
+      "reason": "Dependency mismatch and blocking inconsistency in handoff logic."
+    },
+    {
+      "source": "libecore-x1",
+      "target": "libecore-input1",
+      "reason": "Contradictory downstream state creates structural incompatibility."
+    },
+    {
+      "source": "libevas1-engines-wayland",
+      "target": "libecore-evas1",
+      "reason": "Breaks clause conflicts with enlightenment and references multiple nodes."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "libecore-input1",
+    "libecore-x1",
+    "libevas1-engines-wayland"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 9,
+  "largest_tie_count": 3,
+  "tied_score_groups": [
+    {
+      "score": 0.1,
+      "count": 3,
+      "nodes": [
+        "libecore-fb1",
+        "libecore-wl2-1",
+        "libelput1"
+      ]
+    },
+    {
+      "score": 0.2,
+      "count": 2,
+      "nodes": [
+        "libecore-drm2-1",
+        "libevas1-engines-fb"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "clause_a": "libecore-input1",
+      "clause_b": "libevas1",
+      "description": "Blocking inconsistency in handoff logic creates a mismatch in the dependency path."
+    },
+    {
+      "clause_a": "libecore-x1",
+      "clause_b": "libecore-input1",
+      "description": "Contradictory downstream state creates structural incompatibility."
+    },
+    {
+      "clause_a": "libevas1-engines-wayland",
+      "clause_b": "enlightenment",
+      "description": "Breaks clause conflicts with enlightenment, creating a high-impact risk."
+    }
+  ],
+  "score_spread": 0.8,
+  "ranking_score_spread": 0.8,
+  "score_mean": 0.4083333333333334,
+  "score_max": 0.9,
+  "node_names": {
+    "libecore-drm2-1": "libecore-drm2-1",
+    "libecore-evas1": "libecore-evas1",
+    "libecore-fb1": "libecore-fb1",
+    "libecore-input1": "libecore-input1",
+    "libecore-wl2-1": "libecore-wl2-1",
+    "libelput1": "libelput1",
+    "libevas1": "libevas1",
+    "libevas1-engines-drm": "libevas1-engines-drm",
+    "libecore-x1": "libecore-x1",
+    "libevas1-engines-fb": "libevas1-engines-fb",
+    "libevas1-engines-wayland": "libevas1-engines-wayland",
+    "libevas1-engines-x": "libevas1-engines-x"
+  },
+  "ground_truth_nodes": [
+    "libecore-x1"
+  ],
+  "gt_evidence": {
+    "libecore-x1": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": true,
+  "prompt_word_count": 1371,
+  "injected_title_occurrences_in_prompt": 14,
+  "injected_id_occurrences_in_prompt": 14,
+  "injected_title_first_word_ratio": 0.08971553610503283,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.3727206418672502,
+  "inject_mode": true,
+  "injected_node": "libecore-x1",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "libecore-input1",
+  "injected_witness_distance": 6,
+  "injected_bridge_node": "libevas1-engines-x",
+  "injected_bridge_distance": 3,
+  "injected_risk_nodes": [
+    "libecore-x1",
+    "libecore-input1"
+  ],
+  "injected_evidence_nodes": [
+    "libecore-x1",
+    "libevas1-engines-x",
+    "libecore-input1"
+  ],
+  "injected_affected_nodes": [
+    "libevas1-engines-fb",
+    "libevas1"
+  ],
+  "injected_conflict_family": "handoff_invariant",
+  "injected_conflict_difficulty": "moderate",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "debian_handoff_invariant_abi_class_critical",
+  "injected_rank": 2,
+  "top1_margin": 0.09999999999999998,
+  "risk_node_ranks": {
+    "libecore-x1": 2,
+    "libecore-input1": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "libecore-x1": 2,
+    "libevas1-engines-x": 6,
+    "libecore-input1": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 6,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "libevas1-engines-fb": 8,
+    "libevas1": 4
+  },
+  "affected_best_rank": 4,
+  "affected_worst_rank": 8,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "libecore-x1": 2,
+    "libecore-input1": 1,
+    "libevas1-engines-fb": 8,
+    "libevas1": 4
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 8,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "direct_subgraph_nodes_retained": [
+    "libecore-input1",
+    "libecore-x1",
+    "libevas1-engines-wayland"
+  ],
+  "direct_contains_injected_node": true,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": true,
+  "direct_risk_nodes_retained": [
+    "libecore-x1",
+    "libecore-input1"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": false,
+  "direct_evidence_nodes_retained": [
+    "libecore-x1",
+    "libecore-input1"
+  ],
+  "direct_contains_any_affected_node": false,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "libecore-x1",
+    "libecore-input1"
+  ],
+  "case_id": "33_debian12_scc_8_handoff_invariant",
+  "case_order": 33,
+  "audit_started_at": 1783834899.345525,
+  "audit_completed_at": 1783834910.06928,
+  "audit_started_at_iso": "2026-07-12T13:41:39+0800",
+  "audit_completed_at_iso": "2026-07-12T13:41:50+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 4531,
+    "completion_tokens": 1934,
+    "total_tokens": 6465,
+    "api_runtime_sec_sum": 10.716542959213257
+  }
+}

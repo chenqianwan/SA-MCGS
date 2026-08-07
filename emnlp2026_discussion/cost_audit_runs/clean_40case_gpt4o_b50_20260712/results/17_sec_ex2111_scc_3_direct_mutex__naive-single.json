@@ -1,0 +1,626 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (sec_ex21); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gpt-4o",
+  "domain": "sec_ex21",
+  "scc_size": 18,
+  "scc_id": "scc_3",
+  "scc_clause_ids": [
+    "us-cw-1001720",
+    "us-cw-1001721",
+    "us-cw-1180",
+    "us-cw-118216",
+    "us-cw-1196",
+    "us-cw-1280",
+    "us-cw-130",
+    "us-cw-2080",
+    "us-cw-3379182",
+    "us-cw-42654",
+    "us-cw-590084",
+    "us-cw-590085",
+    "us-cw-841126",
+    "us-cw-59234",
+    "us-cw-702872",
+    "us-cw-822",
+    "us-cw-903404",
+    "us-cw-907597"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 6424,
+    "completion_tokens": 2667,
+    "total_tokens": 9091
+  },
+  "time": 14.986737966537476,
+  "scores": {
+    "us-cw-1001720": 0.1,
+    "us-cw-1001721": 0.7,
+    "us-cw-1180": 1.0,
+    "us-cw-118216": 0.9,
+    "us-cw-1196": 0.5,
+    "us-cw-1280": 0.5,
+    "us-cw-130": 0.5,
+    "us-cw-2080": 0.5,
+    "us-cw-3379182": 0.6,
+    "us-cw-42654": 0.8,
+    "us-cw-590084": 0.2,
+    "us-cw-590085": 0.3,
+    "us-cw-841126": 0.2,
+    "us-cw-59234": 0.1,
+    "us-cw-702872": 0.3,
+    "us-cw-822": 0.4,
+    "us-cw-903404": 0.2,
+    "us-cw-907597": 0.2
+  },
+  "reasonings": {
+    "us-cw-1001720": "Underspecified relationships.",
+    "us-cw-1001721": "Naming conflicts with other nodes.",
+    "us-cw-1180": "Central node with high dependency density and part of a cycle.",
+    "us-cw-118216": "Part of a cycle and has naming conflicts with other nodes.",
+    "us-cw-1196": "High dependency density.",
+    "us-cw-1280": "High dependency density.",
+    "us-cw-130": "High dependency density.",
+    "us-cw-2080": "High dependency density.",
+    "us-cw-3379182": "Duplicate record with slight naming variation, creating ambiguity.",
+    "us-cw-42654": "High dependency density and naming conflicts with other nodes.",
+    "us-cw-590084": "Underspecified relationships.",
+    "us-cw-590085": "Underspecified relationships.",
+    "us-cw-841126": "Underspecified relationships.",
+    "us-cw-59234": "Underspecified relationships.",
+    "us-cw-702872": "Underspecified relationships.",
+    "us-cw-822": "Naming conflicts with other nodes.",
+    "us-cw-903404": "Underspecified relationships.",
+    "us-cw-907597": "Underspecified relationships."
+  },
+  "ranking": [
+    [
+      "us-cw-1180",
+      1.0
+    ],
+    [
+      "us-cw-118216",
+      0.9
+    ],
+    [
+      "us-cw-42654",
+      0.8
+    ],
+    [
+      "us-cw-1001721",
+      0.7
+    ],
+    [
+      "us-cw-3379182",
+      0.6
+    ],
+    [
+      "us-cw-1196",
+      0.5
+    ],
+    [
+      "us-cw-1280",
+      0.5
+    ],
+    [
+      "us-cw-130",
+      0.5
+    ],
+    [
+      "us-cw-2080",
+      0.5
+    ],
+    [
+      "us-cw-822",
+      0.4
+    ],
+    [
+      "us-cw-590085",
+      0.3
+    ],
+    [
+      "us-cw-702872",
+      0.3
+    ],
+    [
+      "us-cw-590084",
+      0.2
+    ],
+    [
+      "us-cw-841126",
+      0.2
+    ],
+    [
+      "us-cw-903404",
+      0.2
+    ],
+    [
+      "us-cw-907597",
+      0.2
+    ],
+    [
+      "us-cw-59234",
+      0.1
+    ],
+    [
+      "us-cw-1001720",
+      0.1
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "us-cw-1180",
+      "risk_score": 1.0,
+      "risk_factors": [
+        "cyclic_dependency",
+        "high_dependency_density"
+      ],
+      "reasoning": "Central node with the highest number of outgoing references (17), creating a high dependency density. It also participates in a cycle with us-cw-118216."
+    },
+    {
+      "rank": 2,
+      "clause_id": "us-cw-118216",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "cyclic_dependency",
+        "naming_conflicts"
+      ],
+      "reasoning": "Participates in a cycle with us-cw-1180 and has naming conflicts with us-cw-1001721 and us-cw-42654 due to overlapping names and previous names."
+    },
+    {
+      "rank": 3,
+      "clause_id": "us-cw-42654",
+      "risk_score": 0.8,
+      "risk_factors": [
+        "naming_conflicts",
+        "high_dependency_density"
+      ],
+      "reasoning": "Has naming conflicts with us-cw-118216 and us-cw-1001721. It also has a high number of outgoing references (13), indicating high dependency density."
+    },
+    {
+      "rank": 4,
+      "clause_id": "us-cw-1001721",
+      "risk_score": 0.7,
+      "risk_factors": [
+        "naming_conflicts"
+      ],
+      "reasoning": "Naming conflicts with us-cw-118216 and us-cw-42654 due to overlapping names and previous names."
+    },
+    {
+      "rank": 5,
+      "clause_id": "us-cw-3379182",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "naming_conflicts"
+      ],
+      "reasoning": "Duplicate of us-cw-1180 with slight variations in naming, creating ambiguity in the graph."
+    },
+    {
+      "rank": 6,
+      "clause_id": "us-cw-1196",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "high_dependency_density"
+      ],
+      "reasoning": "High number of outgoing references (16), indicating a critical node in the graph."
+    },
+    {
+      "rank": 7,
+      "clause_id": "us-cw-1280",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "high_dependency_density"
+      ],
+      "reasoning": "High number of outgoing references (14), indicating a critical node in the graph."
+    },
+    {
+      "rank": 8,
+      "clause_id": "us-cw-130",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "high_dependency_density"
+      ],
+      "reasoning": "High number of outgoing references (14), indicating a critical node in the graph."
+    },
+    {
+      "rank": 9,
+      "clause_id": "us-cw-2080",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "high_dependency_density"
+      ],
+      "reasoning": "High number of outgoing references (13), indicating a critical node in the graph."
+    },
+    {
+      "rank": 10,
+      "clause_id": "us-cw-822",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "naming_conflicts"
+      ],
+      "reasoning": "Naming conflicts with us-cw-42654 and us-cw-118216 due to overlapping names and previous names."
+    },
+    {
+      "rank": 11,
+      "clause_id": "us-cw-590085",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "underspecified_relationships"
+      ],
+      "reasoning": "Referenced by multiple nodes but lacks sufficient detail to clarify its role in the graph."
+    },
+    {
+      "rank": 12,
+      "clause_id": "us-cw-702872",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "underspecified_relationships"
+      ],
+      "reasoning": "Referenced by multiple nodes but lacks sufficient detail to clarify its role in the graph."
+    },
+    {
+      "rank": 13,
+      "clause_id": "us-cw-590084",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "underspecified_relationships"
+      ],
+      "reasoning": "Referenced by multiple nodes but lacks sufficient detail to clarify its role in the graph."
+    },
+    {
+      "rank": 14,
+      "clause_id": "us-cw-841126",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "underspecified_relationships"
+      ],
+      "reasoning": "Referenced by us-cw-42654 but lacks sufficient detail to clarify its role in the graph."
+    },
+    {
+      "rank": 15,
+      "clause_id": "us-cw-903404",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "underspecified_relationships"
+      ],
+      "reasoning": "Referenced by us-cw-42654 but lacks sufficient detail to clarify its role in the graph."
+    },
+    {
+      "rank": 16,
+      "clause_id": "us-cw-907597",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "underspecified_relationships"
+      ],
+      "reasoning": "Referenced by multiple nodes but lacks sufficient detail to clarify its role in the graph."
+    },
+    {
+      "rank": 17,
+      "clause_id": "us-cw-59234",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "underspecified_relationships"
+      ],
+      "reasoning": "Referenced by multiple nodes but lacks sufficient detail to clarify its role in the graph."
+    },
+    {
+      "rank": 18,
+      "clause_id": "us-cw-1001720",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "underspecified_relationships"
+      ],
+      "reasoning": "Referenced by multiple nodes but lacks sufficient detail to clarify its role in the graph."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "cyclic_dependency",
+      "importance_weight": 0.4,
+      "description": "Captures cycles or feedback loops in the graph structure that create ambiguity or structural inconsistency."
+    },
+    {
+      "factor": "naming_conflicts",
+      "importance_weight": 0.3,
+      "description": "Identifies records with overlapping or ambiguous names, which can lead to confusion or misinterpretation."
+    },
+    {
+      "factor": "underspecified_relationships",
+      "importance_weight": 0.2,
+      "description": "Highlights records with insufficient or unclear relationships, leading to potential gaps in reasoning."
+    },
+    {
+      "factor": "high_dependency_density",
+      "importance_weight": 0.1,
+      "description": "Flags records with a high number of incoming or outgoing edges, which may indicate a high-impact or critical node."
+    }
+  ],
+  "risk_factor_weight_sum": 1.0,
+  "direct_risk_subgraph_nodes": [
+    "us-cw-1180",
+    "us-cw-118216",
+    "us-cw-42654",
+    "us-cw-1001721",
+    "us-cw-3379182"
+  ],
+  "direct_risk_subgraph_size": 5,
+  "direct_compression_ratio": 0.7222222222222222,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "This subgraph captures the key nodes involved in the most critical structural inconsistencies, including cycles, naming conflicts, and high dependency density. These nodes are sufficient to explain and localize the primary risks without including extraneous nodes.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "us-cw-1180",
+      "target": "us-cw-118216",
+      "reason": "Cycle between us-cw-1180 and us-cw-118216 creates structural inconsistency."
+    },
+    {
+      "source": "us-cw-118216",
+      "target": "us-cw-1180",
+      "reason": "Cycle between us-cw-118216 and us-cw-1180 creates structural inconsistency."
+    },
+    {
+      "source": "us-cw-118216",
+      "target": "us-cw-42654",
+      "reason": "Naming conflict and dependency between us-cw-118216 and us-cw-42654."
+    },
+    {
+      "source": "us-cw-42654",
+      "target": "us-cw-1001721",
+      "reason": "Naming conflict and dependency between us-cw-42654 and us-cw-1001721."
+    },
+    {
+      "source": "us-cw-1180",
+      "target": "us-cw-3379182",
+      "reason": "Duplicate record with slight naming variation, creating ambiguity."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "us-cw-1180",
+    "us-cw-118216",
+    "us-cw-42654",
+    "us-cw-1001721",
+    "us-cw-3379182"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 10,
+  "largest_tie_count": 4,
+  "tied_score_groups": [
+    {
+      "score": 0.5,
+      "count": 4,
+      "nodes": [
+        "us-cw-1196",
+        "us-cw-1280",
+        "us-cw-130",
+        "us-cw-2080"
+      ]
+    },
+    {
+      "score": 0.2,
+      "count": 4,
+      "nodes": [
+        "us-cw-590084",
+        "us-cw-841126",
+        "us-cw-903404",
+        "us-cw-907597"
+      ]
+    },
+    {
+      "score": 0.3,
+      "count": 2,
+      "nodes": [
+        "us-cw-590085",
+        "us-cw-702872"
+      ]
+    },
+    {
+      "score": 0.1,
+      "count": 2,
+      "nodes": [
+        "us-cw-1001720",
+        "us-cw-59234"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-118216",
+      "description": "Cycle detected between us-cw-1180 and us-cw-118216, creating structural inconsistency."
+    },
+    {
+      "clause_a": "us-cw-118216",
+      "clause_b": "us-cw-42654",
+      "description": "Naming conflict due to overlapping names and previous names."
+    },
+    {
+      "clause_a": "us-cw-42654",
+      "clause_b": "us-cw-1001721",
+      "description": "Naming conflict due to overlapping names and previous names."
+    },
+    {
+      "clause_a": "us-cw-1180",
+      "clause_b": "us-cw-3379182",
+      "description": "Duplicate record with slight naming variation, creating ambiguity."
+    }
+  ],
+  "score_spread": 0.9,
+  "ranking_score_spread": 0.9,
+  "score_mean": 0.4444444444444444,
+  "score_max": 1.0,
+  "node_names": {
+    "us-cw-1001720": "Entergy International Holdings Ltd",
+    "us-cw-1001721": "Entergy Louisiana Holdings Inc",
+    "us-cw-1180": "ENTERGY CORP",
+    "us-cw-118216": "ENTERGY LOUISIANA HOLDINGS INC",
+    "us-cw-1196": "Entergy Mississippi, Inc",
+    "us-cw-1280": "Entergy New Orleans, Inc",
+    "us-cw-130": "Entergy Arkansas, Inc",
+    "us-cw-2080": "System Energy Resources, Inc",
+    "us-cw-3379182": "ENTERGY CORP",
+    "us-cw-42654": "Entergy Louisiana LLC",
+    "us-cw-590084": "Entergy Holdings Company LLC",
+    "us-cw-590085": "Entergy International Ltd LLC",
+    "us-cw-841126": "Entergy Louisiana Holdings LLC",
+    "us-cw-59234": "Entergy Texas, Inc",
+    "us-cw-702872": "Entergy International Holdings LLC",
+    "us-cw-822": "ENTERGY GULF STATES INC",
+    "us-cw-903404": "Entergy Utility Holding Co LLC",
+    "us-cw-907597": "Louisiana Power & Light Co LLC"
+  },
+  "ground_truth_nodes": [
+    "us-cw-841126"
+  ],
+  "gt_evidence": {
+    "us-cw-841126": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": false,
+  "prompt_word_count": 2704,
+  "injected_title_occurrences_in_prompt": 4,
+  "injected_id_occurrences_in_prompt": 3,
+  "injected_title_first_word_ratio": 0.2359467455621302,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.2377958579881657,
+  "inject_mode": true,
+  "injected_node": "us-cw-841126",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-118216",
+  "injected_witness_distance": 9,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "us-cw-841126",
+    "us-cw-118216"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-841126",
+    "us-cw-118216"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-1001720",
+    "us-cw-1280"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_direct_full_consolidation_vs_retained_interest_critical",
+  "injected_rank": 14,
+  "top1_margin": 0.09999999999999998,
+  "risk_node_ranks": {
+    "us-cw-841126": 14,
+    "us-cw-118216": 2
+  },
+  "risk_best_rank": 2,
+  "risk_worst_rank": 14,
+  "risk_top1_hit": false,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": false,
+  "evidence_node_ranks": {
+    "us-cw-841126": 14,
+    "us-cw-118216": 2
+  },
+  "evidence_best_rank": 2,
+  "evidence_worst_rank": 14,
+  "evidence_top1_hit": false,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "us-cw-1001720": 18,
+    "us-cw-1280": 7
+  },
+  "affected_best_rank": 7,
+  "affected_worst_rank": 18,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-841126": 14,
+    "us-cw-118216": 2,
+    "us-cw-1001720": 18,
+    "us-cw-1280": 7
+  },
+  "valuable_best_rank": 2,
+  "valuable_worst_rank": 18,
+  "valuable_top1_hit": false,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 14,
+  "root_top1_hit": false,
+  "root_top3_hit": false,
+  "direct_subgraph_nodes_retained": [
+    "us-cw-1180",
+    "us-cw-118216",
+    "us-cw-42654",
+    "us-cw-1001721",
+    "us-cw-3379182"
+  ],
+  "direct_contains_injected_node": false,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": false,
+  "direct_risk_nodes_retained": [
+    "us-cw-118216"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": false,
+  "direct_evidence_nodes_retained": [
+    "us-cw-118216"
+  ],
+  "direct_contains_any_affected_node": false,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "us-cw-118216"
+  ],
+  "case_id": "17_sec_ex2111_scc_3_direct_mutex",
+  "case_order": 17,
+  "audit_started_at": 1783718769.1041741,
+  "audit_completed_at": 1783718784.0913868,
+  "audit_started_at_iso": "2026-07-11T05:26:09+0800",
+  "audit_completed_at_iso": "2026-07-11T05:26:24+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 6424,
+    "completion_tokens": 2667,
+    "total_tokens": 9091,
+    "api_runtime_sec_sum": 14.985079050064087
+  }
+}

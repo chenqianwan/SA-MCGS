@@ -1,0 +1,413 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "gemini-2.5-pro",
+  "domain": "debian",
+  "scc_id": "scc_8",
+  "scc_size": 12,
+  "scc_clause_ids": [
+    "libecore-drm2-1",
+    "libecore-evas1",
+    "libecore-fb1",
+    "libecore-input1",
+    "libecore-wl2-1",
+    "libelput1",
+    "libevas1",
+    "libevas1-engines-drm",
+    "libecore-x1",
+    "libevas1-engines-fb",
+    "libevas1-engines-wayland",
+    "libevas1-engines-x"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "libecore-drm2-1",
+        "libecore-evas1",
+        "libelput1",
+        "libevas1-engines-drm"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "libecore-evas1",
+        "libecore-drm2-1",
+        "libecore-fb1",
+        "libecore-input1"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "libecore-fb1",
+        "libecore-evas1",
+        "libecore-input1",
+        "libecore-wl2-1"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "libecore-input1",
+        "libecore-evas1",
+        "libecore-fb1",
+        "libecore-wl2-1"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "libecore-wl2-1",
+        "libecore-evas1",
+        "libecore-input1",
+        "libevas1-engines-wayland"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "libelput1",
+        "libecore-drm2-1",
+        "libecore-evas1",
+        "libecore-input1"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "libevas1",
+        "libecore-evas1",
+        "libecore-input1",
+        "libevas1-engines-drm"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "libevas1-engines-drm",
+        "libecore-drm2-1",
+        "libevas1",
+        "libecore-x1"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "libecore-x1",
+        "libecore-evas1",
+        "libecore-input1",
+        "libevas1-engines-wayland"
+      ]
+    },
+    {
+      "window_index": 10,
+      "window": [
+        "libevas1-engines-fb",
+        "libevas1",
+        "libevas1-engines-wayland",
+        "libecore-x1"
+      ]
+    },
+    {
+      "window_index": 11,
+      "window": [
+        "libevas1-engines-wayland",
+        "libecore-evas1",
+        "libecore-input1",
+        "libecore-wl2-1"
+      ]
+    },
+    {
+      "window_index": 12,
+      "window": [
+        "libevas1-engines-x",
+        "libevas1",
+        "libecore-x1",
+        "libecore-drm2-1"
+      ]
+    }
+  ],
+  "llm_calls": 12,
+  "tt_hits": 0,
+  "time": 305.76552295684814,
+  "scores": {
+    "libecore-drm2-1": 0.16,
+    "libecore-evas1": 0.14444444444444446,
+    "libecore-fb1": 0.16666666666666666,
+    "libecore-input1": 0.7000000000000001,
+    "libecore-wl2-1": 0.175,
+    "libelput1": 0.1,
+    "libevas1": 0.30000000000000004,
+    "libevas1-engines-drm": 0.2333333333333333,
+    "libecore-x1": 0.675,
+    "libevas1-engines-fb": 0.5,
+    "libevas1-engines-wayland": 0.22499999999999998,
+    "libevas1-engines-x": 0.6
+  },
+  "visit_counts": {
+    "libecore-drm2-1": 5,
+    "libecore-evas1": 9,
+    "libelput1": 2,
+    "libevas1-engines-drm": 3,
+    "libecore-fb1": 3,
+    "libecore-input1": 8,
+    "libecore-wl2-1": 4,
+    "libevas1-engines-wayland": 4,
+    "libevas1": 4,
+    "libecore-x1": 4,
+    "libevas1-engines-fb": 1,
+    "libevas1-engines-x": 1
+  },
+  "ranking": [
+    [
+      "libecore-input1",
+      0.7000000000000001
+    ],
+    [
+      "libecore-x1",
+      0.675
+    ],
+    [
+      "libevas1-engines-x",
+      0.6
+    ],
+    [
+      "libevas1-engines-fb",
+      0.5
+    ],
+    [
+      "libevas1",
+      0.30000000000000004
+    ],
+    [
+      "libevas1-engines-drm",
+      0.2333333333333333
+    ],
+    [
+      "libevas1-engines-wayland",
+      0.22499999999999998
+    ],
+    [
+      "libecore-wl2-1",
+      0.175
+    ],
+    [
+      "libecore-fb1",
+      0.16666666666666666
+    ],
+    [
+      "libecore-drm2-1",
+      0.16
+    ],
+    [
+      "libecore-evas1",
+      0.14444444444444446
+    ],
+    [
+      "libelput1",
+      0.1
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "libecore-evas1": 5,
+    "libecore-fb1": 2,
+    "libecore-wl2-1": 4,
+    "libecore-input1": 6,
+    "libevas1-engines-wayland": 2,
+    "libevas1": 1,
+    "libecore-x1": 2,
+    "libevas1-engines-x": 1
+  },
+  "repair_entry_counts": {
+    "libecore-input1": 6,
+    "libecore-x1": 2
+  },
+  "local_conflict_endpoint_counts": {
+    "libecore-evas1": 5,
+    "libecore-input1": 15,
+    "libecore-fb1": 2,
+    "libecore-wl2-1": 4,
+    "libevas1-engines-wayland": 2,
+    "libevas1": 1,
+    "libecore-x1": 2,
+    "libevas1-engines-x": 1
+  },
+  "lea_risk_subgraph_nodes": [
+    "libecore-evas1",
+    "libecore-fb1",
+    "libecore-input1",
+    "libecore-wl2-1",
+    "libecore-x1",
+    "libevas1-engines-wayland"
+  ],
+  "lea_risk_subgraph_size": 6,
+  "lea_compression_ratio": 0.5,
+  "conflicts": [
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-input1",
+      "description": "libecore-evas1 relies on libecore-input1, but libecore-input1 introduces a blocking inconsistency regarding compatibility conditions."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-input1",
+      "description": "libecore-evas1 requires libecore-input1, but libecore-input1's record states it applies an opposite state and treats the mismatch as a blocking inconsistency."
+    },
+    {
+      "clause_a": "libecore-evas1",
+      "clause_b": "libecore-input1",
+      "description": "libecore-evas1 relies on libecore-input1, but libecore-input1 introduces a blocking state mismatch on the dependency path."
+    },
+    {
+      "clause_a": "libecore-x1",
+      "clause_b": "libecore-input1",
+      "description": "libecore-x1 states the new interface planning basis is not yet met (one note open) and mandates this state, but libecore-input1 assumes the condition is satisfied, creating a blocking inconsistency."
+    },
+    {
+      "clause_a": "libevas1-engines-wayland",
+      "clause_b": "libecore-input1",
+      "description": "libevas1-engines-wayland depends on libecore-input1, which explicitly declares a blocking inconsistency and opposite state application on the same path."
+    },
+    {
+      "clause_a": "libevas1-engines-x",
+      "clause_b": "libecore-x1",
+      "description": "libecore-x1 requires two independent compatibility notes and warns that a contrary downstream state leaves no valid fallback, while libevas1-engines-x acts as a relay for these conditions."
+    }
+  ],
+  "ground_truth_nodes": [
+    "libecore-x1"
+  ],
+  "top1_hit": false,
+  "top3_hit": true,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": true,
+  "lea_risk_nodes_retained": [
+    "libecore-x1",
+    "libecore-input1"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": false,
+  "lea_evidence_nodes_retained": [
+    "libecore-x1",
+    "libecore-input1"
+  ],
+  "lea_contains_any_affected_node": false,
+  "lea_contains_all_affected_nodes": false,
+  "lea_affected_nodes_retained": [],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": false,
+  "lea_valuable_nodes_retained": [
+    "libecore-x1",
+    "libecore-input1"
+  ],
+  "inject_mode": true,
+  "injected_node": "libecore-x1",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "case_template": "condition_trigger",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "libecore-input1",
+  "injected_witness_distance": 6,
+  "injected_bridge_node": "libevas1-engines-x",
+  "injected_bridge_distance": 3,
+  "injected_risk_nodes": [
+    "libecore-x1",
+    "libecore-input1"
+  ],
+  "injected_evidence_nodes": [
+    "libecore-x1",
+    "libevas1-engines-x",
+    "libecore-input1"
+  ],
+  "injected_affected_nodes": [
+    "libevas1-engines-fb",
+    "libevas1"
+  ],
+  "injected_conflict_family": "condition_trigger",
+  "injected_conflict_difficulty": "hard",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "debian_condition_trigger_partial_compatibility_critical",
+  "injected_rank": 2,
+  "top1_margin": 0.025000000000000022,
+  "risk_node_ranks": {
+    "libecore-x1": 2,
+    "libecore-input1": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "libecore-x1": 2,
+    "libevas1-engines-x": 3,
+    "libecore-input1": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 3,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "libevas1-engines-fb": 4,
+    "libevas1": 5
+  },
+  "affected_best_rank": 4,
+  "affected_worst_rank": 5,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": true,
+  "valuable_node_ranks": {
+    "libecore-x1": 2,
+    "libecore-input1": 1,
+    "libevas1-engines-fb": 4,
+    "libevas1": 5
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 5,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": true,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "case_id": "088_gemini-2.5-pro_debian12_scc_8_condition_trigger",
+  "case_order": 88,
+  "audit_started_at": 1783793515.5401568,
+  "audit_completed_at": 1783793822.4866838,
+  "audit_started_at_iso": "2026-07-12T02:11:55+0800",
+  "audit_completed_at_iso": "2026-07-12T02:17:02+0800",
+  "case_concurrency": 4,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 18,
+    "successful_api_calls": 18,
+    "failed_api_calls": 0,
+    "prompt_tokens": 32840,
+    "completion_tokens": 25039,
+    "total_tokens": 57879,
+    "api_runtime_sec_sum": 297.739542722702
+  }
+}

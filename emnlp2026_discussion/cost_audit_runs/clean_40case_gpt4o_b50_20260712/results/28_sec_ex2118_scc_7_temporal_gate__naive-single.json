@@ -1,0 +1,470 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (sec_ex21); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gpt-4o",
+  "domain": "sec_ex21",
+  "scc_size": 11,
+  "scc_id": "scc_7",
+  "scc_clause_ids": [
+    "us-cw-1073486",
+    "us-cw-1073489",
+    "us-cw-1073529",
+    "us-cw-427464",
+    "us-cw-491196",
+    "us-cw-491198",
+    "us-cw-570230",
+    "us-cw-491194",
+    "us-cw-570235",
+    "us-cw-570241",
+    "us-cw-718361"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 1785,
+    "completion_tokens": 1803,
+    "total_tokens": 3588
+  },
+  "time": 8.98370885848999,
+  "scores": {
+    "us-cw-1073486": 0.8,
+    "us-cw-1073489": 0.9,
+    "us-cw-1073529": 0.5,
+    "us-cw-427464": 0.4,
+    "us-cw-491196": 0.1,
+    "us-cw-491198": 0.7,
+    "us-cw-570230": 0.6,
+    "us-cw-491194": 0.3,
+    "us-cw-570235": 0.2,
+    "us-cw-570241": 0.2,
+    "us-cw-718361": 0.1
+  },
+  "reasonings": {
+    "us-cw-1073486": "Involved in a cycle and references a high-risk node with conflicting dependency states.",
+    "us-cw-1073489": "Contains conflicting dependency states and is referenced by multiple nodes, creating structural inconsistency.",
+    "us-cw-1073529": "Referenced by multiple nodes and part of a cycle, increasing its structural importance.",
+    "us-cw-427464": "References multiple nodes but does not directly contribute to structural conflicts.",
+    "us-cw-491196": "Referenced by another node but does not introduce significant structural concerns.",
+    "us-cw-491198": "References multiple nodes, including high-risk nodes, amplifying the impact of any inconsistencies.",
+    "us-cw-570230": "Central to the graph and references multiple nodes, including high-risk nodes.",
+    "us-cw-491194": "Referenced by other nodes but lacks sufficient detail to clarify its dependency behavior.",
+    "us-cw-570235": "References another node but does not introduce significant structural concerns.",
+    "us-cw-570241": "References another node but does not introduce significant structural concerns.",
+    "us-cw-718361": "References another node but is not central to the graph and does not introduce significant structural concerns."
+  },
+  "ranking": [
+    [
+      "us-cw-1073489",
+      0.9
+    ],
+    [
+      "us-cw-1073486",
+      0.8
+    ],
+    [
+      "us-cw-491198",
+      0.7
+    ],
+    [
+      "us-cw-570230",
+      0.6
+    ],
+    [
+      "us-cw-1073529",
+      0.5
+    ],
+    [
+      "us-cw-427464",
+      0.4
+    ],
+    [
+      "us-cw-491194",
+      0.3
+    ],
+    [
+      "us-cw-570235",
+      0.2
+    ],
+    [
+      "us-cw-570241",
+      0.2
+    ],
+    [
+      "us-cw-718361",
+      0.1
+    ],
+    [
+      "us-cw-491196",
+      0.1
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "us-cw-1073489",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "structural_dependency_conflict",
+        "high-impact_dependency"
+      ],
+      "reasoning": "This record is referenced by multiple nodes and contains conflicting dependency states in its content, creating structural inconsistency."
+    },
+    {
+      "rank": 2,
+      "clause_id": "us-cw-1073486",
+      "risk_score": 0.8,
+      "risk_factors": [
+        "structural_dependency_conflict",
+        "high-impact_dependency"
+      ],
+      "reasoning": "This record is referenced by multiple nodes and is involved in a cycle with conflicting dependency states."
+    },
+    {
+      "rank": 3,
+      "clause_id": "us-cw-491198",
+      "risk_score": 0.7,
+      "risk_factors": [
+        "high-impact_dependency"
+      ],
+      "reasoning": "This record references multiple nodes, including high-risk nodes, amplifying the impact of any inconsistencies."
+    },
+    {
+      "rank": 4,
+      "clause_id": "us-cw-570230",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "high-impact_dependency"
+      ],
+      "reasoning": "This record is central to the graph and references multiple nodes, including high-risk nodes."
+    },
+    {
+      "rank": 5,
+      "clause_id": "us-cw-1073529",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "high-impact_dependency"
+      ],
+      "reasoning": "This record is referenced by multiple nodes and is part of a cycle, increasing its structural importance."
+    },
+    {
+      "rank": 6,
+      "clause_id": "us-cw-427464",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "high-impact_dependency"
+      ],
+      "reasoning": "This record references multiple nodes, but does not directly contribute to structural conflicts."
+    },
+    {
+      "rank": 7,
+      "clause_id": "us-cw-491194",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "underspecified_dependency"
+      ],
+      "reasoning": "This record is referenced by other nodes but lacks sufficient detail to clarify its dependency behavior."
+    },
+    {
+      "rank": 8,
+      "clause_id": "us-cw-570235",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "underspecified_dependency"
+      ],
+      "reasoning": "This record references another node but does not introduce significant structural concerns."
+    },
+    {
+      "rank": 9,
+      "clause_id": "us-cw-570241",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "underspecified_dependency"
+      ],
+      "reasoning": "This record references another node but does not introduce significant structural concerns."
+    },
+    {
+      "rank": 10,
+      "clause_id": "us-cw-718361",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "underspecified_dependency"
+      ],
+      "reasoning": "This record references another node but is not central to the graph and does not introduce significant structural concerns."
+    },
+    {
+      "rank": 11,
+      "clause_id": "us-cw-491196",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "underspecified_dependency"
+      ],
+      "reasoning": "This record is referenced by another node but does not introduce significant structural concerns."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "structural_dependency_conflict",
+      "importance_weight": 0.4,
+      "description": "Captures cases where dependencies create mutually incompatible states or cycles."
+    },
+    {
+      "factor": "underspecified_dependency",
+      "importance_weight": 0.3,
+      "description": "Captures cases where records lack sufficient detail to resolve their dependency behavior."
+    },
+    {
+      "factor": "high-impact_dependency",
+      "importance_weight": 0.3,
+      "description": "Captures cases where records are central to the graph and affect many downstream nodes."
+    }
+  ],
+  "risk_factor_weight_sum": 1.0,
+  "direct_risk_subgraph_nodes": [
+    "us-cw-1073489",
+    "us-cw-1073486",
+    "us-cw-491198",
+    "us-cw-570230"
+  ],
+  "direct_risk_subgraph_size": 4,
+  "direct_compression_ratio": 0.6363636363636364,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "This subgraph captures the structurally inconsistent and high-impact region of the graph. The selected nodes are either directly involved in dependency conflicts or amplify the impact of those conflicts through their graph position.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "us-cw-1073486",
+      "target": "us-cw-1073489",
+      "reason": "This edge connects two high-risk nodes and contributes to structural inconsistency."
+    },
+    {
+      "source": "us-cw-1073489",
+      "target": "us-cw-570230",
+      "reason": "This edge propagates dependency conflicts downstream."
+    },
+    {
+      "source": "us-cw-491198",
+      "target": "us-cw-1073486",
+      "reason": "This edge amplifies the impact of structural conflicts by connecting high-risk nodes."
+    },
+    {
+      "source": "us-cw-570230",
+      "target": "us-cw-491198",
+      "reason": "This edge connects two high-impact nodes and propagates dependency conflicts."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "us-cw-1073489",
+    "us-cw-1073486",
+    "us-cw-491198",
+    "us-cw-570230"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 9,
+  "largest_tie_count": 2,
+  "tied_score_groups": [
+    {
+      "score": 0.2,
+      "count": 2,
+      "nodes": [
+        "us-cw-570235",
+        "us-cw-570241"
+      ]
+    },
+    {
+      "score": 0.1,
+      "count": 2,
+      "nodes": [
+        "us-cw-491196",
+        "us-cw-718361"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "clause_a": "us-cw-1073489",
+      "clause_b": "us-cw-1073486",
+      "description": "Conflicting dependency states create structural inconsistency in the graph."
+    },
+    {
+      "clause_a": "us-cw-1073489",
+      "clause_b": "us-cw-570230",
+      "description": "Dependency propagation amplifies the impact of structural conflicts."
+    }
+  ],
+  "score_spread": 0.8,
+  "ranking_score_spread": 0.8,
+  "score_mean": 0.43636363636363634,
+  "score_max": 0.9,
+  "node_names": {
+    "us-cw-1073486": "CrossKnowledge Group Limited",
+    "us-cw-1073489": "E Learning SAS",
+    "us-cw-1073529": "J Wiley Ltd",
+    "us-cw-427464": "Blackwell Science (Overseas Holdings)",
+    "us-cw-491196": "John Wiley & Sons GmbH",
+    "us-cw-491198": "John Wiley & Sons Ltd",
+    "us-cw-570230": "Wiley Heyden Ltd",
+    "us-cw-491194": "John Wiley & Sons Australia, Ltd",
+    "us-cw-570235": "Wiley Publishing Australia Pty Ltd",
+    "us-cw-570241": "Wiley VCH Verlag GmbH & Co KGaA",
+    "us-cw-718361": "Wiley Publishing Japan KK"
+  },
+  "ground_truth_nodes": [
+    "us-cw-491194"
+  ],
+  "gt_evidence": {
+    "us-cw-491194": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": false,
+  "prompt_word_count": 945,
+  "injected_title_occurrences_in_prompt": 5,
+  "injected_id_occurrences_in_prompt": 4,
+  "injected_title_first_word_ratio": 0.21693121693121692,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.22433862433862434,
+  "inject_mode": true,
+  "injected_node": "us-cw-491194",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-1073489",
+  "injected_witness_distance": 5,
+  "injected_bridge_node": "us-cw-570235",
+  "injected_bridge_distance": 2,
+  "injected_risk_nodes": [
+    "us-cw-491194",
+    "us-cw-1073489"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-491194",
+    "us-cw-570235",
+    "us-cw-1073489"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-491198",
+    "us-cw-570230"
+  ],
+  "injected_conflict_family": "temporal_gate",
+  "injected_conflict_difficulty": "subtle",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_temporal_quarter_close_gate_critical",
+  "injected_rank": 7,
+  "top1_margin": 0.09999999999999998,
+  "risk_node_ranks": {
+    "us-cw-491194": 7,
+    "us-cw-1073489": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 7,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": false,
+  "evidence_node_ranks": {
+    "us-cw-491194": 7,
+    "us-cw-570235": 8,
+    "us-cw-1073489": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 8,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "us-cw-491198": 3,
+    "us-cw-570230": 4
+  },
+  "affected_best_rank": 3,
+  "affected_worst_rank": 4,
+  "affected_top1_hit": false,
+  "affected_top3_hit": true,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": true,
+  "valuable_node_ranks": {
+    "us-cw-491194": 7,
+    "us-cw-1073489": 1,
+    "us-cw-491198": 3,
+    "us-cw-570230": 4
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 7,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 7,
+  "root_top1_hit": false,
+  "root_top3_hit": false,
+  "direct_subgraph_nodes_retained": [
+    "us-cw-1073489",
+    "us-cw-1073486",
+    "us-cw-491198",
+    "us-cw-570230"
+  ],
+  "direct_contains_injected_node": false,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": false,
+  "direct_risk_nodes_retained": [
+    "us-cw-1073489"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": false,
+  "direct_evidence_nodes_retained": [
+    "us-cw-1073489"
+  ],
+  "direct_contains_any_affected_node": true,
+  "direct_contains_all_affected_nodes": true,
+  "direct_affected_nodes_retained": [
+    "us-cw-491198",
+    "us-cw-570230"
+  ],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "us-cw-1073489",
+    "us-cw-491198",
+    "us-cw-570230"
+  ],
+  "case_id": "28_sec_ex2118_scc_7_temporal_gate",
+  "case_order": 28,
+  "audit_started_at": 1783831671.2775989,
+  "audit_completed_at": 1783831680.261703,
+  "audit_started_at_iso": "2026-07-12T12:47:51+0800",
+  "audit_completed_at_iso": "2026-07-12T12:48:00+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 1785,
+    "completion_tokens": 1803,
+    "total_tokens": 3588,
+    "api_runtime_sec_sum": 8.982561111450195
+  }
+}

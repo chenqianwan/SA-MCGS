@@ -1,0 +1,442 @@
+{
+  "method": "lea",
+  "method_source": "GraphRAG-style Local Evidence Aggregation: deterministic graph-window retrieval with the SA-MCGS local evidence schema, without relation-first memory, critical-pair revisiting, OC/core signals, or dynamic-core replacement.",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "deterministic_local_window_evidence_aggregation",
+  "prompt_input_scope": "local_scc_window",
+  "model": "gpt-4o",
+  "domain": "sec_ex21",
+  "scc_id": "scc_5",
+  "scc_size": 10,
+  "scc_clause_ids": [
+    "us-cw-1011764",
+    "us-cw-1020294",
+    "us-cw-121873",
+    "us-cw-515912",
+    "us-cw-712455",
+    "us-cw-749749",
+    "us-cw-515909",
+    "us-cw-749750",
+    "us-cw-749751",
+    "us-cw-997003"
+  ],
+  "window_size": 4,
+  "deterministic_window_policy": "one center node plus deterministic graph neighbors; fill by SCC order",
+  "deterministic_windows": [
+    {
+      "window_index": 1,
+      "window": [
+        "us-cw-1011764",
+        "us-cw-1020294",
+        "us-cw-997003",
+        "us-cw-121873"
+      ]
+    },
+    {
+      "window_index": 2,
+      "window": [
+        "us-cw-1020294",
+        "us-cw-1011764",
+        "us-cw-749750",
+        "us-cw-997003"
+      ]
+    },
+    {
+      "window_index": 3,
+      "window": [
+        "us-cw-121873",
+        "us-cw-749749",
+        "us-cw-515909",
+        "us-cw-515912"
+      ]
+    },
+    {
+      "window_index": 4,
+      "window": [
+        "us-cw-515912",
+        "us-cw-712455",
+        "us-cw-997003",
+        "us-cw-121873"
+      ]
+    },
+    {
+      "window_index": 5,
+      "window": [
+        "us-cw-712455",
+        "us-cw-515912",
+        "us-cw-515909",
+        "us-cw-749749"
+      ]
+    },
+    {
+      "window_index": 6,
+      "window": [
+        "us-cw-749749",
+        "us-cw-121873",
+        "us-cw-749751",
+        "us-cw-515909"
+      ]
+    },
+    {
+      "window_index": 7,
+      "window": [
+        "us-cw-515909",
+        "us-cw-121873",
+        "us-cw-712455",
+        "us-cw-749750"
+      ]
+    },
+    {
+      "window_index": 8,
+      "window": [
+        "us-cw-749750",
+        "us-cw-1020294",
+        "us-cw-749751",
+        "us-cw-515909"
+      ]
+    },
+    {
+      "window_index": 9,
+      "window": [
+        "us-cw-749751",
+        "us-cw-749749",
+        "us-cw-749750",
+        "us-cw-997003"
+      ]
+    },
+    {
+      "window_index": 10,
+      "window": [
+        "us-cw-997003",
+        "us-cw-1020294",
+        "us-cw-515912",
+        "us-cw-1011764"
+      ]
+    }
+  ],
+  "llm_calls": 10,
+  "tt_hits": 0,
+  "time": 61.33955478668213,
+  "scores": {
+    "us-cw-1011764": 0.3666666666666667,
+    "us-cw-1020294": 0.675,
+    "us-cw-121873": 0.13999999999999999,
+    "us-cw-515912": 0.3,
+    "us-cw-712455": 0.3666666666666667,
+    "us-cw-749749": 0.1,
+    "us-cw-515909": 0.48,
+    "us-cw-749750": 0.325,
+    "us-cw-749751": 0.3666666666666667,
+    "us-cw-997003": 0.26
+  },
+  "visit_counts": {
+    "us-cw-1011764": 3,
+    "us-cw-1020294": 4,
+    "us-cw-997003": 5,
+    "us-cw-121873": 5,
+    "us-cw-749750": 4,
+    "us-cw-749749": 4,
+    "us-cw-515909": 5,
+    "us-cw-515912": 4,
+    "us-cw-712455": 3,
+    "us-cw-749751": 3
+  },
+  "ranking": [
+    [
+      "us-cw-1020294",
+      0.675
+    ],
+    [
+      "us-cw-515909",
+      0.48
+    ],
+    [
+      "us-cw-1011764",
+      0.3666666666666667
+    ],
+    [
+      "us-cw-712455",
+      0.3666666666666667
+    ],
+    [
+      "us-cw-749751",
+      0.3666666666666667
+    ],
+    [
+      "us-cw-749750",
+      0.325
+    ],
+    [
+      "us-cw-515912",
+      0.3
+    ],
+    [
+      "us-cw-997003",
+      0.26
+    ],
+    [
+      "us-cw-121873",
+      0.13999999999999999
+    ],
+    [
+      "us-cw-749749",
+      0.1
+    ]
+  ],
+  "local_risk_subgraph_counts": {
+    "us-cw-1011764": 3,
+    "us-cw-1020294": 4,
+    "us-cw-997003": 4,
+    "us-cw-749750": 3,
+    "us-cw-121873": 3,
+    "us-cw-749749": 2,
+    "us-cw-515909": 4,
+    "us-cw-515912": 3,
+    "us-cw-712455": 3,
+    "us-cw-749751": 2
+  },
+  "repair_entry_counts": {
+    "us-cw-1020294": 4,
+    "us-cw-515912": 2,
+    "us-cw-515909": 3,
+    "us-cw-121873": 1,
+    "us-cw-749750": 1,
+    "us-cw-749751": 2,
+    "us-cw-1011764": 1
+  },
+  "local_conflict_endpoint_counts": {
+    "us-cw-1011764": 3,
+    "us-cw-1020294": 7,
+    "us-cw-997003": 3,
+    "us-cw-749750": 4,
+    "us-cw-515909": 3,
+    "us-cw-712455": 3,
+    "us-cw-515912": 2,
+    "us-cw-121873": 2,
+    "us-cw-749749": 2,
+    "us-cw-749751": 3
+  },
+  "lea_risk_subgraph_nodes": [
+    "us-cw-1011764",
+    "us-cw-1020294",
+    "us-cw-515909",
+    "us-cw-749750",
+    "us-cw-749751"
+  ],
+  "lea_risk_subgraph_size": 5,
+  "lea_compression_ratio": 0.5,
+  "conflicts": [
+    {
+      "clause_a": "us-cw-1011764",
+      "clause_b": "us-cw-1020294",
+      "description": "Cyclic dependency and potential same-path blocking inconsistency."
+    },
+    {
+      "clause_a": "us-cw-1020294",
+      "clause_b": "us-cw-997003",
+      "description": "Dependency on a structurally risky record (us-cw-1020294) introduces potential downstream impact."
+    },
+    {
+      "clause_a": "us-cw-1020294",
+      "clause_b": "us-cw-1011764",
+      "description": "Bidirectional reference creates circular dependency risk and potential blocking inconsistency due to mismatched downstream schedule."
+    },
+    {
+      "clause_a": "us-cw-1020294",
+      "clause_b": "us-cw-749750",
+      "description": "Cross-country reference ('us' -> 'il') introduces compatibility concerns, especially given structural inconsistencies in the referencing record."
+    },
+    {
+      "clause_a": "us-cw-997003",
+      "clause_b": "us-cw-1020294",
+      "description": "Cross-country reference ('il' -> 'us') introduces compatibility concerns, especially given structural inconsistencies in the referenced record."
+    },
+    {
+      "clause_a": "us-cw-515909",
+      "clause_b": "us-cw-712455",
+      "description": "us-cw-515909 introduces a mandatory clause with no fallback, creating a high-risk dependency on us-cw-712455."
+    },
+    {
+      "clause_a": "us-cw-712455",
+      "clause_b": "us-cw-515912",
+      "description": "us-cw-712455 references us-cw-515912, which is an intermediate record that could lead to underspecification or structural ambiguity in the dependency path."
+    },
+    {
+      "clause_a": "us-cw-121873",
+      "clause_b": "us-cw-515909",
+      "description": "Mandatory state with no fallback in us-cw-515909 creates a structural incompatibility risk if downstream records deviate from this state."
+    },
+    {
+      "clause_a": "us-cw-749749",
+      "clause_b": "us-cw-121873",
+      "description": "References between records with distinct country codes ('jp' and 'au') introduce ambiguity in dependency interpretation."
+    },
+    {
+      "clause_a": "us-cw-515909",
+      "clause_b": "us-cw-712455",
+      "description": "The dependency path described in us-cw-515909 lacks clarity and fallback mechanisms, which could lead to downstream incompatibilities in us-cw-712455."
+    },
+    {
+      "clause_a": "us-cw-1020294",
+      "clause_b": "us-cw-749750",
+      "description": "The 'opposite state immediately on the same path' clause in us-cw-1020294 conflicts with the downstream state in us-cw-749750, creating a blocking inconsistency."
+    },
+    {
+      "clause_a": "us-cw-749750",
+      "clause_b": "us-cw-749751",
+      "description": "The country mismatch ('il' vs 'gp') and naming misalignment between us-cw-749750 and us-cw-749751 create structural inconsistencies along the dependency path."
+    },
+    {
+      "clause_a": "us-cw-749750",
+      "clause_b": "us-cw-749751",
+      "description": "Ambiguity in the country field ('gp') of us-cw-749751 impacts the dependency chain involving us-cw-749750."
+    },
+    {
+      "clause_a": "us-cw-749751",
+      "clause_b": "us-cw-749749",
+      "description": "Ambiguity in the country field ('gp') of us-cw-749751 may create inconsistencies in the dependency chain with us-cw-749749."
+    },
+    {
+      "clause_a": "us-cw-1020294",
+      "clause_b": "us-cw-1011764",
+      "description": "Bidirectional referencing creates a circular dependency, and the mismatch handling described in us-cw-1020294 introduces ambiguity in resolving conflicts."
+    },
+    {
+      "clause_a": "us-cw-515912",
+      "clause_b": "us-cw-997003",
+      "description": "The referencing relationship spans different countries ('sg' and 'il'), which may lead to underspecified constraints or incompatibility in global operations."
+    }
+  ],
+  "ground_truth_nodes": [
+    "us-cw-515909"
+  ],
+  "top1_hit": false,
+  "top3_hit": true,
+  "lea_contains_any_risk_node": true,
+  "lea_contains_all_risk_nodes": true,
+  "lea_risk_nodes_retained": [
+    "us-cw-515909",
+    "us-cw-1020294"
+  ],
+  "lea_contains_any_evidence_node": true,
+  "lea_contains_all_evidence_nodes": false,
+  "lea_evidence_nodes_retained": [
+    "us-cw-515909",
+    "us-cw-1020294"
+  ],
+  "lea_contains_any_affected_node": true,
+  "lea_contains_all_affected_nodes": false,
+  "lea_affected_nodes_retained": [
+    "us-cw-749750"
+  ],
+  "lea_contains_any_valuable_node": true,
+  "lea_contains_all_valuable_nodes": false,
+  "lea_valuable_nodes_retained": [
+    "us-cw-515909",
+    "us-cw-1020294",
+    "us-cw-749750"
+  ],
+  "inject_mode": true,
+  "injected_node": "us-cw-515909",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "case_template": "handoff_invariant",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-1020294",
+  "injected_witness_distance": 5,
+  "injected_bridge_node": "us-cw-515912",
+  "injected_bridge_distance": 2,
+  "injected_risk_nodes": [
+    "us-cw-515909",
+    "us-cw-1020294"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-515909",
+    "us-cw-515912",
+    "us-cw-1020294"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-712455",
+    "us-cw-749750"
+  ],
+  "injected_conflict_family": "handoff_invariant",
+  "injected_conflict_difficulty": "moderate",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_handoff_invariant_control_basis_critical",
+  "injected_rank": 2,
+  "top1_margin": 0.19500000000000006,
+  "risk_node_ranks": {
+    "us-cw-515909": 2,
+    "us-cw-1020294": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "us-cw-515909": 2,
+    "us-cw-515912": 7,
+    "us-cw-1020294": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 7,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": false,
+  "affected_node_ranks": {
+    "us-cw-712455": 4,
+    "us-cw-749750": 6
+  },
+  "affected_best_rank": 4,
+  "affected_worst_rank": 6,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-515909": 2,
+    "us-cw-1020294": 1,
+    "us-cw-712455": 4,
+    "us-cw-749750": 6
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 6,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 2,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "case_id": "014_gpt-4o_sec_ex2110_scc_5_handoff_invariant",
+  "case_order": 14,
+  "audit_started_at": 1783789757.278055,
+  "audit_completed_at": 1783789818.619592,
+  "audit_started_at_iso": "2026-07-12T01:09:17+0800",
+  "audit_completed_at_iso": "2026-07-12T01:10:18+0800",
+  "case_concurrency": 4,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "lea",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 10,
+    "successful_api_calls": 10,
+    "failed_api_calls": 0,
+    "prompt_tokens": 7857,
+    "completion_tokens": 6549,
+    "total_tokens": 14406,
+    "api_runtime_sec_sum": 61.333199977874756
+  }
+}

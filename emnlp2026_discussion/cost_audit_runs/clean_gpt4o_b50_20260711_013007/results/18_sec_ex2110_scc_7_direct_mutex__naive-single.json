@@ -1,0 +1,470 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (sec_ex21); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gpt-4o",
+  "domain": "sec_ex21",
+  "scc_size": 11,
+  "scc_id": "scc_7",
+  "scc_clause_ids": [
+    "us-cw-1414065",
+    "us-cw-1431",
+    "us-cw-145",
+    "us-cw-178",
+    "us-cw-19363",
+    "us-cw-21081",
+    "us-cw-23183",
+    "us-cw-406",
+    "us-cw-501",
+    "us-cw-642520",
+    "us-cw-999229"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 4130,
+    "completion_tokens": 1893,
+    "total_tokens": 6023
+  },
+  "time": 10.469645023345947,
+  "scores": {
+    "us-cw-1414065": 0.9,
+    "us-cw-1431": 0.5,
+    "us-cw-145": 0.4,
+    "us-cw-178": 0.3,
+    "us-cw-19363": 0.7,
+    "us-cw-21081": 0.6,
+    "us-cw-23183": 1.0,
+    "us-cw-406": 0.8,
+    "us-cw-501": 0.2,
+    "us-cw-642520": 0.1,
+    "us-cw-999229": 0.1
+  },
+  "reasonings": {
+    "us-cw-1414065": "Part of a cycle and references 'us-cw-23183', which contains conflicting states.",
+    "us-cw-1431": "Part of a cycle and references multiple other records, increasing graph complexity.",
+    "us-cw-145": "Part of a cycle and contributes to structural inconsistency.",
+    "us-cw-178": "Part of a cycle but has fewer direct references compared to higher-ranked nodes.",
+    "us-cw-19363": "Part of a cycle and references multiple other records, amplifying structural inconsistency.",
+    "us-cw-21081": "Part of a cycle and contributes to the propagation of structural inconsistency.",
+    "us-cw-23183": "Part of a cycle and contains conflicting consolidation states, creating structural inconsistency.",
+    "us-cw-406": "Contains contradictory consolidation states, creating ambiguity in dependency resolution.",
+    "us-cw-501": "Part of a cycle but has a lower impact on the overall structural inconsistency.",
+    "us-cw-642520": "Has minimal information and contributes to underspecified relationships.",
+    "us-cw-999229": "Has minimal information and contributes to underspecified relationships."
+  },
+  "ranking": [
+    [
+      "us-cw-23183",
+      1.0
+    ],
+    [
+      "us-cw-1414065",
+      0.9
+    ],
+    [
+      "us-cw-406",
+      0.8
+    ],
+    [
+      "us-cw-19363",
+      0.7
+    ],
+    [
+      "us-cw-21081",
+      0.6
+    ],
+    [
+      "us-cw-1431",
+      0.5
+    ],
+    [
+      "us-cw-145",
+      0.4
+    ],
+    [
+      "us-cw-178",
+      0.3
+    ],
+    [
+      "us-cw-501",
+      0.2
+    ],
+    [
+      "us-cw-642520",
+      0.1
+    ],
+    [
+      "us-cw-999229",
+      0.1
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "us-cw-23183",
+      "risk_score": 1.0,
+      "risk_factors": [
+        "cyclic_dependency",
+        "conflicting_states"
+      ],
+      "reasoning": "This record is part of a cycle and contains conflicting consolidation states, creating structural inconsistency."
+    },
+    {
+      "rank": 2,
+      "clause_id": "us-cw-1414065",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "cyclic_dependency"
+      ],
+      "reasoning": "This record is part of a cycle and references 'us-cw-23183', propagating structural inconsistency."
+    },
+    {
+      "rank": 3,
+      "clause_id": "us-cw-406",
+      "risk_score": 0.8,
+      "risk_factors": [
+        "conflicting_states"
+      ],
+      "reasoning": "This record contains contradictory consolidation states, creating ambiguity in dependency resolution."
+    },
+    {
+      "rank": 4,
+      "clause_id": "us-cw-19363",
+      "risk_score": 0.7,
+      "risk_factors": [
+        "cyclic_dependency"
+      ],
+      "reasoning": "This record is part of a cycle and references multiple other records, amplifying the structural inconsistency."
+    },
+    {
+      "rank": 5,
+      "clause_id": "us-cw-21081",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "cyclic_dependency"
+      ],
+      "reasoning": "This record is part of a cycle and contributes to the propagation of structural inconsistency."
+    },
+    {
+      "rank": 6,
+      "clause_id": "us-cw-1431",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "cyclic_dependency"
+      ],
+      "reasoning": "This record is part of a cycle and references multiple other records, increasing the complexity of the graph."
+    },
+    {
+      "rank": 7,
+      "clause_id": "us-cw-145",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "cyclic_dependency"
+      ],
+      "reasoning": "This record is part of a cycle and contributes to the overall structural inconsistency."
+    },
+    {
+      "rank": 8,
+      "clause_id": "us-cw-178",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "cyclic_dependency"
+      ],
+      "reasoning": "This record is part of a cycle but has fewer direct references compared to higher-ranked nodes."
+    },
+    {
+      "rank": 9,
+      "clause_id": "us-cw-501",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "cyclic_dependency"
+      ],
+      "reasoning": "This record is part of a cycle but has a lower impact on the overall structural inconsistency."
+    },
+    {
+      "rank": 10,
+      "clause_id": "us-cw-642520",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "underspecified_relationships"
+      ],
+      "reasoning": "This record has minimal information and contributes to underspecified relationships."
+    },
+    {
+      "rank": 11,
+      "clause_id": "us-cw-999229",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "underspecified_relationships"
+      ],
+      "reasoning": "This record has minimal information and contributes to underspecified relationships."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "cyclic_dependency",
+      "importance_weight": 0.4,
+      "description": "Captures cycles in the graph where records reference each other in a loop, leading to structural inconsistency."
+    },
+    {
+      "factor": "underspecified_relationships",
+      "importance_weight": 0.3,
+      "description": "Captures records with insufficient or ambiguous information to resolve dependencies."
+    },
+    {
+      "factor": "conflicting_states",
+      "importance_weight": 0.3,
+      "description": "Captures records with mutually incompatible or contradictory states."
+    }
+  ],
+  "risk_factor_weight_sum": 1.0,
+  "direct_risk_subgraph_nodes": [
+    "us-cw-23183",
+    "us-cw-1414065",
+    "us-cw-406",
+    "us-cw-19363",
+    "us-cw-21081"
+  ],
+  "direct_risk_subgraph_size": 5,
+  "direct_compression_ratio": 0.5454545454545454,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "This subgraph captures the core of the structural inconsistency and conflicting states. These nodes are part of a cycle and/or contain contradictory information that propagates risk throughout the graph. Including additional nodes would not add new information or clarify the structural issues further.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "us-cw-1414065",
+      "target": "us-cw-23183",
+      "reason": "This edge is part of a cycle and contributes to structural inconsistency."
+    },
+    {
+      "source": "us-cw-23183",
+      "target": "us-cw-19363",
+      "reason": "This edge is part of a cycle and contributes to structural inconsistency."
+    },
+    {
+      "source": "us-cw-19363",
+      "target": "us-cw-21081",
+      "reason": "This edge is part of a cycle and contributes to structural inconsistency."
+    },
+    {
+      "source": "us-cw-21081",
+      "target": "us-cw-1414065",
+      "reason": "This edge is part of a cycle and contributes to structural inconsistency."
+    },
+    {
+      "source": "us-cw-406",
+      "target": "us-cw-19363",
+      "reason": "This edge highlights a conflicting state in the dependency path."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "us-cw-23183",
+    "us-cw-1414065",
+    "us-cw-406",
+    "us-cw-19363",
+    "us-cw-21081"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 10,
+  "largest_tie_count": 2,
+  "tied_score_groups": [
+    {
+      "score": 0.1,
+      "count": 2,
+      "nodes": [
+        "us-cw-642520",
+        "us-cw-999229"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "clause_a": "us-cw-23183",
+      "clause_b": "us-cw-406",
+      "description": "Conflicting consolidation states between these records create ambiguity in dependency resolution."
+    },
+    {
+      "clause_a": "us-cw-1414065",
+      "clause_b": "us-cw-23183",
+      "description": "Cyclic dependency between these records contributes to structural inconsistency."
+    },
+    {
+      "clause_a": "us-cw-19363",
+      "clause_b": "us-cw-21081",
+      "description": "Cyclic dependency between these records propagates structural inconsistency."
+    }
+  ],
+  "score_spread": 0.9,
+  "ranking_score_spread": 0.9,
+  "score_mean": 0.509090909090909,
+  "score_max": 1.0,
+  "node_names": {
+    "us-cw-1414065": "Constellation Energy Corp",
+    "us-cw-1431": "PECO ENERGY CO",
+    "us-cw-145": "ATLANTIC CITY ELECTRIC CO",
+    "us-cw-178": "BALTIMORE GAS & ELECTRIC CO",
+    "us-cw-19363": "EXELON Corp",
+    "us-cw-21081": "PEPCO HOLDINGS INC",
+    "us-cw-23183": "Constellation Energy Generation, LLC",
+    "us-cw-406": "COMMONWEALTH EDISON Co",
+    "us-cw-501": "DELMARVA POWER & LIGHT CO",
+    "us-cw-642520": "Conectiv LLC",
+    "us-cw-999229": "Conectiv"
+  },
+  "ground_truth_nodes": [
+    "us-cw-406"
+  ],
+  "gt_evidence": {
+    "us-cw-406": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": true,
+  "prompt_word_count": 1787,
+  "injected_title_occurrences_in_prompt": 17,
+  "injected_id_occurrences_in_prompt": 16,
+  "injected_title_first_word_ratio": 0.259653049804141,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.26189143816452154,
+  "inject_mode": true,
+  "injected_node": "us-cw-406",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-23183",
+  "injected_witness_distance": 5,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "us-cw-406",
+    "us-cw-23183"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-406",
+    "us-cw-23183"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-501",
+    "us-cw-1431"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_direct_full_consolidation_vs_retained_interest_critical",
+  "injected_rank": 3,
+  "top1_margin": 0.09999999999999998,
+  "risk_node_ranks": {
+    "us-cw-406": 3,
+    "us-cw-23183": 1
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 3,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "us-cw-406": 3,
+    "us-cw-23183": 1
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 3,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "us-cw-501": 9,
+    "us-cw-1431": 6
+  },
+  "affected_best_rank": 6,
+  "affected_worst_rank": 9,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-406": 3,
+    "us-cw-23183": 1,
+    "us-cw-501": 9,
+    "us-cw-1431": 6
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 9,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 3,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "direct_subgraph_nodes_retained": [
+    "us-cw-23183",
+    "us-cw-1414065",
+    "us-cw-406",
+    "us-cw-19363",
+    "us-cw-21081"
+  ],
+  "direct_contains_injected_node": true,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": true,
+  "direct_risk_nodes_retained": [
+    "us-cw-406",
+    "us-cw-23183"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": true,
+  "direct_evidence_nodes_retained": [
+    "us-cw-406",
+    "us-cw-23183"
+  ],
+  "direct_contains_any_affected_node": false,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "us-cw-406",
+    "us-cw-23183"
+  ],
+  "case_id": "18_sec_ex2110_scc_7_direct_mutex",
+  "case_order": 18,
+  "audit_started_at": 1783719173.187615,
+  "audit_completed_at": 1783719183.657675,
+  "audit_started_at_iso": "2026-07-11T05:32:53+0800",
+  "audit_completed_at_iso": "2026-07-11T05:33:03+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 4130,
+    "completion_tokens": 1893,
+    "total_tokens": 6023,
+    "api_runtime_sec_sum": 10.468327760696411
+  }
+}

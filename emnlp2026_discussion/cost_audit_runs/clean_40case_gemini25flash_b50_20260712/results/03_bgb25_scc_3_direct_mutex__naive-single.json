@@ -1,0 +1,691 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (bgb); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gemini-2.5-flash",
+  "domain": "bgb",
+  "scc_size": 25,
+  "scc_id": "scc_3",
+  "scc_clause_ids": [
+    "bgb_312",
+    "bgb_312f",
+    "bgb_312g",
+    "bgb_327",
+    "bgb_327b",
+    "bgb_327c",
+    "bgb_327m",
+    "bgb_327n",
+    "bgb_327o",
+    "bgb_356",
+    "bgb_358",
+    "bgb_360",
+    "bgb_491",
+    "bgb_491a",
+    "bgb_493",
+    "bgb_495",
+    "bgb_505",
+    "bgb_504",
+    "bgb_506",
+    "bgb_507",
+    "bgb_508",
+    "bgb_512",
+    "bgb_513",
+    "bgb_514",
+    "bgb_515"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 17597,
+    "completion_tokens": 1889,
+    "total_tokens": 19486
+  },
+  "time": 6.458427906036377,
+  "scores": {
+    "bgb_312": 0.0,
+    "bgb_312f": 0.0,
+    "bgb_312g": 0.0,
+    "bgb_327": 0.0,
+    "bgb_327b": 0.0,
+    "bgb_327c": 0.0,
+    "bgb_327m": 0.0,
+    "bgb_327n": 0.0,
+    "bgb_327o": 0.0,
+    "bgb_356": 0.0,
+    "bgb_358": 0.0,
+    "bgb_360": 0.0,
+    "bgb_491": 0.6,
+    "bgb_491a": 0.0,
+    "bgb_493": 0.0,
+    "bgb_495": 0.4,
+    "bgb_505": 0.95,
+    "bgb_504": 0.0,
+    "bgb_506": 0.0,
+    "bgb_507": 0.0,
+    "bgb_508": 0.0,
+    "bgb_512": 0.0,
+    "bgb_513": 0.0,
+    "bgb_514": 0.0,
+    "bgb_515": 0.0
+  },
+  "reasonings": {
+    "bgb_312": "",
+    "bgb_312f": "",
+    "bgb_312g": "",
+    "bgb_327": "",
+    "bgb_327b": "",
+    "bgb_327c": "",
+    "bgb_327m": "",
+    "bgb_327n": "",
+    "bgb_327o": "",
+    "bgb_356": "",
+    "bgb_358": "",
+    "bgb_360": "",
+    "bgb_491": "Defines the loan types subject to the contradictory remedies.",
+    "bgb_491a": "",
+    "bgb_493": "",
+    "bgb_495": "Governs the withdrawal and Bedenkzeit that influences cure-period start dates.",
+    "bgb_505": "Explicit text identifies an impossible choice between cure and default penalties.",
+    "bgb_504": "",
+    "bgb_506": "",
+    "bgb_507": "",
+    "bgb_508": "",
+    "bgb_512": "",
+    "bgb_513": "",
+    "bgb_514": "",
+    "bgb_515": ""
+  },
+  "ranking": [
+    [
+      "bgb_505",
+      0.95
+    ],
+    [
+      "bgb_491",
+      0.6
+    ],
+    [
+      "bgb_358",
+      0.5
+    ],
+    [
+      "bgb_360",
+      0.45
+    ],
+    [
+      "bgb_495",
+      0.4
+    ],
+    [
+      "bgb_504",
+      0.35
+    ],
+    [
+      "bgb_514",
+      0.3
+    ],
+    [
+      "bgb_506",
+      0.3
+    ],
+    [
+      "bgb_312g",
+      0.25
+    ],
+    [
+      "bgb_508",
+      0.25
+    ],
+    [
+      "bgb_491a",
+      0.2
+    ],
+    [
+      "bgb_493",
+      0.2
+    ],
+    [
+      "bgb_515",
+      0.15
+    ],
+    [
+      "bgb_327m",
+      0.15
+    ],
+    [
+      "bgb_327o",
+      0.15
+    ],
+    [
+      "bgb_512",
+      0.1
+    ],
+    [
+      "bgb_513",
+      0.1
+    ],
+    [
+      "bgb_507",
+      0.1
+    ],
+    [
+      "bgb_327n",
+      0.05
+    ],
+    [
+      "bgb_327c",
+      0.05
+    ],
+    [
+      "bgb_327b",
+      0.05
+    ],
+    [
+      "bgb_327",
+      0.05
+    ],
+    [
+      "bgb_356",
+      0.05
+    ],
+    [
+      "bgb_312f",
+      0.05
+    ],
+    [
+      "bgb_312",
+      0.05
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "bgb_505",
+      "risk_score": 0.95,
+      "risk_factors": [
+        "Enforcement Conflict"
+      ],
+      "reasoning": "Contains explicit text identifying an enforcement conflict where the same path mandates a cure and a penalty simultaneously."
+    },
+    {
+      "rank": 2,
+      "clause_id": "bgb_491",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Central node for consumer loan definitions; defines the scope for the conflict in bgb_505."
+    },
+    {
+      "rank": 3,
+      "clause_id": "bgb_358",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Governs connected contracts; critical for propagation of enforcement issues."
+    },
+    {
+      "rank": 4,
+      "clause_id": "bgb_360",
+      "risk_score": 0.45,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Governs chain effects of contract revocation."
+    },
+    {
+      "rank": 5,
+      "clause_id": "bgb_495",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Scope of withdrawal rights intersects with the enforcement conflict in bgb_505."
+    },
+    {
+      "rank": 6,
+      "clause_id": "bgb_504",
+      "risk_score": 0.35,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Special case for overdraft facilities, potentially bypassing standard cure paths."
+    },
+    {
+      "rank": 7,
+      "clause_id": "bgb_514",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Applies loan rules to unentgeltliche contracts, extending the scope of the risk."
+    },
+    {
+      "rank": 8,
+      "clause_id": "bgb_506",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "References multiple inconsistent sections regarding credit terms."
+    },
+    {
+      "rank": 9,
+      "clause_id": "bgb_312g",
+      "risk_score": 0.25,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "General withdrawal rules that impact finance agreements."
+    },
+    {
+      "rank": 10,
+      "clause_id": "bgb_508",
+      "risk_score": 0.25,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Withdrawal/return specifics in installments."
+    },
+    {
+      "rank": 11,
+      "clause_id": "bgb_491a",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Pre-contractual requirements; downstream influence."
+    },
+    {
+      "rank": 12,
+      "clause_id": "bgb_493",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Information during contract lifecycle."
+    },
+    {
+      "rank": 13,
+      "clause_id": "bgb_515",
+      "risk_score": 0.15,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Extends finance rules."
+    },
+    {
+      "rank": 14,
+      "clause_id": "bgb_327m",
+      "risk_score": 0.15,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Termination rights context."
+    },
+    {
+      "rank": 15,
+      "clause_id": "bgb_327o",
+      "risk_score": 0.15,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Termination mechanics."
+    },
+    {
+      "rank": 16,
+      "clause_id": "bgb_512",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Mandatory nature of consumer protection."
+    },
+    {
+      "rank": 17,
+      "clause_id": "bgb_513",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Scope definition."
+    },
+    {
+      "rank": 18,
+      "clause_id": "bgb_507",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Part-payment specifics."
+    },
+    {
+      "rank": 19,
+      "clause_id": "bgb_327n",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Reduction mechanics."
+    },
+    {
+      "rank": 20,
+      "clause_id": "bgb_327c",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Performance failure rights."
+    },
+    {
+      "rank": 21,
+      "clause_id": "bgb_327b",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Performance definition."
+    },
+    {
+      "rank": 22,
+      "clause_id": "bgb_327",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Scope of digital products."
+    },
+    {
+      "rank": 23,
+      "clause_id": "bgb_356",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Withdrawal details."
+    },
+    {
+      "rank": 24,
+      "clause_id": "bgb_312f",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "Paper documentation."
+    },
+    {
+      "rank": 25,
+      "clause_id": "bgb_312",
+      "risk_score": 0.05,
+      "risk_factors": [
+        "Remedial Ambiguity"
+      ],
+      "reasoning": "General application."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "Enforcement Conflict",
+      "importance_weight": 0.8,
+      "description": "Direct contradiction in legal remedies for the same obligation path, creating non-curable default status."
+    },
+    {
+      "factor": "Remedial Ambiguity",
+      "importance_weight": 0.2,
+      "description": "Ambiguity in applying consistent cure periods across linked contractual records."
+    }
+  ],
+  "risk_factor_weight_sum": 1.0,
+  "direct_risk_subgraph_nodes": [
+    "bgb_505",
+    "bgb_491",
+    "bgb_495"
+  ],
+  "direct_risk_subgraph_size": 3,
+  "direct_compression_ratio": 0.88,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "bgb_505 contains the textual evidence of the enforcement conflict. bgb_491 and bgb_495 provide the overarching regulatory framework that determines the validity of the competing remedy paths described in bgb_505.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "bgb_495",
+      "target": "bgb_505",
+      "reason": "bgb_495 establishes the legal basis for the withdrawal/remedy framework applied to overdrafts."
+    },
+    {
+      "source": "bgb_491",
+      "target": "bgb_495",
+      "reason": "bgb_491 sets the mandatory nature of withdrawal rights for loan agreements."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "bgb_505",
+    "bgb_491",
+    "bgb_495"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 4,
+  "largest_tie_count": 22,
+  "tied_score_groups": [
+    {
+      "score": 0.0,
+      "count": 22,
+      "nodes": [
+        "bgb_312",
+        "bgb_312f",
+        "bgb_312g",
+        "bgb_327",
+        "bgb_327b",
+        "bgb_327c",
+        "bgb_327m",
+        "bgb_327n",
+        "bgb_327o",
+        "bgb_356",
+        "bgb_358",
+        "bgb_360",
+        "bgb_491a",
+        "bgb_493",
+        "bgb_504",
+        "bgb_506",
+        "bgb_507",
+        "bgb_508",
+        "bgb_512",
+        "bgb_513",
+        "bgb_514",
+        "bgb_515"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "clause_a": "bgb_505",
+      "clause_b": "bgb_505",
+      "description": "The record mandates both an immediate 20 percent penalty for cure and a standard 3-month cure window, creating an irreconcilable enforcement conflict."
+    }
+  ],
+  "score_spread": 0.95,
+  "ranking_score_spread": 0.8999999999999999,
+  "score_mean": 0.078,
+  "score_max": 0.95,
+  "node_names": {
+    "bgb_312": "§312 Anwendungsbereich",
+    "bgb_312f": "§312f Abschriften und Bestätigungen",
+    "bgb_312g": "§312g Widerrufsrecht",
+    "bgb_327": "§327 Anwendungsbereich",
+    "bgb_327b": "§327b Bereitstellung digitaler Produkte",
+    "bgb_327c": "§327c Rechte bei unterbliebener Bereitstellung",
+    "bgb_327m": "§327m Vertragsbeendigung und Schadensersatz",
+    "bgb_327n": "§327n Minderung",
+    "bgb_327o": "§327o Erklärung und Rechtsfolgen der Vertragsbeendigung",
+    "bgb_356": "§356 Widerrufsrecht bei außerhalb von Geschäftsräumen geschlossenen Verträgen und Fernabsatzverträgen",
+    "bgb_358": "§358 Mit dem widerrufenen Vertrag verbundener Vertrag",
+    "bgb_360": "§360 Zusammenhängende Verträge",
+    "bgb_491": "§491 Verbraucherdarlehensvertrag",
+    "bgb_491a": "§491a Vorvertragliche Informationspflichten bei Verbraucherdarlehensverträgen",
+    "bgb_493": "§493 Informationen während des Vertragsverhältnisses",
+    "bgb_495": "§495 Widerrufsrecht; Bedenkzeit",
+    "bgb_505": "§505 Geduldete Überziehung",
+    "bgb_504": "§504 Eingeräumte Überziehungsmöglichkeit",
+    "bgb_506": "§506 Zahlungsaufschub, sonstige Finanzierungshilfe",
+    "bgb_507": "§507 Teilzahlungsgeschäfte",
+    "bgb_508": "§508 Rücktritt bei Teilzahlungsgeschäften",
+    "bgb_512": "§512 Abweichende Vereinbarungen",
+    "bgb_513": "§513 Anwendung auf Existenzgründer",
+    "bgb_514": "§514 Unentgeltliche Darlehensverträge",
+    "bgb_515": "§515 Unentgeltliche Finanzierungshilfen"
+  },
+  "ground_truth_nodes": [
+    "bgb_505"
+  ],
+  "gt_evidence": {
+    "bgb_505": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": true,
+  "top3_hit": true,
+  "prompt_word_count": 8715,
+  "injected_title_occurrences_in_prompt": 3,
+  "injected_id_occurrences_in_prompt": 3,
+  "injected_title_first_word_ratio": 0.6998278829604131,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.7002868617326449,
+  "inject_mode": true,
+  "injected_node": "bgb_505",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "bgb_491",
+  "injected_witness_distance": 12,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "bgb_505",
+    "bgb_491"
+  ],
+  "injected_evidence_nodes": [
+    "bgb_505",
+    "bgb_491"
+  ],
+  "injected_affected_nodes": [
+    "bgb_506",
+    "bgb_358"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "bgb_direct_timely_cure_vs_extra_charge_critical",
+  "injected_rank": 1,
+  "top1_margin": 0.35,
+  "risk_node_ranks": {
+    "bgb_505": 1,
+    "bgb_491": 2
+  },
+  "risk_best_rank": 1,
+  "risk_worst_rank": 2,
+  "risk_top1_hit": true,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": true,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "bgb_505": 1,
+    "bgb_491": 2
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 2,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": true,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "bgb_506": 8,
+    "bgb_358": 3
+  },
+  "affected_best_rank": 3,
+  "affected_worst_rank": 8,
+  "affected_top1_hit": false,
+  "affected_top3_hit": true,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "bgb_505": 1,
+    "bgb_491": 2,
+    "bgb_506": 8,
+    "bgb_358": 3
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 8,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 1,
+  "root_top1_hit": true,
+  "root_top3_hit": true,
+  "direct_subgraph_nodes_retained": [
+    "bgb_505",
+    "bgb_491",
+    "bgb_495"
+  ],
+  "direct_contains_injected_node": true,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": true,
+  "direct_risk_nodes_retained": [
+    "bgb_505",
+    "bgb_491"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": true,
+  "direct_evidence_nodes_retained": [
+    "bgb_505",
+    "bgb_491"
+  ],
+  "direct_contains_any_affected_node": false,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "bgb_505",
+    "bgb_491"
+  ],
+  "case_id": "03_bgb25_scc_3_direct_mutex",
+  "case_order": 3,
+  "audit_started_at": 1783860882.313726,
+  "audit_completed_at": 1783860888.772384,
+  "audit_started_at_iso": "2026-07-12T20:54:42+0800",
+  "audit_completed_at_iso": "2026-07-12T20:54:48+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 17597,
+    "completion_tokens": 1889,
+    "total_tokens": 19486,
+    "api_runtime_sec_sum": 6.45491886138916
+  }
+}

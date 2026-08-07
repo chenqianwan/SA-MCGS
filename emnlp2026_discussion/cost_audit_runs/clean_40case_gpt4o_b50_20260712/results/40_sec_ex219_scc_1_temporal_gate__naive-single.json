@@ -1,0 +1,450 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (sec_ex21); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gpt-4o",
+  "domain": "sec_ex21",
+  "scc_size": 11,
+  "scc_id": "scc_1",
+  "scc_clause_ids": [
+    "us-cw-1414065",
+    "us-cw-1431",
+    "us-cw-145",
+    "us-cw-178",
+    "us-cw-19363",
+    "us-cw-21081",
+    "us-cw-23183",
+    "us-cw-406",
+    "us-cw-501",
+    "us-cw-642520",
+    "us-cw-999229"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 4152,
+    "completion_tokens": 1865,
+    "total_tokens": 6017
+  },
+  "time": 13.376229763031006,
+  "scores": {
+    "us-cw-1414065": 0.0,
+    "us-cw-1431": 0.1,
+    "us-cw-145": 0.8,
+    "us-cw-178": 0.1,
+    "us-cw-19363": 0.2,
+    "us-cw-21081": 0.3,
+    "us-cw-23183": 0.6,
+    "us-cw-406": 0.5,
+    "us-cw-501": 0.4,
+    "us-cw-642520": 1.0,
+    "us-cw-999229": 0.9
+  },
+  "reasonings": {
+    "us-cw-1414065": "No structural concerns or risk factors identified.",
+    "us-cw-1431": "No significant structural concerns or risk factors.",
+    "us-cw-145": "Part of a cycle with 'us-cw-642520' and 'us-cw-999229'. High dependency density increases its structural impact.",
+    "us-cw-178": "No significant structural concerns or risk factors.",
+    "us-cw-19363": "Moderate dependency density but no immediate structural concerns.",
+    "us-cw-21081": "Moderate dependency density but no immediate structural concerns.",
+    "us-cw-23183": "High dependency density makes it a critical node in the graph.",
+    "us-cw-406": "High dependency density but no immediate structural concerns.",
+    "us-cw-501": "High dependency density but no immediate structural concerns.",
+    "us-cw-642520": "Highly underspecified and part of a cycle with 'us-cw-999229' and 'us-cw-145'.",
+    "us-cw-999229": "Highly underspecified and part of a cycle with 'us-cw-642520' and 'us-cw-145'."
+  },
+  "ranking": [
+    [
+      "us-cw-642520",
+      1.0
+    ],
+    [
+      "us-cw-999229",
+      0.9
+    ],
+    [
+      "us-cw-145",
+      0.8
+    ],
+    [
+      "us-cw-23183",
+      0.6
+    ],
+    [
+      "us-cw-406",
+      0.5
+    ],
+    [
+      "us-cw-501",
+      0.4
+    ],
+    [
+      "us-cw-21081",
+      0.3
+    ],
+    [
+      "us-cw-19363",
+      0.2
+    ],
+    [
+      "us-cw-178",
+      0.1
+    ],
+    [
+      "us-cw-1431",
+      0.1
+    ],
+    [
+      "us-cw-1414065",
+      0.0
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "us-cw-642520",
+      "risk_score": 1.0,
+      "risk_factors": [
+        "underspecified_record",
+        "cyclic_dependency"
+      ],
+      "reasoning": "This record is highly underspecified, lacking critical details like address, registration number, and sector. It is also part of a cycle with 'us-cw-999229' and 'us-cw-145', creating structural ambiguity."
+    },
+    {
+      "rank": 2,
+      "clause_id": "us-cw-999229",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "underspecified_record",
+        "cyclic_dependency"
+      ],
+      "reasoning": "Similar to 'us-cw-642520', this record is underspecified and part of the same cycle, contributing to structural inconsistency."
+    },
+    {
+      "rank": 3,
+      "clause_id": "us-cw-145",
+      "risk_score": 0.8,
+      "risk_factors": [
+        "cyclic_dependency",
+        "high_dependency_density"
+      ],
+      "reasoning": "This record is part of the cycle involving 'us-cw-642520' and 'us-cw-999229'. It also has a high number of outgoing references, increasing its structural impact."
+    },
+    {
+      "rank": 4,
+      "clause_id": "us-cw-23183",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "high_dependency_density"
+      ],
+      "reasoning": "This record has a high number of outgoing references, making it a critical node in the graph. Any issues here could propagate widely."
+    },
+    {
+      "rank": 5,
+      "clause_id": "us-cw-406",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "high_dependency_density"
+      ],
+      "reasoning": "This record has a high number of outgoing references, but no immediate structural inconsistencies are evident."
+    },
+    {
+      "rank": 6,
+      "clause_id": "us-cw-501",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "high_dependency_density"
+      ],
+      "reasoning": "This record has a high number of outgoing references, but it is not part of any identified cycles or conflicts."
+    },
+    {
+      "rank": 7,
+      "clause_id": "us-cw-21081",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "high_dependency_density"
+      ],
+      "reasoning": "This record has a moderate number of outgoing references and is not part of any cycles or conflicts."
+    },
+    {
+      "rank": 8,
+      "clause_id": "us-cw-19363",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "high_dependency_density"
+      ],
+      "reasoning": "This record has a moderate number of outgoing references but no other significant risk factors."
+    },
+    {
+      "rank": 9,
+      "clause_id": "us-cw-178",
+      "risk_score": 0.1,
+      "risk_factors": [],
+      "reasoning": "This record has no significant structural concerns or risk factors."
+    },
+    {
+      "rank": 10,
+      "clause_id": "us-cw-1431",
+      "risk_score": 0.1,
+      "risk_factors": [],
+      "reasoning": "This record has no significant structural concerns or risk factors."
+    },
+    {
+      "rank": 11,
+      "clause_id": "us-cw-1414065",
+      "risk_score": 0.0,
+      "risk_factors": [],
+      "reasoning": "This record is well-specified and does not contribute to any structural inconsistencies."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "cyclic_dependency",
+      "importance_weight": 0.4,
+      "description": "Captures cycles or feedback loops in the graph structure that create ambiguity or inconsistency."
+    },
+    {
+      "factor": "underspecified_record",
+      "importance_weight": 0.3,
+      "description": "Measures the degree to which a record lacks sufficient information to resolve dependencies or conflicts."
+    },
+    {
+      "factor": "mutual_incompatibility",
+      "importance_weight": 0.2,
+      "description": "Identifies records that are logically or structurally incompatible with others."
+    },
+    {
+      "factor": "high_dependency_density",
+      "importance_weight": 0.1,
+      "description": "Flags records with a high number of incoming or outgoing edges, which may indicate structural fragility."
+    }
+  ],
+  "risk_factor_weight_sum": 1.0,
+  "direct_risk_subgraph_nodes": [
+    "us-cw-642520",
+    "us-cw-999229",
+    "us-cw-145"
+  ],
+  "direct_risk_subgraph_size": 3,
+  "direct_compression_ratio": 0.7272727272727273,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "This subgraph captures the smallest set of nodes involved in the identified cycle and structural inconsistency. Including additional nodes would not add explanatory value or help localize the issue further.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "us-cw-642520",
+      "target": "us-cw-145",
+      "reason": "Part of the cycle contributing to structural inconsistency."
+    },
+    {
+      "source": "us-cw-999229",
+      "target": "us-cw-145",
+      "reason": "Part of the cycle contributing to structural inconsistency."
+    },
+    {
+      "source": "us-cw-145",
+      "target": "us-cw-642520",
+      "reason": "Part of the cycle contributing to structural inconsistency."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "us-cw-642520",
+    "us-cw-999229",
+    "us-cw-145"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 10,
+  "largest_tie_count": 2,
+  "tied_score_groups": [
+    {
+      "score": 0.1,
+      "count": 2,
+      "nodes": [
+        "us-cw-1431",
+        "us-cw-178"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "clause_a": "us-cw-642520",
+      "clause_b": "us-cw-999229",
+      "description": "Both records are underspecified and part of a cycle, creating structural ambiguity."
+    },
+    {
+      "clause_a": "us-cw-642520",
+      "clause_b": "us-cw-145",
+      "description": "Cycle involving these records creates structural inconsistency."
+    },
+    {
+      "clause_a": "us-cw-999229",
+      "clause_b": "us-cw-145",
+      "description": "Cycle involving these records creates structural inconsistency."
+    }
+  ],
+  "score_spread": 1.0,
+  "ranking_score_spread": 1.0,
+  "score_mean": 0.4454545454545455,
+  "score_max": 1.0,
+  "node_names": {
+    "us-cw-1414065": "Constellation Energy Corp",
+    "us-cw-1431": "PECO ENERGY CO",
+    "us-cw-145": "ATLANTIC CITY ELECTRIC CO",
+    "us-cw-178": "BALTIMORE GAS & ELECTRIC CO",
+    "us-cw-19363": "EXELON Corp",
+    "us-cw-21081": "PEPCO HOLDINGS INC",
+    "us-cw-23183": "Constellation Energy Generation, LLC",
+    "us-cw-406": "COMMONWEALTH EDISON Co",
+    "us-cw-501": "DELMARVA POWER & LIGHT CO",
+    "us-cw-642520": "Conectiv LLC",
+    "us-cw-999229": "Conectiv"
+  },
+  "ground_truth_nodes": [
+    "us-cw-406"
+  ],
+  "gt_evidence": {
+    "us-cw-406": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": false,
+  "prompt_word_count": 1809,
+  "injected_title_occurrences_in_prompt": 17,
+  "injected_id_occurrences_in_prompt": 16,
+  "injected_title_first_word_ratio": 0.2570480928689884,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.25925925925925924,
+  "inject_mode": true,
+  "injected_node": "us-cw-406",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "us-cw-23183",
+  "injected_witness_distance": 5,
+  "injected_bridge_node": "us-cw-642520",
+  "injected_bridge_distance": 2,
+  "injected_risk_nodes": [
+    "us-cw-406",
+    "us-cw-23183"
+  ],
+  "injected_evidence_nodes": [
+    "us-cw-406",
+    "us-cw-642520",
+    "us-cw-23183"
+  ],
+  "injected_affected_nodes": [
+    "us-cw-501",
+    "us-cw-1431"
+  ],
+  "injected_conflict_family": "temporal_gate",
+  "injected_conflict_difficulty": "subtle",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "sec_temporal_quarter_close_gate_critical",
+  "injected_rank": 5,
+  "top1_margin": 0.09999999999999998,
+  "risk_node_ranks": {
+    "us-cw-406": 5,
+    "us-cw-23183": 4
+  },
+  "risk_best_rank": 4,
+  "risk_worst_rank": 5,
+  "risk_top1_hit": false,
+  "risk_top3_hit": false,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "us-cw-406": 5,
+    "us-cw-642520": 1,
+    "us-cw-23183": 4
+  },
+  "evidence_best_rank": 1,
+  "evidence_worst_rank": 5,
+  "evidence_top1_hit": true,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "us-cw-501": 6,
+    "us-cw-1431": 10
+  },
+  "affected_best_rank": 6,
+  "affected_worst_rank": 10,
+  "affected_top1_hit": false,
+  "affected_top3_hit": false,
+  "affected_top5_hit": false,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "us-cw-406": 5,
+    "us-cw-23183": 4,
+    "us-cw-501": 6,
+    "us-cw-1431": 10
+  },
+  "valuable_best_rank": 4,
+  "valuable_worst_rank": 10,
+  "valuable_top1_hit": false,
+  "valuable_top3_hit": false,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 5,
+  "root_top1_hit": false,
+  "root_top3_hit": false,
+  "direct_subgraph_nodes_retained": [
+    "us-cw-642520",
+    "us-cw-999229",
+    "us-cw-145"
+  ],
+  "direct_contains_injected_node": false,
+  "direct_contains_any_risk_node": false,
+  "direct_contains_all_risk_nodes": false,
+  "direct_risk_nodes_retained": [],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": false,
+  "direct_evidence_nodes_retained": [
+    "us-cw-642520"
+  ],
+  "direct_contains_any_affected_node": false,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [],
+  "direct_contains_any_valuable_node": false,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [],
+  "case_id": "40_sec_ex219_scc_1_temporal_gate",
+  "case_order": 40,
+  "audit_started_at": 1783859995.518381,
+  "audit_completed_at": 1783860008.894985,
+  "audit_started_at_iso": "2026-07-12T20:39:55+0800",
+  "audit_completed_at_iso": "2026-07-12T20:40:08+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 4152,
+    "completion_tokens": 1865,
+    "total_tokens": 6017,
+    "api_runtime_sec_sum": 13.37493109703064
+  }
+}

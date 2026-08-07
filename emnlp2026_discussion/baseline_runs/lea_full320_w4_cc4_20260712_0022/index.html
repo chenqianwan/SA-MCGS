@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LEA Full Baseline Progress</title>
+  <style>
+    :root { color-scheme: light; --ink: #12201a; --muted: #69766d; --line: #d8ded6; --fill: #2f7d73; --bg: #fbfcfa; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    main { width: min(1220px, calc(100vw - 32px)); margin: 28px auto 48px; }
+    h1 { margin: 0; font-size: clamp(30px, 4vw, 44px); letter-spacing: 0; }
+    .sub { color: var(--muted); font-size: 22px; font-weight: 700; margin-top: 2px; }
+    .top { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+    .refresh { text-align: right; color: var(--muted); font-weight: 700; font-size: 24px; }
+    .panel { background: white; border: 1px solid var(--line); border-radius: 8px; padding: 20px; box-shadow: 0 1px 2px rgba(18,32,26,.04); }
+    .progress-row { display: flex; justify-content: space-between; gap: 18px; align-items: center; }
+    .badge { border-radius: 999px; background: #dcefed; color: #1e625d; padding: 8px 14px; font-weight: 800; }
+    .bar { height: 18px; border-radius: 999px; background: #e8ece5; border: 1px solid #d7ddd2; overflow: hidden; margin-top: 22px; }
+    .bar span { display: block; height: 100%; background: linear-gradient(90deg, #18796f, #5e9b79); }
+    .cards { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin: 22px 0 28px; }
+    .card { background: white; border: 1px solid var(--line); border-radius: 8px; padding: 18px; }
+    .card .label { color: var(--muted); font-weight: 650; }
+    .card .value { font-size: 40px; font-weight: 850; margin-top: 8px; }
+    h2 { font-size: 28px; margin: 28px 0 12px; }
+    .active { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .task { background: white; border: 1px solid var(--line); border-radius: 8px; padding: 16px; min-height: 108px; }
+    .task b { display: block; font-size: 18px; overflow-wrap: anywhere; }
+    .muted { color: var(--muted); }
+    .table-scroll { overflow-x: auto; border-radius: 8px; background: white; }
+    table { width: 100%; border-collapse: collapse; min-width: 900px; background: white; }
+    th, td { padding: 12px 14px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+    th { color: var(--muted); font-weight: 800; }
+    @media (max-width: 900px) { .cards, .active { grid-template-columns: repeat(2, minmax(0, 1fr)); } .top { display: block; } .refresh { text-align: left; margin-top: 12px; } }
+  </style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <div>
+      <h1>LEA Full Baseline Progress</h1>
+      <div class="sub" id="runMeta">loading</div>
+    </div>
+    <div class="refresh">Last refresh<br><span id="clock">--:--:--</span></div>
+  </div>
+  <section class="panel">
+    <div class="progress-row">
+      <div>
+        <div style="font-size:26px;font-weight:850" id="progressText">loading</div>
+        <div class="muted" style="font-size:22px" id="statusText">loading</div>
+      </div>
+      <div class="badge" id="stateBadge">loading</div>
+    </div>
+    <div class="bar"><span id="progressBar" style="width:0%"></span></div>
+  </section>
+  <section class="cards">
+    <div class="card"><div class="label">Completed</div><div class="value" id="completed">0</div></div>
+    <div class="card"><div class="label">Remaining</div><div class="value" id="remaining">0</div></div>
+    <div class="card"><div class="label">Failed</div><div class="value" id="failed">0</div></div>
+    <div class="card"><div class="label">Cases</div><div class="value" id="cases">0</div></div>
+    <div class="card"><div class="label">Concurrency</div><div class="value" id="conc">0</div></div>
+  </section>
+  <h2>Active Tasks</h2>
+  <div class="active" id="active"><div class="muted">No active task reported.</div></div>
+  <h2>Breakdown Table</h2>
+  <div class="table-scroll" id="breakdown"><div class="panel muted">Waiting for summary_lea_full_breakdown.csv</div></div>
+  <h2>Recent Completed Cases</h2>
+  <div class="table-scroll" id="casesTable"><div class="panel muted">Waiting for summary_method_cases.csv</div></div>
+</main>
+<script>
+async function fetchJSON(path) {
+  const r = await fetch(path + '?t=' + Date.now(), {cache:'no-store'});
+  if (!r.ok) throw new Error(path + ' ' + r.status);
+  return await r.json();
+}
+async function fetchText(path) {
+  const r = await fetch(path + '?t=' + Date.now(), {cache:'no-store'});
+  if (!r.ok) return '';
+  return await r.text();
+}
+function csvRows(text) {
+  const lines = text.trim().split(/\r?\n/).filter(Boolean);
+  return lines.map(line => {
+    const out = []; let cur = '', q = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"' && line[i+1] === '"') { cur += '"'; i++; }
+      else if (ch === '"') q = !q;
+      else if (ch === ',' && !q) { out.push(cur); cur = ''; }
+      else cur += ch;
+    }
+    out.push(cur); return out;
+  });
+}
+function renderTable(id, text, keepCols, maxRows) {
+  const root = document.getElementById(id);
+  if (!text.trim()) return;
+  const rows = csvRows(text);
+  const header = rows[0];
+  const idx = keepCols.map(c => header.indexOf(c)).filter(i => i >= 0);
+  let html = '<table><thead><tr>' + idx.map(i => '<th>' + header[i] + '</th>').join('') + '</tr></thead><tbody>';
+  const body = rows.slice(1).slice(-maxRows).reverse();
+  for (const row of body) html += '<tr>' + idx.map(i => '<td>' + (row[i] || '') + '</td>').join('') + '</tr>';
+  html += '</tbody></table>';
+  root.innerHTML = html;
+}
+async function refresh() {
+  document.getElementById('clock').textContent = new Date().toLocaleTimeString();
+  const s = await fetchJSON('status.json');
+  const total = s.total_cases || 0, done = s.completed_cases || 0, failed = s.failed_cases || 0, rem = s.remaining_cases || 0;
+  const pct = total ? (done / total * 100) : 0;
+  document.getElementById('runMeta').textContent = s.run_id || '';
+  document.getElementById('progressText').textContent = `${done} / ${total} completed (${pct.toFixed(1)}%)`;
+  document.getElementById('statusText').textContent = `updated ${s.updated_at || 'unknown'} - ${rem} remaining`;
+  document.getElementById('stateBadge').textContent = rem === 0 ? 'complete' : 'running';
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('completed').textContent = done;
+  document.getElementById('remaining').textContent = rem;
+  document.getElementById('failed').textContent = failed;
+  document.getElementById('cases').textContent = total;
+  document.getElementById('conc').textContent = s.case_concurrency || 1;
+  const active = s.active || [];
+  document.getElementById('active').innerHTML = active.length ? active.map(a => (
+    `<div class="task"><b>${a.case_order}. ${a.case_id}</b><div>${a.model} · ${a.domain} · SCC ${a.scc_size}</div><div class="muted">${a.template} · started ${a.started_at}</div></div>`
+  )).join('') : '<div class="muted">No active task reported.</div>';
+  renderTable('breakdown', await fetchText('summary_lea_full_breakdown.csv'), ['group','N','invalid','root_at_3','risk_any','risk_all','compression','calls_per_case','total_tokens_per_case','runtime_sec_per_case'], 80);
+  renderTable('casesTable', await fetchText('summary_method_cases.csv'), ['case_order','model','domain','scc_size','template','invalid_output','root_at_3','risk_any','risk_all','compression','llm_calls','total_tokens','runtime_sec'], 24);
+}
+refresh().catch(console.error);
+setInterval(() => refresh().catch(console.error), 5000);
+</script>
+</body>
+</html>

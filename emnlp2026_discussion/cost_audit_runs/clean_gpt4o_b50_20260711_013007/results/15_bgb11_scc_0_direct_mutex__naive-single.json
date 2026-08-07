@@ -1,0 +1,478 @@
+{
+  "method": "full-scc-naive-single",
+  "method_source": "adapted from baseline paper (bgb); naive_profile=direct_subgraph",
+  "naive_profile": "direct_subgraph",
+  "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+  "prompt_semantic_audit_hash": "345549c32f20ec3a",
+  "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+  "prompt_adapter_type": "whole_scc_direct_subgraph",
+  "prompt_input_scope": "full_scc",
+  "model": "gpt-4o",
+  "domain": "bgb",
+  "scc_size": 11,
+  "scc_id": "scc_0",
+  "scc_clause_ids": [
+    "bgb_275",
+    "bgb_280",
+    "bgb_281",
+    "bgb_282",
+    "bgb_283",
+    "bgb_285",
+    "bgb_326",
+    "bgb_311a",
+    "bgb_346",
+    "bgb_347",
+    "bgb_441"
+  ],
+  "llm_calls": 1,
+  "temperature": 0.0,
+  "llm_usage": {
+    "prompt_tokens": 4391,
+    "completion_tokens": 1919,
+    "total_tokens": 6310
+  },
+  "time": 21.152979850769043,
+  "scores": {
+    "bgb_275": 0.8,
+    "bgb_280": 0.5,
+    "bgb_281": 0.4,
+    "bgb_282": 0.1,
+    "bgb_283": 0.6,
+    "bgb_285": 0.3,
+    "bgb_326": 0.9,
+    "bgb_311a": 0.7,
+    "bgb_346": 0.2,
+    "bgb_347": 0.0,
+    "bgb_441": 0.1
+  },
+  "reasonings": {
+    "bgb_275": "Central node referenced by multiple clauses, creating cascading effects when exclusions are invoked.",
+    "bgb_280": "Central to damages claims and interacts with multiple nodes, amplifying risks from upstream exclusions.",
+    "bgb_281": "Depends on §280 and §283, creating potential remedy conflicts when exclusions are invoked.",
+    "bgb_282": "Limited scope and dependency on §280, with minor remedy implications.",
+    "bgb_283": "Relies heavily on §275 exclusions and interacts with §280 and §281, creating potential remedy conflicts.",
+    "bgb_285": "Lacks clarity on how replacement remedies interact with §275 exclusions and §326 obligations.",
+    "bgb_326": "Conflicts with downstream remedies and creates ambiguity in obligations when §275 exclusions apply.",
+    "bgb_311a": "Introduces ambiguity when performance hindrances exist at contract formation, conflicting with §275 and §326.",
+    "bgb_346": "Central to return and restitution processes, but less directly involved in remedy conflicts.",
+    "bgb_347": "No meaningful structural concerns; limited impact and no direct conflicts.",
+    "bgb_441": "Minor role in remedy conflicts, primarily interacts with §326 and §346."
+  },
+  "ranking": [
+    [
+      "bgb_326",
+      0.9
+    ],
+    [
+      "bgb_275",
+      0.8
+    ],
+    [
+      "bgb_311a",
+      0.7
+    ],
+    [
+      "bgb_283",
+      0.6
+    ],
+    [
+      "bgb_280",
+      0.5
+    ],
+    [
+      "bgb_281",
+      0.4
+    ],
+    [
+      "bgb_285",
+      0.3
+    ],
+    [
+      "bgb_346",
+      0.2
+    ],
+    [
+      "bgb_441",
+      0.1
+    ],
+    [
+      "bgb_282",
+      0.1
+    ],
+    [
+      "bgb_347",
+      0.0
+    ]
+  ],
+  "global_ranking_raw": [
+    {
+      "rank": 1,
+      "clause_id": "bgb_326",
+      "risk_score": 0.9,
+      "risk_factors": [
+        "Structural inconsistency",
+        "Mutual incompatibility"
+      ],
+      "reasoning": "Conflicts with downstream remedies and creates ambiguity in obligations when §275 exclusions apply."
+    },
+    {
+      "rank": 2,
+      "clause_id": "bgb_275",
+      "risk_score": 0.8,
+      "risk_factors": [
+        "Structural inconsistency",
+        "High impact"
+      ],
+      "reasoning": "Central node referenced by multiple clauses, creating cascading effects when exclusions are invoked."
+    },
+    {
+      "rank": 3,
+      "clause_id": "bgb_311a",
+      "risk_score": 0.7,
+      "risk_factors": [
+        "Mutual incompatibility",
+        "Underspecification"
+      ],
+      "reasoning": "Introduces ambiguity when performance hindrances exist at contract formation, conflicting with §275 and §326."
+    },
+    {
+      "rank": 4,
+      "clause_id": "bgb_283",
+      "risk_score": 0.6,
+      "risk_factors": [
+        "Structural inconsistency"
+      ],
+      "reasoning": "Relies heavily on §275 exclusions and interacts with §280 and §281, creating potential remedy conflicts."
+    },
+    {
+      "rank": 5,
+      "clause_id": "bgb_280",
+      "risk_score": 0.5,
+      "risk_factors": [
+        "High impact"
+      ],
+      "reasoning": "Central to damages claims and interacts with multiple nodes, amplifying risks from upstream exclusions."
+    },
+    {
+      "rank": 6,
+      "clause_id": "bgb_281",
+      "risk_score": 0.4,
+      "risk_factors": [
+        "Structural inconsistency"
+      ],
+      "reasoning": "Depends on §280 and §283, creating potential remedy conflicts when exclusions are invoked."
+    },
+    {
+      "rank": 7,
+      "clause_id": "bgb_285",
+      "risk_score": 0.3,
+      "risk_factors": [
+        "Underspecification"
+      ],
+      "reasoning": "Lacks clarity on how replacement remedies interact with §275 exclusions and §326 obligations."
+    },
+    {
+      "rank": 8,
+      "clause_id": "bgb_346",
+      "risk_score": 0.2,
+      "risk_factors": [
+        "High impact"
+      ],
+      "reasoning": "Central to return and restitution processes, but less directly involved in remedy conflicts."
+    },
+    {
+      "rank": 9,
+      "clause_id": "bgb_441",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "Underspecification"
+      ],
+      "reasoning": "Minor role in remedy conflicts, primarily interacts with §326 and §346."
+    },
+    {
+      "rank": 10,
+      "clause_id": "bgb_282",
+      "risk_score": 0.1,
+      "risk_factors": [
+        "Underspecification"
+      ],
+      "reasoning": "Limited scope and dependency on §280, with minor remedy implications."
+    },
+    {
+      "rank": 11,
+      "clause_id": "bgb_347",
+      "risk_score": 0.0,
+      "risk_factors": [],
+      "reasoning": "No meaningful structural concerns; limited impact and no direct conflicts."
+    }
+  ],
+  "risk_factor_distribution": [
+    {
+      "factor": "Structural inconsistency",
+      "importance_weight": 0.4,
+      "description": "Captures conflicts or contradictions in the graph structure or dependencies."
+    },
+    {
+      "factor": "Mutual incompatibility",
+      "importance_weight": 0.3,
+      "description": "Captures cases where clauses impose conflicting remedies or obligations."
+    },
+    {
+      "factor": "Underspecification",
+      "importance_weight": 0.2,
+      "description": "Captures cases where clauses lack sufficient detail to resolve conflicts or dependencies."
+    },
+    {
+      "factor": "High impact",
+      "importance_weight": 0.1,
+      "description": "Captures clauses with significant downstream effects or wide-reaching implications."
+    }
+  ],
+  "risk_factor_weight_sum": 1.0,
+  "direct_risk_subgraph_nodes": [
+    "bgb_326",
+    "bgb_275",
+    "bgb_311a",
+    "bgb_283",
+    "bgb_280"
+  ],
+  "direct_risk_subgraph_size": 5,
+  "direct_compression_ratio": 0.5454545454545454,
+  "direct_subgraph_type": "llm_declared_minimal_risk_subgraph",
+  "direct_subgraph_policy": "LLM directly declares risk_subgraph_nodes from whole-SCC one-shot prompt",
+  "direct_risk_subgraph_rationale": "This subgraph captures the core nodes involved in structural inconsistency, mutual incompatibility, and high-impact remedy conflicts. §326 and §275 are central to exclusions and downstream effects, while §311a, §283, and §280 amplify or interact with these risks.",
+  "direct_risk_subgraph_edges": [
+    {
+      "source": "bgb_326",
+      "target": "bgb_275",
+      "reason": "§326 references §275, creating a dependency on exclusions that can lead to remedy conflicts."
+    },
+    {
+      "source": "bgb_326",
+      "target": "bgb_285",
+      "reason": "§326 references §285, creating ambiguity in how replacement remedies interact with exclusions."
+    },
+    {
+      "source": "bgb_275",
+      "target": "bgb_280",
+      "reason": "§275 exclusions cascade into §280, affecting damages claims and remedy paths."
+    },
+    {
+      "source": "bgb_275",
+      "target": "bgb_283",
+      "reason": "§275 exclusions directly impact §283, creating remedy conflicts when performance is excused."
+    },
+    {
+      "source": "bgb_311a",
+      "target": "bgb_275",
+      "reason": "§311a introduces ambiguity when performance hindrances exist at contract formation, conflicting with §275 exclusions."
+    }
+  ],
+  "direct_subgraph_raw": [
+    "bgb_326",
+    "bgb_275",
+    "bgb_311a",
+    "bgb_283",
+    "bgb_280"
+  ],
+  "direct_subgraph_invalid": [],
+  "direct_subgraph_duplicates": [],
+  "direct_subgraph_alias_resolutions": [],
+  "direct_subgraph_complete_parse": true,
+  "ranking_source": "global_ranking",
+  "ranking_complete": true,
+  "ranking_missing": [],
+  "ranking_duplicates": [],
+  "ranking_invalid": [],
+  "ranking_alias_resolutions": [],
+  "distinct_score_count": 10,
+  "largest_tie_count": 2,
+  "tied_score_groups": [
+    {
+      "score": 0.1,
+      "count": 2,
+      "nodes": [
+        "bgb_282",
+        "bgb_441"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "clause_a": "bgb_326",
+      "clause_b": "bgb_275",
+      "description": "§326 creates ambiguity in obligations when §275 exclusions apply, leading to remedy conflicts."
+    },
+    {
+      "clause_a": "bgb_311a",
+      "clause_b": "bgb_275",
+      "description": "§311a introduces ambiguity when performance hindrances exist at contract formation, conflicting with §275 exclusions."
+    },
+    {
+      "clause_a": "bgb_283",
+      "clause_b": "bgb_275",
+      "description": "§283 relies on §275 exclusions, creating remedy conflicts when performance is excused."
+    }
+  ],
+  "score_spread": 0.9,
+  "ranking_score_spread": 0.9,
+  "score_mean": 0.41818181818181815,
+  "score_max": 0.9,
+  "node_names": {
+    "bgb_275": "§275 Ausschluss der Leistungspflicht",
+    "bgb_280": "§280 Schadensersatz wegen Pflichtverletzung",
+    "bgb_281": "§281 Schadensersatz statt der Leistung wegen nicht oder nicht wie geschuldet\nerbrachter Leistung",
+    "bgb_282": "§282 Schadensersatz statt der Leistung wegen Verletzung einer Pflicht nach §\n241 Abs. 2",
+    "bgb_283": "§283 Schadensersatz statt der Leistung bei Ausschluss der Leistungspflicht",
+    "bgb_285": "§285 Herausgabe des Ersatzes",
+    "bgb_326": "§326 Befreiung von der Gegenleistung und Rücktritt beim Ausschluss der Leistungspflicht",
+    "bgb_311a": "§311a Leistungshindernis bei Vertragsschluss",
+    "bgb_346": "§346 Wirkungen des Rücktritts",
+    "bgb_347": "§347 Nutzungen und Verwendungen nach Rücktritt",
+    "bgb_441": "§441 Minderung"
+  },
+  "ground_truth_nodes": [
+    "bgb_311a"
+  ],
+  "gt_evidence": {
+    "bgb_311a": "injected memory_stress defect (seed=42)"
+  },
+  "top1_hit": false,
+  "top3_hit": true,
+  "prompt_word_count": 2449,
+  "injected_title_occurrences_in_prompt": 4,
+  "injected_id_occurrences_in_prompt": 4,
+  "injected_title_first_word_ratio": 0.42711310739077174,
+  "injected_content_in_prompt": true,
+  "injected_content_first_word_ratio": 0.4291547570436913,
+  "inject_mode": true,
+  "injected_node": "bgb_311a",
+  "inject_type": "type_b_cross",
+  "inject_profile": "memory_stress",
+  "cycle_source": "real_long",
+  "inject_profile_version": "structural_simple_v2",
+  "injected_witness_node": "bgb_280",
+  "injected_witness_distance": 5,
+  "injected_bridge_node": null,
+  "injected_bridge_distance": null,
+  "injected_risk_nodes": [
+    "bgb_311a",
+    "bgb_280"
+  ],
+  "injected_evidence_nodes": [
+    "bgb_311a",
+    "bgb_280"
+  ],
+  "injected_affected_nodes": [
+    "bgb_326",
+    "bgb_281"
+  ],
+  "injected_conflict_family": "direct_mutex",
+  "injected_conflict_difficulty": "obvious",
+  "injected_conflict_severity": "critical",
+  "injected_conflict_severity_label": "high_impact_no_fallback",
+  "injected_conflict_template": "bgb_direct_timely_cure_vs_extra_charge_critical",
+  "injected_rank": 3,
+  "top1_margin": 0.09999999999999998,
+  "risk_node_ranks": {
+    "bgb_311a": 3,
+    "bgb_280": 5
+  },
+  "risk_best_rank": 3,
+  "risk_worst_rank": 5,
+  "risk_top1_hit": false,
+  "risk_top3_hit": true,
+  "risk_top5_hit": true,
+  "risk_all_top3_hit": false,
+  "risk_all_top5_hit": true,
+  "evidence_node_ranks": {
+    "bgb_311a": 3,
+    "bgb_280": 5
+  },
+  "evidence_best_rank": 3,
+  "evidence_worst_rank": 5,
+  "evidence_top1_hit": false,
+  "evidence_top3_hit": true,
+  "evidence_top5_hit": true,
+  "evidence_all_top3_hit": false,
+  "evidence_all_top5_hit": true,
+  "affected_node_ranks": {
+    "bgb_326": 1,
+    "bgb_281": 6
+  },
+  "affected_best_rank": 1,
+  "affected_worst_rank": 6,
+  "affected_top1_hit": true,
+  "affected_top3_hit": true,
+  "affected_top5_hit": true,
+  "affected_all_top3_hit": false,
+  "affected_all_top5_hit": false,
+  "valuable_node_ranks": {
+    "bgb_311a": 3,
+    "bgb_280": 5,
+    "bgb_326": 1,
+    "bgb_281": 6
+  },
+  "valuable_best_rank": 1,
+  "valuable_worst_rank": 6,
+  "valuable_top1_hit": true,
+  "valuable_top3_hit": true,
+  "valuable_top5_hit": true,
+  "valuable_all_top3_hit": false,
+  "valuable_all_top5_hit": false,
+  "root_rank": 3,
+  "root_top1_hit": false,
+  "root_top3_hit": true,
+  "direct_subgraph_nodes_retained": [
+    "bgb_326",
+    "bgb_275",
+    "bgb_311a",
+    "bgb_283",
+    "bgb_280"
+  ],
+  "direct_contains_injected_node": true,
+  "direct_contains_any_risk_node": true,
+  "direct_contains_all_risk_nodes": true,
+  "direct_risk_nodes_retained": [
+    "bgb_311a",
+    "bgb_280"
+  ],
+  "direct_contains_any_evidence_node": true,
+  "direct_contains_all_evidence_nodes": true,
+  "direct_evidence_nodes_retained": [
+    "bgb_311a",
+    "bgb_280"
+  ],
+  "direct_contains_any_affected_node": true,
+  "direct_contains_all_affected_nodes": false,
+  "direct_affected_nodes_retained": [
+    "bgb_326"
+  ],
+  "direct_contains_any_valuable_node": true,
+  "direct_contains_all_valuable_nodes": false,
+  "direct_valuable_nodes_retained": [
+    "bgb_311a",
+    "bgb_280",
+    "bgb_326"
+  ],
+  "case_id": "15_bgb11_scc_0_direct_mutex",
+  "case_order": 15,
+  "audit_started_at": 1783717849.215863,
+  "audit_completed_at": 1783717870.36931,
+  "audit_started_at_iso": "2026-07-11T05:10:49+0800",
+  "audit_completed_at_iso": "2026-07-11T05:11:10+0800",
+  "case_concurrency": 1,
+  "internal_concurrency": 1,
+  "cost_audit_budget": null,
+  "cost_audit_method": "naive-single",
+  "cost_audit_error": null,
+  "llm_usage_summary": {
+    "recorded_api_calls": 1,
+    "successful_api_calls": 1,
+    "failed_api_calls": 0,
+    "prompt_tokens": 4391,
+    "completion_tokens": 1919,
+    "total_tokens": 6310,
+    "api_runtime_sec_sum": 21.15139627456665
+  }
+}
