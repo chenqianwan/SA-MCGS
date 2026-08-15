@@ -1,12 +1,12 @@
-# Paper 2 研究方案：GFP-MCGS
+# Paper 2 研究方案：LFP-MCGS
 
-> 工作标题：**Beyond Proof Depth: Grounded Fixed-Point Reasoning over Cyclic Natural-Language Rules**  
+> 工作标题：**Beyond Proof Depth: Least-Fixed-Point Reasoning over Cyclic Natural-Language Rules**
 > 备选标题：**A Cycle Is Not a Proof: Grounded Search over Recursive Textual Rules**  
 > 目标：2026 年 10 月 ARR，后续面向 NAACL / ACL 系列会议  
 > 前提：Paper 1（SA-MCGS）已被 EMNLP Findings 接收或正式发表  
 > 当前状态：研究设计稿 v0.2，用于决定是否进入两周 pilot
 
-> **命名提醒：**本文暂沿用 `GFP-MCGS` 作为工作名，展开为 **Grounded Fixed-Point MCGS**。但逻辑学中 `GFP` 常指 *greatest fixed point*，而本文严格采用 *least fixed point*。投稿时更稳妥的正式方法名是 **LFP-MCGS（Least-Fixed-Point MCGS）**；下文的 `GFP-MCGS` 均不表示 greatest-fixed-point semantics。
+> **命名决定：**正式使用 **LFP-MCGS（Least-Fixed-Point MCGS）**。逻辑学中 `GFP` 通常表示 *greatest fixed point*，而本文严格采用 least-Herbrand-model / least-fixed-point semantics，因此不再使用 GFP 作为方法简称。
 
 ---
 
@@ -20,7 +20,7 @@ Paper 2 拟研究的是：
 
 > 在递归自然语言规则中，如何让证据传播到固定点，同时禁止循环规则凭空自证？
 
-核心方法 **GFP-MCGS（Grounded Fixed-Point Monte Carlo Graph Search；投稿名建议改为 LFP-MCGS）** 保留 SA-MCGS 的 SCC 定位、局部窗口、UCB 选择、并行 rollout 和物理状态共享，但把搜索过程中的“风险证据记忆”替换为一个**单次查询期间存在的、带证明来源的临时知识库**：
+核心方法 **LFP-MCGS（Least-Fixed-Point Monte Carlo Graph Search）** 保留 SA-MCGS 的 SCC 定位、局部窗口、UCB 选择、并行 rollout 和物理状态共享，但把搜索过程中的“风险证据记忆”替换为一个**单次查询期间存在的、带证明来源的临时知识库**：
 
 - `L_t`：尚未通过验证的 LLM candidate ledger，可修正、拒绝；
 - `F̂_t, R̂_t`：已验证并提交的 base facts 与 Horn rules，只增不减；
@@ -37,7 +37,7 @@ Paper 2 拟研究的是：
 SA-MCGS:
 选择窗口 → LLM 风险评价 → 更新风险分数 → 重访冲突关系 → 输出风险核
 
-GFP-MCGS:
+LFP-MCGS:
 选择规则窗口 → LLM 抽取局部 fact / rule → validation gate → 提交到 F̂ / R̂
           → 确定性增量 LFP 产生 ΔK → 缺失前提驱动下一次搜索 → 输出证明核
 ```
@@ -46,7 +46,7 @@ GFP-MCGS:
 
 1. LLM 在 matched cyclic cases 上确实存在 circular-support failure；
 2. 原始 SA-MCGS 或普通 iterative prompting 不能自然解决它；
-3. GFP-MCGS 相比 full-text `NL → Datalog → solver` 在长、噪声、多干扰规则下具有更好的 proof-valid accuracy / cost Pareto。
+3. LFP-MCGS 相比 full-text `NL → Datalog → solver` 在长、噪声、多干扰规则下具有更好的 proof-valid accuracy / cost Pareto。
 
 ### 0.1 为了两个月可完成，先锁死范围
 
@@ -77,7 +77,7 @@ flowchart LR
         A3 --> A4["输出：dynamic risk core"]
     end
 
-    subgraph P2["Paper 2: GFP-MCGS"]
+    subgraph P2["Paper 2: LFP-MCGS"]
         B1["输入：自然语言事实、递归规则与 query"] --> B2["状态：committed program、LFP closure 与 provenance"]
         B2 --> B3["机制：proof-obligation revisit"]
         B3 --> B4["输出：fixed-point closure 与 proof core"]
@@ -90,7 +90,7 @@ flowchart LR
 
 ### 1.2 逐项对照
 
-| 维度 | Paper 1：SA-MCGS | Paper 2：GFP-MCGS |
+| 维度 | Paper 1：SA-MCGS | Paper 2：LFP-MCGS |
 |---|---|---|
 | 科学问题 | 循环文档中的风险证据是否能被完整找回 | 循环规则中的结论是否具有 grounded support，证据是否传播到固定点 |
 | 输入 | 文档记录、依赖边、SCC | 自然语言事实、自然语言规则、候选依赖图、query |
@@ -303,7 +303,7 @@ flowchart TD
 
 ---
 
-## 5. GFP-MCGS 对 SA-MCGS 做了什么改变
+## 5. LFP-MCGS 对 SA-MCGS 做了什么改变
 
 ### 5.1 总体流程对照
 
@@ -318,7 +318,7 @@ flowchart TB
         SA5 -->|"否"| SA6["dynamic risk core"]
     end
 
-    subgraph GFP["GFP-MCGS"]
+    subgraph LFP["LFP-MCGS"]
         G1["从 proof obligations 选择文本窗口"] --> G2["LLM 抽取 candidate facts / Horn rules"]
         G2 --> G3["span、schema、binding、support validation"]
         G3 --> G4["提交到 monotonic F̂ / R̂"]
@@ -332,7 +332,7 @@ flowchart TB
 
 ### 5.2 组件映射
 
-| SA-MCGS 组件 | GFP-MCGS 中的处理 | 是否可直接复用 |
+| SA-MCGS 组件 | LFP-MCGS 中的处理 | 是否可直接复用 |
 |---|---|---|
 | SCC detection | 定位 recursive predicate / record components | 是 |
 | adjacency / reverse adjacency | 表示 candidate rule dependency | 是 |
@@ -461,7 +461,7 @@ commit_round: 4
 
 ### 5.6 Delta-triggered revisit
 
-Paper 1 的 critical-pair revisit 是“某对关系持续可疑，所以再次观察”；GFP-MCGS 的重访更具确定语义：
+Paper 1 的 critical-pair revisit 是“某对关系持续可疑，所以再次观察”；LFP-MCGS 的重访更具确定语义：
 
 ```text
 如果本轮新增 Q(Alice)：
@@ -497,7 +497,7 @@ MCGS closure-state key:
 
 ### 5.8 Selection 与 reward
 
-GFP-MCGS 仍然在有限 LLM 调用预算下选择局部窗口，但 exploitation 的含义从“风险高”改为“最可能推进 grounded closure”。可以先使用下列可解释版本：
+LFP-MCGS 仍然在有限 LLM 调用预算下选择局部窗口，但 exploitation 的含义从“风险高”改为“最可能推进 grounded closure”。可以先使用下列可解释版本：
 
 \[
 Score(w) = \frac{Q(w)}{N(w)+\epsilon}
@@ -568,7 +568,7 @@ MCGS 的 transposition 发生在第三张图：不同 window 顺序若到达同�
 
 如果预算耗尽但以上条件不成立，返回 `Unresolved`，而不是 `Unknown`。
 
-有限预算下，GFP-MCGS 是一个 anytime recovery method，不能无条件声称 completeness。只有当所有正确候选规则最终都被访问、局部解析正确且 frontier 被完全处理时，才能达到 gold fixed point。
+有限预算下，LFP-MCGS 是一个 anytime recovery method，不能无条件声称 completeness。只有当所有正确候选规则最终都被访问、局部解析正确且 frontier 被完全处理时，才能达到 gold fixed point。
 
 ### 5.11 Proof core
 
@@ -586,10 +586,10 @@ Paper 1 的 dynamic core 可以动态替换风险节点；Paper 2 必须把两�
 
 ---
 
-## 6. GFP-MCGS 伪代码
+## 6. LFP-MCGS 伪代码
 
 ```text
-Algorithm: GFP-MCGS(G, query q, budget B)
+Algorithm: LFP-MCGS(G, query q, budget B)
 
 Input:
     G       candidate graph over natural-language facts and rules
@@ -829,7 +829,7 @@ flowchart LR
 ### 8.4 两种评价设置
 
 1. **Gold-structure diagnostic：**提供正确的 record dependency topology，但不提供 formal rules / bindings，用于隔离 reasoning failure；
-2. **End-to-end：**只给自然语言 records 与显式引用，由高召回 candidate graph builder 构图，再运行 GFP-MCGS。
+2. **End-to-end：**只给自然语言 records 与显式引用，由高召回 candidate graph builder 构图，再运行 LFP-MCGS。
 
 主论文必须同时报告两者，以区分：
 
@@ -853,7 +853,7 @@ flowchart LR
 | Retrieval | deterministic query-relevant windows + aggregation | 测试普通 graph decomposition |
 | Tree search | TreeMCTS over rule applications | 测试 path-copy 和循环重复 |
 | Paper 1 backbone | SA-MCGS-Fact | 同样的 window / UCB，但无 anchored store、delta revisit、fixed-point termination |
-| Proposed | GFP-MCGS | 完整方法 |
+| Proposed | LFP-MCGS | 完整方法 |
 
 `SA-MCGS-Fact` 必须定义清楚：允许 evaluator 输出 candidate facts，但仍按原 SA-MCGS 的 stateless / risk-like aggregation 工作。这样才能证明新贡献不是仅仅换 prompt schema。
 
@@ -910,7 +910,7 @@ flowchart LR
 2. Closure F1 vs. tokens；
 3. Circular-Support FPR vs. Grounded-Propagation Recall。
 
-我们不应只证明 GFP-MCGS 更准确，而应证明它在**不过度接受 circular support**的同时，仍能充分传播真正的 grounded evidence。
+我们不应只证明 LFP-MCGS 更准确，而应证明它在**不过度接受 circular support**的同时，仍能充分传播真正的 grounded evidence。
 
 ---
 
@@ -931,7 +931,7 @@ flowchart LR
 
 1. 实现最小 `CandidateLedger + ValidationGate + IncrementalLFP + ObligationFrontier`；
 2. 复用现有 local-window / UCB / concurrency 骨架；
-3. 比较 SA-MCGS-Fact、deterministic windows 和 GFP-MCGS；
+3. 比较 SA-MCGS-Fact、deterministic windows 和 LFP-MCGS；
 4. 做最关键的三项消融：
    - no provenance；
    - no delta revisit；
@@ -943,11 +943,11 @@ flowchart LR
 
 - 至少一个强模型在 hard matched cases 上仍有 `≥10` points paired-accuracy gap 或 `≥15%` circular-support FPR；
 - closure recall 随 fixed-point rounds 明显下降，而不仅是随文本长度下降；
-- GFP-MCGS 相比 SA-MCGS-Fact / budget-matched deterministic scheduler 在 Closure F1 或 Proof-Carrying Accuracy 上提升 `≥7–10` points；
+- LFP-MCGS 相比 SA-MCGS-Fact / budget-matched deterministic scheduler 在 Closure F1 或 Proof-Carrying Accuracy 上提升 `≥7–10` points；
 - no provenance 显著提高 circular-support FPR；
 - no delta revisit 显著降低 productive closure recall；
 - provenance validity 达到 `≥90%`，且 human paraphrase 上仍保留主要增益；
-- full-text parse-then-solve 在长、噪声设置下出现累积 parsing error，GFP-MCGS 用不超过约 `40–60%` 的文本解析量达到其 `≥95%` 的准确率，或取得更好的 accuracy / cost Pareto。
+- full-text parse-then-solve 在长、噪声设置下出现累积 parsing error，LFP-MCGS 用不超过约 `40–60%` 的文本解析量达到其 `≥95%` 的准确率，或取得更好的 accuracy / cost Pareto。
 
 ### 10.4 明确 No-Go 条件
 
@@ -955,7 +955,7 @@ flowchart LR
 
 - full-text `NL → Datalog → solver` 在所有设置都接近 oracle，且成本不高；
 - Direct / CoT 没有 measurable circular-support failure；
-- deterministic exhaustive windows 与 GFP-MCGS 基本相同；
+- deterministic exhaustive windows 与 LFP-MCGS 基本相同；
 - 关闭 provenance 或 delta revisit 的影响小于 `3–5` points；
 - 只有最终 label 提升，但 closure / proof validity 没有提升；
 - 效果只存在于单一模板，换 paraphrase 后消失。
@@ -988,7 +988,7 @@ src/modules/incremental_lfp.py
     ProofVerifier
 
 src/modules/gfp_mcgs.py
-    GFPMonteCarloGraphSearch
+    LFPMonteCarloGraphSearch
 
 experiments/gfp_mcgs/
     generate_recursive_benchmark.py
@@ -1030,7 +1030,7 @@ experiments/gfp_mcgs/
 | 周次 | 目标 | 必须交付 |
 |---:|---|---|
 | W1 | 问题验证 | formal spec、generator、oracle、120 matched groups、Direct / CoT / parse-solve 结果 |
-| W2 | 最小方法验证 | CandidateLedger、ValidationGate、incremental LFP、proof obligations、SA-MCGS-Fact 与 GFP-MCGS pilot、Go / No-Go 决策 |
+| W2 | 最小方法验证 | CandidateLedger、ValidationGate、incremental LFP、proof obligations、SA-MCGS-Fact 与 LFP-MCGS pilot、Go / No-Go 决策 |
 | W3 | 完整搜索状态 | parse cache、closure-state TT、query slicing、trace logger、单元测试 |
 | W4 | 方法稳定 | 并发、virtual loss、proof core、Unknown / Unresolved 判定、主要消融 |
 | W5 | Benchmark 冻结 | topology split、paraphrase split、hard test、human-check subset、数据卡 |
@@ -1051,7 +1051,7 @@ experiments/gfp_mcgs/
 - 主设置只给自然语言，不给 gold predicates / bindings / formal rules；
 - Datalog solver 是 oracle；
 - full-text autoformalization + solver 是强 baseline；
-- GFP-MCGS 的问题是预算内的 selective semantic interpretation，而不是发明新的 Datalog evaluation；
+- LFP-MCGS 的问题是预算内的 selective semantic interpretation，而不是发明新的 Datalog evaluation；
 - 一旦局部程序被验证并提交，所有 rule firing 都交给标准、确定性的 incremental LFP engine。算法新意在“读哪些文本、何时重访、如何保留可核验证据”。
 
 ### 13.2 “已有 benchmark 也有 cycles”
@@ -1109,13 +1109,13 @@ experiments/gfp_mcgs/
 - 测试不同 commit thresholds；
 - 允许整个 run 在发现 verifier contradiction 时作废并重启，但不能悄悄从 `K_t` 删除 fact 后仍声称标准 least-fixed-point trajectory。
 
-### 13.8 “GFP 在逻辑里不是 greatest fixed point 吗？”
+### 13.8 “为什么不用 GFP 这个简称？”
 
 这个命名攻击完全可以提前避免：
 
-- 研究阶段可沿用 `Grounded Fixed-Point MCGS` 便于内部沟通；
-- 投稿版本优先改名为 **LFP-MCGS（Least-Fixed-Point MCGS）**；
-- 无论采用哪个名字，formal section 第一页都明确 `K*=μS.T_R(S)`，并声明不采用 greatest-fixed-point / coinductive semantics。
+- `GFP` 在逻辑文献中通常表示 greatest fixed point，容易造成根本语义误读；
+- 本项目正式使用 **LFP-MCGS（Least-Fixed-Point MCGS）**；
+- formal section 第一页明确 `K*=μS.T_R(S)`，并声明不采用 greatest-fixed-point / coinductive semantics。
 
 ---
 
@@ -1150,7 +1150,7 @@ experiments/gfp_mcgs/
 - “Existing logical reasoning benchmarks are acyclic.”
 - “We are the first to study cyclic or fixed-point reasoning with LLMs.”
 - “We propose a new Datalog fixed-point algorithm.”
-- “GFP-MCGS is sound for arbitrary natural-language reasoning.”
+- “LFP-MCGS is sound for arbitrary natural-language reasoning.”
 - “A cycle is never a proof”——除非紧接 least-fixed-point semantics 的限定。
 - “Dynamic core remains monotonic”——Paper 1 的 dynamic replacement 与 Paper 2 的 monotonic fact store 是不同层次。
 
@@ -1163,18 +1163,18 @@ experiments/gfp_mcgs/
 1. **从 chain 到 recursion：**现有 reasoning 常用 proof depth 描述难度，但相同 depth 下，recursive SCC 还要求反复传播和状态共享；
 2. **双重失败：**LLM 可能在 productive SCC 中提前停止，也可能把 inactive cycle 当成 circular proof；
 3. **任务与 benchmark：**matched relevant-seed / decoy-seed / DAG-SCC pairs，评价 closure 与 provenance；
-4. **方法：**GFP-MCGS 把 SA-MCGS 式图搜索骨架与 candidate ledger、committed program、deterministic incremental LFP、proof-obligation revisit 结合。
+4. **方法：**LFP-MCGS 把 SA-MCGS 式图搜索骨架与 candidate ledger、committed program、deterministic incremental LFP、proof-obligation revisit 结合。
 
 ### 15.2 建议贡献列表
 
 1. 我们提出 Grounded Recursive Textual Reasoning，分离 proof depth、recursion、grounding 和 convergence rounds；
 2. 我们构造 topology-controlled matched benchmark，并提供 exact closure / proof oracle；
-3. 我们提出 GFP-MCGS：MCGS 选择需要语义解析的局部文本，deterministic LFP engine 维护 closure 与 proof，由 missing-premise obligations 驱动重访；
+3. 我们提出 LFP-MCGS：MCGS 选择需要语义解析的局部文本，deterministic LFP engine 维护 closure 与 proof，由 missing-premise obligations 驱动重访；
 4. 我们从 answer、closure、proof 和 cost 四个层面分析模型的 under-reasoning 与 circular-support failure。
 
 ### 15.3 摘要式 Pitch
 
-> Recursive rules can propagate evidence but cannot create it under least-fixed-point semantics. Yet current language-model reasoning evaluations largely organize difficulty by proof depth, leaving unclear whether models can saturate productive recursive components without treating inactive cycles as self-supporting proofs. We introduce a topology-controlled benchmark of matched natural-language Horn programs that holds rule graphs and surface statistics fixed while varying query-relevant grounding. We then propose GFP-MCGS, an SCC-aware anytime scheduler for expensive local semantic interpretation. It maintains a validated monotonic program, delegates rule firing to a deterministic incremental least-fixed-point engine, and uses missing-premise obligations to select the next textual region. Unlike exhaustive parse-then-solve pipelines, it selectively interprets local rules under a fixed budget and returns source-linked proof certificates. We evaluate final answers, query-relevant closure, proof validity, circular-support errors, and inference cost across matched DAG and SCC settings.
+> Recursive rules can propagate evidence but cannot create it under least-fixed-point semantics. Yet current language-model reasoning evaluations largely organize difficulty by proof depth, leaving unclear whether models can saturate productive recursive components without treating inactive cycles as self-supporting proofs. We introduce a topology-controlled benchmark of matched natural-language Horn programs that holds rule graphs and surface statistics fixed while varying query-relevant grounding. We then propose LFP-MCGS, an SCC-aware anytime scheduler for expensive local semantic interpretation. It maintains a validated monotonic program, delegates rule firing to a deterministic incremental least-fixed-point engine, and uses missing-premise obligations to select the next textual region. Unlike exhaustive parse-then-solve pipelines, it selectively interprets local rules under a fixed budget and returns source-linked proof certificates. We evaluate final answers, query-relevant closure, proof validity, circular-support errors, and inference cost across matched DAG and SCC settings.
 
 ---
 
