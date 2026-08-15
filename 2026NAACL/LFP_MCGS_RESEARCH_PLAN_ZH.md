@@ -1,5 +1,7 @@
 # Paper 2 研究方案：LFP-MCGS
 
+> **状态提示：**这是早期探索初稿，保留用于追溯算法细节；当前数据、baseline、消融和执行门槛以 [`LFP_MCGS_RESEARCH_PLAN_V2.md`](./LFP_MCGS_RESEARCH_PLAN_V2.md) 为准。
+
 > 工作标题：**Beyond Proof Depth: Least-Fixed-Point Reasoning over Cyclic Natural-Language Rules**
 > 备选标题：**A Cycle Is Not a Proof: Grounded Search over Recursive Textual Rules**  
 > 目标：2026 年 10 月 ARR，后续面向 NAACL / ACL 系列会议  

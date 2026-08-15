@@ -4,11 +4,13 @@
 
 ## 文档索引
 
-- [`LFP_MCGS_RESEARCH_PLAN_ZH.md`](./LFP_MCGS_RESEARCH_PLAN_ZH.md)：完整研究方案、算法图、实验和八周计划。
+- [`LFP_MCGS_RESEARCH_PLAN_V2.md`](./LFP_MCGS_RESEARCH_PLAN_V2.md)：**当前执行版**；围绕可证伪 claim、generality、强 baseline、关键消融、AC/SAC 门槛和八周排期组织。
+- [`LFP_MCGS_RESEARCH_PLAN_ZH.md`](./LFP_MCGS_RESEARCH_PLAN_ZH.md)：早期探索初稿；保留算法细节，不再作为实验执行依据。
 - [`LFP_MCGS_LITERATURE_REVIEW.md`](./LFP_MCGS_LITERATURE_REVIEW.md)：MCGS × SCC × least-fixed-point 的新颖性检索与相关文献。
 - [`LFP_MCGS_DATASET_ANALYSIS.md`](./LFP_MCGS_DATASET_ANALYSIS.md)：权威真实数据源、现有 SA-MCGS 数据复用和推荐数据方案。
 - [`LFP_MCGS_DATASET_AUDIT.md`](./LFP_MCGS_DATASET_AUDIT.md)：实际下载后的格式、规模、SCC、标签、许可证与最终采用决策（精炼图文版）。
 - [`algorithm_figures/`](./algorithm_figures/)：总体架构图、八模块组合图、动态演算 GIF / HTML 和八张关键帧。
+- [`plan_v2_figures/`](./plan_v2_figures/)：V2 的 claim-evidence、算法边界、generality 与 baseline/ablation 图及可复现生成脚本。
 
 ## 当前范围
 
