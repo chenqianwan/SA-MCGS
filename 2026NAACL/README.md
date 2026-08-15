@@ -7,6 +7,7 @@
 - [`LFP_MCGS_RESEARCH_PLAN_ZH.md`](./LFP_MCGS_RESEARCH_PLAN_ZH.md)：完整研究方案、算法图、实验和八周计划。
 - [`LFP_MCGS_LITERATURE_REVIEW.md`](./LFP_MCGS_LITERATURE_REVIEW.md)：MCGS × SCC × least-fixed-point 的新颖性检索与相关文献。
 - [`LFP_MCGS_DATASET_ANALYSIS.md`](./LFP_MCGS_DATASET_ANALYSIS.md)：权威真实数据源、现有 SA-MCGS 数据复用和推荐数据方案。
+- [`algorithm_figures/`](./algorithm_figures/)：总体架构图、八模块组合图、动态演算 GIF / HTML 和八张关键帧。
 
 ## 当前范围
 
