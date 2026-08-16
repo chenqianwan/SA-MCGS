@@ -1,289 +1,379 @@
 # LFP-MCGS 文献检索与新颖性边界
 
-> 检索日期：2026-08-16
-> 研究问题：是否已有工作将 MCGS、SCC 与 least-fixed-point（LFP）结合，用于自然语言递归规则的选择性解析与可验证闭包？
-> 结论性质：这是面向立项的系统性检索，不是正式 systematic review。负检索只能说明“在下列来源和关键词中未发现”，不能证明绝对不存在。
+> 更新日期：2026-08-16
+>
+> 检索目标：分别判断“普通 seeded LFP + MCGS”和“SCC-aware LFP-MCGS”是否已有直接先例。
+>
+> 结论性质：面向立项的系统性检索，不是穷尽式 systematic review；“未发现”不等于“不存在”。
 
-## 1. 结论先行
+## 1. 最终判断
 
-截至检索日，我们**没有找到名称或机制都与 LFP-MCGS 等价的已发表工作**。在外部 archival primary sources 中，也未找到一篇明确称为 MCGS、同时以 SCC decomposition 做 recursive-Datalog LFP recovery 的论文。尤其没有找到一个系统同时具备以下四点：
+| 问题 | 检索结论 | 可否作为 novelty |
+|---|---|---|
+| 是否存在名称为 LFP-MCGS 的方法？ | 未检到 | 只能说明名称未被占用 |
+| 是否存在与我们完整机制相同的方法？ | 未检到 | 可以谨慎描述交集空位 |
+| 普通 seed + LFP + Monte Carlo search 是否为空白？ | **不是**。已有 MCTS + LFP、MCTS + recursive logic closure、Datalog/GDL + UCT 等先例 | **不能 claim first** |
+| MCGS 是否首次进入形式推理？ | 不是；Aristotle 已在 Lean proof states 上使用 MCGS | 不能作为 claim |
+| MCGS + SCC 是否首次出现？ | 不是；SA-MCGS 已经这样做，MCTS + SCC 也有外部先例 | 不能作为 claim |
+| 预算化自然语言规则获取 + partial-program LFP + MCGS 精确状态合并是否已有直接同类？ | 本轮未发现 | 当前最可守的普通版交集 |
+| productive recursive SCC + 上述机制是否已有直接同类？ | 本轮未发现 | **更清晰、更有科学问题的主线** |
 
-1. 对自然语言 facts / rules 做局部、按需的语义解析；
-2. 用 SCC 与 MCGS 分配有限的 LLM 调用预算；
-3. 对已验证的 positive-Horn program 做确定性 least-fixed-point saturation；
-4. 用 missing-premise obligations 反向驱动重访，并返回 source-linked proof / coverage certificate。
+若把两个术语都卡得很严——MCGS 必须是 Leurent-style state-merging graph search，LFP 必须是 positive-Horn least-Herbrand fixed point——本轮**没有找到直接命中**。但投稿时不能依靠这一字面空位：reviewer 很可能把 MCTS→MCGS 的状态合并视为增量变化，并同时引用已有的 MCTS+LFP 与 MCGS+formal-proof 工作。
 
-但是，不能据此写成“第一个 MCGS + SCC”“第一个处理环的 MCGS”或“第一个 fixed-point MCGS”，因为：
+一句话结论：
 
-- Paper 1 的 [SA-MCGS](https://github.com/chenqianwan/SA-MCGS) 本身已经公开组合 MCGS、Tarjan SCC 与 transposition table；
-- **MCGS 中的环与数值 fixed point**；
-- **Monte Carlo search 与 SCC decomposition**；
-- **Datalog 的 SCC-wise least-fixed-point evaluation**；
-- **自然语言规则到符号程序、外部记忆和证明搜索**。
+> **普通 seed 本身没有新颖性，LFP 与 Monte Carlo search 的宽泛组合也不是空白。**
+>
+> 普通版能守住的，只是“对尚未完全获得的自然语言程序做预算化获取，并在 provenance-aware partial LFP states 上做 MCGS”；加入 productive SCC 后，才有一个适合构造成受控 NLP failure 的核心现象：外部 seed 可以驱动反馈传播，而无 seed 的循环不能自我证明。该语义本身是经典 LFP 性质，新意在于 noisy NL acquisition 下的诊断与调度。
 
-因此，新颖性不是任何单个组件，而是以下交集：
+因此建议：
 
-> **在昂贵且不可靠的自然语言规则解析前提下，用 SCC-aware MCGS 调度“下一段读什么”，并让确定性 LFP 内核负责单调闭包与可验证证明。**
-
-最稳妥的表述是：
-
-> We introduce an SCC-aware MCGS scheduler for selective semantic interpretation toward verified least-fixed-point closure of recursive natural-language rule programs.
-
-在完成最终 Scholar / Semantic Scholar / DBLP 前向与反向引文核查之前，正文应优先使用 “we found no prior system that jointly ...”，而不是绝对的 “the first”。
+- 方法可以在完整图上运行，不必把输入限制为一个 SCC；
+- **论文主问题保留 SCC / productive recursion**；
+- DAG 与普通 seeded chain 作为 matched control 和 generality 证据；
+- 只有实验表明 DAG 与 SCC 都有稳定收益时，才把标题上升为一般的 budgeted program acquisition。
 
 ---
 
-## 2. 检索范围与关键词
+## 2. “普通 seed + LFP”到底是什么
 
-本轮检索覆盖 ACL Anthology、PMLR、AAAI / ICAPS、AAMAS proceedings、Springer、IJCAI、KR、OpenReview、arXiv，以及论文和项目的官方页面。使用的关键词组合包括：
+在 finite、function-free、positive-Horn 程序中，给定初始事实 F₀ 和规则 R：
 
-```text
+<div align="center">
+
+T_{R,F₀}(K) = F₀ ∪ K ∪ { head(r) | body(r) ⊆ K }
+
+K* = lfp(T_{R,F₀}) = ⋃_{t≥0} T_{R,F₀}ᵗ(∅)
+
+</div>
+
+- **seed**：初始 extensional facts，即 F₀；
+- **LFP**：从 seed 出发反复应用规则，直到不再产生新事实；
+- **SCC**：任何有向图都可定义 SCC；本文所说的 semantic/recursive SCC 特指 predicate dependency graph 上的 SCC，不是 LFP-MCGS 名字里的某个字母；
+- **MCGS**：若规则已完整符号化，它不负责求 LFP；它只可能负责决定下一份昂贵文本或规则源该不该读取。
+
+### 2.1 三种情形
+
+| 情形 | 语义行为 | MCGS 的必要性 |
+|---|---|---|
+| 已知符号程序 + DAG | 拓扑序或 semi-naive 一次传播即可 | 基本没有 |
+| 未知/昂贵 NL 程序 + DAG | 主要是 query-directed acquisition / parsing | 可能有，但近邻很多 |
+| 未知/昂贵 NL 程序 + productive recursive SCC | 新事实会跨反馈边产生更多新事实，需要多轮 saturation；还必须阻止 circular self-support | 最有理由 |
+
+### 2.2 productive seed 与 circular self-support
+
+~~~mermaid
+flowchart LR
+  F["Seed facts<br/>edge(a,b), edge(b,c)"] --> R0["r0: edge(x,y) → reach(x,y)"]
+  R0 --> K1["new: reach(a,b), reach(b,c)"]
+  K1 --> R1["r1: reach(x,y) ∧ edge(y,z) → reach(x,z)"]
+  R1 --> K2["new: reach(a,c)"]
+  K2 --> Q["query proved"]
+  R1 -. "predicate feedback<br/>reach → reach" .-> R1
+~~~
+
+这里的递归规则实例真正产生了新 atom；删除 r1 后，query 不再成立。它是 **productive feedback**。
+
+相反，若只有 <code>p(x)→q(x)</code> 与 <code>q(x)→p(x)</code>，但没有 p/q seed，LFP 中不会凭空出现 p 或 q。这是 **circular self-support**，也是我们比一般 proof search 更有辨识度的科学问题。
+
+---
+
+## 3. 检索协议
+
+### 3.1 来源
+
+优先检查论文原文与官方出版页面：ACL Anthology、PMLR、AAAI/ICAPS、AAMAS、NeurIPS、IEEE、Springer、KR、DBLP、arXiv 及作者项目页。
+
+### 3.2 查询族
+
+~~~text
 "LFP-MCGS"
 "least fixed point" "Monte Carlo graph search"
-"fixed-point MCGS" / "fixed point MCGS"
-"SCC-MCGS" / "MCGS" "strongly connected component"
-"SCC" "Monte Carlo tree search"
+"least Herbrand model" MCTS / MCGS
 "recursive Datalog" MCTS / MCGS
-"cyclic rules" LLM reasoning
-"least fixed point" natural language reasoning
-"symbolic working memory" recursive rules
-```
+"recursive logic program" "Monte Carlo tree search"
+"deductive closure" MCTS
+"Datalog" UCT "transposition table"
+"MCTS" theorem proving / proof search
+"budgeted oracle calls" MCTS
+"active information gathering" MCTS
+"value of computation" MCTS
+"query-directed Datalog" Magic Sets tabling
+"selective rule interpretation" LLM
+"SCC" MCTS / MCGS
+~~~
 
-精确词 `LFP-MCGS`、`SCC-MCGS` 和 `recursive Datalog + MCGS/MCTS` 未产生对应方法命中。不过存在数个必须在 related work 中正面讨论的近邻。
+### 3.3 排除的假阳性
+
+- 数据库文献中的 MCG 常指 **minimal complete generalization**，不是 Monte Carlo Graph Search；
+- MDP 文献中的 fixed point 多为 Bellman/value fixed point，不是 least-Herbrand LFP；
+- greatest fixed point、coinduction、stable-model semantics 不能与 positive-Horn LFP 混用；
+- “recursive algorithm”不等于 recursive logic semantics；
+- GDL 是 Datalog variant，因此 GDL + UCT 是真实技术近邻，不能当作同名误报排除。
 
 ---
 
-## 3. 最直接的近邻
+## 4. 普通 seed + LFP + Monte Carlo：已有的强先例
 
-| 工作 | 已经覆盖什么 | 与 LFP-MCGS 的关键差异 | 对 claim 的约束 |
+### 4.1 最危险的四篇
+
+| 工作 | 已经做了什么 | 与我们不同 | 它否定的 claim |
 |---|---|---|---|
-| [SA-MCGS](https://github.com/chenqianwan/SA-MCGS), Paper 1 / public repository | AlphaGo-style MCGS、Tarjan SCC、TT 与循环文档风险核 | 风险证据搜索，而不是 verified partial program 的 LFP saturation | Paper 2 不能再次 claim first MCGS + SCC；必须把它写成 state/semantics/task 的演化 |
-| [Monte-Carlo Graph Search: the Value of Merging Similar States](https://proceedings.mlr.press/v129/leurent20a.html), ACML 2020 | 正式提出 MCGS；搜索图可有 loop；用 fixed-point iteration 计算 Bellman bounds | 数值 MDP planning；不是 Datalog LFP；无 SCC、自然语言规则和证明证书 | 不能说 first fixed-point MCGS 或 first MCGS with loops |
-| [ANN-CMCGS](https://imrclab.github.io/assets/pdf/2026-ann-cmcgs-grc.pdf), AAMAS 2026 extended abstract | 明确支持 arbitrary directed graphs with cycles，并阻止单次 playout 内无限循环 | 连续机器人规划；无 SCC、规则闭包、LFP 或证据验证；论文也未解决 cyclic convergence/completeness | 不能说 first cyclic / non-DAG MCGS |
-| [Guessing Winning Policies in LTL Synthesis by Semantic Learning](https://link.springer.com/chapter/10.1007/978-3-031-37706-8_20), CAV 2023 | MCTS + SCC decomposition；按 SCC 逆拓扑求解 parity game | 是 MCTS 而非 state-merging MCGS；目标是 LTL synthesis，不是自然语言规则的 LFP closure | 不能说 first Monte Carlo search with SCCs |
-| [Parsel](https://papers.neurips.cc/paper_files/paper/2023/hash/6445dd88ebb9a6a3afa0b126ad87fe41-Abstract-Conference.html), NeurIPS 2023 | 将函数依赖图分成 SCC，联合合成 mutually recursive functions，并用 tests 验证 | 无 MCTS/MCGS；目标是程序合成而非语义闭包 | 不能把 SCC-aware LLM reasoning/synthesis 写成全新方向 |
-| [A Monte-Carlo Tree Search in Argumentation](https://www.mit.edu/~irahwan/argmas/argmas14/w12-07.pdf), ArgMAS 2014 | MCTS reward 使用 Dung grounded extension；后者由 LFP 定义 | tree search 主动消除环，TT 仅 future work；不是 Datalog rule interpretation | 不能说 first Monte Carlo search involving LFP semantics |
-| [On Fast Large-Scale Program Analysis in Datalog](https://www.souffle-lang.com/pdf/cc.pdf) | Soufflé 对互递归关系做 SCC 分解、semi-naive evaluation 与 fixed-point computation | 规则已经是精确 Datalog；不存在昂贵/随机的 NL 解析和搜索预算问题 | 不能把 SCC + LFP evaluator 当算法 novelty |
-| [Symbolic Working Memory](https://aclanthology.org/2024.emnlp-main.974/), EMNLP 2024 | 将事实/规则保存在外部工作记忆中，迭代 grounding，并由 LLM 实现局部规则 | 倾向先装入全部输入；没有以 SCC 拓扑控制的 MCGS scheduler、verified monotone commit 或 coverage-aware stopping | 必须作为最近的 NLP 方法邻居比较 |
+| [A Monte-Carlo Tree Search in Argumentation](https://www.mit.edu/~irahwan/argmas/argmas14/w12-07.pdf), ArgMAS 2014 | 将 Dung grounded extension 明确定义为 characteristic function 的 **least fixed point**；MCTS 搜 argumentation，LFP 用于 reward | 完整 argument graph 已知；非 positive-Horn closure；attack 不可撤销且已走 attack 不可重复，因此 search trajectory 不成环；transposition 仅列为 future work | first LFP + MCTS；first grounded reasoning + Monte Carlo search |
+| [Synthesizing Recursive Logic Programs by Inverting General Resolution](https://ieeexplore.ieee.org/document/11027907), IEEE Access 2025 | modified MCTS 搜候选 recursive logic-program hypotheses，并以 literal compression/cost 为目标；候选压缩时穷举 general-resolution sentence closure；实验学习 <code>scc(A,B)</code> 关系 | 输入已形式化；不是 MCGS；<code>scc/2</code> 是数据图关系学习 benchmark，不是 predicate-SCC decomposition 或 productive-SCC diagnosis；不做预算化 NL acquisition | first MCTS for recursive logic-program synthesis；first MCTS + deductive closure；first Monte Carlo recursive graph-rule learning |
+| [Combining UCT and Nested Monte-Carlo Search for Single-Player General Game Playing](https://www.lamsade.dauphine.fr/~cazenave/papers/ggp2009.pdf), IEEE TCIAIG 2010 | 在 GDL 游戏上使用 UCT 与 transposition table；[GDL 是支持 recursion 等特性的 Datalog variant](https://doi.org/10.1007/s10994-019-05843-w) | 完整 game rules 已知；该实现将 GDL 转为 Prolog，由 Prolog 计算 terminal/legal/next/goal，UCT 搜动作轨迹；并非所有 GGP 实例都使用 recursion | first Datalog/Horn + Monte Carlo search；first transposition-aware Monte Carlo on logic-defined dynamics |
+| [Monte Carlo Tree Search for Verifying Reachability in Markov Decision Processes](https://arxiv.org/abs/1809.03299), ISoLA 2018 | MCTS-guided value iteration 做 partial exploration；其 reachability computation 可数学解释为数值 Bellman fixed-point problem，并需构造 MEC quotient 保证收敛 | 不是 least-Herbrand semantics；无 NL、规则获取或 provenance proof | first MCTS-guided numeric fixed-point computation；first Monte Carlo + cyclic Bellman setting |
 
-### 3.1 原始 MCGS 已经涉及 loop 与 fixed point
+其中，Qiu & Ichise 2025 是此次补检最重要的新命中。它没有直接覆盖我们的任务，但已经把 modified MCTS、递归逻辑程序、general-resolution deductive closure 与 <code>scc/2</code> 关系学习 benchmark 放在同一篇论文中。它不是 positive-Horn least-Herbrand LFP，也没有做 SCC decomposition；但足以否定宽泛的 “first MCTS for recursive logic programs” 或 “first Monte Carlo reasoning over recursive rules”。
 
-[Leurent and Maillard (ACML 2020)](https://proceedings.mlr.press/v129/leurent20a.html) 的贡献是合并相似或转置状态，从 tree 变为 graph。其主文讨论 graph loop，补充材料使用 fixed-point iteration 求 Bellman-style bounds。
+### 4.2 为什么精确的 MCGS 仍可能有空位
 
-这里的 “fixed point” 与我们计划中的 LFP 不同：
+本轮仍未找到一个系统同时满足：
 
-- ACML 2020：折扣 MDP 上的**数值 Bellman fixed point**；
-- LFP-MCGS：finite positive-Horn program 上 immediate-consequence operator 的**最小 Herbrand fixed point**。
+1. facts/rules 藏在尚未完整解析的自然语言窗口中；
+2. 每次真实 action 都要付出 LLM/semantic parsing 成本；
+3. 搜索状态包含已提交程序、program-relative LFP、provenance、coverage 与 remaining budget；
+4. 不同读取顺序到达 decision-equivalent state 时才合并；
+5. 输出 source-linked proof，并区分 PR-Unknown 与 Unresolved。
 
-这一区分必须写在论文开头。否则 reviewer 很容易认为只是把已有 MCGS 的 fixed-point 术语换到规则推理。
-
-### 3.2 Cyclic MCGS 已经存在
-
-[ANN-CMCGS](https://imrclab.github.io/assets/pdf/2026-ann-cmcgs-grc.pdf) 直接宣称支持带环任意有向图。它通过记录当前 playout 路径，避免再次选择路径中已有节点，从而阻止无限 selection / backpropagation。该工作面向连续 motion planning，没有 SCC saturation、逻辑闭包或证明来源；但足以否定 “MCGS 第一次支持 cycle” 的 claim。
-
-[Improving AlphaZero Using Monte-Carlo Graph Search](https://ojs.aaai.org/index.php/ICAPS/article/view/15952)（ICAPS 2021）也应引用，但该版本将图限制为 DAG；它有助于说明 transposition graph 这条 MCGS 主线如何发展。
-
-### 3.3 Monte Carlo search + SCC 也不是空白
-
-[Křetínský et al. (CAV 2023)](https://link.springer.com/chapter/10.1007/978-3-031-37706-8_20) 在 LTL synthesis 中明确组合 MCTS 与 SCC decomposition：按 SCC 逆拓扑处理 parity game，并缓存已经求解区域的出边值。
-
-它与我们最像的地方，是“用 SCC 划分循环逻辑结构，并让 Monte Carlo search 在其上工作”。真正的差异必须落在：
-
-- MCTS vs. state-sharing MCGS；
-- game policy/value vs. monotone fact closure；
-- 已形式化 parity game vs. 尚未被完整语义解析的自然语言规则；
-- winning policy vs. source-linked entailment proof / coverage certificate。
-
-### 3.4 SCC-wise LFP 本身是经典求值技术
-
-[Soufflé](https://www.souffle-lang.com/pdf/cc.pdf) 等 Datalog 系统将 predicate precedence graph 的 SCC 视为互递归规则区，并在 SCC 内迭代到 fixed point；semi-naive evaluation 只传播新增 facts。这与我们计划的 `ΔK_t` 十分接近，但它是应当复用的 deterministic kernel，而不是论文的新算法。
-
-因此论文应明确：
-
-> LFP-MCGS does not replace semi-naive Datalog evaluation. It decides which expensive natural-language regions should be interpreted next; the symbolic engine only saturates the currently verified partial program.
-
-### 3.5 SCC-aware LLM reasoning 已有相邻占位
-
-[Parsel](https://papers.neurips.cc/paper_files/paper/2023/hash/6445dd88ebb9a6a3afa0b126ad87fe41-Abstract-Conference.html) 将 LLM 或人工产生的函数依赖图分解为 SCC，对相互递归的函数联合采样，并用 tests 验证。它不是 MCGS，也不计算事实闭包；但会阻止我们把贡献泛化成“首次让 LLM 在 SCC 上推理”。
-
-同样，[A Monte-Carlo Tree Search in Argumentation](https://www.mit.edu/~irahwan/argmas/argmas14/w12-07.pdf) 已经让 MCTS 使用由 least fixed point 定义的 grounded extension 计算 reward。它没有构造 MCGS transposition graph，并且主动去除搜索环；然而它足以说明“Monte Carlo search 与 LFP semantics 从未结合”也是不安全的说法。
+这个交集比“LFP + MCGS”窄得多，也更安全。但它的 novelty 来自 **budgeted latent-program acquisition**，不是 seed 或 LFP。
 
 ---
 
-## 4. 自然语言符号推理近邻
+## 5. 普通版本周围已经很拥挤
 
-### 4.1 NL → formal program → solver
+### 5.1 MCGS、状态合并与形式证明
 
-- [Logic-LM](https://aclanthology.org/2023.findings-emnlp.248/)（Findings of EMNLP 2023）将自然语言问题翻译为符号形式，再调用相应求解器，并利用 solver error 做自修正。
-- [LINC](https://aclanthology.org/2023.emnlp-main.313/)（EMNLP 2023）同样强调用符号逻辑承担推断、用语言模型承担转换。
+| 工作 | 相关性 | 边界 |
+|---|---|---|
+| [Monte-Carlo Graph Search: the Value of Merging Similar States](https://proceedings.mlr.press/v129/leurent20a.html), ACML 2020 | 原始 MCGS；合并转置/相似状态；讨论 loop 与 Bellman fixed-point iteration | 不能 claim first fixed-point MCGS 或 first MCGS with loops |
+| [Improving AlphaZero Using Monte-Carlo Graph Search](https://ojs.aaai.org/index.php/ICAPS/article/view/15952), ICAPS 2021 | DAG transpositions 与共享 search statistics | 不能把 state sharing 本身当新贡献 |
+| [Partially Observable Monte-Carlo Graph Search](https://ojs.aaai.org/index.php/ICAPS/article/view/36129/38283), ICAPS 2025 | 在 belief state 上构造 compact policy graph，处理部分可观测与连续 POMDP | 我们必须严格定义 belief/state key、合法 merge 与 hidden outcome 访问权 |
+| [Aristotle: IMO-level Automated Theorem Proving](https://arxiv.org/abs/2510.01346), 2025 technical report | highly parallel MCGS 合并等价 Lean proof states/actions，Lean 验证最终证明 | 不能 claim first MCGS for formal reasoning、first verifier-backed/proof-producing MCGS |
+| [HyperTree Proof Search](https://proceedings.neurips.cc/paper_files/paper/2022/hash/a8901c5e85fb8e1823bbf0f755053672-Abstract-Conference.html), NeurIPS 2022 | 在 proof hypertree 上做 neural theorem-proving search，是 Aristotle 的直接 formal-search 前身 | graph/hypertree proof search 本身不是新方向 |
+| [Machine Learning Guidance for Connection Tableaux](https://link.springer.com/article/10.1007/s10817-020-09576-7), JAR 2021 | MCTS 搜一阶 theorem-proving derivations | 不能把 Monte Carlo proof search 写成新方向 |
+| [LEMUR](https://doi.org/10.1007/s10994-015-5510-3), Machine Learning 2015 | UCT 搜 probabilistic logic-program clause structure | 不是 positive-Horn LFP 或 NL acquisition；但 Monte Carlo logic-program induction 不是新方向 |
+| [Provenance-Guided Synthesis of Datalog Programs](https://doi.org/10.1145/3371130), POPL 2020 | why/why-not provenance 驱动 CEGIS 搜 Datalog program | 无 MCTS 或 NL acquisition；但 provenance-guided Datalog program search 已有直接先例 |
 
-它们会成为最危险的强基线：`full input → NL-to-Datalog once → solver`。如果这个 baseline 在长循环图上已经便宜、稳定且准确，MCGS 调度就没有存在必要。
+### 5.2 有限预算的信息获取
 
-我们的潜在差异不是“使用 solver”，而是：
+| 工作 | 相关性 | 对我们的要求 |
+|---|---|---|
+| [TreeSample](https://proceedings.mlr.press/v108/buesing20a.html), AISTATS 2020 | 在昂贵 density-oracle call 有限时，用 MCTS 决定下一次查询，并缓存历史结果 | “预算化昂贵查询 + MCTS”不是 novelty；必须证明 partial-program/provenance/LFP 改变了问题 |
+| [Static and Dynamic Values of Computation in MCTS](https://proceedings.mlr.press/v124/sezener20a.html), UAI 2020 | 直接估计一次额外 computation 对最终决策的价值 | 必须加入同等信息与 compute 权限的 one-step/greedy/beam controls |
+| [MCTS-RAG](https://aclanthology.org/2025.findings-emnlp.672/), Findings of EMNLP 2025 | MCTS 动态交织 retrieval、decomposition、summary 与 reasoning | 不能把“MC search 决定下一段知识”作为 headline novelty |
+| [ReKG-MCTS](https://aclanthology.org/2025.findings-acl.484/), Findings of ACL 2025 | UCB 在 KG 上扩展路径，LLM rollout/value/backprop | “LLM + MCTS + graph reasoning”不是 novelty |
 
-1. 输入过长或含大量 query-irrelevant rule，无法一次可靠解析；
-2. 局部解析结果被 validation gate 后单调提交；
-3. 新 closure 与 missing premises 会动态改变下一窗口的价值；
-4. 在预算耗尽时输出 verified entailment 或 `UNKNOWN`，而非把未找到证明误判为否定。
+### 5.3 自然语言符号控制
 
-### 4.2 外部记忆与逐步规则应用
+| 工作 | 相关性 | 对我们的要求 |
+|---|---|---|
+| [SymBa](https://aclanthology.org/2025.naacl-long.124/), NAACL 2025 | symbolic SLD controller 管理 proof process；只有缺信息时才调用 LLM | **最危险的 NLP comparator**；必须比较 official 与 cycle-safe adapted 版本 |
+| [Symbolic Working Memory](https://aclanthology.org/2024.emnlp-main.974/), EMNLP 2024 | 外部 symbolic memory、grounding 与逐步 rule implementation | 临时知识库/符号记忆不是 novelty |
+| [Logic-LM](https://aclanthology.org/2023.findings-emnlp.248/) 与 [LINC](https://aclanthology.org/2023.emnlp-main.313/), EMNLP 2023 | NL→formal program→solver | Full-Formalize+LFP 是必须击败的最危险全局基线 |
+| [FaiRR](https://aclanthology.org/2022.acl-long.77/) 与 [Bi-Chainer](https://aclanthology.org/2024.findings-acl.507/) | faithful rule selection/application、动态双向 chaining | obligation-driven selection 不能只和 Direct/CoT 比 |
 
-[Symbolic Working Memory](https://aclanthology.org/2024.emnlp-main.974/) 是最需要认真区分的方法：它也维护事实、规则和 grounding 状态，也将符号操作与 LLM 结合。LFP-MCGS 必须通过以下实验性差异站住：
+普通版若不带 SCC，reviewer 很容易把它概括成：
 
-- 长文本中只选择性解析部分规则，而不是预先可靠装载全部符号记忆；
-- SCC / fixed-point rounds 是显式、可控的难度变量；
-- proof obligation 能显著改善 query-relevant closure recovery；
-- 在相同 LLM token / call budget 下优于 exhaustive、random、deterministic cycle-basis 选择。
+> TreeSample/MCTS-RAG 式 acquisition policy + SymBa/SWM 式 symbolic controller + 标准 Datalog executor。
 
-[Bi-Chainer](https://aclanthology.org/2024.findings-acl.507/)（Findings of ACL 2024）用动态双向 chaining 提高推理效率，是 missing-premise backward search 的直接近邻。区别应是它优化 proof-chain search，而我们的困难来自 query-relevant recursive SCC 的饱和、闭包共享和 circular self-support。
-
-### 4.3 Search-augmented reasoning
-
-- [RAP](https://aclanthology.org/2023.emnlp-main.507/) 将语言模型推理建模为 MCTS；
-- [LATS](https://proceedings.mlr.press/v235/zhou24r.html) 将语言模型、环境反馈和 tree search 结合；
-- [Graph of Thoughts](https://doi.org/10.1609/aaai.v38i16.29720) 支持图状中间思维；
-- [ReKG-MCTS](https://aclanthology.org/2025.findings-acl.484/) 在知识图谱上做 MCTS 推理。
-
-这些工作说明“LLM + search / graph”本身不构成 novelty。LFP-MCGS 必须强调 verified monotone closure，而非自由文本 thought graph。
-
-### 4.4 形式推理与 provenance
-
-- [ProofWriter](https://aclanthology.org/2021.findings-acl.317/) 提供 Datalog-style rules、entailment labels 和 proofs；
-- [RuleTaker](https://www.ijcai.org/Proceedings/2020/537) 提供自然语言规则推理及受控深度；
-- [FaiRR](https://aclanthology.org/2022.acl-long.77/) 将规则选择与规则应用解耦，强调忠实推理；
-- [ASPBench](https://proceedings.kr.org/2025/60/) 覆盖 Answer Set Programming 中的 entailment、verification 和 computation，并暴露模型对循环/非单调语义的困难；
-- [Causality and Minimal Supports in Recursive Datalog](https://arxiv.org/abs/2607.16443) 研究递归 Datalog 的支持与 provenance，并提示 minimal supports 可能指数爆炸。
-
-最后一项意味着我们不应随意承诺“枚举所有最小证明”。两个月版本应只保证：返回**一条可验证证明**，以及可选的紧凑 proof core；最小性只作为可计算时的分析指标。
+所以，单靠模块组合并不足以形成强论文。
 
 ---
 
-## 5. Benchmark 空位应如何准确描述
+## 6. SCC 相关先例与真正可守的差异
 
-不能笼统写“现有 benchmark 都避开 cycle”。RuleTaker / ProofWriter 的语义来自 Datalog 风格系统，RuleTaker 生成器也可能出现 self-loop；ASPBench 更明确包含循环程序。
+| 工作 | 已有内容 | 不能声称 | 仍可区分之处 |
+|---|---|---|---|
+| [SA-MCGS](https://github.com/chenqianwan/SA-MCGS), Paper 1 | AlphaGo-style MCGS、Tarjan SCC、TT、循环文档风险证据搜索 | first MCGS + SCC | Paper 2 改变 state、transition、semantics、output 与 scientific question |
+| [Guessing Winning Policies in LTL Synthesis by Semantic Learning](https://link.springer.com/chapter/10.1007/978-3-031-37706-8_20), CAV 2023 | MCTS + SCC decomposition，逆拓扑求解 parity-game regions | first Monte Carlo search with SCCs | 已形式化 game vs. latent NL rules；policy/value vs. grounded closure/proof |
+| [Parsel](https://papers.neurips.cc/paper_files/paper/2023/hash/6445dd88ebb9a6a3afa0b126ad87fe41-Abstract-Conference.html), NeurIPS 2023 | SCC-aware mutually recursive function synthesis + tests | first SCC-aware LLM reasoning | 无 MCTS/MCGS、LFP closure 或 provenance |
+| [Soufflé Datalog](https://www.souffle-lang.com/pdf/cc.pdf) | predicate SCC、semi-naive delta、fixed-point evaluation；[Magic Sets](https://souffle-lang.github.io/magicset) 做 query-directed rewrite | SCC-wise LFP 不是新算法 | 我们只调度昂贵 NL acquisition；symbolic kernel复用经典方法 |
+| [ANN-CMCGS](https://imrclab.github.io/assets/pdf/2026-ann-cmcgs-grc.pdf), AAMAS 2026 extended abstract | MCGS 支持 arbitrary directed graphs with cycles | first cyclic MCGS | motion planning，无逻辑 closure/SCC diagnosis |
 
-较安全的观察是：
+### 6.1 SCC 的价值不是“圈出一块图”
 
-> 主流自然语言 entailment benchmark 很少把 **productive SCC、是否存在外部 seed、达到固定点所需 rounds、以及 query-relevant closure coverage** 同时作为受控变量；多数仍主要监督最终 label 或有限 proof depth，而不是 SCC 内完整闭包的恢复与证书。
+SCC 应提供一个独立的、可检验的 interaction：
 
-[ReEfBench](https://aclanthology.org/2026.acl-long.931/) 的生成设置显式避免 cyclic reasoning，可作为“部分新 benchmark 仍主动排除环”的例证，但不能外推为整个领域都如此。另一个相邻工作 [t-BEN](https://openreview.net/pdf?id=XkzGgKJAA2) 已含 symbolic + natural-language DatalogMTL 的 Recursive level；截至检索日它是 non-archival OpenReview submission，引用时必须标明状态。
+<div align="center">
 
-建议新 benchmark 至少包含 matched pairs：
+Δcycle = (Ours − Baseline)SCC − (Ours − Baseline)DAG
 
-- 同一 SCC topology；
-- seeded productive cycle vs. unseeded circular self-support；
-- query-relevant seed vs. distractor seed；
-- 相同表层文本与 proof length，只改变一处 ground fact；
-- 控制 SCC size、fixed-point rounds、irrelevant-rule ratio 与 paraphrase split。
+</div>
+
+主正例不能只满足“predicate graph 有环”。必须同时满足：
+
+1. recursive predicate SCC 中存在 grounded feedback-rule instance；
+2. 该 instance 产生此前未知的 ground atom；
+3. 删除它会减少 query-relevant closure 或改变 query label；
+4. matched DAG 控制尽量保持 rule/fact 数、proof depth、fan-in/out、词频与表面长度；
+5. unseeded SCC 用来测 circular self-support FPR。
+
+这使 SCC 从工程技巧变为科学变量。
+
+### 6.2 Benchmark 空位的安全表述
+
+不能写“现有自然语言规则 benchmark 都避开 cycle”。[RuleTaker](https://www.ijcai.org/Proceedings/2020/537) / [ProofWriter](https://aclanthology.org/2021.findings-acl.317/) 的 Datalog-style 生成过程允许递归结构；non-archival OpenReview 稿 [t-BEN](https://openreview.net/pdf?id=XkzGgKJAA2) 已设 Recursive DatalogMTL level；[SLR-Bench](https://aclanthology.org/2026.acl-long.16/) 也讨论 recursive complexity，但当前数据主要面向规则归纳，不等于 productive multi-rule LFP recovery。另一方面，[ReEfBench](https://aclanthology.org/2026.acl-long.931/) 的生成器明确避开 cyclic reasoning。
+
+较安全的 gap 是：现有数据很少同时控制 **grounded feedback contribution、外部 seed、minimum saturation rounds、circular self-support、source-linked proof 与 acquisition cost**。我们的贡献不是发现 seeded/unseeded LFP 语义，而是把它变成 noisy NL acquisition 下可配对、可证伪的 failure condition。
 
 ---
 
-## 6. 三张图必须分清
+## 7. 机制交集矩阵
 
-LFP-MCGS 容易出现概念混淆。论文应明确区分：
+图例：✓ = 核心机制；△ = 部分覆盖或不同语义；— = 不覆盖。
 
-```mermaid
+| 工作 | Monte Carlo | 状态合并 | latent NL rule acquisition | positive-Horn LFP recovery | source-linked NL proof | productive SCC diagnosis |
+|---|---:|---:|---:|---:|---:|---:|
+| Argumentation MCTS 2014 | ✓ | — | — | △ | — | — |
+| GDL + UCT/TT 2010 | ✓ | ✓ | — | △ | — | — |
+| Qiu & Ichise 2025 | ✓ | — | — | — | — | — |
+| TreeSample 2020 | ✓ | — | — | — | — | — |
+| SymBa 2025 | — | — | ✓ | △ | ✓ | — |
+| Aristotle 2025 | ✓ | ✓ | — | — | — | — |
+| SA-MCGS | ✓ | ✓ | △ | — | △ | △ |
+| **普通 LFP-MCGS 设想** | ✓ | ✓ | ✓ | ✓ | ✓ | — |
+| **SCC-aware LFP-MCGS 主线** | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+矩阵说明：我们没有找到完全同列覆盖的已有系统，但每个单列以及多个两两组合都已有成熟先例。因此论文必须用实验说明“交集为何产生了新能力”，不能只靠架构图声称 novelty。
+
+---
+
+## 8. 四张图必须分开
+
+~~~mermaid
 flowchart LR
-  G1["规则依赖图\n可能有 SCC"] -->|"SCC decomposition"| S["递归规则区域"]
-  S -->|"选择性解析并 commit"| G2["事实闭包格\nK0 ⊆ K1 ⊆ ... ⊆ K*"]
-  G2 -->|"等价 partial state 合并"| G3["MCGS transposition graph"]
-```
+  G0["G₀^ret: text-window retrieval graph<br/>非语义，只定义候选 action"] --> A["MCGS chooses a costly read"]
+  A --> P["committed partial program<br/>facts + rules + provenance"]
+  P --> C["fixed-program LFP chain<br/>K₀ → K₁ → ... → K*"]
+  P --> D["predicate dependency graph<br/>SCC 在这里定义"]
+  C --> O["proof obligations / PR status"]
+  O --> A
+  P -. "不同 action 顺序形成" .-> S["partial-program state poset<br/>仅 decision-equivalent states 可合并"]
+~~~
 
-1. **Rule / predicate dependency graph**：规则的 head-body 依赖；可能有 SCC；SCC 在这里定义。
-2. **Closure-state lattice**：每个状态是已经验证的 fact set；在 positive Horn 下单调增长，因此沿执行轨迹不回退。
-3. **MCGS transposition graph**：不同窗口访问顺序可能到达同一 canonical closure state，因此可以合并。
+必须避免四种混淆：
 
-这也解释了为什么方法不是简单“在一个 SCC 里跑原始 MCGS”：Paper 2 的 state、transition、reward 和 stopping condition 都发生了改变。
-
----
-
-## 7. Claim 红线与推荐写法
-
-### 7.1 不安全的 claim
-
-- First fixed-point MCGS.
-- First MCGS + SCC.
-- First MCGS that handles cycles / non-DAG graphs.
-- First Monte Carlo search using SCC decomposition.
-- First MCGS for logical or formal reasoning.
-- First proof / provenance method for recursive Datalog.
-- Exact LFP recovery under a fixed LLM-call budget.
-
-### 7.2 可以防守的 claim
-
-在最终检索无新冲突的前提下：
-
-> To our knowledge, LFP-MCGS is the first LLM-guided, SCC-aware MCGS architecture designed for verified least-fixed-point closure of recursive natural-language rule programs.
-
-更保守的版本：
-
-> We found no prior system that jointly performs SCC-aware Monte Carlo graph scheduling, selective natural-language rule interpretation, monotone least-fixed-point saturation, and source-linked proof recovery.
-
-方法贡献可拆为：
-
-1. 一个 selective semantic interpretation 问题，而不是新的 Datalog evaluator；
-2. closure-aware transposition state 与 proof-obligation-driven search；
-3. 对 circular self-support 的 one-sided soundness：有证书才能报 entailment；
-4. 一个以 SCC size / seed / fixed-point rounds 为控制轴的诊断 benchmark；
-5. 在真实 solver-certified graph 上的外部验证。
-
-### 7.3 理论边界
-
-第一版只在以下范围内声称性质：
-
-- finite、grounded / function-free；
-- positive Horn rules；
-- least-Herbrand-model semantics；
-- committed facts / rules 单调增长；
-- LLM 解析错误由验证门约束，但端到端 soundness 仍相对于已提交程序；
-- 预算耗尽且未找到 proof 时输出 `UNKNOWN`；只有 relevant source coverage 完成时才允许 certified negative。
-
-若加入 negation-as-failure、exceptions、fact deletion、existential rules 或 function symbols，需要重新定义语义和终止保证，不属于 2026 年 10 月版本。
+1. <code>G₀^ret</code> 的 reference/entity/retrieval edge 不是 formal rule edge，不能在其上声称 semantic SCC；
+2. 固定程序的 LFP 是唯一单调链，不是分叉的 closure lattice；
+3. 跨读取 action 形成的是 partial-program state poset；
+4. 只有 committed F/R/K、belief <code>b_t</code>、ledger、coverage、sample/retry history、可用 actions、provenance、remaining cost 与 outcome-sketch <code>p_φ</code> version 都满足 decision-equivalence 时，MCGS statistics 才能共享。
 
 ---
 
-## 8. 最危险基线与可证伪条件
+## 9. Claim 边界
 
-这篇论文应主动设置能否定自身必要性的基线：
+### 9.1 明确禁止
 
-1. **Full-context direct LLM**；
-2. **Full NL → Datalog once + symbolic solver**（Logic-LM 风格）；
-3. **Extract-all local windows + semi-naive LFP**；
-4. **Deterministic SCC / cycle-basis window order**；
-5. **Bi-directional chaining**；
-6. **Random / LEA / 原始 SA-MCGS scheduler**；
-7. **LFP-MCGS 去掉 obligation revisit、transposition sharing、validation gate 的消融**。
+- first LFP + MCTS/MCGS；
+- first fixed-point MCGS；
+- first MCTS for recursive logic programs；
+- first Datalog/Horn + Monte Carlo search；
+- first MCGS for logical/formal reasoning；
+- first verifier-backed or proof-producing MCGS；
+- first MCGS + SCC / first cyclic MCGS；
+- first Monte Carlo search using SCC decomposition。
 
-如果 `extract-all once + solver` 在 hard split 上以更低成本达到同等 proof-valid accuracy，或者 deterministic SCC order 与 MCGS 的差异小于 5 个百分点，就不应把 MCGS 作为主贡献继续扩展。
+### 9.2 正确性红线
+
+即使没有 prior-art 冲突，也不能声称 fixed LLM budget 下的 exact end-to-end LFP recovery，或把 formal proof validity 写成自然语言解析 soundness。所有结论必须带 program-relative 限定。
+
+### 9.3 普通版安全写法
+
+> Prior work has combined Monte Carlo search with grounded argumentation, Datalog-encoded games, recursive logic-program synthesis, expensive oracle allocation, and formal proof search. We found no prior work that uses Monte Carlo graph search to allocate a limited acquisition budget over latent natural-language facts and rules while maintaining a provenance-carrying, program-relative positive-Horn least fixed point.
+
+这句话仍需保留 “we found no prior work”，不能改成无条件 “the first”。
+
+### 9.4 SCC 主线推荐写法
+
+> We study budgeted semantic interpretation for grounded productive recursion: MCGS schedules costly natural-language rule acquisition, while a deterministic provenance-carrying LFP kernel propagates external evidence without allowing a cycle to support itself.
+
+若最终检索与实验均通过，可以再加：
+
+> To our knowledge, this is the first SCC-aware MCGS architecture designed for budgeted recovery of program-relative positive-Horn LFP closure from partially interpreted natural-language rules, with productive predicate-dependency SCCs as a controlled reasoning regime.
+
+这里的限定词不能删：**SCC-aware、budgeted、program-relative、positive-Horn、partially interpreted natural-language rules、productive predicate-dependency SCCs**。
+
+### 9.5 输出语义
+
+- <code>PR-Entailed</code>：相对于 committed program 有 verifier-valid proof；
+- <code>PR-Contradicted</code>：相对于 committed program 可推出显式 complement；
+- <code>PR-Unknown</code>：当前 committed program 已饱和且预注册 coverage protocol 完成；
+- <code>Unresolved</code>：预算或覆盖不足。
+
+只有 gold-parse/oracle track 才能把前三者称为对 gold program 的 certified 结论。End-to-end track 不能排除 parser false negative 或 validator false reject。
 
 ---
 
-## 9. 建议正文 Related Work 结构
+## 10. 文献检索直接导出的 baseline 要求
 
-1. **From SA-MCGS to closure-state search**：明确 Paper 1 是 self-prior，而非需要匿名隐藏的空白；
-2. **Monte Carlo Graph Search and cyclic search graphs**：ACML 2020、ICAPS 2021、ANN-CMCGS；
-3. **SCC decomposition and recursive fixed-point evaluation**：CAV 2023、Parsel、Soufflé / Datalog；
-4. **Neuro-symbolic natural-language reasoning**：Logic-LM、LINC、Symbolic Working Memory、Bi-Chainer；
-5. **Search-augmented LLM reasoning**：RAP、LATS、ReKG-MCTS、argumentation MCTS；
-6. **Recursive reasoning benchmarks and proof faithfulness**：RuleTaker、ProofWriter、FaiRR、ASPBench、ReEfBench、t-BEN。
+### 10.1 普通版本的最低合格线
 
-这一结构会让 reviewer 清楚看到：我们了解每个组件的历史，并把 novelty 放在一个可验证的新问题交叉点上，而不是“把 MCGS、SCC 和 solver 拼起来”。
+1. Gold semi-naive / Soufflé 与 Magic Sets；
+2. Full-Formalize+LFP；
+3. Extract-All-Local+LFP；
+4. official SymBa；
+5. authors’ cycle-safe Tabled-SymBa；
+6. Static/Demand、Greedy、outcome-sketch Greedy 与 Beam；
+7. TreeMCTS-LFP；
+8. LFP-MCGS；
+9. Aristotle 只作 related-work 边界，不要求任务不兼容的硬复现。
+
+内部 scheduler controls 必须共享同一 retrieval graph、local parser、schema、validator、LFP、cache 与 proof assembler；使用 outcome-sketch 的方法还必须共享同一个模型与 compute cap。
+
+### 10.2 决策门槛
+
+| 结果 | 论文定位 |
+|---|---|
+| DAG 与 SCC 都有效，且 Δcycle 显著为正 | 一般 budgeted program acquisition；SCC 为核心 stress test |
+| 只有 SCC 有效 | 直接以 grounded productive recursion 为主问题；当前最推荐 |
+| DAG 有效，但没有 SCC-specific interaction | 删除 cycle headline，改成 selective semantic interpretation |
+| Greedy/Beam/SymBa 与 MCGS 持平 | 删除 MCGS 主贡献，采用更简单的 symbolic scheduler |
+| 完整程序已知时仍把 MCGS 当 LFP evaluator | 研究问题设定错误；改用 semi-naive/Magic Sets |
+| 所有设置都无显著 accuracy–cost 优势 | NO-GO |
 
 ---
 
-## 10. 投稿前必须补做的检索
+## 11. Related Work 建议结构
 
-- 在 Google Scholar、Semantic Scholar、DBLP 对 `MCGS + SCC/LFP/Datalog/recursive rules` 做最终检索；
-- 对 ACML 2020 MCGS、ANN-CMCGS、Symbolic Working Memory、CAV 2023 做前向引用扫描；
-- 检查 2026 年 8 月之后的 ARR / ACL / EMNLP / NeurIPS / ICLR 新稿；
-- 核对所有 preprint 的最终发表状态，related work 中区分 peer-reviewed paper 与 preprint；
-- 用一段明确文字区分 Bellman fixed point、least fixed point 与 greatest fixed point；
-- 方法正式命名使用 **LFP-MCGS**，避免 `GFP` 被理解为 greatest fixed point。
+1. **Exact LFP and query-directed Datalog**：semi-naive、SCC-wise evaluation、Magic Sets、tabling；
+2. **Monte Carlo search with logic/fixed-point semantics**：argumentation MCTS、GDL/GGP、Qiu & Ichise、MDP reachability；
+3. **MCGS and formal search**：original MCGS、AlphaZero MCGS、POMCGS、Aristotle；
+4. **Budgeted information acquisition**：TreeSample、value of computation、MCTS-RAG；
+5. **Neuro-symbolic natural-language controllers**：Logic-LM、LINC、SWM、SymBa、FaiRR、Bi-Chainer；
+6. **SCC-aware reasoning/search**：SA-MCGS、CAV 2023、Parsel、Soufflé；
+7. **Productive recursion benchmark gap**：seed、feedback contribution、saturation rounds、circular self-support。
 
-## 11. 立项判断
+---
 
-**建议进入两周 pilot，但不建议直接宣称 broad novelty。** 当前文献格局支持一个窄而清晰的研究问题：
+## 12. 立项结论
 
-> 当规则文本很长、局部语义解析昂贵且可能出错时，能否用 SCC-aware MCGS 选择解析位置，并以 verified LFP closure 给出比一次性形式化更好的 accuracy–cost Pareto？
+### 普通 seeded LFP-MCGS
 
-只要 pilot 能证明 MCGS scheduler 相对 `extract-all + solver` 与 deterministic SCC traversal 的实际优势，这个切入具有独立于 Paper 1 的顶会故事；否则应将其降为 SA-MCGS 的系统扩展，而不是第二篇主论文。
+**可以做，但不能靠“LFP + MCGS”本身投稿。** 精确同构工作尚未找到；然而它位于 MCTS acquisition、neuro-symbolic controller、formal proof search 与标准 Datalog evaluation 的拥挤交叉处。若没有 SCC-specific failure 或非常强的 accuracy–cost Pareto，它容易被评价为工程拼装。
+
+### SCC-aware LFP-MCGS
+
+**建议保留为主线。** 它不是简单“再给 SA-MCGS 加一个 SCC 模块”，而是利用 SCC 定义新的语义失效：
+
+- 外部 seed 进入 recursive region 后，证据会通过 feedback 多轮传播；
+- 没有 seed 的循环不能自我产生事实；
+- noisy local parsing 容易同时造成 propagation miss 与 circular-support false positive；
+- MCGS 的价值可由 SCC-vs-DAG interaction、merge rate、proof validity 与 token Pareto 证伪。
+
+最终定位应是：
+
+> **方法面向全图，科学问题聚焦 productive recursive SCC。**
+>
+> 普通 seed/DAG 证明 generality；SCC 证明为什么需要 LFP-aware MCGS。
+
+---
+
+## 13. 投稿前最后复核
+
+- 对 Qiu & Ichise 2025、Riveret et al. 2014、Aristotle 2025、SymBa 2025 做前向/反向引文扫描；
+- 检查 2026 年 8 月之后的 ARR、ACL、EMNLP、NeurIPS、ICLR 新稿；
+- 继续检索 GDL/GGP、probabilistic logic-program induction、argumentation 与 theorem-proving 社区，而不只检索 ACL；
+- 在正文中区分 Bellman fixed point、grounded-extension LFP 与 least-Herbrand LFP；
+- 最终 claim 使用 “to our knowledge / no prior work we found”，并保留全部任务限定；
+- 方法名称固定为 **LFP-MCGS**，避免 GFP 被理解为 greatest fixed point。
