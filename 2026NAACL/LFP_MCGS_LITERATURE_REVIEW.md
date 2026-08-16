@@ -12,13 +12,13 @@
 |---|---|
 | 有没有完全相同的前人工作？ | **没有检到。** 尚未发现工作同时具备：严格状态合并的 MCGS、predicate-SCC、least-Herbrand LFP、分支内 symbolic KB、安全的跨路径复用、recursive closure 反馈与自然语言规则推理。 |
 | 单独的组件新吗？ | **不新。** MCGS、SCC 内求 LFP、symbolic memory、Monte Carlo + recursive logic 都有先例。 |
-| 这个组合有研究价值吗？ | **有，而且比“SA-MCGS 的效率优化”更像独立论文。** 新问题是：搜索得到的局部证据怎样在循环规则中持续组合、闭包、验证，并反过来改变搜索。 |
+| 这个组合有研究价值吗？ | **有，而且比“SA-MCGS 的效率优化”更像独立论文。** 新问题是跨 rollout 的证明组合：多个局部访问各自不足，合并后才经 recursive closure 推出答案。 |
 | 有 NAACL main 潜力吗？ | **有条件地有。** 若能证明 closure feedback、state merging、SCC 三者各自必要，并胜过 SymBa、Greedy/Beam、TreeMCTS、Extract-All+LFP，则故事足够完整。 |
 | 最大误区是什么？ | 把工作写成“用 MCGS 加速 LFP”。已知符号程序的 LFP 已有成熟 exact 算法；我们的新意应是 **LFP 成为 MCGS 的知识状态与反馈信号**。 |
 
 一句话判断：
 
-> **SA-MCGS 解决“在 SCC 里到哪里搜索”；LFP-MCGS 解决“多次搜索得到的证据怎样在 SCC 里形成有依据的 recursive closure”。**
+> **SA-MCGS 解决“在 SCC 里到哪里搜索”；LFP-MCGS 解决“不同 rollout 找到的证明碎片，怎样在 SCC 里组合成有依据的 recursive closure”。**
 
 ---
 
@@ -72,7 +72,7 @@ flowchart LR
 
 本论文真正可讲的新机制是：
 
-> recursive closure 不只在搜索结束后运行；它在每次 rollout/commit 后更新知识状态，并把 closure frontier 反馈给下一轮 MCGS。
+> recursive closure 不只在搜索结束后运行；每个已执行 rollout 是一笔 evidence transaction，它更新知识状态，并把 closure frontier 反馈给下一轮 MCGS。
 
 ---
 
@@ -176,7 +176,7 @@ flowchart TB
 
 ### 推荐主张
 
-> We introduce LFP-MCGS, an SCC-aware Monte Carlo graph search framework whose states carry source-grounded partial programs and their incremental least-fixed-point closures. Recursive closure supplies provenance-aware progress signals for subsequent graph search while preventing circular self-support.
+> We introduce LFP-MCGS, an SCC-aware Monte Carlo graph search framework that composes source-grounded proof fragments across executed rollouts. Its incremental least-fixed-point closure supplies provenance-aware progress signals for subsequent search while preventing circular self-support.
 
 更保守的 related-work 表述：
 
@@ -198,7 +198,7 @@ flowchart TB
 
 ### 我的判断
 
-**值得立项；若关键实验成立，有 NAACL main 竞争力。** 它不应被写成 SA-MCGS 的“效率版”，而是一次语义升级：
+SA-MCGS 的 ARR review 已经认可 SCC 是重要且被忽略的困难，也认可 path-copy/state-duplication 的技术动机；因此第二篇无需跳出 SCC。真正的警告是，有 reviewer 仍将第一篇视为“任务适配 + 现有组件整合”。所以 LFP-MCGS 必须被证明是一种新的跨 rollout 证明语义，而不是 SA-MCGS 再接一个知识库或 Datalog executor。做到这一点，才有 NAACL main 竞争力。
 
 | SA-MCGS | LFP-MCGS |
 |---|---|
@@ -218,11 +218,13 @@ flowchart TB
 | graph-state merging 确实有用 | 同 policy/value/budget 的 TreeMCTS、no-merge ablation | 若 merge hit 很低，MCGS 主张不成立。 |
 | 收益确实来自 productive SCC | 匹配 proof depth、规则数、fan-in/out 的 DAG；另测 seeded/unseeded SCC | 若 SCC×method interaction 不显著，就不能把 SCC 放在标题中心。 |
 
-主 baseline 至少应有：`Extract-All + LFP`、`SymBa`、`SWM`、`Frontier-Greedy/Beam`、`TreeMCTS`、`SA-policy + LFP`、`Gold program + semi-naive LFP`。
+主 baseline 至少应有：`Extract-All + LFP`、`SymBa`、`SWM`、`Frontier-Greedy/Beam`、`TreeMCTS`、`SA-policy + LFP`、`Gold program + semi-naive LFP`。内部 baseline 必须共享同一 local parser、schema、LFP executor 和 token budget，避免重现第一篇的 prompt-decomposition confound。
 
-主消融至少应有：`−persistent KB`、`−recursive-closure feedback`、`−provenance`、`−state merging`、`−SCC signal`。
+第一篇消融说明应继承的是 critical-pair revisit（−21.3）、graph-guided window（−11.3）和 dynamic core（−25.0），而不是 relation-first memory（移除后反而 +5.0）。第二篇主消融应对应为：`−persistent KB`、`−recursive-closure feedback`、`−provenance`、`−state merging`、`−SCC signal`。
 
 建议再加入一个直接命中主故事的指标：`Cross-Rollout Proof Rate`——最终正确证明需要至少两个 rollout 的规则/事实共同支持，而且任一单独 rollout 都不足以推出答案。
+
+数据应优先采用原生 recursive proof/closure gold，并包含 clean/unseeded SCC；不要再主要依赖人工注入冲突。除 proof/closure 指标外，还要报告 source-grounding precision 与实际 tokens/calls/time。
 
 ### 一个必须避免的实现错误
 
@@ -242,7 +244,7 @@ executed root action  → committed KB（付费、验证后才永久保存）
 
 ### 一句话
 
-> **SA-MCGS can search a cyclic graph; LFP-MCGS turns evidence collected across that search into a grounded recursive program that closes under inference—but never lets a cycle prove itself.**
+> **SA-MCGS can search a cyclic graph; LFP-MCGS composes proof fragments found across that search into a grounded recursive program—but never lets a cycle prove itself.**
 
 ### 推荐题目
 
@@ -286,4 +288,4 @@ flowchart TD
   D -->|是| M["完整 NAACL main 故事<br/>LFP-MCGS + SCC + closure"]
 ```
 
-我的最终建议是：**按这个方向继续。** 它继承 SA-MCGS 的 SCC 优势，但贡献已经从“寻找风险证据”推进到“跨搜索轨迹构造并闭合可验证的递归知识”，有明确的科学问题、算法变化和可证伪实验。
+我的最终建议是：**按这个方向继续。** 它继承 SA-MCGS 已被 reviewers 认可的 SCC 优势，但把贡献从“寻找并保全风险证据”推进到“跨 rollout 组合并闭合可验证证明”，正面回应了第一篇“技术贡献偏组件整合”的 novelty 风险。
