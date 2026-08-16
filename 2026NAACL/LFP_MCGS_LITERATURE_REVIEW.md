@@ -15,7 +15,8 @@ ACL reviewer 判断的是：问题是否新、已有方法为什么不足、提�
 | 概念层级 | 已有研究覆盖 | AC/SAC 判断 |
 |---|---|---|
 | 已知符号程序上的 seeded LFP | Datalog、semi-naive、Magic Sets、tabling 已成熟 | 不是问题 novelty，也不需要 MCGS |
-| LFP/logic semantics + Monte Carlo search | argumentation MCTS、GDL/GGP、recursive program synthesis 已覆盖多个变体 | “LFP + MCGS/MCTS”不能 claim first |
+| LFP/logic semantics + **MCTS** | argumentation MCTS、GDL/GGP、recursive program synthesis 已覆盖多个变体 | “first LFP + MCTS”不能成立 |
+| least-Herbrand LFP + strict state-merging **MCGS** | 本轮未找到直接同构工作 | 可以报告精确检索空位，但单靠组件组合不足以支撑 ACL novelty |
 | 预算化昂贵信息获取 + Monte Carlo planning | TreeSample、value-of-computation、MCTS-RAG 等已占据 | 单纯“决定下一段读什么”不够新 |
 | LLM + symbolic controller / temporary knowledge base | Logic-LM、LINC、SWM、SymBa 已覆盖 | symbolic memory 与 solver integration 不够新 |
 | MCGS + formal reasoning / state merging | original MCGS、POMCGS、Aristotle 已覆盖 | state merge 与 proof search 不够新 |
@@ -88,6 +89,40 @@ flowchart TB
 | 不建议 | SCC-LFP-MCGS、First LFP-MCGS | 太窄、像模块拼装，也把 novelty 错放在缩写上 |
 
 最终算法名是否保留 MCGS，要等 Greedy/Beam/TreeMCTS gate：如果 multi-step lookahead、exact-transposition rate 与 state merging 没有独立收益，就应主动删掉 MCGS，而不是为名称维护故事。
+
+### 1.3 MCTS 与 MCGS 必须严格区分
+
+用户的判断有一半完全正确：**MCGS 不是 MCTS 的换名**。MCTS 把不同 history 展开成不同 tree nodes；MCGS 把到达同一 decision-equivalent state 的多条路径汇合，并共享 visit/value statistics。
+
+例如先解析窗口 A 再解析 B，与先解析 B 再解析 A：
+
+~~~text
+MCTS:  root → A → {A,B}
+       root → B → {A,B}'      # 两个重复 tree nodes
+
+MCGS:  root → A ─┐
+                  ├→ canonical {A,B}
+       root → B ─┘
+~~~
+
+但还要区分两类图：
+
+1. **Semantic rule graph**：predicate/rule dependencies；productive SCC 在这里产生反馈传播与 delayed utility；
+2. **Acquisition search graph**：已提交 partial program、belief、coverage 与预算构成的 states；MCGS 在这里合并 transpositions。
+
+MCTS 可以把带 SCC 的底层问题无限/有限展开成 tree，因此“输入里有 SCC”并不会自动把 MCTS 排除。反过来，我们的 monotone committed-program states 通常形成 DAG/poset，即使 semantic rule graph 有 SCC，search graph 也未必有 directed cycle。Paper 2 与 MCTS 真正划清界限的证据必须是：
+
+- 给出严格 canonical state / decision-equivalence；
+- 报告 exact transposition 与合法 merge rate；
+- 用相同 parser、policy、LFP 与 budget 比较 TreeMCTS；
+- 做 no-merge ablation，并检验 SCC×merge interaction；
+- 证明共享 statistics 没有跨不同 ledger/history 泄漏。
+
+因此可以把精确文献结论写成：
+
+> We found no prior work that performs state-merging MCGS over program-relative least-Herbrand closure states for budgeted interpretation of latent natural-language programs.
+
+但这只是精准的 related-work boundary。论文主 claim 仍应是新的 decision problem、delayed-complementarity 现象和 MCGS 相对 TreeMCTS 的可测收益。
 
 一句话结论：
 
@@ -333,7 +368,7 @@ flowchart LR
 
 ### 9.1 明确禁止
 
-- first LFP + MCTS/MCGS；
+- first LFP + MCTS；
 - first fixed-point MCGS；
 - first MCTS for recursive logic programs；
 - first Datalog/Horn + Monte Carlo search；
@@ -346,6 +381,8 @@ flowchart LR
 ### 9.2 正确性红线
 
 即使没有 prior-art 冲突，也不能声称 fixed LLM budget 下的 exact end-to-end LFP recovery，或把 formal proof validity 写成自然语言解析 soundness。所有结论必须带 program-relative 限定。
+
+严格的 “least-Herbrand LFP + state-merging MCGS” 直接同类本轮没有找到；可以作为带 “to our knowledge / no prior work we found” 的范围说明，但不建议把它升级为 headline contribution。
 
 ### 9.3 普通版安全写法
 
