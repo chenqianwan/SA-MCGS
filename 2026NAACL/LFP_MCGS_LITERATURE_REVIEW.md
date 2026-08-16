@@ -1,37 +1,107 @@
-# LFP-MCGS 文献检索与新颖性边界
+# 预算化递归程序解释：概念先例与新颖性边界
 
 > 更新日期：2026-08-16
 >
-> 检索目标：分别判断“普通 seeded LFP + MCGS”和“SCC-aware LFP-MCGS”是否已有直接先例。
+> 检索目标：判断其**研究概念与能力组合**是否已有先例，而不是检查 “LFP-MCGS” 这个字符串是否出现过。
 >
 > 结论性质：面向立项的系统性检索，不是穷尽式 systematic review；“未发现”不等于“不存在”。
+>
+> 候选求解器：LFP-MCGS。该名称只作为当前代码/算法工作名，不作为论文 novelty 依据。
 
-## 1. 最终判断
+## 1. ACL/NAACL 概念级判断
 
-| 问题 | 检索结论 | 可否作为 novelty |
+ACL reviewer 判断的是：问题是否新、已有方法为什么不足、提出的机制是否必要、实验能否隔离这个必要性。**“名称没人用过”没有学术价值，因此不再列为证据。**
+
+| 概念层级 | 已有研究覆盖 | AC/SAC 判断 |
 |---|---|---|
-| 是否存在名称为 LFP-MCGS 的方法？ | 未检到 | 只能说明名称未被占用 |
-| 是否存在与我们完整机制相同的方法？ | 未检到 | 可以谨慎描述交集空位 |
-| 普通 seed + LFP + Monte Carlo search 是否为空白？ | **不是**。已有 MCTS + LFP、MCTS + recursive logic closure、Datalog/GDL + UCT 等先例 | **不能 claim first** |
-| MCGS 是否首次进入形式推理？ | 不是；Aristotle 已在 Lean proof states 上使用 MCGS | 不能作为 claim |
-| MCGS + SCC 是否首次出现？ | 不是；SA-MCGS 已经这样做，MCTS + SCC 也有外部先例 | 不能作为 claim |
-| 预算化自然语言规则获取 + partial-program LFP + MCGS 精确状态合并是否已有直接同类？ | 本轮未发现 | 当前最可守的普通版交集 |
-| productive recursive SCC + 上述机制是否已有直接同类？ | 本轮未发现 | **更清晰、更有科学问题的主线** |
+| 已知符号程序上的 seeded LFP | Datalog、semi-naive、Magic Sets、tabling 已成熟 | 不是问题 novelty，也不需要 MCGS |
+| LFP/logic semantics + Monte Carlo search | argumentation MCTS、GDL/GGP、recursive program synthesis 已覆盖多个变体 | “LFP + MCGS/MCTS”不能 claim first |
+| 预算化昂贵信息获取 + Monte Carlo planning | TreeSample、value-of-computation、MCTS-RAG 等已占据 | 单纯“决定下一段读什么”不够新 |
+| LLM + symbolic controller / temporary knowledge base | Logic-LM、LINC、SWM、SymBa 已覆盖 | symbolic memory 与 solver integration 不够新 |
+| MCGS + formal reasoning / state merging | original MCGS、POMCGS、Aristotle 已覆盖 | state merge 与 proof search 不够新 |
+| **latent NL program 上的预算化语义解释** | 未找到完全相同的 task definition | **核心问题候选**，但必须证明 recursion 改变了 acquisition policy |
+| **recursive closure 的 delayed complementarity** | 未找到在 noisy NL interpretation 下做 matched causal test 的直接同类 | **当前最强的机制假设** |
+| productive recursive SCC | SCC、seeded LFP 与 recursion 都是经典概念 | 不是 novelty；是放大并检验 delayed utility / self-support 的关键 stress regime |
 
-若把两个术语都卡得很严——MCGS 必须是 Leurent-style state-merging graph search，LFP 必须是 positive-Horn least-Herbrand fixed point——本轮**没有找到直接命中**。但投稿时不能依靠这一字面空位：reviewer 很可能把 MCTS→MCGS 的状态合并视为增量变化，并同时引用已有的 MCTS+LFP 与 MCGS+formal-proof 工作。
+### 1.1 核心研究问题
+
+论文不应定义成“在 SCC 上运行一个叫 LFP-MCGS 的算法”，而应定义一个独立于求解器的 decision problem：
+
+> **Budgeted Recursive Program Interpretation**：给定大量尚未形式化的自然语言 facts/rules、查询 q 与解释预算 B，系统自适应选择要语义解析和验证的来源，使预算内获得的 program-relative answer、proof 与 query-relevant closure 尽可能可靠；覆盖不足时必须输出 Unresolved。
+
+Live parsing 是随机且依赖历史的，不能只把状态写成已读来源集合 S。令 h 包含选择顺序、parser observations、validator decisions、retry/sample history 与累计成本；P(h) 是 committed partial program，K(h) 是其 positive-Horn LFP，U(h) 是 proof-valid evaluation utility。下一来源 w 的期望边际价值为：
+
+<div align="center">
+
+Δ(w | h) = E_{o_w ∼ p(o | h,w)} [ U(h ⊕ o_w) − U(h) ]
+
+</div>
+
+关键困难是 **delayed complementarity**：某条 seed、bridge 或 feedback rule 当前可能没有立即收益；获得另一组互补 observations T 后，它才解锁新的 grounded closure，即 Δ(w|h⊕T) 明显大于 Δ(w|h)。因此，一步 relevance/closure-gain greedy 可能系统性低估它。只有 belief/sufficient state 完全 decision-equivalent 时才能 merge；仅在 frozen-reveal replay track 中，才可将它简化为确定性的集合函数。
+
+若 U 只是 binary query success，这种现象会退化成所有 multi-hop proof 都有的平凡互补性。必须预注册更强的量化：marginal-gain amplification、adaptive-submodularity violation rate、myopic regret / lookahead value，以及 proof depth、rule 数、fan-in/out、proof multiplicity 与文本长度匹配后的 SCC×method interaction。
+
+合取式 DAG 也可能产生 complementarity，不能声称这是 SCC 独有。我们的可证伪假设是：**productive feedback、多轮 saturation 与重复 derivation 会系统性放大这种延迟收益**，从而使 lookahead 与合法 state merging 在 SCC 条件下更有价值。
+
+这个问题同时产生两个方向相反、可量化的错误：
+
+1. **Propagation miss**：漏读 producer rule，导致 grounded evidence 无法走完 recursive closure；
+2. **Circular-support error**：把无 seed 的循环误当成证明。
+
+两者不能都拿来证明 MCGS：
+
+- propagation miss 与 accuracy–cost frontier 用来检验 planner 是否必要；
+- circular-support error 用来检验 LFP executor、parser/commit gate 与 LLM-only/external baselines 的 soundness；
+- 对共享同一正确 LFP executor 的 Greedy、Beam、TreeMCTS 与 C-MCGS，program-relative circular-support error 理论上都应为零。
+
+各部分在论文中的职责是：
+
+| 层次 | 角色 |
+|---|---|
+| Budgeted Recursive Program Interpretation | 核心研究问题 |
+| delayed complementarity | 为什么 myopic acquisition 可能失败的机制假设 |
+| productive SCC / grounded feedback | 放大并诊断该机制的关键结构条件 |
+| program-relative LFP | 防止 circular self-support、维护 closure/proof 的确定性语义 |
+| closure-guided MCGS | 待实验验证的候选求解器 |
+
+~~~mermaid
+flowchart TB
+  P["Problem<br/>Budgeted Recursive Program Interpretation"]
+  P --> H["Hypothesis<br/>recursive closure creates delayed utility"]
+  H --> F1["Failure 1<br/>grounded propagation miss"]
+  H --> F2["Failure 2<br/>circular self-support"]
+  F1 --> M["Candidate solver<br/>closure-guided MCGS"]
+  F2 --> L["Semantic invariant<br/>program-relative positive-Horn LFP"]
+  M --> E["Evidence<br/>Greedy/Beam/Tree controls + SCC↔DAG interaction"]
+  L --> E
+~~~
+
+### 1.2 对名称的决定
+
+| 层级 | 建议名称 | 原因 |
+|---|---|---|
+| 论文问题 | **Budgeted Recursive Program Interpretation** | 同时覆盖 latent facts 与 rules，不把适用范围锁死在 SCC |
+| 论文标题 | **Planning What to Parse: Budgeted Interpretation of Recursive Natural-Language Rules** | problem-first、ACL 可读，也保留 recursion 差异 |
+| 引言 hook | **A cycle can propagate evidence, but it cannot create it.** | 一句话解释 external grounding 与 circular self-support |
+| 候选算法名 | **Closure-Guided MCGS（C-MCGS）** | 强调算法真正使用的 signal；LFP 放在方法定义中 |
+| 仓库工作名 | **LFP-MCGS** | 保留现有目录与讨论，不当作论文贡献名 |
+| 不建议 | SCC-LFP-MCGS、First LFP-MCGS | 太窄、像模块拼装，也把 novelty 错放在缩写上 |
+
+最终算法名是否保留 MCGS，要等 Greedy/Beam/TreeMCTS gate：如果 multi-step lookahead、exact-transposition rate 与 state merging 没有独立收益，就应主动删掉 MCGS，而不是为名称维护故事。
 
 一句话结论：
 
 > **普通 seed 本身没有新颖性，LFP 与 Monte Carlo search 的宽泛组合也不是空白。**
 >
-> 普通版能守住的，只是“对尚未完全获得的自然语言程序做预算化获取，并在 provenance-aware partial LFP states 上做 MCGS”；加入 productive SCC 后，才有一个适合构造成受控 NLP failure 的核心现象：外部 seed 可以驱动反馈传播，而无 seed 的循环不能自我证明。该语义本身是经典 LFP 性质，新意在于 noisy NL acquisition 下的诊断与调度。
+> 候选新意是一个新的预算化解释问题与机制假设：recursive closure 会产生 delayed utility；productive SCC 可能放大这种效应，同时无 seed 的循环又不能自我证明。LFP 与 MCGS 分别是语义内核和候选求解器，不是论文问题本身。
 
 因此建议：
 
 - 方法可以在完整图上运行，不必把输入限制为一个 SCC；
-- **论文主问题保留 SCC / productive recursion**；
-- DAG 与普通 seeded chain 作为 matched control 和 generality 证据；
-- 只有实验表明 DAG 与 SCC 都有稳定收益时，才把标题上升为一般的 budgeted program acquisition。
+- **论文主问题采用 Budgeted Recursive Program Interpretation**；
+- productive SCC 是关键困难与 matched causal condition，不是输入限制；
+- DAG、普通 chain 与 non-productive SCC 是 generality/control；
+- 只有实验显示非平凡 delayed complementarity 存在、SCC 中更强、lookahead/merge 专门缓解 propagation miss，才能按概念论文投稿。
 
 ---
 
@@ -126,7 +196,7 @@ flowchart LR
 
 其中，Qiu & Ichise 2025 是此次补检最重要的新命中。它没有直接覆盖我们的任务，但已经把 modified MCTS、递归逻辑程序、general-resolution deductive closure 与 <code>scc/2</code> 关系学习 benchmark 放在同一篇论文中。它不是 positive-Horn least-Herbrand LFP，也没有做 SCC decomposition；但足以否定宽泛的 “first MCTS for recursive logic programs” 或 “first Monte Carlo reasoning over recursive rules”。
 
-### 4.2 为什么精确的 MCGS 仍可能有空位
+### 4.2 未找到完全同构系统，但这不是 novelty proof
 
 本轮仍未找到一个系统同时满足：
 
@@ -136,7 +206,7 @@ flowchart LR
 4. 不同读取顺序到达 decision-equivalent state 时才合并；
 5. 输出 source-linked proof，并区分 PR-Unknown 与 Unresolved。
 
-这个交集比“LFP + MCGS”窄得多，也更安全。但它的 novelty 来自 **budgeted latent-program acquisition**，不是 seed 或 LFP。
+这组事实只说明没有发现直接重复实现，适合划定 related-work 边界，**不能用“没有一篇论文同时具备五项”证明 novelty**。论文是否成立，取决于能否定义并验证新的 decision problem：recursive closure 是否带来可测的 delayed acquisition utility，productive SCC 是否放大它，以及 lookahead/state merging 是否专门缓解它。
 
 ---
 
@@ -219,7 +289,7 @@ SCC 应提供一个独立的、可检验的 interaction：
 
 ---
 
-## 7. 机制交集矩阵
+## 7. Prior-art 能力定位（非 novelty 计数）
 
 图例：✓ = 核心机制；△ = 部分覆盖或不同语义；— = 不覆盖。
 
@@ -232,10 +302,8 @@ SCC 应提供一个独立的、可检验的 interaction：
 | SymBa 2025 | — | — | ✓ | △ | ✓ | — |
 | Aristotle 2025 | ✓ | ✓ | — | — | — | — |
 | SA-MCGS | ✓ | ✓ | △ | — | △ | △ |
-| **普通 LFP-MCGS 设想** | ✓ | ✓ | ✓ | ✓ | ✓ | — |
-| **SCC-aware LFP-MCGS 主线** | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
-矩阵说明：我们没有找到完全同列覆盖的已有系统，但每个单列以及多个两两组合都已有成熟先例。因此论文必须用实验说明“交集为何产生了新能力”，不能只靠架构图声称 novelty。
+矩阵只用于定位 prior art，不是 feature-counting novelty 证据。每个单列以及多个两两组合都已有成熟先例；论文必须证明一个新的行为关系——非平凡 delayed complementarity 存在、在 productive recursion 中更强，并且 closure-guided lookahead/merging 能稳定缓解 propagation miss。
 
 ---
 
@@ -272,7 +340,8 @@ flowchart LR
 - first MCGS for logical/formal reasoning；
 - first verifier-backed or proof-producing MCGS；
 - first MCGS + SCC / first cyclic MCGS；
-- first Monte Carlo search using SCC decomposition。
+- first Monte Carlo search using SCC decomposition；
+- first because no prior paper combines exactly the same component checklist。
 
 ### 9.2 正确性红线
 
@@ -280,19 +349,21 @@ flowchart LR
 
 ### 9.3 普通版安全写法
 
-> Prior work has combined Monte Carlo search with grounded argumentation, Datalog-encoded games, recursive logic-program synthesis, expensive oracle allocation, and formal proof search. We found no prior work that uses Monte Carlo graph search to allocate a limited acquisition budget over latent natural-language facts and rules while maintaining a provenance-carrying, program-relative positive-Horn least fixed point.
+> We study budgeted semantic interpretation over latent natural-language rule programs: each costly observation reveals a noisy, source-grounded program fragment, and the system must allocate a fixed budget to maximize verifier-valid, program-relative reasoning utility.
 
-这句话仍需保留 “we found no prior work”，不能改成无条件 “the first”。
+然后如实说明边界：
 
-### 9.4 SCC 主线推荐写法
+> Prior work has separately studied expensive information acquisition, neuro-symbolic rule control, logic-program search, and Monte Carlo graph search. Our question is whether recursive closure creates delayed acquisition utility that requires non-myopic, state-sharing control.
 
-> We study budgeted semantic interpretation for grounded productive recursion: MCGS schedules costly natural-language rule acquisition, while a deterministic provenance-carrying LFP kernel propagates external evidence without allowing a cycle to support itself.
+### 9.4 核心概念推荐写法
 
-若最终检索与实验均通过，可以再加：
+> Recursive rules turn selective interpretation into a non-myopic acquisition problem: a rule may become useful only after complementary seeds and feedback rules are recovered, while unsupported cycles must not prove themselves.
 
-> To our knowledge, this is the first SCC-aware MCGS architecture designed for budgeted recovery of program-relative positive-Horn LFP closure from partially interpreted natural-language rules, with productive predicate-dependency SCCs as a controlled reasoning regime.
+只有 matched 实验支持时，才可以继续写：
 
-这里的限定词不能删：**SCC-aware、budgeted、program-relative、positive-Horn、partially interpreted natural-language rules、productive predicate-dependency SCCs**。
+> We show that productive recursion amplifies delayed closure gains beyond matched acyclic controls, and that closure-guided state-merging search improves the proof-valid accuracy–cost frontier over myopic, beam, and tree-search controllers.
+
+这比 “first SCC-aware MCGS architecture” 更强：它声明的是新的、可证伪的现象与方法效果，而不是架构组件首次拼接。
 
 ### 9.5 输出语义
 
@@ -316,7 +387,7 @@ flowchart LR
 5. authors’ cycle-safe Tabled-SymBa；
 6. Static/Demand、Greedy、outcome-sketch Greedy 与 Beam；
 7. TreeMCTS-LFP；
-8. LFP-MCGS；
+8. Closure-Guided MCGS（pilot 工作名 LFP-MCGS）；
 9. Aristotle 只作 related-work 边界，不要求任务不兼容的硬复现。
 
 内部 scheduler controls 必须共享同一 retrieval graph、local parser、schema、validator、LFP、cache 与 proof assembler；使用 outcome-sketch 的方法还必须共享同一个模型与 compute cap。
@@ -326,7 +397,7 @@ flowchart LR
 | 结果 | 论文定位 |
 |---|---|
 | DAG 与 SCC 都有效，且 Δcycle 显著为正 | 一般 budgeted program acquisition；SCC 为核心 stress test |
-| 只有 SCC 有效 | 直接以 grounded productive recursion 为主问题；当前最推荐 |
+| 只有 SCC 有效 | 收窄为 grounded productive recursion；可行但不再声称一般 program interpretation |
 | DAG 有效，但没有 SCC-specific interaction | 删除 cycle headline，改成 selective semantic interpretation |
 | Greedy/Beam/SymBa 与 MCGS 持平 | 删除 MCGS 主贡献，采用更简单的 symbolic scheduler |
 | 完整程序已知时仍把 MCGS 当 LFP evaluator | 研究问题设定错误；改用 semi-naive/Magic Sets |
@@ -348,24 +419,24 @@ flowchart LR
 
 ## 12. 立项结论
 
-### 普通 seeded LFP-MCGS
+### 普通 seeded LFP-MCGS：不作为论文概念
 
 **可以做，但不能靠“LFP + MCGS”本身投稿。** 精确同构工作尚未找到；然而它位于 MCTS acquisition、neuro-symbolic controller、formal proof search 与标准 Datalog evaluation 的拥挤交叉处。若没有 SCC-specific failure 或非常强的 accuracy–cost Pareto，它容易被评价为工程拼装。
 
-### SCC-aware LFP-MCGS
+### 主概念：Budgeted Recursive Program Interpretation
 
-**建议保留为主线。** 它不是简单“再给 SA-MCGS 加一个 SCC 模块”，而是利用 SCC 定义新的语义失效：
+**建议以此为主线。** 它不是简单“再给 SA-MCGS 加一个 SCC 模块”，而是研究 latent natural-language program 上的预算决策，并把经典 LFP 语义变成 noisy acquisition 下的受控失效：
 
 - 外部 seed 进入 recursive region 后，证据会通过 feedback 多轮传播；
 - 没有 seed 的循环不能自我产生事实；
-- noisy local parsing 容易同时造成 propagation miss 与 circular-support false positive；
-- MCGS 的价值可由 SCC-vs-DAG interaction、merge rate、proof validity 与 token Pareto 证伪。
+- noisy local parsing 会造成 propagation miss；错误 parser/commit 或非 LFP baseline 还可能产生 circular-support false positive；
+- MCGS 的价值由 SCC-vs-DAG interaction、marginal-gain amplification、myopic regret、merge rate、propagation recall 与 token Pareto 证伪；proof soundness 单独归因于 LFP/validator。
 
 最终定位应是：
 
-> **方法面向全图，科学问题聚焦 productive recursive SCC。**
+> **任务面向完整文档图；核心问题是预算化递归程序解释；productive SCC 是揭示 delayed utility 的显微镜。**
 >
-> 普通 seed/DAG 证明 generality；SCC 证明为什么需要 LFP-aware MCGS。
+> 普通 seed/DAG 证明 generality；matched SCC 条件检验为什么可能需要 closure-guided non-myopic search。
 
 ---
 
@@ -376,4 +447,4 @@ flowchart LR
 - 继续检索 GDL/GGP、probabilistic logic-program induction、argumentation 与 theorem-proving 社区，而不只检索 ACL；
 - 在正文中区分 Bellman fixed point、grounded-extension LFP 与 least-Herbrand LFP；
 - 最终 claim 使用 “to our knowledge / no prior work we found”，并保留全部任务限定；
-- 方法名称固定为 **LFP-MCGS**，避免 GFP 被理解为 greatest fixed point。
+- 仓库与 pilot 暂用 **LFP-MCGS**；最终论文只在 MCGS gate 通过后使用 **Closure-Guided MCGS（C-MCGS）**，并始终避免 GFP 被理解为 greatest fixed point。
