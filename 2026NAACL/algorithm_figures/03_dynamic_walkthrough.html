@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LFP-MCGS 动态算法演示</title>
+  <style>
+    :root { color-scheme: light; --ink:#0b1f33; --muted:#526579; --line:#cbd5e1; --violet:#7c3aed; --soft:#ede9fe; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:#eef2f7; color:var(--ink); font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    main { max-width:1520px; margin:0 auto; padding:24px; }
+    header { display:flex; align-items:flex-end; justify-content:space-between; gap:20px; margin-bottom:16px; }
+    h1 { margin:0 0 5px; font-size:clamp(26px,3vw,42px); }
+    .sub { color:var(--muted); font-weight:650; }
+    .stage { position:relative; background:white; border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:0 14px 34px rgba(11,31,51,.12); }
+    .stage img { display:block; width:100%; height:auto; opacity:1; transition:opacity .16s ease; }
+    .stage img.swap { opacity:.18; }
+    .controls { display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:14px; margin-top:16px; }
+    button { appearance:none; border:1px solid var(--violet); background:white; color:var(--violet); font-weight:800; border-radius:12px; padding:10px 16px; cursor:pointer; }
+    button.primary { background:var(--violet); color:white; }
+    button:disabled { opacity:.35; cursor:not-allowed; }
+    input[type=range] { width:100%; accent-color:var(--violet); }
+    .meta { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; margin-top:14px; padding:14px 18px; border-left:5px solid var(--violet); background:white; border-radius:10px; }
+    .meta strong { display:block; font-size:18px; margin-bottom:4px; }
+    .meta span { color:var(--muted); font-weight:650; }
+    .steps { display:grid; grid-template-columns:repeat(8,1fr); gap:7px; margin-top:12px; }
+    .steps button { padding:8px 4px; font-size:13px; border-color:var(--line); color:var(--muted); }
+    .steps button[aria-pressed=true] { border-color:var(--violet); color:white; background:var(--violet); }
+    @media (max-width:720px) { main{padding:10px}.controls{grid-template-columns:1fr 1fr}.controls input{grid-column:1/-1;grid-row:1}.steps{grid-template-columns:repeat(4,1fr)}.meta{display:block}.meta .counter{margin-top:8px}.sub{font-size:13px} }
+  </style>
+</head>
+<body>
+<main>
+  <header><div><h1>LFP-MCGS 动态算法演示</h1><div class="sub">Query → candidate parsing → verified commit → incremental LFP → proof / certified negative</div></div></header>
+  <section class="stage"><img id="frame" src="keyframes/step_00.svg" alt="LFP-MCGS algorithm frame 1"></section>
+  <div class="controls">
+    <button id="prev" type="button">← 上一步</button>
+    <input id="scrub" type="range" min="0" max="7" step="1" value="0" aria-label="选择算法步骤">
+    <button id="play" class="primary" type="button">▶ 播放</button>
+    <button id="next" type="button">下一步 →</button>
+  </div>
+  <div class="steps" id="steps"></div>
+  <div class="meta"><div><strong id="title"></strong><span id="note"></span></div><strong class="counter" id="counter"></strong></div>
+</main>
+<script>
+  const frames = [{"src":"keyframes/step_00.svg","title":"输入仍是自然语言，而不是已知 Datalog 程序","note":"结构提示可以有环，但 candidate edge 既不是已提交规则，也不是 proof。"},{"src":"keyframes/step_01.svg","title":"Query-backward 选择第一个递归窗口","note":"蓝/紫的 query-backward 调度与绿色的逻辑传播方向不同。"},{"src":"keyframes/step_02.svg","title":"解析出循环，但循环没有启动","note":"No body is satisfied. A committed cycle edge is still not a fact."},{"src":"keyframes/step_03.svg","title":"找到 conjunction 的一半，并记录完整缺失前提","note":"Obligation 保存 missing-premise set：Ready ∧ Clear 不能被压成任意一个 premise。"},{"src":"keyframes/step_04.svg","title":"沿缺失 premise 找到 producer rule，而不是继续绕环","note":"MCGS 的价值：missing premise 把搜索从 SCC 内部跳到真正的 grounded entry。"},{"src":"keyframes/step_05.svg","title":"Seed 提交；一次增量 saturation 开始传播","note":"Frame 5–6 是一次确定性 saturation 的内部微步，不是每推一步都调用 LLM。"},{"src":"keyframes/step_06.svg","title":"LFP 连续到达 query；closing rule 不覆写 grounded proof","note":"返回 proof：Anchor─r1→Ready 与 Clear 共同经 r2→Approved─r3→Certified；r4 不在 proof core。"},{"src":"keyframes/step_07.svg","title":"Matched negative：同样的循环仍不能凭空自证","note":"未蕴含不等于 contradicted；只有覆盖完整才可 certified not-entailed，否则必须 UNRESOLVED。"}];
+  let index = 0;
+  let timer = null;
+  const img = document.getElementById('frame');
+  const scrub = document.getElementById('scrub');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  const play = document.getElementById('play');
+  const title = document.getElementById('title');
+  const note = document.getElementById('note');
+  const counter = document.getElementById('counter');
+  const steps = document.getElementById('steps');
+  frames.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = 'STEP ' + i; b.addEventListener('click', () => { stop(); show(i); });
+    steps.appendChild(b);
+  });
+  function show(i) {
+    index = Math.max(0, Math.min(frames.length - 1, i));
+    img.classList.add('swap');
+    window.setTimeout(() => { img.src = frames[index].src; img.alt = frames[index].title; img.classList.remove('swap'); }, 80);
+    scrub.value = String(index); title.textContent = frames[index].title; note.textContent = frames[index].note;
+    counter.textContent = (index + 1) + ' / ' + frames.length;
+    prev.disabled = index === 0; next.disabled = index === frames.length - 1;
+    [...steps.children].forEach((b, j) => b.setAttribute('aria-pressed', j === index ? 'true' : 'false'));
+  }
+  function stop() { if (timer) window.clearInterval(timer); timer = null; play.textContent = '▶ 播放'; }
+  function start() { stop(); play.textContent = 'Ⅱ 暂停'; timer = window.setInterval(() => { if (index === frames.length - 1) show(0); else show(index + 1); }, 2400); }
+  prev.addEventListener('click', () => { stop(); show(index - 1); });
+  next.addEventListener('click', () => { stop(); show(index + 1); });
+  scrub.addEventListener('input', e => { stop(); show(Number(e.target.value)); });
+  play.addEventListener('click', () => timer ? stop() : start());
+  show(0);
+</script>
+</body>
+</html>
