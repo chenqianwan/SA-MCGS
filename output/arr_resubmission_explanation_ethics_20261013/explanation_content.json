@@ -1,0 +1,184 @@
+{
+  "title": "Explanation of Revisions",
+  "paper_title": "Risk Subgraph Extraction in Cyclic Document Graphs with Structure-Aware Monte Carlo Search",
+  "intro": "We thank the reviewers and Area Chair for their feedback. The revision replaces the oracle-selected headline comparison with deployable baselines across five backbones and adds budget-controlled comparisons, component studies, paired core replay, measured costs, uncertainty estimates, and expert evaluation. Below we explain the changes since the previous submission and identify their locations.",
+  "note": "The meta-review is addressed first, followed by each reviewer's weaknesses (W) and comments/suggestions (C). Concern headings paraphrase the original feedback. All section, table, figure, appendix, and page references refer to the revised clean manuscript.",
+  "pages": [
+    {
+      "heading": "1. Response to the meta-review",
+      "items": [
+        {
+          "id": "M1",
+          "concern": "Prompt decomposition and output-schema fairness.",
+          "response": "LEA provides a direct control for the local prompting advantage raised in the review. It shares SA-MCGS's local evaluator, output schema, and parser, but evaluates deterministic graph-local windows and aggregates their evidence. Table 2 compares LEA, One-shot, and SA-MCGS on the same 80 variants for each backbone.",
+          "locations": "Section 4.4 and Table 2 (p. 6); Appendix K.1 (p. 23); response rxvy-W2.",
+          "original_id": "M3"
+        },
+        {
+          "id": "M2",
+          "concern": "Model-dependent gains and strong full-component baselines.",
+          "response": "Results are reported per backbone. Gemini performs strongly with One-shot, while repeated Full-SCC on Kimi trades a larger retained subgraph for higher coverage. Section 5 discusses these differences. The earlier oracle aggregate no longer serves as the headline comparison.",
+          "locations": "Abstract; Section 5, Table 2 and Figure 3 (pp. 6-7); responses iMEC-W4 and rxvy-W3.",
+          "original_id": "M4"
+        },
+        {
+          "id": "M3",
+          "concern": "Measured latency, token usage, and cost-performance trade-offs.",
+          "response": "The 72-job cost comparison measures calls, tokens, runtime, and performance across 12 sources, two models, and three methods, including recovery work. Separately, five-backbone repeated baselines use per-case budgets from recorded or calibrated historical SA-MCGS usage, with historical SA-MCGS outputs fixed. The paper distinguishes this protocol from contemporaneous cost measurements.",
+          "locations": "Section 6.2 and Table 4 (pp. 7-8); Appendix K.9, Table 23 (pp. 30-31); Appendix K.2 and Table 15 (pp. 25-27).",
+          "original_id": "M2"
+        },
+        {
+          "id": "M4",
+          "concern": "Isolate the contributions of the search and core-selection components.",
+          "response": "Paired replay isolates core replacement with fixed evidence; the three-backbone extension also matches actual output size case by case. Replacement improves Risk-all in all 12 model-capacity combinations. Section 6.1 reports the GPT-4o replay gain and paired interval. The 80-variant component comparisons remain descriptive across batches (response rxvy-W4).",
+          "locations": "Section 6.1, Table 3 and Figure 4 (p. 7); Appendices K.3-K.8, Tables 16-22 (pp. 27-29).",
+          "original_id": "M5"
+        },
+        {
+          "id": "M5",
+          "concern": "Effectiveness on naturally occurring risks.",
+          "response": "Expert evaluation covers 18 unmodified source components: 15 risk and three no-risk cases. Both SA-MCGS backbones identify all 15 risk cases; final agreement is 18/18 for GPT-4o and 15/18 for Gemini. Appendix B.2 documents annotation and adjudication, distinguishing final predictions from archived extraction records.",
+          "locations": "Section 6.3 (p. 8); Appendix B.2, Table 10 (pp. 13-16); response rxvy-W1.",
+          "original_id": "M1"
+        }
+      ]
+    },
+    {
+      "heading": "2. Response to Reviewer iMEC",
+      "items": [
+        {
+          "id": "iMEC-W1",
+          "concern": "Clarify the technical contribution beyond integrating existing methods.",
+          "response": "The revised method separates evidence acquisition over nodes and relations in cyclic components, mean-risk root ranking, and bounded core construction. With acquired evidence and output size fixed, replacement improves Risk-all by 27.50, 23.75, and 5.00 points on Llama, Qwen3.5, and Kimi, respectively, isolating its contribution to evidence retention.",
+          "locations": "Introduction; Section 3, Figures 1-2 and Algorithm 1 (pp. 2-5); Section 6.1 (p. 7); Appendix K.5, Table 18 (p. 28)."
+        },
+        {
+          "id": "iMEC-W2",
+          "concern": "Add SA-MCGS component ablations beyond the TreeMCTS diagnostic.",
+          "response": "Stage-1 compares Full, no memory, no critical-pair revisit, and random windows on 80 variants from 20 sources, descriptively across batches. Separate GPT-4o dynamic-versus-locked replay gives 75.00% versus 37.50% Risk-all at equal mean core size: a 37.50-point gain with a 95% source-SCC paired interval of [12.50, 60.00]. Three additional backbones match output size case by case across four caps. Component removal and fixed-evidence replay are interpreted separately.",
+          "locations": "Section 6.1, Table 3 and Figure 4 (p. 7); Appendices K.3-K.6, Tables 16-19 (pp. 27-29)."
+        },
+        {
+          "id": "iMEC-W3",
+          "concern": "Characterize practical cost and token-budget comparability.",
+          "response": "Table 4 and Appendix K.9 report measured costs. Separately, five-backbone repeated LEA and Full-SCC use per-case SA-referenced budgets from recorded or calibrated historical usage, covering generation and selection. The judge selects existing candidates without evaluation labels; historical SA outputs stay fixed. SA exceeds repeated LEA in Risk-all on all five backbones, including gains of 33.75 points on GPT-4o and 25.00 on Qwen2.5-72B. Realized token consumption need not be identical.",
+          "locations": "Section 5 and Figure 3 (pp. 6-7); Section 6.2 and Table 4 (pp. 7-8); Appendix K.2, Table 15 (pp. 25-27); Appendix K.9, Table 23 (pp. 30-31)."
+        },
+        {
+          "id": "iMEC-W4",
+          "concern": "The method does not consistently outperform strong baselines on every model.",
+          "response": "The five-backbone mean gains over LEA are 6.75 points in Root@3 and 15.25 in Risk-all. Section 5 reports source-SCC bootstrap intervals: [2.00, 27.75] for Risk-all and [-0.25, 14.00] for Root@3. For Gemini, all three methods reach 83.75-85.00% Risk-all, with One-shot highest. Gains are model-dependent; DeepSeek is outside the current five-backbone cohort, which replaces the earlier cohort.",
+          "locations": "Abstract; Section 5 and Table 2 (p. 6); Appendix J (pp. 23-26); Appendix K.12, Table 25 (pp. 31-32)."
+        },
+        {
+          "id": "iMEC-C1",
+          "concern": "Report module ablations and actual tokens, calls, and runtime.",
+          "response": "Tables 3-4 address both requests; responses iMEC-W2-W3 summarize the experiments and findings.",
+          "locations": "Tables 3-4 (p. 7); Appendices K.3-K.9 (pp. 27-31)."
+        },
+        {
+          "id": "iMEC-C2",
+          "concern": "Include a simpler graph-aware baseline.",
+          "response": "LEA provides a simpler graph-aware baseline across all five backbones. It aggregates evidence from four-record windows anchored at SCC nodes into a fixed-cap subgraph, without adaptive search, relation-memory routing, critical-pair revisiting, OC-guided construction, or dynamic replacement.",
+          "locations": "Section 4.4 and Table 2 (p. 6); Appendix K.1 (p. 23)."
+        },
+        {
+          "id": "iMEC-C3",
+          "concern": "Appendix cross-references.",
+          "response": "We corrected the obsolete appendix pointer and regenerated cross-references. Appendix J covers size and prefix analyses; K.2 covers repeated baselines; K.9 covers measured cost and reliability.",
+          "locations": "Appendix J (pp. 23-26); Appendix K.2 (pp. 25-27); Appendix K.9, Table 23 (pp. 30-31)."
+        }
+      ]
+    },
+    {
+      "heading": "3. Response to Reviewer rxvy",
+      "items": [
+        {
+          "id": "rxvy-W1",
+          "concern": "Injected conflicts do not establish performance on naturally occurring risks.",
+          "response": "The expanded expert evaluation covers 18 unmodified SEC, BGB, and CUAD components alongside evidence-quality assessment of 24 injected variants. The current unmodified-source labels contain 15 risk and three no-risk cases. Disagreement between the first two experts on risk existence, or either confidence below 3/5, triggers independent third-expert adjudication under fully blinded conditions. Final SA-MCGS agreement is 18/18 for GPT-4o and 15/18 for Gemini. Appendix B.2 distinguishes final predictions from archived extraction records. These selected sources extend evaluation beyond injection; broader natural-case and end-to-end validation remain future work.",
+          "locations": "Section 6.3 (p. 8); Appendix B.2, Tables 8-10 (pp. 13-16); Limitations (p. 9)."
+        },
+        {
+          "id": "rxvy-W2",
+          "concern": "Control the difference between global and local prompting schemas.",
+          "response": "LEA controls local decomposition and output difficulty by sharing SA-MCGS's local prompt builder, output schema, and parser, while using fixed graph-local windows and simple aggregation. Table 2 compares the methods under this shared evaluation interface. Figure 3 and Table 15 address computation separately across five backbones: both repeated-sampling baselines receive the same per-case SA-referenced budget, based on recorded or calibrated historical usage. Their judge selects from generated candidates without injection labels or evaluation scores.",
+          "locations": "Section 4.4 and Table 2 (p. 6); Section 5 and Figure 3 (pp. 6-7); Appendices K.1-K.2, Table 15 (pp. 23-27)."
+        },
+        {
+          "id": "rxvy-W3",
+          "concern": "Discuss model heterogeneity and the influence of output reliability.",
+          "response": "Table 2 reports each backbone separately, with model, domain, and size breakdowns in Appendix J. Section 5 discusses Gemini's strong full-context performance and now reports source-clustered uncertainty. In repeated sampling, Kimi Full-SCC achieves higher Risk-all than SA-MCGS (52.50% versus 32.50%) but retains a larger mean input fraction (86.40% versus 48.15%). Figure 3 shows this coverage-compression trade-off. Appendix K.9 reports validity and cost accounting for the GPT-4o/Gemini cost cohort; Appendix K.12 gives main-result intervals. The revised presentation separates model-dependent effectiveness from output reliability.",
+          "locations": "Section 5 (pp. 6-7); Appendix J (pp. 23-26); Tables 15, 23 and 25 (pp. 27, 31 and 32); Appendices K.2, K.9 and K.12."
+        },
+        {
+          "id": "rxvy-W4",
+          "concern": "Test memory, OC, critical pairs, replacement, random windows, and repeated local prompting.",
+          "response": "The controls include memory removal, removal of critical-pair protection/revisiting, random windows, locked cores, and repeated LEA. On 80 variants, Full reaches 77.50% Risk-all versus 73.50% without memory and 71.25% with random windows, at the same mean core size. These are descriptive cross-batch comparisons without corresponding significance tests. Removing critical-pair protection/revisiting yields 56.25% Risk-all and reduces mean core size from 8.10 to 4.30, so it also changes output size. Paired replacement replay provides stronger isolation, including gains at all 12 additional model-capacity settings. The replays fix OC and pair closure rather than independently ablating them. Shared-evidence selector comparisons are also reported: the full selector is not uniformly best against simpler selectors. These controls support replacement under the tested conditions without establishing that every module is independently necessary.",
+          "locations": "Section 6.1 (p. 7); Appendix K.2 (pp. 25-27); Appendices K.3-K.8, Tables 16-22 (pp. 27-29)."
+        }
+      ]
+    },
+    {
+      "heading": "3. Response to Reviewer rxvy (continued)",
+      "items": [
+        {
+          "id": "rxvy-C1",
+          "concern": "Evaluate clean/non-risk components and over-reporting.",
+          "response": "Among the three expert-labeled no-risk sources, final GPT-4o SA-MCGS predictions correctly identify all three, while Gemini produces three false alarms. Both models identify all 15 risk cases. False-positive rates on the three negatives are therefore 0.0% and 100.0%; overall error rates on all 18 sources are 0.0% and 16.7%. Table 10 reports the denominators and separates final predictions from archived extraction records. This small negative subset provides a bounded assessment of no-risk recognition.",
+          "locations": "Section 6.3 (p. 8); Appendix B.2, Table 10 (p. 16)."
+        },
+        {
+          "id": "rxvy-C2",
+          "concern": "Test sensitivity to fixed prior coefficients.",
+          "response": "The sensitivity experiment varies the relation-prior multiplier by plus/minus 20% on four prespecified sources with GPT-4o and Gemini 2.5 Pro. Within this range and subset, Risk-all does not decrease, although root rankings change, providing a local sensitivity assessment of the tested coefficient.",
+          "locations": "Section 6.2 (p. 8); Appendix K.10, Table 24 (pp. 30-31)."
+        },
+        {
+          "id": "rxvy-C3",
+          "concern": "Define the ground-truth-selected oracle baseline explicitly.",
+          "response": "Appendix K.1 defines the historical oracle-risk Top-3-from-10 protocol and its use of ground-truth metrics for selection. The main results use deployable One-shot and LEA comparisons. In the repeated-baseline experiment, the judge selects a candidate using source evidence, without access to injection labels or evaluation scores.",
+          "locations": "Section 4.4 (p. 6); Appendices K.1-K.2 (pp. 23-27)."
+        },
+        {
+          "id": "rxvy-C4",
+          "concern": "Measure subgraph precision or irrelevant-node rate.",
+          "response": "The expanded expert evaluation uses a minimal evidence set and a broader repair-material set to measure minimal-evidence recall, repair coverage, repair-reference precision, and the outside-reference fraction. Compared with LEA, SA-MCGS raises repair-reference precision from 66.5% to 85.0% for GPT-4o and from 71.8% to 88.4% for Gemini. Minimal-evidence recall increases from 65.4% to 90.8% and from 86.3% to 88.5%, respectively. The outside-reference fraction captures disagreement with the expert reference without treating every additional record as irrelevant.",
+          "locations": "Section 6.3 (p. 8); Appendix B.2, Table 9 (p. 16), with source-level intervals and paired comparisons."
+        },
+        {
+          "id": "rxvy-Societal",
+          "concern": "Human decision support, false alarms, missed risks, and overtrust.",
+          "response": "The revised conclusion presents the extracted subgraph as evidence for human judgment. False alarms can increase review burden, while omitted evidence can conceal a risk. The source-case evaluation measures false alarms, and endpoint recall and expert-reference coverage assess missing evidence. The Limitations section addresses dependence on the backbone and graph construction, together with the need for broader natural-case and end-to-end evaluation. The new Ethical Considerations section specifies human verification and advises against using outputs as the sole basis for consequential decisions. It also clarifies that injected conflicts are constructed evaluation cases, not factual claims about named entities or evidence of those conflicts in the original documents.",
+          "locations": "Sections 6.3 and 8 (p. 8); Limitations and Ethical Considerations (p. 9); Appendix B.2 (pp. 13-16)."
+        }
+      ]
+    },
+    {
+      "heading": "4. Response to Reviewer wWUk",
+      "items": [
+        {
+          "id": "wWUk-W1",
+          "concern": "Natural-risk evaluation and links to established legal datasets.",
+          "response": "Expert judgments on unmodified SEC, BGB, and CUAD components provide evidence beyond injected conflicts (response rxvy-W1). Section 7 also relates the task to CUAD, MAUD, ContractNLI, LEDGAR, and CLAUDETTE. These resources support related extraction, inference, and classification tasks. Labeling the source components lets the natural-risk evaluation retain the paper's cyclic, node-level evidence-extraction setting.",
+          "locations": "Sections 6.3 and 7 (p. 8); Appendix B.2 (pp. 13-16)."
+        },
+        {
+          "id": "wWUk-W2",
+          "concern": "Broaden graph-aware comparisons and contextualize document-graph systems.",
+          "response": "LEA controls for graph-local access while keeping the SCC inputs and local evaluator identical to SA-MCGS. Its deterministic windows and simple aggregation provide a comparison tailored to the same node-ranking and risk-subgraph outputs. Section 7 discusses contract-graph reasoning, LegalGraphRAG, and SAT-Graph RAG alongside other graph-retrieval methods. Adapting these end-to-end systems would require additional choices for our output task, so the revision discusses them as related systems and uses LEA for the controlled experiment; it does not claim to reproduce them.",
+          "locations": "Section 4.4 and Table 2 (p. 6); Section 7 (p. 8); Appendix K.1 (p. 23)."
+        },
+        {
+          "id": "wWUk-W3",
+          "concern": "Measure latency, tokens, and the performance-cost trade-off.",
+          "response": "Section 6.2 presents measured cost alongside performance. Appendix K.9 reports input/output tokens, calls, and runtime, including recorded recovery work. The five-backbone experiment in Section 5 and Appendix K.2 tests repeated-sampling baselines using per-case SA-referenced budgets from recorded or calibrated historical usage. Response iMEC-W3 summarizes its protocol and findings. The paper distinguishes reduced waiting time through concurrency from total token use; it does not claim a measured within-case parallel speedup.",
+          "locations": "Section 5 and Figure 3 (pp. 6-7); Section 6.2 and Table 4 (pp. 7-8); Appendix K.2, Table 15 (pp. 25-27); Appendix K.9, Table 23 (pp. 30-31)."
+        }
+      ],
+      "closing_heading": "Implementation and reporting clarifications",
+      "closing": "The method description specifies window capacity, node-score updates, pair-support memory, and OC flags derived from score histories, separating final-core construction from mean-risk ranking. Section 3 and Appendices D-E give the algorithms and update rules. Appendices K.11-K.12 document case identity, available prompt/schema and configuration records, failure accounting, and source-SCC uncertainty. Section 5 and Section 6.1 now bring the main-result and paired-replay intervals into the main text."
+    }
+  ]
+}

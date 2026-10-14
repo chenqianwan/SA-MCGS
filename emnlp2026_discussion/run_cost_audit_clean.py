@@ -17,6 +17,7 @@ import argparse
 import asyncio
 import copy
 import csv
+import hashlib
 import json
 import math
 import os
@@ -25,6 +26,7 @@ import statistics
 import sys
 import time
 import traceback
+import unicodedata
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
@@ -42,6 +44,7 @@ except ImportError:
     pass
 
 from src.llm.openai_client import OpenAIClient
+from src.models.graph import SCCInfo
 from src.modules.alphago_mcgs import AlphaGoMCGS
 from src.modules.tarjan import TarjanSCCDetector
 
@@ -49,8 +52,9 @@ from experiments.cross_domain import run_cross_domain_battle as battle
 
 
 DISCUSSION_DIR = REPO_ROOT / "emnlp2026_discussion"
+SA_WORK_DIR = REPO_ROOT / "2026NAACL" / "SA-MCGS"
 DEFAULT_CASE_CSV = DISCUSSION_DIR / "case_composition.csv"
-DEFAULT_RUNS_DIR = DISCUSSION_DIR / "cost_audit_runs"
+DEFAULT_RUNS_DIR = SA_WORK_DIR / "experiments" / "cost_audit_runs"
 MODEL_IDS = {
     "gpt-4o": "gpt-4o",
     "deepseek-v3": "deepseek-chat",
@@ -58,6 +62,13 @@ MODEL_IDS = {
     "gemini-2.5-pro": "gemini-2.5-pro",
     "gemini-2.5-flash": "gemini-2.5-flash",
 }
+STABLE_CASE_IDENTITY_VERSION = "stable_case_identity_v1"
+DATASET_REVISION_VERSION = "graph_content_revision_v1"
+_DATASET_REVISION_CACHE_KEY = "_stable_dataset_revision_v1"
+
+
+class StableCaseIdentityError(RuntimeError):
+    """Raised when a planned case cannot be reproduced exactly."""
 
 
 def now_iso() -> str:
@@ -66,6 +77,411 @@ def now_iso() -> str:
 
 def safe_token(text: str) -> str:
     return re.sub(r"[^A-Za-z0-9_.-]+", "_", str(text)).strip("_")
+
+
+def _normalize_text(value: Any) -> str:
+    text = unicodedata.normalize("NFKC", str(value or ""))
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def _canonical_hash(payload: Any) -> str:
+    encoded = json.dumps(
+        payload,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+        default=json_default,
+    ).encode("utf-8")
+    return "sha256:" + hashlib.sha256(encoded).hexdigest()
+
+
+def _file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return "sha256:" + digest.hexdigest()
+
+
+def _enum_value(value: Any) -> str:
+    return str(getattr(value, "value", value))
+
+
+def _edge_identity(edge: Any) -> dict[str, Any]:
+    return {
+        "source": str(edge.source),
+        "target": str(edge.target),
+        "dependency_type": _enum_value(edge.dependency_type),
+        "weight": format(float(getattr(edge, "weight", 1.0)), ".17g"),
+    }
+
+
+def _sorted_edge_identities(edges: list[Any]) -> list[dict[str, Any]]:
+    return sorted(
+        (_edge_identity(edge) for edge in edges),
+        key=lambda item: (
+            item["source"],
+            item["target"],
+            item["dependency_type"],
+            item["weight"],
+        ),
+    )
+
+
+def graph_dataset_revision(graph: Any, domain: str) -> str:
+    """Return a content-derived dataset revision, cached on the loaded graph."""
+    metadata = graph.metadata if isinstance(getattr(graph, "metadata", None), dict) else {}
+    cached = metadata.get(_DATASET_REVISION_CACHE_KEY)
+    if cached:
+        return str(cached)
+
+    clauses = []
+    for clause_id in sorted(graph.clauses):
+        clause = graph.clauses[clause_id]
+        clauses.append(
+            {
+                "id": str(clause_id),
+                "title": _normalize_text(getattr(clause, "title", "")),
+                "content": _normalize_text(getattr(clause, "content", "")),
+                "section": _normalize_text(getattr(clause, "section", "")),
+                "clause_type": _enum_value(getattr(clause, "clause_type", "")),
+            }
+        )
+    payload = {
+        "version": DATASET_REVISION_VERSION,
+        "domain": str(domain),
+        "clauses": clauses,
+        "typed_edges": _sorted_edge_identities(list(graph.edges)),
+    }
+    revision = _canonical_hash(payload)
+    metadata[_DATASET_REVISION_CACHE_KEY] = revision
+    graph.metadata = metadata
+    return revision
+
+
+def _source_result_path(raw_path: Any) -> Path:
+    raw = str(raw_path or "").strip()
+    if not raw:
+        raise StableCaseIdentityError("Case is missing source_result_file")
+    direct = Path(raw)
+    repo_mirror = REPO_ROOT / "experiments" / "cross_domain" / "results" / direct.name
+    candidates: list[Path] = []
+    if direct.exists() and direct.resolve().is_relative_to(REPO_ROOT.resolve()):
+        candidates.append(direct)
+    candidates.extend([repo_mirror, direct])
+    candidates = list(dict.fromkeys(candidates))
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate.resolve()
+    raise StableCaseIdentityError(
+        "Source result file is unavailable; cannot recover the stable SCC identity: "
+        + ", ".join(str(path) for path in candidates)
+    )
+
+
+def source_result_path(raw_path: Any) -> Path:
+    return _source_result_path(raw_path)
+
+
+def _source_sa_result(
+    case: dict[str, Any],
+    source_path: Path | None = None,
+) -> dict[str, Any]:
+    source_path = source_path or _source_result_path(case.get("source_result_file"))
+    payload = json.loads(source_path.read_text(encoding="utf-8"))
+    rows = payload if isinstance(payload, list) else [payload]
+    candidates = [
+        row
+        for row in rows
+        if isinstance(row, dict)
+        and row.get("method") == "sa-mcgs"
+        and row.get("domain") == case.get("domain")
+    ]
+    model_matches = [row for row in candidates if row.get("model") == case.get("model")]
+    if len(model_matches) == 1:
+        return model_matches[0]
+    if len(model_matches) > 1:
+        raise StableCaseIdentityError(
+            f"Expected exactly one source SA-MCGS record for {case.get('case_id')}; "
+            f"found {len(model_matches)} model-matched rows in {source_path}"
+        )
+
+    # Cost-audit models such as Flash/Qwen may intentionally reuse the canonical
+    # graph case selected by another model. Accept this only when every source
+    # SA row agrees on the complete node/injection identity.
+    signatures: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in candidates:
+        signature = _canonical_hash(
+            {
+                "ordered_clause_ids": list(row.get("scc_clause_ids") or []),
+                "injection": injection_identity(
+                    row,
+                    requested_template=str(case.get("template") or ""),
+                ),
+            }
+        )
+        signatures[signature].append(row)
+    if len(signatures) != 1 or not candidates:
+        raise StableCaseIdentityError(
+            f"No model-matched source row and source identities are not unique for "
+            f"{case.get('case_id')}: {len(candidates)} rows, {len(signatures)} identities "
+            f"in {source_path}"
+        )
+    return sorted(candidates, key=lambda row: str(row.get("model") or ""))[0]
+
+
+def injection_identity(
+    payload: dict[str, Any],
+    *,
+    requested_template: str,
+    injected_id: str | None = None,
+) -> dict[str, Any]:
+    """Extract only deterministic injection fields used by stable case identity."""
+    root = payload.get("injected_node") or injected_id
+    return {
+        "seed": int(payload.get("inject_seed") or 42),
+        "profile": str(payload.get("inject_profile") or "memory_stress"),
+        "profile_version": payload.get("inject_profile_version"),
+        "requested_conflict_family": str(requested_template),
+        "conflict_family": payload.get("injected_conflict_family"),
+        "conflict_severity": payload.get("injected_conflict_severity"),
+        "conflict_template": payload.get("injected_conflict_template"),
+        "root_node": root,
+        "witness_node": payload.get("injected_witness_node"),
+        "witness_distance": payload.get("injected_witness_distance"),
+        "bridge_node": payload.get("injected_bridge_node"),
+        "bridge_distance": payload.get("injected_bridge_distance"),
+        "risk_nodes": list(payload.get("injected_risk_nodes") or []),
+        "evidence_nodes": list(payload.get("injected_evidence_nodes") or []),
+        "affected_nodes": list(payload.get("injected_affected_nodes") or []),
+    }
+
+
+def _validate_injection_identity(identity: dict[str, Any], case_id: str) -> None:
+    required = ("profile_version", "conflict_family", "conflict_severity", "conflict_template", "root_node")
+    missing = [key for key in required if identity.get(key) in (None, "")]
+    if not identity.get("risk_nodes"):
+        missing.append("risk_nodes")
+    if missing:
+        raise StableCaseIdentityError(
+            f"Stable injection identity for {case_id} is incomplete: {sorted(set(missing))}"
+        )
+
+
+def hydrate_case_from_source(case: dict[str, Any]) -> dict[str, Any]:
+    """Upgrade a legacy numeric-ID case row with its immutable source identity."""
+    original_source = str(case.get("source_result_file") or "")
+    already_hydrated = bool(
+        case.get("planned_scc_clause_ids")
+        and case.get("planned_injection_identity")
+    )
+    if already_hydrated and not original_source:
+        return case
+    source_path = _source_result_path(original_source)
+    source_file_sha256 = _file_sha256(source_path)
+    stored_file_sha256 = case.get("source_result_sha256")
+    if stored_file_sha256 and stored_file_sha256 != source_file_sha256:
+        raise StableCaseIdentityError(
+            f"Source result file changed for {case.get('case_id')}: "
+            f"{stored_file_sha256} != {source_file_sha256}"
+        )
+
+    source = _source_sa_result(case, source_path)
+    source_record_sha256 = _canonical_hash(source)
+    stored_record_sha256 = case.get("source_sa_record_sha256")
+    if stored_record_sha256 and stored_record_sha256 != source_record_sha256:
+        raise StableCaseIdentityError(
+            f"Source SA-MCGS row changed for {case.get('case_id')}: "
+            f"{stored_record_sha256} != {source_record_sha256}"
+        )
+
+    if original_source and original_source != str(source_path):
+        case.setdefault("source_result_file_original", original_source)
+    case["source_result_file"] = str(source_path)
+    case["source_result_sha256"] = source_file_sha256
+    case["source_sa_record_sha256"] = source_record_sha256
+    if source_path.is_relative_to(REPO_ROOT.resolve()):
+        case["source_result_repo_relpath"] = str(
+            source_path.relative_to(REPO_ROOT.resolve())
+        )
+
+    if already_hydrated:
+        return case
+    clause_ids = list(source.get("scc_clause_ids") or [])
+    if not clause_ids or len(clause_ids) != len(set(clause_ids)):
+        raise StableCaseIdentityError(
+            f"Source result for {case.get('case_id')} has missing or duplicate scc_clause_ids"
+        )
+    expected_injection = injection_identity(
+        source,
+        requested_template=str(case.get("template") or ""),
+    )
+    _validate_injection_identity(expected_injection, str(case.get("case_id")))
+    case["planned_scc_clause_ids"] = clause_ids
+    case["planned_injection_identity"] = expected_injection
+    case["source_scc_id"] = source.get("scc_id")
+    case["source_scc_size"] = source.get("scc_size")
+    return case
+
+
+def build_case_identity(
+    graph: Any,
+    *,
+    domain: str,
+    ordered_clause_ids: list[str],
+    injection: dict[str, Any],
+) -> dict[str, Any]:
+    """Build the stable identity from graph content, structure, and injection."""
+    clause_ids = [str(clause_id) for clause_id in ordered_clause_ids]
+    if not clause_ids or len(clause_ids) != len(set(clause_ids)):
+        raise StableCaseIdentityError("ordered_clause_ids must be non-empty and unique")
+    missing = [clause_id for clause_id in clause_ids if clause_id not in graph.clauses]
+    if missing:
+        raise StableCaseIdentityError(f"Stable SCC contains missing graph nodes: {missing[:5]}")
+
+    clause_set = set(clause_ids)
+    internal_edges = [
+        edge
+        for edge in graph.edges
+        if edge.source in clause_set and edge.target in clause_set
+    ]
+    text_hashes = []
+    for clause_id in clause_ids:
+        clause = graph.clauses[clause_id]
+        normalized_text = {
+            "title": _normalize_text(getattr(clause, "title", "")),
+            "content": _normalize_text(getattr(clause, "content", "")),
+            "section": _normalize_text(getattr(clause, "section", "")),
+            "clause_type": _enum_value(getattr(clause, "clause_type", "")),
+        }
+        text_hashes.append({"id": clause_id, "text_sha256": _canonical_hash(normalized_text)})
+
+    identity_payload = {
+        "version": STABLE_CASE_IDENTITY_VERSION,
+        "domain": str(domain),
+        "dataset_revision": graph_dataset_revision(graph, domain),
+        "ordered_clause_ids": clause_ids,
+        "typed_internal_edges": _sorted_edge_identities(internal_edges),
+        "normalized_clause_text_hashes": text_hashes,
+        "injection": copy.deepcopy(injection),
+    }
+    fingerprint = _canonical_hash(identity_payload)
+    return {
+        **identity_payload,
+        "fingerprint": fingerprint,
+        "case_uid": f"scid-v1-{fingerprint.removeprefix('sha256:')}",
+    }
+
+
+def _identity_mismatch_message(
+    case: dict[str, Any],
+    planned: dict[str, Any],
+    actual: dict[str, Any],
+) -> str:
+    differences = []
+    for key in (
+        "dataset_revision",
+        "ordered_clause_ids",
+        "typed_internal_edges",
+        "normalized_clause_text_hashes",
+        "injection",
+    ):
+        if planned.get(key) != actual.get(key):
+            differences.append(key)
+    return (
+        f"Stable case identity mismatch for {case.get('case_id')}: "
+        f"planned={planned.get('fingerprint')} actual={actual.get('fingerprint')}; "
+        f"different fields={differences or ['fingerprint']}"
+    )
+
+
+def validate_case_plan(plan: list[dict[str, Any]], graphs: dict[str, Any]) -> dict[str, Any]:
+    """Hydrate and validate every case before any API call is allowed."""
+    for case in plan:
+        hydrate_case_from_source(case)
+        domain = str(case.get("domain"))
+        if domain not in graphs:
+            raise StableCaseIdentityError(f"No loaded graph for domain={domain}")
+        clause_ids = list(case["planned_scc_clause_ids"])
+        if int(case.get("scc_size") or -1) != len(clause_ids):
+            raise StableCaseIdentityError(
+                f"Legacy scc_size disagrees with stable node list for {case.get('case_id')}: "
+                f"{case.get('scc_size')} != {len(clause_ids)}"
+            )
+        planned_injection = case["planned_injection_identity"]
+        if planned_injection.get("requested_conflict_family") != case.get("template"):
+            raise StableCaseIdentityError(
+                f"Injection template mismatch for {case.get('case_id')}: "
+                f"{planned_injection.get('requested_conflict_family')} != {case.get('template')}"
+            )
+        if (
+            planned_injection.get("seed") != 42
+            or planned_injection.get("profile") != "memory_stress"
+            or planned_injection.get("conflict_severity") != "critical"
+        ):
+            raise StableCaseIdentityError(
+                f"Unexpected injection protocol for {case.get('case_id')}: {planned_injection}"
+            )
+        identity_nodes = {
+            planned_injection.get("root_node"),
+            planned_injection.get("witness_node"),
+            planned_injection.get("bridge_node"),
+            *planned_injection.get("risk_nodes", []),
+            *planned_injection.get("evidence_nodes", []),
+            *planned_injection.get("affected_nodes", []),
+        }
+        unknown_identity_nodes = sorted(
+            node_id for node_id in identity_nodes if node_id and node_id not in set(clause_ids)
+        )
+        if unknown_identity_nodes:
+            raise StableCaseIdentityError(
+                f"Injection identity references nodes outside the planned SCC for "
+                f"{case.get('case_id')}: {unknown_identity_nodes}"
+            )
+        current = build_case_identity(
+            graphs[domain],
+            domain=domain,
+            ordered_clause_ids=clause_ids,
+            injection=planned_injection,
+        )
+        stored = case.get("planned_case_identity")
+        if stored and stored.get("fingerprint") != current["fingerprint"]:
+            raise StableCaseIdentityError(_identity_mismatch_message(case, stored, current))
+        stored_uid = case.get("case_uid")
+        if stored_uid and stored_uid != current["case_uid"]:
+            raise StableCaseIdentityError(
+                f"Stored case_uid mismatch for {case.get('case_id')}: "
+                f"{stored_uid} != {current['case_uid']}"
+            )
+        case["planned_case_identity"] = current
+        case["case_uid"] = current["case_uid"]
+        case["planned_scc_fingerprint"] = current["fingerprint"]
+
+    return {
+        "identity_version": STABLE_CASE_IDENTITY_VERSION,
+        "validated_cases": len(plan),
+        "case_uids": [case["case_uid"] for case in plan],
+    }
+
+
+def persist_case_plan(output_dir: Path, plan: list[dict[str, Any]]) -> None:
+    """Persist the upgraded manifest without flattening its identity records."""
+    atomic_write_json(output_dir / "case_plan.json", plan)
+    if not plan:
+        return
+    fieldnames = list(dict.fromkeys(key for case in plan for key in case))
+    with (output_dir / "case_plan.csv").open("w", newline="", encoding="utf-8") as fh:
+        writer = csv.DictWriter(fh, fieldnames=fieldnames)
+        writer.writeheader()
+        for case in plan:
+            writer.writerow(
+                {
+                    key: json.dumps(value, ensure_ascii=False, sort_keys=True)
+                    if isinstance(value, (dict, list))
+                    else value
+                    for key, value in case.items()
+                }
+            )
 
 
 def json_default(obj: Any) -> Any:
@@ -184,37 +600,45 @@ def build_or_load_case_plan(args: argparse.Namespace, output_dir: Path) -> list[
     if plan_path.exists() and not args.rebuild_plan:
         return json.loads(plan_path.read_text(encoding="utf-8"))
 
-    rows = list(csv.DictReader(args.case_csv.open(encoding="utf-8")))
-    rows = [row for row in rows if row.get("model") == args.model]
+    indexed_rows = list(enumerate(csv.DictReader(args.case_csv.open(encoding="utf-8")), 1))
+    rows = [(order, row) for order, row in indexed_rows if row.get("model") == args.model]
     if not rows:
         raise RuntimeError(f"No rows found for model={args.model} in {args.case_csv}")
 
     if args.use_all_case_rows:
         ordered = rows
     else:
-        chosen: dict[tuple[str, int], dict[str, Any]] = {}
-        for row in rows:
+        chosen: dict[tuple[str, int], tuple[int, dict[str, Any]]] = {}
+        for canonical_order, row in rows:
             key = (row["domain"], int(row["scc_size"]))
             current = chosen.get(key)
             if current is None:
-                chosen[key] = row
+                chosen[key] = (canonical_order, row)
                 continue
             if row.get("template") == args.template_preference:
-                chosen[key] = row
+                chosen[key] = (canonical_order, row)
 
         ordered = sorted(
             chosen.values(),
-            key=lambda row: (-int(row["scc_size"]), row["domain"], row["scc_id"], row["template"]),
+            key=lambda item: (
+                -int(item[1]["scc_size"]),
+                item[1]["domain"],
+                item[1]["scc_id"],
+                item[1]["template"],
+            ),
         )
     plan: list[dict[str, Any]] = []
-    for idx, row in enumerate(ordered, 1):
+    for canonical_order, row in ordered:
         case_id = safe_token(
-            f"{idx:02d}_{row['domain']}{row['scc_size']}_{row['scc_id']}_{row['template']}"
+            f"{canonical_order:03d}_{row['model']}_{row['domain']}{row['scc_size']}_"
+            f"{row['scc_id']}_{row['template']}"
         )
         plan.append(
             {
-                "case_order": idx,
+                "case_order": canonical_order,
                 "case_id": case_id,
+                "canonical_case_order": canonical_order,
+                "canonical_case_id": case_id,
                 "model": row["model"],
                 "domain": row["domain"],
                 "scc_id": row["scc_id"],
@@ -246,24 +670,137 @@ def load_graphs(plan: list[dict[str, Any]]) -> dict[str, Any]:
     for domain in sorted({case["domain"] for case in plan}):
         graph = loaders[domain]()
         graphs[domain] = TarjanSCCDetector().detect(graph)
+    validate_case_plan(plan, graphs)
     return graphs
 
 
-def find_scc(graph: Any, case: dict[str, Any]):
-    for scc in graph.sccs:
-        if scc.id == case["scc_id"] and scc.size == case["scc_size"]:
-            return scc
-    matches = [scc for scc in graph.sccs if scc.id == case["scc_id"]]
-    if matches:
-        return matches[0]
-    raise RuntimeError(
-        f"Cannot find SCC {case['scc_id']} size={case['scc_size']} in {case['domain']}"
+def _detected_scc_for_ids(graph: Any, clause_ids: list[str], case_id: str) -> Any:
+    wanted = set(clause_ids)
+    matches = [scc for scc in graph.sccs if set(scc.clause_ids) == wanted]
+    if len(matches) != 1:
+        raise StableCaseIdentityError(
+            f"Expected exactly one detected SCC matching the stable node set for {case_id}; "
+            f"found {len(matches)}. Numeric Tarjan IDs are diagnostic only."
+        )
+    return matches[0]
+
+
+def find_scc(graph: Any, case: dict[str, Any]) -> SCCInfo:
+    """Resolve by the immutable ordered node list; never by a numeric Tarjan ID."""
+    clause_ids = list(case.get("planned_scc_clause_ids") or [])
+    if not clause_ids:
+        raise StableCaseIdentityError(
+            f"Case {case.get('case_id')} has no planned_scc_clause_ids; run case-plan validation first"
+        )
+    if len(clause_ids) != int(case.get("scc_size") or -1):
+        raise StableCaseIdentityError(
+            f"Stable node count mismatch for {case.get('case_id')}: "
+            f"{len(clause_ids)} != legacy size {case.get('scc_size')}"
+        )
+    detected = _detected_scc_for_ids(graph, clause_ids, str(case.get("case_id")))
+    clause_set = set(clause_ids)
+    internal_edges = [
+        edge
+        for edge in graph.edges
+        if edge.source in clause_set and edge.target in clause_set
+    ]
+    case["actual_tarjan_scc_id"] = str(detected.id)
+    return SCCInfo(
+        id=str(case.get("scc_id") or detected.id),
+        clause_ids=clause_ids,
+        internal_edges=internal_edges,
+        size=len(clause_ids),
     )
+
+
+def _identity_audit_fields(
+    case: dict[str, Any],
+    actual: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    planned = case.get("planned_case_identity")
+    fields = {
+        "case_identity_version": STABLE_CASE_IDENTITY_VERSION,
+        "case_uid": case.get("case_uid"),
+        "source_result_file": case.get("source_result_file"),
+        "source_result_repo_relpath": case.get("source_result_repo_relpath"),
+        "source_result_sha256": case.get("source_result_sha256"),
+        "source_sa_record_sha256": case.get("source_sa_record_sha256"),
+        "planned_case_identity": copy.deepcopy(planned),
+        "planned_scc_clause_ids": list(case.get("planned_scc_clause_ids") or []),
+        "planned_scc_fingerprint": case.get("planned_scc_fingerprint"),
+        "planned_injection_identity": copy.deepcopy(case.get("planned_injection_identity")),
+        "planned_scc_id_diagnostic": case.get("scc_id"),
+        "actual_tarjan_scc_id_diagnostic": case.get("actual_tarjan_scc_id"),
+    }
+    if actual is not None:
+        fields.update(
+            {
+                "actual_case_identity": copy.deepcopy(actual),
+                "actual_scc_clause_ids": list(actual.get("ordered_clause_ids") or []),
+                "actual_scc_fingerprint": actual.get("fingerprint"),
+                "actual_injection_identity": copy.deepcopy(actual.get("injection")),
+            }
+        )
+    return fields
+
+
+def case_identity_audit_fields(
+    case: dict[str, Any],
+    actual: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    return _identity_audit_fields(case, actual)
+
+
+def validate_result_case_identity(
+    result: dict[str, Any],
+    case: dict[str, Any],
+    graph: Any,
+) -> dict[str, Any]:
+    """Reject stale/mislabelled result files before resume can reuse them."""
+    planned = case.get("planned_case_identity")
+    if not planned:
+        raise StableCaseIdentityError(
+            f"Case {case.get('case_id')} has not passed stable-identity preflight"
+        )
+    result_ids = list(
+        result.get("actual_scc_clause_ids")
+        or result.get("scc_clause_ids")
+        or []
+    )
+    if not result_ids:
+        raise StableCaseIdentityError(
+            f"Existing result for {case.get('case_id')} has no actual SCC identity; "
+            "rerun it instead of resuming"
+        )
+    actual_injection = result.get("actual_injection_identity") or injection_identity(
+        result,
+        requested_template=str(case.get("template") or ""),
+    )
+    _validate_injection_identity(actual_injection, str(case.get("case_id")))
+    actual = build_case_identity(
+        graph,
+        domain=str(case["domain"]),
+        ordered_clause_ids=result_ids,
+        injection=actual_injection,
+    )
+    recorded_fingerprint = result.get("actual_scc_fingerprint")
+    if recorded_fingerprint and recorded_fingerprint != actual["fingerprint"]:
+        raise StableCaseIdentityError(
+            f"Existing result fingerprint is internally inconsistent for {case.get('case_id')}: "
+            f"recorded={recorded_fingerprint} reconstructed={actual['fingerprint']}"
+        )
+    if actual["fingerprint"] != planned["fingerprint"]:
+        raise StableCaseIdentityError(_identity_mismatch_message(case, planned, actual))
+    return actual
 
 
 def prepare_injected_case(case: dict[str, Any], graphs: dict[str, Any]):
     domain = case["domain"]
     graph = graphs[domain]
+    if not case.get("planned_case_identity"):
+        raise StableCaseIdentityError(
+            f"Case {case.get('case_id')} has not passed stable-identity preflight"
+        )
     scc = find_scc(graph, case)
     battle.assert_original_scc_content(graph, scc, domain)
     graph_to_use, injected_id = battle.inject_defect(
@@ -280,6 +817,22 @@ def prepare_injected_case(case: dict[str, Any], graphs: dict[str, Any]):
     if injected_scan != injected_id:
         raise RuntimeError(f"Injected node scan mismatch: {injected_id} vs {injected_scan}")
     metadata = battle.get_injection_metadata(graph_to_use, injected_id)
+    actual_injection = injection_identity(
+        metadata,
+        requested_template=str(case.get("template") or ""),
+        injected_id=injected_id,
+    )
+    _validate_injection_identity(actual_injection, str(case.get("case_id")))
+    actual = build_case_identity(
+        graph,
+        domain=str(domain),
+        ordered_clause_ids=list(scc.clause_ids),
+        injection=actual_injection,
+    )
+    planned = case["planned_case_identity"]
+    if actual["fingerprint"] != planned["fingerprint"]:
+        raise StableCaseIdentityError(_identity_mismatch_message(case, planned, actual))
+    metadata.update(_identity_audit_fields(case, actual))
     return graph_to_use, scc, injected_id, metadata
 
 
@@ -553,6 +1106,7 @@ def attach_common_audit(
 ) -> dict[str, Any]:
     result.update(
         {
+            **_identity_audit_fields(case),
             "case_id": case["case_id"],
             "case_order": case["case_order"],
             "audit_started_at": started_at,
@@ -698,10 +1252,12 @@ async def run_method(
             "domain": case["domain"],
             "scc_id": case["scc_id"],
             "scc_size": case["scc_size"],
+            "scc_clause_ids": list(scc.clause_ids),
             "error_type": type(exc).__name__,
             "error": str(exc),
             "traceback": traceback.format_exc(),
         }
+        payload.update(injection_metadata)
         return attach_common_audit(
             payload,
             args=args,
@@ -903,7 +1459,22 @@ async def run(args: argparse.Namespace) -> None:
     output_dir = args.output_dir
     output_dir.mkdir(parents=True, exist_ok=True)
     plan = build_or_load_case_plan(args, output_dir)
+    graphs = load_graphs(plan)
+    persist_case_plan(output_dir, plan)
+    atomic_write_json(
+        output_dir / "case_identity_preflight.json",
+        {
+            **validate_case_plan(plan, graphs),
+            "validated_at": now_iso(),
+        },
+    )
     methods = args.methods
+    for case in plan:
+        for method in methods:
+            existing_path = result_path(output_dir, case, method)
+            if existing_path.exists():
+                existing = json.loads(existing_path.read_text(encoding="utf-8"))
+                validate_result_case_identity(existing, case, graphs[case["domain"]])
     atomic_write_json(
         output_dir / "run_config.json",
         {
@@ -919,9 +1490,10 @@ async def run(args: argparse.Namespace) -> None:
             "use_all_case_rows": args.use_all_case_rows,
             "base_url": args.base_url,
             "api_key_env": args.api_key_env,
+            "case_identity_version": STABLE_CASE_IDENTITY_VERSION,
         },
     )
-    if args.dry_run:
+    if args.dry_run or args.validate_only:
         write_status(output_dir, plan, methods)
         summarize(output_dir)
         return
@@ -930,7 +1502,6 @@ async def run(args: argparse.Namespace) -> None:
     if not api_key:
         raise RuntimeError(f"{args.api_key_env} is not set")
 
-    graphs = load_graphs(plan)
     write_status(output_dir, plan, methods)
 
     for case in plan:
@@ -938,8 +1509,11 @@ async def run(args: argparse.Namespace) -> None:
         with InjectedGroundTruth(case["domain"], injected_id):
             for method in methods:
                 path = result_path(output_dir, case, method)
-                if path.exists() and not (args.retry_errors and json.loads(path.read_text(encoding="utf-8")).get("cost_audit_error")):
-                    continue
+                if path.exists():
+                    existing = json.loads(path.read_text(encoding="utf-8"))
+                    validate_result_case_identity(existing, case, graphs[case["domain"]])
+                    if not (args.retry_errors and existing.get("cost_audit_error")):
+                        continue
                 current = {
                     "case_id": case["case_id"],
                     "case_order": case["case_order"],
@@ -992,6 +1566,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--use-all-case-rows", action="store_true")
     parser.add_argument("--retry-errors", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--validate-only",
+        action="store_true",
+        help="Validate and persist stable case identities without making API calls.",
+    )
     args = parser.parse_args()
     if args.output_dir is None:
         run_id = time.strftime("clean_gpt4o_b50_%Y%m%d_%H%M%S", time.localtime())

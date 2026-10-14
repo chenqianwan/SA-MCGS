@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["decision", "facts", "rules"],
+  "properties": {
+    "decision": {"type": "string", "enum": ["commit", "abstain"]},
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["predicate", "arguments", "evidence"],
+        "properties": {
+          "predicate": {"type": "string"},
+          "arguments": {"type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 3},
+          "evidence": {"type": "string"}
+        }
+      }
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["head", "body", "evidence"],
+        "properties": {
+          "head": {"$ref": "#/$defs/atom"},
+          "body": {"type": "array", "items": {"$ref": "#/$defs/atom"}, "minItems": 1},
+          "evidence": {"type": "string"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "atom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["predicate", "arguments"],
+      "properties": {
+        "predicate": {"type": "string"},
+        "arguments": {"type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 3}
+      }
+    }
+  }
+}
+

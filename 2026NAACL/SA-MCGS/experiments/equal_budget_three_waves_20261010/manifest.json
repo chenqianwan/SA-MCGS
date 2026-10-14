@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "group_id": "equal_budget_three_waves_20261010",
+  "total_waves": 3,
+  "wave_dirs": [
+    "equal_budget_all80_20261009",
+    "equal_budget_all80_wave2_20261010",
+    "equal_budget_all80_wave3_20261010"
+  ],
+  "historical_sa_reference": "equal_budget_all80_20261009/historical_sa_reference.json",
+  "historical_sa_reference_sha256": "6dcfb4e86edad877ab0c652a59c96de3b3bcf1f6fa7c1e53ad0937ece767c36c",
+  "models": [
+    "llama",
+    "kimi",
+    "qwen35"
+  ],
+  "methods": [
+    "lea",
+    "full-scc"
+  ],
+  "cases_per_model_per_wave": 80,
+  "expected_baseline_arms_per_wave": 480,
+  "expected_baseline_arms_total": 1440,
+  "reused_sa_rows": 240,
+  "pilot_10_case_included": false,
+  "sa_rerun_enabled": false,
+  "python_and_selector_seed": 42,
+  "provider_request_seed": null,
+  "sampling_temperature": 0.4,
+  "selector_temperature": 0,
+  "workers_per_replica": {
+    "llama": 10,
+    "kimi": 16,
+    "qwen35": 16
+  },
+  "scheduling": "Per-model pipeline: next wave starts only after all160 prior-wave arms and all that model workers have terminated; identical shared model servers; fresh per-wave directories.",
+  "stop_after_wave": 3
+}

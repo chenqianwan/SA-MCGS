@@ -1,0 +1,26 @@
+{
+  "amendment_id": "budget-gate-xhub-list-price-v1",
+  "effective_at": "2026-09-09T06:20:00+0800",
+  "scope": "budget accounting and stop-gate only",
+  "experimental_parameters_changed": false,
+  "existing_results_changed": false,
+  "reason": "The USD 85 allocation is denominated in XHub public list-price estimates. The initially frozen rates are exactly 2x the captured XHub ratios and therefore remain a stress display rather than the hard-cap debit basis.",
+  "hard_cap_usd": 85.0,
+  "primary_gate_basis": "provider-observed prompt/completion tokens multiplied by the captured XHub public list rates",
+  "xhub_pricing_snapshot": "xhub_pricing_snapshot.json",
+  "pricing_version": "a42d372ccf0b5dd13ecf71203521f9d2",
+  "list_rates_usd_per_million_tokens": {
+    "gpt-4o": {
+      "input": 2.5,
+      "output": 10.0
+    },
+    "gemini-2.5-pro": {
+      "input": 1.25,
+      "output": 10.0
+    }
+  },
+  "stress_display_multiplier": 2.0,
+  "next_cell_reserve_policy": "max(list-price fallback reserve, 1.5x maximum observed list-price cost for the same model/method)",
+  "account_balance_policy": "Shared-key balance deltas are retained only as a global cross-check; local call/token ledger remains the attribution source.",
+  "immutability_note": "frozen_protocol.json and all case/method/model/runtime hashes remain unchanged."
+}

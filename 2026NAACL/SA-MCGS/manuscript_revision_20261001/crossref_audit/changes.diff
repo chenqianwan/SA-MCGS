@@ -1,0 +1,242 @@
+--- before/revision_experiments.tex
++++ after/revision_experiments.tex
+@@ -82,7 +82,7 @@
+ \end{tabular}
+ \end{table}
+ 
+-\revred{Panel B extends the descriptive comparison to 80 variants by combining the 17 reruns with 63 historical variants whose input identities were independently verified. Full and all ablations are updated on the same 17 variants. Because the historical Full outputs lack complete prompt/configuration hashes, this panel supports a descriptive comparison across batches rather than contemporaneous attribution. Relative to Full, \riskall{} changed by $-21.25$ points without critical-pair revisiting, $-6.25$ with random windows, and $+6.25$ without memory. The critical-pair gain in this broader sample does not resolve the inconclusive contemporaneous result; memory showed no consistent independent gain.}
++\revred{Table~\ref{tab:revision_stage1}, panel B, extends the descriptive comparison to 80 variants by combining the 17 reruns with 63 historical variants whose input identities were independently verified. Full and all ablations are updated on the same 17 variants. Because the historical Full outputs lack complete prompt/configuration hashes, this panel supports a descriptive comparison across batches rather than contemporaneous attribution. Relative to Full, \riskall{} changed by $-21.25$ points without critical-pair revisiting, $-6.25$ with random windows, and $+6.25$ without memory. The critical-pair gain in this broader sample does not resolve the inconclusive contemporaneous result; memory showed no consistent independent gain.}
+ 
+ \subsection{Stage-2 Paired Core Replay}
+ \label{app:revision_stage2}
+@@ -105,12 +105,12 @@
+ \end{tabular}
+ \end{table}
+ 
+-\revred{Dynamic replacement increased \riskall{} by 37.5 percentage points (95\% source-SCC paired interval $[12.5,60.0]$) and \riskany{} by 13.75 points ($[5.0,22.5]$), at equal mean core size and compression (Table~\ref{tab:revision_stage2}). The replay isolates endpoint retention given the observed evidence; search trajectories are fixed, and OC and closure are not ablated independently. Its Full result uses the original frozen trajectories, whereas Stage-1 Panel B includes 17 newer Full runs.}
++\revred{Dynamic replacement increased \riskall{} by 37.5 percentage points (95\% source-SCC paired interval $[12.5,60.0]$) and \riskany{} by 13.75 points ($[5.0,22.5]$), at equal mean core size and compression (Table~\ref{tab:revision_stage2}). The replay isolates endpoint retention given the observed evidence; search trajectories are fixed, and OC and closure are not ablated independently. Its Full result uses the original frozen trajectories, whereas Table~\ref{tab:revision_stage1}, panel B, includes 17 newer Full runs.}
+ 
+ \subsection{Contemporaneous Cost and Reliability}
+ \label{app:revision_cost}
+ 
+-\revred{The cost experiment used one injected variant from each of 12 distinct source SCCs. Debian/SEC/BGB/CUAD contributed 2/3/3/4 SCCs; each of the four templates contributed three variants; and small/medium/large SCCs numbered 6/3/3. GPT-4o and Gemini 2.5 Pro each ran One-shot, LEA, and \samcgs{} on these frozen inputs, yielding 72 method jobs. \samcgs{} used 60 rollouts, four-node windows, and internal concurrency one. One-shot generated a subgraph directly from the full SCC in a single call, without oracle selection.}
++\revred{The cost experiment used one injected variant from each of 12 distinct source SCCs. Debian/SEC/BGB/CUAD contributed 2/3/3/4 SCCs; each of the four templates contributed three variants; and small/medium/large SCCs numbered 6/3/3. GPT-4o and Gemini 2.5 Pro each ran One-shot, LEA, and \samcgs{} on these frozen inputs, yielding 72 method jobs. \samcgs{} used 60 rollouts, four-node windows, and internal concurrency one. One-shot generated a subgraph directly from the full SCC in a single call, without oracle selection. Table~\ref{tab:revision_cost_full} reports the results for each model--method pair.}
+ 
+ \begin{table*}[t]
+ \centering
+--- before/revision_main_analysis.tex
++++ after/revision_main_analysis.tex
+@@ -2,7 +2,7 @@
+ \subsection{Component ablations}
+ \label{sec:component_tests}
+ 
+-\revred{The ablations separate search components (Stage-1) from final-core selection (Stage-2). Table~\ref{tab:component_main} reports contemporaneous Stage-1 runs and Stage-2 replay on shared search traces. On the 17-variant SEC subset, neither relation memory nor critical-pair revisiting improves \riskall{}; random windows reduce it modestly. In the cross-batch descriptive analysis of 80 variants, removing critical-pair revisiting lowers \riskall{} by 21.25 percentage points and random windows by 6.25, whereas removing memory raises it by 6.25. These results do not establish that each component is independently necessary. Appendix~\ref{app:revision_experiments} reports full metrics and memory costs.}
++\revred{The ablations separate search components (Stage-1) from final-core selection (Stage-2). Table~\ref{tab:component_main} reports contemporaneous Stage-1 runs and Stage-2 replay on shared search traces. On the 17-variant SEC subset, neither relation memory nor critical-pair revisiting improves \riskall{}; random windows reduce it modestly. In the cross-batch descriptive analysis of 80 variants, removing critical-pair revisiting lowers \riskall{} by 21.25 percentage points and random windows by 6.25, whereas removing memory raises it by 6.25. These results do not establish that each component is independently necessary. Appendices~\ref{app:revision_stage1} and~\ref{app:revision_stage2} report full metrics and memory costs.}
+ 
+ \begin{table}[t]
+ \centering
+@@ -46,9 +46,9 @@
+ \end{tabular}
+ \end{table}
+ 
+-\revred{Table~\ref{tab:cost_main} reports inference costs and endpoint retention. \samcgs{} uses about 3.2 times as many tokens as LEA, with \riskall{} gains of 41.7 percentage points on GPT-4o (95\% CI: 8.3--75.0) and 8.3 on Gemini 2.5 Pro (\mbox{$-16.7$--33.3}). One-shot performs best on Gemini in this sample. Three invalid GPT-4o One-shot outputs remain in the denominator. Concurrent rollouts can reduce wall-clock time without reducing token use; Appendix~\ref{app:revision_experiments} details the parallel-time model and recovery accounting.}
++\revred{Table~\ref{tab:cost_main} reports inference costs and endpoint retention. \samcgs{} uses about 3.2 times as many tokens as LEA, with \riskall{} gains of 41.7 percentage points on GPT-4o (95\% CI: 8.3--75.0) and 8.3 on Gemini 2.5 Pro (\mbox{$-16.7$--33.3}). One-shot performs best on Gemini in this sample. Three invalid GPT-4o One-shot outputs remain in the denominator. Concurrent rollouts can reduce wall-clock time without reducing token use; Appendix~\ref{app:revision_cost} details the parallel-time model and recovery accounting.}
+ 
+-\revred{On four prespecified sources, varying the relation-prior bonus multiplier by $\pm20\%$ does not reduce final \riskall{} but changes \rootthree{}. This single-coefficient check does not establish robustness to other priors or thresholds (Appendix~\ref{app:revision_experiments}).}
++\revred{On four prespecified sources, varying the relation-prior bonus multiplier by $\pm20\%$ does not reduce final \riskall{} but changes \rootthree{}. This single-coefficient check does not establish robustness to other priors or thresholds (Appendix~\ref{app:revision_prior}).}
+ \end{revadded}
+ 
+ \input{revision_expert_main}
+--- before/acl_latex.tex
++++ after/acl_latex.tex
+@@ -22,6 +22,7 @@
+ \usepackage{array}
+ \usepackage{makecell}
+ \usepackage{xurl}
++\usepackage{placeins}
+ 
+ \graphicspath{{../../experiments/main_experiment/paper_assets/figures/}}
+ 
+@@ -314,7 +315,7 @@
+ 
+ \subsection{Critical structural injection}
+ 
+-\revredreplace{The main experiment uses a locked critical-stress configuration over the same \scc{} blocks and models for both methods. The exact run profile is reported in Appendix~\ref{sec:appendix_experiments}.  Each case edits only existing records in a real \scc{}.  A root record and a distant witness or affected record jointly create a structural conflict, while each record remains locally plausible.  Both methods receive the same generic risk semantics and the same visible graph; the exact templates and domain examples are in Appendix~\ref{sec:appendix_datasets}.}{Each injected variant modifies existing records in a real \scc{} without adding nodes. The 20 source \scc{}s each contribute four variants, yielding the same 80 cases per model. Five models and three methods produce 400 model-cases and 1,200 outputs. Inputs, injection identities, prompt schemas, and method settings are fixed throughout. Appendix~\ref{sec:appendix_datasets} provides the injection templates, and Appendix~\ref{sec:appendix_experiments} specifies the run configuration.}
++\revredreplace{The main experiment uses a locked critical-stress configuration over the same \scc{} blocks and models for both methods. The exact run profile is reported in Appendix~\ref{sec:appendix_experiments}.  Each case edits only existing records in a real \scc{}.  A root record and a distant witness or affected record jointly create a structural conflict, while each record remains locally plausible.  Both methods receive the same generic risk semantics and the same visible graph; the exact templates and domain examples are in Appendix~\ref{sec:appendix_datasets}.}{Each injected variant modifies existing records in a real \scc{} without adding nodes. The 20 source \scc{}s each contribute four variants, yielding the same 80 cases per model. Five models and three methods produce 400 model-cases and 1,200 outputs. Inputs, injection identities, prompt schemas, and method settings are fixed throughout. Appendix~\ref{sec:appendix_datasets} provides the injection templates, and Appendix~\ref{app:revision_lea} specifies the run configuration.}
+ 
+ \subsection{Baselines and models}
+ 
+@@ -332,7 +333,7 @@
+ 
+ \revdel{Figure~\ref{fig:main_metrics} shows the core result.  Against oracle-risk \naive{}, \samcgs{} improves \rootthree{} by 23 points, \riskany{} by 19 points, and \riskall{} by 16 points.  The strongest claim is not that full-\scc{} prompting never finds risk, since the baseline is already selected from ten attempts with access to risk metrics.  Improvement from \samcgs{} is more reliable preservation of the repair-relevant evidence endpoints in the final subgraph.}
+ 
+-\revredreplace{The compression axis should be read as a trade-off, not a loss.  Oracle-risk \naive{} is slightly more compressed on average, but still retains all critical endpoints less often.  \samcgs{} deliberately keeps a larger dynamic core when evidence persists across rollouts.}{Paired \riskall{} outcomes favor \samcgs{} over LEA for GPT-4o, Qwen2.5-72B, and Llama 3.1-8B-Instruct (Figure~\ref{fig:paired_case_outcomes}). For GPT-4o, 32 cases succeed only with \samcgs{}, compared with 7 only with LEA.}
++\revredreplace{The compression axis should be read as a trade-off, not a loss.  Oracle-risk \naive{} is slightly more compressed on average, but still retains all critical endpoints less often.  \samcgs{} deliberately keeps a larger dynamic core when evidence persists across rollouts.}{Paired \riskall{} outcomes favor \samcgs{} over LEA for GPT-4o, Qwen2.5-72B, and Llama 3.1-8B-Instruct (Figure~\ref{fig:paired_case_outcomes}b). For GPT-4o, 32 cases succeed only with \samcgs{}, compared with 7 only with LEA.}
+ 
+ \revdel{Appendix~\ref{tab:reliability} separates one-shot output availability from boosted raw-attempt and model-case reliability.}
+ 
+@@ -348,7 +349,7 @@
+ 
+ \subsection{Breakdown by model and domain}
+ 
+-\revredreplace{The gains are not carried by a single model.  Gemini 2.5 Pro and DeepSeek-V3 are strong even under oracle-risk \naive{}, while GPT-4o and Qwen2.5-72B still lag in complete endpoint retention. Domain-wise, CUAD is the hardest setting: long contract components create both context pressure and output-schema burden for full-\scc{} ranking and subgraph generation.}{The domain breakdown also shows gains in complete evidence retention (Table~\ref{tab:appendix_breakdowns}). Pooling results across the five models, \samcgs{} raises \riskall{} over LEA from 26.67\% to 51.67\% on BGB and from 53.00\% to 69.00\% on CUAD. These gains extend to statutory cross-references and longer contract-clause graphs.}
++\revredreplace{The gains are not carried by a single model.  Gemini 2.5 Pro and DeepSeek-V3 are strong even under oracle-risk \naive{}, while GPT-4o and Qwen2.5-72B still lag in complete endpoint retention. Domain-wise, CUAD is the hardest setting: long contract components create both context pressure and output-schema burden for full-\scc{} ranking and subgraph generation.}{The domain breakdown also shows gains in complete evidence retention (Table~\ref{tab:appendix_breakdowns}, panel B). Pooling results across the five models, \samcgs{} raises \riskall{} over LEA from 26.67\% to 51.67\% on BGB and from 53.00\% to 69.00\% on CUAD. These gains extend to statutory cross-references and longer contract-clause graphs.}
+ \revred{Appendix~\ref{sec:appendix_case} compares the three methods on the same long-\scc{} case.}
+ 
+ \revred{Across all three \scc{}-size groups, \samcgs{} improves \riskall{} over LEA for GPT-4o and Qwen2.5-72B, and improves \rootthree{} for Llama 3.1-8B-Instruct (Appendix~\ref{app:size_breakdowns}).}
+@@ -403,6 +404,8 @@
+ \bibliography{custom}
+ 
+ \appendix
++\raggedbottom
++
+ 
+ \section{Diagnostic Metrics and Ablation Definitions}
+ \label{app:diagnostics}
+@@ -442,7 +445,7 @@
+ 
+ We construct a representative expert-audit set to verify that the critical structural risks used in our benchmark are recognizable to qualified domain readers, not artifacts of hidden system labels.  The audit is \emph{system-blind}.  Annotators see only paragraph text, paragraph identifiers, and ordinary natural-language instructions.  They are not shown model outputs, hidden node roles, system suggestions, \samcgs{} cores, \revnewreplace{\naive{} subgraphs}{baseline subgraphs}, or terms such as root, witness, affected node, \scc{}, and risk subgraph.  Hidden fields are used only after annotation to compare expert labels with injected endpoints and system outputs.
+ 
+-All three annotators hold doctoral degrees in relevant fields and have professional experience with legal, regulatory, or contractual analysis.
++All three annotators hold doctoral degrees in relevant fields and have professional experience with legal, regulatory, or contractual analysis. \revred{Table~\ref{tab:expert_protocol} summarizes the annotation tasks.}
+ 
+ \paragraph{Case-level task.}
+ For each case, the expert reads a group of related paragraphs and answers whether the group contains a structural conflict.  A structural conflict means that two or more paragraphs cannot all be satisfied together, leave a high-impact condition unresolved, or make a repair decision depend on inconsistent assumptions.
+@@ -524,7 +527,7 @@
+ Case-level decision & The two records describe the same consolidation path and assign incompatible ownership states, fully consolidated with no non-controlling interest versus a retained 20\% non-controlling interest. & 3/3 experts mark the case as structurally conflicting; 2/3 mark the provided material sufficient, and 1/3 marks it partially sufficient. \\
+ \bottomrule
+ \end{tabular}
+-\caption{Representative expert-audit example.  Role names in the left column are added here for exposition; the annotators saw paragraph text and identifiers, not root/witness labels or system suggestions.}
++\caption{Representative expert-audit example. \revredreplace{Role names in the left column are added here for exposition; the annotators saw paragraph text and identifiers, not root/witness labels or system suggestions.}{Annotators saw paragraph text and identifiers, without hidden root/witness labels or system suggestions.}}
+ \label{tab:expert_example}
+ \end{table*}
+ 
+@@ -532,6 +535,8 @@
+ 
+ \input{revision_expert_appendix}
+ 
++% Keep each appendix's floats before the next unrelated appendix.
++\FloatBarrier
+ \section{Representative Long-\scc{} Case Study}
+ \label{sec:appendix_case}
+ 
+@@ -544,12 +549,13 @@
+ 
+ \revredreplace{Figure~\ref{fig:case} illustrates the intended use of the method.  The original \scc{} is too large to treat as a single atomic finding and too recurrence-heavy for ordinary path search.  \samcgs{} localizes the evidence through rollouts, then returns a core containing the root, witness, and affected records.  For review, this is more useful than a single node label because a human can inspect the retained endpoints and decide how the conflict should be repaired.}{Figure~\ref{fig:case} compares evidence selection within the same cyclic region. One-shot retains three records but omits the root. LEA and \samcgs{} retain all risk endpoints, but \samcgs{} uses nine records compared with twelve for LEA, increasing compression from 52\% to 64\%. The shared layout allows direct comparison of the retained constraint and its distant witness.}
+ 
++\FloatBarrier
+ \section{Core Algorithm Details}
+ \label{sec:appendix_algorithm}
+ 
+-This appendix expands the method into reproducible pseudocode.  The implementation uses the same high-level objects as the main paper, including a document graph $G$, strongly connected components $S$, local rollout windows $W_t$, relation-first memory $M_t$, online calibrated conflict signals, and a final dynamic core $H_T$.
+-
+-\begin{algorithm}[t]
++\revredreplace{This appendix expands the method into reproducible pseudocode.}{Algorithms~\ref{alg:appendix_scc_localized}--\ref{alg:appendix_dynamic_core} expand the overview in Algorithm~\ref{alg:samcgs} into detailed pseudocode.}  The implementation uses the same high-level objects as the main paper, including a document graph $G$, strongly connected components $S$, local rollout windows $W_t$, relation-first memory $M_t$, online calibrated conflict signals, and a final dynamic core $H_T$.
++
++\begin{algorithm}[H]
+ \small
+ \caption{\scc{}-localized search}
+ \label{alg:appendix_scc_localized}
+@@ -570,7 +576,7 @@
+ \end{algorithmic}
+ \end{algorithm}
+ 
+-\begin{algorithm}[t]
++\begin{algorithm}[H]
+ \small
+ \caption{\samcgs{} rollout inside one component}
+ \label{alg:appendix_rollout}
+@@ -589,7 +595,7 @@
+ \end{algorithmic}
+ \end{algorithm}
+ 
+-\begin{algorithm}[t]
++\begin{algorithm}[H]
+ \small
+ \caption{Relation-first evidence memory}
+ \label{alg:appendix_relation_memory}
+@@ -612,7 +618,7 @@
+ \end{algorithmic}
+ \end{algorithm}
+ 
+-\begin{algorithm}[t]
++\begin{algorithm}[H]
+ \small
+ \caption{Dynamic core compression}
+ \label{alg:appendix_dynamic_core}
+@@ -636,6 +642,7 @@
+ 
+ The core is therefore not a monotone union of all suspicious records.  Later rollouts can replace weak records with stronger evidence, although the update cannot drop repeatedly supported critical endpoints only to obtain a smaller subgraph.
+ 
++\FloatBarrier
+ \section{Formula Details for Evidence Updates}
+ \label{sec:appendix_formula_details}
+ 
+@@ -689,11 +696,7 @@
+ \end{equation}
+ where $h_t$ is the local risk subgraph, $O_t$ contains \oc{} endpoints, and $K_t$ contains top-scoring relation endpoints together with their local neighbors.
+ 
+-\section{Fixed Search-Prior Coefficients}
+-\label{app:priors}
+-
+-The numeric values in Table~\ref{tab:prior_coefficients} are fixed search-prior coefficients, not learned parameters.  They were selected using pilot checks before the locked evaluation.  Domain experts were used only as a sanity check on the ordinal reliability ordering among evidence types, not to tune coefficients on reported test cases.  Prior MCTS work motivates the structure, including UCB/UCT exploration \citep{kocsis2006bandit}, visit-decayed heuristic priors through progressive bias \citep{chaslot2008progressive,browne2012survey}, AMAF/RAVE-style evidence reuse \citep{gelly2007combining}, and graph/transposition-aware value reuse \citep{childs2008transpositions,czech2021monte}.  The coefficients instantiate these ideas for structural document risk.
+-
++% Queue the wide coefficients table before its introduction to avoid an empty float-wait page.
+ \begin{table*}[t]
+ \centering
+ \small
+@@ -732,6 +735,13 @@
+ \label{tab:prior_coefficients}
+ \end{table*}
+ 
++\section{Fixed Search-Prior Coefficients}
++\label{app:priors}
++
++The numeric values in Table~\ref{tab:prior_coefficients} are fixed search-prior coefficients, not learned parameters.  They were selected using pilot checks before the locked evaluation.  Domain experts were used only as a sanity check on the ordinal reliability ordering among evidence types, not to tune coefficients on reported test cases.  Prior MCTS work motivates the structure, including UCB/UCT exploration \citep{kocsis2006bandit}, visit-decayed heuristic priors through progressive bias \citep{chaslot2008progressive,browne2012survey}, AMAF/RAVE-style evidence reuse \citep{gelly2007combining}, and graph/transposition-aware value reuse \citep{childs2008transpositions,czech2021monte}.  The coefficients instantiate these ideas for structural document risk.
++
++
++\FloatBarrier
+ \section{Shared Risk Rubric Prompt}
+ \label{sec:appendix_shared_rubric}
+ 
+@@ -763,7 +773,7 @@
+ \end{quote}
+ 
+ \paragraph{Output contrast.}
+-\revredreplace{\naive{} requires each generation to rank the entire \scc{} and produce a final subgraph.  In contrast, \samcgs{} asks only for local evidence, leaving final subgraph construction to algorithmic memory and compression.}{One-shot prompting ranks the entire component and returns a final subgraph in one generation. LEA and \samcgs{} share a local evaluator interface and aggregate its outputs algorithmically. LEA uses fixed windows without adaptive search or memory; Appendix~\ref{app:revision_experiments} specifies its window construction and aggregation.}
++\revredreplace{\naive{} requires each generation to rank the entire \scc{} and produce a final subgraph.  In contrast, \samcgs{} asks only for local evidence, leaving final subgraph construction to algorithmic memory and compression.}{One-shot prompting ranks the entire component and returns a final subgraph in one generation. LEA and \samcgs{} share a local evaluator interface and aggregate its outputs algorithmically. LEA uses fixed windows without adaptive search or memory; Appendix~\ref{app:revision_lea} specifies its window construction and aggregation.}
+ 
+ \section{Dataset and Injection Details}
+ \label{sec:appendix_datasets}
+@@ -803,7 +813,7 @@
+ For each domain, we construct a directed record graph and enumerate non-trivial \scc{}s using Tarjan's algorithm.  Candidate components are filtered by size and record availability and then locked before model evaluation.  The main experiment uses the same locked \scc{} blocks \revnewreplace{for \naive{} and \samcgs{} under the same model and profile.}{for One-shot, LEA, and \samcgs{} under the same model and profile.}
+ 
+ \paragraph{Injection constraints.}
+-The critical benchmark modifies only existing records in the selected \scc{}.  No new nodes are added.  The injected root record provides the endpoint used for \rootthree{} evaluation.  A distant witness record supplies the evidence that makes the root-side statement structurally incompatible under the graph context.  Affected records are downstream or neighboring records whose interpretation changes under the root--witness conflict.  Subgraph metrics count root, witness, and affected records as repair-relevant endpoints when applicable.
++The critical benchmark modifies only existing records in the selected \scc{}.  No new nodes are added.  The injected root record provides the endpoint used for \rootthree{} evaluation.  A distant witness record supplies the evidence that makes the root-side statement structurally incompatible under the graph context.  Affected records are downstream or neighboring records whose interpretation changes under the root--witness conflict.  Subgraph metrics count root, witness, and affected records as repair-relevant endpoints when applicable. \revred{Table~\ref{tab:injection_templates} lists the four injection templates.}
+ 
+ \begin{table*}[t]
+ \centering
+@@ -826,12 +836,13 @@
+ \paragraph{Why \riskall{} matters.}
+ \riskany{} is useful when a repair process can sometimes start from one good entry point.  \riskall{} is stricter and central for critical cases, where fixing a structural contradiction often requires both sides of the incompatibility.  A subgraph that includes only the obvious-risk paragraph but omits the distant condition may be too small to support a reliable repair.
+ 
++\FloatBarrier
+ \section{Additional Experimental Details}
+ \label{sec:appendix_experiments}
+ 
+ \begin{revnewblock}
+ \paragraph{Locked run configuration.}
+-\revred{All five models are evaluated on the same 80 injected variants from 20 source \scc{}s. One-shot, LEA, and \samcgs{} use the shared risk rubric and fixed method configurations specified in Appendix~\ref{app:revision_experiments}. Table~\ref{tab:appendix_breakdowns} groups results by model, domain, and \scc{} size.}
++\revred{All five models are evaluated on the same 80 injected variants from 20 source \scc{}s. One-shot, LEA, and \samcgs{} use the shared risk rubric and fixed method configurations specified in Appendix~\ref{app:revision_lea}. Table~\ref{tab:appendix_breakdowns} groups results by model, domain, and \scc{} size.}
+ \end{revnewblock}
+ 
+ \input{revision_retired_controls}
+@@ -879,6 +890,7 @@
+ \end{figure*}
+ \end{revnewblock}
+ 
++\FloatBarrier
+ \input{revision_experiments}
+ 
+ \end{document}

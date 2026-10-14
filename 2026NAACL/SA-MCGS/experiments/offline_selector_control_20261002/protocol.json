@@ -1,0 +1,36 @@
+{
+  "version": "offline-selector-control-v1",
+  "frozen_date": "2026-10-02",
+  "status": "fixed_before_computing_new_selector_outcomes",
+  "not_a_prospective_preregistration": true,
+  "scope": "Frozen GPT-4o Full trajectories for the formal Stage-2 80 variants from 20 physical source SCCs; four variants per source. No new LLM calls.",
+  "canonical_plan": "2026NAACL/SA-MCGS/validation/identity_stage2_80/case_plan.json",
+  "stage2_reference": "2026NAACL/SA-MCGS/experiments/stage2_paired_replay_80case_identity_v1_final",
+  "selection_source": "emnlp2026_discussion/run_cost_audit_clean.py::run_lea (aggregation block)",
+  "primary_control": "lea-score-matched-k",
+  "primary_score": "L_v + R_v + E_v + max(0, qbar_v - median_u(qbar_u))",
+  "score_details": {
+    "qbar": "Mean over every recorded clause score for the node, including cached rollout entries. Unobserved nodes default to zero. The median uses observed-node means only, matching the LEA implementation.",
+    "L": "Count occurrences in local_risk_subgraph_nodes across all frozen completed rollout entries, including cached entries.",
+    "R": "Count occurrences in repair_entry_nodes across the same entries.",
+    "E": "For each local_conflict_edges record with two distinct valid SCC IDs, add one to each endpoint. Do not also count raw conflicts, critical-pair ledger, OC, or Full evidence scores.",
+    "candidate_universe": "All nodes in the same SCC, in its frozen ordered node list.",
+    "tie_break": "Frozen SCC node order, ascending.",
+    "all_zero_fallback": "If all primary membership scores are zero, rank by mean node risk and then frozen SCC order, matching LEA.",
+    "size": "k equals the number of nodes in that case's frozen Full final core. This is an analysis-only size control using no ground-truth labels. It does not define an independently deployable choice of k."
+  },
+  "secondary_control": "mean-risk-matched-k (diagnostic only; same candidates, k and tie-break)",
+  "reference": "Frozen Full core, with mandatory original Stage-2 source identity, trace validity and final Full parity checks.",
+  "primary_estimand": "Full minus lea-score-matched-k Risk-all, source-equal paired difference.",
+  "secondary_metrics": ["Risk-any", "endpoint coverage", "compression", "actual k", "frozen root ranking Root@3 (unchanged by output selection)"],
+  "bootstrap": {
+    "replicates": 20000,
+    "seed": 8229,
+    "method": "Paired percentile bootstrap of physical source SCCs, averaging variants within each source before averaging sources; linear-interpolated 2.5 and 97.5 percentiles.",
+    "domain_analysis": "Descriptive/exploratory using source-equal means and within-domain source bootstrap; small domain cluster counts are disclosed.",
+    "multiplicity": "One primary contrast and endpoint; all other comparisons are explicitly secondary or descriptive."
+  },
+  "failure_policy": "Fail closed on any identity, trace, final parity or aggregation mismatch; never silently omit failed cases. Report validity for all 80 planned cases.",
+  "verification": ["Forbidden LLM sentinel and network-connect guard", "Hand-computed fixtures including cache reuse, duplicate edge records, unobserved nodes and tied/all-zero scores", "Compare counts, means, membership scores and ordering to the actual frozen LEA aggregation source on every case", "Separate selection inputs from evaluation labels", "Export anonymous node IDs, sufficient statistics and minimal text-free trace fields for standalone recomputation", "Verify all outputs use exactly the frozen Full k", "Hash protocol, source code, source records, traces and outputs"],
+  "interpretation": "This conditional offline contrast isolates final selection given evidence acquired by Full. It does not test adaptive acquisition, equal-token search efficiency, or online selection versus the same selector applied once at the end. Report null or reversed results unchanged."
+}

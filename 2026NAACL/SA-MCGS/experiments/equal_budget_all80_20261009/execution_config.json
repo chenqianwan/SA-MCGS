@@ -1,0 +1,12 @@
+{
+  "workers_per_replica": {
+    "llama": 10,
+    "kimi": 16,
+    "qwen35": 16
+  },
+  "initial_total_arm_workers": 88,
+  "max_workers_per_replica": 16,
+  "queue_policy": "Largest historical-SA token budget first; independently claim LEA and Full-SCC arms; no new SA calls.",
+  "current_total_arm_workers": 116,
+  "ramp_reason": "Measured all 88 requests running with zero queue/preemptions. At 22:39 Kimi GPU45–49%, KV18–23%; Qwen58–65%, KV16–23%; Llama95–96%, KV49–51%. Raise Kimi/Qwen to16, Llama conservatively to10."
+}

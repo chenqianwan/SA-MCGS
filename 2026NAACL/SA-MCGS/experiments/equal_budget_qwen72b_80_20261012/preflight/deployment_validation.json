@@ -1,0 +1,50 @@
+{
+  "status": "passed",
+  "offline_test_count": 29,
+  "model_calls": 0,
+  "remote_operations": 0,
+  "replicas": 4,
+  "tensor_parallel_size": 2,
+  "gpu_pairs": [
+    [
+      0,
+      1
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      6,
+      7
+    ]
+  ],
+  "ports": [
+    19271,
+    19272,
+    19273,
+    19274
+  ],
+  "max_model_len": 131072,
+  "kv_cache_dtype": "float16",
+  "quantization": "awq",
+  "rope_parameters": {
+    "rope_type": "yarn",
+    "factor": 4.0,
+    "original_max_position_embeddings": 32768,
+    "rope_theta": 1000000.0
+  },
+  "maximum_full_prompt_plus_output": 79179,
+  "tp1_131072_kv_gib": 40,
+  "tp2_131072_kv_gib_per_gpu": 20,
+  "runtime_config_validation": "Must also verify deployed vLLM0.20/transformers5 get_config before GPU startup; local tokenizer audit used transformers4.53.3.",
+  "sources": [
+    "https://huggingface.co/Qwen/Qwen2.5-72B-Instruct-AWQ/blob/698703eae6604af048a3d2f509995dc302088217/README.md",
+    "https://raw.githubusercontent.com/vllm-project/vllm/v0.20.0/vllm/transformers_utils/config.py",
+    "https://raw.githubusercontent.com/vllm-project/vllm/v0.20.0/vllm/config/model.py"
+  ]
+}

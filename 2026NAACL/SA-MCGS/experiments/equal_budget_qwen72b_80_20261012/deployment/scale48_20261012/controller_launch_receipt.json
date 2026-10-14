@@ -1,0 +1,39 @@
+{
+  "status": "step_process_started",
+  "created_unix": 1791778141.438576,
+  "job_id": "415747",
+  "target_workers": 48,
+  "target_service_max_num_seqs": 12,
+  "gpu_requested": false,
+  "auto_retry": false,
+  "command": [
+    "/usr/bin/nohup",
+    "/cm/shared/apps/slurm/current/bin/srun",
+    "--jobid=415747",
+    "--overlap",
+    "--exact",
+    "--nodes=1",
+    "--ntasks=1",
+    "--cpus-per-task=4",
+    "--gres=none",
+    "--nodelist=dgx-061",
+    "--chdir=/aifs4su/hansirui_3rd/chenlong/mcgs_law/equal_budget_qwen72b_80_20261012",
+    "--export=ALL",
+    "/usr/bin/env",
+    "CUDA_VISIBLE_DEVICES=",
+    "/aifs4su/hansirui/vllm-dsv4-venv/bin/python3",
+    "-B",
+    "/aifs4su/hansirui_3rd/chenlong/mcgs_law/equal_budget_qwen72b_80_20261012/deployment/scale48_20261012/controller.py"
+  ],
+  "source_sha256": {
+    "deployment/scale48_20261012/controller.py": "9706fd0a0964f114b78130c921d18b8cd1ff7962228c8c2e80cb87d8317a2b03",
+    "deployment/scale48_20261012/launch_controller_once.py": "47fe4cb3bb92022240bcc4fe3bdc62e727c41e628f840ff354c843a0575194ac",
+    "deployment/scale48_20261012/drain.py": "c21dc5514ec06ade89b1802bdb63d9bdfdad8a00bf4834d4464e0a17728a4ffc",
+    "deployment/scale48_20261012/checkpoint_drain.py": "d593249a2d6c4a37574e1ae00b82545213de097594576bf881dd3c73a126129e",
+    "deployment/scale48_20261012/replay_preflight.py": "6d03d1fcecb3a7e426844588908cd746c1b79bb749fa612df0dce0eed4358261",
+    "deployment/scale48_20261012/restart_after_drain.py": "4c18d216e5bf114dee5acf21afe98e77d9df70e255fac27ebcd2ea12f9e54368",
+    "deployment/scale48_20261012/observe48.py": "4ae83f6e534b3962a6d4005af2a581fd3d28bf8b4ad94f29f8933847617364a3"
+  },
+  "authorization": "User explicitly requested directly testing 48 concurrency.",
+  "launch_pid": 435443
+}

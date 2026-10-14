@@ -1,0 +1,37 @@
+{
+  "status": "step_process_started",
+  "created_unix": 1791651547.6085992,
+  "job_id": "415747",
+  "models": [
+    "kimi",
+    "qwen35"
+  ],
+  "workers": {
+    "kimi": 64,
+    "qwen35": 32
+  },
+  "command": [
+    "/usr/bin/nohup",
+    "/cm/shared/apps/slurm/current/bin/srun",
+    "--jobid=415747",
+    "--overlap",
+    "--exact",
+    "--nodes=1",
+    "--ntasks=1",
+    "--cpus-per-task=64",
+    "--gres=none",
+    "--chdir=/aifs4su/hansirui_3rd/chenlong/mcgs_law/component_mechanisms_20261010",
+    "--export=ALL",
+    "/aifs4su/hansirui/vllm-dsv4-venv/bin/python3",
+    "-B",
+    "/aifs4su/hansirui_3rd/chenlong/mcgs_law/component_mechanisms_20261010/resume_pending_models_once.py",
+    "--supervise"
+  ],
+  "script_sha256": "228ed318d29fcfd0c9f1d93d67ccb4c3531730c62a1e4390dcb8bda6395e0c45",
+  "runtime_manifest_sha256": "5a0e19bef6efe28baf278b7cc4877fe4beffb4ecf0339d700d9cd815a7781d94",
+  "retry_existing_final": false,
+  "automatic_restarts": false,
+  "launch_pid": 119753,
+  "snapshot_only": true,
+  "copied_at_utc": "2026-10-10T17:00:36.673693+00:00"
+}

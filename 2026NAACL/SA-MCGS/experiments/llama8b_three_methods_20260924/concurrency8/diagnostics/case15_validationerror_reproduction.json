@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "case_id": "015_llama-3.1-8b_bgb11_scc_0_direct_mutex",
+  "source_job_id": "395047",
+  "api_calls": 0,
+  "scientific_source_unchanged": true,
+  "launcher_sha256": "97f6b3909746226a7237046c352944c2785e4b5b2887b79c4986fc361018e01f",
+  "protocol_sha256": "88fca6211d93c02fa5d6d54821d33262c9d093a36a20742c7dc23dba3705f953",
+  "cache_files_sha256": {
+    "requests.jsonl": "d913682be64206c8144ba711e0c3e00c7f2dfac1bd9e5293ad6ee8737433c68a",
+    "responses.jsonl": "9e1c5a6418aecf5bedc9ea1f969eabcbbd31458c56d6f56e78f14b37d06fe5a4"
+  },
+  "cache_files_unchanged": true,
+  "original_request_start_count": 8,
+  "replayed_request_start_count": 8,
+  "cached_completion_order": [
+    7,
+    6
+  ],
+  "consumed_cached_response_count": 2,
+  "uncached_requests_held_without_network": 6,
+  "validationerror_is_valueerror_subclass": true,
+  "error_type": "ValidationError",
+  "error": "1 validation error for TranspositionEntry\nconflicts.2\n  Input should be a valid dictionary [type=dict_type, input_value='critical_pairs', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.12/v/dict_type",
+  "traceback": "Traceback (most recent call last):\n  File \"/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/llama8b_three_methods_20260924/runner/repo/emnlp2026_discussion/run_cost_audit_clean.py\", line 1141, in run_method\n    result = await battle.run_sa_mcgs(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/llama8b_three_methods_20260924/runner/repo/experiments/cross_domain/run_cross_domain_battle.py\", line 1641, in run_sa_mcgs\n    scc_result = await mcgs.search(graph, scc)\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/llama8b_three_methods_20260924/runner/repo/src/modules/alphago_mcgs.py\", line 357, in search\n    await asyncio.gather(*tasks)\n  File \"/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/llama8b_three_methods_20260924/runner/repo/src/modules/alphago_mcgs.py\", line 345, in run_one\n    result, is_hit = await self._evaluate(window)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/llama8b_three_methods_20260924/runner/repo/src/modules/alphago_mcgs.py\", line 1341, in _evaluate\n    entry = TranspositionEntry(\n            ^^^^^^^^^^^^^^^^^^^\n  File \"/Users/chenlong/.pyenv/versions/3.11.0/lib/python3.11/site-packages/pydantic/main.py\", line 250, in __init__\n    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\npydantic_core._pydantic_core.ValidationError: 1 validation error for TranspositionEntry\nconflicts.2\n  Input should be a valid dictionary [type=dict_type, input_value='critical_pairs', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.12/v/dict_type\n",
+  "bad_response": {
+    "call_index": 6,
+    "finish_reason": "stop",
+    "usage": {
+      "completion_tokens": 520,
+      "prompt_tokens": 1813,
+      "total_tokens": 2333,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    },
+    "parsed_conflicts": [
+      {
+        "clause_a": "bgb_275",
+        "clause_b": "bgb_283",
+        "description": "§275 and §283 have different conditions for Schadensersatz, creating a conflict."
+      },
+      {
+        "clause_a": "bgb_280",
+        "clause_b": "bgb_281",
+        "description": "§280 and §281 have different conditions for Schadensersatz, creating a conflict."
+      },
+      "critical_pairs"
+    ],
+    "content": "{\n  \"clause_evaluations\": {\n    \"bgb_283\": {\"risk_score\": 0.8, \"reasoning\": \"Section §283 Schadensersatz statt der Leistung bei Ausschluss der Leistungspflicht references §281 Schadensersatz statt der Leistung wegen nicht oder nicht wie geschuldet erbrachter Leistung, which has a different condition for Schadensersatz. This creates a conflict.\" },\n    \"bgb_275\": {\"risk_score\": 0.0, \"reasoning\": \"brief\"},\n    \"bgb_280\": {\"risk_score\": 0.0, \"reasoning\": \"brief\"},\n    \"bgb_281\": {\"risk_score\": 0.8, \"reasoning\": \"Section §281 Schadensersatz statt der Leistung wegen nicht oder nicht wie geschuldet erbrachter Leistung references §280 Schadensersatz wegen Pflichtverletzung, which has a different condition for Schadensersatz. This creates a conflict.\" }\n  },\n  \"local_risk_subgraph_nodes\": [\n    \"bgb_275\", \"bgb_280\", \"bgb_281\", \"bgb_283\"\n  ],\n  \"local_conflict_edges\": [\n    {\"source\": \"bgb_275\", \"target\": \"bgb_283\", \"reason\": \"§275 references §283 which has a different condition for Schadensersatz.\"},\n    {\"source\": \"bgb_280\", \"target\": \"bgb_281\", \"reason\": \"§280 references §281 which has a different condition for Schadensersatz.\"},\n    {\"source\": \"bgb_283\", \"target\": \"bgb_281\", \"reason\": \"§283 references §281 which has a different condition for Schadensersatz.\"},\n  \"critical_pairs\"  ],\n  \"repair_entry_nodes\": [\n    \"bgb_275\", \"bgb_283\"\n  ],\n  \"conflicts\": [\n    {\"clause_a\": \"bgb_275\", \"clause_b\": \"bgb_283\", \"description\": \"§275 and §283 have different conditions for Schadensersatz, creating a conflict.\"},\n    {\"clause_a\": \"bgb_280\", \"clause_b\": \"bgb_281\", \"description\": \"§280 and §281 have different conditions for Schadensersatz, creating a conflict.\"},\n  \"critical_pairs\"  ]\n}"
+  },
+  "root_cause": "Model returned a string in conflicts[2]; TranspositionEntry requires a dictionary. The output adapter classified ValidationError by exact class name and omitted this ValueError subclass from terminal scientific failures.",
+  "minimal_correction": "Versioned execution adapter should classify this existing model-output ValidationError as strict_experiment_failure. Keep original scientific code, protocol, raw cached response, and error subtype; do not repair JSON or retry for a better response."
+}

@@ -1,0 +1,107 @@
+{
+  "protocol_version": "unified-strict-v1",
+  "frozen_date": "2026-10-02",
+  "timing_note": "Retrospective reanalysis protocol fixed before this script aggregates results; existing outcomes were already known. This is not a prospective preregistration. The strict rule was selected by the author for consistent cross-model reporting.",
+  "models": [
+    "gpt-4o",
+    "gemini-2.5-pro",
+    "qwen2.5-72b",
+    "llama-3.1-8b",
+    "qwen3.5-9b"
+  ],
+  "methods": [
+    "one-shot",
+    "lea",
+    "sa-mcgs"
+  ],
+  "cohort": {
+    "source_sccs": 20,
+    "variants_per_source": 4,
+    "variants": 80,
+    "models": 5,
+    "method_outputs": 1200
+  },
+  "primary_scoring": {
+    "strict_invalid": "Use archived terminal strict failure flags, verify against raw result error/status fields. All three binary metrics are zero on a strict-invalid output. Do not rescue selected metrics from that output.",
+    "missing": "Missing/infra/nonterminal records are audit errors, never silently imputed as strict failures.",
+    "compression": "1 - unique selected node count / SCC size, only for defined valid outputs; report its denominator.",
+    "prediction_fields": {
+      "one-shot": "direct_risk_subgraph_nodes",
+      "lea": "lea_risk_subgraph_nodes",
+      "sa-mcgs": "core_evidence_risk_subgraph_nodes"
+    },
+    "binary_denominator": "All 80 planned variants for each model-method.",
+    "partial_local_fallback": "Preserve the frozen within-rollout parsing fallback: a valid terminal system output remains valid even if some local windows used fallback. Report this boundary; do not retrospectively redefine it."
+  },
+  "sensitivity": "Keep Qwen3.5 archived metricwise re-parsing as a separately labeled sensitivity; do not combine its policy with strict primary scores. No new response selection or raw re-parsing.",
+  "bootstrap": {
+    "unit": "physical source SCC; all paired models, variants and methods from a source travel together",
+    "overall": "Compute SA-minus-baseline per variant and model, average the 20 differences in each physical source, then average the 20 sources. Models are fixed, not resampled.",
+    "per_model": "Average four within-source variant differences, then average 20 sources.",
+    "metrics": [
+      "root_at3",
+      "risk_any",
+      "risk_all"
+    ],
+    "replicates": 20000,
+    "seed": 8229,
+    "rng": "Python random.Random",
+    "sample": "20 indices with replacement for each replicate, shared across comparisons",
+    "interval": "percentile 2.5 and 97.5 using linear interpolation at (n-1)*p",
+    "multiplicity": "No adjustment; intervals are descriptive and not a multiple-hypothesis claim.",
+    "compression_ci": "Separate complete-pair conditional analysis only; sources with no jointly valid pair omitted, source-equal means over available paired outputs; label denominators and selection limitation."
+  },
+  "limits": [
+    "One frozen terminal output per method-model-variant; retries inside the archived execution remain part of that outcome.",
+    "Mixed historical execution batches; no contemporaneous full-cohort attribution.",
+    "Bootstrap captures selected-source heterogeneity, not inference-run seed variance, unseen-model variance or natural-risk prevalence.",
+    "No new model calls. No edits to raw results or prior accepted summaries.",
+    "No equal-token superiority claim."
+  ],
+  "inputs": {
+    "legacy_metrics": {
+      "path": "2026NAACL/SA-MCGS/experiments/lea_full320_completion_20260923/matched_3method_case_metrics.csv",
+      "sha256": "5460b9248e17f67265f59848b543783022f90f4c993ae232d23f65aa780436a4"
+    },
+    "legacy_plan": {
+      "path": "2026NAACL/SA-MCGS/experiments/lea_full320_completion_20260923/case_plan.json",
+      "sha256": "def021e5e7bd3b2d836c7ea01899768896fb1014b3a1f70de4070791ccb3f382"
+    },
+    "llama_strict": {
+      "path": "2026NAACL/SA-MCGS/experiments/llama8b_three_methods_20260924/final_analysis_case_metrics.json",
+      "sha256": "639ef42cc236955ec2c7fa85fb851f8171fedd4e0e61cca2c2e869d972ee71a8"
+    },
+    "llama_plan": {
+      "path": "2026NAACL/SA-MCGS/experiments/llama8b_three_methods_20260924/downloaded_final/case_plan.json",
+      "sha256": "13bc393779c7301595ddc1d2ed10389c30a0a57ba17c84b1aba98c3b5f350df1"
+    },
+    "llama_protocol": {
+      "path": "2026NAACL/SA-MCGS/experiments/llama8b_three_methods_20260924/downloaded_final/frozen_protocol.json",
+      "sha256": "808982a86216d733309a5d23dbd00cd674da7ea93c75e30a3c3fd8c7806fd390"
+    },
+    "llama_download": {
+      "path": "2026NAACL/SA-MCGS/experiments/llama8b_three_methods_20260924/downloaded_final/download_manifest.json",
+      "sha256": "a1d2aa8bf4b23e295dbb9e4b64ce5130d7d7bc6706037fdce95c9aa2f1250a1e"
+    },
+    "qwen_strict": {
+      "path": "2026NAACL/SA-MCGS/experiments/kimi_qwen35_three_methods_20260924/final_analysis/qwen35/qwen3_5-9b_case_metrics.json",
+      "sha256": "2fd25b5ac7350cc28b10914f2de49a7bf3f634629f98affc1d28a3c217fa44b7"
+    },
+    "qwen_plan": {
+      "path": "2026NAACL/SA-MCGS/experiments/kimi_qwen35_three_methods_20260924/downloaded_final/qwen35/case_plan.json",
+      "sha256": "19ca792fcc3936ea1adb8f1b748a2cadda5e6a8cec5042ee781aa45d2b925128"
+    },
+    "qwen_protocol": {
+      "path": "2026NAACL/SA-MCGS/experiments/kimi_qwen35_three_methods_20260924/downloaded_final/qwen35/frozen_protocol.json",
+      "sha256": "33281c6cbd7ecd92756c10eb992f91778b9c357df4e5b216850cf874dbd7a93a"
+    },
+    "qwen_download": {
+      "path": "2026NAACL/SA-MCGS/experiments/kimi_qwen35_three_methods_20260924/downloaded_final/qwen35/download_manifest.json",
+      "sha256": "2bd18b86bb09663b54d81a251aad8417318f52441d875a01aea11cab4b0d2962"
+    },
+    "qwen_metricwise": {
+      "path": "2026NAACL/SA-MCGS/experiments/kimi_qwen35_three_methods_20260924/parsing_recovery_audit_20260925/metricwise_results.json",
+      "sha256": "ac2a66df0ce6eac17ee091d93124b26ef5c4922ad2c4bea6c2d78a66086c4fee"
+    }
+  }
+}

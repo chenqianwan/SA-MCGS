@@ -1,0 +1,105 @@
+{
+  "actual_xhub_usage": {
+    "calls": 13,
+    "completion_tokens": 2971,
+    "latency_seconds": 71.746159,
+    "prompt_tokens": 45914,
+    "total_tokens": 48885
+  },
+  "case_count": 2,
+  "cases": [
+    {
+      "actual_xhub_calls": 6,
+      "actual_xhub_tokens": 21572,
+      "case_id": "bgb-scc-09-3b7d896d22--clean",
+      "condition": "Clean",
+      "expected_label": "PR-Unknown",
+      "logical_window_evaluations": 23,
+      "predicted_label": "PR-Unknown",
+      "puct_tt_hits": 1,
+      "real_window_commits": 3,
+      "strict_answer_and_proof": true
+    },
+    {
+      "actual_xhub_calls": 7,
+      "actual_xhub_tokens": 27313,
+      "case_id": "bgb-scc-09-3b7d896d22--productive",
+      "condition": "Productive",
+      "expected_label": "Entailed",
+      "logical_window_evaluations": 17,
+      "predicted_label": "Entailed",
+      "puct_tt_hits": 0,
+      "real_window_commits": 2,
+      "strict_answer_and_proof": true
+    }
+  ],
+  "claim_boundary": "Two controlled size-9 cases test whether the real XHub parser can sit inside GraphPUCT and feed exact LFP online. This is an end-to-end mechanism smoke, not a compute-matched comparison, a natural-data generalization result, or an algorithmic-advantage claim.",
+  "coverage": {
+    "per_size_condition": 1,
+    "requested_conditions": [
+      "clean",
+      "productive"
+    ],
+    "requested_sizes": [
+      9
+    ],
+    "selected_case_ids": [
+      "bgb-scc-09-3b7d896d22--clean",
+      "bgb-scc-09-3b7d896d22--productive"
+    ],
+    "selected_windows": {
+      "bgb-scc-09-3b7d896d22--clean": 8,
+      "bgb-scc-09-3b7d896d22--productive": 8
+    }
+  },
+  "evidence_status": "exploratory_real_llm_end_to_end_smoke",
+  "gates": {
+    "all_caps_respected": true,
+    "clean_unknown_safe": true,
+    "productive_strict_pass": true,
+    "real_xhub_was_called": true,
+    "search_gold_access_false": true,
+    "two_fixed_cases_present": true
+  },
+  "logical_uncached_replay_usage": {
+    "calls": 40,
+    "completion_tokens": 9189,
+    "latency_seconds": 192.855489,
+    "prompt_tokens": 143783,
+    "total_tokens": 152972
+  },
+  "model": {
+    "api_key_env": "XHUB_API_KEY",
+    "base_url_host": "api3.xhub.chat",
+    "diagnostic_assumed_context_limit": 32768,
+    "max_tokens": 4096,
+    "model_revision": null,
+    "observed_model_ids": [
+      "qwen-turbo"
+    ],
+    "provider": "xhub",
+    "request_protocol": "xhub-openai-chat-json-object-v1",
+    "requested_model": "qwen-turbo",
+    "temperature": 0.0
+  },
+  "protocol": {
+    "accounting": "logical evaluations, run memo hits, parser cache hits, and actual paid XHub calls separated",
+    "branch_commit": "validated fragments only; overlapping source observations unioned by Horn semantics",
+    "feedback": "exact LFP closure, query-rule body satisfaction, and unresolved predicates",
+    "gold_boundary": "gold sidecar loaded only after all search cases completed",
+    "graph_merge": "exact semantic transposition-table key; action order is not part of the key",
+    "parser": "query-independent XHub window parser + fail-closed source-grounded validator",
+    "window_policy": "center + directed-neighbor + SCC-order fill; unordered duplicates removed"
+  },
+  "run_utc": "2026-08-19T13:47:45.913762+00:00",
+  "schema_version": "bgb-phase5-real-graphpuct-xhub-lfp-v1",
+  "status": "PASS",
+  "status_interpretation": "PASS means the two-case end-to-end mechanism and safety gates passed; it does not establish a performance advantage.",
+  "totals": {
+    "logical_window_evaluations": 40,
+    "puct_tt_hits": 1,
+    "real_window_commits": 5,
+    "run_memo_hits": 27,
+    "unique_window_observations": 13
+  }
+}

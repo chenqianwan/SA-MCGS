@@ -1,0 +1,120 @@
+\ifrevisionmarks
+\revdel{Algorithms~2--5 expand the overview in Algorithm~1 into detailed pseudocode.  The implementation uses the same high-level objects as the main paper, including a document graph $G$, strongly connected components $S$, local rollout windows $W_t$, relation-first memory $M_t$, online calibrated conflict signals, and a final dynamic core $H_T$.}
+
+\paragraph{\revdel{\scc{}-localized search}}
+
+\noindent\revdel{Require: Document graph $G=(V,E)$, rollout budget $T$, shared risk rubric}\par
+
+\noindent\revdel{$\mathcal{S}\leftarrow$ Tarjan strongly connected components of $G$}\par
+
+\noindent\revdel{Initialize collapsed graph $G' \leftarrow G$}\par
+
+\noindent\revdel{forall component $S\in\mathcal{S}$}\par
+
+\noindent\revdel{if $|S|=1$}\par
+
+\noindent\revdel{Keep the singleton record unchanged}\par
+
+\noindent\revdel{else}\par
+
+\noindent\revdel{Build local search unit $G_S=(S,E_S)$}\par
+
+\noindent\revdel{$(H_S,r_S)\leftarrow \textsc{SA-MCGS-Rollout}(G_S,T)$}\par
+
+\noindent\revdel{Replace $S$ in $G'$ with collapsed evaluation point $(H_S,r_S)$}\par
+
+\noindent\revdel{endif}\par
+
+\noindent\revdel{endfor}\par
+
+\noindent\revdel{Return: Collapsed graph $G'$ and all component risk subgraphs}\par
+
+\paragraph{\revdel{\samcgs{} rollout inside one component}}
+
+\noindent\revdel{Require: Component $G_S=(S,E_S)$, budget $T$, shared rubric}\par
+
+\noindent\revdel{Initialize node evidence, relation evidence, \oc{} evidence, and core $H_0=\emptyset$}\par
+
+\noindent\revdel{for $t=1$ to $T$}\par
+
+\noindent\revdel{Select a seed record using SCC-aware UCB with relation priors}\par
+
+\noindent\revdel{Construct local window $W_t$ from the seed, nearby edges, and memory bridges}\par
+
+\noindent\revdel{Query the LLM with the shared risk rubric on $W_t$}\par
+
+\noindent\revdel{Parse local risky records, relation evidence, and optional \oc{} signal}\par
+
+\noindent\revdel{Update node risk scores, pair evidence, witness-style evidence, and affected-region evidence}\par
+
+\noindent\revdel{$H_t\leftarrow$ \textsc{Dynamic-Core-Compression}}\par
+\noindent\revdel{$(H_{t-1},M_t)$}\par
+
+\noindent\revdel{endfor}\par
+
+\noindent\revdel{Return: Final core $H_T$ and ranking induced by accumulated evidence}\par
+
+\paragraph{\revdel{Relation-first evidence memory}}
+
+\noindent\revdel{Require: Rollout result $R_t$, previous memory $M_{t-1}$}\par
+
+\noindent\revdel{$M_t\leftarrow M_{t-1}$}\par
+
+\noindent\revdel{forall record $v$ observed in $R_t$}\par
+
+\noindent\revdel{Update average risk score and visit count for $v$}\par
+
+\noindent\revdel{Store why $v$ is risky in relation to visible predecessors or successors}\par
+
+\noindent\revdel{endfor}\par
+
+\noindent\revdel{forall reported relation $(u,v)$ in $R_t$}\par
+
+\noindent\revdel{Update pair evidence that $(u,v)$ creates or supports a conflict}\par
+
+\noindent\revdel{Update second-endpoint evidence when $v$ becomes risky because of earlier evidence}\par
+
+\noindent\revdel{Update affected evidence for downstream records whose status changes}\par
+
+\noindent\revdel{endfor}\par
+
+\noindent\revdel{if $R_t$ contains an \oc{} signal}\par
+
+\noindent\revdel{Add its implicated endpoints and supporting relation to \oc{} memory}\par
+
+\noindent\revdel{endif}\par
+
+\noindent\revdel{Return: $M_t$}\par
+
+\paragraph{\revdel{Dynamic core compression}}
+
+\noindent\revdel{Require: Previous core $H_{t-1}$, memory $M_t$, candidate cap $B(S)$}\par
+
+\noindent\revdel{Form candidate set $C_t$ from prior core, local risky records, relation endpoints, affected records, and \oc{} support records}\par
+
+\noindent\revdel{forall $v\in C_t$}\par
+
+\noindent\revdel{Score $v$ by node risk, pair support, affected-region support, \oc{} support, and persistence}\par
+
+\noindent\revdel{Mark $v$ as protected if repeated evidence indicates a critical endpoint}\par
+
+\noindent\revdel{endfor}\par
+
+\noindent\revdel{Start $H_t$ with protected endpoints and strongest relation-supported records}\par
+
+\noindent\revdel{while $|H_t|<B(S)$ and useful candidates remain}\par
+
+\noindent\revdel{Add the candidate with largest marginal support for explaining the risk}\par
+
+\noindent\revdel{endwhile}\par
+
+\noindent\revdel{while $|H_t|>B(S)$}\par
+
+\noindent\revdel{Remove the weakest non-protected candidate}\par
+
+\noindent\revdel{endwhile}\par
+
+\noindent\revdel{Return: $H_t$}\par
+
+\revdel{The core is therefore not a monotone union of all suspicious records.  Later rollouts can replace weak records with stronger evidence, although the update cannot drop repeatedly supported critical endpoints only to obtain a smaller subgraph.}
+\fi

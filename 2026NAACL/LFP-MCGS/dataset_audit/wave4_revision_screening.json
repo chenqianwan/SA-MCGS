@@ -1,0 +1,233 @@
+{
+  "audit_id": "lfp-mcgs-wave4-strong-revision-screening-20260818",
+  "as_of": "2026-08-18",
+  "status": "screening_complete_with_open_followups",
+  "question": "Can an existing dataset jointly provide source-grounded natural language, executable strong revision, productive SCC/LFP closure, acquisition pressure, and real provenance?",
+  "verdict": {
+    "perfect_all_in_one_dataset_found": false,
+    "existing_stack_replaced": false,
+    "recommended_strategy": "Keep ProofWriter/ParaRules as the SCC-LFP mechanism block; add a controlled strong-revision block and a real temporal external block.",
+    "plain_language": "No single dataset does everything. The strongest paper design is a three-block evidence stack, not a forced replacement of the datasets already audited."
+  },
+  "strong_revision_gates": [
+    { "id": "R0", "label": "Sequential state", "definition": "The same query has an explicit before and after state." },
+    { "id": "R1", "label": "True strong revision", "definition": "A previously supported answer is invalidated and the opposite or a different dated answer becomes supported." },
+    { "id": "R2", "label": "Executable certificate", "definition": "An independent engine or deterministic scorer can verify the change." },
+    { "id": "R3", "label": "Source-grounded NL", "definition": "The changed evidence is linked to text; human or real provenance is preferred." },
+    { "id": "R4", "label": "Productive SCC", "definition": "A query-relevant recursive component is causal rather than decorative." },
+    { "id": "R5", "label": "Acquisition pressure", "definition": "The decisive source is hidden among distractors and must be selected under budget." },
+    { "id": "R6", "label": "Reproducible release", "definition": "Data, license, version, and reconstruction path are available." }
+  ],
+  "preserved_evidence_stack": [
+    {
+      "block": "SCC-LFP mechanism",
+      "datasets": ["ProofWriter D5", "ParaRules"],
+      "kept_for": "Executable positive-Horn closure, predicate-SCC contribution, and multi-source acquisition pressure."
+    },
+    {
+      "block": "Closure transfer",
+      "datasets": ["CLUTRR", "StepGame", "SpaRTUN", "SpaRP"],
+      "kept_for": "Independent fact-acquisition, proof, noise, and closure transfer checks."
+    },
+    {
+      "block": "Real provenance interface",
+      "datasets": ["OpenBEL", "SIGNOR", "AOP-Wiki"],
+      "kept_for": "Real source spans and citation-linked cyclic evidence; not logical truth gold."
+    }
+  ],
+  "candidates": [
+    {
+      "id": "tkgqa",
+      "name": "TKGQA (financial M&A)",
+      "recommended_role": "real_revision_core_candidate",
+      "priority": "revision-pilot",
+      "verified_counts": {
+        "news_rows": 5721,
+        "distinct_deals": 5395,
+        "deals_with_multiple_events": 304,
+        "aligned_before_after_questions": 40722,
+        "answer_changes": 5840,
+        "documents_with_answer_changes": 359,
+        "entity_graph_nontrivial_scc": 9,
+        "largest_entity_scc": 6
+      },
+      "strength": "The only release found in this wave that jointly exposes real source sentences, event tuples, deterministic before/after graph updates, graph diffs, and aligned QA.",
+      "limit": "Questions are templated, extraction quality is imperfect, and the observed entity SCCs are not predicate-SCC proof regions; a high-precision manually audited subset is required.",
+      "paper": "https://www.mdpi.com/2306-5729/8/3/61",
+      "source": "https://doi.org/10.17605/OSF.IO/XQWA4"
+    },
+    {
+      "id": "reviseqa",
+      "name": "ReviseQA",
+      "recommended_role": "controlled_strong_revision",
+      "priority": "controlled-revision-protocol",
+      "verified_counts": {
+        "verified_nl_cases": 1362,
+        "sequential_edits": 8238,
+        "true_false_flips": 4287,
+        "false_to_true": 2160,
+        "true_to_false": 2127,
+        "original_contexts_with_predicate_cycle": 0,
+        "strict_positive_horn_scc_edit_states": 14,
+        "strict_positive_horn_scc_flips": 9
+      },
+      "strength": "The cleanest executable T↔F revision protocol found in this wave.",
+      "limit": "Natural language is model-generated from formal problems; almost none of the strong flips live in strict positive-Horn SCCs.",
+      "paper": "https://openreview.net/pdf?id=Z4KBiAYXlI",
+      "source": "https://github.com/ChadiHelwe/reviseqa"
+    },
+    {
+      "id": "fiscalqa-pro",
+      "name": "FiscalQA Pro",
+      "recommended_role": "real_temporal_revision_external",
+      "priority": "real-legal-temporal-external",
+      "verified_counts": {
+        "article_versions": 32436,
+        "stable_article_ids": 8076,
+        "released_questions": 221,
+        "scored_questions": 209,
+        "adjacent_answer_change_pairs": 184,
+        "current_version_missing_historical_gold": 208,
+        "released_targets_in_approximate_reference_scc": 17
+      },
+      "strength": "Real French tax-law versions, expert-reviewed questions, exact version provenance, deterministic nuggets, and clear licensing.",
+      "limit": "The scored task is usually single-article temporal retrieval; citation SCCs are not executable rule SCCs and there is no old-proof invalidation certificate.",
+      "paper": "https://arxiv.org/abs/2608.09393",
+      "source": "https://github.com/rosecymbler/fiscal-fr-bench"
+    },
+    {
+      "id": "lawshift",
+      "name": "LawShift",
+      "recommended_role": "controlled_legal_revision",
+      "priority": "controlled-revision-support",
+      "verified_counts": {
+        "rows": 314890,
+        "test_rows": 7569,
+        "t6_fact_fixed_sentence_direction_change_pairs": 744
+      },
+      "strength": "Large controlled legal revision set with a useful fact-fixed, law-changed subset.",
+      "limit": "The revisions are expert-designed counterfactuals rather than observed historical amendments; no proof or SCC gold.",
+      "paper": "https://papers.nips.cc/paper_files/paper/2025/hash/adf82a0a1d52d93961476458b9566a2b-Abstract-Datasets_and_Benchmarks_Track.html",
+      "source": "https://huggingface.co/datasets/triangularPeach/LawShift"
+    },
+    {
+      "id": "mquake-t",
+      "name": "MQuAKE-Remastered-T",
+      "recommended_role": "real_temporal_multihop_external",
+      "priority": "real-temporal-external",
+      "verified_counts": {
+        "cases_in_current_release": 1868,
+        "old_answer_differs_from_new_answer": 1868,
+        "two_hop": 1421,
+        "three_hop": 445,
+        "four_hop": 2,
+        "directed_cycles": 0,
+        "edits_on_last_hop": 1861
+      },
+      "strength": "Real Wikidata temporal changes with explicit old/new answers and short multi-hop chains.",
+      "limit": "The chains are simple DAG paths, most edits hit the last hop, and questions are model-generated.",
+      "paper": "https://aclanthology.org/2023.emnlp-main.971/",
+      "source": "https://github.com/henryzhongsc/MQuAKE-Remastered"
+    },
+    {
+      "id": "boardgameqa",
+      "name": "BoardgameQA",
+      "recommended_role": "defeasible_flip_constructor",
+      "priority": "revision-construction-diagnostic",
+      "verified_counts": {
+        "records": 37500,
+        "main_depth3_records": 2500,
+        "main_depth3_nonunknown": 1668,
+        "structural_flip_candidates": 425,
+        "records_with_any_ground_cycle": 6
+      },
+      "strength": "Exact defeasible priorities make genuine defeat and answer reversal mechanically checkable.",
+      "limit": "The 425 cases are construction candidates, not native before/after pairs; grounded cycles are effectively absent.",
+      "paper": "https://openreview.net/forum?id=BR1m3JIoKm",
+      "source": "https://storage.googleapis.com/gresearch/BoardgameQA/BoardgameQA.zip"
+    },
+    {
+      "id": "logicnli",
+      "name": "LogicNLI",
+      "recommended_role": "scc_conflict_skeleton",
+      "priority": "scc-conflict-diagnostic",
+      "verified_counts": {
+        "theories": 1000,
+        "queries": 20000,
+        "theories_with_predicate_scc": 1000,
+        "queries_whose_predicate_is_in_scc": 19511,
+        "native_temporal_true_false_flips": 0
+      },
+      "strength": "Dense predicate-SCC structure, machine-readable logic, and proof expressions.",
+      "limit": "Static paraconsistent contradiction is not revision; the repository has no explicit data license.",
+      "source": "https://github.com/omnilabNLP/LogicNLI"
+    },
+    {
+      "id": "multilogicnmrer",
+      "name": "MultiLogicNMRer",
+      "recommended_role": "nonmonotonic_stress_test",
+      "priority": "nonmonotonic-diagnostic",
+      "verified_counts": {
+        "records": 14000,
+        "queries": 42000,
+        "signed_dependency_scc_records": 13818,
+        "positive_or_reduct_scc_records": 130,
+        "observed_true_false_flips": 0
+      },
+      "strength": "Exact ASP semantics, multiple extensions, and extension-level proofs make it a strong nonmonotonic boundary test.",
+      "limit": "Most cycles are created by default negation rather than positive-Horn recursion; static only and no repository license.",
+      "paper": "https://aclanthology.org/2025.emnlp-main.927/",
+      "source": "https://github.com/sysulic/MultiLogicNMRer"
+    },
+    {
+      "id": "belief-r",
+      "name": "Belief-R",
+      "recommended_role": "natural_language_revision_diagnostic",
+      "priority": "downgraded",
+      "verified_counts": {
+        "initial_cases": 1912,
+        "three_premise_sequences": 1744,
+        "updates_to_uncertain": 1074,
+        "maintained": 670,
+        "true_false_flips": 0
+      },
+      "strength": "Directly studies human-style belief suppression and maintenance.",
+      "limit": "No executable proof, SCC, or true T↔F flip; much of the text is GPT-4 generated from ATOMIC.",
+      "paper": "https://aclanthology.org/2024.emnlp-main.586/"
+    }
+  ],
+  "recommended_paper_stack": [
+    {
+      "order": 1,
+      "name": "Mechanism block",
+      "datasets": ["ProofWriter D5", "ParaRules"],
+      "claim": "LFP-guided acquisition and state sharing in productive predicate-SCCs."
+    },
+    {
+      "order": 2,
+      "name": "Controlled strong-revision block",
+      "datasets": ["ReviseQA", "LawShift T6", "BoardgameQA-derived pairs"],
+      "claim": "A later source can invalidate a prior proof and support a different conclusion under executable revision semantics."
+    },
+    {
+      "order": 3,
+      "name": "Real temporal external block",
+      "datasets": ["TKGQA", "FiscalQA Pro", "MQuAKE-Remastered-T"],
+      "claim": "The old answer is genuinely obsolete in real versioned knowledge, with exact provenance."
+    },
+    {
+      "order": 4,
+      "name": "Preserved transfer block",
+      "datasets": ["CLUTRR", "StepGame", "SpaRTUN", "SpaRP", "OpenBEL", "SIGNOR", "AOP-Wiki"],
+      "claim": "The acquisition/closure interface transfers beyond the main synthetic rule family."
+    }
+  ],
+  "semantic_guardrail": "Within each frozen program snapshot, positive-Horn LFP is monotone. A true T↔F revision across snapshots requires rule/fact removal, supersession, priority, exception, or temporal validity; it must not be described as ordinary monotone LFP growth.",
+  "next_actions": [
+    "Build a high-precision TKGQA subset from the 5,840 aligned answer changes and audit whether asset propagation creates long, query-causal dependency chains.",
+    "Run a small ReviseQA branch-safe revision prototype and keep only source-grounded, solver-verified edits.",
+    "Freeze the 184 FiscalQA adjacent answer-change pairs and separately inspect the 17 targets in approximate citation SCCs.",
+    "Construct matched productive-SCC versus DAG strong-revision controls without changing proof depth, source count, or language style.",
+    "Keep the current ProofWriter/ParaRules and P1 experiments unchanged until the revision track independently passes its gates."
+  ]
+}

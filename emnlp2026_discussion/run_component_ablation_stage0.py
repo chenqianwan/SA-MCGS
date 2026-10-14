@@ -42,7 +42,7 @@ DEFAULT_CASE_PLAN = (
     / "clean_gpt4o_b50_20260711_013007"
     / "case_plan.csv"
 )
-DEFAULT_RUNS_DIR = DISCUSSION_DIR / "component_ablation_runs"
+DEFAULT_RUNS_DIR = cost.SA_WORK_DIR / "experiments" / "component_ablation_runs"
 
 VARIANT_LABELS = {
     "full-sa-mcgs-locked": "Full SA-MCGS (locked main)",
@@ -382,6 +382,8 @@ def build_case_plan(args: argparse.Namespace, output_dir: Path) -> list[dict[str
         {
             "case_order": int(row["case_order"]),
             "case_id": row["case_id"],
+            "canonical_case_order": int(row.get("canonical_case_order") or row["case_order"]),
+            "canonical_case_id": row.get("canonical_case_id") or row["case_id"],
             "model": row["model"],
             "domain": row["domain"],
             "scc_id": row["scc_id"],
@@ -978,6 +980,7 @@ def attach_ablation_audit(
 ) -> dict[str, Any]:
     result.update(
         {
+            **cost.case_identity_audit_fields(case),
             "case_id": case["case_id"],
             "case_order": case["case_order"],
             "ablation_variant": variant,
@@ -1000,31 +1003,47 @@ def result_path(output_dir: Path, case: dict[str, Any], variant: str) -> Path:
     return output_dir / "results" / f"{case['case_id']}__{cost.safe_token(variant)}.json"
 
 
-def extract_locked_full(case: dict[str, Any], args: argparse.Namespace) -> dict[str, Any]:
-    src = Path(str(case.get("source_result_file") or ""))
-    if not src.exists():
-        raise FileNotFoundError(f"Locked main result file not found: {src}")
+def extract_locked_full(
+    case: dict[str, Any],
+    args: argparse.Namespace,
+    graph: Any,
+) -> dict[str, Any]:
+    src = cost.source_result_path(case.get("source_result_file"))
     payload = json.loads(src.read_text(encoding="utf-8"))
     rows = payload if isinstance(payload, list) else [payload]
-    for row in rows:
-        if (
-            row.get("method") == "sa-mcgs"
-            and row.get("model") == args.model
-            and row.get("domain") == case["domain"]
-            and row.get("scc_id") == case["scc_id"]
-            and int(row.get("scc_size") or -1) == int(case["scc_size"])
-        ):
-            result = copy.deepcopy(row)
-            result["ablation_source"] = "locked_main_experiment"
-            return attach_ablation_audit(
-                result,
-                args=args,
-                case=case,
-                variant="full-sa-mcgs-locked",
-                llm=None,
-                started_at=time.time(),
-            )
-    raise RuntimeError(f"No locked gpt-4o SA-MCGS row found in {src}")
+    candidates = [
+        row
+        for row in rows
+        if isinstance(row, dict)
+        and row.get("method") == "sa-mcgs"
+        and row.get("model") == args.model
+        and row.get("domain") == case["domain"]
+    ]
+    matches: list[tuple[dict[str, Any], dict[str, Any]]] = []
+    for row in candidates:
+        try:
+            actual_identity = cost.validate_result_case_identity(row, case, graph)
+        except cost.StableCaseIdentityError:
+            continue
+        matches.append((row, actual_identity))
+    if len(matches) != 1:
+        raise cost.StableCaseIdentityError(
+            f"Expected exactly one locked SA-MCGS fingerprint match for {case.get('case_id')}; "
+            f"found {len(matches)} among {len(candidates)} candidates in {src}. "
+            "Numeric scc_id is diagnostic only."
+        )
+    row, actual_identity = matches[0]
+    result = copy.deepcopy(row)
+    result.update(cost.case_identity_audit_fields(case, actual_identity))
+    result["ablation_source"] = "locked_main_experiment"
+    return attach_ablation_audit(
+        result,
+        args=args,
+        case=case,
+        variant="full-sa-mcgs-locked",
+        llm=None,
+        started_at=time.time(),
+    )
 
 
 async def run_one_variant(
@@ -1035,15 +1054,18 @@ async def run_one_variant(
     graphs: dict[str, Any],
 ) -> dict[str, Any]:
     path = result_path(output_dir, case, variant)
-    if path.exists() and not args.retry_errors:
-        return json.loads(path.read_text(encoding="utf-8"))
-    if path.exists() and args.retry_errors:
+    if path.exists():
         old = json.loads(path.read_text(encoding="utf-8"))
+        cost.validate_result_case_identity(old, case, graphs[case["domain"]])
+        if not args.retry_errors:
+            return old
         if not old.get("component_ablation_error"):
             return old
 
     llm = make_llm(args, output_dir, case, variant)
     started = time.time()
+    scc = None
+    injection_metadata: dict[str, Any] = {}
     try:
         graph, scc, injected_id, injection_metadata = cost.prepare_injected_case(case, graphs)
         result = await run_sa_mcgs_variant(
@@ -1064,18 +1086,23 @@ async def run_one_variant(
             llm=llm,
             started_at=started,
         )
+    except cost.StableCaseIdentityError:
+        raise
     except Exception as exc:
-        result = attach_ablation_audit(
-            {
+        payload = {
                 "method": "sa-mcgs",
                 "model": args.model,
                 "domain": case["domain"],
                 "scc_id": case["scc_id"],
                 "scc_size": case["scc_size"],
+                "scc_clause_ids": list(scc.clause_ids) if scc is not None else [],
                 "error_type": type(exc).__name__,
                 "error": str(exc),
                 "traceback": traceback.format_exc(),
-            },
+            }
+        payload.update(injection_metadata)
+        result = attach_ablation_audit(
+            payload,
             args=args,
             case=case,
             variant=variant,
@@ -1277,6 +1304,15 @@ async def run(args: argparse.Namespace) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     write_dashboard(output_dir)
     plan = build_case_plan(args, output_dir)
+    graphs = cost.load_graphs(plan)
+    cost.persist_case_plan(output_dir, plan)
+    cost.atomic_write_json(
+        output_dir / "case_identity_preflight.json",
+        {
+            **cost.validate_case_plan(plan, graphs),
+            "validated_at": cost.now_iso(),
+        },
+    )
     variants = args.variants
     cost.atomic_write_json(
         output_dir / "run_config.json",
@@ -1294,15 +1330,30 @@ async def run(args: argparse.Namespace) -> None:
             "case_plan": str(args.case_plan),
             "base_url": args.base_url,
             "api_key_env": args.api_key_env,
+            "case_identity_version": cost.STABLE_CASE_IDENTITY_VERSION,
         },
     )
 
     for case in plan:
+        for existing_path in sorted((output_dir / "results").glob(f"{case['case_id']}__*.json")):
+            existing = json.loads(existing_path.read_text(encoding="utf-8"))
+            cost.validate_result_case_identity(existing, case, graphs[case["domain"]])
+
+    if args.validate_only:
+        for case in plan:
+            extract_locked_full(case, args, graphs[case["domain"]])
+        return
+
+    for case in plan:
         path = result_path(output_dir, case, "full-sa-mcgs-locked")
         if path.exists() and not args.rebuild_full:
+            existing = json.loads(path.read_text(encoding="utf-8"))
+            cost.validate_result_case_identity(existing, case, graphs[case["domain"]])
             continue
         try:
-            full_result = extract_locked_full(case, args)
+            full_result = extract_locked_full(case, args, graphs[case["domain"]])
+        except cost.StableCaseIdentityError:
+            raise
         except Exception as exc:
             full_result = attach_ablation_audit(
                 {
@@ -1332,7 +1383,6 @@ async def run(args: argparse.Namespace) -> None:
     if not os.environ.get(args.api_key_env):
         raise RuntimeError(f"{args.api_key_env} is not set")
 
-    graphs = cost.load_graphs(plan)
     semaphore = asyncio.Semaphore(args.case_concurrency)
     write_lock = asyncio.Lock()
     active_tasks: dict[str, dict[str, Any]] = {}
@@ -1397,6 +1447,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--rebuild-full", action="store_true")
     parser.add_argument("--retry-errors", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--validate-only",
+        action="store_true",
+        help="Validate stable case identities and locked controls without API calls.",
+    )
     args = parser.parse_args()
     if args.variants is None:
         args.variants = STAGE2_LLM_VARIANTS if args.stage == "stage2" else LLM_VARIANTS

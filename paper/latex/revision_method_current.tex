@@ -1,0 +1,66 @@
+\begin{revadded}
+\subsection{Output objective}
+
+For an input component $S$, the goal is to retain the unknown repair-relevant endpoints in a compact subgraph $H\subseteq S$. We measure retention and compression separately. The implementation uses a capped evidence selector; it does not solve a coverage--compression optimization problem with access to the hidden endpoint labels.
+
+\subsection{SCC-aware local rollouts}
+
+Tarjan decomposition identifies each non-trivial \scc{} \citep{tarjan1972depth}. Within it, \samcgs{} acquires evidence using windows of at most four records. A window starts from a seed and grows through incoming or outgoing frontier edges; a scheduled relation probe can instead revisit an implicated pair. If the frontier is exhausted, the implementation may add one remaining record. Thus windows are bounded expansions, not complete radius neighborhoods.
+
+Node and edge statistics are keyed by physical records and directed dependencies. For a visited seed or frontier edge $x$, the base score is
+\begin{equation}
+ \begin{aligned}
+ A_t(x)={}&\bar r_t(x)+c_t\sqrt{\frac{\log(1+N_t)}{n_t(x)+\ell_t(x)+\epsilon}}\\
+       &+\frac{\lambda\pi_t(x)}{1+\delta\sqrt{n_t(x)}}.
+ \end{aligned}
+ \label{eq:ucb}
+\end{equation}
+Here $\bar r_t$ is mean node risk or edge conflict frequency, $n_t$ counts observations, and $\ell_t$ is weighted virtual loss for concurrent workers. $N_t$ sums node visits for seed selection or candidate-edge visits for expansion. Selection mixes $A_t$ with normalized Gamma noise: $(1-d)A_t+d\,g\xi_t$, with $g=10$ for seeds and $5$ for edges; seeds with zero visits and zero weighted virtual loss receive infinite priority. This combines UCB exploration with visit-decayed evidence bias \citep{kocsis2006bandit,chaslot2008progressive}.
+
+The node prior normalizes a non-negative weighted sum of repair-entry, local-subgraph, conflict-endpoint, AMAF-style, path-fragment, conflict-count, and discovery signals. Edge priors additionally use critical-pair, semantic, explicit-conflict, reverse-edge, and conflict-frequency evidence. Appendix~\ref{app:priors} lists their fixed coefficients; the frontier prior also adds $0.25$ times the entering node's prior, capped at one.
+\begin{equation}
+ \pi_t^{\mathrm{base}}(x)=\frac{w^\top\phi_t(x)}{\max_{x'}w^\top\phi_t(x')},
+ \label{eq:relation-prior}
+\end{equation}
+with zero prior when the denominator is zero. These heuristics reuse evidence across rollouts, in the spirit of progressive bias and AMAF/RAVE \citep{gelly2007combining,browne2012survey}.
+
+\subsection{Accumulated evidence and discovery signal}
+
+The local evaluator reads visible record text and directed edges and returns node risk scores, explicit conflicts, local-subgraph nodes, repair entries, and optional critical-pair features. A transposition table reuses evaluations of the same sorted node set up to its configured reuse limit. Every consumed evaluation updates node running averages, pair-support counts, relation reasons, and a persistent critical-pair ledger. Pair hypotheses are keyed by unordered endpoint pairs; directed edges retain separate exploration statistics. There is no exponential-moving-average relation update.
+
+The legacy \oc{} signal is a heuristic node alarm. After warm-up, a node is flagged when at least two conditions hold: its mean risk is more than 1.5 pooled standard deviations above the pooled mean, its average empirical percentile exceeds 0.8, and more than 80\% of its scores exceed the pooled median. Flags persist. This rule uses node-score histories, not a quantile of maximum relation conflicts, and supplies neither conformal coverage nor calibrated conflict probabilities. Appendix~\ref{sec:appendix_formula_details} specifies the updates.
+
+\subsection{Final core selection}
+\label{sec:dynamic-core}
+
+After search, the selector reconstructs a core from all accumulated evidence, under cap $B(S)=\min(|S|,\max(4,\lceil0.45|S|\rceil))$. Let $e_T(v)$ be the mean over channels that are nonzero somewhere in the component, each normalized within that component and $b_T(v)$ the strongest qualifying pair score touching $v$. Candidate priority is
+\begin{equation}
+ s_T(v)=e_T(v)+0.24b_T(v)+0.16\mathbf{1}[v\in O_T],
+ \label{eq:priority}
+\end{equation}
+where $O_T$ is the set of flagged nodes. Starting from an empty selection, the rule seeds protected critical pairs and strong relations, adds nodes in priority order, applies absolute/relative-score and gap stopping rules, then closes supported pairs within the cap. It is a heuristic, not an argmax solver with a greedy approximation guarantee.
+
+``Dynamic'' refers to reselecting from accumulated evidence rather than freezing the first admitted nodes. The production loop constructs its final core once, after search; a core reconstructed at an earlier prefix does not feed back into future search. Algorithm~\ref{alg:samcgs} makes this ordering explicit. Section~\ref{sec:component_tests} compares final reselection with early locking and a simpler terminal selector on identical traces.
+
+\begin{algorithm}[t]
+\small
+\caption{\samcgs{} for one strongly connected component}
+\label{alg:samcgs}
+\begin{algorithmic}[1]
+\REQUIRE Component $S$, rollout budget $T$, fixed configuration
+\STATE Initialize node/edge statistics, pair ledger, and cache
+\FOR{$t=1$ to $T$}
+ \STATE Select a relation probe or UCB seed/frontier window
+ \STATE Reuse a cached evaluation or query the local evaluator
+ \STATE Update node means, pair counts, reasons, and ledger
+ \STATE Update the persistent node-discovery flags
+\ENDFOR
+\STATE Aggregate evidence and select the capped final core $H$
+\RETURN $H$ and ranking by mean node risk $\bar q_T(v)$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Computational feasibility}
+
+Tarjan preprocessing costs $O(|V|+|E|)$. For each component, at most $T$ local evaluations are needed before retries, with window text bounded by four records; cache hits reduce new calls. Evidence storage includes node/edge statistics, observed pair hypotheses, and cached windows. Observed pairs can include non-edges, so memory is not bounded by the original edge count alone. Prefix readouts support anytime inspection \citep{zilberstein1996anytime}; they are analyzed in Appendix~\ref{app:budget_prefix}. Section~\ref{sec:cost_analysis} reports measured inference costs rather than treating rollout count as token cost.
+\end{revadded}

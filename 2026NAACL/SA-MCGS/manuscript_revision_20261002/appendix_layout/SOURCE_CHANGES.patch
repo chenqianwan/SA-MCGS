@@ -1,0 +1,502 @@
+--- before/acl_latex.tex
++++ after/acl_latex.tex
+@@ -405,6 +405,22 @@
+ 
+ \appendix
+ \raggedbottom
++% Consistent, readable appendix spacing around floats; main-text glue is untouched.
++\setlength{\textfloatsep}{12pt plus 2pt minus 2pt}
++\setlength{\dbltextfloatsep}{12pt plus 2pt minus 2pt}
++\setlength{\floatsep}{8pt plus 2pt minus 2pt}
++\setlength{\dblfloatsep}{8pt plus 2pt minus 2pt}
++\setlength{\intextsep}{10pt plus 2pt minus 2pt}
++% Appendix-only float policy: let large tables share pages with nearby text.
++\setcounter{topnumber}{4}
++\setcounter{bottomnumber}{2}
++\setcounter{totalnumber}{6}
++\setcounter{dbltopnumber}{3}
++\renewcommand{\topfraction}{0.9}
++\renewcommand{\dbltopfraction}{0.9}
++\renewcommand{\textfraction}{0.05}
++\renewcommand{\floatpagefraction}{0.7}
++\renewcommand{\dblfloatpagefraction}{0.7}
+ 
+ 
+ \section{Diagnostic Metrics and Ablation Definitions}
+@@ -470,7 +486,7 @@
+ 
+ The repair-packet task is intentionally stricter and more variable.  One annotator selected no individual paragraph for the final packet while still marking every case as conflicting and most cases as sufficiently or partially supported.  We therefore treat repair-packet selection as a conservative diagnostic of what a reviewer would include for remediation, not as the primary evidence that a conflict exists.
+ 
+-\begin{table*}[t]
++\begin{table*}[!tp]
+ \centering
+ \small
+ \setlength{\tabcolsep}{4pt}
+@@ -497,7 +513,7 @@
+ \paragraph{Role-level sanity check.}
+ After annotation, we compare expert paragraph labels with hidden roles.  True endpoints are the only role class with near-universal majority recognition, with 95.8\% majority clear issue and 100\% majority clear-or-relevant.  In contrast, affected paragraphs are rarely majority clear issue, and most broader system-core paragraphs are judged ordinary context.  This behavior follows from the benchmark design, which asks methods to retain compact endpoints needed for repair, not to mark every retained context paragraph as intrinsically wrong.  The same observation explains why \riskall{} is strict, as a method may surface useful context or affected nodes while still missing one side of the contradiction.
+ 
+-\begin{table*}[t]
++\begin{table*}[!tp]
+ \centering
+ \small
+ \setlength{\tabcolsep}{4pt}
+@@ -514,7 +530,7 @@
+ \label{tab:expert_protocol}
+ \end{table*}
+ 
+-\begin{table*}[t]
++\begin{table*}[!tp]
+ \centering
+ \small
+ \setlength{\tabcolsep}{4pt}
+@@ -536,26 +552,19 @@
+ \input{revision_expert_appendix}
+ 
+ % Keep each appendix's floats before the next unrelated appendix.
+-\FloatBarrier
++% The preceding audit and case figure are kept adjacent by source order.
+ \section{Representative Long-\scc{} Case Study}
+ \label{sec:appendix_case}
+ 
+-\begin{figure*}[t]
+-    \centering
+-    \includegraphics[width=\textwidth]{\revasset{fig06_representative_scc_collapse.pdf}{fig06_representative_scc_three_methods.pdf}}
+-    \caption{\revredreplace{Representative long-\scc{} collapse.  The method searches a large component through local rollouts, accumulates relation-first evidence, and returns a compact risk subgraph that preserves repair-relevant endpoints.}{Comparison of three methods on the same 25-record BGB case with Gemini 2.5 Pro. Node positions are fixed across panels; filled markers indicate retained records and open markers indicate omitted records. Diamonds mark the root (\S505) and witness (\S491). The rows below report retained node counts and the four evaluation metrics.}}
+-    \label{fig:case}
+-\end{figure*}
+-
+ \revredreplace{Figure~\ref{fig:case} illustrates the intended use of the method.  The original \scc{} is too large to treat as a single atomic finding and too recurrence-heavy for ordinary path search.  \samcgs{} localizes the evidence through rollouts, then returns a core containing the root, witness, and affected records.  For review, this is more useful than a single node label because a human can inspect the retained endpoints and decide how the conflict should be repaired.}{Figure~\ref{fig:case} compares evidence selection within the same cyclic region. One-shot retains three records but omits the root. LEA and \samcgs{} retain all risk endpoints, but \samcgs{} uses nine records compared with twelve for LEA, increasing compression from 52\% to 64\%. The shared layout allows direct comparison of the retained constraint and its distant witness.}
+ 
+-\FloatBarrier
++% The case figure may share a page with the algorithm introduction.
+ \section{Core Algorithm Details}
+ \label{sec:appendix_algorithm}
+ 
+ \revredreplace{This appendix expands the method into reproducible pseudocode.}{Algorithms~\ref{alg:appendix_scc_localized}--\ref{alg:appendix_dynamic_core} expand the overview in Algorithm~\ref{alg:samcgs} into detailed pseudocode.}  The implementation uses the same high-level objects as the main paper, including a document graph $G$, strongly connected components $S$, local rollout windows $W_t$, relation-first memory $M_t$, online calibrated conflict signals, and a final dynamic core $H_T$.
+ 
+-\begin{algorithm}[H]
++\begin{algorithm}[!htbp]
+ \small
+ \caption{\scc{}-localized search}
+ \label{alg:appendix_scc_localized}
+@@ -576,7 +585,7 @@
+ \end{algorithmic}
+ \end{algorithm}
+ 
+-\begin{algorithm}[H]
++\begin{algorithm}[!htbp]
+ \small
+ \caption{\samcgs{} rollout inside one component}
+ \label{alg:appendix_rollout}
+@@ -595,7 +604,7 @@
+ \end{algorithmic}
+ \end{algorithm}
+ 
+-\begin{algorithm}[H]
++\begin{algorithm}[!htbp]
+ \small
+ \caption{Relation-first evidence memory}
+ \label{alg:appendix_relation_memory}
+@@ -618,7 +627,7 @@
+ \end{algorithmic}
+ \end{algorithm}
+ 
+-\begin{algorithm}[H]
++\begin{algorithm}[!htbp]
+ \small
+ \caption{Dynamic core compression}
+ \label{alg:appendix_dynamic_core}
+@@ -643,61 +652,7 @@
+ The core is therefore not a monotone union of all suspicious records.  Later rollouts can replace weak records with stronger evidence, although the update cannot drop repeatedly supported critical endpoints only to obtain a smaller subgraph.
+ 
+ \FloatBarrier
+-\section{Formula Details for Evidence Updates}
+-\label{sec:appendix_formula_details}
+-
+-Implementation-level equations summarized in Section~\ref{sec:method} are expanded here.  The main text retains the search template plus two scoring components, the priority score and core objective.  Remaining details were fixed before evaluation and left untuned on test cases.
+-
+-\paragraph{Node and relation updates.}
+-For every record observed in rollout $t$, node risk evidence is updated by a visit-counted running average:
+-\begin{equation}
+-    \begin{aligned}
+-    \bar{q}_{t+1}(v)=
+-    \frac{n_t(v)\bar{q}_t(v)+y_t(v)}
+-    {n_t(v)+1},\\
+-    n_{t+1}(v)=n_t(v)+1.
+-    \end{aligned}
+-    \label{eq:node-update}
+-\end{equation}
+-Directed relation evidence is updated by exponential smoothing,
+-\begin{equation}
+-    m_{t+1}(u,v)=(1-\rho)m_t(u,v)+\rho z_t(u,v),
+-    \label{eq:relation-update}
+-\end{equation}
+-where $z_t(u,v)$ is the local evaluator's evidence that relation $(u,v)$ creates or supports a repair-relevant conflict.
+-
+-\paragraph{Relation priors and critical pairs.}
+-Equation~\ref{eq:relation-prior} is shared by node and edge priors.  For nodes we set $w=\theta$ and use node features such as repair-entry support, local-subgraph appearance, pair-endpoint support, and \oc{} endpoint evidence.  For edges we set $w=\beta$ and use edge features such as semantic incompatibility, repeated pair support, reverse-edge evidence, and accumulated conflict evidence.  A separate bounded ledger records persistent critical-pair hypotheses:
+-\begin{equation}
+-    \begin{aligned}
+-    \mathcal{N}(v)&=\{u:(u,v)\in E \text{ or } (v,u)\in E\},\\
+-    p_t(v)&=\max_{u\in\mathcal{N}(v)} \kappa_t(u,v),\\
+-    \kappa_t(u,v)&=\min(1,\omega^\top\chi_t(u,v)).
+-    \end{aligned}
+-    \label{eq:critical-pair}
+-\end{equation}
+-Here $\chi_t(u,v)$ contains pair-level evidence such as semantic incompatibility, severity, same-path support, no-fallback language, repeated support, and explicit conflict reports.
+-
+-\paragraph{Online conflict signal.}
+-Let $c_t=\max_{(u,v)\in E(W_t)} z_t(u,v)$ be the strongest relation-conflict score in the current window.  With previous rollout scores as the online reference set,
+-\begin{equation}
+-    \tau_t = Q_{1-\alpha_{\mathrm{oc}}}\left(\{c_i: i<t\}\right),
+-    \quad
+-    \operatorname{OC}_t=\mathbf{1}[c_t>\tau_t].
+-    \label{eq:oc-rule}
+-\end{equation}
+-The implicated relation endpoints are added to \oc{} memory and receive the bounded bonus in Eq.~\ref{eq:priority}.
+-
+-\paragraph{Core candidate pool.}
+-The candidate pool used in Eq.~\ref{eq:core} is
+-\begin{equation}
+-    C_t = h_t \cup H_{t-1} \cup O_t \cup K_t,
+-    \label{eq:candidate-pool}
+-\end{equation}
+-where $h_t$ is the local risk subgraph, $O_t$ contains \oc{} endpoints, and $K_t$ contains top-scoring relation endpoints together with their local neighbors.
+-
+-% Queue the wide coefficients table before its introduction to avoid an empty float-wait page.
+-\begin{table*}[t]
++\begin{table*}[!tp]
+ \centering
+ \small
+ \begin{tabular}{p{.20\textwidth}p{.10\textwidth}p{.62\textwidth}}
+@@ -735,13 +690,67 @@
+ \label{tab:prior_coefficients}
+ \end{table*}
+ 
++\section{Formula Details for Evidence Updates}
++\label{sec:appendix_formula_details}
++
++Implementation-level equations summarized in Section~\ref{sec:method} are expanded here.  The main text retains the search template plus two scoring components, the priority score and core objective.  Remaining details were fixed before evaluation and left untuned on test cases.
++
++\paragraph{Node and relation updates.}
++For every record observed in rollout $t$, node risk evidence is updated by a visit-counted running average:
++\begin{equation}
++    \begin{aligned}
++    \bar{q}_{t+1}(v)=
++    \frac{n_t(v)\bar{q}_t(v)+y_t(v)}
++    {n_t(v)+1},\\
++    n_{t+1}(v)=n_t(v)+1.
++    \end{aligned}
++    \label{eq:node-update}
++\end{equation}
++Directed relation evidence is updated by exponential smoothing,
++\begin{equation}
++    m_{t+1}(u,v)=(1-\rho)m_t(u,v)+\rho z_t(u,v),
++    \label{eq:relation-update}
++\end{equation}
++where $z_t(u,v)$ is the local evaluator's evidence that relation $(u,v)$ creates or supports a repair-relevant conflict.
++
++\paragraph{Relation priors and critical pairs.}
++Equation~\ref{eq:relation-prior} is shared by node and edge priors.  For nodes we set $w=\theta$ and use node features such as repair-entry support, local-subgraph appearance, pair-endpoint support, and \oc{} endpoint evidence.  For edges we set $w=\beta$ and use edge features such as semantic incompatibility, repeated pair support, reverse-edge evidence, and accumulated conflict evidence.  A separate bounded ledger records persistent critical-pair hypotheses:
++\begin{equation}
++    \begin{aligned}
++    \mathcal{N}(v)&=\{u:(u,v)\in E \text{ or } (v,u)\in E\},\\
++    p_t(v)&=\max_{u\in\mathcal{N}(v)} \kappa_t(u,v),\\
++    \kappa_t(u,v)&=\min(1,\omega^\top\chi_t(u,v)).
++    \end{aligned}
++    \label{eq:critical-pair}
++\end{equation}
++Here $\chi_t(u,v)$ contains pair-level evidence such as semantic incompatibility, severity, same-path support, no-fallback language, repeated support, and explicit conflict reports.
++
++\paragraph{Online conflict signal.}
++Let $c_t=\max_{(u,v)\in E(W_t)} z_t(u,v)$ be the strongest relation-conflict score in the current window.  With previous rollout scores as the online reference set,
++\begin{equation}
++    \tau_t = Q_{1-\alpha_{\mathrm{oc}}}\left(\{c_i: i<t\}\right),
++    \quad
++    \operatorname{OC}_t=\mathbf{1}[c_t>\tau_t].
++    \label{eq:oc-rule}
++\end{equation}
++The implicated relation endpoints are added to \oc{} memory and receive the bounded bonus in Eq.~\ref{eq:priority}.
++
++\paragraph{Core candidate pool.}
++The candidate pool used in Eq.~\ref{eq:core} is
++\begin{equation}
++    C_t = h_t \cup H_{t-1} \cup O_t \cup K_t,
++    \label{eq:candidate-pool}
++\end{equation}
++where $h_t$ is the local risk subgraph, $O_t$ contains \oc{} endpoints, and $K_t$ contains top-scoring relation endpoints together with their local neighbors.
++
++
+ \section{Fixed Search-Prior Coefficients}
+ \label{app:priors}
+ 
+ The numeric values in Table~\ref{tab:prior_coefficients} are fixed search-prior coefficients, not learned parameters.  They were selected using pilot checks before the locked evaluation.  Domain experts were used only as a sanity check on the ordinal reliability ordering among evidence types, not to tune coefficients on reported test cases.  Prior MCTS work motivates the structure, including UCB/UCT exploration \citep{kocsis2006bandit}, visit-decayed heuristic priors through progressive bias \citep{chaslot2008progressive,browne2012survey}, AMAF/RAVE-style evidence reuse \citep{gelly2007combining}, and graph/transposition-aware value reuse \citep{childs2008transpositions,czech2021monte}.  The coefficients instantiate these ideas for structural document risk.
+ 
+ 
+-\FloatBarrier
++% Let the prior table and adjacent method notes share pages.
+ \section{Shared Risk Rubric Prompt}
+ \label{sec:appendix_shared_rubric}
+ 
+@@ -775,22 +784,7 @@
+ \paragraph{Output contrast.}
+ \revredreplace{\naive{} requires each generation to rank the entire \scc{} and produce a final subgraph.  In contrast, \samcgs{} asks only for local evidence, leaving final subgraph construction to algorithmic memory and compression.}{One-shot prompting ranks the entire component and returns a final subgraph in one generation. LEA and \samcgs{} share a local evaluator interface and aggregate its outputs algorithmically. LEA uses fixed windows without adaptive search or memory; Appendix~\ref{app:revision_lea} specifies its window construction and aggregation.}
+ 
+-\section{Dataset and Injection Details}
+-\label{sec:appendix_datasets}
+-
+-\begin{revredblock}
+-\paragraph{Formatting interface.}
+-Record formats vary by domain: Debian records contain package fields, BGB records are statutory sections, SEC EX-21 records are subsidiary disclosures, and CUAD records are contract clauses. Lightweight domain formatters
+-\begin{equation}
+-    \mathcal{A}_d=(\operatorname{serialize}_d,\operatorname{edges}_d,\operatorname{normalize}_d)
+-\end{equation}
+-serialize records, expose typed directed edges, and normalize model outputs without specifying a target risk type or revealing injected endpoints. All three methods apply the same domain-neutral rubric to visible node text and directed edges, identifying structural inconsistency, mutual incompatibility, underspecification, and high-impact risks. They differ in how they acquire and aggregate evidence: global generation, fixed local aggregation, or adaptive \scc{}-aware search.
+-\end{revredblock}
+-
+-
+-Table~\ref{tab:dataset_processing} summarizes the four included domains and their conversion into directed record graphs.  Domain coverage spans several forms of authority and structure, including technical dependency metadata, public corporate disclosures, official statutory references, and expert-labeled contract clauses.
+-
+-\begin{table*}[t]
++\begin{table*}[!tp]
+ \centering
+ \scriptsize
+ \setlength{\tabcolsep}{3pt}
+@@ -809,13 +803,7 @@
+ \label{tab:domains}
+ \end{table*}
+ 
+-\paragraph{SCC construction and filtering.}
+-For each domain, we construct a directed record graph and enumerate non-trivial \scc{}s using Tarjan's algorithm.  Candidate components are filtered by size and record availability and then locked before model evaluation.  The main experiment uses the same locked \scc{} blocks \revnewreplace{for \naive{} and \samcgs{} under the same model and profile.}{for One-shot, LEA, and \samcgs{} under the same model and profile.}
+-
+-\paragraph{Injection constraints.}
+-The critical benchmark modifies only existing records in the selected \scc{}.  No new nodes are added.  The injected root record provides the endpoint used for \rootthree{} evaluation.  A distant witness record supplies the evidence that makes the root-side statement structurally incompatible under the graph context.  Affected records are downstream or neighboring records whose interpretation changes under the root--witness conflict.  Subgraph metrics count root, witness, and affected records as repair-relevant endpoints when applicable. \revred{Table~\ref{tab:injection_templates} lists the four injection templates.}
+-
+-\begin{table*}[t]
++\begin{table*}[!tp]
+ \centering
+ \scriptsize
+ \setlength{\tabcolsep}{3pt}
+@@ -833,9 +821,33 @@
+ \label{tab:injection_templates}
+ \end{table*}
+ 
++\section{Dataset and Injection Details}
++\label{sec:appendix_datasets}
++
++\begin{revredblock}
++\paragraph{Formatting interface.}
++Record formats vary by domain: Debian records contain package fields, BGB records are statutory sections, SEC EX-21 records are subsidiary disclosures, and CUAD records are contract clauses. Lightweight domain formatters
++\begin{equation}
++    \mathcal{A}_d=(\operatorname{serialize}_d,\operatorname{edges}_d,\operatorname{normalize}_d)
++\end{equation}
++serialize records, expose typed directed edges, and normalize model outputs without specifying a target risk type or revealing injected endpoints. All three methods apply the same domain-neutral rubric to visible node text and directed edges, identifying structural inconsistency, mutual incompatibility, underspecification, and high-impact risks. They differ in how they acquire and aggregate evidence: global generation, fixed local aggregation, or adaptive \scc{}-aware search.
++\end{revredblock}
++
++
++Table~\ref{tab:dataset_processing} summarizes the four included domains and their conversion into directed record graphs.  Domain coverage spans several forms of authority and structure, including technical dependency metadata, public corporate disclosures, official statutory references, and expert-labeled contract clauses.
++
++\paragraph{SCC construction and filtering.}
++For each domain, we construct a directed record graph and enumerate non-trivial \scc{}s using Tarjan's algorithm.  Candidate components are filtered by size and record availability and then locked before model evaluation.  The main experiment uses the same locked \scc{} blocks \revnewreplace{for \naive{} and \samcgs{} under the same model and profile.}{for One-shot, LEA, and \samcgs{} under the same model and profile.}
++
++
++
++\paragraph{Injection constraints.}
++The critical benchmark modifies only existing records in the selected \scc{}.  No new nodes are added.  The injected root record provides the endpoint used for \rootthree{} evaluation.  A distant witness record supplies the evidence that makes the root-side statement structurally incompatible under the graph context.  Affected records are downstream or neighboring records whose interpretation changes under the root--witness conflict.  Subgraph metrics count root, witness, and affected records as repair-relevant endpoints when applicable. \revred{Table~\ref{tab:injection_templates} lists the four injection templates.}
++
+ \paragraph{Why \riskall{} matters.}
+ \riskany{} is useful when a repair process can sometimes start from one good entry point.  \riskall{} is stricter and central for critical cases, where fixing a structural contradiction often requires both sides of the incompatibility.  A subgraph that includes only the obvious-risk paragraph but omits the distant condition may be too small to support a reliable repair.
+ 
++% Finish the dataset tables before the experimental breakdowns.
+ \FloatBarrier
+ \section{Additional Experimental Details}
+ \label{sec:appendix_experiments}
+@@ -858,7 +870,7 @@
+ 
+ \samcgs{} improves \riskall{} over LEA in all three \scc{}-size groups for GPT-4o and Qwen2.5-72B (Figure~\ref{fig:main_metrics}). Their largest gains occur in medium components: 37.50 and 62.50 percentage points, respectively. For Llama 3.1-8B-Instruct, \rootthree{} also improves in every size group. Absolute results appear in Figure~\ref{fig:absolute_size_breakdowns} and Table~\ref{tab:appendix_breakdowns}.
+ 
+-\begin{figure*}[t]
++\begin{figure*}[p]
+     \centering
+     \includegraphics[width=\textwidth]{fig02_scale_gain_heatmaps.pdf}
+     \caption{\revredreplace{Main critical-\scc{} results on 320 model-case pairs per method. Panel A compares \samcgs{} with oracle-risk \naive{}, an oracle-risk Top-3 selection over ten full-\scc{} attempts; Panel B gives a compact \scc{}-size breakdown of endpoint retention and compression.}{\samcgs{} gains over LEA by \scc{} size: (a) \rootthree{} and (b) \riskall{}. Cells show percentage-point differences for each model and size group (36 small, 24 medium, and 20 large cases per model). Blue indicates gains and orange indicates losses on a shared zero-centered scale. Figure~\ref{fig:absolute_size_breakdowns} reports absolute performance for all three methods.}}
+@@ -867,12 +879,7 @@
+ 
+ Figure~\ref{fig:absolute_size_breakdowns} uses the same size groups and case counts as Figure~\ref{fig:main_metrics}, reporting \rootthree{} and \riskall{} for all three methods and five models.
+ 
+-\begin{figure*}[t]
+-    \centering
+-    \includegraphics[width=\textwidth]{fig02_main_results_five_models.pdf}
+-    \caption{Performance by \scc{} size. Columns correspond to models and rows to (a) \rootthree{} and (b) \riskall{}. All three methods use the same small ($\leq12$ nodes), medium (14--20), and large ($\geq24$) case groups. Gray circles, orange squares, and blue triangles denote One-shot, LEA, and \samcgs{}, respectively.}
+-    \label{fig:absolute_size_breakdowns}
+-\end{figure*}
++
+ \end{revredblock}
+ 
+ % M4: retain the complete budget-prefix plot and numeric analysis in Appendix J.
+@@ -882,15 +889,13 @@
+ 
+ \revred{Most gains in evidence completeness occur within the first 20 rollouts (Figure~\ref{fig:convergence}): \riskall{} rises from 25.00\% at budget 5 to 76.25\% at budget 20. Subsequent rollouts refine the core, reaching 75.00\% \riskall{} and 51.26\% compression at budget 60, matching the GPT-4o results in Table~\ref{tab:matched_main}.}
+ 
+-\begin{figure*}[t]
+-    \centering
+-    \includegraphics[width=\textwidth]{\revasset{fig04_budget_prefix_convergence.pdf}{fig04_budget_prefix_three_methods.pdf}}
+-    \caption{\revredreplace{Budget-prefix convergence: localization and evidence coverage improve with rollout budget while the retained core stays compact.}{GPT-4o evidence retention and compression across 60 rollout prefixes on the same 80 cases. The solid curve represents \samcgs{}; horizontal lines indicate the final One-shot and LEA scores. Each prefix is reconstructed from stored search evidence using the final-core selection rule. Results at budget 60 match the final outputs.}}
+-    \label{fig:convergence}
+-\end{figure*}
++
+ \end{revnewblock}
+ 
+-\FloatBarrier
++% A fixed full-width plate keeps both analysis figures before Appendix K,
++% while the two-column protocol can fill the space below the figures.
++\onecolumn
++\twocolumn[{\input{revision_analysis_plates}}]
+ \input{revision_experiments}
+ 
+ \end{document}
+--- before/revision_experiments.tex
++++ after/revision_experiments.tex
+@@ -32,12 +32,7 @@
+ \paragraph{Oracle reference.}
+ \revred{The historical oracle-risk Top-3-from-10 reference uses ground-truth metrics to select among ten full-SCC attempts. For each three-attempt subset of valid outputs, it computes mean Root@3, Risk-any, and Risk-all. Selection lexicographically maximizes the minimum of these three metrics, their mean, and mean compression. With fewer than three valid attempts, it uses all valid attempts; with none, binary metrics are zero. Reported metrics average the selected attempts without pooling their nodes or subgraphs. This oracle selection requires ground truth, unlike deployable One-shot and LEA, and incurs the computation of ten attempts.}
+ 
+-\subsection{Stage-1 Component Ablations}
+-\label{app:revision_stage1}
+-
+-\revred{The contemporaneous comparison used GPT-4o with 60 rollouts, four-node windows, and internal concurrency three on 17 SEC variants from five source SCCs. All 68 outputs were valid. The four ablation conditions shared input identities, prompt builder, parser, and response schema. Removing relation-first memory disabled relation-biased selection and relation probes; removing the critical-pair ledger disabled its protection and revisiting; random-window selection replaced the local-window selector. Table~\ref{tab:revision_stage1} measures endpoint coverage in the returned core, separately from root-ranking performance.}
+-
+-\begin{table*}[t]
++\begin{table*}[!tp]
+ \centering
+ \caption{\revred{Stage-1 ablations with GPT-4o. Root@3, Any (Risk-any), All (Risk-all), and compression (Comp.) are percentages; $|H|$ is mean core size. Panel A compares four conditions contemporaneously. Panel B combines 63 historical variants with verified input identities and the 17 rerun variants for each condition, providing a descriptive comparison across batches.}}
+ \label{tab:revision_stage1}
+@@ -62,9 +57,14 @@
+ \end{tabular}
+ \end{table*}
+ 
++\subsection{Stage-1 Component Ablations}
++\label{app:revision_stage1}
++
++\revred{The contemporaneous comparison used GPT-4o with 60 rollouts, four-node windows, and internal concurrency three on 17 SEC variants from five source SCCs. All 68 outputs were valid. The four ablation conditions shared input identities, prompt builder, parser, and response schema. Removing relation-first memory disabled relation-biased selection and relation probes; removing the critical-pair ledger disabled its protection and revisiting; random-window selection replaced the local-window selector. Table~\ref{tab:revision_stage1} measures endpoint coverage in the returned core, separately from root-ranking performance.}
++
+ \revred{On the contemporaneous subset, \riskall{} averaged equally over source SCCs was 88.3\%, 100\%, 100\%, and 85.0\%, respectively. Relative to Full, each component removal changed this estimate by $+11.7$ percentage points (95\% paired interval $[0,25.0]$), whereas random windows changed it by $-3.3$ points ($[-20.0,15.0]$). This subset therefore provides no clear evidence of an independent benefit from memory or critical-pair revisiting. In both Full \riskall{} failures, the ranking retained the endpoints but the final core omitted one. Removing memory improved endpoint coverage with fewer calls and tokens (Table~\ref{tab:revision_stage1_cost}).}
+ 
+-\begin{table}[t]
++\begin{table}[!htbp]
+ \centering
+ \caption{\revred{Costs for the 17-case contemporaneous Stage-1 comparison. Calls, tokens, and estimated USD are totals for each condition; time is mean seconds per case. Token costs use the frozen gateway prices.}}
+ \label{tab:revision_stage1_cost}
+@@ -89,7 +89,7 @@
+ 
+ \revred{We replayed frozen GPT-4o Full trajectories for 80 variants from 20 source SCCs without new model calls. Both policies received the same selector proposal at each trajectory prefix. The dynamic policy allowed node replacement; the locked policy admitted nodes up to the cap and retained them without eviction. Both shared OC signals, relation seeding, critical-pair protection, pair closure, thresholds, and the cap. All 80 pairs passed input-identity and final-Full parity checks.}
+ 
+-\begin{table}[t]
++\begin{table}[!htbp]
+ \centering
+ \caption{\revred{Stage-2 replay on shared search trajectories. Rates and compression are percentages. Root@3 is fixed by the shared trajectory and is unaffected by the core policy.}}
+ \label{tab:revision_stage2}
+@@ -107,12 +107,7 @@
+ 
+ \revred{Dynamic replacement increased \riskall{} by 37.5 percentage points (95\% source-SCC paired interval $[12.5,60.0]$) and \riskany{} by 13.75 points ($[5.0,22.5]$), at equal mean core size and compression (Table~\ref{tab:revision_stage2}). The replay isolates endpoint retention given the observed evidence; search trajectories are fixed, and OC and closure are not ablated independently. Its Full result uses the original frozen trajectories, whereas Table~\ref{tab:revision_stage1}, panel B, includes 17 newer Full runs.}
+ 
+-\subsection{Contemporaneous Cost and Reliability}
+-\label{app:revision_cost}
+-
+-\revred{The cost experiment used one injected variant from each of 12 distinct source SCCs. Debian/SEC/BGB/CUAD contributed 2/3/3/4 SCCs; each of the four templates contributed three variants; and small/medium/large SCCs numbered 6/3/3. GPT-4o and Gemini 2.5 Pro each ran One-shot, LEA, and \samcgs{} on these frozen inputs, yielding 72 method jobs. \samcgs{} used 60 rollouts, four-node windows, and internal concurrency one. One-shot generated a subgraph directly from the full SCC in a single call, without oracle selection. Table~\ref{tab:revision_cost_full} reports the results for each model--method pair.}
+-
+-\begin{table*}[t]
++\begin{table*}[!tp]
+ \centering
+ \caption{\revred{Cost, performance, and reliability on 12 source SCCs for each model--method pair. All binary rates use a denominator of 12, with invalid outputs counted as failures. Comp. is mean compression over valid outputs; parentheses give the denominator. Calls and tokens include recorded recovery usage and are divided by 12. Tokens are in thousands. Time is recorded runtime per case; parallel speedup was not measured.}}
+ \label{tab:revision_cost_full}
+@@ -148,6 +143,11 @@
+ \end{tabular}
+ \end{table*}
+ 
++\subsection{Contemporaneous Cost and Reliability}
++\label{app:revision_cost}
++
++\revred{The cost experiment used one injected variant from each of 12 distinct source SCCs. Debian/SEC/BGB/CUAD contributed 2/3/3/4 SCCs; each of the four templates contributed three variants; and small/medium/large SCCs numbered 6/3/3. GPT-4o and Gemini 2.5 Pro each ran One-shot, LEA, and \samcgs{} on these frozen inputs, yielding 72 method jobs. \samcgs{} used 60 rollouts, four-node windows, and internal concurrency one. One-shot generated a subgraph directly from the full SCC in a single call, without oracle selection. Table~\ref{tab:revision_cost_full} reports the results for each model--method pair.}
++
+ \revred{Of the final outputs, 69 were valid and three were invalid. All invalid outputs came from GPT-4o One-shot and remained in the cost and performance denominators. One Gemini \samcgs{} job was interrupted and restarted, with 17 calls before interruption and 56 during recovery; its valid final output required more than one execution. Recorded usage includes both executions, although costs for unreturned in-flight requests are unknown. Runtime covers the recovery interval, with pre-interruption API time recorded separately.}
+ 
+ \revred{The paired \samcgs{}--LEA \riskall{} differences were $+41.7$ points for GPT-4o (95\% interval $[8.3,75.0]$) and $+8.3$ for Gemini ($[-16.7,33.3]$). Gemini One-shot achieved the highest endpoint completeness in this sample. Averaged equally across models, \samcgs{} used 203.4K tokens per case, compared with 63.7K for LEA, or approximately $3.2\times$ as many. The performance gains from additional computation thus varied by model.}
+@@ -165,7 +165,7 @@
+ 
+ \revred{We varied the relation-prior bonus multiplier (\texttt{relation\_prior\_weight}) from its default 0.85 to 0.68 and 1.02 ($\pm20\%$). The four source SCCs (cost slots 01/03/08/10) were selected and frozen before the sensitivity results were observed. Node, edge, and pair feature weights in Table~\ref{tab:prior_coefficients} remained fixed. The two models produced 16 new valid outputs; eight nominal outputs with matching inputs and configurations were reused from the cost experiment. All other settings were fixed, including rollout budget and internal concurrency one.}
+ 
+-\begin{table}[t]
++\begin{table}[!htbp]
+ \centering
+ \caption{\revred{Exploratory sensitivity to the relation-prior multiplier on four source SCCs per row. Root@3 and Risk-all are percentages; Risk-any is 100\% throughout.}}
+ \label{tab:revision_prior}
+--- before/revision_expert_appendix.tex
++++ after/revision_expert_appendix.tex
+@@ -13,7 +13,7 @@
+ \paragraph{Independent review and adjudication.}
+ \revred{Cases were referred to the third expert if any criterion held: disagreement on conflict existence, any judgment of insufficient evidence, confidence at most two of five, or evidence-set Jaccard below 0.5 when at least one rater judged the conflict sufficiently supported. Selection was independent of method performance. After receiving the third expert's independent annotations, the authors adopted that expert's complete answer for all 14 reviewed cases; this decision was not a preregistered majority-vote rule. The remaining 28 cases retain the first two experts' agreed categories and separate evidence sets. The resulting labels comprise 18 sufficiently supported negatives and 24 sufficiently supported positives; the 42 cases do not all have a single adjudicated evidence set.}
+ 
+-\begin{table}[t]
++\begin{table}[!htbp]
+ \centering
+ \small
+ \caption{\revred{Inter-annotator agreement before adjudication. E1/E2 covers all 42 presentations; E1/E3 and E2/E3 cover the 14 selected cases. Joint agreement requires both binary answers to match.}}
+@@ -43,7 +43,7 @@
+ 
+ \revred{Predictions are the returned evidence core for \samcgs{}, the fixed-cap LEA output, and the direct One-shot subgraph. For \samcgs{}, we use \texttt{core\_evidence\_risk\_subgraph\_nodes}, which is available at inference time, and exclude diagnostic fields that use ground truth. Failed cases remain in the denominator. Invalid or empty outputs receive zero recall, coverage, and precision. Their outside-reference fraction is also zero by convention, so this metric must be interpreted alongside validity.}
+ 
+-\begin{table*}[t]
++\begin{table*}[!tp]
+ \centering
+ \small
+ \caption{\revred{Expert-reference evidence quality on 24 newly annotated injected variants from 14 sources. Metrics are averaged within each source, then equally across sources, and reported as percentages. Brackets give source-SCC bootstrap 95\% intervals (20,000 draws, seed 20260922). Validity counts are out of 24; all planned cases remain in metric denominators.}}
+@@ -70,7 +70,7 @@
+ \paragraph{Unmodified-source false positives.}
+ \revred{All 18 original source SCCs are expert-confirmed negatives. A conflict assertion requires a reasoned conflict record containing two distinct, exact SCC node IDs; for \samcgs{}, this rule is applied to recorded rollout conflicts. A valid result with no accepted pair counts as operational abstention, although the model is not separately asked for a negative judgment. A nonempty selected subgraph alone does not count as a positive. Invalid API or schema outputs form a separate category.}
+ 
+-\begin{table}[t]
++\begin{table}[!htbp]
+ \centering
+ \small
+ \caption{\revred{Negative-source audit: false-positive assertions (FP), operational abstentions (Abs.), and invalid outputs (Inv.), each out of 18 sources. Initial and recovery outcomes are reported separately; invalid outputs do not count as abstentions.}}
+@@ -95,5 +95,16 @@
+ 
+ \revred{Preserved append-only logs reconstruct the initial GPT-4o LEA outcomes: two cases failed and were rerun, and one recovered. Current result files thus contain 17 valid outputs, compared with the initial 16. For \samcgs{}, one complete rerun per original failure recovers 21 of 24 cases, yielding 33/36 usable outputs across models. These recovery results assess reliability with additional attempts and are reported separately from the single-run comparison. The two LEA reruns require 63 calls and 261,389 tokens; \samcgs{} recovery requires 1,140 calls and 5,011,988 tokens, in addition to initial-run costs.}
+ 
++% Queue the following case figure early without inheriting audit revision color.
++\end{revadded}
++\begin{figure*}[!t]
++    \centering
++    \includegraphics[width=\textwidth]{\revasset{fig06_representative_scc_collapse.pdf}{fig06_representative_scc_three_methods.pdf}}
++    \caption{\revredreplace{Representative long-\scc{} collapse.  The method searches a large component through local rollouts, accumulates relation-first evidence, and returns a compact risk subgraph that preserves repair-relevant endpoints.}{Comparison of three methods on the same 25-record BGB case with Gemini 2.5 Pro. Node positions are fixed across panels; filled markers indicate retained records and open markers indicate omitted records. Diamonds mark the root (\S505) and witness (\S491). The rows below report retained node counts and the four evaluation metrics.}}
++    \label{fig:case}
++\end{figure*}
++\begin{revadded}
++
++
+ \revred{Table~\ref{tab:expert_pre_negative} shows frequent false positives: all valid outputs assert a conflict except one Gemini 2.5 Pro LEA abstention. Lower false-positive counts resulting from more invalid outputs do not indicate better specificity. Because the sample contains no natural positives, it cannot estimate natural-positive recall. The selected sources support a paired negative audit but do not estimate the prevalence of natural conflicts in the domain.}
+ \end{revadded}
+--- before/revision_analysis_plates.tex
++++ after/revision_analysis_plates.tex
+@@ -0,0 +1,19 @@
++% Layout-only plate: the original figure content, captions, and labels are unchanged.
++\begin{minipage}{\textwidth}
++\begin{revredblock}
++\captionsetup{type=figure}
++\centering
++    \includegraphics[width=\textwidth]{fig02_main_results_five_models.pdf}
++    \caption{Performance by \scc{} size. Columns correspond to models and rows to (a) \rootthree{} and (b) \riskall{}. All three methods use the same small ($\leq12$ nodes), medium (14--20), and large ($\geq24$) case groups. Gray circles, orange squares, and blue triangles denote One-shot, LEA, and \samcgs{}, respectively.}
++    \label{fig:absolute_size_breakdowns}
++\end{revredblock}
++\vspace{8pt}
++\begin{revnewblock}
++\captionsetup{type=figure}
++\centering
++    \includegraphics[width=\textwidth]{\revasset{fig04_budget_prefix_convergence.pdf}{fig04_budget_prefix_three_methods.pdf}}
++    \caption{\revredreplace{Budget-prefix convergence: localization and evidence coverage improve with rollout budget while the retained core stays compact.}{GPT-4o evidence retention and compression across 60 rollout prefixes on the same 80 cases. The solid curve represents \samcgs{}; horizontal lines indicate the final One-shot and LEA scores. Each prefix is reconstructed from stored search evidence using the final-core selection rule. Results at budget 60 match the final outputs.}}
++    \label{fig:convergence}
++\end{revnewblock}
++\vspace{6pt}
++\end{minipage}

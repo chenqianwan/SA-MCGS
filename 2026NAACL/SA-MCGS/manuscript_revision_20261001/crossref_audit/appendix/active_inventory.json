@@ -1,0 +1,548 @@
+{
+  "references": [
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 422,
+      "key": "tab:mcts_scc",
+      "context": "We compare TreeMCTS on acyclic and strongly connected document graphs with \\samcgs{} on the same \\scc{} setting. The comparison uses matched components, the same local risk task, and equal rollout budgets. Table~\\ref{tab:mcts_scc} reports state expansion, rollout truncation, Q-spread, and Hit@3, as defined below."
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 427,
+      "key": "tab:mcts_scc",
+      "context": "Table~\\ref{tab:mcts_scc} uses four ablation diagnostics.  \\textbf{Expansion}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 440,
+      "key": "app:expert_extension",
+      "context": "\\revred{We report the original 12-case audit below and the new 42-presentation audit in Section~\\ref{app:expert_extension} separately because their annotation schemes and annotator coverage differ. The original aggregate results are retained without imputing missing labels.}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 466,
+      "key": "tab:expert_audit_results",
+      "context": "Table~\\ref{tab:expert_audit_results} summarizes the completed annotations.  All 12 audited cases receive a majority structural-conflict label.  Experts also recognize the injected evidence endpoints.  In total, 23 of 24 root/witness endpoint paragraphs receive a majority \\emph{clear issue} label, and all 24 receive a majority \\emph{clear issue} or \\emph{possibly relevant} label.  Agreement is strongest for the clear-risk endpoint decision, with Fleiss' $\\kappa=0.606$ and pairwise Cohen's $\\kappa$ ranging from 0.452 to 0.759.  These results support that the injected critical risks are semantically visible to qualified readers when the relevant paragraphs are inspected."
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 531,
+      "key": "tab:expert_example",
+      "context": "The example in Table~\\ref{tab:expert_example} illustrates the intended difficulty level.  Neither entity record is a syntactic error by itself.  The conflict appears because both records refer to the same consolidation path while asserting mutually incompatible ownership treatments.  A risk-subgraph method should preserve this type of structural conflict because a reviewer can reliably repair the issue after seeing both endpoints."
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 545,
+      "key": "fig:case",
+      "context": "{Figure~\\ref{fig:case} compares evidence selection within the same cyclic region. One-shot retains three records but omits the root. LEA and \\samcgs{} retain all risk endpoints, but \\samcgs{} uses nine records compared with twelve for LEA, increasing compression from 52\\% to 64\\%. The shared layout allows direct comparison of the retained constraint and its distant witness.}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 642,
+      "key": "sec:method",
+      "context": "Implementation-level equations summarized in Section~\\ref{sec:method} are expanded here.  The main text retains the search template plus two scoring components, the priority score and core objective.  Remaining details were fixed before evaluation and left untuned on test cases."
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 663,
+      "key": "eq:relation-prior",
+      "context": "Equation~\\ref{eq:relation-prior} is shared by node and edge priors.  For nodes we set $w=\\theta$ and use node features such as repair-entry support, local-subgraph appearance, pair-endpoint support, and \\oc{} endpoint evidence.  For edges we set $w=\\beta$ and use edge features such as semantic incompatibility, repeated pair support, reverse-edge evidence, and accumulated conflict evidence.  A separate bounded ledger records persistent critical-pair hypotheses:"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 682,
+      "key": "eq:priority",
+      "context": "The implicated relation endpoints are added to \\oc{} memory and receive the bounded bonus in Eq.~\\ref{eq:priority}."
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 685,
+      "key": "eq:core",
+      "context": "The candidate pool used in Eq.~\\ref{eq:core} is"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 695,
+      "key": "tab:prior_coefficients",
+      "context": "The numeric values in Table~\\ref{tab:prior_coefficients} are fixed search-prior coefficients, not learned parameters.  They were selected using pilot checks before the locked evaluation.  Domain experts were used only as a sanity check on the ordinal reliability ordering among evidence types, not to tune coefficients on reported test cases.  Prior MCTS work motivates the structure, including UCB/UCT exploration \\citep{kocsis2006bandit}, visit-decayed heuristic priors through progressive bias \\citep{chaslot2008progressive,browne2012survey}, AMAF/RAVE-style evidence reuse \\citep{gelly2007combining}, and graph/transposition-aware value reuse \\citep{childs2008transpositions,czech2021monte}.  The coefficients instantiate these ideas for structural document risk."
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 704,
+      "key": "eq:relation-prior",
+      "context": "\\multicolumn{3}{l}{\\textit{Node-feature weights }$\\theta$ for Eq.~\\ref{eq:relation-prior}}\\\\"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 713,
+      "key": "eq:relation-prior",
+      "context": "\\multicolumn{3}{l}{\\textit{Edge-feature weights }$\\beta$ for Eq.~\\ref{eq:relation-prior}}\\\\"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 722,
+      "key": "eq:critical-pair",
+      "context": "\\multicolumn{3}{l}{\\textit{Critical-pair prior }$\\omega$ in Eq.~\\ref{eq:critical-pair}}\\\\"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 766,
+      "key": "app:revision_experiments",
+      "context": "{One-shot prompting ranks the entire component and returns a final subgraph in one generation. LEA and \\samcgs{} share a local evaluator interface and aggregate its outputs algorithmically. LEA uses fixed windows without adaptive search or memory; Appendix~\\ref{app:revision_experiments} specifies its window construction and aggregation.}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 781,
+      "key": "tab:dataset_processing",
+      "context": "Table~\\ref{tab:dataset_processing} summarizes the four included domains and their conversion into directed record graphs.  Domain coverage spans several forms of authority and structure, including technical dependency metadata, public corporate disclosures, official statutory references, and expert-labeled contract clauses."
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 834,
+      "key": "app:revision_experiments",
+      "context": "\\revred{All five models are evaluated on the same 80 injected variants from 20 source \\scc{}s. One-shot, LEA, and \\samcgs{} use the shared risk rubric and fixed method configurations specified in Appendix~\\ref{app:revision_experiments}. Table~\\ref{tab:appendix_breakdowns} groups results by model, domain, and \\scc{} size.}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 834,
+      "key": "tab:appendix_breakdowns",
+      "context": "\\revred{All five models are evaluated on the same 80 injected variants from 20 source \\scc{}s. One-shot, LEA, and \\samcgs{} use the shared risk rubric and fixed method configurations specified in Appendix~\\ref{app:revision_experiments}. Table~\\ref{tab:appendix_breakdowns} groups results by model, domain, and \\scc{} size.}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 848,
+      "key": "fig:main_metrics",
+      "context": "\\samcgs{} improves \\riskall{} over LEA in all three \\scc{}-size groups for GPT-4o and Qwen2.5-72B (Figure~\\ref{fig:main_metrics}). Their largest gains occur in medium components: 37.50 and 62.50 percentage points, respectively. For Llama 3.1-8B-Instruct, \\rootthree{} also improves in every size group. Absolute results appear in Figure~\\ref{fig:absolute_size_breakdowns} and Table~\\ref{tab:appendix_breakdowns}."
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 848,
+      "key": "fig:absolute_size_breakdowns",
+      "context": "\\samcgs{} improves \\riskall{} over LEA in all three \\scc{}-size groups for GPT-4o and Qwen2.5-72B (Figure~\\ref{fig:main_metrics}). Their largest gains occur in medium components: 37.50 and 62.50 percentage points, respectively. For Llama 3.1-8B-Instruct, \\rootthree{} also improves in every size group. Absolute results appear in Figure~\\ref{fig:absolute_size_breakdowns} and Table~\\ref{tab:appendix_breakdowns}."
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 848,
+      "key": "tab:appendix_breakdowns",
+      "context": "\\samcgs{} improves \\riskall{} over LEA in all three \\scc{}-size groups for GPT-4o and Qwen2.5-72B (Figure~\\ref{fig:main_metrics}). Their largest gains occur in medium components: 37.50 and 62.50 percentage points, respectively. For Llama 3.1-8B-Instruct, \\rootthree{} also improves in every size group. Absolute results appear in Figure~\\ref{fig:absolute_size_breakdowns} and Table~\\ref{tab:appendix_breakdowns}."
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 853,
+      "key": "fig:absolute_size_breakdowns",
+      "context": "\\caption{                                                                                                                                                                                                                                                                                         {\\samcgs{} gains over LEA by \\scc{} size: (a) \\rootthree{} and (b) \\riskall{}. Cells show percentage-point differences for each model and size group (36 small, 24 medium, and 20 large cases per model). Blue indicates gains and orange indicates losses on a shared zero-centered scale. Figure~\\ref{fig:absolute_size_breakdowns} reports absolute performance for all three methods.}}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 857,
+      "key": "fig:absolute_size_breakdowns",
+      "context": "Figure~\\ref{fig:absolute_size_breakdowns} uses the same size groups and case counts as Figure~\\ref{fig:main_metrics}, reporting \\rootthree{} and \\riskall{} for all three methods and five models."
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 857,
+      "key": "fig:main_metrics",
+      "context": "Figure~\\ref{fig:absolute_size_breakdowns} uses the same size groups and case counts as Figure~\\ref{fig:main_metrics}, reporting \\rootthree{} and \\riskall{} for all three methods and five models."
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 872,
+      "key": "fig:convergence",
+      "context": "\\revred{Most gains in evidence completeness occur within the first 20 rollouts (Figure~\\ref{fig:convergence}): \\riskall{} rises from 25.00\\% at budget 5 to 76.25\\% at budget 20. Subsequent rollouts refine the core, reaching 75.00\\% \\riskall{} and 51.26\\% compression at budget 60, matching the GPT-4o results in Table~\\ref{tab:matched_main}.}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 872,
+      "key": "tab:matched_main",
+      "context": "\\revred{Most gains in evidence completeness occur within the first 20 rollouts (Figure~\\ref{fig:convergence}): \\riskall{} rises from 25.00\\% at budget 5 to 76.25\\% at budget 20. Subsequent rollouts refine the core, reaching 75.00\\% \\riskall{} and 51.26\\% compression at budget 60, matching the GPT-4o results in Table~\\ref{tab:matched_main}.}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 38,
+      "key": "tab:revision_stage1",
+      "context": "\\revred{The contemporaneous comparison used GPT-4o with 60 rollouts, four-node windows, and internal concurrency three on 17 SEC variants from five source SCCs. All 68 outputs were valid. The four ablation conditions shared input identities, prompt builder, parser, and response schema. Removing relation-first memory disabled relation-biased selection and relation probes; removing the critical-pair ledger disabled its protection and revisiting; random-window selection replaced the local-window selector. Table~\\ref{tab:revision_stage1} measures endpoint coverage in the returned core, separately from root-ranking performance.}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 65,
+      "key": "tab:revision_stage1_cost",
+      "context": "\\revred{On the contemporaneous subset, \\riskall{} averaged equally over source SCCs was 88.3\\%, 100\\%, 100\\%, and 85.0\\%, respectively. Relative to Full, each component removal changed this estimate by $+11.7$ percentage points (95\\% paired interval $[0,25.0]$), whereas random windows changed it by $-3.3$ points ($[-20.0,15.0]$). This subset therefore provides no clear evidence of an independent benefit from memory or critical-pair revisiting. In both Full \\riskall{} failures, the ranking retained the endpoints but the final core omitted one. Removing memory improved endpoint coverage with fewer calls and tokens (Table~\\ref{tab:revision_stage1_cost}).}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 108,
+      "key": "tab:revision_stage2",
+      "context": "\\revred{Dynamic replacement increased \\riskall{} by 37.5 percentage points (95\\% source-SCC paired interval $[12.5,60.0]$) and \\riskany{} by 13.75 points ($[5.0,22.5]$), at equal mean core size and compression (Table~\\ref{tab:revision_stage2}). The replay isolates endpoint retention given the observed evidence; search trajectories are fixed, and OC and closure are not ablated independently. Its Full result uses the original frozen trajectories, whereas Stage-1 Panel B includes 17 newer Full runs.}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 161,
+      "key": "eq:revision_parallel_time",
+      "context": "\\revred{where each dependency-ordered group $g$ contains $n_g$ parallelizable calls, $p_g$ is effective parallelism, and $t_g$ is representative call latency. Available work, workers, and API limits constrain $p_g$. For fixed work, concurrency leaves calls, tokens, and fees unchanged. Equation~\\ref{eq:revision_parallel_time} models execution time; no within-case speedup was measured, and concurrent execution of separate cases does not establish such a speedup.}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 166,
+      "key": "tab:prior_coefficients",
+      "context": "\\revred{We varied the relation-prior bonus multiplier (\\texttt{relation\\_prior\\_weight}) from its default 0.85 to 0.68 and 1.02 ($\\pm20\\%$). The four source SCCs (cost slots 01/03/08/10) were selected and frozen before the sensitivity results were observed. Node, edge, and pair feature weights in Table~\\ref{tab:prior_coefficients} remained fixed. The two models produced 16 new valid outputs; eight nominal outputs with matching inputs and configurations were reused from the cost experiment. All other settings were fixed, including rollout budget and internal concurrency one.}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 186,
+      "key": "tab:revision_prior",
+      "context": "\\revred{Endpoint completeness did not decrease on this subset, although root rankings changed (Table~\\ref{tab:revision_prior}). This four-cluster check characterizes local sensitivity to one coefficient; it does not establish robustness to other priors or core thresholds. The sensitivity jobs ran concurrently across cases, precluding a direct runtime comparison with the serial nominal runs.}"
+    },
+    {
+      "file": "paper/latex/revision_expert_appendix.tex",
+      "line": 39,
+      "key": "tab:expert_new_agreement",
+      "context": "\\revred{Table~\\ref{tab:expert_new_agreement} reports independent judgments before adjudication. For E1/E2 on the 24 new positives, mean Jaccard similarity is 0.670 for minimal evidence sets and 0.723 for repair sets. Agreement involving E3 is conditional on the selected subset and does not estimate agreement among three raters over all cases. Across all 42 cases, E1/E2 agreement is high for conflict existence, while sufficiency has a lower $\\kappa$, distinguishing the two annotation tasks.}"
+    },
+    {
+      "file": "paper/latex/revision_expert_appendix.tex",
+      "line": 68,
+      "key": "tab:expert_new_quality",
+      "context": "\\revred{Outside-reference fractions for One-shot/LEA/\\samcgs{} are 15.1/33.5/15.0\\% with GPT-4o and 8.5/28.2/11.6\\% with Gemini 2.5 Pro. Failed outputs contribute zeros to GPT-4o One-shot's value, so a low fraction alone does not imply better evidence selection. Adding the frozen injection bridge to each expert's repair set changes precision by at most 0.4 percentage points; Table~\\ref{tab:expert_new_quality} uses the unaugmented expert repair sets. Variant-weighted minimal-evidence recall is 38.2/61.1/88.4\\% for GPT-4o and 67.0/84.3/86.9\\% for Gemini 2.5 Pro. These are descriptive averages over the same cases, not additional independent samples.}"
+    },
+    {
+      "file": "paper/latex/revision_expert_appendix.tex",
+      "line": 98,
+      "key": "tab:expert_pre_negative",
+      "context": "\\revred{Table~\\ref{tab:expert_pre_negative} shows frequent false positives: all valid outputs assert a conflict except one Gemini 2.5 Pro LEA abstention. Lower false-positive counts resulting from more invalid outputs do not indicate better specificity. Because the sample contains no natural positives, it cannot estimate natural-positive recall. The selected sources support a paired negative audit but do not estimate the prevalence of natural conflicts in the domain.}"
+    }
+  ],
+  "labels": [
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 408,
+      "key": "app:diagnostics",
+      "context": "\\label{app:diagnostics}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 438,
+      "key": "sec:appendix_annotation",
+      "context": "\\label{sec:appendix_annotation}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 491,
+      "key": "tab:expert_audit_results",
+      "context": "\\label{tab:expert_audit_results}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 511,
+      "key": "tab:expert_protocol",
+      "context": "\\label{tab:expert_protocol}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 528,
+      "key": "tab:expert_example",
+      "context": "\\label{tab:expert_example}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 536,
+      "key": "sec:appendix_case",
+      "context": "\\label{sec:appendix_case}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 542,
+      "key": "fig:case",
+      "context": "\\label{fig:case}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 548,
+      "key": "sec:appendix_algorithm",
+      "context": "\\label{sec:appendix_algorithm}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 555,
+      "key": "alg:appendix_scc_localized",
+      "context": "\\label{alg:appendix_scc_localized}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 576,
+      "key": "alg:appendix_rollout",
+      "context": "\\label{alg:appendix_rollout}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 595,
+      "key": "alg:appendix_relation_memory",
+      "context": "\\label{alg:appendix_relation_memory}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 618,
+      "key": "alg:appendix_dynamic_core",
+      "context": "\\label{alg:appendix_dynamic_core}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 640,
+      "key": "sec:appendix_formula_details",
+      "context": "\\label{sec:appendix_formula_details}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 653,
+      "key": "eq:node-update",
+      "context": "\\label{eq:node-update}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 658,
+      "key": "eq:relation-update",
+      "context": "\\label{eq:relation-update}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 670,
+      "key": "eq:critical-pair",
+      "context": "\\label{eq:critical-pair}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 680,
+      "key": "eq:oc-rule",
+      "context": "\\label{eq:oc-rule}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 688,
+      "key": "eq:candidate-pool",
+      "context": "\\label{eq:candidate-pool}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 693,
+      "key": "app:priors",
+      "context": "\\label{app:priors}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 732,
+      "key": "tab:prior_coefficients",
+      "context": "\\label{tab:prior_coefficients}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 736,
+      "key": "sec:appendix_shared_rubric",
+      "context": "\\label{sec:appendix_shared_rubric}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 749,
+      "key": "sec:appendix_prompts",
+      "context": "\\label{sec:appendix_prompts}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 769,
+      "key": "sec:appendix_datasets",
+      "context": "\\label{sec:appendix_datasets}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 798,
+      "key": "tab:dataset_processing",
+      "context": "\\label{tab:dataset_processing}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 799,
+      "key": "tab:domains",
+      "context": "\\label{tab:domains}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 823,
+      "key": "tab:injection_templates",
+      "context": "\\label{tab:injection_templates}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 830,
+      "key": "sec:appendix_experiments",
+      "context": "\\label{sec:appendix_experiments}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 846,
+      "key": "app:size_breakdowns",
+      "context": "\\label{app:size_breakdowns}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 854,
+      "key": "fig:main_metrics",
+      "context": "\\label{fig:main_metrics}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 863,
+      "key": "fig:absolute_size_breakdowns",
+      "context": "\\label{fig:absolute_size_breakdowns}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 870,
+      "key": "app:budget_prefix",
+      "context": "\\label{app:budget_prefix}"
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 878,
+      "key": "fig:convergence",
+      "context": "\\label{fig:convergence}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 16,
+      "key": "app:revision_experiments",
+      "context": "\\label{app:revision_experiments}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 19,
+      "key": "app:revision_lea",
+      "context": "\\label{app:revision_lea}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 36,
+      "key": "app:revision_stage1",
+      "context": "\\label{app:revision_stage1}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 43,
+      "key": "tab:revision_stage1",
+      "context": "\\label{tab:revision_stage1}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 70,
+      "key": "tab:revision_stage1_cost",
+      "context": "\\label{tab:revision_stage1_cost}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 88,
+      "key": "app:revision_stage2",
+      "context": "\\label{app:revision_stage2}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 95,
+      "key": "tab:revision_stage2",
+      "context": "\\label{tab:revision_stage2}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 111,
+      "key": "app:revision_cost",
+      "context": "\\label{app:revision_cost}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 118,
+      "key": "tab:revision_cost_full",
+      "context": "\\label{tab:revision_cost_full}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 159,
+      "key": "eq:revision_parallel_time",
+      "context": "\\label{eq:revision_parallel_time}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 164,
+      "key": "app:revision_prior",
+      "context": "\\label{app:revision_prior}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 171,
+      "key": "tab:revision_prior",
+      "context": "\\label{tab:revision_prior}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 189,
+      "key": "app:revision_provenance",
+      "context": "\\label{app:revision_provenance}"
+    },
+    {
+      "file": "paper/latex/revision_expert_appendix.tex",
+      "line": 6,
+      "key": "app:expert_extension",
+      "context": "\\label{app:expert_extension}"
+    },
+    {
+      "file": "paper/latex/revision_expert_appendix.tex",
+      "line": 20,
+      "key": "tab:expert_new_agreement",
+      "context": "\\label{tab:expert_new_agreement}"
+    },
+    {
+      "file": "paper/latex/revision_expert_appendix.tex",
+      "line": 50,
+      "key": "tab:expert_new_quality",
+      "context": "\\label{tab:expert_new_quality}"
+    },
+    {
+      "file": "paper/latex/revision_expert_appendix.tex",
+      "line": 77,
+      "key": "tab:expert_pre_negative",
+      "context": "\\label{tab:expert_pre_negative}"
+    },
+    {
+      "file": "experiments/main_experiment/paper_assets/tables/five_model_appendix_breakdowns.tex",
+      "line": 81,
+      "key": "tab:appendix_breakdowns",
+      "context": "\\label{tab:appendix_breakdowns}"
+    }
+  ],
+  "unlinked_panel_mentions": [
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 547,
+      "key": "Algorithm Details",
+      "context": "\\section{Core Algorithm Details}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 42,
+      "key": "Panel A",
+      "context": "\\caption{\\revred{Stage-1 ablations with GPT-4o. Root@3, Any (Risk-any), All (Risk-all), and compression (Comp.) are percentages; $|H|$ is mean core size. Panel A compares four conditions contemporaneously. Panel B combines 63 historical variants with verified input identities and the 17 rerun variants for each condition, providing a descriptive comparison across batches.}}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 42,
+      "key": "Panel B",
+      "context": "\\caption{\\revred{Stage-1 ablations with GPT-4o. Root@3, Any (Risk-any), All (Risk-all), and compression (Comp.) are percentages; $|H|$ is mean core size. Panel A compares four conditions contemporaneously. Panel B combines 63 historical variants with verified input identities and the 17 rerun variants for each condition, providing a descriptive comparison across batches.}}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 85,
+      "key": "Panel B",
+      "context": "\\revred{Panel B extends the descriptive comparison to 80 variants by combining the 17 reruns with 63 historical variants whose input identities were independently verified. Full and all ablations are updated on the same 17 variants. Because the historical Full outputs lack complete prompt/configuration hashes, this panel supports a descriptive comparison across batches rather than contemporaneous attribution. Relative to Full, \\riskall{} changed by $-21.25$ points without critical-pair revisiting, $-6.25$ with random windows, and $+6.25$ without memory. The critical-pair gain in this broader sample does not resolve the inconclusive contemporaneous result; memory showed no consistent independent gain.}"
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 108,
+      "key": "Panel B",
+      "context": "\\revred{Dynamic replacement increased \\riskall{} by 37.5 percentage points (95\\% source-SCC paired interval $[12.5,60.0]$) and \\riskany{} by 13.75 points ($[5.0,22.5]$), at equal mean core size and compression (Table~\\ref{tab:revision_stage2}). The replay isolates endpoint retention given the observed evidence; search trajectories are fixed, and OC and closure are not ablated independently. Its Full result uses the original frozen trajectories, whereas Stage-1 Panel B includes 17 newer Full runs.}"
+    }
+  ]
+}

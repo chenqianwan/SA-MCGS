@@ -1,0 +1,190 @@
+{
+  "mock_experiment": {
+    "total_runs": 90,
+    "config": "2 methods x 3 topologies x 3 scales x 5 repeats",
+    "iterations": 100,
+    "summary": {
+      "tree_mcts_dag": {
+        "hit3": 0.07,
+        "q_spread": 0.0773,
+        "tree_nodes": 68,
+        "avg_rollout": 5.0,
+        "cycle_hit_rate": 0
+      },
+      "tree_mcts_cycle": {
+        "hit3": 0.3,
+        "q_spread": 0.0442,
+        "tree_nodes": 86,
+        "avg_rollout": 19.8,
+        "cycle_hit_rate": 0.61
+      },
+      "sa_mcgs_cycle": {
+        "hit3": 0.9,
+        "q_spread": 0.3707,
+        "tree_nodes": 0,
+        "avg_rollout": 0,
+        "cycle_hit_rate": 0
+      }
+    },
+    "failure_modes": {
+      "f1_tree_explosion": {
+        "dag_tree_nodes": 68,
+        "cycle_tree_nodes": 86,
+        "compound_tree_nodes": 127,
+        "dag_graph_nodes": 30,
+        "compound_graph_nodes": 20,
+        "expansion_ratio": 6.4
+      },
+      "f2_rollout_waste": {
+        "dag_avg_steps": 5.0,
+        "simple_cycle_avg_steps": 8.6,
+        "compound_avg_steps": 31.0,
+        "max_depth": 30,
+        "compound_truncation_rate": 1.0
+      },
+      "f3_q_dilution": {
+        "tree_dag_spread": 0.0773,
+        "tree_cycle_spread": 0.0442,
+        "sa_mcgs_spread": 0.3707,
+        "dilution_ratio": 8.4
+      }
+    },
+    "by_topology": [
+      {
+        "method": "tree_mcts",
+        "topology": "dag",
+        "scale": "S",
+        "hit3": 0.2,
+        "q_spread": 0.0219,
+        "tree_nodes": 15,
+        "avg_rollout": 1.3
+      },
+      {
+        "method": "tree_mcts",
+        "topology": "dag",
+        "scale": "M",
+        "hit3": 0.0,
+        "q_spread": 0.078,
+        "tree_nodes": 87,
+        "avg_rollout": 5.7
+      },
+      {
+        "method": "tree_mcts",
+        "topology": "dag",
+        "scale": "L",
+        "hit3": 0.0,
+        "q_spread": 0.1322,
+        "tree_nodes": 101,
+        "avg_rollout": 8.0
+      },
+      {
+        "method": "tree_mcts",
+        "topology": "simple_cycle",
+        "scale": "S",
+        "hit3": 1.0,
+        "q_spread": 0.0309,
+        "tree_nodes": 35,
+        "avg_rollout": 3.4
+      },
+      {
+        "method": "tree_mcts",
+        "topology": "simple_cycle",
+        "scale": "M",
+        "hit3": 0.0,
+        "q_spread": 0.0434,
+        "tree_nodes": 50,
+        "avg_rollout": 7.7
+      },
+      {
+        "method": "tree_mcts",
+        "topology": "simple_cycle",
+        "scale": "L",
+        "hit3": 0.0,
+        "q_spread": 0.0738,
+        "tree_nodes": 67,
+        "avg_rollout": 14.8
+      },
+      {
+        "method": "tree_mcts",
+        "topology": "compound_cycle",
+        "scale": "S",
+        "hit3": 0.6,
+        "q_spread": 0.0245,
+        "tree_nodes": 114,
+        "avg_rollout": 31.0
+      },
+      {
+        "method": "tree_mcts",
+        "topology": "compound_cycle",
+        "scale": "M",
+        "hit3": 0.0,
+        "q_spread": 0.038,
+        "tree_nodes": 126,
+        "avg_rollout": 31.0
+      },
+      {
+        "method": "tree_mcts",
+        "topology": "compound_cycle",
+        "scale": "L",
+        "hit3": 0.2,
+        "q_spread": 0.0546,
+        "tree_nodes": 127,
+        "avg_rollout": 31.0
+      },
+      {
+        "method": "sa_mcgs",
+        "topology": "simple_cycle",
+        "scale": "S",
+        "hit3": 0.8,
+        "q_spread": 0.3492,
+        "tree_nodes": 0,
+        "avg_rollout": 0
+      },
+      {
+        "method": "sa_mcgs",
+        "topology": "simple_cycle",
+        "scale": "M",
+        "hit3": 1.0,
+        "q_spread": 0.3984,
+        "tree_nodes": 0,
+        "avg_rollout": 0
+      },
+      {
+        "method": "sa_mcgs",
+        "topology": "simple_cycle",
+        "scale": "L",
+        "hit3": 1.0,
+        "q_spread": 0.3922,
+        "tree_nodes": 0,
+        "avg_rollout": 0
+      },
+      {
+        "method": "sa_mcgs",
+        "topology": "compound_cycle",
+        "scale": "S",
+        "hit3": 0.6,
+        "q_spread": 0.3902,
+        "tree_nodes": 0,
+        "avg_rollout": 0
+      },
+      {
+        "method": "sa_mcgs",
+        "topology": "compound_cycle",
+        "scale": "M",
+        "hit3": 1.0,
+        "q_spread": 0.363,
+        "tree_nodes": 0,
+        "avg_rollout": 0
+      },
+      {
+        "method": "sa_mcgs",
+        "topology": "compound_cycle",
+        "scale": "L",
+        "hit3": 1.0,
+        "q_spread": 0.3314,
+        "tree_nodes": 0,
+        "avg_rollout": 0
+      }
+    ]
+  }
+}

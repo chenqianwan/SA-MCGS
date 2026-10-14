@@ -1,0 +1,146 @@
+--- 47-references/acl_latex.tex
++++ 54-references/acl_latex.tex
+@@ -380,16 +380,16 @@
+ \label{sec:related}
+ 
+ \paragraph{LLM reasoning and long context.}
+-\revredreplace{Chain-of-thought prompting improves sequential reasoning (\mbox{\citealp{wei2022chain}}), whereas cyclic document risk requires revisiting and reconciling records instead of extending one chain.  Long-context benchmarks show persistent failures in retrieval, multi-hop tracing, and aggregation (\mbox{\citealp{liu2024lost}}; \mbox{\citealp{hsieh2024ruler}}; \mbox{\citealp{bai2024longbench}}), while graph-reasoning studies show sensitivity to graph encoding and task formulation (\mbox{\citealp{wang2023can}}; \mbox{\citealp{fatemi2024talk}}).  Legal NLP benchmarks motivate document-level reasoning (\mbox{\citealp{hendrycks2021cuad}}; \mbox{\citealp{koreeda2021contractnli}}; \mbox{\citealp{chalkidis2022lexglue}}; \mbox{\citealp{guha2023legalbench}}). Our task stresses cyclic structural evidence retention.}{Chain-of-thought prompting supports sequential reasoning \citep{wei2022chain}, while long-context and graph-reasoning studies identify limits in evidence retrieval and sensitivity to graph encoding \citep{liu2024lost,hsieh2024ruler,bai2024longbench,wang2023can,fatemi2024talk}. Legal benchmarks address document-level reasoning \citep{hendrycks2021cuad,koreeda2021contractnli,chalkidis2022lexglue,guha2023legalbench}; network analysis and contract graph extraction capture relations among legal records \citep{boulet2021measuring,dechtiar2025graphgrpolex}.}
++\revredreplace{Chain-of-thought prompting improves sequential reasoning (\mbox{\citealp{wei2022chain}}), whereas cyclic document risk requires revisiting and reconciling records instead of extending one chain.  Long-context benchmarks show persistent failures in retrieval, multi-hop tracing, and aggregation (\mbox{\citealp{liu2024lost}}; \mbox{\citealp{hsieh2024ruler}}; \mbox{\citealp{bai2024longbench}}), while graph-reasoning studies show sensitivity to graph encoding and task formulation (\mbox{\citealp{wang2023can}}; \mbox{\citealp{fatemi2024talk}}).  Legal NLP benchmarks motivate document-level reasoning (\mbox{\citealp{hendrycks2021cuad}}; \mbox{\citealp{koreeda2021contractnli}}; \mbox{\citealp{chalkidis2022lexglue}}; \mbox{\citealp{guha2023legalbench}}). Our task stresses cyclic structural evidence retention.}{Chain-of-thought prompting supports sequential reasoning \citep{wei2022chain}, while long-context and graph studies identify retrieval and encoding limitations \citep{liu2024lost,hsieh2024ruler,bai2024longbench,wang2023can,fatemi2024talk}. Contract benchmarks cover extraction and inference \citep{hendrycks2021cuad,koreeda2021contractnli}, merger-agreement understanding \citep{wang2023maud}, provision classification \citep{tuggener2020ledgar}, and unfair-clause detection \citep{lippi2019claudette}, alongside broader legal benchmarks \citep{chalkidis2022lexglue,guha2023legalbench}. Network analysis and contract graphs represent relations among legal records \citep{boulet2021measuring,dechtiar2025graphgrpolex}.}
+ 
+ \paragraph{Search-augmented LLMs.}
+ \revredreplace{Tree of Thoughts (\mbox{\citealp{yao2024tree}}), Graph of Thoughts (\mbox{\citealp{besta2024graph}}), and planning-style LLM search (\mbox{\citealp{hao2023reasoning}}) show that explicit search can improve reasoning.  \samcgs{} operates on externally constructed document graphs and treats \scc{}s as bottlenecks to collapse into risk subgraphs.}{Tree of Thoughts \citep{yao2024tree}, Graph of Thoughts \citep{besta2024graph}, and reasoning as planning \citep{hao2023reasoning} organize LLM reasoning through explicit search. Language Agent Tree Search (LATS) combines MCTS with LLM value estimates, reflection, and environmental feedback \citep{zhou2024lats}.}
+ 
+ \paragraph{Monte Carlo search on graphs.}
+-\revredreplace{MCTS and AlphaGo-style search are powerful under stable state transitions (\mbox{\citealp{silver2016mastering}}; \mbox{\citealp{kocsis2006bandit}}; \mbox{\citealp{browne2012survey}}).  Monte Carlo graph search reuses transpositions (\mbox{\citealp{childs2008transpositions}}; \mbox{\citealp{czech2021monte}}), and work on MCTS uncertainty highlights loop difficulty (\mbox{\citealp{moerland2020mcts}}).  Our method targets the remaining gap in information-preserving \scc{} handling for cyclic document regions.}{Monte Carlo graph search shares transpositions \citep{childs2008transpositions,czech2021monte}, while related analyses address loop-induced uncertainty \citep{moerland2020mcts}. ReKG-MCTS \citep{song2025rekgmcts} and Graph-MCTS \citep{liu2025graphmcts} apply MCTS to reasoning over external graph knowledge.}
++\revredreplace{MCTS and AlphaGo-style search are powerful under stable state transitions (\mbox{\citealp{silver2016mastering}}; \mbox{\citealp{kocsis2006bandit}}; \mbox{\citealp{browne2012survey}}).  Monte Carlo graph search reuses transpositions (\mbox{\citealp{childs2008transpositions}}; \mbox{\citealp{czech2021monte}}), and work on MCTS uncertainty highlights loop difficulty (\mbox{\citealp{moerland2020mcts}}).  Our method targets the remaining gap in information-preserving \scc{} handling for cyclic document regions.}{Monte Carlo graph search shares transpositions \citep{childs2008transpositions,czech2021monte}, while related analyses address loop-induced uncertainty \citep{moerland2020mcts}. ReKG-MCTS \citep{song2025rekgmcts} and Graph-MCTS \citep{liu2025graphmcts} apply MCTS to reasoning over external graph knowledge. SubgraphX uses MCTS to identify subgraphs that explain GNN predictions \citep{yuan2021subgraphx}.}
+ 
+ \paragraph{\revredreplace{Graph legal analysis and calibration.}{Graph retrieval and evidence selection.}}
+-\revredreplace{Network analysis has been used for statutory cross-references (\mbox{\citealp{boulet2021measuring}}), contract graph extraction is active (\mbox{\citealp{dechtiar2025graphgrpolex}}), and conformal ideas inspire calibrated evidence signals (\mbox{\citealp{vovk2005algorithmic}}; \mbox{\citealp{gibbs2021adaptive}}).  \samcgs{} is complementary because it assumes a record graph and focuses on risk search inside cyclic components.}{GraphRAG uses entity graphs and community summaries for query-focused summarization \citep{edge2024graphrag}. ToG-2 couples knowledge-graph traversal with document retrieval \citep{ma2025tog2}, and G-Retriever selects query-relevant subgraphs through prize-collecting Steiner tree optimization \citep{he2024gretriever}. Our task centers on retaining risk endpoints in a compact output subgraph; \samcgs{} accumulates relation-level evidence during local search within an \scc{}.}
++\revredreplace{Network analysis has been used for statutory cross-references (\mbox{\citealp{boulet2021measuring}}), contract graph extraction is active (\mbox{\citealp{dechtiar2025graphgrpolex}}), and conformal ideas inspire calibrated evidence signals (\mbox{\citealp{vovk2005algorithmic}}; \mbox{\citealp{gibbs2021adaptive}}).  \samcgs{} is complementary because it assumes a record graph and focuses on risk search inside cyclic components.}{GraphRAG summarizes graph communities \citep{edge2024graphrag}, ToG-2 combines graph traversal with document retrieval \citep{ma2025tog2}, and G-Retriever selects query-relevant subgraphs through prize-collecting Steiner tree optimization \citep{he2024gretriever}. LegalGraphRAG combines hierarchical legal graphs with evidence retrieval and verification \citep{chen2026legalgraphrag}, while SAT-Graph RAG models legal hierarchy, temporal versions, and provenance \citep{demartim2025satgraph}. \samcgs{} accumulates relation-level evidence within \scc{}s to retain risk endpoints in a compact output subgraph.}
+ 
+ \section{Conclusion}
+ \label{sec:conclusion}
+--- 47-references/revision_expert_appendix.tex
++++ 54-references/revision_expert_appendix.tex
+@@ -39,7 +39,7 @@
+ \revred{Table~\ref{tab:expert_new_agreement} reports independent judgments before adjudication. For E1/E2 on the 24 new positives, mean Jaccard similarity is 0.670 for minimal evidence sets and 0.723 for repair sets. Agreement involving E3 is conditional on the selected subset and does not estimate agreement among three raters over all cases. Across all 42 cases, E1/E2 agreement is high for conflict existence, while sufficiency has a lower $\kappa$, distinguishing the two annotation tasks.}
+ 
+ \paragraph{Expert-reference scoring.}
+-\revred{For a system output $H$, minimal-evidence recall is $|H\cap M|/|M|$, repair coverage is $|H\cap R|/|R|$, and repair-reference precision is $|H\cap R|/|H|$. The outside-reference fraction, $|H\setminus R|/|H|$, measures disagreement with the repair reference; it does not establish that unreferenced nodes are irrelevant. We use E3's complete reference for the five adjudicated positives. For the other 19, we score against E1 and E2 separately and average their scores within each case, without merging their reference sets. All positive reference denominators are nonempty.}
++\revred{Following ERASER's distinction between human-rationale agreement and faithfulness to model predictions \citep{deyoung2020eraser}, our expert-reference metrics evaluate agreement with annotated evidence. For a system output $H$, minimal-evidence recall is $|H\cap M|/|M|$, repair coverage is $|H\cap R|/|R|$, and repair-reference precision is $|H\cap R|/|H|$. The outside-reference fraction, $|H\setminus R|/|H|$, measures disagreement with the repair reference; it does not establish that unreferenced nodes are irrelevant. We use E3's complete reference for the five adjudicated positives. For the other 19, we score against E1 and E2 separately and average their scores within each case, without merging their reference sets. All positive reference denominators are nonempty.}
+ 
+ \revred{Predictions are the returned evidence core for \samcgs{}, the fixed-cap LEA output, and the direct One-shot subgraph. For \samcgs{}, we use \texttt{core\_evidence\_risk\_subgraph\_nodes}, which is available at inference time, and exclude diagnostic fields that use ground truth. Failed cases remain in the denominator. Invalid or empty outputs receive zero recall, coverage, and precision. Their outside-reference fraction is also zero by convention, so this metric must be interpreted alongside validity.}
+ 
+--- 47-references/revision_bibliography_audit.tex
++++ 54-references/revision_bibliography_audit.tex
+@@ -56,3 +56,12 @@
+ \csdef{fullbibaudit@he2024gretriever}{1}
+ \csdef{fullbibaudit@ma2025tog2}{1}
+ \csdef{fullbibaudit@edge2024graphrag}{1}
++
++% 2026-10-02: reviewer-driven additions (47 -> 54).
++\csdef{fullbibaudit@chen2026legalgraphrag}{1}
++\csdef{fullbibaudit@demartim2025satgraph}{1}
++\csdef{fullbibaudit@lippi2019claudette}{1}
++\csdef{fullbibaudit@wang2023maud}{1}
++\csdef{fullbibaudit@tuggener2020ledgar}{1}
++\csdef{fullbibaudit@yuan2021subgraphx}{1}
++\csdef{fullbibaudit@deyoung2020eraser}{1}
+--- 47-references/custom.bib
++++ 54-references/custom.bib
+@@ -611,3 +611,95 @@
+     year = {2025},
+     url = {https://proceedings.iclr.cc/paper_files/paper/2025/hash/830b1abc6d2da85f23d41169fa44d185-Abstract-Conference.html},
+ }
++
++
++@inproceedings{wang2023maud,
++    author = {Steven H. Wang and Antoine Scardigli and Leonard Tang and Wei Chen and Dimitry Levkin and Anya Chen and Spencer Ball and Thomas Woodside and Oliver Zhang and Dan Hendrycks},
++    title = {{MAUD}: An Expert-Annotated Legal {NLP} Dataset for Merger Agreement Understanding},
++    booktitle = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing},
++    pages = {16369--16382},
++    year = {2023},
++    month = dec,
++    address = {Singapore},
++    publisher = {Association for Computational Linguistics},
++    doi = {10.18653/v1/2023.emnlp-main.1019},
++    url = {https://aclanthology.org/2023.emnlp-main.1019/},
++}
++
++@inproceedings{tuggener2020ledgar,
++    author = {Don Tuggener and Pius von D{\"a}niken and Thomas Peetz and Mark Cieliebak},
++    title = {{LEDGAR}: A Large-Scale Multilabel Corpus for Text Classification of Legal Provisions in Contracts},
++    booktitle = {Proceedings of the Twelfth Language Resources and Evaluation Conference},
++    pages = {1235--1241},
++    year = {2020},
++    month = may,
++    address = {Marseille, France},
++    publisher = {European Language Resources Association},
++    url = {https://aclanthology.org/2020.lrec-1.155/},
++}
++
++@article{lippi2019claudette,
++    author = {Marco Lippi and Przemys{\l}aw Pa{\l}ka and Giuseppe Contissa and Francesca Lagioia and Hans-Wolfgang Micklitz and Giovanni Sartor and Paolo Torroni},
++    title = {{CLAUDETTE}: an automated detector of potentially unfair clauses in online terms of service},
++    journal = {Artificial Intelligence and Law},
++    volume = {27},
++    number = {2},
++    pages = {117--139},
++    year = {2019},
++    doi = {10.1007/s10506-019-09243-2},
++    url = {https://link.springer.com/article/10.1007/s10506-019-09243-2},
++}
++
++
++@inproceedings{chen2026legalgraphrag,
++    author = {Chen, Zerui and Zhang, Qinggang and Xiang, Zhishang and Wei, Zhimin and Gao, Linfeng and Huang, Xiao and Zhang, Zhihong and Su, Jinsong},
++    title = {{LegalGraphRAG}: Multi-Agent Graph Retrieval-Augmented Generation for Reliable Legal Reasoning},
++    booktitle = {Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
++    year = {2026},
++    month = jul,
++    address = {San Diego, California, United States},
++    pages = {37455--37484},
++    publisher = {Association for Computational Linguistics},
++    doi = {10.18653/v1/2026.acl-long.1738},
++    url = {https://aclanthology.org/2026.acl-long.1738/},
++}
++
++@inproceedings{demartim2025satgraph,
++    author = {de Martim, Hudson},
++    title = {An Ontology-Driven Graph {RAG} for Legal Norms: A Hierarchical, Temporal, and Deterministic Approach},
++    booktitle = {Legal Knowledge and Information Systems: {JURIX} 2025},
++    series = {Frontiers in Artificial Intelligence and Applications},
++    pages = {282--287},
++    year = {2025},
++    month = dec,
++    publisher = {IOS Press},
++    doi = {10.3233/FAIA251598},
++    url = {https://doi.org/10.3233/FAIA251598},
++}
++
++
++@inproceedings{yuan2021subgraphx,
++    author = {Hao Yuan and Haiyang Yu and Jie Wang and Kang Li and Shuiwang Ji},
++    title = {On Explainability of Graph Neural Networks via Subgraph Explorations},
++    booktitle = {Proceedings of the 38th International Conference on Machine Learning},
++    volume = {139},
++    series = {Proceedings of Machine Learning Research},
++    pages = {12241--12252},
++    year = {2021},
++    month = jul,
++    publisher = {PMLR},
++    url = {https://proceedings.mlr.press/v139/yuan21c.html},
++}
++
++@inproceedings{deyoung2020eraser,
++    author = {Jay DeYoung and Sarthak Jain and Nazneen Fatema Rajani and Eric Lehman and Caiming Xiong and Richard Socher and Byron C. Wallace},
++    title = {{ERASER}: A Benchmark to Evaluate Rationalized {NLP} Models},
++    booktitle = {Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics},
++    pages = {4443--4458},
++    year = {2020},
++    month = jul,
++    address = {Online},
++    publisher = {Association for Computational Linguistics},
++    doi = {10.18653/v1/2020.acl-main.408},
++    url = {https://aclanthology.org/2020.acl-main.408/},
++}

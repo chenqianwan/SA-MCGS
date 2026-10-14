@@ -1,0 +1,165 @@
+{
+  "protocol_version": "prior_fallback_slots_01_03_08_10_v1",
+  "output_directory_name": "prior_fallback_slots_01_03_08_10",
+  "publication_role": "frozen four-case relation-prior fallback sensitivity",
+  "selection": {
+    "source_manifest": "2026NAACL/SA-MCGS/validation/prior_budget_gate_v1/fallback_subset.json",
+    "source_manifest_sha256": "sha256:c467b74ffca28b92d20af20679bd8cd1b2fda235c1ba623bac76f4a7bf3ed7c2",
+    "source_preflight": "2026NAACL/SA-MCGS/experiments/cost_prior_12case_gpt4o_gemini25pro_b60_v1/preflight/case_identity_preflight.json",
+    "source_preflight_sha256": "sha256:838ff7e35b73be4e9452b28b1f0c50a6c3e14c9631fc26a041803baf9d2f5a50",
+    "selected_slots": [1, 3, 8, 10],
+    "selected_slots_canonical_sha256": "sha256:10929eea36eea1d36b031673acfe3180c7998712dbc9a5a6a5a56cff2877bd52",
+    "selected_cases_canonical_sha256": "sha256:87a2e978120216c94009cfbc0655efbdd3745b58ce6ee429cabce7b723ee3d8e",
+    "execution_order_canonical_sha256": "sha256:8e09a72bc0c54d8422da3356387e8941567415372a3d6a6504f46e1faf792954",
+    "selection_is_outcome_blind": true,
+    "selection_rule": "Use the lexicographically first feasible four-slot tuple frozen before prior results: slots 1,3,8,10.",
+    "no_adaptive_case_replacement": true,
+    "no_result_directed_reselection": true
+  },
+  "parent": {
+    "run_directory": "2026NAACL/SA-MCGS/experiments/cost_prior_12case_gpt4o_gemini25pro_b60_v1",
+    "frozen_protocol": "2026NAACL/SA-MCGS/experiments/cost_prior_12case_gpt4o_gemini25pro_b60_v1/frozen_protocol.json",
+    "frozen_protocol_sha256": "sha256:df82fe6b15b6ecdef4e28ed70a3d3b281c5823fc5dc65c2e5e9875686309ce73",
+    "budget_amendment": "2026NAACL/SA-MCGS/experiments/cost_prior_12case_gpt4o_gemini25pro_b60_v1/protocol_amendment_budget_gate.json",
+    "budget_amendment_sha256": "sha256:f6b063e4d8c65edd52ef60e30345c4310649aaf76b225d5f4337dc1ad1955674",
+    "pricing_snapshot": "2026NAACL/SA-MCGS/experiments/cost_prior_12case_gpt4o_gemini25pro_b60_v1/xhub_pricing_snapshot.json",
+    "pricing_snapshot_sha256": "sha256:e7f1a0323a9a51c031187642949e8361577aaed205687c6c24354e00255cbcf6",
+    "gpt_plan": "2026NAACL/SA-MCGS/experiments/cost_prior_12case_gpt4o_gemini25pro_b60_v1/preflight/plans/gpt-4o/case_plan.json",
+    "gpt_plan_sha256": "sha256:29e37cc049af842ae4102b89d63b70700a2831598317f43905bd9cc993605ff0",
+    "gemini_plan": "2026NAACL/SA-MCGS/experiments/cost_prior_12case_gpt4o_gemini25pro_b60_v1/preflight/plans/gemini-2.5-pro/case_plan.json",
+    "gemini_plan_sha256": "sha256:4c7715d0795ca7dcb07952f21ed9bec7d454e06c9367030058127d21baac2095",
+    "cost_runner_module": "emnlp2026_discussion/run_cost_audit_clean.py",
+    "cost_runner_module_sha256": "sha256:fed658f7ca1ddf5db151b493d44023263d75b96daaecb8ea832519a3ff12d425",
+    "parent_runner": "2026NAACL/SA-MCGS/experiments/cost_prior_12case_gpt4o_gemini25pro_b60_v1/run_cost_prior.py",
+    "parent_runner_sha256": "sha256:c86f07be982e16e92d73858c683ad45c8e3d40f6566640dd2aa76e5204141d7e"
+  },
+  "upstream_accounting": {
+    "required_roles": ["pre", "stage1", "parent"],
+    "additional_cli_ledgers_permitted": false,
+    "sources": [
+      {
+        "role": "pre",
+        "path": "2026NAACL/SA-MCGS/experiments/pre_baseline_runs/pre_baseline_v1_20260909/budget_ledger.json",
+        "sha256": "sha256:bdd97199f83a4d44a1bdc9dd133f85e560c8fa57cd3e7acec9f073c36745524e",
+        "schema": "pre_baseline_budget_ledger_v1",
+        "spend_field": "all_new_calls_including_paid_smoke.estimated_usd",
+        "expected_spend_usd": 34.63448
+      },
+      {
+        "role": "stage1",
+        "path": "2026NAACL/SA-MCGS/experiments/stage1_identity_safe_68_20260909_051438/formal/final_summary.json",
+        "sha256": "sha256:382fda109060519cd07e071aeaa1de3be6c6d4af3432973df3eab4ef179d18d9",
+        "status_path": "2026NAACL/SA-MCGS/experiments/stage1_identity_safe_68_20260909_051438/formal/status.json",
+        "status_sha256": "sha256:01509a78715477815291e2b74db8e40d74251a382eae2324d93235c18b4f7cca",
+        "schema": "stage1_identity_safe_final_summary_v1",
+        "spend_field": "cost.unique_paid_smoke_plus_new_formal.estimated_usd",
+        "expected_spend_usd": 47.381175000000006
+      },
+      {
+        "role": "parent",
+        "path": "2026NAACL/SA-MCGS/experiments/cost_prior_12case_gpt4o_gemini25pro_b60_v1/budget_ledger.jsonl",
+        "schema": "cost_prior_append_only_jsonl",
+        "dynamic": true,
+        "integrity_rule": "Every cost row must bind one frozen parent result; spend is independently repriced from usage at frozen XHub list rates."
+      }
+    ]
+  },
+  "implementation_lock": {
+    "battle_module": "experiments/cross_domain/run_cross_domain_battle.py",
+    "battle_module_sha256": "sha256:97409a6ea84e2a3226b8e9780d49a0a23daca4529e183f275fcd15d8ad994ab6",
+    "alphago_mcgs_module": "src/modules/alphago_mcgs.py",
+    "alphago_mcgs_module_sha256": "sha256:74a0e9813065b94bfc3e4447fbac08cbdae097707da422ee3a9cab360fd68c62",
+    "openai_client_module": "src/llm/openai_client.py",
+    "openai_client_module_sha256": "sha256:7421b5afdfd61ef86fecb552443abae935e1ad4632e9dda97a0937a0036c6d88",
+    "llm_base_module": "src/llm/base.py",
+    "llm_base_module_sha256": "sha256:971f638fe9e498483aeb163e0eab18695d24544137bdc171d4afac134614f4d4",
+    "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+    "prompt_semantic_audit_hash": "345549c32f20ec3a",
+    "prompt_adapter_type": "local_window_evidence_for_search",
+    "prompt_compatibility": "legacy_formal_prompt_no_extra_rubric_block",
+    "prompt_input_scope": "local_scc_window",
+    "response_format": {"type": "json_object"}
+  },
+  "configuration_lock": {
+    "experiment_config_sha256": {
+      "gpt-4o": {
+        "nominal": "sha256:a6def50c76a600b80a933e75e90b8449acdc9f991968ab735279657a866b8b13",
+        "minus20": "sha256:d73656b7d89ec32f03a40a3fc0825a5f739ffa6f5299b6925c83f445b0a5112b",
+        "plus20": "sha256:a0e87be379cf42ddfb0cd92a447e31d5b31bc0a034d49a5f7526a0b32fef62a4"
+      },
+      "gemini-2.5-pro": {
+        "nominal": "sha256:e7944bc85c8ec20454e3297e4b9d3833274085bd8a679b2b7daffb5c1b32b965",
+        "minus20": "sha256:b6790e7f97809274354ebb8f686cd89f2a1e9dfba7d0735bdedb7fe5381101af",
+        "plus20": "sha256:fa32024c42f1f421f6ea4e4805c50284b9a505797655c67b042eded17ee30e77"
+      }
+    },
+    "scientific_config_sha256": {
+      "gpt-4o": {
+        "nominal": "sha256:b0f863ff2c9398443cb04a842d8c8f92164544e62b04fbf4342b66b8a11dc60f",
+        "minus20": "sha256:fc9338920627cb9086d5c54ede1e2a6421840c8cb21c67e060fec347ff63278c",
+        "plus20": "sha256:025d1f2466581c76d67a5904f7544aebe80ad8dfea05773ce196fc68428e910d"
+      },
+      "gemini-2.5-pro": {
+        "nominal": "sha256:7c81374572f242a43fa0e69f7f36d176aa31725352a2baccffbf01c142c059d7",
+        "minus20": "sha256:5b56ab6c2fd418f092ac5d3ee95b3133cf3c434e6e0c8ea1bdd705ade1c281eb",
+        "plus20": "sha256:c6b52eb5ef7286d99b080ed47dd956cbf2057fab3138d3a990bee45aa031be65"
+      }
+    }
+  },
+  "scope": {
+    "models": ["gpt-4o", "gemini-2.5-pro"],
+    "profiles": {
+      "minus20": {"multiplier": 0.8, "relation_prior_weight": 0.68},
+      "nominal": {"multiplier": 1.0, "relation_prior_weight": 0.85},
+      "plus20": {"multiplier": 1.2, "relation_prior_weight": 1.02}
+    },
+    "new_paid_profiles": ["minus20", "plus20"],
+    "new_paid_cells": 16,
+    "nominal_reuse_cells": 8,
+    "strict_denominator_per_model_profile": 4,
+    "invalid_policy": "Retain each attempted cell as terminal. Invalid cells remain in the strict denominator and are never automatically retried or replaced."
+  },
+  "locked_runtime": {
+    "inject_profile": "memory_stress",
+    "inject_profile_version": "structural_simple_v2",
+    "severity": "critical",
+    "compression_profile": "current",
+    "sa_mcgs_budget": 60,
+    "window_size": 4,
+    "case_concurrency": 1,
+    "internal_concurrency": 1,
+    "llm_timeout_seconds": 600,
+    "llm_max_retries": 2,
+    "base_url": "https://api3.xhub.chat/v1",
+    "api_key_env": "XHUB_API_KEY"
+  },
+  "pricing": {
+    "pricing_version": "a42d372ccf0b5dd13ecf71203521f9d2",
+    "rates_usd_per_million_tokens": {
+      "gpt-4o": {"input": 2.5, "output": 10.0},
+      "gemini-2.5-pro": {"input": 1.25, "output": 10.0}
+    },
+    "cost_basis": "provider-observed prompt/completion tokens multiplied by the frozen XHub list rates",
+    "next_cell_reserve_policy": "max(USD 1.25, 1.5 times the maximum completed nominal SA-MCGS cell for the same model across all 12 parent slots)",
+    "fallback_projection_floor_usd": 40.447019999999995
+  },
+  "budget": {
+    "global_authorization_usd": 200.0,
+    "minimum_closeout_reserve_usd": 10.0,
+    "authorization_scope_id": "sa-mcgs-arr-oct2026-global-200-v1",
+    "balance_snapshot_schema": "xhub_balance_snapshot.v1",
+    "balance_snapshot_captured_by": "sa-mcgs-local-cost-fallback-pipeline",
+    "balance_snapshot_ttl_seconds": 1800,
+    "balance_snapshot_freshness_scope": "each_invocation_start_only",
+    "require_fresh_global_authorization_remaining_argument": true,
+    "launch_rule": "derive authorization remaining from the frozen USD 200 ceiling minus the three mandatory frozen upstream ledgers (pre, Stage-1, parent cost) and the automatically included fallback ledger; CLI remaining is only an equality assertion; projected missing cost plus closeout reserve must fit",
+    "per_cell_rule": "before every cell, reparse validated ledgers, revalidate the same launch snapshot artifact and hash without reapplying TTL inside that invocation, derive remaining again, and preserve the closeout reserve; every resumed invocation requires a new fresh snapshot"
+  },
+  "readiness": {
+    "parent_cost_must_be_terminal_72_of_72": true,
+    "all_eight_selected_nominal_cells_must_pass_parity": true,
+    "parent_nominal_errors_are_reused_as_terminal_invalids": true,
+    "pricing_and_all_frozen_input_hashes_must_match": true,
+    "paid_run_requires_explicit_execute_flag": true
+  }
+}

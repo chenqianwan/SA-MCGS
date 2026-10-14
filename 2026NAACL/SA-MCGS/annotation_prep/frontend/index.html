@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>结构冲突专家辅助复核</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="vendor/xlsx.full.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">专家辅助复核</p>
+      <h1>结构冲突专家辅助复核</h1>
+      <p class="subtitle">未注入原始样本与注入后样本均在页面中；正文默认显示中文译文，每段同时展示 LEA 与 SA-MCGS 的对应结果。</p>
+    </div>
+    <div class="autosave" aria-live="polite">
+      <span class="autosave-dot"></span>
+      <span id="saveStatus">等待载入样本</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar" aria-label="标注导航">
+      <section class="identity-panel">
+        <label for="expertSlot">专家编号</label>
+        <select id="expertSlot">
+          <option value="expert_1">专家 1</option>
+          <option value="expert_2">专家 2</option>
+          <option value="expert_3">专家 3</option>
+        </select>
+        <label for="reviewerId">标注者姓名或编号</label>
+        <input id="reviewerId" type="text" autocomplete="off" placeholder="例如：E01">
+      </section>
+
+      <section class="progress-panel" aria-label="标注进度">
+        <div class="progress-copy">
+          <strong id="progressText">0 / 0</strong>
+          <span>已完成</span>
+        </div>
+        <div class="progress-track" aria-hidden="true"><div id="progressBar"></div></div>
+      </section>
+
+      <nav id="caseList" class="case-list" aria-label="样本列表"></nav>
+
+      <section class="data-actions">
+        <button id="loadManifestBtn" class="button secondary" type="button">载入页面数据</button>
+        <input id="manifestInput" type="file" accept=".json,application/json" multiple hidden>
+        <button id="restoreBtn" class="button secondary" type="button">恢复标注备份</button>
+        <input id="restoreInput" type="file" accept=".json,application/json" hidden>
+        <button id="exportXlsxBtn" class="button primary" type="button">导出电子表格</button>
+        <div class="split-actions">
+          <button id="exportJsonBtn" class="button ghost" type="button">完整备份</button>
+          <button id="exportCsvBtn" class="button ghost" type="button">汇总表</button>
+        </div>
+      </section>
+    </aside>
+
+    <section id="workspace" class="workspace" aria-live="polite">
+      <div class="empty-state">
+        <p class="empty-kicker">准备中</p>
+        <h2>正在载入辅助复核样本</h2>
+        <p>如果页面没有自动载入，请点击左侧“载入页面数据”，同时选择样本、中文翻译和算法提示三个数据文件。</p>
+      </div>
+    </section>
+  </main>
+
+  <template id="errorTemplate">
+    <div class="empty-state error-state">
+      <p class="empty-kicker">无法载入</p>
+      <h2>样本文件不可用</h2>
+      <p data-error-message></p>
+      <button class="button primary" data-retry-manifest type="button">手动选择三个数据文件</button>
+    </div>
+  </template>
+</body>
+</html>

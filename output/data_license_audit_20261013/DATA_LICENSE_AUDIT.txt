@@ -1,0 +1,80 @@
+SA-MCGS 数据来源与发布许可核对
+核对日期：2026-10-13（Asia/Hong_Kong）
+范围：当前论文的四域、20个来源SCC、80个注入变体，以及其中18个法律域来源的自然案例。只读核对；未改变任何数据、实验结果、论文或发布包，未发布文件。
+
+结论
+B2适用：拟在录用后发布的数据建立在第三方资料之上，发布时间不消除许可要求。已找到四域主要来源及许可依据，但尚不能确认整个原始/改写文档包可以不加区分地公开。现行论文与离线补充包还缺少分来源许可说明；CUAD底层合同和Debian额外文本的权利边界需要与数据库许可区分。此核对不是认定研究使用侵权，也不是对所有拟发布文件的无条件授权结论。
+
+1. 实际范围
+Debian：2个SCC、8 variants、23个原始节点。
+SEC EX-21：5个SCC、20 variants、60个原始节点。
+BGB：3个SCC、12 variants、45个原始节点。
+CUAD：10个SCC、40 variants、208个原始节点。
+18个自然案例来源是后三域的18个SCC，不是新增18个独立来源。
+SCC不等于独立文档；BGB三个SCC来自同一法典。
+冻结身份文件：2026NAACL/SA-MCGS/validation/identity_stage2_80/case_plan.json。
+
+2. 分域核对
+
+CUAD
+实际材料：CUAD英文合同经本地抽取形成图记录。当前loader优先读取data/cuad/grpo_lex_replicated/fullgraphs；不应把所有节点描述成完整合同原文。当前fullgraphs以CLAUSE的title回填缺失content，含原文短段及重组/简化记录。
+来源声明：CUAD数据集CC BY 4.0。需要署名、许可链接、保留适用通知并注明改动。
+已确认边界：本地原始CUAD_v1_README.txt同时明确不保证底层合同的许可状态；合同可从EDGAR取得不等于无条件再授权其全文。数据集许可与独立合同全文的权利不能混为一谈。
+完整代码发布还需保留graph-grpo-lex代码/复用prompt的适用MIT通知；代码MIT不覆盖所有合同文本。
+本地证据：data/cuad/CUAD_v1/CUAD_v1/CUAD_v1_README.txt（LICENSE段）；data/cuad/graph-grpo-lex/README.md（License段）。
+官方依据：https://www.atticusprojectai.org/legal/
+原始README在线版本：https://huggingface.co/datasets/theatticusproject/cuad/blob/main/CUAD_v1/CUAD%20v1%20ReadMe%20_%20Datasheet/CUAD_v1_README.txt
+许可：https://creativecommons.org/licenses/by/4.0/
+建议：明确署名、许可证和改写标记；底层合同原文的再发布依据未确认时，提供原始来源标识、下载/重建步骤及不复刻原文的独立标注，而非承诺无条件重发所有合同。
+
+Debian / CARDS
+实际材料：CARDS依赖图，加Debian Packages记录。节点文本还含Description等字段，不只是包名和依赖边。
+CARDS脚本头明确：数据ODbL-1.0，脚本EUPL-1.2。二者不可互换。
+ODbL允许共享/改编数据库，并有署名、保留通知、适用的数据库相同方式共享等义务。不能据此推定整篇论文、全部代码或其他域数据也要ODbL。
+已确认边界：官方CARDS Debian归档包含deps/tdag与两脚本，不含本地额外的packages.txt.gz；因此CARDS数据库许可不能自动证明所有额外Description文本的许可。
+本地证据：experiments/cross_domain/20241027.cards.debian_pkgs/build_dataset.fish:3-6；同目录extract_deb_dependencies.py；run_cross_domain.py使用Description字段。
+发布记录：https://doi.org/10.5281/zenodo.14245890
+版本记录：https://zenodo.org/records/14245891
+官方API：https://zenodo.org/api/records/14245891
+作者论文：https://arxiv.org/html/2503.13461v1#S1
+许可说明：https://opendatacommons.org/licenses/odbl/summary/
+许可全文（§2.4区分内容权利）：https://opendatacommons.org/licenses/odbl/1-0/
+建议：为CARDS派生数据库保留ODbL许可及来源信息；复用原脚本保留EUPL通知。额外Packages描述尚未完成逐来源许可确认，可通过用户从上游获取并本地重建，避免把它们当作已统一获授权的自有文本打包。
+
+SEC EX-21 / OpenSanctions / CorpWatch
+实际材料：experiments/cross_domain/run_cross_domain.py:428起读取finance_blockchain/corpwatch/entities.ftm.json.gz。文件后缀虽为.gz，实际是未压缩JSON。完整文件2,339,347条记录全部标记us_corpwatch；仅Company/Ownership两类，last_seen为2026-04-14。正式输入是整理后的公司/所有权记录，不是直接取SEC官网原文。
+数据字段包括公司名、国家、注册号、地址、曾用名、行业及所有权关系；本报告不展示具体身份值。
+OpenSanctions官方说明：其产出的数据CC BY-NC 4.0，代码MIT。CC BY-NC允许符合条件的非商业复制、共享和改编，需署名、许可链接并注明改动；不能给第三方数据另贴无商业限制的统一许可。
+源材料权利边界：OpenSanctions声明只授予自身拥有的权利，第三方原始材料需检查来源。不能把“公开SEC记录”当作对所有整理数据的统一无限制许可。
+官方数据页：https://www.opensanctions.org/datasets/us_corpwatch/
+许可范围：https://github.com/opensanctions/opensanctions/blob/main/COPYRIGHT.md
+非商业说明：https://www.opensanctions.org/docs/commercial/exemption/
+许可：https://creativecommons.org/licenses/by-nc/4.0/
+建议：数据发布保留OpenSanctions及CorpWatch溯源、CC BY-NC限制与改动说明；若希望不受该限制地发布，需另有相应授权或重新确定来源/发布范围。
+
+BGB
+实际材料：scripts/build_bgb_graph.py由data/bgb_raw/BJNR001950896.xml的德文法条构图；冻结45段文本与该图一致。路径2019.gpickle.gz不等于已核实的2019法条版本。
+官方依据：德国UrhG第5条第1款，法条等官方法律文本不受该法的著作权保护；Gesetze-im-Internet也说明其德文法规范可使用和再利用。
+此结论限于实际德文法条，不延伸到另行受保护的私人注释、第三方译文或工具代码。
+官方法律：https://www.gesetze-im-internet.de/urhg/__5.html
+官方来源：https://www.gesetze-im-internet.de/
+建议：记录来源与版本；生成的冲突/改写样本标明合成，避免被误认为现行法条。保留所复用工具代码各自许可证。
+
+3. 当前补充包与未来发布包的区别
+检查output/arr_revision_20261002/supplementary_offline/共122个文件：实际是数值指标、伪匿名ID/标签/轨迹、合成mock、代码快照、配置及占位prompt。逐字段检查未发现第三方原文、注入后合同/法条文本、专家自由文本或专家工作簿。此结果不等于完整隐私审查。
+该包尚未发现LICENSE、NOTICE或分域许可表。它也不是完整原始benchmark发布包。
+原文/改写文本确实存在本地annotation_prep/candidates、frontend/data及旧human_annotation_pack，但未装入上述offline包。
+
+4. B2填写建议
+不能以“录用后才发布”或“公开可下载”作为N/A/Yes的唯一依据。
+按当前版本，如果今天必须提交，建议No并说明计划发布材料的完整再分发许可核对与文档仍未完成。No不等于承认违法；ARR允许对缺项给出真实解释。
+待确定实际发布清单、处理上述额外文本权利边界，并在论文/补充材料和发布包中补上分来源许可、署名、改写及适用限制说明后，再依据已完成事项填写Yes及对应章节。仅写一句“遵守许可”不能替代核对。
+可供当前No使用的简短英文：
+“License and redistribution documentation for the planned post-acceptance data release is not yet complete. We have identified the source-specific terms and are checking the rights applicable to the underlying and modified texts before finalizing the release package.”
+ARR填写指导：https://aclrollingreview.org/responsibleNLPresearch/
+
+可执行的后续发布整理建议（未执行）
+- 分开自有代码/标注、CARDS派生数据库、OpenSanctions派生记录及其他来源文本。
+- 为每项写清来源、版本、许可证、署名、修改内容与限制，保留第三方通知。
+- 对仍未确认可重发的原文，改用来源ID与重建脚本；不要删除实验样本或改变论文数据。
+- 专家均为作者及机构伦理批准/豁免是另一个检查项，不替代第三方版权/数据库许可。

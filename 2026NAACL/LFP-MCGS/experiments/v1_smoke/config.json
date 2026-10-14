@@ -1,0 +1,73 @@
+{
+  "run_id": "experiment-v1-gold-replay-20260818",
+  "run_date": "2026-08-18",
+  "status": "exploratory",
+  "evidence_mode": "gold-replay",
+  "claim_boundary": "Not an LFP-MCGS result. This run tests deterministic acquisition/closure pressure before any LLM parser or Monte Carlo planner is introduced.",
+  "selection_seed": "experiment-v1",
+  "random_seeds": [17, 31, 43, 59, 71],
+  "bootstrap_seed": 20260818,
+  "bootstrap_samples": 1000,
+  "transposition_depth": 4,
+  "transposition_case_cap_per_dataset": 12,
+  "transposition_selection_seed": "transposition-v1",
+  "free_access_model": "All raw source text and a cheap lexical/entity index are visible. Formal facts/rules/relations and their closure effects become available only after a source is selected.",
+  "datasets": {
+    "proofwriter_d5": {
+      "path": "dataset_audit/raw/logic/proofwriter/proofwriter-dataset-V2020.12.3/OWA/depth-5/meta-dev.jsonl",
+      "sample_size": 60,
+      "selection": {
+        "per_stratum": 10,
+        "query_ranks": [3, 4, 5],
+        "cross_constant": [false, true],
+        "minimum_source_cover_min": 3,
+        "candidate_to_cover_ratio_min": 3,
+        "longest_internal_chain_min": 2,
+        "max_queries_per_theory": 1
+      }
+    },
+    "stepgame": {
+      "test_path": "dataset_audit/raw/logic/stepgame/test.jsonl",
+      "template_path": "dataset_audit/raw/logic/stepgame/repo/Code/template.py",
+      "sample_size": 60,
+      "selection": {
+        "k_hops": [5, 7, 10],
+        "per_hop": 20,
+        "minimum_support_min": 3,
+        "candidate_to_support_ratio_min": 3,
+        "require_fully_canonical": true
+      }
+    },
+    "clutrr": {
+      "root": "dataset_audit/raw/clutrr",
+      "sample_size": 12,
+      "selection": {
+        "k_hops": [3, 5, 8, 10],
+        "per_hop": 3,
+        "minimum_query_round": 2
+      },
+      "role": "executor sanity only; excluded from acquisition-policy comparisons"
+    }
+  },
+  "budgets": ["MAC", "2xMAC", "3xMAC_cap_N"],
+  "policies": [
+    "source_order",
+    "random",
+    "static_surface",
+    "dynamic_frontier",
+    "gold_minimum_proof_lower_bound"
+  ],
+  "primary_metrics": [
+    "verified_answer_recovery_at_budget",
+    "sources_to_first_proof_over_MAC",
+    "all_closure_items_per_reveal_within_dataset"
+  ],
+  "not_tested": [
+    "LLM parsing or retrieval",
+    "learned rollout simulator",
+    "MCTS or MCGS planning",
+    "accuracy gain from state merging",
+    "causal effect of SCC topology",
+    "real token, latency, or monetary cost"
+  ]
+}

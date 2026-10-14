@@ -1,0 +1,179 @@
+{
+  "checked_at": "2026-09-24T19:51:25+0800",
+  "job_id": "395047",
+  "preserved_result_count": 43,
+  "changed_results": [],
+  "verified_cache_prefixes": 90,
+  "changed_cache_prefixes": [],
+  "status": {
+    "started_at": "2026-09-24T19:48:51+0800",
+    "job_id": "395047",
+    "model": "llama-3.1-8b-instruct",
+    "cases": 80,
+    "methods": [
+      "naive-single",
+      "lea",
+      "sa-mcgs"
+    ],
+    "expected_results": 240,
+    "time_limit_seconds": 432000,
+    "external_api_spend_usd": 0,
+    "execution_profile": "concurrency4",
+    "case_concurrency": 4,
+    "server_max_num_seqs": 16,
+    "previous_job_id": "394926",
+    "scientific_runner_unchanged": true,
+    "status": "running",
+    "updated_at": "2026-09-24T19:51:19+0800",
+    "counts": {
+      "naive-single": {
+        "complete": 9,
+        "strict_experiment_failure": 7,
+        "other": 0
+      },
+      "lea": {
+        "complete": 15,
+        "strict_experiment_failure": 0,
+        "other": 0
+      },
+      "sa-mcgs": {
+        "complete": 13,
+        "strict_experiment_failure": 0,
+        "other": 0
+      }
+    }
+  },
+  "active_cases": [
+    {
+      "case_id": "018_llama-3.1-8b_sec_ex2110_scc_5_direct_mutex",
+      "method": "lea",
+      "state": "running",
+      "time": 1790250651.8199575
+    },
+    {
+      "case_id": "016_llama-3.1-8b_debian11_scc_23_direct_mutex",
+      "method": "sa-mcgs",
+      "state": "running",
+      "time": 1790250632.3517163
+    },
+    {
+      "case_id": "011_llama-3.1-8b_cuad14_scc_8_direct_mutex",
+      "method": "sa-mcgs",
+      "state": "running",
+      "time": 1790250632.4530816
+    },
+    {
+      "case_id": "013_llama-3.1-8b_debian12_scc_8_direct_mutex",
+      "method": "lea",
+      "state": "running",
+      "time": 1790250681.2111204
+    }
+  ],
+  "result_count": 45,
+  "server_command.json": {
+    "argv": [
+      "/aifs4su/hansirui/vllm-dsv4-venv/bin/python3",
+      "-B",
+      "-m",
+      "vllm.entrypoints.openai.api_server",
+      "--model",
+      "/aifs4su/hansirui_3rd/chenlong/llama8b_20260924/models/llama-3.1-8b-instruct",
+      "--served-model-name",
+      "llama-3.1-8b-instruct",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "18081",
+      "--dtype",
+      "bfloat16",
+      "--tensor-parallel-size",
+      "1",
+      "--max-model-len",
+      "131072",
+      "--max-num-seqs",
+      "16",
+      "--gpu-memory-utilization",
+      "0.85",
+      "--enable-chunked-prefill",
+      "--max-num-batched-tokens",
+      "8192",
+      "--generation-config",
+      "vllm",
+      "--override-generation-config",
+      "{\"top_k\":-1,\"top_p\":1.0,\"repetition_penalty\":1.0}",
+      "--enforce-eager",
+      "--no-async-scheduling"
+    ],
+    "base_url": "http://127.0.0.1:18081/v1"
+  },
+  "child_processes.json": {
+    "at": "2026-09-24T19:50:19+0800",
+    "children": [
+      {
+        "name": "resume_validation",
+        "pid": 4165235,
+        "returncode": 0
+      },
+      {
+        "name": "vllm_server",
+        "pid": 4165314,
+        "returncode": null
+      },
+      {
+        "name": "smoke_case20",
+        "pid": 4166875,
+        "returncode": 0
+      },
+      {
+        "name": "shard_0",
+        "pid": 4167149,
+        "returncode": null
+      },
+      {
+        "name": "shard_1",
+        "pid": 4167150,
+        "returncode": null
+      },
+      {
+        "name": "shard_2",
+        "pid": 4167151,
+        "returncode": null
+      },
+      {
+        "name": "shard_3",
+        "pid": 4167152,
+        "returncode": null
+      }
+    ]
+  },
+  "healthy_models.json": {
+    "object": "list",
+    "data": [
+      {
+        "id": "llama-3.1-8b-instruct",
+        "object": "model",
+        "created": 1790250605,
+        "owned_by": "vllm",
+        "root": "/aifs4su/hansirui_3rd/chenlong/llama8b_20260924/models/llama-3.1-8b-instruct",
+        "parent": null,
+        "max_model_len": 131072,
+        "permission": [
+          {
+            "id": "modelperm-b92bb619aed54476",
+            "object": "model_permission",
+            "created": 1790250605,
+            "allow_create_engine": false,
+            "allow_sampling": true,
+            "allow_logprobs": true,
+            "allow_search_indices": false,
+            "allow_view": true,
+            "allow_fine_tuning": false,
+            "organization": "*",
+            "group": null,
+            "is_blocking": false
+          }
+        ]
+      }
+    ]
+  }
+}

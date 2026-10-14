@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="18个未注入主实验法律案例的模型辅助重新标注，含SA风险预测和SA-MCGS/LEA逐段结果，离线保存与导出。">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>主实验法律案例 · 重新标注</title>
+  <style>__APP_CSS__</style>
+</head>
+<body>
+  <header class="app-header">
+    <div><p class="eyebrow">SA-MCGS · 主实验人工重新标注</p><h1>18 个未注入主实验法律案例</h1>
+      <p class="subtitle">本页对应主实验 20 个来源中的 18 个法律案例；另 2 个 Debian 来源不在本法律专家页。查看 SA 风险预测与 SA-MCGS / LEA 逐段提示，再依据全文独立判断。</p>
+      <p class="subtitle">沿用两位专家的独立原标注，由第三位专家进行争议复核。前两位只需修改需要重标的项目；已有本轮答案和草稿优先保留。</p>
+      <p id="scopeMigrationNotice" class="subtitle" role="status" hidden></p></div>
+    <span class="mode-badge">模型辅助 · SA / LEA 提示可见</span>
+  </header>
+  <div id="fatalError" class="fatal" role="alert" hidden></div>
+  <div id="storageNotice" class="storage-notice" role="alert" hidden></div>
+  <main id="app" class="app-grid" hidden>
+    <aside class="sidebar" aria-label="案例与进度">
+      <div class="sidebar-controls">
+        <label for="expertSelect">当前专家</label>
+        <select id="expertSelect"><option value="expert_1">专家 1 · 原标注与局部重标</option><option value="expert_2">专家 2 · 原标注与局部重标</option><option value="expert_3">专家 3 · 争议复核</option></select>
+        <p class="muted small">两位独立标注 + 第三位争议复核。各自进度分别保存，复核位不预填答案。</p>
+        <div class="progress-row"><strong id="progressText"></strong><span id="draftText" class="muted small"></span></div>
+        <progress id="progressBar" value="0" max="18" aria-label="已完成进度（含历史原标注）"></progress>
+        <label for="completionFilter">显示案例</label>
+        <select id="completionFilter"><option value="all">全部案例</option><option value="incomplete">未完成 / 待确认</option><option value="confirmed">已完成（含历史）</option></select>
+      </div>
+      <nav id="caseList" class="case-list" aria-label="案例列表"></nav>
+      <div class="sidebar-footer">
+        <button id="exportJsonBtn" type="button" class="button">导出 JSON 备份</button>
+        <button id="importJsonBtn" type="button" class="button">导入本批次 JSON</button>
+        <button id="exportCsvBtn" type="button" class="button">导出 CSV 表格</button>
+        <input id="importFile" type="file" accept=".json,application/json" hidden>
+        <p class="muted small">自动保存仅限当前浏览器。结束前请导出 JSON 备份；文件不会上传。</p>
+      </div>
+    </aside>
+    <section class="workspace" aria-label="案例标注">
+      <div class="workspace-toolbar">
+        <div id="casePosition" class="muted small"></div>
+        <label class="language-control" for="languageSelect">材料显示 <select id="languageSelect"><option value="zh">中文优先</option><option value="original">原文</option></select></label>
+      </div>
+      <div id="caseContent"></div>
+      <div class="bottom-bar">
+        <div id="saveStatus" class="save-status" role="status" aria-live="polite">尚未填写</div>
+        <div class="actions"><button id="previousBtn" class="button" type="button">上一例</button><button id="confirmBtn" class="button primary" type="button">确认并保存</button><button id="nextBtn" class="button" type="button">下一例</button></div>
+      </div>
+    </section>
+  </main>
+  <footer class="page-footer">本批次显示模型提示，请独立核对原文；标注不会上传。</footer>
+  <script type="application/json" id="payloadData">__PAYLOAD_JSON__</script>
+  <script>__APP_JS__</script>
+</body>
+</html>

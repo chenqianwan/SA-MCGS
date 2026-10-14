@@ -1,0 +1,59 @@
+{
+  "source_summary_hashes": {
+    "2026NAACL/SA-MCGS/experiments/lea_full320_completion_20260923/matched_3method_case_metrics.csv": "5460b9248e17f67265f59848b543783022f90f4c993ae232d23f65aa780436a4",
+    "2026NAACL/SA-MCGS/experiments/llama8b_three_methods_20260924/final_analysis_case_metrics.json": "639ef42cc236955ec2c7fa85fb851f8171fedd4e0e61cca2c2e869d972ee71a8",
+    "2026NAACL/SA-MCGS/experiments/kimi_qwen35_three_methods_20260924/parsing_recovery_audit_20260925/metricwise_results.json": "ac2a66df0ce6eac17ee091d93124b26ef5c4922ad2c4bea6c2d78a66086c4fee"
+  },
+  "source_summaries_unchanged": true,
+  "raw_source_files_verified": 960,
+  "rows": 1200,
+  "models": [
+    "gpt-4o",
+    "gemini-2.5-pro",
+    "qwen2.5-72b",
+    "llama-3.1-8b",
+    "qwen3.5-9b"
+  ],
+  "methods": [
+    "one-shot",
+    "lea",
+    "sa-mcgs"
+  ],
+  "unique_variants": 80,
+  "physical_sccs": 20,
+  "main_table_values_verified": 60,
+  "variant_counts_by_scale": {
+    "large": 20,
+    "medium": 24,
+    "small": 36
+  },
+  "variant_counts_by_domain": {
+    "cuad": 40,
+    "bgb": 12,
+    "sec_ex21": 20,
+    "debian": 8
+  },
+  "input_mapping": {
+    "root_at_3/root_at3": "root_at3",
+    "stable_case_uid/case_uid": "case_uid",
+    "naive-single/one-shot": "one-shot"
+  },
+  "aggregation": "Accepted per-case metrics, arithmetic mean of available measurements; per-metric counts preserved in CSV/JSON. No output re-parsing.",
+  "inclusion": "Exactly the five requested models and all 80 matched variants per model/method.",
+  "plot_contract": {
+    "backend": "python",
+    "archetype": "quantitative grid",
+    "width_mm": 182.88,
+    "scale_question": "How do localization and complete risk retention compare across original SCC sizes for each model?",
+    "scale_evidence": "Top row localization; bottom row complete endpoint retention. Columns preserve every selected model, bins preserve original scale groups.",
+    "coverage_question": "What complete risk coverage and compression does each method jointly achieve?",
+    "summary": "Descriptive means over frozen benchmark variants, not repeated-seed estimates; no inferential error bars or significance tests.",
+    "case_unit": "80 variants from 20 source SCCs per model; domain and size aggregates pool the same five models.",
+    "reuse": "Style-only inheritance from existing manuscript Python figure palette and physical dimensions.",
+    "exports": [
+      "pdf",
+      "svg",
+      "png"
+    ]
+  }
+}

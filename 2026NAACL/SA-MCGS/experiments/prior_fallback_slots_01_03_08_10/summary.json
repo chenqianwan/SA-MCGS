@@ -1,0 +1,599 @@
+{
+  "created_at": "2026-09-09T22:48:26+0800",
+  "gate": {
+    "created_at": "2026-09-09T22:48:25+0800",
+    "command": "report",
+    "protocol_version": "prior_fallback_slots_01_03_08_10_v1",
+    "protocol_sha256": "sha256:56466e4e26fee490e698922eb80f4fdddfc6970965c0a40d513607c6623a7e37",
+    "runner_sha256": "sha256:cdde04e8fde099de48fd67ac871e659611456412388cb4d9caabbe72bff8a69e",
+    "output_directory_name": "prior_fallback_slots_01_03_08_10",
+    "source_hashes_passed": true,
+    "manifest_and_execution_order_passed": true,
+    "pricing_passed": true,
+    "case_identity_and_cross_model_parity_passed": true,
+    "controlled_config_delta_passed": true,
+    "prompt_schema_implementation_lock_passed": true,
+    "parent_cost_terminal_72_of_72": true,
+    "nominal_reuse_ready_cells": 8,
+    "nominal_reuse_all_eight_ready": true,
+    "local_result_state": {
+      "planned": 16,
+      "attempted": 16,
+      "valid": 16,
+      "invalid": 0,
+      "missing": 0,
+      "next_order": null
+    },
+    "budget_gate": {
+      "arguments_supplied": false,
+      "global_authorization_usd": null,
+      "asserted_global_authorization_remaining_usd": null,
+      "derived_global_authorization_remaining_usd": 63.40333874999999,
+      "closeout_reserve_usd": null,
+      "passed": false,
+      "reason": "launch budget arguments were not supplied"
+    },
+    "accounting_provenance": {
+      "arguments_supplied": false,
+      "accounting_context_kind": null,
+      "balance_snapshot": {
+        "arguments_supplied": false,
+        "passed": false,
+        "authoritative": false,
+        "reason": "hashed balance snapshot and consistency assertions were not supplied"
+      },
+      "upstream_ledgers": [
+        {
+          "role": "pre",
+          "path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/pre_baseline_runs/pre_baseline_v1_20260909/budget_ledger.json",
+          "sha256": "sha256:bdd97199f83a4d44a1bdc9dd133f85e560c8fa57cd3e7acec9f073c36745524e",
+          "schema": "pre_baseline_budget_ledger_v1",
+          "validated_spend_usd": 34.63448,
+          "checks": {
+            "scope": true,
+            "currency": true,
+            "pricing_version": true,
+            "entry_sum": true,
+            "frozen_total": true,
+            "self_ledger_cross_check": true,
+            "within_line_budget": true
+          }
+        },
+        {
+          "role": "stage1",
+          "path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/stage1_identity_safe_68_20260909_051438/formal/final_summary.json",
+          "sha256": "sha256:382fda109060519cd07e071aeaa1de3be6c6d4af3432973df3eab4ef179d18d9",
+          "status_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/stage1_identity_safe_68_20260909_051438/formal/status.json",
+          "status_sha256": "sha256:01509a78715477815291e2b74db8e40d74251a382eae2324d93235c18b4f7cca",
+          "schema": "stage1_identity_safe_final_summary_v1",
+          "validated_spend_usd": 47.381175000000006,
+          "checks": {
+            "summary_schema": true,
+            "summary_complete": true,
+            "formal_matrix_complete": true,
+            "all_gates_passed": true,
+            "status_complete": true,
+            "status_ledger_matches": true,
+            "frozen_total": true
+          }
+        },
+        {
+          "role": "parent",
+          "path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/cost_prior_12case_gpt4o_gemini25pro_b60_v1/budget_ledger.jsonl",
+          "sha256": "sha256:aa6593f0ea597c0c28e597b070b9582bbc8db09b897b25969f59c38d123416d9",
+          "nonempty_line_count": 72,
+          "spend_cell_count": 72,
+          "validated_spend_usd": 36.77011125000001
+        }
+      ],
+      "fallback_ledger": {
+        "role": "fallback",
+        "path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/budget_ledger.jsonl",
+        "sha256": "sha256:d6398d0c46feca8277f4e139929bfa87603e518b3cc6b3f19214c74bbf42f678",
+        "nonempty_line_count": 48,
+        "spend_cell_count": 16,
+        "validated_spend_usd": 17.810895
+      },
+      "all_accounting_ledgers": [
+        {
+          "role": "pre",
+          "path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/pre_baseline_runs/pre_baseline_v1_20260909/budget_ledger.json",
+          "sha256": "sha256:bdd97199f83a4d44a1bdc9dd133f85e560c8fa57cd3e7acec9f073c36745524e",
+          "schema": "pre_baseline_budget_ledger_v1",
+          "validated_spend_usd": 34.63448,
+          "checks": {
+            "scope": true,
+            "currency": true,
+            "pricing_version": true,
+            "entry_sum": true,
+            "frozen_total": true,
+            "self_ledger_cross_check": true,
+            "within_line_budget": true
+          }
+        },
+        {
+          "role": "stage1",
+          "path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/stage1_identity_safe_68_20260909_051438/formal/final_summary.json",
+          "sha256": "sha256:382fda109060519cd07e071aeaa1de3be6c6d4af3432973df3eab4ef179d18d9",
+          "status_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/stage1_identity_safe_68_20260909_051438/formal/status.json",
+          "status_sha256": "sha256:01509a78715477815291e2b74db8e40d74251a382eae2324d93235c18b4f7cca",
+          "schema": "stage1_identity_safe_final_summary_v1",
+          "validated_spend_usd": 47.381175000000006,
+          "checks": {
+            "summary_schema": true,
+            "summary_complete": true,
+            "formal_matrix_complete": true,
+            "all_gates_passed": true,
+            "status_complete": true,
+            "status_ledger_matches": true,
+            "frozen_total": true
+          }
+        },
+        {
+          "role": "parent",
+          "path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/cost_prior_12case_gpt4o_gemini25pro_b60_v1/budget_ledger.jsonl",
+          "sha256": "sha256:aa6593f0ea597c0c28e597b070b9582bbc8db09b897b25969f59c38d123416d9",
+          "nonempty_line_count": 72,
+          "spend_cell_count": 72,
+          "validated_spend_usd": 36.77011125000001
+        },
+        {
+          "role": "fallback",
+          "path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/budget_ledger.jsonl",
+          "sha256": "sha256:d6398d0c46feca8277f4e139929bfa87603e518b3cc6b3f19214c74bbf42f678",
+          "nonempty_line_count": 48,
+          "spend_cell_count": 16,
+          "validated_spend_usd": 17.810895
+        }
+      ],
+      "validated_cumulative_spend_usd": 136.59666125,
+      "derived_authorization_remaining_usd": 63.40333874999999,
+      "checks": {
+        "context_kind_declared": false,
+        "hashed_balance_snapshot_valid": false,
+        "exact_frozen_upstream_roles": true,
+        "pre_ledger_hash_valid": true,
+        "stage1_ledger_hash_valid": true,
+        "parent_cost_ledger_hashed": true,
+        "additional_cli_ledgers_absent": true,
+        "fallback_ledger_automatically_included": true,
+        "derived_remaining_finite": true,
+        "derived_remaining_nonnegative": true
+      },
+      "passed": false,
+      "authoritative_for_paid_launch": false,
+      "note": "Authorization remaining is derived from validated ledgers; CLI values are consistency assertions only."
+    },
+    "intrinsic_ready": true,
+    "ready_for_paid_run": false,
+    "already_complete": true,
+    "offline_command_made_model_or_xhub_calls": false,
+    "blocking_reasons": [
+      "fresh launch budget arguments are absent or insufficient",
+      "accounting context is absent, synthetic, or not authoritative for paid launch"
+    ]
+  },
+  "strict_table": [
+    {
+      "Model": "gpt-4o",
+      "Profile": "minus20",
+      "Planned": 4,
+      "Attempted": 4,
+      "Valid": 4,
+      "Invalid": 0,
+      "Missing": 0,
+      "Root@3 strict": 0.75,
+      "Risk-any strict": 1.0,
+      "Risk-all strict": 1.0
+    },
+    {
+      "Model": "gpt-4o",
+      "Profile": "nominal",
+      "Planned": 4,
+      "Attempted": 4,
+      "Valid": 4,
+      "Invalid": 0,
+      "Missing": 0,
+      "Root@3 strict": 1.0,
+      "Risk-any strict": 1.0,
+      "Risk-all strict": 0.75
+    },
+    {
+      "Model": "gpt-4o",
+      "Profile": "plus20",
+      "Planned": 4,
+      "Attempted": 4,
+      "Valid": 4,
+      "Invalid": 0,
+      "Missing": 0,
+      "Root@3 strict": 0.75,
+      "Risk-any strict": 1.0,
+      "Risk-all strict": 1.0
+    },
+    {
+      "Model": "gemini-2.5-pro",
+      "Profile": "minus20",
+      "Planned": 4,
+      "Attempted": 4,
+      "Valid": 4,
+      "Invalid": 0,
+      "Missing": 0,
+      "Root@3 strict": 1.0,
+      "Risk-any strict": 1.0,
+      "Risk-all strict": 0.75
+    },
+    {
+      "Model": "gemini-2.5-pro",
+      "Profile": "nominal",
+      "Planned": 4,
+      "Attempted": 4,
+      "Valid": 4,
+      "Invalid": 0,
+      "Missing": 0,
+      "Root@3 strict": 0.75,
+      "Risk-any strict": 1.0,
+      "Risk-all strict": 0.75
+    },
+    {
+      "Model": "gemini-2.5-pro",
+      "Profile": "plus20",
+      "Planned": 4,
+      "Attempted": 4,
+      "Valid": 4,
+      "Invalid": 0,
+      "Missing": 0,
+      "Root@3 strict": 1.0,
+      "Risk-any strict": 1.0,
+      "Risk-all strict": 0.75
+    }
+  ],
+  "paired_directions": [
+    {
+      "model": "gpt-4o",
+      "profile_vs_nominal": "minus20",
+      "metric": "root@3",
+      "planned_pairs": 4,
+      "valid_comparable_pairs": 4,
+      "improved": 0,
+      "tied": 3,
+      "worsened": 1,
+      "strict_nominal_rate": 1.0,
+      "strict_profile_rate": 0.75,
+      "strict_rate_delta": -0.25
+    },
+    {
+      "model": "gpt-4o",
+      "profile_vs_nominal": "minus20",
+      "metric": "risk_any",
+      "planned_pairs": 4,
+      "valid_comparable_pairs": 4,
+      "improved": 0,
+      "tied": 4,
+      "worsened": 0,
+      "strict_nominal_rate": 1.0,
+      "strict_profile_rate": 1.0,
+      "strict_rate_delta": 0.0
+    },
+    {
+      "model": "gpt-4o",
+      "profile_vs_nominal": "minus20",
+      "metric": "risk_all",
+      "planned_pairs": 4,
+      "valid_comparable_pairs": 4,
+      "improved": 1,
+      "tied": 3,
+      "worsened": 0,
+      "strict_nominal_rate": 0.75,
+      "strict_profile_rate": 1.0,
+      "strict_rate_delta": 0.25
+    },
+    {
+      "model": "gpt-4o",
+      "profile_vs_nominal": "plus20",
+      "metric": "root@3",
+      "planned_pairs": 4,
+      "valid_comparable_pairs": 4,
+      "improved": 0,
+      "tied": 3,
+      "worsened": 1,
+      "strict_nominal_rate": 1.0,
+      "strict_profile_rate": 0.75,
+      "strict_rate_delta": -0.25
+    },
+    {
+      "model": "gpt-4o",
+      "profile_vs_nominal": "plus20",
+      "metric": "risk_any",
+      "planned_pairs": 4,
+      "valid_comparable_pairs": 4,
+      "improved": 0,
+      "tied": 4,
+      "worsened": 0,
+      "strict_nominal_rate": 1.0,
+      "strict_profile_rate": 1.0,
+      "strict_rate_delta": 0.0
+    },
+    {
+      "model": "gpt-4o",
+      "profile_vs_nominal": "plus20",
+      "metric": "risk_all",
+      "planned_pairs": 4,
+      "valid_comparable_pairs": 4,
+      "improved": 1,
+      "tied": 3,
+      "worsened": 0,
+      "strict_nominal_rate": 0.75,
+      "strict_profile_rate": 1.0,
+      "strict_rate_delta": 0.25
+    },
+    {
+      "model": "gemini-2.5-pro",
+      "profile_vs_nominal": "minus20",
+      "metric": "root@3",
+      "planned_pairs": 4,
+      "valid_comparable_pairs": 4,
+      "improved": 1,
+      "tied": 3,
+      "worsened": 0,
+      "strict_nominal_rate": 0.75,
+      "strict_profile_rate": 1.0,
+      "strict_rate_delta": 0.25
+    },
+    {
+      "model": "gemini-2.5-pro",
+      "profile_vs_nominal": "minus20",
+      "metric": "risk_any",
+      "planned_pairs": 4,
+      "valid_comparable_pairs": 4,
+      "improved": 0,
+      "tied": 4,
+      "worsened": 0,
+      "strict_nominal_rate": 1.0,
+      "strict_profile_rate": 1.0,
+      "strict_rate_delta": 0.0
+    },
+    {
+      "model": "gemini-2.5-pro",
+      "profile_vs_nominal": "minus20",
+      "metric": "risk_all",
+      "planned_pairs": 4,
+      "valid_comparable_pairs": 4,
+      "improved": 0,
+      "tied": 4,
+      "worsened": 0,
+      "strict_nominal_rate": 0.75,
+      "strict_profile_rate": 0.75,
+      "strict_rate_delta": 0.0
+    },
+    {
+      "model": "gemini-2.5-pro",
+      "profile_vs_nominal": "plus20",
+      "metric": "root@3",
+      "planned_pairs": 4,
+      "valid_comparable_pairs": 4,
+      "improved": 1,
+      "tied": 3,
+      "worsened": 0,
+      "strict_nominal_rate": 0.75,
+      "strict_profile_rate": 1.0,
+      "strict_rate_delta": 0.25
+    },
+    {
+      "model": "gemini-2.5-pro",
+      "profile_vs_nominal": "plus20",
+      "metric": "risk_any",
+      "planned_pairs": 4,
+      "valid_comparable_pairs": 4,
+      "improved": 0,
+      "tied": 4,
+      "worsened": 0,
+      "strict_nominal_rate": 1.0,
+      "strict_profile_rate": 1.0,
+      "strict_rate_delta": 0.0
+    },
+    {
+      "model": "gemini-2.5-pro",
+      "profile_vs_nominal": "plus20",
+      "metric": "risk_all",
+      "planned_pairs": 4,
+      "valid_comparable_pairs": 4,
+      "improved": 0,
+      "tied": 4,
+      "worsened": 0,
+      "strict_nominal_rate": 0.75,
+      "strict_profile_rate": 0.75,
+      "strict_rate_delta": 0.0
+    }
+  ],
+  "new_paid_execution_state": {
+    "planned": 16,
+    "attempted": 16,
+    "valid": 16,
+    "invalid": 0,
+    "missing": 0,
+    "next_order": null,
+    "contiguous_prefix": true,
+    "no_unexpected_results": true,
+    "ledger_integrity_passed": true,
+    "ledger_events": 48,
+    "launch_receipts_verified": 16,
+    "rows": [
+      {
+        "order": 1,
+        "model": "gpt-4o",
+        "slot": 1,
+        "profile": "minus20",
+        "case_id": "01_gpt-4o_debian11_direct_mutex",
+        "result_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/results/minus20/gpt-4o/results/01_gpt-4o_debian11_direct_mutex__sa-mcgs.json",
+        "state": "terminal_valid",
+        "result_sha256": "sha256:a0e25870e7b32c89c86b0d9ebcab1ff46448cd2e97f2aefc74a41f2291661dbe",
+        "error_type": null
+      },
+      {
+        "order": 2,
+        "model": "gpt-4o",
+        "slot": 1,
+        "profile": "plus20",
+        "case_id": "01_gpt-4o_debian11_direct_mutex",
+        "result_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/results/plus20/gpt-4o/results/01_gpt-4o_debian11_direct_mutex__sa-mcgs.json",
+        "state": "terminal_valid",
+        "result_sha256": "sha256:e5e8ce85afceb3e05973274345d34ed15371488d3b752efae6313ae2c075b3f8",
+        "error_type": null
+      },
+      {
+        "order": 3,
+        "model": "gemini-2.5-pro",
+        "slot": 1,
+        "profile": "minus20",
+        "case_id": "01_gemini-2.5-pro_debian11_direct_mutex",
+        "result_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/results/minus20/gemini-2.5-pro/results/01_gemini-2.5-pro_debian11_direct_mutex__sa-mcgs.json",
+        "state": "terminal_valid",
+        "result_sha256": "sha256:d7f638efe03efb3b66ad9055e3490e9f7f73dcf767951c41a65dd94d06cfd6d4",
+        "error_type": null
+      },
+      {
+        "order": 4,
+        "model": "gemini-2.5-pro",
+        "slot": 1,
+        "profile": "plus20",
+        "case_id": "01_gemini-2.5-pro_debian11_direct_mutex",
+        "result_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/results/plus20/gemini-2.5-pro/results/01_gemini-2.5-pro_debian11_direct_mutex__sa-mcgs.json",
+        "state": "terminal_valid",
+        "result_sha256": "sha256:ee34de143344e9407d5f06cb3452e1948ad50ad3ac83e51ce1ba8092156fe232",
+        "error_type": null
+      },
+      {
+        "order": 5,
+        "model": "gemini-2.5-pro",
+        "slot": 3,
+        "profile": "minus20",
+        "case_id": "03_gemini-2.5-pro_sec_ex219_temporal_gate",
+        "result_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/results/minus20/gemini-2.5-pro/results/03_gemini-2.5-pro_sec_ex219_temporal_gate__sa-mcgs.json",
+        "state": "terminal_valid",
+        "result_sha256": "sha256:82255417b4cd38b3e09605c050c17a005159e33c90139c08dd02d5753300e678",
+        "error_type": null
+      },
+      {
+        "order": 6,
+        "model": "gemini-2.5-pro",
+        "slot": 3,
+        "profile": "plus20",
+        "case_id": "03_gemini-2.5-pro_sec_ex219_temporal_gate",
+        "result_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/results/plus20/gemini-2.5-pro/results/03_gemini-2.5-pro_sec_ex219_temporal_gate__sa-mcgs.json",
+        "state": "terminal_valid",
+        "result_sha256": "sha256:ab6100e0648fd72536ad1537f1092db391a92bec26f4749816ba2fe88a1f2fcd",
+        "error_type": null
+      },
+      {
+        "order": 7,
+        "model": "gpt-4o",
+        "slot": 3,
+        "profile": "minus20",
+        "case_id": "03_gpt-4o_sec_ex219_temporal_gate",
+        "result_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/results/minus20/gpt-4o/results/03_gpt-4o_sec_ex219_temporal_gate__sa-mcgs.json",
+        "state": "terminal_valid",
+        "result_sha256": "sha256:6d90d96909641e49ee42c0bc0c75b8e10c41770cd1bd246eb4ff5c4693904303",
+        "error_type": null
+      },
+      {
+        "order": 8,
+        "model": "gpt-4o",
+        "slot": 3,
+        "profile": "plus20",
+        "case_id": "03_gpt-4o_sec_ex219_temporal_gate",
+        "result_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/results/plus20/gpt-4o/results/03_gpt-4o_sec_ex219_temporal_gate__sa-mcgs.json",
+        "state": "terminal_valid",
+        "result_sha256": "sha256:ea87d52cefe60ce49e5c96cb8ee3bd47aa8dead0dfe4d37dbc5192fc459f8596",
+        "error_type": null
+      },
+      {
+        "order": 9,
+        "model": "gpt-4o",
+        "slot": 8,
+        "profile": "minus20",
+        "case_id": "08_gpt-4o_bgb25_condition_trigger",
+        "result_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/results/minus20/gpt-4o/results/08_gpt-4o_bgb25_condition_trigger__sa-mcgs.json",
+        "state": "terminal_valid",
+        "result_sha256": "sha256:976f4491b8fde435f3b37da5939ce10cae2b7875e547776bb5c2114b4639239c",
+        "error_type": null
+      },
+      {
+        "order": 10,
+        "model": "gpt-4o",
+        "slot": 8,
+        "profile": "plus20",
+        "case_id": "08_gpt-4o_bgb25_condition_trigger",
+        "result_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/results/plus20/gpt-4o/results/08_gpt-4o_bgb25_condition_trigger__sa-mcgs.json",
+        "state": "terminal_valid",
+        "result_sha256": "sha256:aa54bc77c0351f46d042230548b28619d0f06ad3eed9337edc2ca0c472e8111e",
+        "error_type": null
+      },
+      {
+        "order": 11,
+        "model": "gemini-2.5-pro",
+        "slot": 8,
+        "profile": "minus20",
+        "case_id": "08_gemini-2.5-pro_bgb25_condition_trigger",
+        "result_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/results/minus20/gemini-2.5-pro/results/08_gemini-2.5-pro_bgb25_condition_trigger__sa-mcgs.json",
+        "state": "terminal_valid",
+        "result_sha256": "sha256:d6dd20f2b2d35e6f4b4af7813dc37b8f0e7fe82b87f1fd6879d6828d1e371876",
+        "error_type": null
+      },
+      {
+        "order": 12,
+        "model": "gemini-2.5-pro",
+        "slot": 8,
+        "profile": "plus20",
+        "case_id": "08_gemini-2.5-pro_bgb25_condition_trigger",
+        "result_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/results/plus20/gemini-2.5-pro/results/08_gemini-2.5-pro_bgb25_condition_trigger__sa-mcgs.json",
+        "state": "terminal_valid",
+        "result_sha256": "sha256:eabaa0a1f9a126456bab439e708c0e9de79bc397c9fa671a09e19b8960ed7a6a",
+        "error_type": null
+      },
+      {
+        "order": 13,
+        "model": "gemini-2.5-pro",
+        "slot": 10,
+        "profile": "minus20",
+        "case_id": "10_gemini-2.5-pro_cuad20_handoff_invariant",
+        "result_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/results/minus20/gemini-2.5-pro/results/10_gemini-2.5-pro_cuad20_handoff_invariant__sa-mcgs.json",
+        "state": "terminal_valid",
+        "result_sha256": "sha256:f1bb56e63498cc945e0bd89e47831f7d25a14efb38eb9e0cd859848946a1e0ad",
+        "error_type": null
+      },
+      {
+        "order": 14,
+        "model": "gemini-2.5-pro",
+        "slot": 10,
+        "profile": "plus20",
+        "case_id": "10_gemini-2.5-pro_cuad20_handoff_invariant",
+        "result_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/results/plus20/gemini-2.5-pro/results/10_gemini-2.5-pro_cuad20_handoff_invariant__sa-mcgs.json",
+        "state": "terminal_valid",
+        "result_sha256": "sha256:0b1fd65c3207a061c4c377b7c267a204f8b99e25619579f23130123dba740762",
+        "error_type": null
+      },
+      {
+        "order": 15,
+        "model": "gpt-4o",
+        "slot": 10,
+        "profile": "minus20",
+        "case_id": "10_gpt-4o_cuad20_handoff_invariant",
+        "result_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/results/minus20/gpt-4o/results/10_gpt-4o_cuad20_handoff_invariant__sa-mcgs.json",
+        "state": "terminal_valid",
+        "result_sha256": "sha256:02f33161b57dcc521505da748f15f679559572b6869f440ed5ee837b06058569",
+        "error_type": null
+      },
+      {
+        "order": 16,
+        "model": "gpt-4o",
+        "slot": 10,
+        "profile": "plus20",
+        "case_id": "10_gpt-4o_cuad20_handoff_invariant",
+        "result_path": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/prior_fallback_slots_01_03_08_10/results/plus20/gpt-4o/results/10_gpt-4o_cuad20_handoff_invariant__sa-mcgs.json",
+        "state": "terminal_valid",
+        "result_sha256": "sha256:ece8de2eae00d9f78bd818322fba94c6c31f7a77eb56ca375906624bac2714d9",
+        "error_type": null
+      }
+    ]
+  }
+}

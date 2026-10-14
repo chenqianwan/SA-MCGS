@@ -1,0 +1,72 @@
+--- before/acl_latex.tex
++++ after/acl_latex.tex
+@@ -130,7 +130,7 @@
+ \end{equation}
+ where $\Pi_T$ is the set of paths generated before budget $T$.  With this indexing, path multiplicity governs the effective state space in place of $|S|$.  Repeated revisits then consume rollout budget, increase truncation, and dilute value estimates.
+ 
+-\revredreplace{Figure~\ref{fig:mcts_failure} illustrates the failure mode.  The issue is not simply that a cycle exists. Tree expansion also treats revisits as new path states.  A long cyclic document region can therefore consume rollout budget while repeatedly rediscovering the same records, making it harder to preserve the endpoints that jointly create a structural risk.}{Figure~\ref{fig:mcts_failure} contrasts path-indexed TreeMCTS with \scc{}-localized search. In a matched-budget diagnostic, TreeMCTS expands 6.4 times as many states as physical nodes in the cyclic setting, with all rollouts truncated. \samcgs{} limits expansion to 1.0 times the component size and increases Q-spread from 0.044 to 0.371. Appendix~\ref{app:diagnostics} reports the complete comparison, including the acyclic control and metric definitions.}
++\revredreplace{Figure~\ref{fig:mcts_failure} illustrates the failure mode.  The issue is not simply that a cycle exists. Tree expansion also treats revisits as new path states.  A long cyclic document region can therefore consume rollout budget while repeatedly rediscovering the same records, making it harder to preserve the endpoints that jointly create a structural risk.}{Figure~\ref{fig:mcts_failure} contrasts path-indexed TreeMCTS with \scc{}-localized search. In a matched-budget diagnostic, TreeMCTS expands 6.4 times as many states as physical nodes in the cyclic setting, with all rollouts truncated. \samcgs{} limits expansion to 1.0 times the component size and increases Q-spread from 0.044 to 0.371. Table~\ref{tab:mcts_scc} includes the acyclic control; Appendix~\ref{app:diagnostics} gives the setup and metric definitions.}
+ 
+ \begin{figure*}[!t]
+     \centering
+@@ -141,27 +141,24 @@
+ 
+ \revdel{We verify this failure mode with a controlled motivating ablation.  We take matched document-graph components with the same local risk task and compare three search variants under the same rollout budget: ordinary TreeMCTS on an acyclic dependency graph, ordinary TreeMCTS on an \scc{}, and \samcgs{} on the same \scc{} setting.  The ablation is intentionally small and diagnostic. It tests whether \scc{} topology breaks the assumptions behind tree search. Those assumptions underlie the appeal of tree search in DAG-like document graphs.}
+ 
+-% M1: the original black table remains only in the marked view; the complete
+-% active comparison now appears in Appendix A.
+-\revdeletedtable{
++% M1: retain the original diagnostic table in the main text, as requested.
+ \begin{table}[!h]
+ \centering
+ \scriptsize
+ \resizebox{\columnwidth}{!}{%
+ \begin{tabular}{llrrrr}
+ \toprule
+-\revdel{Method} & \revdel{Topology} & \revdel{Expansion} & \revdel{Trunc.} & \revdel{Q-spread} & \revdel{Hit@3} \\
+-\midrule
+-\revdel{TreeMCTS} & \revdel{DAG} & \revdel{2.3$\times$} & \revdel{0\%} & \revdel{0.077} & \revdel{7\%} \\
+-\revdel{TreeMCTS} & \revdel{SCC} & \revdel{6.4$\times$} & \revdel{100\%} & \revdel{0.044} & \revdel{30\%} \\
+-\revdel{\samcgs{}} & \revdel{SCC} & \revdel{1.0$\times$} & \revdel{--} & \revdel{0.371} & \revdel{90\%} \\
++Method & Topology & Expansion & Trunc. & Q-spread & Hit@3 \\
++\midrule
++TreeMCTS & DAG & 2.3$\times$ & 0\% & 0.077 & 7\% \\
++TreeMCTS & SCC & 6.4$\times$ & 100\% & 0.044 & 30\% \\
++\samcgs{} & SCC & 1.0$\times$ & -- & 0.371 & 90\% \\
+ \bottomrule
+ \end{tabular}
+ }
+-\caption{\revdel{Motivating ablation: ordinary TreeMCTS expands path copies and dilutes value estimates inside strongly connected components, whereas \samcgs{} treats each \scc{} as a localized reasoning unit.}}
+-\label{tab:mcts_scc:previous}
++\caption{Motivating ablation: ordinary TreeMCTS expands path copies and dilutes value estimates inside strongly connected components, whereas \samcgs{} treats each \scc{} as a localized reasoning unit.}
++\label{tab:mcts_scc}
+ \end{table}
+-}
+ 
+ \revdel{Table~\ref{tab:mcts_scc} directly tests the predicted failure. Inside an \scc{}, TreeMCTS expands many path-copy states, which truncates rollouts and flattens value estimates.  \samcgs{} avoids path copies by indexing evidence by physical nodes and relations, giving $1.0\times$ expansion and a much larger Q-spread.  Detailed definitions of Expansion, Truncation, Q-spread, and Hit@3 are given in Appendix~\ref{app:diagnostics}.}
+ 
+@@ -422,23 +419,7 @@
+ \paragraph{Motivating search diagnostic.}
+ We compare ordinary TreeMCTS on an acyclic dependency graph, ordinary TreeMCTS on an \scc{}, and \samcgs{} on the same \scc{} setting, using matched document-graph components, the same local risk task, and the same rollout budget. Table~\ref{tab:mcts_scc} reports state expansion, rollout truncation, Q-spread, and Hit@3; the diagnostic metrics are defined below.
+ 
+-\begin{table}[t]
+-\centering
+-\scriptsize
+-\resizebox{\columnwidth}{!}{%
+-\begin{tabular}{llrrrr}
+-\toprule
+-Method & Topology & Expansion & Trunc. & Q-spread & Hit@3 \\
+-\midrule
+-TreeMCTS & DAG & 2.3$\times$ & 0\% & 0.077 & 7\% \\
+-TreeMCTS & SCC & 6.4$\times$ & 100\% & 0.044 & 30\% \\
+-\samcgs{} & SCC & 1.0$\times$ & -- & 0.371 & 90\% \\
+-\bottomrule
+-\end{tabular}
+-}
+-\caption{Motivating ablation: ordinary TreeMCTS expands path copies and dilutes value estimates inside strongly connected components, whereas \samcgs{} treats each \scc{} as a localized reasoning unit.}
+-\label{tab:mcts_scc}
+-\end{table}
++
+ \end{revredblock}
+ 
+ Table~\ref{tab:mcts_scc} uses four ablation diagnostics.  \textbf{Expansion}

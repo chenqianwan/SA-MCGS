@@ -1,0 +1,66 @@
+{
+  "created_or_updated_at": "2026-08-29T16:50:40+0800",
+  "source_json": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/annotation_prep/candidates/pre_sources_18.json",
+  "source_json_sha256": "sha256:5872e4c255e5b099a1f3af68a8e4c396ec0bb1a2d8ddaf5da6b41af563777035",
+  "models": [
+    "gpt-4o"
+  ],
+  "resolved_model_ids": {
+    "gpt-4o": "gpt-4o"
+  },
+  "condition": "pre",
+  "inject_mode": false,
+  "method": "sa-mcgs",
+  "sa_protocol": {
+    "version": "pre_sa_protocol_v1",
+    "resolved_mcgs_config": {
+      "alphago_mcgs": {
+        "budget": 60,
+        "window_size": 4,
+        "concurrency": 4,
+        "ucb_exploration_weight": 1.414,
+        "ucb_exploration_init": 2.5,
+        "temperature": 0.4,
+        "max_tokens": 2048,
+        "tt_max_reuse": 3,
+        "evidence": {
+          "relation_first": true,
+          "relation_prior_weight": 0.85,
+          "relation_prior_decay": 0.35,
+          "probe_fraction": 0.3,
+          "probe_min_rollouts": 4,
+          "probe_min_score": 1.0,
+          "subgraph_max_ratio": 0.45,
+          "subgraph_min_nodes": 4,
+          "core_min_nodes": 2,
+          "core_min_relative_score": 0.52,
+          "core_stop_gap": 0.14,
+          "core_min_score": 0.1,
+          "pair_memory_max_ratio": 0.65,
+          "pair_memory_min_score": 0.42,
+          "pair_closure_min_score": 0.35,
+          "critical_pair_ledger": true,
+          "critical_pair_enter_threshold": 0.66,
+          "critical_pair_exit_threshold": 0.48,
+          "critical_pair_lock_support": 2,
+          "critical_pair_revisit_fraction": 0.45,
+          "critical_pair_frontier_max_pairs": 8,
+          "critical_pair_core_min_score": 0.62,
+          "compression_profile": "current"
+        },
+        "trace": true
+      },
+      "detection": {
+        "alpha": 0.1,
+        "min_rollouts": 6
+      }
+    },
+    "fingerprint": "sha256:873882b0f28e64bd6abef9fc99d122b8334e45144c75dfdc90fa516862674bd9"
+  },
+  "case_concurrency": 1,
+  "llm_timeout": 900.0,
+  "llm_max_retries": 5,
+  "base_url": "https://api3.xhub.chat/v1",
+  "api_key_env": "XHUB_API_KEY",
+  "plan_fingerprint": "sha256:f165a696e299172c85349391f8f655b2b33c4ae2c86e58ca4a39bc00310f3d2b"
+}

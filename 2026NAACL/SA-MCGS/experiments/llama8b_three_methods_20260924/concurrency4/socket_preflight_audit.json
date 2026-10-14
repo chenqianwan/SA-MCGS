@@ -1,0 +1,30 @@
+{
+  "checked_at_utc": "2026-09-24T11:46:34Z",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "scope": "local ephemeral TCP sockets only; no production port/node/process touched",
+  "ephemeral_port": 59906,
+  "live_listener_plain_bind": {
+    "bound": false,
+    "errno": 48,
+    "error": "[Errno 48] Address already in use"
+  },
+  "live_listener_reuseaddr_bind": {
+    "bound": false,
+    "errno": 48,
+    "error": "[Errno 48] Address already in use"
+  },
+  "after_close_connect_errno": 61,
+  "after_close_plain_bind": {
+    "bound": false,
+    "errno": 48,
+    "error": "[Errno 48] Address already in use"
+  },
+  "after_close_reuseaddr_bind": {
+    "bound": true,
+    "errno": null
+  },
+  "passed": true,
+  "conclusion": "An inactive port can reject plain bind because of recently closed TCP connections. SO_REUSEADDR allows the expected rebinding while still rejecting an existing live listener.",
+  "minimal_fix": "Before the existing probe bind, set sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1). Do not set SO_REUSEPORT and do not suppress EADDRINUSE.",
+  "production_cause_limit": "This reproduces the mechanism on the local OS; actual dgx100 port-state evidence is needed to identify cause of job395039."
+}

@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Component Ablation Progress</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --panel: #ffffff;
+      --ink: #17201a;
+      --muted: #667064;
+      --line: #d9ded5;
+      --accent: #216869;
+      --accent-soft: #dcebea;
+      --warn: #a15c14;
+      --bad: #a43832;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    main { width: min(1180px, calc(100vw - 32px)); margin: 28px auto 48px; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: flex-end;
+      margin-bottom: 22px;
+    }
+    h1 { margin: 0 0 4px; font-size: 24px; line-height: 1.2; letter-spacing: 0; }
+    h2 { font-size: 16px; margin: 0 0 10px; letter-spacing: 0; }
+    section { margin-top: 22px; }
+    .subtle { color: var(--muted); }
+    .stamp { text-align: right; min-width: 220px; }
+    .progress-wrap {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+    }
+    .progress-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .bar {
+      height: 14px;
+      border-radius: 999px;
+      background: #e6e9e2;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+    .bar > div {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), #4d8f6d);
+      transition: width 240ms ease;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      gap: 10px;
+      margin: 18px 0;
+    }
+    .stat {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 8px;
+      padding: 12px 14px;
+      min-height: 76px;
+    }
+    .stat .label { color: var(--muted); font-size: 12px; margin-bottom: 6px; }
+    .stat .value { font-size: 24px; font-weight: 700; letter-spacing: 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      white-space: nowrap;
+    }
+    th { font-size: 12px; color: var(--muted); background: #fbfcf8; position: sticky; top: 0; }
+    tr:last-child td { border-bottom: 0; }
+    .table-scroll { overflow: auto; border-radius: 8px; max-height: 560px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 650;
+      font-size: 12px;
+    }
+    .badge.warn { background: #f3e6d6; color: var(--warn); }
+    .badge.bad { background: #f1dddc; color: var(--bad); }
+    .active-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 10px;
+    }
+    .active-item {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 8px;
+      padding: 11px 12px;
+    }
+    .active-item strong { display: block; margin-bottom: 4px; }
+    @media (max-width: 760px) {
+      header { display: block; }
+      .stamp { text-align: left; margin-top: 10px; }
+      .stats { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+      th, td { white-space: normal; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Component Ablation Progress</h1>
+        <div class="subtle" id="runMeta">Loading run metadata...</div>
+      </div>
+      <div class="stamp">
+        <div class="subtle">Last refresh</div>
+        <div id="lastRefresh">-</div>
+      </div>
+    </header>
+    <div class="progress-wrap">
+      <div class="progress-row">
+        <div>
+          <strong id="progressText">0 / 0 completed</strong>
+          <div class="subtle" id="statusText">Waiting for status.json</div>
+        </div>
+        <span class="badge" id="stateBadge">starting</span>
+      </div>
+      <div class="bar"><div id="progressBar"></div></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="label">Completed</div><div class="value" id="completed">0</div></div>
+      <div class="stat"><div class="label">Remaining</div><div class="value" id="remaining">0</div></div>
+      <div class="stat"><div class="label">Failed</div><div class="value" id="failed">0</div></div>
+      <div class="stat"><div class="label">Cases</div><div class="value" id="cases">0</div></div>
+      <div class="stat"><div class="label">Variants</div><div class="value" id="variants">0</div></div>
+    </div>
+    <section>
+      <h2>Active Tasks</h2>
+      <div class="active-list" id="activeList"><div class="subtle">No active task reported yet.</div></div>
+    </section>
+    <section>
+      <h2>Aggregate Table</h2>
+      <div class="table-scroll" id="aggregateTable"><div class="subtle">Waiting for component_ablation_table.csv</div></div>
+    </section>
+    <section>
+      <h2>Completed Case Details</h2>
+      <div class="table-scroll" id="caseTable"><div class="subtle">Waiting for summary_component_cases.csv</div></div>
+    </section>
+  </main>
+  <script>
+    const refreshMs = 10000;
+    const fmt = value => value === undefined || value === null || value === '' ? '-' : value;
+    function parseCsv(text) {
+      const rows = [];
+      let row = [], cell = '', quoted = false;
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i], next = text[i + 1];
+        if (quoted && ch === '"' && next === '"') { cell += '"'; i++; continue; }
+        if (ch === '"') { quoted = !quoted; continue; }
+        if (!quoted && ch === ',') { row.push(cell); cell = ''; continue; }
+        if (!quoted && (ch === '\n' || ch === '\r')) {
+          if (ch === '\r' && next === '\n') i++;
+          row.push(cell); cell = '';
+          if (row.some(x => x.length)) rows.push(row);
+          row = [];
+          continue;
+        }
+        cell += ch;
+      }
+      if (cell.length || row.length) { row.push(cell); rows.push(row); }
+      return rows;
+    }
+    async function fetchJson(path) {
+      const res = await fetch(path + '?t=' + Date.now());
+      if (!res.ok) throw new Error(path + ' missing');
+      return await res.json();
+    }
+    async function fetchText(path) {
+      const res = await fetch(path + '?t=' + Date.now());
+      if (!res.ok) throw new Error(path + ' missing');
+      return await res.text();
+    }
+    function renderTable(targetId, csvText, columns = null) {
+      const parsed = parseCsv(csvText).filter(row => row.length);
+      const target = document.getElementById(targetId);
+      if (parsed.length < 2) {
+        target.innerHTML = '<div class="subtle">No rows yet.</div>';
+        return;
+      }
+      const headers = parsed[0];
+      const indices = columns ? columns.map(name => headers.indexOf(name)).filter(i => i >= 0) : headers.map((_, i) => i);
+      const shownHeaders = indices.map(i => headers[i]);
+      const body = parsed.slice(1);
+      target.innerHTML = '<table><thead><tr>' +
+        shownHeaders.map(h => '<th>' + h + '</th>').join('') +
+        '</tr></thead><tbody>' +
+        body.map(row => '<tr>' + indices.map(i => '<td>' + fmt(row[i]) + '</td>').join('') + '</tr>').join('') +
+        '</tbody></table>';
+    }
+    function renderActive(active) {
+      const target = document.getElementById('activeList');
+      if (!active || !active.length) {
+        target.innerHTML = '<div class="subtle">No active task reported.</div>';
+        return;
+      }
+      target.innerHTML = active.map(item => `
+        <div class="active-item">
+          <strong>${fmt(item.case_order)}. ${fmt(item.case_id)}</strong>
+          <div>${fmt(item.variant)}</div>
+          <div class="subtle">${fmt(item.domain)} &middot; SCC ${fmt(item.scc_size)} &middot; started ${fmt(item.started_at)}</div>
+        </div>
+      `).join('');
+    }
+    async function refresh() {
+      try {
+        const status = await fetchJson('status.json');
+        const total = Number(status.total_case_variants || 0);
+        const completed = Number(status.completed_case_variants || 0);
+        const failed = Number(status.failed_case_variants || 0);
+        const remaining = Number(status.remaining_case_variants || 0);
+        const pct = total ? Math.round(completed * 1000 / total) / 10 : 0;
+        document.getElementById('runMeta').textContent = `${status.stage || 'stage'} - ${status.run_id || ''}`;
+        document.getElementById('lastRefresh').textContent = new Date().toLocaleTimeString();
+        document.getElementById('progressText').textContent = `${completed} / ${total} completed (${pct}%)`;
+        document.getElementById('statusText').textContent = `updated ${status.updated_at || '-'} - ${remaining} remaining`;
+        document.getElementById('progressBar').style.width = pct + '%';
+        document.getElementById('completed').textContent = completed;
+        document.getElementById('remaining').textContent = remaining;
+        document.getElementById('failed').textContent = failed;
+        document.getElementById('cases').textContent = status.total_cases || 0;
+        document.getElementById('variants').textContent = (status.variants || []).length;
+        const badge = document.getElementById('stateBadge');
+        badge.textContent = failed ? 'check failures' : (remaining ? 'running' : 'complete');
+        badge.className = 'badge' + (failed ? ' bad' : '');
+        renderActive(status.active || (status.current ? [status.current] : []));
+      } catch (err) {
+        document.getElementById('statusText').textContent = err.message;
+        document.getElementById('stateBadge').textContent = 'waiting';
+        document.getElementById('stateBadge').className = 'badge warn';
+      }
+      try { renderTable('aggregateTable', await fetchText('component_ablation_table.csv')); } catch (err) {}
+      try {
+        renderTable('caseTable', await fetchText('summary_component_cases.csv'), [
+          'case_order', 'variant', 'domain', 'scc_size', 'invalid', 'root_at_3',
+          'risk_any', 'risk_all', 'compression', 'core_size', 'llm_calls', 'runtime_sec'
+        ]);
+      } catch (err) {}
+    }
+    refresh();
+    setInterval(refresh, refreshMs);
+  </script>
+</body>
+</html>

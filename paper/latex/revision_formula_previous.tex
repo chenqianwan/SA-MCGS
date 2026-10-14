@@ -1,0 +1,60 @@
+\ifrevisionmarks
+\revdel{Implementation-level equations summarized in Section~3 are expanded here.  The main text retains the search template plus two scoring components, the priority score and core objective.  Remaining details were fixed before evaluation and left untuned on test cases.}
+
+\paragraph{\revdel{Node and relation updates.}}
+
+\revdel{For every record observed in rollout $t$, node risk evidence is updated by a visit-counted running average:}
+
+\begin{equation*}
+\revdeletedmath{\begin{aligned}
+    \bar{q}_{t+1}(v)=
+    \frac{n_t(v)\bar{q}_t(v)+y_t(v)}
+    {n_t(v)+1},\\
+    n_{t+1}(v)=n_t(v)+1.
+    \end{aligned}}
+\end{equation*}
+
+\revdel{Directed relation evidence is updated by exponential smoothing,}
+
+\begin{equation*}
+\revdeletedmath{m_{t+1}(u,v)=(1-\rho)m_t(u,v)+\rho z_t(u,v),}
+\end{equation*}
+
+\revdel{where $z_t(u,v)$ is the local evaluator's evidence that relation $(u,v)$ creates or supports a repair-relevant conflict.}
+
+\paragraph{\revdel{Relation priors and critical pairs.}}
+
+\revdel{Equation~5 is shared by node and edge priors.  For nodes we set $w=\theta$ and use node features such as repair-entry support, local-subgraph appearance, pair-endpoint support, and \oc{} endpoint evidence.  For edges we set $w=\beta$ and use edge features such as semantic incompatibility, repeated pair support, reverse-edge evidence, and accumulated conflict evidence.  A separate bounded ledger records persistent critical-pair hypotheses:}
+
+\begin{equation*}
+\revdeletedmath{\begin{aligned}
+    \mathcal{N}(v)&=\{u:(u,v)\in E \text{ or } (v,u)\in E\},\\
+    p_t(v)&=\max_{u\in\mathcal{N}(v)} \kappa_t(u,v),\\
+    \kappa_t(u,v)&=\min(1,\omega^\top\chi_t(u,v)).
+    \end{aligned}}
+\end{equation*}
+
+\revdel{Here $\chi_t(u,v)$ contains pair-level evidence such as semantic incompatibility, severity, same-path support, no-fallback language, repeated support, and explicit conflict reports.}
+
+\paragraph{\revdel{Online conflict signal.}}
+
+\revdel{Let $c_t=\max_{(u,v)\in E(W_t)} z_t(u,v)$ be the strongest relation-conflict score in the current window.  With previous rollout scores as the online reference set,}
+
+\begin{equation*}
+\revdeletedmath{\tau_t = Q_{1-\alpha_{\mathrm{oc}}}\left(\{c_i: i<t\}\right),
+    \quad
+    \operatorname{OC}_t=\mathbf{1}[c_t>\tau_t].}
+\end{equation*}
+
+\revdel{The implicated relation endpoints are added to \oc{} memory and receive the bounded bonus in Eq.~7.}
+
+\paragraph{\revdel{Core candidate pool.}}
+
+\revdel{The candidate pool used in Eq.~8 is}
+
+\begin{equation*}
+\revdeletedmath{C_t = h_t \cup H_{t-1} \cup O_t \cup K_t,}
+\end{equation*}
+
+\revdel{where $h_t$ is the local risk subgraph, $O_t$ contains \oc{} endpoints, and $K_t$ contains top-scoring relation endpoints together with their local neighbors.}
+\fi

@@ -1,0 +1,102 @@
+--- before/acl_latex.tex
++++ after/acl_latex.tex
+@@ -61,33 +61,33 @@
+ \section{Introduction}
+ \label{sec:intro}
+ 
+-Many high-stakes document analysis tasks are graph problems hidden inside text \citep{hendrycks2021cuad,koreeda2021contractnli,boulet2021measuring}.  In contracts, one clause may define a deadline, another may suspend it, and a later amendment may restore only part of the obligation.  Similar dependencies appear when statutory exceptions are narrowed by distant cross-references \citep{boulet2021measuring,holzenberger2020sara}, or when software packages preserve old interfaces while dependent packages require newer ones to be present first \citep{debianPolicyRelationships,debianPolicySharedLibraries}.  Although each record can look plausible in isolation, the risk appears only when the directed dependencies among records are followed.
+-
+-Large language models (LLMs) can read long contexts. Nominal context length alone does not guarantee reliable retrieval, multi-hop tracing, or aggregation under long inputs \citep{liu2024lost,hsieh2024ruler,bai2024longbench}.  Legal NLP benchmarks expose persistent difficulty with distributed evidence \citep{hendrycks2021cuad,koreeda2021contractnli,chalkidis2022lexglue,guha2023legalbench}.  We study a sharper failure mode in \emph{cyclic} document regions, where evidence is revisitable and diffuse.  \revnewreplace{A full-\scc{} one-shot prompt may find a suspicious node, but it is asked to simultaneously rank all records, produce a subgraph, and preserve multiple evidence endpoints in one generation.}{With one-shot prompting, the model processes the entire \scc{} in one generation and must simultaneously rank all records, produce a subgraph, and preserve multiple evidence endpoints.}
+-
+-A natural alternative is AlphaGo-style search
+-\citep{silver2016mastering,kocsis2006bandit,browne2012survey}.  Standard MCTS unrolls trajectories as trees.  In a loopy graph, this makes the search state grow with
++Many high-stakes document analysis tasks are graph problems hidden inside text \citep{hendrycks2021cuad,koreeda2021contractnli,boulet2021measuring}.  In contracts, one clause may define a deadline, another may suspend it, and a later amendment may restore only part of the obligation.  \revdel{Similar dependencies appear when statutory exceptions are narrowed by distant cross-references (\mbox{\citealp{boulet2021measuring}}; \mbox{\citealp{holzenberger2020sara}}), or when software packages preserve old interfaces while dependent packages require newer ones to be present first (\mbox{\citealp{debianPolicyRelationships}}; \mbox{\citealp{debianPolicySharedLibraries}}).}  Although each record can look plausible in isolation, the risk appears only when the directed dependencies among records are followed.
++
++\revredreplace{Large language models (LLMs) can read long contexts. Nominal context length alone does not guarantee reliable retrieval, multi-hop tracing, or aggregation under long inputs (\mbox{\citealp{liu2024lost}}; \mbox{\citealp{hsieh2024ruler}}; \mbox{\citealp{bai2024longbench}}).  Legal NLP benchmarks expose persistent difficulty with distributed evidence (\mbox{\citealp{hendrycks2021cuad}}; \mbox{\citealp{koreeda2021contractnli}}; \mbox{\citealp{chalkidis2022lexglue}}; \mbox{\citealp{guha2023legalbench}}).  We study a sharper failure mode in \emph{cyclic} document regions, where evidence is revisitable and diffuse.  A full-\scc{} one-shot prompt may find a suspicious node, but it is asked to simultaneously rank all records, produce a subgraph, and preserve multiple evidence endpoints in one generation.}{Large language models (LLMs) can read long contexts, but nominal context length does not guarantee reliable retrieval, multi-hop tracing, or aggregation \citep{liu2024lost,hsieh2024ruler,bai2024longbench}. We study cyclic document regions, where one-shot prompting must identify risks and retain their distributed evidence in a single generation.}
++
++\revredreplace{A natural alternative is AlphaGo-style search
++(\mbox{\citealp{silver2016mastering}}; \mbox{\citealp{kocsis2006bandit}}; \mbox{\citealp{browne2012survey}}).  Standard MCTS unrolls trajectories as trees.  In a loopy graph, this makes the search state grow with
+ walk prefixes instead of physical records.  In an \scc{}, even a
+ small set of records can therefore induce many repeated path copies. Related MCTS analyses describe this as a transposition, graph-history, and loop-induced uncertainty
+-problem \citep{childs2008transpositions,kishimoto2004general,saffidine2012ucd,moerland2020mcts}.
++problem (\mbox{\citealp{childs2008transpositions}}; \mbox{\citealp{kishimoto2004general}}; \mbox{\citealp{saffidine2012ucd}}; \mbox{\citealp{moerland2020mcts}}).
+ Prior Monte Carlo graph search reduces duplicate transpositions for
+ AlphaZero-style search by sharing states in an acyclic search graph
+-\citep{czech2021monte}.  Other graph-to-directed-acyclic-graph (DAG) strategies, such as removing
++(\mbox{\citealp{czech2021monte}}).  Other graph-to-directed-acyclic-graph (DAG) strategies, such as removing
+ or orienting feedback edges to obtain an acyclic approximation
+-\citep{eades1993fast,berger1990approximation}, avoid cycles by discarding
++(\mbox{\citealp{eades1993fast}}; \mbox{\citealp{berger1990approximation}}), avoid cycles by discarding
+ part of the cyclic structure.  Neither line provides a mechanism for
+ turning a strongly connected document region into a stable evaluation unit.
+ Our setting requires localizing the \scc{} and collapsing it into an
+ evidence-preserving risk subgraph. The subgraph should retain explicit risk
+-sources and supporting evidence.
+-
+-We propose \textbf{\samcgs{}}, a structure-aware Monte Carlo graph search method for extracting risk subgraphs from cyclic document regions.  \samcgs{} first finds \scc{} bottlenecks, then performs local window rollouts inside each \scc{}.  Instead of treating risk as intrinsic to a single node, it stores relation-first evidence, where a node becomes risky when earlier evidence makes its constraint, exception, or handoff incompatible with the graph context.  The final output is a dynamic core risk subgraph that can be inspected or passed upward as a collapsed evaluation point.
++sources and supporting evidence.}{MCTS offers an alternative to single-generation inference \citep{silver2016mastering,kocsis2006bandit,browne2012survey}. In cyclic graphs, tree states are indexed by walk prefixes, so repeated visits create multiple copies of the same record \citep{childs2008transpositions,kishimoto2004general,saffidine2012ucd,moerland2020mcts}. Prior Monte Carlo graph search shares transpositions in acyclic search graphs \citep{czech2021monte}; approximations to directed acyclic graphs (DAGs) remove or reorient feedback edges \citep{eades1993fast,berger1990approximation}. Our task requires preserving cyclic dependencies while extracting the records that jointly support a risk.}
++
++\revredreplace{We propose \textbf{\samcgs{}}, a structure-aware Monte Carlo graph search method for extracting risk subgraphs from cyclic document regions.  \samcgs{} first finds \scc{} bottlenecks, then performs local window rollouts inside each \scc{}.  Instead of treating risk as intrinsic to a single node, it stores relation-first evidence, where a node becomes risky when earlier evidence makes its constraint, exception, or handoff incompatible with the graph context.  The final output is a dynamic core risk subgraph that can be inspected or passed upward as a collapsed evaluation point.}{We propose \textbf{\samcgs{}}, which searches within each \scc{} and accumulates relation-first evidence across local LLM rollouts. It returns a dynamic risk core that groups risk sources and supporting evidence for inspection (Figure~\ref{fig:pipeline}).}
+ 
+ Our contributions are:
+ \begin{itemize}[leftmargin=*,itemsep=2pt]
+-    \item We formulate \emph{structural risk subgraph extraction}: given an \scc{} in a document graph, output a compact subgraph that retains the repair-relevant evidence endpoints, in place of single anomalous node.
+-    \item We introduce \samcgs{}, a structure-aware Monte Carlo graph search method that localizes \scc{}s, accumulates relation-level evidence through local rollouts, and distills persistent signals into a compact dynamic risk core.  Its rollout policy uses upper confidence bound (UCB) selection augmented with progressive relation priors, critical-pair revisiting, and evidence-gated core pruning, so additional search budget is routed toward repeatedly repair-relevant relations, not arbitrary path copies.
+-    \item We build a frozen critical-stress benchmark from four authority-backed sources. Debian provides package-dependency graphs, SEC EX-21 provides subsidiary-disclosure graphs, the German Civil Code (BGB) provides statutory cross-reference graphs, and CUAD provides contract-clause graphs. \revnewreplace{The benchmark contains 320 model-case pairs evaluated with GPT-4o, DeepSeek-V3, Qwen2.5-72B, and Gemini 2.5 Pro.}{The benchmark contains 80 injected variants evaluated with five LLMs, yielding 400 model-cases.} \revnewreplace{Across these settings, \samcgs{} improves \rootthree{}, \riskany{}, and \riskall{} over an oracle-risk full-\scc{} direct-subgraph baseline. It also makes the retention cost visible through an explicit compression metric.}{Comparisons with one-shot prompting and LEA show gains in root localization, complete endpoint retention, and compact evidence extraction. Component ablations, inference costs, and expert auditing connect these gains to the search design and the evidence returned.}
++    \item \revredreplace{We formulate \emph{structural risk subgraph extraction}: given an \scc{} in a document graph, output a compact subgraph that retains the repair-relevant evidence endpoints, in place of single anomalous node.}{We formulate \emph{structural risk subgraph extraction}: retaining repair-relevant evidence in a compact subgraph of a cyclic document region.}
++    \item \revredreplace{We introduce \samcgs{}, a structure-aware Monte Carlo graph search method that localizes \scc{}s, accumulates relation-level evidence through local rollouts, and distills persistent signals into a compact dynamic risk core.  Its rollout policy uses upper confidence bound (UCB) selection augmented with progressive relation priors, critical-pair revisiting, and evidence-gated core pruning, so additional search budget is routed toward repeatedly repair-relevant relations, not arbitrary path copies.}{We design an adaptive search policy that combines upper confidence bound (UCB) selection with progressive relation priors, critical-pair revisiting, and evidence-gated core pruning.}
++    \item \revredreplace{We build a frozen critical-stress benchmark from four authority-backed sources. Debian provides package-dependency graphs, SEC EX-21 provides subsidiary-disclosure graphs, the German Civil Code (BGB) provides statutory cross-reference graphs, and CUAD provides contract-clause graphs. The benchmark contains 320 model-case pairs evaluated with GPT-4o, DeepSeek-V3, Qwen2.5-72B, and Gemini 2.5 Pro. Across these settings, \samcgs{} improves \rootthree{}, \riskany{}, and \riskall{} over an oracle-risk full-\scc{} direct-subgraph baseline. It also makes the retention cost visible through an explicit compression metric.}{We build a frozen four-domain benchmark and evaluate \samcgs{} against one-shot prompting and LEA across five LLMs, with component ablations, measured inference costs, and expert auditing.}
+ \end{itemize}
+ 
+ \begin{figure*}[!t]
+@@ -337,7 +337,7 @@
+ 
+ \revdel{Figure~\ref{fig:main_metrics} shows the core result.  Against oracle-risk \naive{}, \samcgs{} improves \rootthree{} by 23 points, \riskany{} by 19 points, and \riskall{} by 16 points.  The strongest claim is not that full-\scc{} prompting never finds risk, since the baseline is already selected from ten attempts with access to risk metrics.  Improvement from \samcgs{} is more reliable preservation of the repair-relevant evidence endpoints in the final subgraph.}
+ 
+-\revnewreplace{The compression axis should be read as a trade-off, not a loss.  Oracle-risk \naive{} is slightly more compressed on average, but still retains all critical endpoints less often.  \samcgs{} deliberately keeps a larger dynamic core when evidence persists across rollouts.}{\samcgs{} retains complete risk evidence in cases missed by LEA (Figure~\ref{fig:paired_case_outcomes}). For GPT-4o, it succeeds alone on 32 cases versus 7 for LEA; for Qwen2.5-72B, the counts are 33 versus 8. Both yield 25 net additional successes among 80 cases. Llama 3.1-8B-Instruct adds 11 net successes (21 versus 10).}
++\revredreplace{The compression axis should be read as a trade-off, not a loss.  Oracle-risk \naive{} is slightly more compressed on average, but still retains all critical endpoints less often.  \samcgs{} deliberately keeps a larger dynamic core when evidence persists across rollouts.}{Figure~\ref{fig:paired_case_outcomes} shows that \samcgs{} recovers more LEA failures than the reverse for GPT-4o, Qwen2.5-72B, and Llama 3.1-8B-Instruct. For GPT-4o, 32 cases succeed only with \samcgs{}, compared with 7 only with LEA.}
+ 
+ \revdel{Appendix~\ref{tab:reliability} separates one-shot output availability from boosted raw-attempt and model-case reliability.}
+ 
+@@ -354,6 +354,7 @@
+ \subsection{Breakdown by model and domain}
+ 
+ \revnewreplace{The gains are not carried by a single model.  Gemini 2.5 Pro and DeepSeek-V3 are strong even under oracle-risk \naive{}, while GPT-4o and Qwen2.5-72B still lag in complete endpoint retention. Domain-wise, CUAD is the hardest setting: long contract components create both context pressure and output-schema burden for full-\scc{} ranking and subgraph generation.}{The model-level gains also appear in the domain breakdowns in Table~\ref{tab:appendix_breakdowns}. Pooling the five models, \samcgs{} raises \riskall{} over LEA from 26.67\% to 51.67\% on BGB and from 53.00\% to 69.00\% on CUAD. These comparisons extend the completeness gains to statutory cross-references and longer contract-clause graphs.}
++\revred{Appendix~\ref{sec:appendix_case} compares the three methods on the same long-\scc{} case.}
+ 
+ \section{Analysis}
+ \label{sec:analysis}
+@@ -366,10 +367,12 @@
+ 
+ \revnewreplace{Figure~\ref{fig:convergence} shows that additional rollouts accumulate useful evidence instead of only spending more tokens.  At budget 5, \riskall{} is 22\%; at budget 30, it rises to 41\%; at budget 60, it reaches 57\% under prefix reconstruction.  The final run-level \riskall{} in Figure~\ref{fig:main_metrics} is higher because the dynamic core uses the full retained evidence rather than a simple prefix truncation.  The important trend is that risk coverage and \riskall{} continue to rise well past the first few rollouts, supporting the search interpretation.}{For GPT-4o, most completeness gains emerge within the first 20 rollouts, with later rollouts refining the retained core (Appendix~\ref{app:budget_prefix}).}
+ 
+-\subsection{Robustness checks}
+-
+-\revnewreplace{Appendix~\ref{sec:appendix_experiments} reports selector and reliability checks.  The non-oracle boosted selector reaches 52\% \riskall{}, while compression-first oracle selection raises compression but lowers \riskall{} to 47\%.  A CUAD lite-output control reduces formatting burden but still reaches only 12\% \riskall{} on long-contract SCCs, and a more compressed \samcgs{} profile lowers \riskall{} from 78\% to 71\%.
+-Appendix~\ref{sec:appendix_case} gives a representative long-\scc{} case study.}{We examine the search components and final-core policy below, and report the prior-sensitivity results alongside measured inference costs. Appendix~\ref{sec:appendix_case} compares the three methods on the same long-\scc{} case.}
++\ifrevisionmarks
++\subsection{\revdel{Robustness checks}}
++\fi
++
++\revdel{Appendix~\ref{sec:appendix_experiments} reports selector and reliability checks.  The non-oracle boosted selector reaches 52\% \riskall{}, while compression-first oracle selection raises compression but lowers \riskall{} to 47\%.  A CUAD lite-output control reduces formatting burden but still reaches only 12\% \riskall{} on long-contract SCCs, and a more compressed \samcgs{} profile lowers \riskall{} from 78\% to 71\%.
++Appendix~\ref{sec:appendix_case} gives a representative long-\scc{} case study.}
+ 
+ \input{revision_main_analysis}
+ 
+@@ -381,7 +384,6 @@
+ 
+ \paragraph{Search-augmented LLMs.}
+ Tree of Thoughts \citep{yao2024tree}, Graph of Thoughts \citep{besta2024graph}, and planning-style LLM search \citep{hao2023reasoning} show that explicit search can improve reasoning.  \samcgs{} operates on externally constructed document graphs and treats \scc{}s as bottlenecks to collapse into risk subgraphs.
+-\revadd{LEA provides a task-aligned structured comparator: it aggregates evidence from fixed graph neighborhoods, whereas \samcgs{} adaptively revisits and retains evidence. LEA is our implementation of this comparison, not a claim to reproduce every retrieval-augmented graph-reasoning system.}
+ 
+ \paragraph{Monte Carlo search on graphs.}
+ MCTS and AlphaGo-style search are powerful under stable state transitions \citep{silver2016mastering,kocsis2006bandit,browne2012survey}.  Monte Carlo graph search reuses transpositions \citep{childs2008transpositions,czech2021monte}, and work on MCTS uncertainty highlights loop difficulty \citep{moerland2020mcts}.  Our method targets the remaining gap in information-preserving \scc{} handling for cyclic document regions.
+@@ -392,7 +394,7 @@
+ \section{Conclusion}
+ \label{sec:conclusion}
+ 
+-We introduced \samcgs{}, a structure-aware Monte Carlo graph search method for cyclic document risk.  The central idea is to avoid treating a long \scc{} as either a flat prompt or an ordinary tree-search path.  Instead, \samcgs{} localizes the \scc{}, searches it through local rollouts, stores relation-first evidence, and collapses the component into a dynamic risk core.  \revnewreplace{Across four domains and four LLMs, this yields stronger root localization and endpoint retention than an oracle-risk Top-3 baseline built from repeated full-\scc{} direct-subgraph attempts. It also makes the cost in compression explicit.}{Across four domains and five LLMs, the comparisons with one-shot prompting and LEA show improvements in root localization, complete risk-evidence extraction, and subgraph compactness. Core-policy replay and expert auditing connect these gains to the evidence selected and retained. Together, the results support \samcgs{} as a way to turn cyclic dependencies into focused evidence for human inspection.}
++We introduced \samcgs{}, a structure-aware Monte Carlo graph search method for cyclic document risk.  \revredreplace{The central idea is to avoid treating a long \scc{} as either a flat prompt or an ordinary tree-search path.  Instead, \samcgs{} localizes the \scc{}, searches it through local rollouts, stores relation-first evidence, and collapses the component into a dynamic risk core.  Across four domains and four LLMs, this yields stronger root localization and endpoint retention than an oracle-risk Top-3 baseline built from repeated full-\scc{} direct-subgraph attempts. It also makes the cost in compression explicit.}{Across four domains and five LLMs, \samcgs{} improves \rootthree{} and \riskall{} on average over one-shot prompting and LEA. The returned compact risk subgraphs organize cyclic dependencies into focused evidence for human inspection.}
+ 
+ \section*{Limitations}
+ \label{sec:limitations}

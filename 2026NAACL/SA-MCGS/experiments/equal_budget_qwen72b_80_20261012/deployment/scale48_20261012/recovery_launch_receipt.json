@@ -1,0 +1,40 @@
+{
+  "status": "step_process_started",
+  "created_unix": 1791779333.0653088,
+  "job_id": "415747",
+  "target_workers": 48,
+  "target_service_max_num_seqs": 12,
+  "gpu_requested": false,
+  "auto_retry": false,
+  "command": [
+    "/usr/bin/nohup",
+    "/cm/shared/apps/slurm/current/bin/srun",
+    "--jobid=415747",
+    "--overlap",
+    "--exact",
+    "--nodes=1",
+    "--ntasks=1",
+    "--cpus-per-task=4",
+    "--gres=none",
+    "--nodelist=dgx-061",
+    "--chdir=/aifs4su/hansirui_3rd/chenlong/mcgs_law/equal_budget_qwen72b_80_20261012",
+    "--export=ALL",
+    "/usr/bin/env",
+    "CUDA_VISIBLE_DEVICES=",
+    "/aifs4su/hansirui/vllm-dsv4-venv/bin/python3",
+    "-B",
+    "/aifs4su/hansirui_3rd/chenlong/mcgs_law/equal_budget_qwen72b_80_20261012/deployment/scale48_20261012/recover_after_exit_race.py"
+  ],
+  "source_sha256": {
+    "deployment/scale48_20261012/recover_after_exit_race.py": "26589e68f398000e483dbf1a47330ecc955c62af2f81c94d0d2e6da7f0b4b2e4",
+    "deployment/scale48_20261012/launch_recovery_once.py": "41d25626e390f9d03ad5e4a0ddc2a03961188041e628312f5a6b130121aacf62",
+    "deployment/scale48_20261012/reconcile_completed_checkpoint.py": "e1dc8969deb24e764ade0d6b993684df170959988dad64d90f550d994213b02e",
+    "deployment/scale48_20261012/drain.py": "c21dc5514ec06ade89b1802bdb63d9bdfdad8a00bf4834d4464e0a17728a4ffc",
+    "deployment/scale48_20261012/checkpoint_drain.py": "d593249a2d6c4a37574e1ae00b82545213de097594576bf881dd3c73a126129e",
+    "deployment/scale48_20261012/restart_after_drain.py": "4c18d216e5bf114dee5acf21afe98e77d9df70e255fac27ebcd2ea12f9e54368",
+    "deployment/scale48_20261012/observe48.py": "4ae83f6e534b3962a6d4005af2a581fd3d28bf8b4ad94f29f8933847617364a3"
+  },
+  "authorization": "Continue the user-authorized 48-concurrency test after an independently verified completed-exit audit race.",
+  "prior_controller_status_sha256": "30dee4eee0f154df304cfa9f3f2a3b12ec8f3b2200767f83eb5652894c4921e6",
+  "launch_pid": 516580
+}

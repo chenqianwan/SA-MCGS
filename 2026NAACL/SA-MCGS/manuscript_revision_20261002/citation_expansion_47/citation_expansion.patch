@@ -1,0 +1,117 @@
+--- before/acl_latex.tex
++++ after/acl_latex.tex
+@@ -66,8 +66,8 @@
+ 
+ \revredreplace{Large language models (LLMs) can read long contexts. Nominal context length alone does not guarantee reliable retrieval, multi-hop tracing, or aggregation under long inputs (\mbox{\citealp{liu2024lost}}; \mbox{\citealp{hsieh2024ruler}}; \mbox{\citealp{bai2024longbench}}).  Legal NLP benchmarks expose persistent difficulty with distributed evidence (\mbox{\citealp{hendrycks2021cuad}}; \mbox{\citealp{koreeda2021contractnli}}; \mbox{\citealp{chalkidis2022lexglue}}; \mbox{\citealp{guha2023legalbench}}).  We study a sharper failure mode in \emph{cyclic} document regions, where evidence is revisitable and diffuse.  A full-\scc{} one-shot prompt may find a suspicious node, but it is asked to simultaneously rank all records, produce a subgraph, and preserve multiple evidence endpoints in one generation.}{Large language models (LLMs) can read these records in a single context, but context length alone does not ensure reliable retrieval, multi-hop tracing, or evidence aggregation \citep{liu2024lost,hsieh2024ruler,bai2024longbench}. Following dependencies within strongly connected components (\scc{}s) can revisit the same records. One-shot prompting must jointly rank risk sources and assemble supporting evidence from the entire component in one generation. Complete evidence retention is therefore a distinct objective from locating a suspicious record.}
+ 
+-A natural alternative is AlphaGo-style search
+-\citep{silver2016mastering,kocsis2006bandit,browne2012survey}.  Standard MCTS unrolls trajectories as trees.  In a loopy graph, this makes the search state grow with
++\revredreplace{A natural alternative is AlphaGo-style search
++(\mbox{\citealp{silver2016mastering}}; \mbox{\citealp{kocsis2006bandit}}; \mbox{\citealp{browne2012survey}}).}{MCTS supports game playing \citep{silver2016mastering} and LLM reasoning \citep{zhou2024lats,song2025rekgmcts}.}  Standard MCTS unrolls trajectories as trees.  In a loopy graph, this makes the search state grow with
+ walk prefixes instead of physical records.  In an \scc{}, even a
+ small set of records can therefore induce many repeated path copies. Related MCTS analyses describe this as a transposition, graph-history, and loop-induced uncertainty
+ problem \citep{childs2008transpositions,kishimoto2004general,saffidine2012ucd,moerland2020mcts}.
+@@ -380,16 +380,16 @@
+ \label{sec:related}
+ 
+ \paragraph{LLM reasoning and long context.}
+-Chain-of-thought prompting improves sequential reasoning \citep{wei2022chain}, whereas cyclic document risk requires revisiting and reconciling records instead of extending one chain.  Long-context benchmarks show persistent failures in retrieval, multi-hop tracing, and aggregation \citep{liu2024lost,hsieh2024ruler,bai2024longbench}, while graph-reasoning studies show sensitivity to graph encoding and task formulation \citep{wang2023can,fatemi2024talk}.  Legal NLP benchmarks motivate document-level reasoning \citep{hendrycks2021cuad,koreeda2021contractnli,chalkidis2022lexglue,guha2023legalbench}. Our task stresses cyclic structural evidence retention.
++\revredreplace{Chain-of-thought prompting improves sequential reasoning (\mbox{\citealp{wei2022chain}}), whereas cyclic document risk requires revisiting and reconciling records instead of extending one chain.  Long-context benchmarks show persistent failures in retrieval, multi-hop tracing, and aggregation (\mbox{\citealp{liu2024lost}}; \mbox{\citealp{hsieh2024ruler}}; \mbox{\citealp{bai2024longbench}}), while graph-reasoning studies show sensitivity to graph encoding and task formulation (\mbox{\citealp{wang2023can}}; \mbox{\citealp{fatemi2024talk}}).  Legal NLP benchmarks motivate document-level reasoning (\mbox{\citealp{hendrycks2021cuad}}; \mbox{\citealp{koreeda2021contractnli}}; \mbox{\citealp{chalkidis2022lexglue}}; \mbox{\citealp{guha2023legalbench}}). Our task stresses cyclic structural evidence retention.}{Chain-of-thought prompting supports sequential reasoning \citep{wei2022chain}, while long-context and graph-reasoning studies identify limits in evidence retrieval and sensitivity to graph encoding \citep{liu2024lost,hsieh2024ruler,bai2024longbench,wang2023can,fatemi2024talk}. Legal benchmarks address document-level reasoning \citep{hendrycks2021cuad,koreeda2021contractnli,chalkidis2022lexglue,guha2023legalbench}; network analysis and contract graph extraction capture relations among legal records \citep{boulet2021measuring,dechtiar2025graphgrpolex}.}
+ 
+ \paragraph{Search-augmented LLMs.}
+-Tree of Thoughts \citep{yao2024tree}, Graph of Thoughts \citep{besta2024graph}, and planning-style LLM search \citep{hao2023reasoning} show that explicit search can improve reasoning.  \samcgs{} operates on externally constructed document graphs and treats \scc{}s as bottlenecks to collapse into risk subgraphs.
++\revredreplace{Tree of Thoughts (\mbox{\citealp{yao2024tree}}), Graph of Thoughts (\mbox{\citealp{besta2024graph}}), and planning-style LLM search (\mbox{\citealp{hao2023reasoning}}) show that explicit search can improve reasoning.  \samcgs{} operates on externally constructed document graphs and treats \scc{}s as bottlenecks to collapse into risk subgraphs.}{Tree of Thoughts \citep{yao2024tree}, Graph of Thoughts \citep{besta2024graph}, and reasoning as planning \citep{hao2023reasoning} organize LLM reasoning through explicit search. Language Agent Tree Search (LATS) combines MCTS with LLM value estimates, reflection, and environmental feedback \citep{zhou2024lats}.}
+ 
+ \paragraph{Monte Carlo search on graphs.}
+-MCTS and AlphaGo-style search are powerful under stable state transitions \citep{silver2016mastering,kocsis2006bandit,browne2012survey}.  Monte Carlo graph search reuses transpositions \citep{childs2008transpositions,czech2021monte}, and work on MCTS uncertainty highlights loop difficulty \citep{moerland2020mcts}.  Our method targets the remaining gap in information-preserving \scc{} handling for cyclic document regions.
+-
+-\paragraph{Graph legal analysis and calibration.}
+-Network analysis has been used for statutory cross-references \citep{boulet2021measuring}, contract graph extraction is active \citep{dechtiar2025graphgrpolex}, and conformal ideas inspire calibrated evidence signals \citep{vovk2005algorithmic,gibbs2021adaptive}.  \samcgs{} is complementary because it assumes a record graph and focuses on risk search inside cyclic components.
++\revredreplace{MCTS and AlphaGo-style search are powerful under stable state transitions (\mbox{\citealp{silver2016mastering}}; \mbox{\citealp{kocsis2006bandit}}; \mbox{\citealp{browne2012survey}}).  Monte Carlo graph search reuses transpositions (\mbox{\citealp{childs2008transpositions}}; \mbox{\citealp{czech2021monte}}), and work on MCTS uncertainty highlights loop difficulty (\mbox{\citealp{moerland2020mcts}}).  Our method targets the remaining gap in information-preserving \scc{} handling for cyclic document regions.}{Monte Carlo graph search shares transpositions \citep{childs2008transpositions,czech2021monte}, while related analyses address loop-induced uncertainty \citep{moerland2020mcts}. ReKG-MCTS \citep{song2025rekgmcts} and Graph-MCTS \citep{liu2025graphmcts} apply MCTS to reasoning over external graph knowledge.}
++
++\paragraph{\revredreplace{Graph legal analysis and calibration.}{Graph retrieval and evidence selection.}}
++\revredreplace{Network analysis has been used for statutory cross-references (\mbox{\citealp{boulet2021measuring}}), contract graph extraction is active (\mbox{\citealp{dechtiar2025graphgrpolex}}), and conformal ideas inspire calibrated evidence signals (\mbox{\citealp{vovk2005algorithmic}}; \mbox{\citealp{gibbs2021adaptive}}).  \samcgs{} is complementary because it assumes a record graph and focuses on risk search inside cyclic components.}{GraphRAG uses entity graphs and community summaries for query-focused summarization \citep{edge2024graphrag}. ToG-2 couples knowledge-graph traversal with document retrieval \citep{ma2025tog2}, and G-Retriever selects query-relevant subgraphs through prize-collecting Steiner tree optimization \citep{he2024gretriever}. Our task centers on retaining risk endpoints in a compact output subgraph; \samcgs{} accumulates relation-level evidence during local search within an \scc{}.}
+ 
+ \section{Conclusion}
+ \label{sec:conclusion}
+--- before/custom.bib
++++ after/custom.bib
+@@ -550,3 +550,64 @@
+     url     = {https://huggingface.co/Qwen/Qwen3.5-9B/blob/c202236235762e1c871ad0ccb60c8ee5ba337b9a/README.md},
+     note    = {Official model card, revision c202236. Accessed October 1, 2026},
+ }
++
++
++@inproceedings{song2025rekgmcts,
++    author = {Xiaozhuang Song and Shufei Zhang and Tianshu Yu},
++    title = {{ReKG-MCTS}: Reinforcing {LLM} Reasoning on Knowledge Graphs via Training-Free {Monte Carlo} Tree Search},
++    booktitle = {Findings of the Association for Computational Linguistics: ACL 2025},
++    year = {2025},
++    month = jul,
++    pages = {9288--9306},
++    address = {Vienna, Austria},
++    publisher = {Association for Computational Linguistics},
++    doi = {10.18653/v1/2025.findings-acl.484},
++    url = {https://aclanthology.org/2025.findings-acl.484/},
++}
++
++@inproceedings{liu2025graphmcts,
++    author = {Lihui Liu},
++    title = {{Monte Carlo} Tree Search for Graph Reasoning in Large Language Model Agents},
++    booktitle = {Proceedings of the 34th ACM International Conference on Information and Knowledge Management},
++    year = {2025},
++    month = nov,
++    pages = {4966--4970},
++    publisher = {ACM},
++    doi = {10.1145/3746252.3760854},
++    url = {https://doi.org/10.1145/3746252.3760854},
++}
++
++@inproceedings{zhou2024lats,
++    author = {Andy Zhou and Kai Yan and Michal Shlapentokh-Rothman and Haohan Wang and Yu-Xiong Wang},
++    title = {{Language Agent Tree Search} Unifies Reasoning, Acting, and Planning in Language Models},
++    booktitle = {Proceedings of the 41st International Conference on Machine Learning},
++    year = {2024},
++    month = jul,
++    volume = {235},
++    series = {Proceedings of Machine Learning Research},
++    pages = {62138--62160},
++    publisher = {PMLR},
++    url = {https://proceedings.mlr.press/v235/zhou24r.html},
++}
++
++
++@inproceedings{he2024gretriever,
++    author = {Xiaoxin He and Yijun Tian and Yifei Sun and Nitesh V. Chawla and Thomas Laurent and Yann LeCun and Xavier Bresson and Bryan Hooi},
++    title = {{G-Retriever}: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering},
++    booktitle = {Advances in Neural Information Processing Systems},
++    volume = {37},
++    pages = {132876--132907},
++    year = {2024},
++    publisher = {Curran Associates, Inc.},
++    doi = {10.52202/079017-4224},
++    url = {https://proceedings.neurips.cc/paper_files/paper/2024/hash/efaf1c9726648c8ba363a5c927440529-Abstract-Conference.html},
++}
++
++@inproceedings{ma2025tog2,
++    author = {Shengjie Ma and Chengjin Xu and Xuhui Jiang and Muzhi Li and Huaren Qu and Cehao Yang and Jiaxin Mao and Jian Guo},
++    title = {{Think-on-Graph 2.0}: Deep and Faithful Large Language Model Reasoning with Knowledge-guided Retrieval Augmented Generation},
++    booktitle = {International Conference on Learning Representations},
++    pages = {52782--52806},
++    year = {2025},
++    url = {https://proceedings.iclr.cc/paper_files/paper/2025/hash/830b1abc6d2da85f23d41169fa44d185-Abstract-Conference.html},
++}
+--- before/revision_bibliography_audit.tex
++++ after/revision_bibliography_audit.tex
+@@ -48,3 +48,11 @@
+ \csdef{fullbibaudit@yao2024tree}{1}
+ \csdef{fullbibprevious@yao2024tree}{\revdel{Shunyu Yao, Dian Yu, Jeffrey Zhao, Izhak Shafran, Tom Griffiths, Yuan Cao, and Karthik Narasimhan. 2024. Tree of thoughts: Deliberate problem solving with large language models. In Advances in Neural Information Processing Systems, volume~36.}}
+ \csdef{fullbibaudit@zilberstein1996anytime}{1}
++
++% 2026-10-02: six newly cited references (41 -> 47).
++\csdef{fullbibaudit@song2025rekgmcts}{1}
++\csdef{fullbibaudit@liu2025graphmcts}{1}
++\csdef{fullbibaudit@zhou2024lats}{1}
++\csdef{fullbibaudit@he2024gretriever}{1}
++\csdef{fullbibaudit@ma2025tog2}{1}
++\csdef{fullbibaudit@edge2024graphrag}{1}

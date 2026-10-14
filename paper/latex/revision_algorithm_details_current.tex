@@ -1,0 +1,26 @@
+\begin{revadded}
+Algorithm~\ref{alg:samcgs} is the production ordering. SCC decomposition and a collapsed representation provide the surrounding graph interface; the reported benchmark evaluates extraction within individual components rather than downstream reasoning on a fully collapsed document graph.
+
+\begin{algorithm}[!htbp]
+\small
+\caption{Final evidence-core readout}
+\label{alg:appendix_dynamic_core}
+\begin{algorithmic}[1]
+\REQUIRE Accumulated evidence $M_T$, component $S$, fixed cap $B(S)$
+\STATE Normalize active node channels and compute pair scores
+\STATE Form candidates from evidence, flagged nodes, and pairs
+\STATE Compute priorities using Eq.~\ref{eq:priority}
+\STATE Initialize $H=\emptyset$; seed protected and strongest pairs
+\FORALL{remaining candidates in priority order}
+ \IF{cap reached or an unprotected candidate fails a stopping rule}
+  \STATE Stop adding ranked candidates
+ \ENDIF
+ \STATE Add candidate to $H$
+\ENDFOR
+\STATE Close qualifying pairs while capacity remains
+\RETURN $H$; rank records separately by mean node risk
+\end{algorithmic}
+\end{algorithm}
+
+Appendix~\ref{sec:appendix_formula_details} gives the actual update and stopping rules. The standalone offline replay checks exact final-node parity with every archived Full output before comparing selectors; this validation does not execute the model client.
+\end{revadded}

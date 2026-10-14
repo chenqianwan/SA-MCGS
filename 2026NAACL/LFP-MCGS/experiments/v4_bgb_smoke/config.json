@@ -1,0 +1,24 @@
+{
+  "schema_version": "bgb-controlled-intervention-config-v1",
+  "random_seed": 20260819,
+  "inputs": {
+    "graph": "data/quantlaw/de/4_crossreference_graph/2019.gpickle.gz",
+    "raw_xml": "data/bgb_raw/BJNR001950896.xml"
+  },
+  "carrier_sizes": {
+    "smoke": [3, 5, 7, 9],
+    "pressure_only": [11, 25]
+  },
+  "conditions": [
+    "Productive",
+    "Decoy",
+    "Broken",
+    "Clean",
+    "Matched-DAG"
+  ],
+  "selection_policy": "lexicographically_first_exact_native_scc",
+  "anchor_policy": "directed_diameter_shortest_path_midpoint",
+  "dag_policy": "seed_rooted_preferred_anchor_path_dfs_forward_edge_subgraph",
+  "controlled_note_marker": "CONTROLLED-LFP-NOTE",
+  "output_dir": "2026NAACL/LFP-MCGS/experiments/v4_bgb_smoke/data"
+}

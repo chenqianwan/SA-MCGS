@@ -1,0 +1,50 @@
+{
+  "schema": "qwen_same_case_budget_preflight_v1",
+  "status": "passed",
+  "model_calls": 0,
+  "sa_execution_enabled": false,
+  "case_count": 80,
+  "expected_baseline_arms": 160,
+  "comparison_rows": 240,
+  "budget_kind": "calibrated",
+  "formula": "ceil(SA_llm_calls_i * LEA_total_tokens_i / LEA_llm_calls_i)",
+  "actual_historical_sa_token_usage_available": false,
+  "historical_sa_raw_reference_unchanged": true,
+  "historical_sa_algorithm_calls": 4626,
+  "lea_source_totals": {
+    "algorithm_llm_calls": 1268,
+    "recorded_api_calls": 1695,
+    "prompt_tokens": 4320741,
+    "completion_tokens": 2378299,
+    "total_tokens": 6699040
+  },
+  "token_caps": {
+    "per_baseline_sum": 21845284,
+    "both_baselines_sum": 43690568,
+    "min": 86029,
+    "max": 573855
+  },
+  "checks": {
+    "same_model_and_exact_case_uid": true,
+    "same_original_sa_source_hashes": true,
+    "ordered_nodes_and_injection_identity": true,
+    "lea_llm_calls_is_non_tt_algorithm_window_count": true,
+    "all_recorded_api_calls_at_least_algorithm_calls": true,
+    "csv_result_and_all_call_logs_token_sums": true,
+    "json_retry_overhead_included": true,
+    "ceiling_integer_arithmetic": true,
+    "historical_sa_outputs_and_metrics_unchanged": true,
+    "one_wave_80_cases_two_methods_only": true
+  },
+  "inputs_sha256": {
+    "historical_sa_raw_reference.json": "ca6e03a234fcc606223ad75c202d56268f2eca75cf492c262438f333bf26e7e9",
+    "science/repo/portable_data/qwen80_case_plan.json": "677d43c60c15b97277d2e9b0eac7312ea8156b1d3b36e908e536a99980278831",
+    "sources/manifest.json": "a801573875db3b2171d333a6af369812416026ece6be5459dc1504307cd270b2",
+    "prepare_budget.py": "46c42910f58225cc1585e7be6658a81f20f54d51500f2b3e7d21eb07c579e693"
+  },
+  "outputs_sha256": {
+    "historical_sa_reference.json": "d59179406578e677ed6bc8cc4c669d41b2481a6a4cb701578b1b322efda0e4a3",
+    "run_scope.json": "50b6d39eddb7f3280fced809d0988f2662827d1f98a30477dfbcf509c462f24f",
+    "budget_sources.json": "c840755605a2e3f565fff49ac8713f6abe9aee151546b9234aabcc038c07dbe1"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "backend": "python",
+  "style_scope": "Nature-style data visualization within the existing ACL double-column manuscript",
+  "final_width_inches": 6.3,
+  "font": "Arial",
+  "minimum_font_pt": 6.5,
+  "exports": ["editable PDF", "editable SVG", "600 dpi PNG"],
+  "palette": {"One-shot": "#737373", "LEA": "#D55E00", "SA-MCGS": "#0072B2"},
+  "budget": {
+    "question": "How does complete risk evidence change as the search budget expands, and what happens to core compactness?",
+    "claim": "The saved GPT-4o trajectory gains complete risk evidence early and ends at 75% Risk-all while retaining 51.26% compression.",
+    "archetype": "quantitative grid",
+    "panels": [{"id": "a", "role": "primary quantitative evidence", "metric": "risk_all", "n": 80}, {"id": "b", "role": "compactness trade-off", "metric": "compression", "n": 80}],
+    "mapping": "CSV budget -> x; risk_all and compression -> percent y; n=80 at every one of the 60 prefixes",
+    "center": "Frozen finite-benchmark aggregate",
+    "uncertainty": "None supplied; no repeated-run interval inferred",
+    "exclusions": "None: all 60 saved budget values shown in each panel",
+    "transforms": "Multiply fraction by 100 only; no smoothing or interpolation",
+    "references": "One-shot and LEA final accepted values as constant horizontal comparisons"
+  },
+  "case": {
+    "question": "Which clauses and risk endpoints are retained by the three methods on the same fixed case?",
+    "claim": "Both LEA and SA-MCGS retain the two risk endpoints, with SA-MCGS using nine rather than twelve nodes.",
+    "archetype": "schematic-led composite",
+    "panels": [{"id": "a", "role": "one-shot baseline", "method": "one-shot"}, {"id": "b", "role": "LEA control", "method": "lea"}, {"id": "c", "role": "SA-MCGS comparison", "method": "sa-mcgs"}],
+    "mapping": "shared_node_positions -> unchanged 25 positions; selected_nodes -> fill state; method -> color; root/witness -> diamond outline",
+    "summary": "Aligned five-row table preserves nodes retained, Root@3, Risk-any, Risk-all, and compression for each method",
+    "uncertainty": "Not applicable: one preserved fixed instance",
+    "exclusions": "None: all 25 nodes and all 15 summary values shown",
+    "topology": "No edges are fabricated or implied",
+    "category_change": "Selection uses method color and fill rather than the earlier affected-context palette; endpoint identity remains explicit"
+  }
+}

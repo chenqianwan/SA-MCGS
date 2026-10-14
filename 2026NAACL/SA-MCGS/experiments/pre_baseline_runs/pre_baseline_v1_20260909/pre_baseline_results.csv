@@ -1,0 +1,17 @@
+method,view,model,attempted_N,valid_N,invalid_N,assert_N,abstain_N,strict_valid_rate_all,strict_assert_rate_all,invalid_rate_all,unique_cells_N,notes
+one-shot,formal_first_attempt,gpt-4o,18,12,6,12,0,0.6666666667,0.6666666667,0.3333333333,18,"formal denominator; no selective retry"
+one-shot,formal_first_attempt,gemini-2.5-pro,18,18,0,18,0,1.0000000000,1.0000000000,0.0000000000,18,"formal denominator; no selective retry"
+one-shot,formal_first_attempt,overall,36,30,6,30,0,0.8333333333,0.8333333333,0.1666666667,36,"formal denominator; smoke excluded"
+sa-mcgs,original_first_attempt,gpt-4o,18,8,10,8,0,0.4444444444,0.4444444444,0.5555555556,18,"frozen reliability denominator; original invalids preserved"
+sa-mcgs,original_first_attempt,gemini-2.5-pro,18,4,14,4,0,0.2222222222,0.2222222222,0.7777777778,18,"frozen reliability denominator; original invalids preserved"
+sa-mcgs,original_first_attempt,overall,36,12,24,12,0,0.3333333333,0.3333333333,0.6666666667,36,"frozen reliability denominator; original invalids preserved"
+sa-mcgs,exact_retry,gpt-4o,10,7,3,7,0,0.7000000000,0.7000000000,0.3000000000,10,"one retry attempt for exactly the original invalid ID set"
+sa-mcgs,exact_retry,gemini-2.5-pro,14,14,0,14,0,1.0000000000,1.0000000000,0.0000000000,14,"one retry attempt for exactly the original invalid ID set"
+sa-mcgs,exact_retry,overall,24,21,3,21,0,0.8750000000,0.8750000000,0.1250000000,24,"retry denominator reported separately"
+sa-mcgs,merged_unique_availability,gpt-4o,18,15,3,15,0,0.8333333333,0.8333333333,0.1666666667,18,"invalid_N means unresolved unique cells after one exact retry"
+sa-mcgs,merged_unique_availability,gemini-2.5-pro,18,18,0,18,0,1.0000000000,1.0000000000,0.0000000000,18,"original valid plus retry valid; first-attempt reliability unchanged"
+sa-mcgs,merged_unique_availability,overall,36,33,3,33,0,0.9166666667,0.9166666667,0.0833333333,36,"unique-cell analysis availability only"
+sa-mcgs,all_attempts_audit,gpt-4o,28,15,13,15,0,0.5357142857,0.5357142857,0.4642857143,18,"contains repeated cells; audit-only denominator"
+sa-mcgs,all_attempts_audit,gemini-2.5-pro,32,18,14,18,0,0.5625000000,0.5625000000,0.4375000000,18,"contains repeated cells; audit-only denominator"
+sa-mcgs,all_attempts_audit,overall,60,33,27,33,0,0.5500000000,0.5500000000,0.4500000000,36,"contains repeated cells; not for method-effect comparison"
+

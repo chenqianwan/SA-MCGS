@@ -1,0 +1,205 @@
+{
+  "protocol_version": "cost_prior_12case_gpt4o_gemini25pro_b60_v1",
+  "frozen_at": "2026-09-09T05:32:00+0800",
+  "publication_role": "main cost/reliability table and relation-prior sensitivity",
+  "selection_policy": {
+    "outcome_blind": true,
+    "stable_identity_required": true,
+    "unique_physical_source_scc_required": true,
+    "models": [
+      "gpt-4o",
+      "gemini-2.5-pro"
+    ],
+    "methods": [
+      "naive-single",
+      "lea",
+      "sa-mcgs"
+    ],
+    "method_display_names": {
+      "naive-single": "One-shot (full-SCC, single attempt)",
+      "lea": "GraphRAG-style LEA",
+      "sa-mcgs": "SA-MCGS"
+    },
+    "domain_counts": {
+      "debian": 2,
+      "sec_ex21": 3,
+      "bgb": 3,
+      "cuad": 4
+    },
+    "template_counts": {
+      "direct_mutex": 3,
+      "handoff_invariant": 3,
+      "temporal_gate": 3,
+      "condition_trigger": 3
+    },
+    "scale_definition": {
+      "small": "scc_size <= 12",
+      "medium": "13 <= scc_size <= 20",
+      "large": "scc_size >= 24"
+    },
+    "scale_counts": {
+      "small": 6,
+      "medium": 3,
+      "large": 3
+    },
+    "structural_constraint": "The locked main benchmark contains only two eligible Debian physical SCCs (sizes 11 and 12). Twelve unique physical SCCs and exactly three Debian SCCs are therefore jointly infeasible. Full-domain coverage and physical-SCC uniqueness take precedence, yielding Debian/SEC/BGB/CUAD = 2/3/3/4. No Debian SCC is duplicated under another injection template.",
+    "case_selectors": [
+      {
+        "slot": 1,
+        "domain": "debian",
+        "scc_size": 11,
+        "template": "direct_mutex",
+        "scale": "small"
+      },
+      {
+        "slot": 2,
+        "domain": "debian",
+        "scc_size": 12,
+        "template": "handoff_invariant",
+        "scale": "small"
+      },
+      {
+        "slot": 3,
+        "domain": "sec_ex21",
+        "scc_size": 9,
+        "template": "temporal_gate",
+        "scale": "small"
+      },
+      {
+        "slot": 4,
+        "domain": "sec_ex21",
+        "scc_size": 12,
+        "template": "condition_trigger",
+        "scale": "small"
+      },
+      {
+        "slot": 5,
+        "domain": "sec_ex21",
+        "scc_size": 18,
+        "template": "direct_mutex",
+        "scale": "medium"
+      },
+      {
+        "slot": 6,
+        "domain": "bgb",
+        "scc_size": 9,
+        "template": "handoff_invariant",
+        "scale": "small"
+      },
+      {
+        "slot": 7,
+        "domain": "bgb",
+        "scc_size": 11,
+        "template": "temporal_gate",
+        "scale": "small"
+      },
+      {
+        "slot": 8,
+        "domain": "bgb",
+        "scc_size": 25,
+        "template": "condition_trigger",
+        "scale": "large"
+      },
+      {
+        "slot": 9,
+        "domain": "cuad",
+        "scc_size": 14,
+        "template": "direct_mutex",
+        "scale": "medium"
+      },
+      {
+        "slot": 10,
+        "domain": "cuad",
+        "scc_size": 20,
+        "template": "handoff_invariant",
+        "scale": "medium"
+      },
+      {
+        "slot": 11,
+        "domain": "cuad",
+        "scc_size": 28,
+        "template": "temporal_gate",
+        "scale": "large"
+      },
+      {
+        "slot": 12,
+        "domain": "cuad",
+        "scc_size": 34,
+        "template": "condition_trigger",
+        "scale": "large"
+      }
+    ]
+  },
+  "locked_runtime": {
+    "inject_profile": "memory_stress",
+    "inject_profile_version": "structural_simple_v2",
+    "severity": "critical",
+    "compression_profile": "current",
+    "sa_mcgs_budget": 60,
+    "window_size": 4,
+    "case_concurrency": 1,
+    "internal_concurrency": 1,
+    "temperature_from_locked_config": 0.4,
+    "max_tokens_from_locked_config": 2048,
+    "llm_timeout_seconds": 600,
+    "llm_max_retries": 2,
+    "base_url": "https://api3.xhub.chat/v1",
+    "api_key_env": "XHUB_API_KEY"
+  },
+  "cost_scope": {
+    "planned_cases": 12,
+    "planned_model_case_pairs": 24,
+    "methods_per_pair": 3,
+    "planned_method_cells": 72,
+    "smoke_case_slot": 10,
+    "smoke_cells": 6,
+    "strict_denominator_policy": "Every model-method row uses all 12 frozen cases. Invalid and missing cells count as failures for binary performance metrics; they are never silently dropped or imputed. Provider-recorded calls and tokens from invalid attempts remain in cost totals."
+  },
+  "prior_scope": {
+    "parameter": "alphago_mcgs.evidence.relation_prior_weight",
+    "nominal_value": 0.85,
+    "profiles": {
+      "minus20": {
+        "multiplier": 0.8,
+        "value": 0.68
+      },
+      "nominal": {
+        "multiplier": 1.0,
+        "value": 0.85
+      },
+      "plus20": {
+        "multiplier": 1.2,
+        "value": 1.02
+      }
+    },
+    "nominal_reuse_policy": "Nominal SA-MCGS cells are referenced byte-for-byte from the completed cost run only after model, case UID, physical-SCC fingerprint, injection fingerprint, budget, window size, compression profile, concurrency, and effective relation-prior value all pass parity checks. Nominal cells are never re-run merely because their outcome is unfavorable or invalid.",
+    "planned_nominal_reuse_cells": 24,
+    "planned_new_paid_cells": 48,
+    "strict_denominator_policy": "Every model-profile row uses all 12 frozen cases. Invalid and missing cells count as failures for binary metrics. No outcome-directed sample replacement is permitted."
+  },
+  "budget": {
+    "hard_cap_usd": 85.0,
+    "account_balance_reference_usd_before_parallel_work": 907.078988,
+    "account_snapshot_usd_at_protocol_freeze": 905.006092,
+    "account_snapshot_note": "The API key is shared by parallel experiment workers. Account balance deltas are global cross-checks and cannot be attributed solely to this protocol. Local provider-observed call/token records are the primary attribution ledger.",
+    "conservative_estimation_rates_usd_per_million_tokens": {
+      "gpt-4o": {
+        "input": 5.0,
+        "output": 20.0
+      },
+      "gemini-2.5-pro": {
+        "input": 2.5,
+        "output": 20.0
+      }
+    },
+    "estimation_note": "Rates are deliberately conservative accounting guardrails, not claims about XHub retail pricing. Execution stops before starting another paid cell if local estimated spend plus a smoke-calibrated reserve would exceed USD 85."
+  },
+  "excluded_from_main": [
+    "gemini-2.5-flash",
+    "qwen2.5-72b-instruct",
+    "deepseek-chat",
+    "legacy identity-unstable cost outputs",
+    "legacy valid-only denominators",
+    "outcome-directed replacement cases"
+  ]
+}

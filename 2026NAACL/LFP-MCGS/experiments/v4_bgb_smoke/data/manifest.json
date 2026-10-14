@@ -1,0 +1,617 @@
+{
+  "schema_version": "bgb-scc-manifest-v1",
+  "status": "PASS",
+  "builder": "2026NAACL/LFP-MCGS/experiments/v4_bgb_smoke/build_cases.py",
+  "config": {
+    "schema_version": "bgb-controlled-intervention-config-v1",
+    "random_seed": 20260819,
+    "inputs": {
+      "graph": "data/quantlaw/de/4_crossreference_graph/2019.gpickle.gz",
+      "raw_xml": "data/bgb_raw/BJNR001950896.xml"
+    },
+    "carrier_sizes": {
+      "smoke": [
+        3,
+        5,
+        7,
+        9
+      ],
+      "pressure_only": [
+        11,
+        25
+      ]
+    },
+    "conditions": [
+      "Productive",
+      "Decoy",
+      "Broken",
+      "Clean",
+      "Matched-DAG"
+    ],
+    "selection_policy": "lexicographically_first_exact_native_scc",
+    "anchor_policy": "directed_diameter_shortest_path_midpoint",
+    "dag_policy": "seed_rooted_preferred_anchor_path_dfs_forward_edge_subgraph",
+    "controlled_note_marker": "CONTROLLED-LFP-NOTE",
+    "output_dir": "2026NAACL/LFP-MCGS/experiments/v4_bgb_smoke/data"
+  },
+  "input_artifacts": {
+    "graph": {
+      "path": "data/quantlaw/de/4_crossreference_graph/2019.gpickle.gz",
+      "sha256": "7f2e6c9f4eb30fd85517c93ce02559d315935ad86fe148528937016489b3cf32",
+      "node_count": 1614,
+      "edge_count": 2356
+    },
+    "raw_xml": {
+      "path": "data/bgb_raw/BJNR001950896.xml",
+      "sha256": "c53e756b279cc45e3fe1f22e39267b4d5b54044252bd55bc13a2ef72e98aac36",
+      "byte_count": 2505055
+    }
+  },
+  "native_scc_inventory": {
+    "2": 8,
+    "3": 4,
+    "4": 4,
+    "5": 1,
+    "7": 1,
+    "9": 1,
+    "11": 1,
+    "25": 1
+  },
+  "requested_exact_sizes": [
+    3,
+    5,
+    7,
+    9,
+    11,
+    25
+  ],
+  "unavailable_requested_ladder_sizes": [
+    12,
+    16,
+    20
+  ],
+  "unavailable_size_note": "The frozen 2019 BGB graph has no native SCC of size 12, 16, or 20; none were fabricated. Native size 11 and 25 carriers are retained as pressure-only cases.",
+  "carriers": [
+    {
+      "carrier_id": "bgb-scc-03-f1f4097a87",
+      "size": 3,
+      "tier": "smoke",
+      "nodes": [
+        "bgb_1310",
+        "bgb_1311",
+        "bgb_1314"
+      ],
+      "native_edge_count": 3,
+      "native_topology_sha256": "f1f4097a8796f4a597d50a391bd88f2cd22872fa1738bc2f06392f6a43ed38fc",
+      "matched_dag_edge_count": 2,
+      "matched_dag_topology_sha256": "d80b34d527e570f062aa19071a6e67a0626573788e896d15f9d04e7dcfd89bad",
+      "matched_dag_removed_edge_count": 1,
+      "anchor_selection": {
+        "seed_source_id": "bgb_1310",
+        "bridge_source_id": "bgb_1314",
+        "witness_source_id": "bgb_1311",
+        "native_shortest_path": [
+          "bgb_1310",
+          "bgb_1314",
+          "bgb_1311"
+        ],
+        "seed_to_witness_distance": 2
+      },
+      "dag_navigation_contract": {
+        "root_source_id": "bgb_1310",
+        "root_reachable_source_ids": [
+          "bgb_1310",
+          "bgb_1311",
+          "bgb_1314"
+        ],
+        "unreachable_source_ids": [],
+        "navigation_target_source_ids": [
+          "bgb_1310",
+          "bgb_1314",
+          "bgb_1311"
+        ],
+        "required_proof_source_ids": [
+          "bgb_1310",
+          "bgb_1314",
+          "bgb_1311"
+        ],
+        "reference_route": [
+          "bgb_1310",
+          "bgb_1314",
+          "bgb_1311"
+        ],
+        "reference_route_move_cost": 2,
+        "reference_route_read_cost": 3,
+        "reference_route_total_action_cost": 5,
+        "default_action_budget": 8,
+        "reachable_exact_lfp_label": "Entailed"
+      },
+      "all_windows_exact_raw_xml_match": true,
+      "case_ids": [
+        "bgb-scc-03-f1f4097a87--productive",
+        "bgb-scc-03-f1f4097a87--decoy",
+        "bgb-scc-03-f1f4097a87--broken",
+        "bgb-scc-03-f1f4097a87--clean",
+        "bgb-scc-03-f1f4097a87--matched_dag"
+      ]
+    },
+    {
+      "carrier_id": "bgb-scc-05-004ad9d367",
+      "size": 5,
+      "tier": "smoke",
+      "nodes": [
+        "bgb_1079",
+        "bgb_1288",
+        "bgb_2119",
+        "bgb_234",
+        "bgb_240a"
+      ],
+      "native_edge_count": 8,
+      "native_topology_sha256": "004ad9d36762476279b7317d338fb9fe7248e232f12dcebb9e67c49f0116625e",
+      "matched_dag_edge_count": 4,
+      "matched_dag_topology_sha256": "0e0df4be0177c577e211288a1ecb84458d29da75eedec45b34724801477648f0",
+      "matched_dag_removed_edge_count": 4,
+      "anchor_selection": {
+        "seed_source_id": "bgb_1079",
+        "bridge_source_id": "bgb_240a",
+        "witness_source_id": "bgb_1288",
+        "native_shortest_path": [
+          "bgb_1079",
+          "bgb_240a",
+          "bgb_1288"
+        ],
+        "seed_to_witness_distance": 2
+      },
+      "dag_navigation_contract": {
+        "root_source_id": "bgb_1079",
+        "root_reachable_source_ids": [
+          "bgb_1079",
+          "bgb_1288",
+          "bgb_2119",
+          "bgb_234",
+          "bgb_240a"
+        ],
+        "unreachable_source_ids": [],
+        "navigation_target_source_ids": [
+          "bgb_1079",
+          "bgb_240a",
+          "bgb_1288"
+        ],
+        "required_proof_source_ids": [
+          "bgb_1079",
+          "bgb_240a",
+          "bgb_1288"
+        ],
+        "reference_route": [
+          "bgb_1079",
+          "bgb_240a",
+          "bgb_1288"
+        ],
+        "reference_route_move_cost": 2,
+        "reference_route_read_cost": 3,
+        "reference_route_total_action_cost": 5,
+        "default_action_budget": 12,
+        "reachable_exact_lfp_label": "Entailed"
+      },
+      "all_windows_exact_raw_xml_match": true,
+      "case_ids": [
+        "bgb-scc-05-004ad9d367--productive",
+        "bgb-scc-05-004ad9d367--decoy",
+        "bgb-scc-05-004ad9d367--broken",
+        "bgb-scc-05-004ad9d367--clean",
+        "bgb-scc-05-004ad9d367--matched_dag"
+      ]
+    },
+    {
+      "carrier_id": "bgb-scc-07-4b2f16fef3",
+      "size": 7,
+      "tier": "smoke",
+      "nodes": [
+        "bgb_1671",
+        "bgb_1678",
+        "bgb_1680",
+        "bgb_1681",
+        "bgb_1682",
+        "bgb_1688",
+        "bgb_1751"
+      ],
+      "native_edge_count": 9,
+      "native_topology_sha256": "4b2f16fef3534de4b1c801a212f78e62424ccd4b6cfb1c9e458ca23699ef72c2",
+      "matched_dag_edge_count": 6,
+      "matched_dag_topology_sha256": "feab83bcbe5e2a65e9af98f6ce9265ddb201677f0f86546e8663fa7f66c652aa",
+      "matched_dag_removed_edge_count": 3,
+      "anchor_selection": {
+        "seed_source_id": "bgb_1681",
+        "bridge_source_id": "bgb_1751",
+        "witness_source_id": "bgb_1678",
+        "native_shortest_path": [
+          "bgb_1681",
+          "bgb_1680",
+          "bgb_1671",
+          "bgb_1751",
+          "bgb_1688",
+          "bgb_1682",
+          "bgb_1678"
+        ],
+        "seed_to_witness_distance": 6
+      },
+      "dag_navigation_contract": {
+        "root_source_id": "bgb_1681",
+        "root_reachable_source_ids": [
+          "bgb_1671",
+          "bgb_1678",
+          "bgb_1680",
+          "bgb_1681",
+          "bgb_1682",
+          "bgb_1688",
+          "bgb_1751"
+        ],
+        "unreachable_source_ids": [],
+        "navigation_target_source_ids": [
+          "bgb_1681",
+          "bgb_1751",
+          "bgb_1678"
+        ],
+        "required_proof_source_ids": [
+          "bgb_1681",
+          "bgb_1751",
+          "bgb_1678"
+        ],
+        "reference_route": [
+          "bgb_1681",
+          "bgb_1680",
+          "bgb_1671",
+          "bgb_1751",
+          "bgb_1688",
+          "bgb_1682",
+          "bgb_1678"
+        ],
+        "reference_route_move_cost": 6,
+        "reference_route_read_cost": 3,
+        "reference_route_total_action_cost": 9,
+        "default_action_budget": 16,
+        "reachable_exact_lfp_label": "Entailed"
+      },
+      "all_windows_exact_raw_xml_match": true,
+      "case_ids": [
+        "bgb-scc-07-4b2f16fef3--productive",
+        "bgb-scc-07-4b2f16fef3--decoy",
+        "bgb-scc-07-4b2f16fef3--broken",
+        "bgb-scc-07-4b2f16fef3--clean",
+        "bgb-scc-07-4b2f16fef3--matched_dag"
+      ]
+    },
+    {
+      "carrier_id": "bgb-scc-09-3b7d896d22",
+      "size": 9,
+      "tier": "smoke",
+      "nodes": [
+        "bgb_555c",
+        "bgb_555d",
+        "bgb_558",
+        "bgb_559",
+        "bgb_559a",
+        "bgb_559b",
+        "bgb_559c",
+        "bgb_559d",
+        "bgb_559e"
+      ],
+      "native_edge_count": 23,
+      "native_topology_sha256": "3b7d896d22e48aeb5ba2f48aae2097bf7edb2d58ae65ce5cb1c1b5b2270c75f2",
+      "matched_dag_edge_count": 11,
+      "matched_dag_topology_sha256": "6242d41a127a2c3b7d648ea45ea03e63dab151cbebb5e40f33aa56f23270a33f",
+      "matched_dag_removed_edge_count": 12,
+      "anchor_selection": {
+        "seed_source_id": "bgb_558",
+        "bridge_source_id": "bgb_555c",
+        "witness_source_id": "bgb_559d",
+        "native_shortest_path": [
+          "bgb_558",
+          "bgb_559",
+          "bgb_555d",
+          "bgb_555c",
+          "bgb_559c",
+          "bgb_559e",
+          "bgb_559d"
+        ],
+        "seed_to_witness_distance": 6
+      },
+      "dag_navigation_contract": {
+        "root_source_id": "bgb_558",
+        "root_reachable_source_ids": [
+          "bgb_555c",
+          "bgb_555d",
+          "bgb_558",
+          "bgb_559",
+          "bgb_559a",
+          "bgb_559b",
+          "bgb_559c",
+          "bgb_559d",
+          "bgb_559e"
+        ],
+        "unreachable_source_ids": [],
+        "navigation_target_source_ids": [
+          "bgb_558",
+          "bgb_555c",
+          "bgb_559d"
+        ],
+        "required_proof_source_ids": [
+          "bgb_558",
+          "bgb_555c",
+          "bgb_559d"
+        ],
+        "reference_route": [
+          "bgb_558",
+          "bgb_559",
+          "bgb_555d",
+          "bgb_555c",
+          "bgb_559c",
+          "bgb_559e",
+          "bgb_559d"
+        ],
+        "reference_route_move_cost": 6,
+        "reference_route_read_cost": 3,
+        "reference_route_total_action_cost": 9,
+        "default_action_budget": 20,
+        "reachable_exact_lfp_label": "Entailed"
+      },
+      "all_windows_exact_raw_xml_match": true,
+      "case_ids": [
+        "bgb-scc-09-3b7d896d22--productive",
+        "bgb-scc-09-3b7d896d22--decoy",
+        "bgb-scc-09-3b7d896d22--broken",
+        "bgb-scc-09-3b7d896d22--clean",
+        "bgb-scc-09-3b7d896d22--matched_dag"
+      ]
+    },
+    {
+      "carrier_id": "bgb-scc-11-872ba69208",
+      "size": 11,
+      "tier": "pressure-only",
+      "nodes": [
+        "bgb_275",
+        "bgb_280",
+        "bgb_281",
+        "bgb_282",
+        "bgb_283",
+        "bgb_285",
+        "bgb_311a",
+        "bgb_326",
+        "bgb_346",
+        "bgb_347",
+        "bgb_441"
+      ],
+      "native_edge_count": 26,
+      "native_topology_sha256": "872ba69208725b3ffc047ecc019254fedd2d0ea55eb402c78e4069c2f8651095",
+      "matched_dag_edge_count": 14,
+      "matched_dag_topology_sha256": "b7e353ab596d45bc77e6e5765b979aa22186fcbc32c9de8a2d13b91b45160ca9",
+      "matched_dag_removed_edge_count": 12,
+      "anchor_selection": {
+        "seed_source_id": "bgb_281",
+        "bridge_source_id": "bgb_275",
+        "witness_source_id": "bgb_347",
+        "native_shortest_path": [
+          "bgb_281",
+          "bgb_280",
+          "bgb_283",
+          "bgb_275",
+          "bgb_326",
+          "bgb_441",
+          "bgb_347"
+        ],
+        "seed_to_witness_distance": 6
+      },
+      "dag_navigation_contract": {
+        "root_source_id": "bgb_281",
+        "root_reachable_source_ids": [
+          "bgb_275",
+          "bgb_280",
+          "bgb_281",
+          "bgb_282",
+          "bgb_283",
+          "bgb_285",
+          "bgb_311a",
+          "bgb_326",
+          "bgb_346",
+          "bgb_347",
+          "bgb_441"
+        ],
+        "unreachable_source_ids": [],
+        "navigation_target_source_ids": [
+          "bgb_281",
+          "bgb_275",
+          "bgb_347"
+        ],
+        "required_proof_source_ids": [
+          "bgb_281",
+          "bgb_275",
+          "bgb_347"
+        ],
+        "reference_route": [
+          "bgb_281",
+          "bgb_280",
+          "bgb_283",
+          "bgb_275",
+          "bgb_326",
+          "bgb_441",
+          "bgb_347"
+        ],
+        "reference_route_move_cost": 6,
+        "reference_route_read_cost": 3,
+        "reference_route_total_action_cost": 9,
+        "default_action_budget": 24,
+        "reachable_exact_lfp_label": "Entailed"
+      },
+      "all_windows_exact_raw_xml_match": true,
+      "case_ids": [
+        "bgb-scc-11-872ba69208--productive",
+        "bgb-scc-11-872ba69208--decoy",
+        "bgb-scc-11-872ba69208--broken",
+        "bgb-scc-11-872ba69208--clean",
+        "bgb-scc-11-872ba69208--matched_dag"
+      ]
+    },
+    {
+      "carrier_id": "bgb-scc-25-e0b9ad3a4c",
+      "size": 25,
+      "tier": "pressure-only",
+      "nodes": [
+        "bgb_312",
+        "bgb_312f",
+        "bgb_312g",
+        "bgb_327",
+        "bgb_327b",
+        "bgb_327c",
+        "bgb_327m",
+        "bgb_327n",
+        "bgb_327o",
+        "bgb_356",
+        "bgb_358",
+        "bgb_360",
+        "bgb_491",
+        "bgb_491a",
+        "bgb_493",
+        "bgb_495",
+        "bgb_504",
+        "bgb_505",
+        "bgb_506",
+        "bgb_507",
+        "bgb_508",
+        "bgb_512",
+        "bgb_513",
+        "bgb_514",
+        "bgb_515"
+      ],
+      "native_edge_count": 52,
+      "native_topology_sha256": "e0b9ad3a4ceb43800f39ff016b6d6a221ea537ce7de4b7efe18e8c310adf972e",
+      "matched_dag_edge_count": 27,
+      "matched_dag_topology_sha256": "3039f688e0586c92c69319ba431a3ff96160963ad9bda7017b720872b7bd7a1e",
+      "matched_dag_removed_edge_count": 25,
+      "anchor_selection": {
+        "seed_source_id": "bgb_312",
+        "bridge_source_id": "bgb_312f",
+        "witness_source_id": "bgb_327m",
+        "native_shortest_path": [
+          "bgb_312",
+          "bgb_312g",
+          "bgb_506",
+          "bgb_358",
+          "bgb_356",
+          "bgb_312f",
+          "bgb_327",
+          "bgb_327c",
+          "bgb_327o",
+          "bgb_327n",
+          "bgb_327m"
+        ],
+        "seed_to_witness_distance": 10
+      },
+      "dag_navigation_contract": {
+        "root_source_id": "bgb_312",
+        "root_reachable_source_ids": [
+          "bgb_312",
+          "bgb_312f",
+          "bgb_312g",
+          "bgb_327",
+          "bgb_327b",
+          "bgb_327c",
+          "bgb_327m",
+          "bgb_327n",
+          "bgb_327o",
+          "bgb_356",
+          "bgb_358",
+          "bgb_360",
+          "bgb_491",
+          "bgb_491a",
+          "bgb_493",
+          "bgb_495",
+          "bgb_504",
+          "bgb_505",
+          "bgb_506",
+          "bgb_507",
+          "bgb_508",
+          "bgb_512",
+          "bgb_513",
+          "bgb_514",
+          "bgb_515"
+        ],
+        "unreachable_source_ids": [],
+        "navigation_target_source_ids": [
+          "bgb_312",
+          "bgb_312f",
+          "bgb_327m"
+        ],
+        "required_proof_source_ids": [
+          "bgb_312",
+          "bgb_312f",
+          "bgb_327m"
+        ],
+        "reference_route": [
+          "bgb_312",
+          "bgb_312g",
+          "bgb_506",
+          "bgb_358",
+          "bgb_356",
+          "bgb_312f",
+          "bgb_327",
+          "bgb_327c",
+          "bgb_327o",
+          "bgb_327n",
+          "bgb_327m"
+        ],
+        "reference_route_move_cost": 10,
+        "reference_route_read_cost": 3,
+        "reference_route_total_action_cost": 13,
+        "default_action_budget": 52,
+        "reachable_exact_lfp_label": "Entailed"
+      },
+      "all_windows_exact_raw_xml_match": true,
+      "case_ids": [
+        "bgb-scc-25-e0b9ad3a4c--productive",
+        "bgb-scc-25-e0b9ad3a4c--decoy",
+        "bgb-scc-25-e0b9ad3a4c--broken",
+        "bgb-scc-25-e0b9ad3a4c--clean",
+        "bgb-scc-25-e0b9ad3a4c--matched_dag"
+      ]
+    }
+  ],
+  "case_count": 30,
+  "smoke_case_count": 20,
+  "pressure_case_count": 10,
+  "condition_counts": {
+    "Productive": 6,
+    "Decoy": 6,
+    "Broken": 6,
+    "Clean": 6,
+    "Matched-DAG": 6
+  },
+  "failed_case_ids": [],
+  "global_gates": {
+    "all_case_gates_pass": true,
+    "all_requested_native_sizes_found": true,
+    "public_gold_record_counts_equal": true,
+    "public_case_ids_unique": true,
+    "every_original_window_nonempty": true,
+    "every_selected_window_exact_raw_xml_match": true
+  },
+  "outputs": {
+    "public_cases.jsonl": {
+      "sha256": "341266726f8a894284f6c56622adc480208d57e47984d5630ddf16569f184ed8",
+      "byte_count": 1185184
+    },
+    "gold_sidecar.jsonl": {
+      "sha256": "93f7619780e7d3da9882cd11655e8282050fad7d8faff602c4af9bb7de3ae8df",
+      "byte_count": 178895
+    },
+    "cases.jsonl": {
+      "sha256": "42053a8f891f21ca2499909f7760656b04aed9cef7fb36ff5e53d94f5b5a3c78",
+      "byte_count": 1366479
+    }
+  },
+  "scope_limitations": [
+    "Controlled injection establishes mechanism behavior, not the natural prevalence of such evidence chains.",
+    "Matched-DAG removes recorded feedback edges and therefore is a separate physical-topology control, not the same topology hash.",
+    "The exact LFP oracle operates only on injected positive-Horn fragments; original German legal prose is not converted into a gold logic program.",
+    "Sizes 11 and 25 are pressure-only until the 3/5/7/9 end-to-end smoke passes."
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "rows": [
+    {
+      "model": "gpt4o",
+      "method": "sa-mcgs",
+      "planned_cases": 80,
+      "source": "gpt4o_recovery_summary.json",
+      "runs": 1,
+      "aggregation": "reported 80-case aggregate, unchanged",
+      "valid": 80,
+      "compression_policy": "all 80 cases; invalid outputs contribute 100% compression",
+      "budget_policy": "cost-audit-calibrated ceiling; recovery overhead separately recorded"
+    },
+    {
+      "model": "gpt4o",
+      "method": "lea",
+      "planned_cases": 80,
+      "source": "gpt4o_recovery_summary.json",
+      "runs": 1,
+      "aggregation": "reported 80-case aggregate, unchanged",
+      "valid": 71,
+      "compression_policy": "all 80 cases; invalid outputs contribute 100% compression",
+      "budget_policy": "cost-audit-calibrated ceiling; recovery overhead separately recorded"
+    },
+    {
+      "model": "gpt4o",
+      "method": "full-scc",
+      "planned_cases": 80,
+      "source": "gpt4o_recovery_summary.json",
+      "runs": 1,
+      "aggregation": "reported 80-case aggregate, unchanged",
+      "valid": 61,
+      "compression_policy": "all 80 cases; invalid outputs contribute 100% compression",
+      "budget_policy": "cost-audit-calibrated ceiling; recovery overhead separately recorded"
+    },
+    {
+      "model": "qwen25",
+      "method": "sa-mcgs",
+      "planned_cases": 80,
+      "source": "qwen72b_summary.json",
+      "runs": 1,
+      "aggregation": "reported 80-case aggregate, unchanged",
+      "valid": 80,
+      "compression_policy": "mean across valid outputs",
+      "budget_policy": {
+        "kind": "calibrated",
+        "formula": "ceil(SA_llm_calls_i * LEA_total_tokens_i / LEA_llm_calls_i)",
+        "rounding": "Integer ceiling via (numerator + denominator - 1) // denominator.",
+        "calibration_source": "Same-model, same-case historical LEA local-window usage.",
+        "denominator": "Historical LEA algorithm llm_calls (non-TT local windows), not recorded_api_calls.",
+        "retry_accounting": "LEA total_tokens includes all recorded API/JSON attempts; dividing by algorithm calls retains the observed retry overhead in each per-call estimate.",
+        "historical_main_actual_token_match": false,
+        "historical_sa_token_usage": null,
+        "raw_historical_sa_reference": "historical_sa_raw_reference.json",
+        "raw_historical_sa_reference_sha256": "ca6e03a234fcc606223ad75c202d56268f2eca75cf492c262438f333bf26e7e9",
+        "authorization": {
+          "date": "2026-10-12",
+          "user_instruction": "\u4f30\u7b97\uff0c\u4f46\u662f\u4e0d\u7528\u660e\u786e\u6807\u8bc6\u4f5c\u4e3a\u533a\u5206",
+          "interpretation": "User authorized estimated budgets with the existing model name and table format. Scientific protocol and source records retain the calibrated provenance.",
+          "scope": "Qwen2.5-72B, original 80 cases, one run of LEA and Full-SCC; reuse SA and do not run SA."
+        }
+      }
+    },
+    {
+      "model": "qwen25",
+      "method": "lea",
+      "planned_cases": 80,
+      "source": "qwen72b_summary.json",
+      "runs": 1,
+      "aggregation": "reported 80-case aggregate, unchanged",
+      "valid": 80,
+      "compression_policy": "mean across valid outputs",
+      "budget_policy": {
+        "kind": "calibrated",
+        "formula": "ceil(SA_llm_calls_i * LEA_total_tokens_i / LEA_llm_calls_i)",
+        "rounding": "Integer ceiling via (numerator + denominator - 1) // denominator.",
+        "calibration_source": "Same-model, same-case historical LEA local-window usage.",
+        "denominator": "Historical LEA algorithm llm_calls (non-TT local windows), not recorded_api_calls.",
+        "retry_accounting": "LEA total_tokens includes all recorded API/JSON attempts; dividing by algorithm calls retains the observed retry overhead in each per-call estimate.",
+        "historical_main_actual_token_match": false,
+        "historical_sa_token_usage": null,
+        "raw_historical_sa_reference": "historical_sa_raw_reference.json",
+        "raw_historical_sa_reference_sha256": "ca6e03a234fcc606223ad75c202d56268f2eca75cf492c262438f333bf26e7e9",
+        "authorization": {
+          "date": "2026-10-12",
+          "user_instruction": "\u4f30\u7b97\uff0c\u4f46\u662f\u4e0d\u7528\u660e\u786e\u6807\u8bc6\u4f5c\u4e3a\u533a\u5206",
+          "interpretation": "User authorized estimated budgets with the existing model name and table format. Scientific protocol and source records retain the calibrated provenance.",
+          "scope": "Qwen2.5-72B, original 80 cases, one run of LEA and Full-SCC; reuse SA and do not run SA."
+        }
+      }
+    },
+    {
+      "model": "qwen25",
+      "method": "full-scc",
+      "planned_cases": 80,
+      "source": "qwen72b_summary.json",
+      "runs": 1,
+      "aggregation": "reported 80-case aggregate, unchanged",
+      "valid": 79,
+      "compression_policy": "mean across valid outputs",
+      "budget_policy": {
+        "kind": "calibrated",
+        "formula": "ceil(SA_llm_calls_i * LEA_total_tokens_i / LEA_llm_calls_i)",
+        "rounding": "Integer ceiling via (numerator + denominator - 1) // denominator.",
+        "calibration_source": "Same-model, same-case historical LEA local-window usage.",
+        "denominator": "Historical LEA algorithm llm_calls (non-TT local windows), not recorded_api_calls.",
+        "retry_accounting": "LEA total_tokens includes all recorded API/JSON attempts; dividing by algorithm calls retains the observed retry overhead in each per-call estimate.",
+        "historical_main_actual_token_match": false,
+        "historical_sa_token_usage": null,
+        "raw_historical_sa_reference": "historical_sa_raw_reference.json",
+        "raw_historical_sa_reference_sha256": "ca6e03a234fcc606223ad75c202d56268f2eca75cf492c262438f333bf26e7e9",
+        "authorization": {
+          "date": "2026-10-12",
+          "user_instruction": "\u4f30\u7b97\uff0c\u4f46\u662f\u4e0d\u7528\u660e\u786e\u6807\u8bc6\u4f5c\u4e3a\u533a\u5206",
+          "interpretation": "User authorized estimated budgets with the existing model name and table format. Scientific protocol and source records retain the calibrated provenance.",
+          "scope": "Qwen2.5-72B, original 80 cases, one run of LEA and Full-SCC; reuse SA and do not run SA."
+        }
+      }
+    },
+    {
+      "model": "llama",
+      "method": "sa-mcgs",
+      "planned_cases": 80,
+      "source": "three_model_table_source.json",
+      "runs": 1,
+      "aggregation": "fixed historical aggregate",
+      "compression_policy": "valid-output mean within each run",
+      "budget_policy": "historical SA token consumption matched per case"
+    },
+    {
+      "model": "llama",
+      "method": "lea",
+      "planned_cases": 80,
+      "source": "three_model_table_source.json",
+      "runs": 3,
+      "aggregation": "equal-weight mean of three run-level values; unchanged",
+      "compression_policy": "valid-output mean within each run",
+      "budget_policy": "historical SA token consumption matched per case"
+    },
+    {
+      "model": "llama",
+      "method": "full-scc",
+      "planned_cases": 80,
+      "source": "three_model_table_source.json",
+      "runs": 3,
+      "aggregation": "equal-weight mean of three run-level values; unchanged",
+      "compression_policy": "valid-output mean within each run",
+      "budget_policy": "historical SA token consumption matched per case"
+    },
+    {
+      "model": "qwen35",
+      "method": "sa-mcgs",
+      "planned_cases": 80,
+      "source": "three_model_table_source.json",
+      "runs": 1,
+      "aggregation": "fixed historical aggregate",
+      "compression_policy": "valid-output mean within each run",
+      "budget_policy": "historical SA token consumption matched per case"
+    },
+    {
+      "model": "qwen35",
+      "method": "lea",
+      "planned_cases": 80,
+      "source": "three_model_table_source.json",
+      "runs": 3,
+      "aggregation": "equal-weight mean of three run-level values; unchanged",
+      "compression_policy": "valid-output mean within each run",
+      "budget_policy": "historical SA token consumption matched per case"
+    },
+    {
+      "model": "qwen35",
+      "method": "full-scc",
+      "planned_cases": 80,
+      "source": "three_model_table_source.json",
+      "runs": 3,
+      "aggregation": "equal-weight mean of three run-level values; unchanged",
+      "compression_policy": "valid-output mean within each run",
+      "budget_policy": "historical SA token consumption matched per case"
+    },
+    {
+      "model": "kimi",
+      "method": "sa-mcgs",
+      "planned_cases": 80,
+      "source": "three_model_table_source.json",
+      "runs": 1,
+      "aggregation": "fixed historical aggregate",
+      "compression_policy": "valid-output mean within each run",
+      "budget_policy": "historical SA token consumption matched per case"
+    },
+    {
+      "model": "kimi",
+      "method": "lea",
+      "planned_cases": 80,
+      "source": "three_model_table_source.json",
+      "runs": 3,
+      "aggregation": "equal-weight mean of three run-level values; unchanged",
+      "compression_policy": "valid-output mean within each run",
+      "budget_policy": "historical SA token consumption matched per case"
+    },
+    {
+      "model": "kimi",
+      "method": "full-scc",
+      "planned_cases": 80,
+      "source": "three_model_table_source.json",
+      "runs": 3,
+      "aggregation": "equal-weight mean of three run-level values; unchanged",
+      "compression_policy": "valid-output mean within each run",
+      "budget_policy": "historical SA token consumption matched per case"
+    }
+  ],
+  "public_display": "User requested preserved point estimates, no repeated-run or SD exposition, and no failure explanation in figure/table.",
+  "source_specific_compression": "GPT-4o uses the requested original all-case compression; the other four models use valid-only compression. Do not infer a common compression estimator.",
+  "gpt4o_actual_plus_recovery_exceeds_original_B": {
+    "lea": 18,
+    "full-scc": 0
+  },
+  "strict_actual_spend_equality_claim": false,
+  "uncertainty_removed_from_display_only": true,
+  "all_requested_model_method_metric_values_preserved": true
+}

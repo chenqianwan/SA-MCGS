@@ -1,0 +1,80 @@
+{
+  "version": "equal_budget_pilot_20261008",
+  "model": "gpt-4o",
+  "scope": "exploratory development pilot, not confirmatory test",
+  "selection": "First smallest source per domain from previously frozen 12-source plan; no outcome-based selection.",
+  "slots": [
+    1,
+    3,
+    6,
+    9
+  ],
+  "arms": [
+    "sa-mcgs",
+    "lea",
+    "full-scc"
+  ],
+  "cap_usd": 15,
+  "per_arm_token_cap": 160000,
+  "temperature": 0.4,
+  "sa_rollout_horizon": 60,
+  "window_size": 4,
+  "full_scc_output_token_cap": 12000,
+  "local_output_token_cap": 2048,
+  "sdk_retries": 0,
+  "explicit_json_retries_max": 1,
+  "parallelism": "Three arms concurrently; one request per arm; cases sequential.",
+  "output_policy": "Primary comparison preserves native H, reports actual node count and compression. Common .45*n cap is a separate offline diagnostic only.",
+  "failure_policy": "After bounded JSON recovery fails, no default-0.5 answer is accepted: SA case or baseline candidate invalid; selector failure invalidates final output.",
+  "selector": "One same-model blinded selection over anonymous shuffled complete candidates; no ground truth; cost included.",
+  "budget_interpretation": "Equal token ceilings, actual tokens reported; no padding and no claim of identical realized tokens.",
+  "repeat_limits": {
+    "lea": 6,
+    "full-scc": 12
+  },
+  "seed": 20261008,
+  "sa_stopping": "Original sequential search operations, stop cleanly before next request exceeds token/dollar budget; retain completed rollout state.",
+  "source_hashes": {
+    "2026NAACL/SA-MCGS/experiments/cost_prior_12case_gpt4o_gemini25pro_b60_v1/preflight/plans/gpt-4o/case_plan.json": "29e37cc049af842ae4102b89d63b70700a2831598317f43905bd9cc993605ff0",
+    "src/modules/alphago_mcgs.py": "74a0e9813065b94bfc3e4447fbac08cbdae097707da422ee3a9cab360fd68c62",
+    "emnlp2026_discussion/run_cost_audit_clean.py": "fed658f7ca1ddf5db151b493d44023263d75b96daaecb8ea832519a3ff12d425",
+    "experiments/cross_domain/run_cross_domain_battle.py": "97409a6ea84e2a3226b8e9780d49a0a23daca4529e183f275fcd15d8ad994ab6",
+    "2026NAACL/SA-MCGS/experiments/equal_budget_pilot_20261008/run_pilot.py": "434748392888a2bffd408f0d4abb565cac1f21d68ccf47b67a0c70173cc9dce6",
+    "2026NAACL/SA-MCGS/experiments/equal_budget_pilot_20261008/methods.py": "86571ec69896d77dc12669f4745f54e358aa35f039b586478ec9031852c4b56b",
+    "2026NAACL/SA-MCGS/experiments/equal_budget_pilot_20261008/budget_client.py": "f37df161cab7c7c0257cd6976fddde2cdf5c343dc9f5ee0b5e604696ed5317ad"
+  },
+  "cases": [
+    {
+      "case_id": "01_gpt-4o_debian11_direct_mutex",
+      "slot": 1,
+      "domain": "debian",
+      "n": 11,
+      "case_uid": "scid-v1-661043c1bd1dc720b1e2afcda7a98c0467af9d422b5d768f80a531a9df5eb03c",
+      "visible_input_sha256": "d0bdadf2ed244fdc35287b02a7248a3dee81d16216c3b149f9921616480bf193"
+    },
+    {
+      "case_id": "03_gpt-4o_sec_ex219_temporal_gate",
+      "slot": 3,
+      "domain": "sec_ex21",
+      "n": 9,
+      "case_uid": "scid-v1-64a517feaa854d2c81138552fcf3f31f6e777bb47813fbf69d054a80e0e38465",
+      "visible_input_sha256": "b3a6a6185bd07c7757575f864171417499e3c2df6afbde02759f10351e4bb0c3"
+    },
+    {
+      "case_id": "06_gpt-4o_bgb9_handoff_invariant",
+      "slot": 6,
+      "domain": "bgb",
+      "n": 9,
+      "case_uid": "scid-v1-84079cf3e6cc9fa6d49efd22228bceff7549a16fb6d839fefb18bab95c73dcd2",
+      "visible_input_sha256": "820da351a34be1f2ed41071908bdbc7979c46dda0088da4e0415d1d63b8a0f55"
+    },
+    {
+      "case_id": "09_gpt-4o_cuad14_direct_mutex",
+      "slot": 9,
+      "domain": "cuad",
+      "n": 14,
+      "case_uid": "scid-v1-99198c435ef01bbeb66f03789756bb1fe186fb3353800531dda190127d7cfe58",
+      "visible_input_sha256": "77e11ac2257af5fb90ef5d1e54273328a44e20dd86a8b07cd7f692f04cf95a73"
+    }
+  ]
+}

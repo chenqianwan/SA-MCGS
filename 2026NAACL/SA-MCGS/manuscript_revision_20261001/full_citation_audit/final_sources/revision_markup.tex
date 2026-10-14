@@ -1,0 +1,115 @@
+% Revision baseline: backups/latex_2026-09-22 in 2026NAACL/SA-MCGS.
+% Unchanged manuscript text is left untouched.
+\usepackage[normalem]{ulem}
+\usepackage{etoolbox}
+
+% Set to \revisionmarksfalse for the clean submission view.
+\newif\ifrevisionmarks
+\ifdefined\CleanRevisionVersion
+  \revisionmarksfalse
+\else
+  \revisionmarkstrue
+\fi
+
+\DeclareRobustCommand{\revadd}[1]{%
+  \ifrevisionmarks{\color{blue}#1}\else#1\fi}
+\DeclareRobustCommand{\revdel}[1]{%
+  \ifrevisionmarks{\color{black}\sout{#1}}\fi}
+\DeclareRobustCommand{\revreplace}[2]{%
+  \ifrevisionmarks\revdel{#1}\space\fi\revadd{#2}}
+% September 25: retain earlier blue additions; this round is dark green.
+\definecolor{revisiongreen}{HTML}{16803C}
+\DeclareRobustCommand{\revnew}[1]{%
+  \ifrevisionmarks{\color{revisiongreen}#1}\else#1\fi}
+\DeclareRobustCommand{\revnewreplace}[2]{%
+  \ifrevisionmarks\revdel{#1}\space\fi\revnew{#2}}
+% October 1: M1/M3 changes are red; earlier blue/green additions keep their color.
+\definecolor{revisionred}{HTML}{C00000}
+\DeclareRobustCommand{\revred}[1]{%
+  \ifrevisionmarks{\color{revisionred}#1}\else#1\fi}
+\DeclareRobustCommand{\revredreplace}[2]{%
+  \ifrevisionmarks\revdel{#1}\space\fi\revred{#2}}
+% Keep retired black tables in the marked view with individually struck cells.
+\newcommand{\revdeletedtable}[1]{\ifrevisionmarks#1\fi}
+% Preserve the prior asset reference in source while displaying the updated plot.
+\newcommand{\revasset}[2]{#2}
+\newcommand{\revoldlabel}[1]{%
+  \ifstrequal{#1}{tab:appendix_breakdowns}{\label{#1:previous}}{\label{#1}}}
+\newif\ifrevisionblock
+\newif\ifrevisionnewblock
+\newif\ifrevisionredblock
+\DeclareCaptionFont{revisionnew}{\ifrevisionmarks\color{revisiongreen}\fi}
+\DeclareCaptionFont{revisionred}{\ifrevisionmarks\color{revisionred}\fi}
+\newenvironment{revadded}{%
+  \begingroup\revisionblocktrue\ifrevisionmarks\color{blue}\fi
+}{\endgroup}
+\newenvironment{revnewblock}{%
+  \begingroup\revisionnewblocktrue\captionsetup{font+=revisionnew}%
+  \ifrevisionmarks\color{revisiongreen}\fi
+}{\endgroup}
+\newenvironment{revredblock}{%
+  \begingroup\revisionredblocktrue\captionsetup{font+=revisionred}%
+  \ifrevisionmarks\color{revisionred}\fi
+}{\endgroup}
+
+% LaTeX resets colors when it opens a float. Restore revision blue only for
+% floats constructed inside a newly added block; original floats stay intact.
+\makeatletter
+\apptocmd{\@floatboxreset}{%
+  \ifrevisionredblock\ifrevisionmarks\color{revisionred}\fi
+  \else\ifrevisionnewblock\ifrevisionmarks\color{revisiongreen}\fi
+  \else\ifrevisionblock\ifrevisionmarks\color{blue}\fi\fi\fi\fi
+}{}{\PackageError{revision-markup}{Could not color added floats}{Check the float reset hook.}}
+\makeatother
+
+% Examples: \revadd{New text.} / \revdel{Deleted text.}
+%           \revreplace{Old wording.}{New wording.}
+% Mark each paragraph or table cell separately; keep environment boundaries,
+% alignment separators and labels outside these prose macros. Do not put
+% display equations or entire figures/tables inside \revdel. Compile-check
+% citations and inline math inside deletions; box short expressions if needed.
+
+% PDF bookmarks always use the clean wording.
+\ifdefined\pdfstringdefDisableCommands
+  \pdfstringdefDisableCommands{%
+    \def\revadd#1{#1}%
+    \def\revdel#1{}%
+    \def\revreplace#1#2{#2}%
+    \def\revnew#1{#1}%
+    \def\revnewreplace#1#2{#2}%
+    \def\revred#1{#1}%
+    \def\revredreplace#1#2{#2}%
+    \def\revdeletedtable#1{}%
+    \def\revasset#1#2{#2}%
+  }
+\fi
+
+\input{revision_bibliography_audit}
+% September 30 model references are green; October 1 audited corrections are red.
+% Reset at every item so unchanged bibliography entries retain their color.
+\makeatletter
+\apptocmd{\@lbibitem}{%
+  \ifrevisionmarks
+    \color{black}%
+    \ifboolexpr{
+      test {\ifstrequal{#2}{openai2024gpt4o}} or
+      test {\ifstrequal{#2}{comanici2025gemini25}} or
+      test {\ifstrequal{#2}{qwen2024qwen25}} or
+      test {\ifstrequal{#2}{grattafiori2024llama3}} or
+      test {\ifstrequal{#2}{qwen2026qwen35nine}}
+    }{\color{revisiongreen}}{}%
+    \ifboolexpr{
+      test {\ifstrequal{#2}{comanici2025gemini25}} or
+      test {\ifstrequal{#2}{qwen2024qwen25}} or
+      test {\ifstrequal{#2}{grattafiori2024llama3}} or
+      test {\ifstrequal{#2}{qwen2026qwen35nine}}
+    }{\color{revisionred}}{}%
+    \ifcsdef{fullbibaudit@#2}{%
+      \ifcsdef{fullbibprevious@#2}{%
+        \csuse{fullbibprevious@#2}\par\nobreak\smallskip
+      }{}%
+      \color{revisionred}%
+    }{}%
+  \fi
+}{}{\PackageError{revision-markup}{Could not mark new model references}{Check the bibliography item hook.}}
+\makeatother

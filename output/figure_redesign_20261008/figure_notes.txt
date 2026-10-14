@@ -1,0 +1,24 @@
+SA-MCGS mechanism figures — review draft, 8 October 2026
+
+本轮改动
+两张图重新绘制为统一的矢量机制图。保留白底、细线图结构和克制的蓝／赭红语义色；去掉统计表、性能数值、装饰性图标和大面积填色。Figure 2 新增 Full-SCC (one-shot) 与 LEA，对照 TreeMCTS 和 SA-MCGS。
+
+状态
+这是独立审阅稿。未替换现有 Figma 节点、论文插图、正文或最终 PDF。SVG 保留文字与路径；Figma 导入后的图层及数学文字可编辑性需要在实际导入后检查。论文八页边界尚未重新排版验证。
+
+规格
+两图均为 180 × 96 mm。图中文字使用 Arial，数学使用 STIX；普通文字至少 7 pt。PNG 预览为 360 dpi；PDF/SVG 为真实矢量。公式上下标另有 PDF 实际字号审计，不以主字号推断。灰度稿与几何检查在 qa/。
+
+Figure 1: Evidence-guided search and terminal core selection
+a, A record graph is decomposed into strongly connected components. b, Each rollout selects a bounded window using accumulated evidence. A local evaluator returns node scores y_t(v), relation evidence z_t(u,v), and a local risk subgraph h_t; eligible cached evaluations can be reused. Memory retains normalized node evidence e_t(v), risk-score histories Y_t(v), unordered pair support m_t(p), relation reasons, and a critical-pair ledger. The program computes persistent online conflict (OC) flags from eligible histories using two-of-three tests. Accumulated memory guides subsequent window selection. c, After budget T, the final core is constructed under B(S) by pair seeding, priority scanning with stopping rules, and supported-pair closure. Its priority uses normalized evidence, the strongest qualifying pair score, and OC flags. R_T(v) contains qualifying observed pairs involving v; b_T(v)=0 if it is empty. Risk ranking is a separate readout based on mean observed risk qbar_T(v). Gray arrows show original directed edges; rust dashed lines show unordered observed pairs. The illustrative A–D pair has no original edge in either direction. No empirical result is encoded.
+
+Figure 2: Evidence acquisition on a common cyclic component
+The same record identities and directed topology underlie all four views. a, Full-SCC (one-shot) evaluates the complete component in one request and directly returns a subgraph and ranking. b, Local Evidence Aggregation (LEA) evaluates fixed, potentially overlapping, node-anchored windows and aggregates mean risk and evidence counts. Two windows are illustrated; the ellipsis represents additional anchors. LEA uses the resulting membership scores to select its fixed-capacity subgraph and mean risk to rank nodes. c, TreeMCTS attaches statistics Q_pi and N_pi to path-prefix states s_pi; repeated physical records therefore appear at multiple tree positions. d, SA-MCGS updates shared evidence memory M_t using local evaluation output Ecal_t, feeds memory back into adaptive window selection, and constructs the final core after T. Select, Eval, Update, Core, and Rank are schematic operation names; the component S is an implicit argument of Select. Blue nodes identify anchors or revisited records. Rust dashed lines indicate observed pair evidence, which need not coincide with a directed graph edge. All diagrams are illustrative, with no measured performance comparison.
+
+复现
+安装 requirements.txt 中的绘图依赖后，运行 python draw_figures.py。
+draw_figures.py 是可单独运行的完整源文件。figure_style.py、draw_framework.py、draw_comparison.py 是便于分图继续修改的模块源。若修改模块源，应同步重建完整源文件。
+
+内容与质量检查
+两图使用同一 A–E 拓扑。局部窗口画出其所有内部原图边；路径展开中的每次转移均属于原图。LEA 示例窗口与固定节点顺序一致。所有返核箭头都位于搜索结束后，core 不参与下一轮搜索反馈。没有实验数据、模拟统计或性能优劣暗示。
+静态检查中的 PNG-without-TIFF 警告不影响交付：本稿提供 PDF/SVG 矢量及 PNG 预览。若静态程序因 mean/seed 词语要求误差条，该项不适用：这里仅表示算法操作，不是统计结果。

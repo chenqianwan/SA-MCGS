@@ -1,0 +1,319 @@
+{
+  "manifest_version": "stage1_identity_safe_four_arm_v1",
+  "created_at": "2026-09-09T05:28:56+0800",
+  "phase": "smoke",
+  "publication_use": "diagnostic_only",
+  "orders": [
+    1,
+    8,
+    19
+  ],
+  "cases": 3,
+  "variants": [
+    "full-sa-mcgs-rerun",
+    "no-relation-first-memory",
+    "no-critical-pair-ledger-revisit",
+    "random-local-window-selection"
+  ],
+  "paid_jobs": 12,
+  "model": "gpt-4o",
+  "model_id": "gpt-4o",
+  "budget_rollouts": 60,
+  "window_size": 4,
+  "internal_concurrency": 3,
+  "case_concurrency": 1,
+  "effective_max_api_concurrency": 3,
+  "compression_profile": "current",
+  "injection": {
+    "profile": "memory_stress",
+    "profile_version": "structural_simple_v2",
+    "severity": "critical",
+    "seed": 42
+  },
+  "identity_policy": "stable_case_identity_v1",
+  "invalid_policy": "retain every attempted case; invalid/missing metrics count as misses in strict denominator",
+  "retry_policy": {
+    "sdk_hidden_retries": 0,
+    "explicit_json_or_transport_attempts_per_rollout": 3,
+    "case_level_retry_after_exception": 1,
+    "first_case_attempt_preserved_under": "attempts/attempt_1",
+    "every_network_and_json_parse_attempt_logged": true
+  },
+  "hard_budget_usd_including_smoke_and_formal": 60.0,
+  "pricing": {
+    "ok": true,
+    "checked_at": "2026-09-09T05:28:57+0800",
+    "model_name": "gpt-4o",
+    "quota_type": 0,
+    "model_ratio": 1.25,
+    "completion_ratio": 4.0,
+    "cache_ratio": 0.5,
+    "quota_per_usd": 500000,
+    "input_usd_per_million_tokens": 2.5,
+    "output_usd_per_million_tokens": 10.0
+  },
+  "prompt_schema_provenance": {
+    "prompt_builder_source_sha256": "sha256:ea6e30590d7eeb3d4514027936ea9220f54c3fb9255b59baa8fdc65ef7160001",
+    "json_parser_source_sha256": "sha256:ce5f8791744d212f035522932159cbc89df6ebcda912bb6ad9b202eeebcaace1",
+    "response_format": {
+      "type": "json_object"
+    },
+    "required_top_level_schema": [
+      "clause_evaluations",
+      "local_risk_subgraph_nodes",
+      "local_conflict_edges",
+      "critical_pairs",
+      "repair_entry_nodes",
+      "conflicts"
+    ]
+  },
+  "prompt_examples": [
+    {
+      "case_order": 1,
+      "case_id": "01_cuad34_scc_11_direct_mutex",
+      "source_scc_uid": "source-scc-v1-a8c34d02ba6d38a66cc43717847ddc46013a307043bcd72648bd9e45402542cc",
+      "first_full_window": [
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__1",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__3.9",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__8.2",
+        "cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10_12_C__cuad_BERKELEYLIGHTS_INC_06_26_2020_EX_10__b90caf8e__5.4"
+      ],
+      "first_full_prompt_chars": 5940,
+      "first_full_prompt_sha256": "sha256:db58f03c2306f025e1195cf9abe595c2f41883f3b2ae9d03c49d89cd6df48d4f"
+    },
+    {
+      "case_order": 8,
+      "case_id": "08_sec_ex2118_scc_3_direct_mutex",
+      "source_scc_uid": "source-scc-v1-4a33c5235c6f004341b75ad8a242c049b4068ac68995b2e5747aad4ceb2719b1",
+      "first_full_window": [
+        "us-cw-1001720",
+        "us-cw-59234",
+        "us-cw-1196",
+        "us-cw-590085"
+      ],
+      "first_full_prompt_chars": 3392,
+      "first_full_prompt_sha256": "sha256:72c05b5bb7e044adb0b9c2fec27c7dd14ce75e8afdbf9bce943de777cf991732"
+    },
+    {
+      "case_order": 19,
+      "case_id": "19_bgb9_scc_7_direct_mutex",
+      "source_scc_uid": "source-scc-v1-9bbe1c118fc221d1a240d299c29b59948919da036ceb8ddc48abd3f19c0e2b1f",
+      "first_full_window": [
+        "bgb_555c",
+        "bgb_559",
+        "bgb_559a",
+        "bgb_559c"
+      ],
+      "first_full_prompt_chars": 10673,
+      "first_full_prompt_sha256": "sha256:a919f1da4a71e651838317e7fbb2e2e521e81eb04eda1695789a9011317b6005"
+    }
+  ],
+  "config_sha256": {
+    "full-sa-mcgs-rerun": "sha256:c1c8aef7e2652da187a19e77b1cbdc8b0c1b92d8a55e7b0ac5c28d3b7a39b11c",
+    "no-relation-first-memory": "sha256:71b51fc7bcc0125e1d57d9623c3e765d421f88ea8c359e435c0f19f1e80ae753",
+    "no-critical-pair-ledger-revisit": "sha256:5912b8d80f8089d042cb37416e7b7b5bc103a4cd7f2d32e6647c8dd3bbcb1848",
+    "random-local-window-selection": "sha256:c1c8aef7e2652da187a19e77b1cbdc8b0c1b92d8a55e7b0ac5c28d3b7a39b11c"
+  },
+  "config_diffs_vs_full": {
+    "full-sa-mcgs-rerun": "reference",
+    "no-relation-first-memory": {
+      "full_evidence": {
+        "relation_first": true,
+        "relation_prior_weight": 0.85,
+        "relation_prior_decay": 0.35,
+        "probe_fraction": 0.3,
+        "probe_min_rollouts": 4,
+        "probe_min_score": 1.0,
+        "subgraph_max_ratio": 0.45,
+        "subgraph_min_nodes": 4,
+        "core_min_nodes": 2,
+        "core_min_relative_score": 0.52,
+        "core_stop_gap": 0.14,
+        "core_min_score": 0.1,
+        "pair_memory_max_ratio": 0.65,
+        "pair_memory_min_score": 0.42,
+        "pair_closure_min_score": 0.35,
+        "critical_pair_ledger": true,
+        "critical_pair_enter_threshold": 0.66,
+        "critical_pair_exit_threshold": 0.48,
+        "critical_pair_lock_support": 2,
+        "critical_pair_revisit_fraction": 0.45,
+        "critical_pair_frontier_max_pairs": 8,
+        "critical_pair_core_min_score": 0.62,
+        "compression_profile": "current"
+      },
+      "variant_evidence": {
+        "relation_first": false,
+        "relation_prior_weight": 0.0,
+        "relation_prior_decay": 0.35,
+        "probe_fraction": 0.0,
+        "probe_min_rollouts": 4,
+        "probe_min_score": 1.0,
+        "subgraph_max_ratio": 0.45,
+        "subgraph_min_nodes": 4,
+        "core_min_nodes": 2,
+        "core_min_relative_score": 0.52,
+        "core_stop_gap": 0.14,
+        "core_min_score": 0.1,
+        "pair_memory_max_ratio": 0.65,
+        "pair_memory_min_score": 0.42,
+        "pair_closure_min_score": 0.35,
+        "critical_pair_ledger": true,
+        "critical_pair_enter_threshold": 0.66,
+        "critical_pair_exit_threshold": 0.48,
+        "critical_pair_lock_support": 2,
+        "critical_pair_revisit_fraction": 0.45,
+        "critical_pair_frontier_max_pairs": 8,
+        "critical_pair_core_min_score": 0.62,
+        "compression_profile": "current"
+      }
+    },
+    "no-critical-pair-ledger-revisit": {
+      "full_evidence": {
+        "relation_first": true,
+        "relation_prior_weight": 0.85,
+        "relation_prior_decay": 0.35,
+        "probe_fraction": 0.3,
+        "probe_min_rollouts": 4,
+        "probe_min_score": 1.0,
+        "subgraph_max_ratio": 0.45,
+        "subgraph_min_nodes": 4,
+        "core_min_nodes": 2,
+        "core_min_relative_score": 0.52,
+        "core_stop_gap": 0.14,
+        "core_min_score": 0.1,
+        "pair_memory_max_ratio": 0.65,
+        "pair_memory_min_score": 0.42,
+        "pair_closure_min_score": 0.35,
+        "critical_pair_ledger": true,
+        "critical_pair_enter_threshold": 0.66,
+        "critical_pair_exit_threshold": 0.48,
+        "critical_pair_lock_support": 2,
+        "critical_pair_revisit_fraction": 0.45,
+        "critical_pair_frontier_max_pairs": 8,
+        "critical_pair_core_min_score": 0.62,
+        "compression_profile": "current"
+      },
+      "variant_evidence": {
+        "relation_first": true,
+        "relation_prior_weight": 0.85,
+        "relation_prior_decay": 0.35,
+        "probe_fraction": 0.3,
+        "probe_min_rollouts": 4,
+        "probe_min_score": 1.0,
+        "subgraph_max_ratio": 0.45,
+        "subgraph_min_nodes": 4,
+        "core_min_nodes": 2,
+        "core_min_relative_score": 0.52,
+        "core_stop_gap": 0.14,
+        "core_min_score": 0.1,
+        "pair_memory_max_ratio": 0.65,
+        "pair_memory_min_score": 0.42,
+        "pair_closure_min_score": 0.35,
+        "critical_pair_ledger": false,
+        "critical_pair_enter_threshold": 0.66,
+        "critical_pair_exit_threshold": 0.48,
+        "critical_pair_lock_support": 2,
+        "critical_pair_revisit_fraction": 0.0,
+        "critical_pair_frontier_max_pairs": 8,
+        "critical_pair_core_min_score": 0.62,
+        "compression_profile": "current"
+      }
+    },
+    "random-local-window-selection": "runtime selection patch only; base config equals Full"
+  },
+  "code_sha256": {
+    "emnlp2026_discussion/run_component_ablation_stage0.py": "sha256:40add984a609c12030e3d1a61b8a9521d2da8c0efb73c6bb032f9408317af3ad",
+    "emnlp2026_discussion/run_cost_audit_clean.py": "sha256:fed658f7ca1ddf5db151b493d44023263d75b96daaecb8ea832519a3ff12d425",
+    "experiments/cross_domain/run_cross_domain_battle.py": "sha256:97409a6ea84e2a3226b8e9780d49a0a23daca4529e183f275fcd15d8ad994ab6",
+    "src/modules/alphago_mcgs.py": "sha256:74a0e9813065b94bfc3e4447fbac08cbdae097707da422ee3a9cab360fd68c62",
+    "2026NAACL/SA-MCGS/experiments/stage1_identity_safe_68_20260909_051438/run_stage1_identity_safe.py": "sha256:9a6ce95cfd7419c25291c33e4afa2b69e91de5de0b8407c0841214492692190e",
+    "2026NAACL/SA-MCGS/manifests/rerun_scope.json": "sha256:272aa5eb565d6c5f8b4631276e2fbd63a7f71c27b92600902f35f42677b1b6d6",
+    "2026NAACL/SA-MCGS/validation/identity_stage2_80/case_plan.json": "sha256:f2776fd2b73a3af42ef6dd56d09f00f9b44a37b31a1f4878240c36e319778e9e",
+    "experiments/main_experiment/MANIFEST.json": "sha256:81dfbb48c885c518338138f5b0b17d721cd74c7c4f7916ea8a71c56cd3b277c1"
+  },
+  "historical_full_parity_audit": {
+    "cases_checked": 3,
+    "identity_matches": 3,
+    "model_matches": 3,
+    "budget_matches": 3,
+    "protocol_marker_matches": 3,
+    "strict_contemporaneous_pairing_eligible": false,
+    "decision": "Do not use historical Full as the paired control: its case identity/model/budget/protocol match, but raw prompt and full config hashes were not recorded. Rerun Full in the same contemporaneous four-arm batch.",
+    "rows": [
+      {
+        "case_order": 1,
+        "case_id": "01_cuad34_scc_11_direct_mutex",
+        "source_scc_uid": "source-scc-v1-a8c34d02ba6d38a66cc43717847ddc46013a307043bcd72648bd9e45402542cc",
+        "source_file": "/Users/chenlong/WorkSpace/MCGS_Law/experiments/cross_domain/results/battle_inject_memory_stress_direct_mutex_critical_directsubgraphnaive_relation_first_critical_paper_v3_b60_cuad34_direct_mutex_critical_b60_1778870829.json",
+        "source_file_sha256": "sha256:db5edc925cb1e835313e3fd63ceaf7fd23a7057bbaeadafa72164fa5c8dde6d6",
+        "source_sa_record_sha256": "sha256:7375894d55480133df2d14f280cfd131d3d225cfe93597667ff4e708fc8e2f56",
+        "identity_match": true,
+        "model": "gpt-4o",
+        "budget": 60,
+        "inject_profile": "memory_stress",
+        "inject_profile_version": "structural_simple_v2",
+        "conflict_family": "direct_mutex",
+        "conflict_severity": "critical",
+        "schema_policy_markers": {
+          "relation_first_enabled": true,
+          "relation_evidence_policy": "search selection uses progressive bias from relation evidence; probe windows revisit high-value pair/path frontiers without requiring endpoints to be individually high-risk",
+          "evidence_component_policy": "dynamic per-SCC normalization over risk surplus, conflict rate, LLM-declared local subgraphs, repair entries, conflict endpoints, OC signals, AMAF/RAVE-style node evidence, path-fragment evidence, and pair-level conflict memory",
+          "critical_pair_policy": "persistent critical-pair ledger with same-path severity features, hysteresis, evidence-guided revisits, and protected final-core coverage for locked pairs",
+          "evidence_subgraph_policy": "blind relation-first evidence accumulator with a dynamically maintained core risk subgraph. The core stops when marginal evidence drops, while context_evidence_* retains the older cap-bounded explanation subgraph."
+        },
+        "raw_prompt_hash_recorded": false,
+        "full_config_hash_recorded": false
+      },
+      {
+        "case_order": 8,
+        "case_id": "08_sec_ex2118_scc_3_direct_mutex",
+        "source_scc_uid": "source-scc-v1-4a33c5235c6f004341b75ad8a242c049b4068ac68995b2e5747aad4ceb2719b1",
+        "source_file": "/Users/chenlong/WorkSpace/MCGS_Law/experiments/cross_domain/results/battle_inject_memory_stress_direct_mutex_critical_directsubgraphnaive_relation_first_critical_paper_v3_b60_sec_ex2118_direct_mutex_critical_b60_1778867080.json",
+        "source_file_sha256": "sha256:bb1fbd6d0a7fb6e362da5b79a28677ae514602d029f3f429cbafa30e84e362bf",
+        "source_sa_record_sha256": "sha256:20c5fea1b5e5430e8f533b720c721d673a43dc27f2467da5d0d0867b54a9d7c9",
+        "identity_match": true,
+        "model": "gpt-4o",
+        "budget": 60,
+        "inject_profile": "memory_stress",
+        "inject_profile_version": "structural_simple_v2",
+        "conflict_family": "direct_mutex",
+        "conflict_severity": "critical",
+        "schema_policy_markers": {
+          "relation_first_enabled": true,
+          "relation_evidence_policy": "search selection uses progressive bias from relation evidence; probe windows revisit high-value pair/path frontiers without requiring endpoints to be individually high-risk",
+          "evidence_component_policy": "dynamic per-SCC normalization over risk surplus, conflict rate, LLM-declared local subgraphs, repair entries, conflict endpoints, OC signals, AMAF/RAVE-style node evidence, path-fragment evidence, and pair-level conflict memory",
+          "critical_pair_policy": "persistent critical-pair ledger with same-path severity features, hysteresis, evidence-guided revisits, and protected final-core coverage for locked pairs",
+          "evidence_subgraph_policy": "blind relation-first evidence accumulator with a dynamically maintained core risk subgraph. The core stops when marginal evidence drops, while context_evidence_* retains the older cap-bounded explanation subgraph."
+        },
+        "raw_prompt_hash_recorded": false,
+        "full_config_hash_recorded": false
+      },
+      {
+        "case_order": 19,
+        "case_id": "19_bgb9_scc_7_direct_mutex",
+        "source_scc_uid": "source-scc-v1-9bbe1c118fc221d1a240d299c29b59948919da036ceb8ddc48abd3f19c0e2b1f",
+        "source_file": "/Users/chenlong/WorkSpace/MCGS_Law/experiments/cross_domain/results/battle_inject_memory_stress_direct_mutex_critical_directsubgraphnaive_relation_first_critical_paper_v3_b60_bgb9_direct_mutex_critical_b60_1778867138.json",
+        "source_file_sha256": "sha256:47916193c4eb87b355f853e73df0531d0578cde84a82d26238ab292b9f6c6e81",
+        "source_sa_record_sha256": "sha256:c94c74f9e63e35663ebab6d73ab3fec7668a7207a6e199d5393c1a74c69434ec",
+        "identity_match": true,
+        "model": "gpt-4o",
+        "budget": 60,
+        "inject_profile": "memory_stress",
+        "inject_profile_version": "structural_simple_v2",
+        "conflict_family": "direct_mutex",
+        "conflict_severity": "critical",
+        "schema_policy_markers": {
+          "relation_first_enabled": true,
+          "relation_evidence_policy": "search selection uses progressive bias from relation evidence; probe windows revisit high-value pair/path frontiers without requiring endpoints to be individually high-risk",
+          "evidence_component_policy": "dynamic per-SCC normalization over risk surplus, conflict rate, LLM-declared local subgraphs, repair entries, conflict endpoints, OC signals, AMAF/RAVE-style node evidence, path-fragment evidence, and pair-level conflict memory",
+          "critical_pair_policy": "persistent critical-pair ledger with same-path severity features, hysteresis, evidence-guided revisits, and protected final-core coverage for locked pairs",
+          "evidence_subgraph_policy": "blind relation-first evidence accumulator with a dynamically maintained core risk subgraph. The core stops when marginal evidence drops, while context_evidence_* retains the older cap-bounded explanation subgraph."
+        },
+        "raw_prompt_hash_recorded": false,
+        "full_config_hash_recorded": false
+      }
+    ]
+  },
+  "paired_control_decision": "fresh contemporaneous Full required and included"
+}

@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "amendment_id": "transposition_entry_validationerror_terminal_v1",
+  "base_request_protocol_sha256": "88fca6211d93c02fa5d6d54821d33262c9d093a36a20742c7dc23dba3705f953",
+  "original_launcher_sha256": "97f6b3909746226a7237046c352944c2785e4b5b2887b79c4986fc361018e01f",
+  "scope": "Execution-layer terminal classification only. Scientific source, prompts, parser, request/cache protocol, search parameters and recorded responses remain unchanged.",
+  "rule": "An original cost.run_method error_type ValidationError originating from AlphaGoMCGS TranspositionEntry construction is a terminal scientific schema failure. Preserve its subtype, message and traceback; do not repair or resample the response.",
+  "result_protocol_fields": {
+    "protocol_sha256": "Unchanged original request/scientific-code protocol; not the identity of this new producer",
+    "terminalization_protocol_sha256": "Hash binding the base request protocol, this amendment and actual compatibility adapter source",
+    "schema_compat_adapter_sha256": "Actual new producer source hash",
+    "schema_compat_amendment_sha256": "This amendment file hash"
+  },
+  "known_cached_failure": {
+    "case_id": "015_llama-3.1-8b_bgb11_scc_0_direct_mutex",
+    "method": "sa-mcgs",
+    "source_job_id": "395047",
+    "cache_files_sha256": {
+      "requests.jsonl": "d913682be64206c8144ba711e0c3e00c7f2dfac1bd9e5293ad6ee8737433c68a",
+      "responses.jsonl": "9e1c5a6418aecf5bedc9ea1f969eabcbbd31458c56d6f56e78f14b37d06fe5a4"
+    },
+    "failure_response_call_index": 6,
+    "failure_response_content_sha256": "130a200d43f1641b0dd6c21a8f63e5b7b232bc2faebdb8904decd9f1c883a2e2",
+    "recovery": "Replay original cached completion order with all uncached requests held locally and cancelled; zero inference requests. Reproduce the original scientific failure before writing its terminal observation."
+  }
+}

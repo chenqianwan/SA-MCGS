@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="循环文档图结构冲突专家盲法标注工具">
+  <title>结构冲突专家盲法标注</title>
+  <style>
+__BLIND_CSS__
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="title-block">
+      <p class="eyebrow">正式专家标注</p>
+      <h1>结构冲突专家盲法标注</h1>
+      <p class="subtitle">请仅依据展示材料作出独立判断。页面不会显示样本生成条件或任何系统输出。</p>
+    </div>
+    <div class="status-stack">
+      <span class="blind-badge">盲法模式</span>
+      <div id="saveIndicator" class="save-indicator" aria-live="polite">
+        <span class="status-dot"></span>
+        <span id="saveStatus">正在载入材料</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar" aria-label="标注导航">
+      <section class="identity-panel">
+        <label for="expertSlot">专家编号</label>
+        <select id="expertSlot" aria-label="专家编号">
+          <option value="expert_1">专家 1</option>
+          <option value="expert_2">专家 2</option>
+          <option value="expert_3">专家 3</option>
+        </select>
+        <label for="reviewerId">匿名标注者编号 <span aria-hidden="true">*</span></label>
+        <input id="reviewerId" type="text" autocomplete="off" placeholder="例如：E01" maxlength="40">
+      </section>
+
+      <section class="progress-panel" aria-label="标注进度">
+        <div class="progress-copy">
+          <div><strong id="progressText">0 / 0</strong><span>已完成</span></div>
+          <button id="firstIncompleteBtn" class="text-button" type="button">前往首个未完成项</button>
+        </div>
+        <div class="progress-track" aria-hidden="true"><div id="progressBar"></div></div>
+      </section>
+
+      <div class="filter-row" role="group" aria-label="筛选样本">
+        <button class="filter-button active" data-filter="all" type="button">全部</button>
+        <button class="filter-button" data-filter="open" type="button">未完成</button>
+        <button class="filter-button" data-filter="done" type="button">已完成</button>
+      </div>
+
+      <nav id="caseList" class="case-list" aria-label="样本列表"></nav>
+
+      <section class="data-actions">
+        <button id="exportXlsxBtn" class="button primary" type="button">导出当前专家结果</button>
+        <div class="split-actions">
+          <button id="exportJsonBtn" class="button secondary" type="button">保存进度备份</button>
+          <button id="exportCsvBtn" class="button secondary" type="button">导出汇总表</button>
+        </div>
+        <button id="restoreBtn" class="button ghost" type="button">恢复进度备份</button>
+        <input id="restoreInput" type="file" accept=".json,application/json" hidden>
+        <p class="local-note">内容自动保存在当前浏览器中。完成后请同时导出电子表格和进度备份。</p>
+      </section>
+    </aside>
+
+    <section id="workspace" class="workspace" aria-live="polite">
+      <div class="empty-state">
+        <div class="loader" aria-hidden="true"></div>
+        <h2>正在准备标注材料</h2>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script type="application/json" id="manifestData">__MANIFEST_JSON__</script>
+  <script type="application/json" id="translationData">__TRANSLATION_JSON__</script>
+  <script>
+__XLSX_VENDOR__
+  </script>
+  <script>
+__BLIND_APP__
+  </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+{
+  "schema_version": "annotation_analysis.adjudication.v1",
+  "synthetic_fixture": true,
+  "merged_artifact_sha256": "TO_BE_BOUND_BY_SYNTHETIC_TEST",
+  "selection_rule": [
+    "no 2-of-3 majority on a categorical field",
+    "any target=insufficient rating",
+    "any confidence <= 2",
+    "positive/sufficient provisional label without a 2-of-3 minimal-evidence node",
+    "positive/sufficient provisional label without a 2-of-3 repair-packet node"
+  ],
+  "system_outcomes_must_remain_unseen": true,
+  "outcome_blind_attestation": {
+    "system_outcomes_unseen": true,
+    "attested_by": "SYN-ATTESTER",
+    "attested_at": "2026-01-01T00:00:00Z"
+  },
+  "cases": [
+    {
+      "case_id": "SYN-PRE-B",
+      "stratum": "pre18",
+      "domain": "synthetic_b",
+      "required_reasons": [
+        "sufficiency_no_2_of_3_majority",
+        "any_insufficient_context_label",
+        "any_confidence_at_most_2"
+      ],
+      "allowed_section_ids": ["S001", "S002", "S003"],
+      "provisional_2_of_3": {
+        "target_conflict": "present",
+        "evidence_sufficient": null,
+        "need_more_context": "yes",
+        "confidence_median": 4,
+        "minimal_evidence_section_ids": ["S001"],
+        "repair_packet_section_ids": ["S001", "S002"],
+        "requires_adjudication": true,
+        "adjudication_reasons": [
+          "sufficiency_no_2_of_3_majority",
+          "any_insufficient_context_label",
+          "any_confidence_at_most_2"
+        ]
+      },
+      "decision": {
+        "final_target_conflict": "present",
+        "final_evidence_sufficient": "yes",
+        "final_need_more_context": "no",
+        "final_minimal_evidence_section_ids": ["S001"],
+        "final_repair_packet_section_ids": ["S001", "S002"],
+        "adjudicator_id": "SYN-ADJUDICATOR",
+        "adjudication_note": "Synthetic decision for code-path testing only."
+      }
+    },
+    {
+      "case_id": "SYN-POST-B",
+      "stratum": "post_new24",
+      "domain": "synthetic_b",
+      "required_reasons": ["any_insufficient_context_label"],
+      "allowed_section_ids": ["S001", "S002"],
+      "provisional_2_of_3": {
+        "target_conflict": "absent",
+        "evidence_sufficient": "not_applicable",
+        "need_more_context": "no",
+        "confidence_median": 4,
+        "minimal_evidence_section_ids": [],
+        "repair_packet_section_ids": [],
+        "requires_adjudication": true,
+        "adjudication_reasons": ["any_insufficient_context_label"]
+      },
+      "decision": {
+        "final_target_conflict": "absent",
+        "final_evidence_sufficient": "not_applicable",
+        "final_need_more_context": "no",
+        "final_minimal_evidence_section_ids": [],
+        "final_repair_packet_section_ids": [],
+        "adjudicator_id": "SYN-ADJUDICATOR",
+        "adjudication_note": "Synthetic decision for code-path testing only."
+      }
+    }
+  ]
+}

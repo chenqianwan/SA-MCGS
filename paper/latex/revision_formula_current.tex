@@ -1,0 +1,48 @@
+\begin{revadded}
+The following rules describe the frozen implementation used for the trace replay. The supplementary source snapshot supplies the complete deterministic selector and feature extraction, including lexical reason features and tie rules.
+
+\paragraph{Node and pair updates.}
+Each consumed evaluation, including a cache reuse, increments the observed node's visit count and adds its risk score to the running total:
+\begin{equation}
+ \bar q_{t+1}(v)=\frac{n_t(v)\bar q_t(v)+y_t(v)}{n_t(v)+1}.
+ \label{eq:node-update}
+\end{equation}
+The conflict-pair key is the sorted unordered endpoint pair. Local pair support increases at most once per pair per consumed window; explicit-conflict counts and local-subgraph/repair-entry counts are recorded separately. Reasons are retained in bounded lists. Directed edge statistics count co-observation and whether both endpoints belong to the window's explicitly reported conflict-node set. These quantities are counts and running means, not exponentially smoothed relation probabilities.
+
+\paragraph{Critical-pair ledger.}
+Let $c$ and $c_e$ be cumulative pair-support and explicit-conflict counts. The ledger score is
+\begin{equation}
+ \begin{aligned}
+ \kappa(u,v)=\min(1,&\;0.30f_{\rm sem}+0.25f_{\rm sev}\\
+ &+0.18f_{\rm path}+0.12f_{\rm nofall}\\
+ &+0.10f_{\rm supp}+0.05f_{\rm expl}),
+ \end{aligned}
+ \label{eq:critical-pair}
+\end{equation}
+where $f_{\rm supp}=\min(1,\log(1+c)/\log7)$ and $f_{\rm expl}=\min(1,\log(1+c_e)/\log5)$. Semantic, severity, same-path, and no-fallback strengths preserve the maximum of observed reason features and parsed evaluator fields. Pair scores govern observed/locked ledger states and scheduled revisits. They are heuristic support measures, not calibrated probabilities.
+
+\paragraph{Node discovery (legacy OC).}
+Let $P_t$ pool all consumed node scores and $Y_t(v)$ be the node's score history. Detection requires at least ten pooled scores, the configured warm-up iteration, and the configured minimum node visits (eight by default). For nonzero pooled population standard deviation, define
+\begin{equation}
+ \begin{aligned}
+ z_t(v)&=(\bar q_t(v)-\operatorname{mean}P_t)/\operatorname{sd}P_t,\\
+ a_t(v)&=\frac{1}{|Y_t(v)|}\sum_{y\in Y_t(v)}
+       \frac{|\{p\in P_t:p\leq y\}|}{|P_t|},\\
+ h_t(v)&=\frac{|\{y\in Y_t(v):y>\operatorname{med}^{+}P_t\}|}{|Y_t(v)|}.
+ \end{aligned}
+ \label{eq:oc-rule}
+\end{equation}
+Here $\operatorname{med}^{+}$ is the upper middle element of the sorted pool. A node is permanently flagged if at least two of $z_t>1.5$, $a_t>0.8$, and $h_t>0.8$ hold. Unlike the median used for risk surplus below, this detector does not average the two middle scores. It uses the current accumulated pool, including the latest evaluation.
+
+\paragraph{Evidence channels and pair score.}
+The ten possible node channels are positive risk surplus above the median observed node mean, conflict rate, local-subgraph count, repair-entry count, conflict-endpoint count, OC flag, AMAF node support, path-fragment support, relation-node raw prior, and critical-pair endpoint support. For each nonzero channel, negative values are clipped to zero and values are divided by the maximum within the component. $e_T(v)$ is the unweighted mean over active channels, assigning zero to a node with no support in an active channel. Critical endpoint support sums eligible ledger scores, multiplying locked scores by 1.25.
+
+An ordinary pair score combines semantic reason strength (0.45), log-normalized explicit count (0.20), log-normalized local pair count (0.20), and mean endpoint evidence score (0.15). A surviving ledger entry raises this score to at least $\kappa$. Qualifying pairs have score at least 0.42, semantic strength at least 0.65, explicit support, or protected critical status.
+
+\paragraph{Final candidate pool and stopping.}
+The candidate pool contains nodes with positive evidence/support, flagged nodes, and qualifying pair endpoints. Only if this pool is empty does the selector fall back to the legacy context selection. It does not receive a previous core. Priorities follow Eq.~\ref{eq:priority}; ties prefer more active evidence channels, more qualifying pairs, and then the original component order.
+
+Protected critical endpoints seed the core if they fit the cap, followed by the strongest relation endpoints up to the minimum core size. Remaining candidates are admitted in priority order. Once the minimum size of two is reached, an unprotected candidate triggers stopping if its priority is below 0.10, its drop from the previous priority divided by the top priority is at least 0.14, or its relative priority is below 0.28 or 0.52. The 0.28 test is redundant when 0.52 is active; both are retained in the frozen code. OC and protected nodes bypass these stopping tests, but not the cap.
+
+Closure adds a missing pair endpoint only while room remains. The pair must reach both the closure threshold 0.35 and 90\% of the top qualifying pair score, and have locked/strong critical status, semantic strength at least 0.9, or counterpart priority at least 35\% of the top node priority. The output is returned in component order. Root@3 is computed from the separate ranking by mean node risk. The selector can be reconstructed at any trace prefix, but those reconstructions do not alter subsequent search.
+\end{revadded}

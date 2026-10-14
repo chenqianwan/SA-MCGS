@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>专家 3 · 材料标注与算法提示</title>
+  <style>__BLIND_CSS__</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="title-block">
+      <p class="eyebrow">独立专家标注</p>
+      <h1>结构冲突专家标注</h1>
+      <p class="subtitle">展示算法结果、是否注入及注入段落；这些只供参考，不代替专家判断。顶部可一并隐藏全部提示；页面不显示其他专家答案。</p>
+    </div>
+    <div class="status-stack">
+      <span id="hintModeBadge" class="blind-badge assisted-badge">专家 3 · 算法与注入提示已显示</span>
+      <button id="toggleHintsBtn" class="button hint-toggle" type="button" aria-pressed="true">隐藏全部提示</button>
+      <div id="saveIndicator" class="save-indicator" aria-live="polite"><span class="status-dot"></span><span id="saveStatus">正在载入材料</span></div>
+    </div>
+  </header>
+  <main class="layout">
+    <aside class="sidebar" aria-label="标注导航">
+      <section class="identity-panel">
+        <label>专家编号</label><p class="locked-slot">专家 3（本页面固定）</p>
+        <label for="reviewerId">匿名标注者编号 <span class="required">*</span></label>
+        <input id="reviewerId" type="text" autocomplete="off" maxlength="40" placeholder="例如：E03">
+      </section>
+      <section class="progress-panel" aria-label="标注进度">
+        <div class="progress-copy"><div><strong id="progressText">0 / 0</strong><span>已确认</span></div><button id="firstIncompleteBtn" class="text-button" type="button">前往首个未完成项</button></div>
+        <div class="progress-track" aria-hidden="true"><div id="progressBar"></div></div>
+      </section>
+      <div class="filter-row" role="group" aria-label="筛选样本">
+        <button class="filter-button active" data-filter="all" type="button">全部</button>
+        <button class="filter-button" data-filter="open" type="button">未完成</button>
+        <button class="filter-button" data-filter="done" type="button">已完成</button>
+      </div>
+      <nav id="caseList" class="case-list" aria-label="样本列表"></nav>
+      <section class="data-actions">
+        <button id="exportXlsxBtn" class="button primary" type="button">导出专家 3 标注结果</button>
+        <button id="exportJsonBtn" class="button secondary" type="button">保存进度备份</button>
+        <button id="restoreBtn" class="button ghost" type="button">恢复本页面进度备份</button>
+        <input id="restoreInput" type="file" accept=".json,application/json" hidden>
+        <p class="local-note">自动保存只保留草稿。逐例点击“确认并保存”后才计为完成。请定期导出进度备份；最终同时提交电子表格和备份文件。</p>
+      </section>
+    </aside>
+    <section id="workspace" class="workspace" aria-live="polite"><div class="empty-state"><h2>正在准备标注材料</h2></div></section>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="application/json" id="manifestData">__MANIFEST_JSON__</script>
+  <script type="application/json" id="translationData">__TRANSLATION_JSON__</script>
+  <script type="application/json" id="methodHintsData">__METHOD_HINTS_JSON__</script>
+  <script type="application/json" id="injectionMarkersData">__INJECTION_MARKERS_JSON__</script>
+  <script>__XLSX_VENDOR__</script>
+  <script>__BLIND_APP__</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+\begin{revadded}
+\section{Scoring, Uncertainty, and Configuration Audit}
+\label{app:scoring_audit}
+
+All five models use a unified strict terminal-output policy. A strict-invalid output receives zero for Root@3, Risk-any, and Risk-all; each binary denominator remains 80. Compression is averaged only over defined valid outputs, with denominators reported separately. The archived local parsing fallback is retained within otherwise valid system outputs. Qwen3.5-9B metricwise reparsing is reported separately as a scoring sensitivity, without new model calls.
+
+The 80 variants comprise four variants from each of 20 physical source SCCs. Paired intervals use 20,000 percentile-bootstrap draws (seed 8229), resampling source SCCs jointly across methods, variants, and the five fixed models. For pooled differences, we first average the 20 model--variant differences within each source, then average sources. Model-specific differences average four variants per source. The comparison uses one frozen terminal outcome per model--method--variant from historical execution batches. Its intervals reflect variation across the selected sources; they do not measure repeated-run seed variation, unseen-model variation, or natural-risk prevalence. Intervals are descriptive and unadjusted for multiple comparisons.
+
+\begin{table*}[t]
+\centering\small
+\begin{tabular}{llrrrr}
+\toprule
+Model & Method & Planned & Valid & Invalid & Comp. $n$ \\
+\midrule
+GPT-4o & One-shot & 80 & 63 & 17 & 63 \\
+GPT-4o & LEA & 80 & 80 & 0 & 80 \\
+GPT-4o & \samcgs{} & 80 & 80 & 0 & 80 \\
+Gemini 2.5 Pro & One-shot & 80 & 79 & 1 & 79 \\
+Gemini 2.5 Pro & LEA & 80 & 80 & 0 & 80 \\
+Gemini 2.5 Pro & \samcgs{} & 80 & 80 & 0 & 80 \\
+Qwen2.5-72B & One-shot & 80 & 39 & 41 & 39 \\
+Qwen2.5-72B & LEA & 80 & 80 & 0 & 80 \\
+Qwen2.5-72B & \samcgs{} & 80 & 80 & 0 & 80 \\
+Llama 3.1-8B-Instruct & One-shot & 80 & 40 & 40 & 40 \\
+Llama 3.1-8B-Instruct & LEA & 80 & 80 & 0 & 80 \\
+Llama 3.1-8B-Instruct & \samcgs{} & 80 & 78 & 2 & 78 \\
+Qwen3.5-9B & One-shot & 80 & 67 & 13 & 67 \\
+Qwen3.5-9B & LEA & 80 & 80 & 0 & 80 \\
+Qwen3.5-9B & \samcgs{} & 80 & 80 & 0 & 80 \\
+\bottomrule\end{tabular}
+\caption{Validity and metric denominators for the unified strict main comparison. All three binary metrics use all planned outputs; compression uses only defined valid outputs. Local parsing fallbacks preserve the original terminal-output policy.}
+\label{tab:unified_scoring_denominators}
+\end{table*}
+
+\begin{table}[t]
+\centering\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrr}
+\toprule
+Scoring policy & Root@3 & Any & All & Comp. ($n$) \\
+\midrule
+Strict & 12.50 & 53.75 & 12.50 & 62.70 (67) \\
+Metricwise & 15.00 & 60.00 & 13.75 & 64.73 (80) \\
+\bottomrule\end{tabular}
+\caption{Qwen3.5-9B scoring sensitivity on the same 80 One-shot outputs. Metricwise recovery deterministically reparses archived strict failures; no new calls are made. LEA and SA-MCGS are unchanged because all their terminal outputs are valid.}
+\label{tab:qwen_scoring_sensitivity}
+\end{table}
+
+\begin{table*}[t]
+\centering\small
+\begin{tabular}{llrrr}
+\toprule
+Model / scope & Comparator & Root@3 & Risk-any & Risk-all \\
+\midrule
+All five (fixed) & LEA & +6.75 [-0.25, 14.00] & -0.25 [-4.50, 4.00] & +15.25 [2.00, 27.75] \\
+All five (fixed) & One-shot & +46.50 [37.75, 55.25] & +35.25 [24.00, 46.75] & +39.00 [29.00, 49.25] \\
+GPT-4o & LEA & +7.50 [-3.75, 20.00] & +3.75 [0.00, 10.00] & +31.25 [7.50, 52.50] \\
+GPT-4o & One-shot & +60.00 [43.75, 75.00] & +45.00 [27.50, 62.50] & +60.00 [43.75, 73.75] \\
+Gemini 2.5 Pro & LEA & +0.00 [-8.75, 7.50] & -2.50 [-6.25, 0.00] & +0.00 [-11.25, 12.50] \\
+Gemini 2.5 Pro & One-shot & -2.50 [-16.25, 11.25] & +0.00 [-5.00, 5.00] & -1.25 [-20.00, 16.25] \\
+Qwen2.5-72B & LEA & +2.50 [-11.25, 16.25] & +0.00 [-6.25, 5.00] & +31.25 [10.00, 51.25] \\
+Qwen2.5-72B & One-shot & +67.50 [51.25, 82.50] & +51.25 [31.25, 71.25] & +61.25 [43.75, 78.75] \\
+Llama 3.1-8B-Instruct & LEA & +17.50 [2.50, 32.50] & +2.50 [-6.25, 12.50] & +13.75 [-5.00, 32.50] \\
+Llama 3.1-8B-Instruct & One-shot & +57.50 [41.25, 72.50] & +47.50 [30.00, 65.00] & +23.75 [2.50, 45.00] \\
+Qwen3.5-9B & LEA & +6.25 [-6.25, 20.00] & -5.00 [-13.75, 2.50] & +0.00 [-15.00, 15.00] \\
+Qwen3.5-9B & One-shot & +50.00 [31.25, 68.75] & +32.50 [18.75, 47.50] & +51.25 [36.25, 66.25] \\
+\bottomrule\end{tabular}
+\caption{SA-MCGS minus each comparator, in percentage points, with paired source-SCC bootstrap 95\% intervals. Each of 20 sources is resampled jointly across its four variants and five fixed models (20,000 draws; seed 8229). These descriptive intervals do not measure repeated-run variability or adjust for multiple comparisons.}
+\label{tab:unified_paired_intervals}
+\end{table*}
+
+\paragraph{Historical configuration provenance.}
+These terminal outcomes come from archived batches. The supplementary model--method configuration ledger distinguishes recorded settings from current code defaults. In particular, Qwen2.5-72B LEA records an AWQ checkpoint; the earlier One-shot and \samcgs{} outputs do not establish an identical provider snapshot or quantization. The comparison is therefore within a reported model family, with incomplete backend matching. Early GPT-4o, Gemini, and Qwen2.5 settings cannot all be retrospectively verified from raw artifacts. Llama and Qwen3.5 batch protocols record temperatures 0 for One-shot and 0.4 for local evaluation, token caps 12,000 and 2,048 respectively, and Python seed 42; API sampling seeds are not recorded. These provenance limits preclude treating all historical outcomes as a fully contemporaneous, configuration-controlled experiment.
+\end{revadded}

@@ -41,7 +41,7 @@ from emnlp2026_discussion import run_cost_audit_clean as cost
 
 DISCUSSION_DIR = REPO_ROOT / "emnlp2026_discussion"
 DEFAULT_CASE_CSV = DISCUSSION_DIR / "case_composition.csv"
-DEFAULT_RUNS_DIR = DISCUSSION_DIR / "baseline_runs"
+DEFAULT_RUNS_DIR = cost.SA_WORK_DIR / "experiments" / "lea_runs"
 DEFAULT_MODELS = ["gpt-4o", "deepseek-v3", "qwen2.5-72b", "gemini-2.5-pro"]
 
 
@@ -201,23 +201,26 @@ def build_or_load_case_plan(args: argparse.Namespace, output_dir: Path) -> list[
     if plan_path.exists() and not args.rebuild_plan:
         return json.loads(plan_path.read_text(encoding="utf-8"))
 
-    rows = list(csv.DictReader(args.case_csv.open(encoding="utf-8")))
+    rows = list(enumerate(csv.DictReader(args.case_csv.open(encoding="utf-8")), 1))
     allowed = set(args.models)
-    rows = [row for row in rows if row.get("model") in allowed]
+    rows = [(order, row) for order, row in rows if row.get("model") in allowed]
     if args.limit:
         rows = rows[: args.limit]
     if not rows:
         raise RuntimeError(f"No rows found in {args.case_csv} for models={sorted(allowed)}")
 
     plan = []
-    for idx, row in enumerate(rows, 1):
+    for canonical_order, row in rows:
         case_id = safe_token(
-            f"{idx:03d}_{row['model']}_{row['domain']}{row['scc_size']}_{row['scc_id']}_{row['template']}"
+            f"{canonical_order:03d}_{row['model']}_{row['domain']}{row['scc_size']}_"
+            f"{row['scc_id']}_{row['template']}"
         )
         plan.append(
             {
-                "case_order": idx,
+                "case_order": canonical_order,
                 "case_id": case_id,
+                "canonical_case_order": canonical_order,
+                "canonical_case_id": case_id,
                 "model": row["model"],
                 "domain": row["domain"],
                 "scc_id": row["scc_id"],
@@ -294,6 +297,8 @@ async def run_lea_case(
     case_args = make_case_args(args, case)
     llm = make_llm(args, output_dir, case)
     started_at = time.time()
+    scc = None
+    injection_metadata: dict[str, Any] = {}
     try:
         graph, scc, injected_id, injection_metadata = cost.prepare_injected_case(case, graphs)
         result = await cost.run_lea(llm, case_args, case, graph, scc, injection_metadata)
@@ -327,6 +332,8 @@ async def run_lea_case(
                 "discard this case result and retry after provider availability is restored."
             )
         return result
+    except cost.StableCaseIdentityError:
+        raise
     except Exception as exc:
         payload = {
             "method": "lea",
@@ -334,11 +341,13 @@ async def run_lea_case(
             "domain": case["domain"],
             "scc_id": case["scc_id"],
             "scc_size": case["scc_size"],
+            "scc_clause_ids": list(scc.clause_ids) if scc is not None else [],
             "case_template": case["template"],
             "error_type": type(exc).__name__,
             "error": str(exc),
             "traceback": traceback.format_exc(),
         }
+        payload.update(injection_metadata)
         result = cost.attach_common_audit(
             payload,
             args=case_args,
@@ -495,6 +504,20 @@ async def run(args: argparse.Namespace) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "index.html").write_text(INDEX_HTML, encoding="utf-8")
     plan = build_or_load_case_plan(args, output_dir)
+    graphs = cost.load_graphs(plan)
+    cost.persist_case_plan(output_dir, plan)
+    atomic_write_json(
+        output_dir / "case_identity_preflight.json",
+        {
+            **cost.validate_case_plan(plan, graphs),
+            "validated_at": now_iso(),
+        },
+    )
+    for case in plan:
+        existing_path = result_path(output_dir, case)
+        if existing_path.exists():
+            existing = json.loads(existing_path.read_text(encoding="utf-8"))
+            cost.validate_result_case_identity(existing, case, graphs[case["domain"]])
     atomic_write_json(
         output_dir / "run_config.json",
         {
@@ -508,17 +531,17 @@ async def run(args: argparse.Namespace) -> None:
             "compression_profile": args.compression_profile,
             "base_url": args.base_url,
             "api_key_env": args.api_key_env,
+            "case_identity_version": cost.STABLE_CASE_IDENTITY_VERSION,
         },
     )
     write_status(output_dir, plan, args)
     summarize(output_dir)
-    if args.dry_run:
+    if args.dry_run or args.validate_only:
         return
 
     if not os.environ.get(args.api_key_env, ""):
         raise RuntimeError(f"{args.api_key_env} is not set")
 
-    graphs = cost.load_graphs(plan)
     active: dict[str, dict[str, Any]] = {}
     active_lock = asyncio.Lock()
     summarize_lock = asyncio.Lock()
@@ -527,10 +550,11 @@ async def run(args: argparse.Namespace) -> None:
     async def worker(case: dict[str, Any]) -> None:
         path = result_path(output_dir, case)
         if path.exists():
+            old = json.loads(path.read_text(encoding="utf-8"))
+            cost.validate_result_case_identity(old, case, graphs[case["domain"]])
             if not args.retry_errors:
                 return
             try:
-                old = json.loads(path.read_text(encoding="utf-8"))
                 if not old.get("cost_audit_error"):
                     return
             except Exception:
@@ -580,6 +604,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--rebuild-plan", action="store_true")
     parser.add_argument("--retry-errors", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--validate-only",
+        action="store_true",
+        help="Validate and persist stable case identities without making API calls.",
+    )
     args = parser.parse_args()
     if args.output_dir is None:
         run_id = time.strftime("lea_full320_%Y%m%d_%H%M%S", time.localtime())

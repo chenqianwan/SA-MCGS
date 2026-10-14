@@ -1,0 +1,172 @@
+/* Additive styling for algorithm-assisted review; keep the blind UI intact. */
+[hidden] { display: none !important; }
+
+.injection-marker {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 9px;
+  border: 1px solid #edc391;
+  border-radius: 6px;
+  background: #fff3df;
+  color: #854806;
+  font-size: 0.78rem;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+.assisted-badge {
+  color: #ffe2af;
+  background: rgba(183, 101, 23, 0.18);
+  border-color: rgba(255, 210, 146, 0.6);
+}
+
+.hint-toggle {
+  padding: 7px 12px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(217, 230, 240, 0.45);
+  font-size: 0.8rem;
+}
+.hint-toggle:hover { background: rgba(255, 255, 255, 0.2); }
+
+.assisted-notices {
+  width: min(1740px, 100%);
+  margin: 0 auto;
+  padding: 16px clamp(16px, 3vw, 42px) 0;
+}
+.hint-snapshot,
+.migration-notice {
+  margin: 0;
+  padding: 11px 15px;
+  border: 1px solid #e8d1aa;
+  border-radius: 10px;
+  color: #775018;
+  background: #fff9ee;
+  font-size: 0.83rem;
+  line-height: 1.65;
+}
+.migration-notice {
+  margin-top: 9px;
+  color: #215778;
+  background: #edf6ff;
+  border-color: #bfd4e8;
+}
+
+.sample-condition {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border: 1px solid #d5c29f;
+  border-radius: 999px;
+  color: #775018;
+  background: #fff8e9;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.algorithm-hints {
+  margin-top: 14px;
+  padding: 13px;
+  border: 1px solid #c8d8e6;
+  border-radius: 11px;
+  background: #f5f9fc;
+}
+.algorithm-hints .heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 5px 12px;
+  margin: 0 0 10px;
+  color: var(--navy);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+.algorithm-hints .heading small,
+.algorithm-hints .heading span {
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 400;
+  line-height: 1.55;
+}
+.method-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.method-hint-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #d2dfe9;
+  border-radius: 9px;
+  background: #fff;
+}
+.method-hint-card h5 {
+  margin: 0;
+  padding: 8px 10px;
+  color: var(--navy);
+  background: #eaf1f7;
+  font-size: 0.83rem;
+  line-height: 1.4;
+}
+.model-hint {
+  padding: 9px 10px;
+  border-top: 1px solid #e0e7ee;
+  overflow-wrap: anywhere;
+}
+.model-hint.selected { background: #f1faf6; }
+.model-hint.not-selected { background: #fff; }
+.model-hint.unavailable { color: var(--muted); background: #f8f9fb; }
+.hint-model-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 5px 8px; }
+.hint-model-row strong { color: #33475b; font-size: 0.78rem; }
+.selection-chip {
+  display: inline-flex;
+  padding: 2px 7px;
+  border: 1px solid #c6d2dd;
+  border-radius: 999px;
+  color: #596c7d;
+  background: #f3f6f9;
+  font-size: 0.69rem;
+  font-weight: 800;
+  line-height: 1.5;
+}
+.selected .selection-chip { color: #1b6642; border-color: #add8c1; background: #e2f3e9; }
+.unavailable .selection-chip { color: #765329; border-color: #e5d3b7; background: #fff7ec; }
+.hint-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 12px;
+  margin-top: 6px;
+  color: #607080;
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+.model-hint.unavailable .hint-metrics { color: #6c7280; }
+
+.section-extras, .legacy-judgment-record {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 0.83rem;
+  line-height: 1.55;
+}
+.section-extras summary, .legacy-judgment-record summary { cursor: pointer; font-weight: 700; }
+.section-extras .radio-list { margin-top: 10px; }
+.legacy-judgment-record { margin: 0 0 16px; background: #fff9ee; }
+#binaryReviewNotice { color: #775018; padding: 10px 12px; background: #fff9ee; border-radius: 8px; }
+
+@media (min-width: 1081px) {
+  .sidebar { top: 172px; max-height: calc(100vh - 196px); }
+}
+@media (max-width: 1050px) {
+  .method-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .algorithm-hints { padding: 10px; }
+  .assisted-notices { padding-top: 12px; }
+  .hint-snapshot, .migration-notice { padding: 10px 12px; }
+  .status-stack { gap: 7px; }
+}
+@media print {
+  .hint-toggle { display: none; }
+  .algorithm-hints, .method-hint-card { break-inside: avoid; }
+  .assisted-notices { padding: 10px 0; }
+}

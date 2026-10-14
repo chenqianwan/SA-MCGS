@@ -1,0 +1,2220 @@
+{
+  "clean": {
+    "pages": 27,
+    "labels": [
+      {
+        "key": "sec:intro",
+        "number": "1",
+        "page": 1,
+        "caption_or_section": "Introduction",
+        "anchor": "section.1"
+      },
+      {
+        "key": "sec:formulation",
+        "number": "2",
+        "page": 2,
+        "caption_or_section": "Task Formulation",
+        "anchor": "section.2"
+      },
+      {
+        "key": "sec:method",
+        "number": "3",
+        "page": 2,
+        "caption_or_section": "Method",
+        "anchor": "section.3"
+      },
+      {
+        "key": "sec:mcts_motivation",
+        "number": "3.1",
+        "page": 2,
+        "caption_or_section": "Why ordinary MCTS is not enough",
+        "anchor": "subsection.3.1"
+      },
+      {
+        "key": "fig:pipeline",
+        "number": "1",
+        "page": 3,
+        "caption_or_section": "\\samcgs {} pipeline for \\scc {} localization, local rollouts, relation-first evidence memory, and dynamic-core collapse.\\relax ",
+        "anchor": "figure.caption.1",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "tab:mcts_scc",
+        "number": "1",
+        "page": 3,
+        "caption_or_section": "Motivating ablation: ordinary TreeMCTS expands path copies and dilutes value estimates inside strongly connected components, whereas \\samcgs {} treats each \\scc {} as a localized reasoning unit.\\relax ",
+        "anchor": "table.caption.6",
+        "explicit_reference_count": 3
+      },
+      {
+        "key": "eq:objective",
+        "number": "2",
+        "page": 3,
+        "caption_or_section": "Objective",
+        "anchor": "equation.3.2"
+      },
+      {
+        "key": "eq:ucb",
+        "number": "4",
+        "page": 3,
+        "caption_or_section": "SCC-aware local rollouts",
+        "anchor": "equation.3.4"
+      },
+      {
+        "key": "fig:mcts_failure",
+        "number": "2",
+        "page": 4,
+        "caption_or_section": "Why vanilla TreeMCTS is ill-suited to \\scc {}s. Cyclic records create path-copy states that dilute the rollout budget and flatten value estimates.\\relax ",
+        "anchor": "figure.caption.5",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "eq:relation-prior",
+        "number": "5",
+        "page": 4,
+        "caption_or_section": "SCC-aware local rollouts",
+        "anchor": "equation.3.5"
+      },
+      {
+        "key": "eq:priority",
+        "number": "7",
+        "page": 4,
+        "caption_or_section": "Relation-first evidence memory",
+        "anchor": "equation.3.7"
+      },
+      {
+        "key": "sec:dynamic-core",
+        "number": "3.6",
+        "page": 5,
+        "caption_or_section": "Dynamic core compression",
+        "anchor": "subsection.3.6"
+      },
+      {
+        "key": "eq:core",
+        "number": "8",
+        "page": 5,
+        "caption_or_section": "Dynamic core compression",
+        "anchor": "equation.3.8"
+      },
+      {
+        "key": "alg:samcgs",
+        "number": "1",
+        "page": 5,
+        "caption_or_section": "\\samcgs {} for one strongly connected component\\relax ",
+        "anchor": "algorithm.1",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "sec:setup",
+        "number": "4",
+        "page": 5,
+        "caption_or_section": "Experimental Setup",
+        "anchor": "section.4"
+      },
+      {
+        "key": "sec:results",
+        "number": "5",
+        "page": 6,
+        "caption_or_section": "Main Results",
+        "anchor": "section.5"
+      },
+      {
+        "key": "sec:analysis",
+        "number": "6",
+        "page": 6,
+        "caption_or_section": "Analysis",
+        "anchor": "section.6"
+      },
+      {
+        "key": "sec:component_tests",
+        "number": "6.2",
+        "page": 6,
+        "caption_or_section": "Component ablations",
+        "anchor": "subsection.6.2"
+      },
+      {
+        "key": "sec:cost_analysis",
+        "number": "6.3",
+        "page": 6,
+        "caption_or_section": "Inference cost and prior sensitivity",
+        "anchor": "subsection.6.3"
+      },
+      {
+        "key": "tab:matched_main",
+        "number": "2",
+        "page": 7,
+        "caption_or_section": "\\revred {Comparison of One-shot, LEA, and \\samcgs {} across five models, each evaluated on the same 80 injected variants. All metrics are percentages. Bold marks the best value for each metric within a model, including ties.}\\relax ",
+        "anchor": "table.caption.9",
+        "explicit_reference_count": 2
+      },
+      {
+        "key": "tab:component_main",
+        "number": "3",
+        "page": 7,
+        "caption_or_section": "\\revred {GPT-4o component ablations. Stage-1 uses contemporaneous runs on 17 variants from 5 SEC sources; Stage-2 replays shared traces for 80 variants from 20 sources. Values are percentages; the stages use different controls.}\\relax ",
+        "anchor": "table.caption.11",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "tab:cost_main",
+        "number": "4",
+        "page": 7,
+        "caption_or_section": "\\revred {Contemporaneous cost--performance comparison on 12 sources, two models, and three methods (72 runs). \\riskall {} uses strict scoring. Calls and tokens are averaged across models and include observed recovery work.}\\relax ",
+        "anchor": "table.caption.12",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "sec:expert_main",
+        "number": "6.4",
+        "page": 7,
+        "caption_or_section": "Expert evidence and unmodified originals",
+        "anchor": "subsection.6.4"
+      },
+      {
+        "key": "fig:paired_case_outcomes",
+        "number": "3",
+        "page": 8,
+        "caption_or_section": "\\revred {Paired \\riskall {} outcomes for \\samcgs {} versus (a) One-shot and (b) LEA on the same 80 cases per model. Bars separate cases where complete evidence is retained by \\samcgs {} only (blue), both methods (light blue), the baseline only (orange), or neither method (gray). Net $\\Delta $ is the \\riskall {} difference between \\samcgs {} and the baseline, in percentage points.}\\relax ",
+        "anchor": "figure.caption.10",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "sec:related",
+        "number": "7",
+        "page": 8,
+        "caption_or_section": "Related Work",
+        "anchor": "section.7"
+      },
+      {
+        "key": "sec:conclusion",
+        "number": "8",
+        "page": 8,
+        "caption_or_section": "Conclusion",
+        "anchor": "section.8"
+      },
+      {
+        "key": "sec:limitations",
+        "number": "8",
+        "page": 9,
+        "caption_or_section": "Limitations",
+        "anchor": "section*.17"
+      },
+      {
+        "key": "app:diagnostics",
+        "number": "A",
+        "page": 11,
+        "caption_or_section": "Diagnostic Metrics and Ablation Definitions",
+        "anchor": "appendix.A"
+      },
+      {
+        "key": "sec:appendix_annotation",
+        "number": "B",
+        "page": 12,
+        "caption_or_section": "System-Blind Expert Annotation Audit",
+        "anchor": "appendix.B"
+      },
+      {
+        "key": "app:expert_extension",
+        "number": "B.2",
+        "page": 13,
+        "caption_or_section": "Expanded Paired Expert Audit",
+        "anchor": "subsection.B.2"
+      },
+      {
+        "key": "tab:expert_audit_results",
+        "number": "5",
+        "page": 14,
+        "caption_or_section": "System-blind expert audit results. Experts did not see system outputs, hidden roles, or model-generated hints during annotation.\\relax ",
+        "anchor": "table.caption.25",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "tab:expert_protocol",
+        "number": "6",
+        "page": 14,
+        "caption_or_section": "Expert-facing annotation tasks. These are the instructions used to elicit human judgments; internal roles and system outputs are used only for post-hoc analysis.\\relax ",
+        "anchor": "table.caption.27",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "tab:expert_example",
+        "number": "7",
+        "page": 15,
+        "caption_or_section": "Representative expert-audit example. \\revredreplace {Role names in the left column are added here for exposition; the annotators saw paragraph text and identifiers, not root/witness labels or system suggestions.}{Annotators saw paragraph text and identifiers, without hidden root/witness labels or system suggestions.}\\relax ",
+        "anchor": "table.caption.28",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "tab:expert_new_agreement",
+        "number": "8",
+        "page": 15,
+        "caption_or_section": "\\revred {Inter-annotator agreement before adjudication. E1/E2 covers all 42 presentations; E1/E3 and E2/E3 cover the 14 selected cases. Joint agreement requires both binary answers to match.}\\relax ",
+        "anchor": "table.caption.31",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "tab:expert_new_quality",
+        "number": "9",
+        "page": 16,
+        "caption_or_section": "\\revred {Expert-reference evidence quality on 24 newly annotated injected variants from 14 sources. Metrics are averaged within each source, then equally across sources, and reported as percentages. Brackets give source-SCC bootstrap 95\\% intervals (20,000 draws, seed 20260922). Validity counts are out of 24; all planned cases remain in metric denominators.}\\relax ",
+        "anchor": "table.caption.33",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "tab:expert_pre_negative",
+        "number": "10",
+        "page": 16,
+        "caption_or_section": "\\revred {Negative-source audit: false-positive assertions (FP), operational abstentions (Abs.), and invalid outputs (Inv.), each out of 18 sources. Initial and recovery outcomes are reported separately; invalid outputs do not count as abstentions.}\\relax ",
+        "anchor": "table.caption.35",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "sec:appendix_case",
+        "number": "C",
+        "page": 16,
+        "caption_or_section": "Representative Long-\\scc {} Case Study",
+        "anchor": "appendix.C"
+      },
+      {
+        "key": "fig:case",
+        "number": "4",
+        "page": 17,
+        "caption_or_section": "\\revredreplace {Representative long-\\scc {} collapse. The method searches a large component through local rollouts, accumulates relation-first evidence, and returns a compact risk subgraph that preserves repair-relevant endpoints.}{Comparison of three methods on the same 25-record BGB case with Gemini 2.5 Pro. Node positions are fixed across panels; filled markers indicate retained records and open markers indicate omitted records. Diamonds mark the root (\\S 505) and witness (\\S 491). The rows below report retained node counts and the four evaluation metrics.}\\relax ",
+        "anchor": "figure.caption.36",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "sec:appendix_algorithm",
+        "number": "D",
+        "page": 17,
+        "caption_or_section": "Core Algorithm Details",
+        "anchor": "appendix.D"
+      },
+      {
+        "key": "alg:appendix_scc_localized",
+        "number": "2",
+        "page": 17,
+        "caption_or_section": "\\scc {}-localized search\\relax ",
+        "anchor": "algorithm.2",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "alg:appendix_rollout",
+        "number": "3",
+        "page": 17,
+        "caption_or_section": "\\samcgs {} rollout inside one component\\relax ",
+        "anchor": "algorithm.3",
+        "explicit_reference_count": 0
+      },
+      {
+        "key": "alg:appendix_relation_memory",
+        "number": "4",
+        "page": 18,
+        "caption_or_section": "Relation-first evidence memory\\relax ",
+        "anchor": "algorithm.4",
+        "explicit_reference_count": 0
+      },
+      {
+        "key": "alg:appendix_dynamic_core",
+        "number": "5",
+        "page": 18,
+        "caption_or_section": "Dynamic core compression\\relax ",
+        "anchor": "algorithm.5",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "sec:appendix_formula_details",
+        "number": "E",
+        "page": 18,
+        "caption_or_section": "Formula Details for Evidence Updates",
+        "anchor": "appendix.E"
+      },
+      {
+        "key": "eq:node-update",
+        "number": "9",
+        "page": 18,
+        "caption_or_section": "Node and relation updates",
+        "anchor": "equation.E.9"
+      },
+      {
+        "key": "eq:relation-update",
+        "number": "10",
+        "page": 18,
+        "caption_or_section": "Node and relation updates",
+        "anchor": "equation.E.10"
+      },
+      {
+        "key": "eq:critical-pair",
+        "number": "11",
+        "page": 18,
+        "caption_or_section": "Relation priors and critical pairs",
+        "anchor": "equation.E.11"
+      },
+      {
+        "key": "eq:oc-rule",
+        "number": "12",
+        "page": 18,
+        "caption_or_section": "Online conflict signal",
+        "anchor": "equation.E.12"
+      },
+      {
+        "key": "eq:candidate-pool",
+        "number": "13",
+        "page": 18,
+        "caption_or_section": "Core candidate pool",
+        "anchor": "equation.E.13"
+      },
+      {
+        "key": "tab:prior_coefficients",
+        "number": "11",
+        "page": 19,
+        "caption_or_section": "Fixed search-prior coefficients used by \\samcgs {}. Higher values reflect more reliable or more directly repair-relevant evidence. Values were frozen before the locked evaluation and are not learned from the reported test cases.\\relax ",
+        "anchor": "table.caption.41",
+        "explicit_reference_count": 2
+      },
+      {
+        "key": "app:priors",
+        "number": "F",
+        "page": 19,
+        "caption_or_section": "Fixed Search-Prior Coefficients",
+        "anchor": "appendix.F"
+      },
+      {
+        "key": "sec:appendix_shared_rubric",
+        "number": "G",
+        "page": 19,
+        "caption_or_section": "Shared Risk Rubric Prompt",
+        "anchor": "appendix.G"
+      },
+      {
+        "key": "sec:appendix_prompts",
+        "number": "H",
+        "page": 20,
+        "caption_or_section": "Prompt Templates",
+        "anchor": "appendix.H"
+      },
+      {
+        "key": "sec:appendix_datasets",
+        "number": "I",
+        "page": 20,
+        "caption_or_section": "Dataset and Injection Details",
+        "anchor": "appendix.I"
+      },
+      {
+        "key": "tab:dataset_processing",
+        "number": "12",
+        "page": 21,
+        "caption_or_section": "\\revnewreplace {Dataset construction and processing.}{Domain coverage, dataset construction, and evaluation roles.} All domains are represented as directed record graphs before \\scc {} localization.\\relax ",
+        "anchor": "table.caption.47",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "tab:domains",
+        "number": "12",
+        "page": 21,
+        "caption_or_section": "\\revnewreplace {Dataset construction and processing.}{Domain coverage, dataset construction, and evaluation roles.} All domains are represented as directed record graphs before \\scc {} localization.\\relax ",
+        "anchor": "table.caption.47",
+        "explicit_reference_count": 0
+      },
+      {
+        "key": "tab:injection_templates",
+        "number": "13",
+        "page": 21,
+        "caption_or_section": "Critical structural injection templates. All templates edit existing records only and avoid explicit defect labels.\\relax ",
+        "anchor": "table.caption.50",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "sec:appendix_experiments",
+        "number": "J",
+        "page": 21,
+        "caption_or_section": "Additional Experimental Details",
+        "anchor": "appendix.J"
+      },
+      {
+        "key": "app:size_breakdowns",
+        "number": "J.1",
+        "page": 21,
+        "caption_or_section": "Performance by SCC size",
+        "anchor": "subsection.J.1"
+      },
+      {
+        "key": "app:budget_prefix",
+        "number": "J.2",
+        "page": 21,
+        "caption_or_section": "Budget-prefix convergence",
+        "anchor": "subsection.J.2"
+      },
+      {
+        "key": "tab:appendix_breakdowns",
+        "number": "14",
+        "page": 22,
+        "caption_or_section": "Five-model results by model, domain, and original SCC size. All metrics are percentages. Domain and size summaries pool the same five models. Bold values mark the best method within each group, including ties.\\relax ",
+        "anchor": "table.caption.53",
+        "explicit_reference_count": 3
+      },
+      {
+        "key": "fig:main_metrics",
+        "number": "5",
+        "page": 22,
+        "caption_or_section": "\\revredreplace {Main critical-\\scc {} results on 320 model-case pairs per method. Panel A compares \\samcgs {} with oracle-risk \\naive {}, an oracle-risk Top-3 selection over ten full-\\scc {} attempts; Panel B gives a compact \\scc {}-size breakdown of endpoint retention and compression.}{\\samcgs {} gains over LEA by \\scc {} size: (a) \\rootthree {} and (b) \\riskall {}. Cells show percentage-point differences for each model and size group (36 small, 24 medium, and 20 large cases per model). Blue indicates gains and orange indicates losses on a shared zero-centered scale. Figure~\\ref {fig:absolute_size_breakdowns} reports absolute performance for all three methods.}\\relax ",
+        "anchor": "figure.caption.54",
+        "explicit_reference_count": 2
+      },
+      {
+        "key": "fig:absolute_size_breakdowns",
+        "number": "6",
+        "page": 23,
+        "caption_or_section": "Performance by \\scc {} size. Columns correspond to models and rows to (a) \\rootthree {} and (b) \\riskall {}. All three methods use the same small ($\\leq 12$ nodes), medium (14--20), and large ($\\geq 24$) case groups. Gray circles, orange squares, and blue triangles denote One-shot, LEA, and \\samcgs {}, respectively.\\relax ",
+        "anchor": "figure.caption.55",
+        "explicit_reference_count": 3
+      },
+      {
+        "key": "fig:convergence",
+        "number": "7",
+        "page": 23,
+        "caption_or_section": "\\revredreplace {Budget-prefix convergence: localization and evidence coverage improve with rollout budget while the retained core stays compact.}{GPT-4o evidence retention and compression across 60 rollout prefixes on the same 80 cases. The solid curve represents \\samcgs {}; horizontal lines indicate the final One-shot and LEA scores. Each prefix is reconstructed from stored search evidence using the final-core selection rule. Results at budget 60 match the final outputs.}\\relax ",
+        "anchor": "figure.caption.56",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "app:revision_experiments",
+        "number": "K",
+        "page": 24,
+        "caption_or_section": "Additional Baseline, Ablation, and Cost Experiments",
+        "anchor": "appendix.K"
+      },
+      {
+        "key": "app:revision_lea",
+        "number": "K.1",
+        "page": 24,
+        "caption_or_section": "Local Evidence Aggregation Protocol",
+        "anchor": "subsection.K.1"
+      },
+      {
+        "key": "app:revision_stage1",
+        "number": "K.2",
+        "page": 24,
+        "caption_or_section": "Stage-1 Component Ablations",
+        "anchor": "subsection.K.2"
+      },
+      {
+        "key": "app:revision_stage2",
+        "number": "K.3",
+        "page": 25,
+        "caption_or_section": "Stage-2 Paired Core Replay",
+        "anchor": "subsection.K.3"
+      },
+      {
+        "key": "app:revision_cost",
+        "number": "K.4",
+        "page": 25,
+        "caption_or_section": "Contemporaneous Cost and Reliability",
+        "anchor": "subsection.K.4"
+      },
+      {
+        "key": "eq:revision_parallel_time",
+        "number": "16",
+        "page": 25,
+        "caption_or_section": "Contemporaneous Cost and Reliability",
+        "anchor": "equation.K.16"
+      },
+      {
+        "key": "tab:revision_stage1",
+        "number": "15",
+        "page": 26,
+        "caption_or_section": "\\revred {Stage-1 ablations with GPT-4o. Root@3, Any (Risk-any), All (Risk-all), and compression (Comp.) are percentages; $|H|$ is mean core size. Panel A compares four conditions contemporaneously. Panel B combines 63 historical variants with verified input identities and the 17 rerun variants for each condition, providing a descriptive comparison across batches.}\\relax ",
+        "anchor": "table.caption.58",
+        "explicit_reference_count": 3
+      },
+      {
+        "key": "tab:revision_stage1_cost",
+        "number": "16",
+        "page": 26,
+        "caption_or_section": "\\revred {Costs for the 17-case contemporaneous Stage-1 comparison. Calls, tokens, and estimated USD are totals for each condition; time is mean seconds per case. Token costs use the frozen gateway prices.}\\relax ",
+        "anchor": "table.caption.59",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "tab:revision_stage2",
+        "number": "17",
+        "page": 26,
+        "caption_or_section": "\\revred {Stage-2 replay on shared search trajectories. Rates and compression are percentages. Root@3 is fixed by the shared trajectory and is unaffected by the core policy.}\\relax ",
+        "anchor": "table.caption.60",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "app:revision_prior",
+        "number": "K.5",
+        "page": 26,
+        "caption_or_section": "Relation-Prior Sensitivity",
+        "anchor": "subsection.K.5"
+      },
+      {
+        "key": "app:revision_provenance",
+        "number": "K.6",
+        "page": 26,
+        "caption_or_section": "Identity and Statistical Conventions",
+        "anchor": "subsection.K.6"
+      },
+      {
+        "key": "tab:revision_cost_full",
+        "number": "18",
+        "page": 27,
+        "caption_or_section": "\\revred {Cost, performance, and reliability on 12 source SCCs for each model--method pair. All binary rates use a denominator of 12, with invalid outputs counted as failures. Comp. is mean compression over valid outputs; parentheses give the denominator. Calls and tokens include recorded recovery usage and are divided by 12. Tokens are in thousands. Time is recorded runtime per case; parallel speedup was not measured.}\\relax ",
+        "anchor": "table.caption.61",
+        "explicit_reference_count": 1
+      },
+      {
+        "key": "tab:revision_prior",
+        "number": "19",
+        "page": 27,
+        "caption_or_section": "\\revred {Exploratory sensitivity to the relation-prior multiplier on four source SCCs per row. Root@3 and Risk-all are percentages; Risk-any is 100\\% throughout.}\\relax ",
+        "anchor": "table.caption.62",
+        "explicit_reference_count": 1
+      }
+    ],
+    "duplicate_label_keys": [],
+    "named_destinations": 269,
+    "internal_named_links": 258,
+    "broken_internal_links": [],
+    "label_anchor_page_mismatches": [],
+    "undefined_or_duplicate_warnings": []
+  },
+  "marked": {
+    "pages": 34,
+    "labels": [
+      {
+        "key": "sec:intro",
+        "number": "1",
+        "page": 1,
+        "caption_or_section": "Introduction",
+        "anchor": "section.1"
+      },
+      {
+        "key": "sec:formulation",
+        "number": "2",
+        "page": 3,
+        "caption_or_section": "Task Formulation",
+        "anchor": "section.2"
+      },
+      {
+        "key": "sec:method",
+        "number": "3",
+        "page": 3,
+        "caption_or_section": "Method",
+        "anchor": "section.3"
+      },
+      {
+        "key": "sec:mcts_motivation",
+        "number": "3.1",
+        "page": 3,
+        "caption_or_section": "Why ordinary MCTS is not enough",
+        "anchor": "subsection.3.1"
+      },
+      {
+        "key": "fig:pipeline",
+        "number": "1",
+        "page": 4,
+        "caption_or_section": "\\samcgs {} pipeline for \\scc {} localization, local rollouts, relation-first evidence memory, and dynamic-core collapse.\\relax ",
+        "anchor": "figure.caption.1"
+      },
+      {
+        "key": "fig:mcts_failure",
+        "number": "2",
+        "page": 4,
+        "caption_or_section": "Why vanilla TreeMCTS is ill-suited to \\scc {}s. Cyclic records create path-copy states that dilute the rollout budget and flatten value estimates.\\relax ",
+        "anchor": "figure.caption.5"
+      },
+      {
+        "key": "tab:mcts_scc",
+        "number": "1",
+        "page": 4,
+        "caption_or_section": "Motivating ablation: ordinary TreeMCTS expands path copies and dilutes value estimates inside strongly connected components, whereas \\samcgs {} treats each \\scc {} as a localized reasoning unit.\\relax ",
+        "anchor": "table.caption.6"
+      },
+      {
+        "key": "eq:objective",
+        "number": "2",
+        "page": 5,
+        "caption_or_section": "Objective",
+        "anchor": "equation.3.2"
+      },
+      {
+        "key": "eq:ucb",
+        "number": "4",
+        "page": 5,
+        "caption_or_section": "SCC-aware local rollouts",
+        "anchor": "equation.3.4"
+      },
+      {
+        "key": "eq:relation-prior",
+        "number": "5",
+        "page": 5,
+        "caption_or_section": "SCC-aware local rollouts",
+        "anchor": "equation.3.5"
+      },
+      {
+        "key": "eq:priority",
+        "number": "7",
+        "page": 5,
+        "caption_or_section": "Relation-first evidence memory",
+        "anchor": "equation.3.7"
+      },
+      {
+        "key": "sec:dynamic-core",
+        "number": "3.6",
+        "page": 6,
+        "caption_or_section": "Dynamic core compression",
+        "anchor": "subsection.3.6"
+      },
+      {
+        "key": "alg:samcgs",
+        "number": "1",
+        "page": 6,
+        "caption_or_section": "\\samcgs {} for one strongly connected component\\relax ",
+        "anchor": "algorithm.1"
+      },
+      {
+        "key": "eq:core",
+        "number": "8",
+        "page": 6,
+        "caption_or_section": "Dynamic core compression",
+        "anchor": "equation.3.8"
+      },
+      {
+        "key": "sec:setup",
+        "number": "4",
+        "page": 7,
+        "caption_or_section": "Experimental Setup",
+        "anchor": "section.4"
+      },
+      {
+        "key": "tab:domains:previous",
+        "number": "2",
+        "page": 8,
+        "caption_or_section": "\\revdel {Domain coverage. The benchmark spans technical dependencies, public regulatory disclosures, official statutory references, and expert-labeled commercial contracts.}\\relax ",
+        "anchor": "table.caption.7"
+      },
+      {
+        "key": "sec:results",
+        "number": "5",
+        "page": 8,
+        "caption_or_section": "Main Results",
+        "anchor": "section.5"
+      },
+      {
+        "key": "tab:matched_main",
+        "number": "3",
+        "page": 9,
+        "caption_or_section": "\\revred {Comparison of One-shot, LEA, and \\samcgs {} across five models, each evaluated on the same 80 injected variants. All metrics are percentages. Bold marks the best value for each metric within a model, including ties.}\\relax ",
+        "anchor": "table.caption.10"
+      },
+      {
+        "key": "sec:analysis",
+        "number": "6",
+        "page": 9,
+        "caption_or_section": "Analysis",
+        "anchor": "section.6"
+      },
+      {
+        "key": "sec:component_tests",
+        "number": "6.4",
+        "page": 9,
+        "caption_or_section": "Component ablations",
+        "anchor": "subsection.6.4"
+      },
+      {
+        "key": "fig:paired_case_outcomes",
+        "number": "3",
+        "page": 10,
+        "caption_or_section": "\\revred {Paired \\riskall {} outcomes for \\samcgs {} versus (a) One-shot and (b) LEA on the same 80 cases per model. Bars separate cases where complete evidence is retained by \\samcgs {} only (blue), both methods (light blue), the baseline only (orange), or neither method (gray). Net $\\Delta $ is the \\riskall {} difference between \\samcgs {} and the baseline, in percentage points.}\\relax ",
+        "anchor": "figure.caption.11"
+      },
+      {
+        "key": "tab:component_main",
+        "number": "4",
+        "page": 10,
+        "caption_or_section": "\\revred {GPT-4o component ablations. Stage-1 uses contemporaneous runs on 17 variants from 5 SEC sources; Stage-2 replays shared traces for 80 variants from 20 sources. Values are percentages; the stages use different controls.}\\relax ",
+        "anchor": "table.caption.12"
+      },
+      {
+        "key": "sec:cost_analysis",
+        "number": "6.5",
+        "page": 10,
+        "caption_or_section": "Inference cost and prior sensitivity",
+        "anchor": "subsection.6.5"
+      },
+      {
+        "key": "tab:cost_main",
+        "number": "5",
+        "page": 10,
+        "caption_or_section": "\\revred {Contemporaneous cost--performance comparison on 12 sources, two models, and three methods (72 runs). \\riskall {} uses strict scoring. Calls and tokens are averaged across models and include observed recovery work.}\\relax ",
+        "anchor": "table.caption.13"
+      },
+      {
+        "key": "sec:expert_main",
+        "number": "6.6",
+        "page": 10,
+        "caption_or_section": "Expert evidence and unmodified originals",
+        "anchor": "subsection.6.6"
+      },
+      {
+        "key": "sec:related",
+        "number": "7",
+        "page": 11,
+        "caption_or_section": "Related Work",
+        "anchor": "section.7"
+      },
+      {
+        "key": "sec:conclusion",
+        "number": "8",
+        "page": 12,
+        "caption_or_section": "Conclusion",
+        "anchor": "section.8"
+      },
+      {
+        "key": "sec:limitations",
+        "number": "8",
+        "page": 12,
+        "caption_or_section": "Limitations",
+        "anchor": "section*.18"
+      },
+      {
+        "key": "app:diagnostics",
+        "number": "A",
+        "page": 16,
+        "caption_or_section": "Diagnostic Metrics and Ablation Definitions",
+        "anchor": "appendix.A"
+      },
+      {
+        "key": "sec:appendix_annotation",
+        "number": "B",
+        "page": 16,
+        "caption_or_section": "System-Blind Expert Annotation Audit",
+        "anchor": "appendix.B"
+      },
+      {
+        "key": "app:expert_extension",
+        "number": "B.2",
+        "page": 17,
+        "caption_or_section": "Expanded Paired Expert Audit",
+        "anchor": "subsection.B.2"
+      },
+      {
+        "key": "tab:expert_audit_results",
+        "number": "6",
+        "page": 18,
+        "caption_or_section": "System-blind expert audit results. Experts did not see system outputs, hidden roles, or model-generated hints during annotation.\\relax ",
+        "anchor": "table.caption.26"
+      },
+      {
+        "key": "tab:expert_protocol",
+        "number": "7",
+        "page": 18,
+        "caption_or_section": "Expert-facing annotation tasks. These are the instructions used to elicit human judgments; internal roles and system outputs are used only for post-hoc analysis.\\relax ",
+        "anchor": "table.caption.28"
+      },
+      {
+        "key": "tab:expert_example",
+        "number": "8",
+        "page": 19,
+        "caption_or_section": "Representative expert-audit example. \\revredreplace {Role names in the left column are added here for exposition; the annotators saw paragraph text and identifiers, not root/witness labels or system suggestions.}{Annotators saw paragraph text and identifiers, without hidden root/witness labels or system suggestions.}\\relax ",
+        "anchor": "table.caption.29"
+      },
+      {
+        "key": "tab:expert_new_agreement",
+        "number": "9",
+        "page": 19,
+        "caption_or_section": "\\revred {Inter-annotator agreement before adjudication. E1/E2 covers all 42 presentations; E1/E3 and E2/E3 cover the 14 selected cases. Joint agreement requires both binary answers to match.}\\relax ",
+        "anchor": "table.caption.32"
+      },
+      {
+        "key": "tab:expert_new_quality",
+        "number": "10",
+        "page": 20,
+        "caption_or_section": "\\revred {Expert-reference evidence quality on 24 newly annotated injected variants from 14 sources. Metrics are averaged within each source, then equally across sources, and reported as percentages. Brackets give source-SCC bootstrap 95\\% intervals (20,000 draws, seed 20260922). Validity counts are out of 24; all planned cases remain in metric denominators.}\\relax ",
+        "anchor": "table.caption.34"
+      },
+      {
+        "key": "tab:expert_pre_negative",
+        "number": "11",
+        "page": 20,
+        "caption_or_section": "\\revred {Negative-source audit: false-positive assertions (FP), operational abstentions (Abs.), and invalid outputs (Inv.), each out of 18 sources. Initial and recovery outcomes are reported separately; invalid outputs do not count as abstentions.}\\relax ",
+        "anchor": "table.caption.36"
+      },
+      {
+        "key": "sec:appendix_case",
+        "number": "C",
+        "page": 20,
+        "caption_or_section": "Representative Long-\\scc {} Case Study",
+        "anchor": "appendix.C"
+      },
+      {
+        "key": "fig:case",
+        "number": "4",
+        "page": 21,
+        "caption_or_section": "\\revredreplace {Representative long-\\scc {} collapse. The method searches a large component through local rollouts, accumulates relation-first evidence, and returns a compact risk subgraph that preserves repair-relevant endpoints.}{Comparison of three methods on the same 25-record BGB case with Gemini 2.5 Pro. Node positions are fixed across panels; filled markers indicate retained records and open markers indicate omitted records. Diamonds mark the root (\\S 505) and witness (\\S 491). The rows below report retained node counts and the four evaluation metrics.}\\relax ",
+        "anchor": "figure.caption.37"
+      },
+      {
+        "key": "sec:appendix_algorithm",
+        "number": "D",
+        "page": 21,
+        "caption_or_section": "Core Algorithm Details",
+        "anchor": "appendix.D"
+      },
+      {
+        "key": "alg:appendix_scc_localized",
+        "number": "2",
+        "page": 21,
+        "caption_or_section": "\\scc {}-localized search\\relax ",
+        "anchor": "algorithm.2"
+      },
+      {
+        "key": "alg:appendix_rollout",
+        "number": "3",
+        "page": 21,
+        "caption_or_section": "\\samcgs {} rollout inside one component\\relax ",
+        "anchor": "algorithm.3"
+      },
+      {
+        "key": "alg:appendix_relation_memory",
+        "number": "4",
+        "page": 22,
+        "caption_or_section": "Relation-first evidence memory\\relax ",
+        "anchor": "algorithm.4"
+      },
+      {
+        "key": "alg:appendix_dynamic_core",
+        "number": "5",
+        "page": 22,
+        "caption_or_section": "Dynamic core compression\\relax ",
+        "anchor": "algorithm.5"
+      },
+      {
+        "key": "sec:appendix_formula_details",
+        "number": "E",
+        "page": 22,
+        "caption_or_section": "Formula Details for Evidence Updates",
+        "anchor": "appendix.E"
+      },
+      {
+        "key": "eq:node-update",
+        "number": "9",
+        "page": 22,
+        "caption_or_section": "Node and relation updates",
+        "anchor": "equation.E.9"
+      },
+      {
+        "key": "eq:relation-update",
+        "number": "10",
+        "page": 22,
+        "caption_or_section": "Node and relation updates",
+        "anchor": "equation.E.10"
+      },
+      {
+        "key": "eq:critical-pair",
+        "number": "11",
+        "page": 22,
+        "caption_or_section": "Relation priors and critical pairs",
+        "anchor": "equation.E.11"
+      },
+      {
+        "key": "eq:oc-rule",
+        "number": "12",
+        "page": 22,
+        "caption_or_section": "Online conflict signal",
+        "anchor": "equation.E.12"
+      },
+      {
+        "key": "eq:candidate-pool",
+        "number": "13",
+        "page": 22,
+        "caption_or_section": "Core candidate pool",
+        "anchor": "equation.E.13"
+      },
+      {
+        "key": "tab:prior_coefficients",
+        "number": "12",
+        "page": 23,
+        "caption_or_section": "Fixed search-prior coefficients used by \\samcgs {}. Higher values reflect more reliable or more directly repair-relevant evidence. Values were frozen before the locked evaluation and are not learned from the reported test cases.\\relax ",
+        "anchor": "table.caption.42"
+      },
+      {
+        "key": "app:priors",
+        "number": "F",
+        "page": 23,
+        "caption_or_section": "Fixed Search-Prior Coefficients",
+        "anchor": "appendix.F"
+      },
+      {
+        "key": "sec:appendix_shared_rubric",
+        "number": "G",
+        "page": 23,
+        "caption_or_section": "Shared Risk Rubric Prompt",
+        "anchor": "appendix.G"
+      },
+      {
+        "key": "sec:appendix_prompts",
+        "number": "H",
+        "page": 24,
+        "caption_or_section": "Prompt Templates",
+        "anchor": "appendix.H"
+      },
+      {
+        "key": "sec:appendix_datasets",
+        "number": "I",
+        "page": 24,
+        "caption_or_section": "Dataset and Injection Details",
+        "anchor": "appendix.I"
+      },
+      {
+        "key": "tab:dataset_processing",
+        "number": "13",
+        "page": 25,
+        "caption_or_section": "\\revnewreplace {Dataset construction and processing.}{Domain coverage, dataset construction, and evaluation roles.} All domains are represented as directed record graphs before \\scc {} localization.\\relax ",
+        "anchor": "table.caption.48"
+      },
+      {
+        "key": "tab:domains",
+        "number": "13",
+        "page": 25,
+        "caption_or_section": "\\revnewreplace {Dataset construction and processing.}{Domain coverage, dataset construction, and evaluation roles.} All domains are represented as directed record graphs before \\scc {} localization.\\relax ",
+        "anchor": "table.caption.48"
+      },
+      {
+        "key": "tab:injection_templates",
+        "number": "14",
+        "page": 26,
+        "caption_or_section": "Critical structural injection templates. All templates edit existing records only and avoid explicit defect labels.\\relax ",
+        "anchor": "table.caption.51"
+      },
+      {
+        "key": "sec:appendix_experiments",
+        "number": "J",
+        "page": 26,
+        "caption_or_section": "Additional Experimental Details",
+        "anchor": "appendix.J"
+      },
+      {
+        "key": "app:size_breakdowns",
+        "number": "J.1",
+        "page": 26,
+        "caption_or_section": "Performance by SCC size",
+        "anchor": "subsection.J.1"
+      },
+      {
+        "key": "app:budget_prefix",
+        "number": "J.2",
+        "page": 26,
+        "caption_or_section": "Budget-prefix convergence",
+        "anchor": "subsection.J.2"
+      },
+      {
+        "key": "tab:reliability",
+        "number": "15",
+        "page": 27,
+        "caption_or_section": "\\revdel {Output reliability audit. Boosted \\naive {} has both a raw-attempt denominator and a model-case denominator; the latter counts cases with at least one valid full-\\scc {} generation.}\\relax ",
+        "anchor": "table.caption.55"
+      },
+      {
+        "key": "tab:boosted_selectors",
+        "number": "16",
+        "page": 27,
+        "caption_or_section": "\\revdel {Boosted \\naive {} selector comparison. Oracle selectors use ground-truth evaluation metrics for selection; oracle-risk Top-3 is the main oracle-risk baseline, while self Top-3 is the non-oracle boosted selector.}\\relax ",
+        "anchor": "table.caption.56"
+      },
+      {
+        "key": "fig:naive_burden",
+        "number": "5",
+        "page": 27,
+        "caption_or_section": "\\revdel {Naive output-burden control. Reducing the output schema improves availability and recovers some risk signal, but it does not close the endpoint-retention gap on long CUAD components.}\\relax ",
+        "anchor": "figure.caption.57"
+      },
+      {
+        "key": "fig:main_metrics",
+        "number": "6",
+        "page": 27,
+        "caption_or_section": "\\revredreplace {Main critical-\\scc {} results on 320 model-case pairs per method. Panel A compares \\samcgs {} with oracle-risk \\naive {}, an oracle-risk Top-3 selection over ten full-\\scc {} attempts; Panel B gives a compact \\scc {}-size breakdown of endpoint retention and compression.}{\\samcgs {} gains over LEA by \\scc {} size: (a) \\rootthree {} and (b) \\riskall {}. Cells show percentage-point differences for each model and size group (36 small, 24 medium, and 20 large cases per model). Blue indicates gains and orange indicates losses on a shared zero-centered scale. Figure~\\ref {fig:absolute_size_breakdowns} reports absolute performance for all three methods.}\\relax ",
+        "anchor": "figure.caption.60"
+      },
+      {
+        "key": "tab:appendix_breakdowns:previous",
+        "number": "17",
+        "page": 28,
+        "caption_or_section": "\\revdel {Supplementary case and result breakdowns. ``Zero'' counts boosted \\naive {} model-cases with no valid full-\\scc {} generation. CUAD concentrates long-context and output-schema failures, where generations may time out or become unparseable through incomplete, duplicate, or invalid rankings.}\\relax ",
+        "anchor": "table.caption.58"
+      },
+      {
+        "key": "tab:appendix_breakdowns",
+        "number": "18",
+        "page": 29,
+        "caption_or_section": "Five-model results by model, domain, and original SCC size. All metrics are percentages. Domain and size summaries pool the same five models. Bold values mark the best method within each group, including ties.\\relax ",
+        "anchor": "table.caption.59"
+      },
+      {
+        "key": "fig:absolute_size_breakdowns",
+        "number": "7",
+        "page": 29,
+        "caption_or_section": "Performance by \\scc {} size. Columns correspond to models and rows to (a) \\rootthree {} and (b) \\riskall {}. All three methods use the same small ($\\leq 12$ nodes), medium (14--20), and large ($\\geq 24$) case groups. Gray circles, orange squares, and blue triangles denote One-shot, LEA, and \\samcgs {}, respectively.\\relax ",
+        "anchor": "figure.caption.61"
+      },
+      {
+        "key": "fig:convergence",
+        "number": "8",
+        "page": 30,
+        "caption_or_section": "\\revredreplace {Budget-prefix convergence: localization and evidence coverage improve with rollout budget while the retained core stays compact.}{GPT-4o evidence retention and compression across 60 rollout prefixes on the same 80 cases. The solid curve represents \\samcgs {}; horizontal lines indicate the final One-shot and LEA scores. Each prefix is reconstructed from stored search evidence using the final-core selection rule. Results at budget 60 match the final outputs.}\\relax ",
+        "anchor": "figure.caption.62"
+      },
+      {
+        "key": "app:revision_experiments",
+        "number": "K",
+        "page": 31,
+        "caption_or_section": "Additional Baseline, Ablation, and Cost Experiments",
+        "anchor": "appendix.K"
+      },
+      {
+        "key": "app:revision_lea",
+        "number": "K.1",
+        "page": 31,
+        "caption_or_section": "Local Evidence Aggregation Protocol",
+        "anchor": "subsection.K.1"
+      },
+      {
+        "key": "app:revision_stage1",
+        "number": "K.2",
+        "page": 31,
+        "caption_or_section": "Stage-1 Component Ablations",
+        "anchor": "subsection.K.2"
+      },
+      {
+        "key": "app:revision_stage2",
+        "number": "K.3",
+        "page": 32,
+        "caption_or_section": "Stage-2 Paired Core Replay",
+        "anchor": "subsection.K.3"
+      },
+      {
+        "key": "app:revision_cost",
+        "number": "K.4",
+        "page": 32,
+        "caption_or_section": "Contemporaneous Cost and Reliability",
+        "anchor": "subsection.K.4"
+      },
+      {
+        "key": "eq:revision_parallel_time",
+        "number": "16",
+        "page": 32,
+        "caption_or_section": "Contemporaneous Cost and Reliability",
+        "anchor": "equation.K.16"
+      },
+      {
+        "key": "tab:revision_stage1",
+        "number": "19",
+        "page": 33,
+        "caption_or_section": "\\revred {Stage-1 ablations with GPT-4o. Root@3, Any (Risk-any), All (Risk-all), and compression (Comp.) are percentages; $|H|$ is mean core size. Panel A compares four conditions contemporaneously. Panel B combines 63 historical variants with verified input identities and the 17 rerun variants for each condition, providing a descriptive comparison across batches.}\\relax ",
+        "anchor": "table.caption.64"
+      },
+      {
+        "key": "tab:revision_stage1_cost",
+        "number": "20",
+        "page": 33,
+        "caption_or_section": "\\revred {Costs for the 17-case contemporaneous Stage-1 comparison. Calls, tokens, and estimated USD are totals for each condition; time is mean seconds per case. Token costs use the frozen gateway prices.}\\relax ",
+        "anchor": "table.caption.65"
+      },
+      {
+        "key": "tab:revision_stage2",
+        "number": "21",
+        "page": 33,
+        "caption_or_section": "\\revred {Stage-2 replay on shared search trajectories. Rates and compression are percentages. Root@3 is fixed by the shared trajectory and is unaffected by the core policy.}\\relax ",
+        "anchor": "table.caption.66"
+      },
+      {
+        "key": "app:revision_prior",
+        "number": "K.5",
+        "page": 33,
+        "caption_or_section": "Relation-Prior Sensitivity",
+        "anchor": "subsection.K.5"
+      },
+      {
+        "key": "app:revision_provenance",
+        "number": "K.6",
+        "page": 33,
+        "caption_or_section": "Identity and Statistical Conventions",
+        "anchor": "subsection.K.6"
+      },
+      {
+        "key": "tab:revision_cost_full",
+        "number": "22",
+        "page": 34,
+        "caption_or_section": "\\revred {Cost, performance, and reliability on 12 source SCCs for each model--method pair. All binary rates use a denominator of 12, with invalid outputs counted as failures. Comp. is mean compression over valid outputs; parentheses give the denominator. Calls and tokens include recorded recovery usage and are divided by 12. Tokens are in thousands. Time is recorded runtime per case; parallel speedup was not measured.}\\relax ",
+        "anchor": "table.caption.67"
+      },
+      {
+        "key": "tab:revision_prior",
+        "number": "23",
+        "page": 34,
+        "caption_or_section": "\\revred {Exploratory sensitivity to the relation-prior multiplier on four source SCCs per row. Root@3 and Risk-all are percentages; Risk-any is 100\\% throughout.}\\relax ",
+        "anchor": "table.caption.68"
+      }
+    ],
+    "duplicate_label_keys": [],
+    "named_destinations": 284,
+    "internal_named_links": 349,
+    "broken_internal_links": [],
+    "label_anchor_page_mismatches": [],
+    "undefined_or_duplicate_warnings": []
+  },
+  "active_clean_refs": [
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 85,
+      "key": "fig:pipeline",
+      "context": "ections as evidence accumulates, producing a compact risk subgraph for inspection (Figure~\\ref{fig:pipeline}).} Our contributions are: \\begin{itemize}[leftmargin=*,itemsep=2pt] \\item",
+      "destination": {
+        "key": "fig:pipeline",
+        "number": "1",
+        "page": 3,
+        "caption_or_section": "\\samcgs {} pipeline for \\scc {} localization, local rollouts, relation-first evidence memory, and dynamic-core collapse.\\relax ",
+        "anchor": "figure.caption.1",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 118,
+      "key": "app:diagnostics",
+      "context": "d{itemize} We report effective compression and effective \\oc{} as diagnostics in Appendix~\\ref{app:diagnostics}; they are not primary success metrics. \\revred{An unmodified component is a source \\scc{}; each con",
+      "destination": {
+        "key": "app:diagnostics",
+        "number": "A",
+        "page": 11,
+        "caption_or_section": "Diagnostic Metrics and Ablation Definitions",
+        "anchor": "appendix.A"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 134,
+      "key": "fig:mcts_failure",
+      "context": "{Figure~\\ref{fig:mcts_failure} contrasts path-indexed TreeMCTS with \\scc{}-localized search. With matched rollout budgets, TreeMCT",
+      "destination": {
+        "key": "fig:mcts_failure",
+        "number": "2",
+        "page": 4,
+        "caption_or_section": "Why vanilla TreeMCTS is ill-suited to \\scc {}s. Cyclic records create path-copy states that dilute the rollout budget and flatten value estimates.\\relax ",
+        "anchor": "figure.caption.5",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 134,
+      "key": "tab:mcts_scc",
+      "context": "pansion to 1.0 times the component size and increases Q-spread from 0.044 to 0.371. Table~\\ref{tab:mcts_scc} includes the acyclic control; Appendix~\\ref{app:diagnostics} defines the diagnostic setup and metri",
+      "destination": {
+        "key": "tab:mcts_scc",
+        "number": "1",
+        "page": 3,
+        "caption_or_section": "Motivating ablation: ordinary TreeMCTS expands path copies and dilutes value estimates inside strongly connected components, whereas \\samcgs {} treats each \\scc {} as a localized reasoning unit.\\relax ",
+        "anchor": "table.caption.6",
+        "explicit_reference_count": 3
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 134,
+      "key": "app:diagnostics",
+      "context": "read from 0.044 to 0.371. Table~\\ref{tab:mcts_scc} includes the acyclic control; Appendix~\\ref{app:diagnostics} defines the diagnostic setup and metrics.} \\begin{figure*}[!t] \\centering \\includegraphics",
+      "destination": {
+        "key": "app:diagnostics",
+        "number": "A",
+        "page": 11,
+        "caption_or_section": "Diagnostic Metrics and Ablation Definitions",
+        "anchor": "appendix.A"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 201,
+      "key": "app:priors",
+      "context": "ct evidence. Weights $w$ are fixed before the locked evaluation and reported in Appendix~\\ref{app:priors}. The decay term in Eq.~\\ref{eq:ucb} prevents an early prior from dominating after sufficient node",
+      "destination": {
+        "key": "app:priors",
+        "number": "F",
+        "page": 19,
+        "caption_or_section": "Fixed Search-Prior Coefficients",
+        "anchor": "appendix.F"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 201,
+      "key": "eq:ucb",
+      "context": "e the locked evaluation and reported in Appendix~\\ref{app:priors}. The decay term in Eq.~\\ref{eq:ucb} prevents an early prior from dominating after sufficient node or edge samples. Together, these cho",
+      "destination": {
+        "key": "eq:ucb",
+        "number": "4",
+        "page": 3,
+        "caption_or_section": "SCC-aware local rollouts",
+        "anchor": "equation.3.4"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 209,
+      "key": "sec:appendix_formula_details",
+      "context": "e is updated by running averages and relation evidence by smoothed pair support. Appendix~\\ref{sec:appendix_formula_details} gives the exact update equations. Let $r^-_t(v)$ and $r^+_t(v)$ be the strongest incoming and outg",
+      "destination": {
+        "key": "sec:appendix_formula_details",
+        "number": "E",
+        "page": 18,
+        "caption_or_section": "Formula Details for Evidence Updates",
+        "anchor": "appendix.E"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 223,
+      "key": "sec:appendix_formula_details",
+      "context": "relation-conflict score against an online quantile of previous conflict scores. Appendix~\\ref{sec:appendix_formula_details} gives the exact rule. We call a threshold crossing an online calibrated conflict signal (\\oc{}). T",
+      "destination": {
+        "key": "sec:appendix_formula_details",
+        "number": "E",
+        "page": 18,
+        "caption_or_section": "Formula Details for Evidence Updates",
+        "anchor": "appendix.E"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 223,
+      "key": "eq:priority",
+      "context": "earlier rollouts, and endpoints of the implicated relation receive an \\oc{} bonus in Eq.~\\ref{eq:priority}. The calibration motivation follows conformal calibration \\citep{vovk2005algorithmic,gibbs2021adap",
+      "destination": {
+        "key": "eq:priority",
+        "number": "7",
+        "page": 4,
+        "caption_or_section": "Relation-first evidence memory",
+        "anchor": "equation.3.7"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 240,
+      "key": "sec:component_tests",
+      "context": "ted high-scoring distractors to occupy the subgraph. \\revred{The paired replay in Section~\\ref{sec:component_tests} isolates the effect of final-core replacement using identical search trajectories.} \\begin{algorit",
+      "destination": {
+        "key": "sec:component_tests",
+        "number": "6.2",
+        "page": 6,
+        "caption_or_section": "Component ablations",
+        "anchor": "subsection.6.2"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 250,
+      "key": "eq:ucb",
+      "context": "yset$ \\FOR{$t=1$ to $T$} \\STATE Select seed $a_t=\\arg\\max_{v\\in V_S}U_t(v)$ using Eq.~\\ref{eq:ucb} \\STATE Build local window $W_t$ around $a_t$ plus memory bridges \\STATE Query LLM with the",
+      "destination": {
+        "key": "eq:ucb",
+        "number": "4",
+        "page": 3,
+        "caption_or_section": "SCC-aware local rollouts",
+        "anchor": "equation.3.4"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 255,
+      "key": "eq:core",
+      "context": "E Update node and relation memory $M_t$ \\STATE Recompute dynamic core $H_t$ using Eq.~\\ref{eq:core} \\ENDFOR \\RETURN risk subgraph $H_T$ and node ranking by $s_T(v)$ \\end{algorithmic} \\end{algorithm}",
+      "destination": {
+        "key": "eq:core",
+        "number": "8",
+        "page": 5,
+        "caption_or_section": "Dynamic core compression",
+        "anchor": "equation.3.8"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 273,
+      "key": "app:budget_prefix",
+      "context": "{Appendix~\\ref{app:budget_prefix} analyzes performance across rollout-budget prefixes.} \\revred{Section~\\ref{sec:cost_analysis} repor",
+      "destination": {
+        "key": "app:budget_prefix",
+        "number": "J.2",
+        "page": 21,
+        "caption_or_section": "Budget-prefix convergence",
+        "anchor": "subsection.J.2"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 274,
+      "key": "sec:cost_analysis",
+      "context": "{app:budget_prefix} analyzes performance across rollout-budget prefixes.} \\revred{Section~\\ref{sec:cost_analysis} reports call and token counts; concurrent rollouts can reduce waiting time without reducing the inf",
+      "destination": {
+        "key": "sec:cost_analysis",
+        "number": "6.3",
+        "page": 6,
+        "caption_or_section": "Inference cost and prior sensitivity",
+        "anchor": "subsection.6.3"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 281,
+      "key": "sec:appendix_datasets",
+      "context": "ences, and CUAD contracts, chosen for structural diversity and source authority. Appendix~\\ref{sec:appendix_datasets} summarizes their roles and graph construction.}",
+      "destination": {
+        "key": "sec:appendix_datasets",
+        "number": "I",
+        "page": 20,
+        "caption_or_section": "Dataset and Injection Details",
+        "anchor": "appendix.I"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 314,
+      "key": "sec:appendix_datasets",
+      "context": "n formatters preserve these risk semantics without revealing injected endpoints; Appendix~\\ref{sec:appendix_datasets} details their interface and graph construction.} \\subsection{Critical structural injection}",
+      "destination": {
+        "key": "sec:appendix_datasets",
+        "number": "I",
+        "page": 20,
+        "caption_or_section": "Dataset and Injection Details",
+        "anchor": "appendix.I"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 318,
+      "key": "sec:appendix_datasets",
+      "context": "injection identities, prompt schemas, and method settings are fixed throughout. Appendix~\\ref{sec:appendix_datasets} provides the injection templates, and Appendix~\\ref{app:revision_lea} specifies the run configurati",
+      "destination": {
+        "key": "sec:appendix_datasets",
+        "number": "I",
+        "page": 20,
+        "caption_or_section": "Dataset and Injection Details",
+        "anchor": "appendix.I"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 318,
+      "key": "app:revision_lea",
+      "context": "hout. Appendix~\\ref{sec:appendix_datasets} provides the injection templates, and Appendix~\\ref{app:revision_lea} specifies the run configuration.} \\subsection{Baselines and models}",
+      "destination": {
+        "key": "app:revision_lea",
+        "number": "K.1",
+        "page": 24,
+        "caption_or_section": "Local Evidence Aggregation Protocol",
+        "anchor": "subsection.K.1"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 336,
+      "key": "fig:paired_case_outcomes",
+      "context": "comes favor \\samcgs{} over LEA for GPT-4o, Qwen2.5-72B, and Llama 3.1-8B-Instruct (Figure~\\ref{fig:paired_case_outcomes}b). For GPT-4o, 32 cases succeed only with \\samcgs{}, compared with 7 only with LEA.}",
+      "destination": {
+        "key": "fig:paired_case_outcomes",
+        "number": "3",
+        "page": 8,
+        "caption_or_section": "\\revred {Paired \\riskall {} outcomes for \\samcgs {} versus (a) One-shot and (b) LEA on the same 80 cases per model. Bars separate cases where complete evidence is retained by \\samcgs {} only (blue), both methods (light blue), the baseline only (orange), or neither method (gray). Net $\\Delta $ is the \\riskall {} difference between \\samcgs {} and the baseline, in percentage points.}\\relax ",
+        "anchor": "figure.caption.10",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 352,
+      "key": "tab:appendix_breakdowns",
+      "context": "{The domain breakdown also shows gains in complete evidence retention (Table~\\ref{tab:appendix_breakdowns}, panel B). Pooling results across the five models, \\samcgs{} raises \\riskall{} over LEA from 26.67\\",
+      "destination": {
+        "key": "tab:appendix_breakdowns",
+        "number": "14",
+        "page": 22,
+        "caption_or_section": "Five-model results by model, domain, and original SCC size. All metrics are percentages. Domain and size summaries pool the same five models. Bold values mark the best method within each group, including ties.\\relax ",
+        "anchor": "table.caption.53",
+        "explicit_reference_count": 3
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 353,
+      "key": "sec:appendix_case",
+      "context": "extend to statutory cross-references and longer contract-clause graphs.} \\revred{Appendix~\\ref{sec:appendix_case} compares the three methods on the same long-\\scc{} case.} \\revred{Across all three \\scc{}-size gro",
+      "destination": {
+        "key": "sec:appendix_case",
+        "number": "C",
+        "page": 16,
+        "caption_or_section": "Representative Long-\\scc {} Case Study",
+        "anchor": "appendix.C"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 355,
+      "key": "app:size_breakdowns",
+      "context": "for GPT-4o and Qwen2.5-72B, and improves \\rootthree{} for Llama 3.1-8B-Instruct (Appendix~\\ref{app:size_breakdowns}).} \\section{Analysis} \\label{sec:analysis}",
+      "destination": {
+        "key": "app:size_breakdowns",
+        "number": "J.1",
+        "page": 21,
+        "caption_or_section": "Performance by SCC size",
+        "anchor": "subsection.J.1"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 368,
+      "key": "app:budget_prefix",
+      "context": "ccur within the first 20 rollouts; subsequent rollouts refine the retained core (Appendix~\\ref{app:budget_prefix}).}",
+      "destination": {
+        "key": "app:budget_prefix",
+        "number": "J.2",
+        "page": 21,
+        "caption_or_section": "Budget-prefix convergence",
+        "anchor": "subsection.J.2"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 425,
+      "key": "tab:mcts_scc",
+      "context": "rison uses matched components, the same local risk task, and equal rollout budgets. Table~\\ref{tab:mcts_scc} reports state expansion, rollout truncation, Q-spread, and Hit@3, as defined below. \\end{revredbl",
+      "destination": {
+        "key": "tab:mcts_scc",
+        "number": "1",
+        "page": 3,
+        "caption_or_section": "Motivating ablation: ordinary TreeMCTS expands path copies and dilutes value estimates inside strongly connected components, whereas \\samcgs {} treats each \\scc {} as a localized reasoning unit.\\relax ",
+        "anchor": "table.caption.6",
+        "explicit_reference_count": 3
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 430,
+      "key": "tab:mcts_scc",
+      "context": "on, rollout truncation, Q-spread, and Hit@3, as defined below. \\end{revredblock} Table~\\ref{tab:mcts_scc} uses four ablation diagnostics. \\textbf{Expansion} is the number of search states expanded relativ",
+      "destination": {
+        "key": "tab:mcts_scc",
+        "number": "1",
+        "page": 3,
+        "caption_or_section": "Motivating ablation: ordinary TreeMCTS expands path copies and dilutes value estimates inside strongly connected components, whereas \\samcgs {} treats each \\scc {} as a localized reasoning unit.\\relax ",
+        "anchor": "table.caption.6",
+        "explicit_reference_count": 3
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 443,
+      "key": "app:expert_extension",
+      "context": "d{We report the original 12-case audit below and the new 42-presentation audit in Section~\\ref{app:expert_extension} separately because their annotation schemes and annotator coverage differ. The original aggregate r",
+      "destination": {
+        "key": "app:expert_extension",
+        "number": "B.2",
+        "page": 13,
+        "caption_or_section": "Expanded Paired Expert Audit",
+        "anchor": "subsection.B.2"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 448,
+      "key": "tab:expert_protocol",
+      "context": "ve professional experience with legal, regulatory, or contractual analysis. \\revred{Table~\\ref{tab:expert_protocol} summarizes the annotation tasks.} \\paragraph{Case-level task.} For each case, the expert reads a g",
+      "destination": {
+        "key": "tab:expert_protocol",
+        "number": "6",
+        "page": 14,
+        "caption_or_section": "Expert-facing annotation tasks. These are the instructions used to elicit human judgments; internal roles and system outputs are used only for post-hoc analysis.\\relax ",
+        "anchor": "table.caption.27",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 469,
+      "key": "tab:expert_audit_results",
+      "context": "s without being forced into an immediate majority vote. \\paragraph{Audit results.} Table~\\ref{tab:expert_audit_results} summarizes the completed annotations. All 12 audited cases receive a majority structural-conflict",
+      "destination": {
+        "key": "tab:expert_audit_results",
+        "number": "5",
+        "page": 14,
+        "caption_or_section": "System-blind expert audit results. Experts did not see system outputs, hidden roles, or model-generated hints during annotation.\\relax ",
+        "anchor": "table.caption.25",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 534,
+      "key": "tab:expert_example",
+      "context": "ls or system suggestions.}} \\label{tab:expert_example} \\end{table*} The example in Table~\\ref{tab:expert_example} illustrates the intended difficulty level. Neither entity record is a syntactic error by itself.",
+      "destination": {
+        "key": "tab:expert_example",
+        "number": "7",
+        "page": 15,
+        "caption_or_section": "Representative expert-audit example. \\revredreplace {Role names in the left column are added here for exposition; the annotators saw paragraph text and identifiers, not root/witness labels or system suggestions.}{Annotators saw paragraph text and identifiers, without hidden root/witness labels or system suggestions.}\\relax ",
+        "anchor": "table.caption.28",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 550,
+      "key": "fig:case",
+      "context": "{Figure~\\ref{fig:case} compares evidence selection within the same cyclic region. One-shot retains three records but omits",
+      "destination": {
+        "key": "fig:case",
+        "number": "4",
+        "page": 17,
+        "caption_or_section": "\\revredreplace {Representative long-\\scc {} collapse. The method searches a large component through local rollouts, accumulates relation-first evidence, and returns a compact risk subgraph that preserves repair-relevant endpoints.}{Comparison of three methods on the same 25-record BGB case with Gemini 2.5 Pro. Node positions are fixed across panels; filled markers indicate retained records and open markers indicate omitted records. Diamonds mark the root (\\S 505) and witness (\\S 491). The rows below report retained node counts and the four evaluation metrics.}\\relax ",
+        "anchor": "figure.caption.36",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 556,
+      "key": "alg:appendix_scc_localized",
+      "context": "{Algorithms~\\ref{alg:appendix_scc_localized}--\\ref{alg:appendix_dynamic_core} expand the overview in Algorithm~\\ref{alg:samcgs} into detailed ps",
+      "destination": {
+        "key": "alg:appendix_scc_localized",
+        "number": "2",
+        "page": 17,
+        "caption_or_section": "\\scc {}-localized search\\relax ",
+        "anchor": "algorithm.2",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 556,
+      "key": "alg:appendix_dynamic_core",
+      "context": "{Algorithms~\\ref{alg:appendix_scc_localized}--\\ref{alg:appendix_dynamic_core} expand the overview in Algorithm~\\ref{alg:samcgs} into detailed pseudocode.} The implementation us",
+      "destination": {
+        "key": "alg:appendix_dynamic_core",
+        "number": "5",
+        "page": 18,
+        "caption_or_section": "Dynamic core compression\\relax ",
+        "anchor": "algorithm.5",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 556,
+      "key": "alg:samcgs",
+      "context": "appendix_scc_localized}--\\ref{alg:appendix_dynamic_core} expand the overview in Algorithm~\\ref{alg:samcgs} into detailed pseudocode.} The implementation uses the same high-level objects as the main paper,",
+      "destination": {
+        "key": "alg:samcgs",
+        "number": "1",
+        "page": 5,
+        "caption_or_section": "\\samcgs {} for one strongly connected component\\relax ",
+        "anchor": "algorithm.1",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 649,
+      "key": "sec:method",
+      "context": "label{sec:appendix_formula_details} Implementation-level equations summarized in Section~\\ref{sec:method} are expanded here. The main text retains the search template plus two scoring components, the prio",
+      "destination": {
+        "key": "sec:method",
+        "number": "3",
+        "page": 2,
+        "caption_or_section": "Method",
+        "anchor": "section.3"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 670,
+      "key": "eq:relation-prior",
+      "context": "rts a repair-relevant conflict. \\paragraph{Relation priors and critical pairs.} Equation~\\ref{eq:relation-prior} is shared by node and edge priors. For nodes we set $w=\\theta$ and use node features such as repai",
+      "destination": {
+        "key": "eq:relation-prior",
+        "number": "5",
+        "page": 4,
+        "caption_or_section": "SCC-aware local rollouts",
+        "anchor": "equation.3.5"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 689,
+      "key": "eq:priority",
+      "context": "licated relation endpoints are added to \\oc{} memory and receive the bounded bonus in Eq.~\\ref{eq:priority}. \\paragraph{Core candidate pool.} The candidate pool used in Eq.~\\ref{eq:core} is \\begin{equation}",
+      "destination": {
+        "key": "eq:priority",
+        "number": "7",
+        "page": 4,
+        "caption_or_section": "Relation-first evidence memory",
+        "anchor": "equation.3.7"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 692,
+      "key": "eq:core",
+      "context": "n Eq.~\\ref{eq:priority}. \\paragraph{Core candidate pool.} The candidate pool used in Eq.~\\ref{eq:core} is \\begin{equation} C_t = h_t \\cup H_{t-1} \\cup O_t \\cup K_t, \\label{eq:candidate-pool} \\en",
+      "destination": {
+        "key": "eq:core",
+        "number": "8",
+        "page": 5,
+        "caption_or_section": "Dynamic core compression",
+        "anchor": "equation.3.8"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 707,
+      "key": "eq:relation-prior",
+      "context": "d rationale \\\\ \\midrule \\multicolumn{3}{l}{\\textit{Node-feature weights }$\\theta$ for Eq.~\\ref{eq:relation-prior}}\\\\ $\\theta_{\\mathrm{repair}}$ & 1.10 & LLM names the record as a repair entry. This is closest to t",
+      "destination": {
+        "key": "eq:relation-prior",
+        "number": "5",
+        "page": 4,
+        "caption_or_section": "SCC-aware local rollouts",
+        "anchor": "equation.3.5"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 716,
+      "key": "eq:relation-prior",
+      "context": "isit-decayed.\\\\ \\midrule \\multicolumn{3}{l}{\\textit{Edge-feature weights }$\\beta$ for Eq.~\\ref{eq:relation-prior}}\\\\ $\\beta_{\\mathrm{incompat}}$ & 1.55 & Semantic incompatibility is the strongest relation-level ev",
+      "destination": {
+        "key": "eq:relation-prior",
+        "number": "5",
+        "page": 4,
+        "caption_or_section": "SCC-aware local rollouts",
+        "anchor": "equation.3.5"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 725,
+      "key": "eq:critical-pair",
+      "context": "and severity.\\\\ \\midrule \\multicolumn{3}{l}{\\textit{Critical-pair prior }$\\omega$ in Eq.~\\ref{eq:critical-pair}}\\\\ $\\omega_{\\mathrm{sem}}$ & 0.30 & Semantic incompatibility dominates because it directly captures",
+      "destination": {
+        "key": "eq:critical-pair",
+        "number": "11",
+        "page": 18,
+        "caption_or_section": "Relation priors and critical pairs",
+        "anchor": "equation.E.11"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 741,
+      "key": "tab:prior_coefficients",
+      "context": "\\section{Fixed Search-Prior Coefficients} \\label{app:priors} The numeric values in Table~\\ref{tab:prior_coefficients} are fixed search-prior coefficients, not learned parameters. They were selected using pilot checks",
+      "destination": {
+        "key": "tab:prior_coefficients",
+        "number": "11",
+        "page": 19,
+        "caption_or_section": "Fixed search-prior coefficients used by \\samcgs {}. Higher values reflect more reliable or more directly repair-relevant evidence. Values were frozen before the locked evaluation and are not learned from the reported test cases.\\relax ",
+        "anchor": "table.caption.41",
+        "explicit_reference_count": 2
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 776,
+      "key": "app:revision_lea",
+      "context": "tputs algorithmically. LEA uses fixed windows without adaptive search or memory; Appendix~\\ref{app:revision_lea} specifies its window construction and aggregation.} \\section{Dataset and Injection Details} \\label",
+      "destination": {
+        "key": "app:revision_lea",
+        "number": "K.1",
+        "page": 24,
+        "caption_or_section": "Local Evidence Aggregation Protocol",
+        "anchor": "subsection.K.1"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 791,
+      "key": "tab:dataset_processing",
+      "context": "tion, fixed local aggregation, or adaptive \\scc{}-aware search. \\end{revredblock} Table~\\ref{tab:dataset_processing} summarizes the four included domains and their conversion into directed record graphs. Domain cove",
+      "destination": {
+        "key": "tab:dataset_processing",
+        "number": "12",
+        "page": 21,
+        "caption_or_section": "\\revnewreplace {Dataset construction and processing.}{Domain coverage, dataset construction, and evaluation roles.} All domains are represented as directed record graphs before \\scc {} localization.\\relax ",
+        "anchor": "table.caption.47",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 816,
+      "key": "tab:injection_templates",
+      "context": "witness, and affected records as repair-relevant endpoints when applicable. \\revred{Table~\\ref{tab:injection_templates} lists the four injection templates.} \\begin{table*}[t] \\centering \\scriptsize \\setlength{\\tabcolse",
+      "destination": {
+        "key": "tab:injection_templates",
+        "number": "13",
+        "page": 21,
+        "caption_or_section": "Critical structural injection templates. All templates edit existing records only and avoid explicit defect labels.\\relax ",
+        "anchor": "table.caption.50",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 845,
+      "key": "app:revision_lea",
+      "context": "samcgs{} use the shared risk rubric and fixed method configurations specified in Appendix~\\ref{app:revision_lea}. Table~\\ref{tab:appendix_breakdowns} groups results by model, domain, and \\scc{} size.} \\end{revnew",
+      "destination": {
+        "key": "app:revision_lea",
+        "number": "K.1",
+        "page": 24,
+        "caption_or_section": "Local Evidence Aggregation Protocol",
+        "anchor": "subsection.K.1"
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 845,
+      "key": "tab:appendix_breakdowns",
+      "context": "ubric and fixed method configurations specified in Appendix~\\ref{app:revision_lea}. Table~\\ref{tab:appendix_breakdowns} groups results by model, domain, and \\scc{} size.} \\end{revnewblock} \\input{revision_retired_contr",
+      "destination": {
+        "key": "tab:appendix_breakdowns",
+        "number": "14",
+        "page": 22,
+        "caption_or_section": "Five-model results by model, domain, and original SCC size. All metrics are percentages. Domain and size summaries pool the same five models. Bold values mark the best method within each group, including ties.\\relax ",
+        "anchor": "table.caption.53",
+        "explicit_reference_count": 3
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 859,
+      "key": "fig:main_metrics",
+      "context": "es \\riskall{} over LEA in all three \\scc{}-size groups for GPT-4o and Qwen2.5-72B (Figure~\\ref{fig:main_metrics}). Their largest gains occur in medium components: 37.50 and 62.50 percentage points, respectively.",
+      "destination": {
+        "key": "fig:main_metrics",
+        "number": "5",
+        "page": 22,
+        "caption_or_section": "\\revredreplace {Main critical-\\scc {} results on 320 model-case pairs per method. Panel A compares \\samcgs {} with oracle-risk \\naive {}, an oracle-risk Top-3 selection over ten full-\\scc {} attempts; Panel B gives a compact \\scc {}-size breakdown of endpoint retention and compression.}{\\samcgs {} gains over LEA by \\scc {} size: (a) \\rootthree {} and (b) \\riskall {}. Cells show percentage-point differences for each model and size group (36 small, 24 medium, and 20 large cases per model). Blue indicates gains and orange indicates losses on a shared zero-centered scale. Figure~\\ref {fig:absolute_size_breakdowns} reports absolute performance for all three methods.}\\relax ",
+        "anchor": "figure.caption.54",
+        "explicit_reference_count": 2
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 859,
+      "key": "fig:absolute_size_breakdowns",
+      "context": "struct, \\rootthree{} also improves in every size group. Absolute results appear in Figure~\\ref{fig:absolute_size_breakdowns} and Table~\\ref{tab:appendix_breakdowns}. \\begin{figure*}[t] \\centering \\includegraphics[wi",
+      "destination": {
+        "key": "fig:absolute_size_breakdowns",
+        "number": "6",
+        "page": 23,
+        "caption_or_section": "Performance by \\scc {} size. Columns correspond to models and rows to (a) \\rootthree {} and (b) \\riskall {}. All three methods use the same small ($\\leq 12$ nodes), medium (14--20), and large ($\\geq 24$) case groups. Gray circles, orange squares, and blue triangles denote One-shot, LEA, and \\samcgs {}, respectively.\\relax ",
+        "anchor": "figure.caption.55",
+        "explicit_reference_count": 3
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 859,
+      "key": "tab:appendix_breakdowns",
+      "context": "ize group. Absolute results appear in Figure~\\ref{fig:absolute_size_breakdowns} and Table~\\ref{tab:appendix_breakdowns}. \\begin{figure*}[t] \\centering \\includegraphics[width=\\textwidth]{fig02_scale_gain_heatmap",
+      "destination": {
+        "key": "tab:appendix_breakdowns",
+        "number": "14",
+        "page": 22,
+        "caption_or_section": "Five-model results by model, domain, and original SCC size. All metrics are percentages. Domain and size summaries pool the same five models. Bold values mark the best method within each group, including ties.\\relax ",
+        "anchor": "table.caption.53",
+        "explicit_reference_count": 3
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 864,
+      "key": "fig:absolute_size_breakdowns",
+      "context": "Blue indicates gains and orange indicates losses on a shared zero-centered scale. Figure~\\ref{fig:absolute_size_breakdowns} reports absolute performance for all three methods.}} \\label{fig:main_metrics} \\end{figure*} F",
+      "destination": {
+        "key": "fig:absolute_size_breakdowns",
+        "number": "6",
+        "page": 23,
+        "caption_or_section": "Performance by \\scc {} size. Columns correspond to models and rows to (a) \\rootthree {} and (b) \\riskall {}. All three methods use the same small ($\\leq 12$ nodes), medium (14--20), and large ($\\geq 24$) case groups. Gray circles, orange squares, and blue triangles denote One-shot, LEA, and \\samcgs {}, respectively.\\relax ",
+        "anchor": "figure.caption.55",
+        "explicit_reference_count": 3
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 868,
+      "key": "fig:absolute_size_breakdowns",
+      "context": "e performance for all three methods.}} \\label{fig:main_metrics} \\end{figure*} Figure~\\ref{fig:absolute_size_breakdowns} uses the same size groups and case counts as Figure~\\ref{fig:main_metrics}, reporting \\rootthree{}",
+      "destination": {
+        "key": "fig:absolute_size_breakdowns",
+        "number": "6",
+        "page": 23,
+        "caption_or_section": "Performance by \\scc {} size. Columns correspond to models and rows to (a) \\rootthree {} and (b) \\riskall {}. All three methods use the same small ($\\leq 12$ nodes), medium (14--20), and large ($\\geq 24$) case groups. Gray circles, orange squares, and blue triangles denote One-shot, LEA, and \\samcgs {}, respectively.\\relax ",
+        "anchor": "figure.caption.55",
+        "explicit_reference_count": 3
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 868,
+      "key": "fig:main_metrics",
+      "context": "re~\\ref{fig:absolute_size_breakdowns} uses the same size groups and case counts as Figure~\\ref{fig:main_metrics}, reporting \\rootthree{} and \\riskall{} for all three methods and five models. \\begin{figure*}[t]",
+      "destination": {
+        "key": "fig:main_metrics",
+        "number": "5",
+        "page": 22,
+        "caption_or_section": "\\revredreplace {Main critical-\\scc {} results on 320 model-case pairs per method. Panel A compares \\samcgs {} with oracle-risk \\naive {}, an oracle-risk Top-3 selection over ten full-\\scc {} attempts; Panel B gives a compact \\scc {}-size breakdown of endpoint retention and compression.}{\\samcgs {} gains over LEA by \\scc {} size: (a) \\rootthree {} and (b) \\riskall {}. Cells show percentage-point differences for each model and size group (36 small, 24 medium, and 20 large cases per model). Blue indicates gains and orange indicates losses on a shared zero-centered scale. Figure~\\ref {fig:absolute_size_breakdowns} reports absolute performance for all three methods.}\\relax ",
+        "anchor": "figure.caption.54",
+        "explicit_reference_count": 2
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 883,
+      "key": "fig:convergence",
+      "context": "} \\revred{Most gains in evidence completeness occur within the first 20 rollouts (Figure~\\ref{fig:convergence}): \\riskall{} rises from 25.00\\% at budget 5 to 76.25\\% at budget 20. Subsequent rollouts refine the",
+      "destination": {
+        "key": "fig:convergence",
+        "number": "7",
+        "page": 23,
+        "caption_or_section": "\\revredreplace {Budget-prefix convergence: localization and evidence coverage improve with rollout budget while the retained core stays compact.}{GPT-4o evidence retention and compression across 60 rollout prefixes on the same 80 cases. The solid curve represents \\samcgs {}; horizontal lines indicate the final One-shot and LEA scores. Each prefix is reconstructed from stored search evidence using the final-core selection rule. Results at budget 60 match the final outputs.}\\relax ",
+        "anchor": "figure.caption.56",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/acl_latex.tex",
+      "line": 883,
+      "key": "tab:matched_main",
+      "context": "0\\% \\riskall{} and 51.26\\% compression at budget 60, matching the GPT-4o results in Table~\\ref{tab:matched_main}.} \\begin{figure*}[t] \\centering \\includegraphics[width=\\textwidth]{",
+      "destination": {
+        "key": "tab:matched_main",
+        "number": "2",
+        "page": 7,
+        "caption_or_section": "\\revred {Comparison of One-shot, LEA, and \\samcgs {} across five models, each evaluated on the same 80 injected variants. All metrics are percentages. Bold marks the best value for each metric within a model, including ties.}\\relax ",
+        "anchor": "table.caption.9",
+        "explicit_reference_count": 2
+      }
+    },
+    {
+      "file": "paper/latex/revision_baselines.tex",
+      "line": 6,
+      "key": "app:revision_lea",
+      "context": "adaptive search, relation memory, critical-pair revisiting, or core replacement. Appendix~\\ref{app:revision_lea} details window construction, aggregation, and caching. \\samcgs{} uses 60 rollouts and dynamic-core",
+      "destination": {
+        "key": "app:revision_lea",
+        "number": "K.1",
+        "page": 24,
+        "caption_or_section": "Local Evidence Aggregation Protocol",
+        "anchor": "subsection.K.1"
+      }
+    },
+    {
+      "file": "paper/latex/revision_main_results.tex",
+      "line": 40,
+      "key": "tab:matched_main",
+      "context": "oth One-shot and LEA on GPT-4o, Qwen2.5-72B, Llama 3.1-8B-Instruct, and Qwen3.5-9B (Table~\\ref{tab:matched_main}). The largest gain over LEA is 17.50 percentage points on Llama 3.1-8B-Instruct. Complete risk-evi",
+      "destination": {
+        "key": "tab:matched_main",
+        "number": "2",
+        "page": 7,
+        "caption_or_section": "\\revred {Comparison of One-shot, LEA, and \\samcgs {} across five models, each evaluated on the same 80 injected variants. All metrics are percentages. Bold marks the best value for each metric within a model, including ties.}\\relax ",
+        "anchor": "table.caption.9",
+        "explicit_reference_count": 2
+      }
+    },
+    {
+      "file": "paper/latex/revision_main_analysis.tex",
+      "line": 5,
+      "key": "tab:component_main",
+      "context": "ablations separate search components (Stage-1) from final-core selection (Stage-2). Table~\\ref{tab:component_main} reports contemporaneous Stage-1 runs and Stage-2 replay on shared search traces. On the 17-variant",
+      "destination": {
+        "key": "tab:component_main",
+        "number": "3",
+        "page": 7,
+        "caption_or_section": "\\revred {GPT-4o component ablations. Stage-1 uses contemporaneous runs on 17 variants from 5 SEC sources; Stage-2 replays shared traces for 80 variants from 20 sources. Values are percentages; the stages use different controls.}\\relax ",
+        "anchor": "table.caption.11",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/revision_main_analysis.tex",
+      "line": 5,
+      "key": "app:revision_stage1",
+      "context": "These results do not establish that each component is independently necessary. Appendices~\\ref{app:revision_stage1} and~\\ref{app:revision_stage2} report full metrics and memory costs.} \\begin{table}[t] \\centering \\",
+      "destination": {
+        "key": "app:revision_stage1",
+        "number": "K.2",
+        "page": 24,
+        "caption_or_section": "Stage-1 Component Ablations",
+        "anchor": "subsection.K.2"
+      }
+    },
+    {
+      "file": "paper/latex/revision_main_analysis.tex",
+      "line": 5,
+      "key": "app:revision_stage2",
+      "context": "that each component is independently necessary. Appendices~\\ref{app:revision_stage1} and~\\ref{app:revision_stage2} report full metrics and memory costs.} \\begin{table}[t] \\centering \\small \\caption{\\revred{GPT-4o",
+      "destination": {
+        "key": "app:revision_stage2",
+        "number": "K.3",
+        "page": 25,
+        "caption_or_section": "Stage-2 Paired Core Replay",
+        "anchor": "subsection.K.3"
+      }
+    },
+    {
+      "file": "paper/latex/revision_main_analysis.tex",
+      "line": 49,
+      "key": "tab:cost_main",
+      "context": "s{} & 83.3 & 91.7 & 56.5 & 203.4K \\\\ \\bottomrule \\end{tabular} \\end{table} \\revred{Table~\\ref{tab:cost_main} reports inference costs and endpoint retention. \\samcgs{} uses about 3.2 times as many tokens as LE",
+      "destination": {
+        "key": "tab:cost_main",
+        "number": "4",
+        "page": 7,
+        "caption_or_section": "\\revred {Contemporaneous cost--performance comparison on 12 sources, two models, and three methods (72 runs). \\riskall {} uses strict scoring. Calls and tokens are averaged across models and include observed recovery work.}\\relax ",
+        "anchor": "table.caption.12",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/revision_main_analysis.tex",
+      "line": 49,
+      "key": "app:revision_cost",
+      "context": "ator. Concurrent rollouts can reduce wall-clock time without reducing token use; Appendix~\\ref{app:revision_cost} details the parallel-time model and recovery accounting.} \\revred{On four prespecified sources, va",
+      "destination": {
+        "key": "app:revision_cost",
+        "number": "K.4",
+        "page": 25,
+        "caption_or_section": "Contemporaneous Cost and Reliability",
+        "anchor": "subsection.K.4"
+      }
+    },
+    {
+      "file": "paper/latex/revision_main_analysis.tex",
+      "line": 51,
+      "key": "app:revision_prior",
+      "context": "e-coefficient check does not establish robustness to other priors or thresholds (Appendix~\\ref{app:revision_prior}).} \\end{revadded} \\input{revision_expert_main}",
+      "destination": {
+        "key": "app:revision_prior",
+        "number": "K.5",
+        "page": 26,
+        "caption_or_section": "Relation-Prior Sensitivity",
+        "anchor": "subsection.K.5"
+      }
+    },
+    {
+      "file": "paper/latex/revision_expert_main.tex",
+      "line": 5,
+      "key": "app:expert_extension",
+      "context": "rm the variants as supported positives and the originals as supported negatives. Appendix~\\ref{app:expert_extension} details annotation, adjudication, and agreement.} \\revred{On the 24 variants (14 source \\scc{}s),",
+      "destination": {
+        "key": "app:expert_extension",
+        "number": "B.2",
+        "page": 13,
+        "caption_or_section": "Expanded Paired Expert Audit",
+        "anchor": "subsection.B.2"
+      }
+    },
+    {
+      "file": "paper/latex/revision_expert_main.tex",
+      "line": 9,
+      "key": "app:expert_extension",
+      "context": "ion on injected positives does not imply reliable detection of conflict absence. Appendix~\\ref{app:expert_extension} reports all three methods, independent agreement, dual-reference scoring, and separate initial and",
+      "destination": {
+        "key": "app:expert_extension",
+        "number": "B.2",
+        "page": 13,
+        "caption_or_section": "Expanded Paired Expert Audit",
+        "anchor": "subsection.B.2"
+      }
+    },
+    {
+      "file": "paper/latex/revision_expert_appendix.tex",
+      "line": 39,
+      "key": "tab:expert_new_agreement",
+      "context": "& 0.000 \\\\ & Joint & 10/14 & -- \\\\ \\bottomrule \\end{tabular} \\end{table} \\revred{Table~\\ref{tab:expert_new_agreement} reports independent judgments before adjudication. For E1/E2 on the 24 new positives, mean Jaccard",
+      "destination": {
+        "key": "tab:expert_new_agreement",
+        "number": "8",
+        "page": 15,
+        "caption_or_section": "\\revred {Inter-annotator agreement before adjudication. E1/E2 covers all 42 presentations; E1/E3 and E2/E3 cover the 14 selected cases. Joint agreement requires both binary answers to match.}\\relax ",
+        "anchor": "table.caption.31",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/revision_expert_appendix.tex",
+      "line": 68,
+      "key": "tab:expert_new_quality",
+      "context": "dge to each expert's repair set changes precision by at most 0.4 percentage points; Table~\\ref{tab:expert_new_quality} uses the unaugmented expert repair sets. Variant-weighted minimal-evidence recall is 38.2/61.1/88.4",
+      "destination": {
+        "key": "tab:expert_new_quality",
+        "number": "9",
+        "page": 16,
+        "caption_or_section": "\\revred {Expert-reference evidence quality on 24 newly annotated injected variants from 14 sources. Metrics are averaged within each source, then equally across sources, and reported as percentages. Brackets give source-SCC bootstrap 95\\% intervals (20,000 draws, seed 20260922). Validity counts are out of 24; all planned cases remain in metric denominators.}\\relax ",
+        "anchor": "table.caption.33",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/revision_expert_appendix.tex",
+      "line": 98,
+      "key": "tab:expert_pre_negative",
+      "context": "uires 1,140 calls and 5,011,988 tokens, in addition to initial-run costs.} \\revred{Table~\\ref{tab:expert_pre_negative} shows frequent false positives: all valid outputs assert a conflict except one Gemini 2.5 Pro LEA a",
+      "destination": {
+        "key": "tab:expert_pre_negative",
+        "number": "10",
+        "page": 16,
+        "caption_or_section": "\\revred {Negative-source audit: false-positive assertions (FP), operational abstentions (Abs.), and invalid outputs (Inv.), each out of 18 sources. Initial and recovery outcomes are reported separately; invalid outputs do not count as abstentions.}\\relax ",
+        "anchor": "table.caption.35",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 38,
+      "key": "tab:revision_stage1",
+      "context": "tection and revisiting; random-window selection replaced the local-window selector. Table~\\ref{tab:revision_stage1} measures endpoint coverage in the returned core, separately from root-ranking performance.} \\begin",
+      "destination": {
+        "key": "tab:revision_stage1",
+        "number": "15",
+        "page": 26,
+        "caption_or_section": "\\revred {Stage-1 ablations with GPT-4o. Root@3, Any (Risk-any), All (Risk-all), and compression (Comp.) are percentages; $|H|$ is mean core size. Panel A compares four conditions contemporaneously. Panel B combines 63 historical variants with verified input identities and the 17 rerun variants for each condition, providing a descriptive comparison across batches.}\\relax ",
+        "anchor": "table.caption.58",
+        "explicit_reference_count": 3
+      }
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 65,
+      "key": "tab:revision_stage1_cost",
+      "context": "mitted one. Removing memory improved endpoint coverage with fewer calls and tokens (Table~\\ref{tab:revision_stage1_cost}).} \\begin{table}[t] \\centering \\caption{\\revred{Costs for the 17-case contemporaneous Stage-1 comp",
+      "destination": {
+        "key": "tab:revision_stage1_cost",
+        "number": "16",
+        "page": 26,
+        "caption_or_section": "\\revred {Costs for the 17-case contemporaneous Stage-1 comparison. Calls, tokens, and estimated USD are totals for each condition; time is mean seconds per case. Token costs use the frozen gateway prices.}\\relax ",
+        "anchor": "table.caption.59",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 85,
+      "key": "tab:revision_stage1",
+      "context": "dows & 967 & 1.532 & 9.00 & 171.3 \\\\ \\bottomrule \\end{tabular} \\end{table} \\revred{Table~\\ref{tab:revision_stage1}, panel B, extends the descriptive comparison to 80 variants by combining the 17 reruns with 63 hist",
+      "destination": {
+        "key": "tab:revision_stage1",
+        "number": "15",
+        "page": 26,
+        "caption_or_section": "\\revred {Stage-1 ablations with GPT-4o. Root@3, Any (Risk-any), All (Risk-all), and compression (Comp.) are percentages; $|H|$ is mean core size. Panel A compares four conditions contemporaneously. Panel B combines 63 historical variants with verified input identities and the 17 rerun variants for each condition, providing a descriptive comparison across batches.}\\relax ",
+        "anchor": "table.caption.58",
+        "explicit_reference_count": 3
+      }
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 108,
+      "key": "tab:revision_stage2",
+      "context": "\\riskany{} by 13.75 points ($[5.0,22.5]$), at equal mean core size and compression (Table~\\ref{tab:revision_stage2}). The replay isolates endpoint retention given the observed evidence; search trajectories are fixed",
+      "destination": {
+        "key": "tab:revision_stage2",
+        "number": "17",
+        "page": 26,
+        "caption_or_section": "\\revred {Stage-2 replay on shared search trajectories. Rates and compression are percentages. Root@3 is fixed by the shared trajectory and is unaffected by the core policy.}\\relax ",
+        "anchor": "table.caption.60",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 108,
+      "key": "tab:revision_stage1",
+      "context": "lated independently. Its Full result uses the original frozen trajectories, whereas Table~\\ref{tab:revision_stage1}, panel B, includes 17 newer Full runs.} \\subsection{Contemporaneous Cost and Reliability} \\label{a",
+      "destination": {
+        "key": "tab:revision_stage1",
+        "number": "15",
+        "page": 26,
+        "caption_or_section": "\\revred {Stage-1 ablations with GPT-4o. Root@3, Any (Risk-any), All (Risk-all), and compression (Comp.) are percentages; $|H|$ is mean core size. Panel A compares four conditions contemporaneously. Panel B combines 63 historical variants with verified input identities and the 17 rerun variants for each condition, providing a descriptive comparison across batches.}\\relax ",
+        "anchor": "table.caption.58",
+        "explicit_reference_count": 3
+      }
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 113,
+      "key": "tab:revision_cost_full",
+      "context": "d a subgraph directly from the full SCC in a single call, without oracle selection. Table~\\ref{tab:revision_cost_full} reports the results for each model--method pair.} \\begin{table*}[t] \\centering \\caption{\\revred{Co",
+      "destination": {
+        "key": "tab:revision_cost_full",
+        "number": "18",
+        "page": 27,
+        "caption_or_section": "\\revred {Cost, performance, and reliability on 12 source SCCs for each model--method pair. All binary rates use a denominator of 12, with invalid outputs counted as failures. Comp. is mean compression over valid outputs; parentheses give the denominator. Calls and tokens include recorded recovery usage and are divided by 12. Tokens are in thousands. Time is recorded runtime per case; parallel speedup was not measured.}\\relax ",
+        "anchor": "table.caption.61",
+        "explicit_reference_count": 1
+      }
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 161,
+      "key": "eq:revision_parallel_time",
+      "context": "ain $p_g$. For fixed work, concurrency leaves calls, tokens, and fees unchanged. Equation~\\ref{eq:revision_parallel_time} models execution time; no within-case speedup was measured, and concurrent execution of separate ca",
+      "destination": {
+        "key": "eq:revision_parallel_time",
+        "number": "16",
+        "page": 25,
+        "caption_or_section": "Contemporaneous Cost and Reliability",
+        "anchor": "equation.K.16"
+      }
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 166,
+      "key": "tab:prior_coefficients",
+      "context": "fore the sensitivity results were observed. Node, edge, and pair feature weights in Table~\\ref{tab:prior_coefficients} remained fixed. The two models produced 16 new valid outputs; eight nominal outputs with matching i",
+      "destination": {
+        "key": "tab:prior_coefficients",
+        "number": "11",
+        "page": 19,
+        "caption_or_section": "Fixed search-prior coefficients used by \\samcgs {}. Higher values reflect more reliable or more directly repair-relevant evidence. Values were frozen before the locked evaluation and are not learned from the reported test cases.\\relax ",
+        "anchor": "table.caption.41",
+        "explicit_reference_count": 2
+      }
+    },
+    {
+      "file": "paper/latex/revision_experiments.tex",
+      "line": 186,
+      "key": "tab:revision_prior",
+      "context": "point completeness did not decrease on this subset, although root rankings changed (Table~\\ref{tab:revision_prior}). This four-cluster check characterizes local sensitivity to one coefficient; it does not establish",
+      "destination": {
+        "key": "tab:revision_prior",
+        "number": "19",
+        "page": 27,
+        "caption_or_section": "\\revred {Exploratory sensitivity to the relation-prior multiplier on four source SCCs per row. Root@3 and Risk-all are percentages; Risk-any is 100\\% throughout.}\\relax ",
+        "anchor": "table.caption.62",
+        "explicit_reference_count": 1
+      }
+    }
+  ],
+  "summary": {
+    "reference_instances": 77,
+    "distinct_targets": 51,
+    "missing_targets": [],
+    "figure_count": 7,
+    "table_count": 19,
+    "algorithm_count": 5
+  }
+}

@@ -1,0 +1,257 @@
+{
+  "audit_as_of": "2026-08-18",
+  "cross_dataset_verdict": {
+    "recommended_use": "Use one filtered spatial corpus as a P1 domain-transfer experiment after the main logic corpus.",
+    "shared_limitation": "Instance text supplies facts under globally known rules; audited gold chains have no directed ground cycles.",
+    "use_for_main_scc_claim": false
+  },
+  "datasets": {
+    "SpaRP_PS1_SpaRTUN": {
+      "measured": {
+        "directed_ground_cycles": 0,
+        "directed_ground_self_loops": 0,
+        "multihop_rows_num_hop_ge_2": 11155,
+        "num_hop_distribution": {
+          "1": 10008,
+          "2": 7161,
+          "3": 3578,
+          "4": 416
+        },
+        "rows": 21163,
+        "split_rows": {
+          "test": 2316,
+          "train": 16450,
+          "validation": 2397
+        },
+        "symbolic_context_pairs_minus_num_hop": {
+          "count": 21163,
+          "max": 25,
+          "mean": 9.220243,
+          "median": 9.0,
+          "min": 0
+        },
+        "symbolic_context_relation_pairs": {
+          "count": 21163,
+          "max": 26,
+          "mean": 10.955725,
+          "median": 11.0,
+          "min": 3
+        },
+        "symbolic_json_parse_failures": 0,
+        "symbolic_reasoning_step_distribution": {
+          "1": 10008,
+          "3": 7161,
+          "5": 3578,
+          "7": 416
+        },
+        "two_hop_rows": 7161,
+        "unique_context_ids": 7558
+      },
+      "semantics": {
+        "certificate": "verbalized and machine-readable symbolic reasoning path",
+        "cycle_audit_scope": "released symbolic_reasoning proof path only; not the complete symbolic_context graph",
+        "ground_scc_evidence": false,
+        "instance_natural_language": "facts plus question",
+        "native_executable_program": false,
+        "rules": "known global spatial algebra",
+        "source_deletion_gold": false
+      },
+      "source": {
+        "configuration": "SpaRP-PS1 (SpaRTUN)",
+        "dataset": "https://huggingface.co/datasets/UKPLab/sparp",
+        "dataset_revision": "2706ed464416758c67a09716ed0262c880ee6bdd",
+        "license": "CC-BY-SA-4.0",
+        "paper": "https://aclanthology.org/2024.acl-long.261/",
+        "repository": "https://github.com/UKPLab/acl2024-sparc-and-sparp"
+      },
+      "verdict": "Best proof-supervised spatial transfer option, but P1 only because all audited ground proof graphs are acyclic."
+    },
+    "SpaRTUN": {
+      "measured": {
+        "candidate_story_triplet_pairs": {
+          "count": 48246,
+          "max": 23,
+          "mean": 9.452784,
+          "median": 9.0,
+          "min": 3
+        },
+        "directed_ground_cycles": {
+          "chain": 0,
+          "goal_chain": 0,
+          "self_loops_across_both": 0
+        },
+        "gold_chain_length_distribution": {
+          "1": 23134,
+          "2": 15801,
+          "3": 8351,
+          "4": 960
+        },
+        "gold_chain_support_pairs": {
+          "count": 48246,
+          "max": 4,
+          "mean": 1.733387,
+          "median": 2.0,
+          "min": 1
+        },
+        "multihop_questions_chain_length_ge_2": 25112,
+        "question_type_distribution": {
+          "FR": 21191,
+          "YN": 27055
+        },
+        "questions": 48246,
+        "reasoning_steps_distribution": {
+          "1": 28767,
+          "2": 6958,
+          "3": 6749,
+          "4": 3198,
+          "5": 1980,
+          "6": 386,
+          "7": 208
+        },
+        "split_counts": {
+          "dev": {
+            "questions": 5600,
+            "stories": 915
+          },
+          "test": {
+            "questions": 5551,
+            "stories": 925
+          },
+          "train": {
+            "questions": 37095,
+            "stories": 6039
+          }
+        },
+        "stories": 7879
+      },
+      "semantics": {
+        "certificate": "chain and goal_chain provide one gold support path",
+        "cycle_audit_scope": "released gold chain/goal_chain only; not the complete story/source graph",
+        "ground_scc_evidence": false,
+        "instance_natural_language": "facts only",
+        "rules": "known global spatial algebra, not latent per-instance natural-language rules",
+        "source_deletion_gold": false
+      },
+      "source": {
+        "license_evidence": "MIT in the official repository; the data archive has no separate license file.",
+        "official_archive": "https://www.cse.msu.edu/~kordjams/data/SPARTUN.zip",
+        "paper": "https://aclanthology.org/2022.emnlp-main.413/",
+        "repository": "https://github.com/HLR/SpaRTUN",
+        "repository_revision_audited": "ab924d2324ac28955cc1b72b7edf1bbd5b35e811"
+      },
+      "verdict": "P1 confirmatory transfer corpus; not evidence for SCC-specific MCGS."
+    },
+    "StepGame": {
+      "measured": {
+        "full_noisy_test_examples": 100000,
+        "k10_bad_apparent_self_references": {
+          "affected_examples": 602,
+          "cause": "Official object1_upleft_object2 template index 11 drops the second entity and repeats the first placeholder; these are malformed surface forms, not valid semantic self-loop facts.",
+          "sentence_occurrences": 624
+        },
+        "k10_examples": 10000,
+        "k10_fully_canonical_examples": 6725,
+        "k10_minimum_support_sources": {
+          "count": 6725,
+          "max": 10,
+          "mean": 3.879405,
+          "median": 4.0,
+          "min": 1
+        },
+        "k10_nominal_noise_sentences": {
+          "count": 10000,
+          "max": 14,
+          "mean": 7.6722,
+          "median": 8.0,
+          "min": 4
+        },
+        "k10_parse_status": {
+          "ambiguous": 3249,
+          "canonical": 172849,
+          "incomplete_template": 624
+        },
+        "k10_redundancy": {
+          "fully_canonical_stories_with_zero_but_for_sources": 1235,
+          "rate_within_fully_canonical": 0.183643
+        },
+        "k10_story_sentences": {
+          "count": 10000,
+          "max": 24,
+          "mean": 17.6722,
+          "median": 18.0,
+          "min": 14
+        },
+        "k10_undirected_source_cycles": {
+          "rate_within_fully_canonical": 1.0,
+          "stories": 6725
+        }
+      },
+      "semantics": {
+        "cycle_audit_scope": "undirected source redundancy only; not a grounded directed SCC",
+        "gold_proof": false,
+        "ground_scc_evidence": false,
+        "instance_natural_language": "facts only",
+        "rules": "known global inverse and vector-composition rules",
+        "source_deletion_gold": false
+      },
+      "source": {
+        "license": "MIT",
+        "paper": "https://ojs.aaai.org/index.php/AAAI/article/view/21383",
+        "repository": "https://github.com/ShiZhengyan/StepGame",
+        "repository_revision": "5e6aff1563a6d7f46ee1f1aeff98b94e68c29005"
+      },
+      "verdict": "P1 redundancy/noise stress test after strict template filtering; not a controlled grounded-SCC corpus."
+    }
+  },
+  "frozen_input_inventory": {
+    "sparp/test.parquet": {
+      "bytes": 663480,
+      "sha256": "317908a3bf36a54a2a2711fa30d1909f220a386d8a26c703af0248e72433595e",
+      "source_url": "https://huggingface.co/datasets/UKPLab/sparp/resolve/refs%2Fconvert%2Fparquet/SpaRP-PS1%20(SpaRTUN)/test/0000.parquet"
+    },
+    "sparp/train.parquet": {
+      "bytes": 4669216,
+      "sha256": "d30694cadd55278d03fb77e6209d7b66b75f6760085a9132954d9e9317431492",
+      "source_url": "https://huggingface.co/datasets/UKPLab/sparp/resolve/refs%2Fconvert%2Fparquet/SpaRP-PS1%20(SpaRTUN)/train/0000.parquet"
+    },
+    "sparp/validation.parquet": {
+      "bytes": 672950,
+      "sha256": "65d5bb03c90a3b06dfa66b6fae1e1c4b6d58e8242dcb23b8f107d7ace81317da",
+      "source_url": "https://huggingface.co/datasets/UKPLab/sparp/resolve/refs%2Fconvert%2Fparquet/SpaRP-PS1%20(SpaRTUN)/validation/0000.parquet"
+    },
+    "spartun/dev.json": {
+      "bytes": 5599488,
+      "sha256": "7446cfb121de07c094a492c5a28caea268c421eb79bd7ca6fe3bd7d191cb7a45",
+      "source_url": "https://www.cse.msu.edu/~kordjams/data/SPARTUN.zip"
+    },
+    "spartun/test.json": {
+      "bytes": 5633449,
+      "sha256": "52614b1719ae82317ae8d033aaf6df8d690003f38a5a2fa66d402e172c021db4",
+      "source_url": "https://www.cse.msu.edu/~kordjams/data/SPARTUN.zip"
+    },
+    "spartun/train.json": {
+      "bytes": 38006350,
+      "sha256": "d650144e0e47eca5075ec3d04d27aebeac9b83ac0ee560021aaa5fd585759b0f",
+      "source_url": "https://www.cse.msu.edu/~kordjams/data/SPARTUN.zip"
+    },
+    "stepgame/repo/Code/parameterized_step_game_8relation.py": {
+      "bytes": 13288,
+      "sha256": "5144f62caf6adcca80ae282c02693a49b842e6150487aed50c624f2239a244c5",
+      "source_url": "https://raw.githubusercontent.com/ShiZhengyan/StepGame/5e6aff1563a6d7f46ee1f1aeff98b94e68c29005/Code/parameterized_step_game_8relation.py"
+    },
+    "stepgame/repo/Code/template.py": {
+      "bytes": 15558,
+      "sha256": "c9ff684b7674a2c8c11af6d584619c24786d704d6eaa031d28d50e3983db0c02",
+      "source_url": "https://raw.githubusercontent.com/ShiZhengyan/StepGame/5e6aff1563a6d7f46ee1f1aeff98b94e68c29005/Code/template.py"
+    },
+    "stepgame/test.jsonl": {
+      "bytes": 61771409,
+      "sha256": "8fd1a61d36257322752f39e412d7aff1a187a555a30414a10c1bae66acd112bc",
+      "source_url": "https://raw.githubusercontent.com/ShiZhengyan/StepGame/5e6aff1563a6d7f46ee1f1aeff98b94e68c29005/Dataset/TrainVersion/test.jsonl"
+    }
+  },
+  "generated_by": "audit_spatial_reasoning.py",
+  "method": "All counts are recomputed from frozen raw records. Hard-coded values are used only as hash and regression assertions.",
+  "raw_root": "raw/logic (relative to audit_spatial_reasoning.py)",
+  "schema_version": 2
+}

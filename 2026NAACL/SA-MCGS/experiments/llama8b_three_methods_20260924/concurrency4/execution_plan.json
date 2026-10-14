@@ -1,0 +1,23 @@
+{
+  "previous_job_id": "394926",
+  "node": "dgx-100",
+  "nodes": 1,
+  "gpus": 1,
+  "case_concurrency_before": 2,
+  "case_concurrency_after": 4,
+  "vllm_max_num_seqs_before": 8,
+  "vllm_max_num_seqs_after": 16,
+  "gpu_memory_utilization": 0.85,
+  "context_length": 131072,
+  "max_num_batched_tokens": 8192,
+  "sa_internal_concurrency": 8,
+  "sa_budget": 60,
+  "window": 4,
+  "one_shot_output_cap": 12000,
+  "lea_sa_output_cap": 2048,
+  "base_protocol_sha256": "88fca6211d93c02fa5d6d54821d33262c9d093a36a20742c7dc23dba3705f953",
+  "original_launcher_sha256": "97f6b3909746226a7237046c352944c2785e4b5b2887b79c4986fc361018e01f",
+  "handoff": "Held successor accepted first, stop original batch with USR1, confirm terminal and process cleanup, snapshot final result and cache hashes, release held successor. No overlapping workers or extra nodes.",
+  "user_request": "可以提升一些并发快一些吗",
+  "reason": "Single request-heavy phases underfill max_num_seqs=8; four longest One-shot requests fit 420096-token KV pool."
+}

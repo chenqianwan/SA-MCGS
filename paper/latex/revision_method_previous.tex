@@ -1,0 +1,124 @@
+\ifrevisionmarks
+\subsection*{\revdel{Objective}}
+
+\revdel{\samcgs{} avoids path-copy states by treating each \scc{} $S$ as a localized graph object.  The desired output is a subgraph $H\subseteq S$ that keeps enough evidence for remediation while remaining smaller than the original component.  Let $R^\star\subseteq S$ denote the latent repair-relevant endpoints in evaluation, e.g., root and witness records.  At inference $R^\star$ is unknown, so the algorithm estimates node and relation utility from rollout evidence.  The empirical objective is given by}
+
+\begin{equation*}
+\revdeletedmath{\max_{H\subseteq S} \; \widehat{R}(H) - \lambda \frac{|H|}{|S|},}
+\end{equation*}
+
+\revdel{where $\widehat{R}(H)$ estimates evidence retention and $\lambda$ controls compression pressure.  The objective balances risk coverage, measured by \riskany{} and \riskall{}, against compression, reflecting the need for a small $H$ to retain repair-relevant evidence.}
+
+\subsection*{\revdel{SCC-aware local rollouts}}
+
+\revdel{We first decompose the record graph using Tarjan's linear-time algorithm (Tarjan, 1972).  DAG regions are handled by the ordinary upstream search, whereas each non-trivial \scc{} is processed by \samcgs{}.  At rollout $t$, the algorithm selects a seed $a_t\in S$ and constructs a local window}
+
+\begin{equation*}
+\revdeletedmath{W_t = \{v\in S : \operatorname{dist}_{S}(a_t,v)\leq r\} \cup B_t,}
+\end{equation*}
+
+\revdel{where $r$ is a small graph radius and $B_t$ contains selected bridge or memory nodes.  The LLM evaluator observes node text and visible directed edges restricted to $W_t$, excluding the remainder of the \scc{}.  It returns local node scores $y_t(v)\in[0,1]$, relation evidence $z_t(u,v)\in[0,1]$, a local risk subgraph $h_t$, and optional \oc{} evidence.}
+
+\revdel{Seed selection and frontier expansion follow the UCB intuition used in MCTS (Kocsis and Szepesv{\'a}ri, 2006). Statistics are keyed by physical graph objects instead of path copies.  Let $x$ denote either a seed node $v$ or a frontier edge $e=(u,v)$.  \samcgs{} scores both with the same exploration template:}
+
+\begin{equation*}
+\revdeletedmath{\begin{aligned}
+    U_t(x)=&\;\bar{r}_t(x)
+    + c_t\sqrt{\frac{\log(1+N_t)}
+    {n_t(x)+\ell_t(x)+\epsilon}}\\
+    &+\frac{\lambda\pi_t(x)}
+    {1+\delta\sqrt{n_t(x)}}+\eta_t(x),
+    \end{aligned}}
+\end{equation*}
+
+\revdel{where $\bar{r}_t(x)$ is the current empirical risk or conflict estimate, $n_t(x)$ is the number of times $x$ has been observed, $\ell_t(x)$ is virtual loss for concurrent workers, $\pi_t(x)$ is a relation-first prior, and $\eta_t(x)$ is exploration noise.  The prior is computed from rollout evidence without domain-specific labels.}
+
+\begin{equation*}
+\revdeletedmath{\pi_t(x)=
+    \frac{[w^\top\phi_t(x)]_+}
+    {\max_{x'}[w^\top\phi_t(x')]_+ + \epsilon}.}
+\end{equation*}
+
+\revdel{For nodes, $\phi_t(x)$ contains repair-entry counts, local risk-subgraph appearances, conflict-pair endpoint support, AMAF/RAVE-style evidence, path-fragment support, and \oc{} endpoint indicators.  For edges, it contains semantic incompatibility, repeated pair support, explicit conflict reports, reverse-edge support, and accumulated conflict evidence.  Weights $w$ are fixed before the locked evaluation and reported in Appendix~F.  The decay term in Eq.~4 prevents an early prior from dominating after sufficient node or edge samples.  Together, these choices implement progressive relation bias, analogous in spirit to progressive bias and RAVE-style reuse (Gelly and Silver, 2007; Chaslot et~al., 2008; Browne et~al., 2012), while keeping the update key tied to physical nodes and edges as graph-level objects (Czech et~al., 2021).}
+
+\subsection*{\revdel{Relation-first evidence memory}}
+
+\revdel{Structural risk is relational in the sense that a node can appear harmless until previous evidence makes it incompatible with the graph context.  This matches the relational-inductive-bias view that graph-structured reasoning should represent entities together with the relations that define their roles (Battaglia et~al., 2018).  We therefore maintain memory}
+
+\begin{equation*}
+\revdeletedmath{M_t = \{n_t(v),\bar{q}_t(v),m_t(u,v),o_t(v)\}_{v,u\in S},}
+\end{equation*}
+
+\revdel{where $m_t(u,v)$ stores support that the directed relation $(u,v)$ makes either endpoint risky, and $o_t(v)$ stores whether $v$ has appeared in effective \oc{} evidence.  Node evidence is updated by running averages and relation evidence by smoothed pair support. Appendix~E gives the exact update equations.  Let $r^-_t(v)$ and $r^+_t(v)$ be the strongest incoming and outgoing relation-memory scores around $v$.  The priority score used for core construction combines node evidence, relation evidence, \oc{} support, and a persistent critical-pair ledger:}
+
+\begin{equation*}
+\revdeletedmath{\begin{aligned}
+    s_t(v)=&\;\bar{q}_t(v)
+    + \alpha r^-_t(v)+\alpha r^+_t(v)\\
+    &\quad
+    + \gamma o_t(v)+\mu p_t(v).
+    \end{aligned}}
+\end{equation*}
+
+\revdel{Relation evidence is aggregated by maxima over incoming and outgoing edges to limit degree bias from highly connected nodes.  Bounded \oc{} and pair-ledger bonuses prioritize severe recurring hypotheses, allowing persistent relation evidence to outweigh isolated local judgments.}
+
+\subsection*{\revdel{Online conformal-style evidence signal}}
+
+\revdel{Single LLM judgments are noisy, especially on local windows.  We therefore add a calibration-inspired discovery signal.  At each rollout, \samcgs{} compares the strongest local relation-conflict score against an online quantile of previous conflict scores. Appendix~E gives the exact rule.  We call a threshold crossing an online calibrated conflict signal (\oc{}). The signal marks a local window whose ordered cycle or contradiction cue is unusually strong relative to earlier rollouts, and endpoints of the implicated relation receive an \oc{} bonus in Eq.~7.  The calibration motivation follows conformal calibration (Vovk et~al., 2005; Gibbs and Cand{\`e}s, 2021). No formal coverage guarantee is claimed because the LLM evaluator and rollout policy are adaptive.  We use \oc{} as evidence routing and convergence support, while final evaluation is still based on the returned subgraph $H$.}
+
+\subsection*{\revdel{Dynamic core compression}}
+
+\revdel{We maintain the final risk subgraph as a dynamic core with replacement, avoiding monotonic expansion.  Classical greedy guarantees apply to monotone submodular objectives under cardinality constraints (Nemhauser et~al., 1978). We use greedy replacement as a heuristic for the relation-aware utility below.  After each rollout, \samcgs{} forms a candidate pool $C_t$ from the local risk subgraph, the previous core, \oc{} endpoints, and top-scoring relation endpoints with local neighbors.  The core is selected by maximizing a bounded utility:}
+
+\begin{equation*}
+\revdeletedmath{\begin{aligned}
+    H_t &= \arg\max_{\substack{H\subseteq C_t\\ |H|\leq B(S)}}
+    \Bigg[
+    \sum_{v\in H}s_t(v)\\
+    &\quad + \eta \sum_{(u,v)\in E(H)}m_t(u,v)\\
+    &\quad - \lambda |H|
+    \Bigg].
+    \end{aligned}}
+\end{equation*}
+
+\revdel{We implement this objective with greedy replacement: high-confidence endpoints may evict weaker nodes, whereas repeatedly supported relation endpoints are retained as locked evidence.  This design aims to retain critical evidence under a fixed core budget. When a rollout observes both endpoints of a severe contradiction, subsequent rollouts should revisit and stabilize that relation, instead of allowing unrelated high-scoring distractors to occupy the subgraph. The paired replay in Section~6.2 isolates the effect of final-core replacement using identical search trajectories.}
+
+\paragraph{\revdel{\samcgs{} for one strongly connected component}}
+
+\noindent\revdel{Require: Component $S=(V_S,E_S)$, budget $T$, shared rubric and domain serializer}\par
+
+\noindent\revdel{Initialize memory $M_0$ and core $H_0=\emptyset$}\par
+
+\noindent\revdel{for $t=1$ to $T$}\par
+
+\noindent\revdel{Select seed $a_t=\arg\max_{v\in V_S}U_t(v)$ using Eq.~4}\par
+
+\noindent\revdel{Build local window $W_t$ around $a_t$ plus memory bridges}\par
+
+\noindent\revdel{Query LLM with the shared risk rubric on $W_t$}\par
+
+\noindent\revdel{Receive $y_t(v)$, $z_t(u,v)$, local subgraph $h_t$, and \oc{} evidence}\par
+
+\noindent\revdel{Update node and relation memory $M_t$}\par
+
+\noindent\revdel{Recompute dynamic core $H_t$ using Eq.~8}\par
+
+\noindent\revdel{endfor}\par
+
+\noindent\revdel{Return: risk subgraph $H_T$ and node ranking by $s_T(v)$}\par
+
+\subsection*{\revdel{Computational feasibility}}
+
+\revdel{\samcgs{} is an anytime graph-search procedure in the sense of
+Zilberstein (1996).  Tarjan preprocessing is
+$O(|V|+|E|)$.  For a component $S$, the method performs $T$ local LLM
+evaluations over windows of at most $w$ records, with prompt cost
+$O(T\cdot\operatorname{tokens}(w))$.  Its evidence memory is keyed by
+physical nodes and observed relations, not path-copy states, and stores
+$O(|S|+|E_S|)$ statistics.  The dynamic core cap $B(S)$ bounds the
+retained subgraph, allowing additional budget to refine the same physical
+memory without expanding a cyclic tree indefinitely.  The resulting
+collapsed evaluation point is anytime-compatible for higher-level graph search.
+Appendix~J.2 analyzes performance across rollout-budget prefixes.
+Section~6.3 reports call and token counts; concurrent rollouts can reduce waiting time without reducing the inference workload.}
+\fi

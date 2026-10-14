@@ -1,0 +1,23 @@
+本轮：三个模型，各80个主实验案例，五种搜索设置，各跑一次，共1200次搜索。
+
+模型：Llama 3.1-8B、Qwen3.5-9B、Kimi-VL-A3B。
+搜索设置：完整SA、去普通关系引导、去关键对复查、两者都去、随机邻接窗口。
+外层并发：Llama 20、Qwen 32、Kimi 64；每次搜索60轮，窗口4，内部并发4。
+
+四组分析全部执行：
+1. 同轨迹同输出大小：完整选择器、平均风险、LEA聚合、锁定不替换。
+2. 保留比例上限25%/35%/45%/60%，最低4个节点，报告实际输出大小。
+3. 五组搜索结果用同一平均风险top-k比较，另报各组原生输出。
+4. 15/30/45/60步完成轨迹前缀的结果，以及实际调用/token消耗。
+
+主指标：Risk-all、Risk-any、Root@3、压缩率；同时保留领域、模板、图大小分组。
+单次运行，不计算三次运行平均。80个注入变体来自20个源SCC，1200是运行数而非独立案例数。
+
+任务目录由独立文件锁保护，已完成结果不重跑；科学无效输出计零，基础设施故障与未完成单列。
+旧主实验和旧论文文件不改。
+
+远端目录：/aifs4su/hansirui_3rd/chenlong/mcgs_law/component_mechanisms_20261010
+进度：execution/status.json；每个任务还保存progress.json和trace.jsonl。
+全部搜索结束后自动生成reports/REPORT.md、summary.csv、case_metrics.csv等。
+
+实际部署/启动状态以execution/step_launch_receipt.json和execution/status.json为准。

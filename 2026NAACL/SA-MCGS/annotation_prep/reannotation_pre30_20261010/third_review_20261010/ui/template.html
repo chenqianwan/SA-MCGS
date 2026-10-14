@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="专家3独立标注页面，离线保存与导出。">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>专家 3 · 独立标注</title>
+  <style>__APP_CSS__</style>
+</head>
+<body>
+  <header class="app-header">
+    <h1>专家 3 · 独立标注</h1>
+    <p class="subtitle">请阅读每个案例的完整材料，独立作出判断并选择相关段落。答案自动保存在当前浏览器；完成后请导出备份。</p>
+  </header>
+  <div id="fatalError" class="fatal" role="alert" hidden></div>
+  <div id="storageNotice" class="storage-notice" role="alert" hidden></div>
+  <main id="app" class="app-grid" hidden>
+    <aside class="sidebar" aria-label="案例与进度">
+      <div class="sidebar-controls">
+        <div class="progress-row"><strong id="progressText"></strong><span id="draftText" class="muted small"></span></div>
+        <progress id="progressBar" value="0" max="1" aria-label="已确认进度"></progress>
+        <label for="completionFilter">显示案例</label>
+        <select id="completionFilter"><option value="all">全部案例</option><option value="incomplete">未确认</option><option value="confirmed">已确认</option></select>
+      </div>
+      <nav id="caseList" class="case-list" aria-label="案例列表"></nav>
+      <div class="sidebar-footer">
+        <button id="exportJsonBtn" type="button" class="button">导出 JSON 备份</button>
+        <button id="importJsonBtn" type="button" class="button">导入本批次 JSON</button>
+        <button id="exportCsvBtn" type="button" class="button">导出 CSV 表格</button>
+        <input id="importFile" type="file" accept=".json,application/json" hidden>
+        <p class="muted small">自动保存仅限当前浏览器。结束前请导出 JSON 备份；文件不会上传。</p>
+      </div>
+    </aside>
+    <section class="workspace" aria-label="案例标注">
+      <div class="workspace-toolbar">
+        <div id="casePosition" class="muted small"></div>
+        <label class="language-control" for="languageSelect">材料显示 <select id="languageSelect"><option value="zh">中文优先</option><option value="original">原文</option></select></label>
+      </div>
+      <div class="hint-controls">
+        <button id="toggleHintsBtn" class="button" type="button" aria-pressed="false">显示 SA/LEA 提示</button>
+        <p id="hintVisibilityStatus" class="muted small" role="status">SA/LEA 提示默认隐藏，可按需打开。</p>
+      </div>
+      <div id="caseContent"></div>
+      <div class="bottom-bar">
+        <div id="saveStatus" class="save-status" role="status" aria-live="polite">尚未填写</div>
+        <div class="actions"><button id="previousBtn" class="button" type="button">上一例</button><button id="confirmBtn" class="button primary" type="button">确认并保存</button><button id="nextBtn" class="button" type="button">下一例</button></div>
+      </div>
+    </section>
+  </main>
+  <footer class="page-footer">请独立核对原文；标注不会上传。</footer>
+  <script type="application/json" id="payloadData">__PAYLOAD_JSON__</script>
+  <script type="application/json" id="methodHintsData">__METHOD_HINTS_JSON__</script>
+  <script>__APP_JS__</script>
+</body>
+</html>

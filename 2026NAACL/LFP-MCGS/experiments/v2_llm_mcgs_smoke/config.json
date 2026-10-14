@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "run_id": "v2-local-llm-lfp-mcgs-smoke-r2-20260818",
+  "run_date": "2026-08-18",
+  "evidence_status": "exploratory_smoke",
+  "claim_boundary": "This run validates a frozen local-LLM parser -> branch-local Horn KB -> exact LFP -> TreeMCTS/MCGS execution path. It is not an accuracy, cost, revision, or SCC-causality result.",
+  "parser": {
+    "base_url": "http://localhost:11434/v1",
+    "model": "qwen2.5:14b",
+    "model_digest": "7cdf5a0187d5c58cc5d369b255592f7841d1c4696d45a8c8a9489440385b22f6",
+    "temperature": 0.0,
+    "max_tokens": 320,
+    "timeout_seconds": 120,
+    "prompt_version": "proofwriter-positive-horn-v3",
+    "validator_version": "noneg-canonical-v3"
+  },
+  "dataset": {
+    "path": "dataset_audit/raw/logic/proofwriter/proofwriter-dataset-V2020.12.3/OWA/depth-5/meta-dev.jsonl",
+    "cases": [
+      {"case_id": "AttNoneg-OWA-D5-308::Q7"},
+      {"case_id": "AttNoneg-OWA-D5-1432::Q9"},
+      {"case_id": "RelNoneg-OWA-D5-404::Q9"},
+      {"case_id": "RelNoneg-OWA-D5-975::Q9"},
+      {"case_id": "AttNoneg-OWA-D5-400::Q14"},
+      {"case_id": "RelNoneg-OWA-D5-336::Q18"}
+    ]
+  },
+  "search": {
+    "real_action_budget": 10,
+    "simulator_kind": "predicate_obligation_sketch_v2",
+    "simulations_per_decision": 64,
+    "rollout_depth": 3,
+    "exploration_constant": 1.35,
+    "seeds": [17, 29, 43],
+    "policies": [
+      "random",
+      "surface_obligation_greedy",
+      "sketch_greedy",
+      "tree_mcts_sketch",
+      "lfp_mcgs_sketch"
+    ]
+  },
+  "smoke_gates": {
+    "minimum_valid_parse_rate": 0.9,
+    "minimum_semantic_exact_parse_rate": 0.9,
+    "minimum_extract_all_productive_cases": 3,
+    "minimum_mcgs_unique_cases": 1,
+    "minimum_verified_proofs": 1,
+    "require_multisource_proof": true,
+    "require_mcgs_transposition_hit": true,
+    "require_tree_and_graph_execution": true
+  }
+}

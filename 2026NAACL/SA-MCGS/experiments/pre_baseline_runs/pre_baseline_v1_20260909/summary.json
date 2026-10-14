@@ -1,0 +1,200 @@
+{
+  "schema_version": "pre_baseline_summary_v1",
+  "generated_at": "2026-09-09T08:39:14+08:00",
+  "status": "complete_with_retained_strict_invalids",
+  "scope": {
+    "condition": "pre",
+    "source_sccs": 18,
+    "models": [
+      "gpt-4o",
+      "gemini-2.5-pro"
+    ],
+    "post_rerun": false,
+    "pre_lea_rerun": false
+  },
+  "results": {
+    "one_shot_formal_first_attempt": {
+      "overall": {
+        "attempted": 36,
+        "valid": 30,
+        "invalid": 6,
+        "assert": 30,
+        "abstain": 0,
+        "strict_valid_rate": 0.8333333333333334
+      },
+      "gpt-4o": {
+        "attempted": 18,
+        "valid": 12,
+        "invalid": 6,
+        "assert": 12,
+        "abstain": 0,
+        "strict_valid_rate": 0.6666666666666666
+      },
+      "gemini-2.5-pro": {
+        "attempted": 18,
+        "valid": 18,
+        "invalid": 0,
+        "assert": 18,
+        "abstain": 0,
+        "strict_valid_rate": 1.0
+      }
+    },
+    "sa_original_first_attempt_reliability": {
+      "overall": {
+        "attempted": 36,
+        "valid": 12,
+        "invalid": 24,
+        "assert": 12,
+        "abstain": 0,
+        "strict_valid_rate": 0.3333333333333333
+      },
+      "gpt-4o": {
+        "attempted": 18,
+        "valid": 8,
+        "invalid": 10,
+        "assert": 8,
+        "abstain": 0,
+        "strict_valid_rate": 0.4444444444444444
+      },
+      "gemini-2.5-pro": {
+        "attempted": 18,
+        "valid": 4,
+        "invalid": 14,
+        "assert": 4,
+        "abstain": 0,
+        "strict_valid_rate": 0.2222222222222222
+      },
+      "original_invalids_preserved": true
+    },
+    "sa_exact_retry": {
+      "overall": {
+        "attempted": 24,
+        "valid": 21,
+        "invalid": 3,
+        "assert": 21,
+        "abstain": 0,
+        "strict_valid_rate": 0.875
+      },
+      "gpt-4o": {
+        "attempted": 10,
+        "valid": 7,
+        "invalid": 3,
+        "assert": 7,
+        "abstain": 0,
+        "strict_valid_rate": 0.7
+      },
+      "gemini-2.5-pro": {
+        "attempted": 14,
+        "valid": 14,
+        "invalid": 0,
+        "assert": 14,
+        "abstain": 0,
+        "strict_valid_rate": 1.0
+      }
+    },
+    "sa_merged_unique_cell_availability": {
+      "overall": {
+        "unique_cells": 36,
+        "available_valid": 33,
+        "unresolved_invalid": 3,
+        "availability_rate": 0.9166666666666666
+      },
+      "gpt-4o": {
+        "unique_cells": 18,
+        "available_valid": 15,
+        "unresolved_invalid": 3,
+        "availability_rate": 0.8333333333333334
+      },
+      "gemini-2.5-pro": {
+        "unique_cells": 18,
+        "available_valid": 18,
+        "unresolved_invalid": 0,
+        "availability_rate": 1.0
+      },
+      "does_not_replace_first_attempt_reliability": true
+    },
+    "sa_all_attempts_audit_only": {
+      "attempted": 60,
+      "valid": 33,
+      "invalid": 27,
+      "unique_cells": 36,
+      "contains_repeated_cells": true
+    }
+  },
+  "usage": {
+    "pricing_version": "a42d372ccf0b5dd13ecf71203521f9d2",
+    "line_budget_usd": 55.0,
+    "entries": {
+      "one_shot_paid_smoke": {
+        "api_calls": 2,
+        "prompt_tokens": 2900,
+        "completion_tokens": 8270,
+        "total_tokens": 11170,
+        "estimated_usd": 0.08802875
+      },
+      "one_shot_formal": {
+        "api_calls": 60,
+        "prompt_tokens": 1694027,
+        "completion_tokens": 444758,
+        "total_tokens": 2138785,
+        "estimated_usd": 7.77953375
+      },
+      "sa_retry_gpt10": {
+        "api_calls": 527,
+        "prompt_tokens": 1207409,
+        "completion_tokens": 845985,
+        "total_tokens": 2053394,
+        "estimated_usd": 11.4783725
+      },
+      "sa_retry_gemini14": {
+        "api_calls": 613,
+        "prompt_tokens": 1633988,
+        "completion_tokens": 1324606,
+        "total_tokens": 2958594,
+        "estimated_usd": 15.288545
+      }
+    },
+    "total_including_paid_smoke": {
+      "api_calls": 1202,
+      "successful_api_calls": 1202,
+      "failed_api_calls": 0,
+      "prompt_tokens": 4538324,
+      "completion_tokens": 2623619,
+      "total_tokens": 7161943,
+      "estimated_usd": 34.63448,
+      "budget_remaining_usd": 20.36552,
+      "within_budget": true
+    },
+    "xhub_balance_cross_check": {
+      "global_start_usd": 907.078988,
+      "pre_line_start_snapshot_usd": 905.006092,
+      "final_snapshot_usd": 819.228642,
+      "global_observed_delta_usd": 87.850346,
+      "pre_line_window_observed_delta_usd": 85.77745,
+      "shared_concurrency_prevents_account_delta_attribution": true
+    }
+  },
+  "identity": {
+    "source_manifest_sha256": "5872e4c255e5b099a1f3af68a8e4c396ec0bb1a2d8ddaf5da6b41af563777035",
+    "one_shot_plan_fingerprint": "sha256:c8b19a8b76845ea24f86bd0969e72098253e09038597f835c57e561d6ff203f4",
+    "one_shot_protocol_fingerprint": "sha256:2d9aba5aeec944b33cac56599ec787d6b03b4b89b21e86eae96716b9b12c9cf8",
+    "sa_protocol_fingerprint": "sha256:873882b0f28e64bd6abef9fc99d122b8334e45144c75dfdc90fa516862674bd9",
+    "one_shot_unique_case_uids": 36,
+    "gpt_original_invalid_retry_plan_result_id_sets_equal": true,
+    "gemini_original_invalid_retry_plan_result_id_sets_equal": true,
+    "all_new_results_condition_pre": true,
+    "all_new_results_inject_mode_false": true,
+    "all_new_results_unmodified": true,
+    "all_new_nested_identities_consistent": true
+  },
+  "paths": {
+    "root": "/Users/chenlong/WorkSpace/MCGS_Law/2026NAACL/SA-MCGS/experiments/pre_baseline_runs/pre_baseline_v1_20260909",
+    "one_shot_formal": "one_shot_full",
+    "sa_retry_gpt10": "sa_retry_gpt10",
+    "sa_retry_gemini14": "sa_retry_gemini14",
+    "human_report": "PRE_BASELINE_FINAL_REPORT_ZH.md",
+    "budget_ledger": "budget_ledger.json",
+    "integrity_audit": "integrity_audit.json",
+    "result_table": "pre_baseline_results.csv"
+  }
+}

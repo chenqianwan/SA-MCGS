@@ -1,0 +1,19 @@
+{
+  "schema": "three_wave_strict_aggregate_v1",
+  "input_manifest": {"wave_dirs": ["equal_budget_all80_20261009", "equal_budget_all80_wave2_20261010", "equal_budget_all80_wave3_20261010"], "historical_sa_reference": "equal_budget_all80_20261009/historical_sa_reference.json"},
+  "relative_path_base": "experiments directory (override with --experiments-root)",
+  "new_results_per_wave": 480,
+  "cases_per_model_method_wave": 80,
+  "waves": 3,
+  "repeat_interpretation": "Three new samplings under identical settings (Python/selector seed 42; server seed not explicitly passed), not distinct-seed experiments. Earlier 10-case pilot is excluded.",
+  "hit_metrics": ["risk_all", "root_at_3", "risk_any"],
+  "hit_denominator_per_wave": 80,
+  "strict_failure_hit_score": 0,
+  "compression": "Per-case 1-output_n/source_n; arithmetic mean among valid cases within each wave; then equal-weight mean and sample std across exactly three wave means.",
+  "compression_failed_cases": "null, excluded from that wave's compression mean; valid n reported separately for all three waves",
+  "compression_zero_valid_wave": "Three-wave compression mean/std remain null; do not skip the wave.",
+  "std_ddof": 1,
+  "formal_gate": "All three waves each have exactly 480 unique terminal baseline cells; all historical token-cap and settled-usage checks pass.",
+  "historical_sa": "Fixed original 240 model/case rows; one reference run only, with no repeat standard deviation.",
+  "raw_results": "Read-only; all discovered final records, including failures, are retained as metric/usage snapshots with source SHA256 in aggregate_summary.json."
+}

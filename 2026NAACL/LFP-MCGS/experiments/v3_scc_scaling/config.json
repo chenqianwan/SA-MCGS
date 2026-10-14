@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "v3-scc-scaling-a0",
+  "evidence_status": "synthetic_mechanism_probe_not_confirmatory",
+  "generation_date": "2026-08-18",
+  "fixed_seed": 20260818,
+  "scc_sizes": [3, 5, 7, 9, 12, 16, 20],
+  "families_per_size": 20,
+  "conditions": [
+    "productive_seeded_scc",
+    "unseeded_scc",
+    "matched_dag"
+  ],
+  "distractors": {
+    "multipliers": [2, 3],
+    "definition": "distractor_sources / (one seed source + scc_size rule sources)"
+  },
+  "budget": {
+    "real_action_multiplier_over_reference_cover": 2
+  },
+  "formal_profile": "finite_ground_positive_horn",
+  "source_graph_semantics": "directed predicate-overlap candidate graph; formal payload is hidden until source reveal",
+  "matched_control": {
+    "method": "split the seed-side occurrence of the closing predicate",
+    "hard_matches": [
+      "source_count",
+      "fact_count",
+      "rule_count",
+      "distractor_payloads",
+      "query_atom",
+      "minimum_derivation_depth"
+    ],
+    "topology": {
+      "productive_seeded_scc": "ring",
+      "unseeded_scc": "ring",
+      "matched_dag": "chain"
+    }
+  },
+  "output": {
+    "jsonl": "data/benchmark.jsonl",
+    "manifest": "data/manifest.json"
+  }
+}

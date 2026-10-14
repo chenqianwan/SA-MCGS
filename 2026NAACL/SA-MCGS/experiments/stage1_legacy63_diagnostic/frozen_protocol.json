@@ -1,0 +1,143 @@
+{
+  "protocol_version": "stage1_legacy63_diagnostic_v1",
+  "publication_role": "bounded zero-API diagnostic preservation of the 63 legacy Stage-1 cases not affected by the SEC identity mismatch",
+  "strict_publication_limitations": [
+    "The historical Full arm has no raw prompt/config hash and was not listed among the three contemporaneously executed ablation variants.",
+    "Every comparison against historical Full is diagnostic only, even when the raw case and physical-SCC identities agree.",
+    "The repaired contemporaneous 17-case SEC experiment must not be concatenated with these 63 historical cases into an 80-case headline result.",
+    "No confidence interval or confirmatory inference is produced by this addendum."
+  ],
+  "scope": {
+    "all_legacy_orders": {
+      "start": 1,
+      "end": 80
+    },
+    "excluded_identity_repair_orders": [
+      8,
+      14,
+      17,
+      18,
+      20,
+      39,
+      40,
+      44,
+      60,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      79,
+      80
+    ],
+    "included_case_count": 63,
+    "arms": [
+      "full-sa-mcgs-locked",
+      "no-relation-first-memory",
+      "no-critical-pair-ledger-revisit",
+      "random-local-window-selection"
+    ],
+    "expected_cells": 252
+  },
+  "metrics": {
+    "Root@3": "root_top3_hit",
+    "Risk-any": "core_evidence_contains_any_risk_node",
+    "Risk-all": "core_evidence_contains_all_risk_nodes"
+  },
+  "estimands": {
+    "case_weighted": "Arithmetic mean over the 63 fixed cases within each arm.",
+    "source_scc_equal_weighted": "Within each arm, first average cases inside each physical_scc_uid, then average the source-SCC means with equal weight."
+  },
+  "input_locks": {
+    "legacy_locator_index": {
+      "root": "repo",
+      "path": "experiments/stage2_paired_replay_80/diagnostic_only_legacy_stage1_summary.csv",
+      "sha256": "sha256:0353e253bd5ec78fc384962c8e97d93fed920c89aaa2b142484de2afc3dbc03e",
+      "permitted_fields": [
+        "case_order",
+        "case_id",
+        "variant_key",
+        "result_file",
+        "subset"
+      ],
+      "metric_fields_used_for_estimation": []
+    },
+    "original_legacy_summary": {
+      "root": "workspace",
+      "path": "emnlp2026_discussion/component_ablation_runs/stage1_full80_by_scc_size/summary_component_cases_full80.csv",
+      "sha256": "sha256:0353e253bd5ec78fc384962c8e97d93fed920c89aaa2b142484de2afc3dbc03e"
+    },
+    "canonical_identity_plan": {
+      "root": "repo",
+      "path": "validation/identity_stage2_80/case_plan.json",
+      "sha256": "sha256:f2776fd2b73a3af42ef6dd56d09f00f9b44a37b31a1f4878240c36e319778e9e"
+    },
+    "physical_scc_manifest": {
+      "root": "repo",
+      "path": "experiments/stage2_paired_replay_80case_identity_v1_final/replay_manifest.json",
+      "sha256": "sha256:1e5349e379390cbc1841a500cd945e3c8162749c86fc2dfee679d4c2bf4a1118"
+    },
+    "identity_repair_protocol": {
+      "root": "repo",
+      "path": "experiments/stage1_identity_safe_68_20260909_051438/formal/protocol.json",
+      "sha256": "sha256:63dd6778fff6815c18ba22a27f13467bb23f00b89300889208f6987dcb1c0586"
+    },
+    "legacy_runner": {
+      "root": "workspace",
+      "path": "emnlp2026_discussion/run_component_ablation_stage0.py",
+      "sha256": "sha256:40add984a609c12030e3d1a61b8a9521d2da8c0efb73c6bb032f9408317af3ad"
+    }
+  },
+  "source_shards": [
+    {
+      "name": "main20",
+      "workspace_path": "emnlp2026_discussion/component_ablation_runs/stage1_gpt4o_b60_ic4_cc4_20260711_main20",
+      "orders": [1, 20],
+      "run_config_sha256": "sha256:27df38d7a8b4b94615fcfbfd9a0523a4730f25c345774cfc5628b15e1783f5db",
+      "case_plan_sha256": "sha256:40e5365044a294def655faa57cd5e9cd39db1d7ff8c18097444fd95e6c2472f5"
+    },
+    {
+      "name": "extra_long20",
+      "workspace_path": "emnlp2026_discussion/component_ablation_runs/stage1_extra_long20_gpt4o_b60_ic4_cc4_20260711",
+      "orders": [21, 40],
+      "run_config_sha256": "sha256:f1a7fa9d0e7b3035b8fc55fa921de85cfe57d09e066e317e87efe5dcc92ffc46",
+      "case_plan_sha256": "sha256:7f12fd4850c9dc65cbec221037a74aeb24b58254e6030862789eb7a9fe7b36de"
+    },
+    {
+      "name": "extra_midshort40",
+      "workspace_path": "emnlp2026_discussion/component_ablation_runs/stage1_extra_midshort40_gpt4o_b60_ic4_cc4_20260711",
+      "orders": [41, 80],
+      "run_config_sha256": "sha256:75130879593897474739e7525e162b71e5789aa660f5c3e8b7876f27870f0718",
+      "case_plan_sha256": "sha256:cd9c3f17c789a828dd3a84e50f935f3f1d843ca020a76bfd68de263847aa8ba6"
+    }
+  ],
+  "locked_runtime": {
+    "model": "gpt-4o",
+    "budget": 60,
+    "window_size_from_run_config": 4,
+    "internal_concurrency": 4,
+    "case_concurrency": 4,
+    "inject_profile": "memory_stress",
+    "inject_profile_version": "structural_simple_v2",
+    "injected_conflict_severity": "critical"
+  },
+  "ablation_prompt_metadata": {
+    "mcgs_compression_profile": "current",
+    "prompt_adapter_type": "local_window_evidence_for_search",
+    "prompt_input_scope": "local_scc_window",
+    "prompt_semantic_audit_version": "shared_graph_risk_rubric_v1",
+    "prompt_semantic_audit_hash": "345549c32f20ec3a"
+  },
+  "physical_scc_identity": {
+    "version": "paired_core_physical_scc_v1",
+    "payload_fields": [
+      "version",
+      "domain",
+      "ordered_clause_ids"
+    ],
+    "uid_prefix": "psc-v1-",
+    "canonicalization": "UTF-8 JSON with ensure_ascii=false, sort_keys=true, separators=(',', ':') followed by SHA-256"
+  },
+  "network_or_paid_calls_permitted": false
+}

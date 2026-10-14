@@ -1,0 +1,26 @@
+--- before/revision_main_results.tex
++++ after/revision_main_results.tex
+@@ -1,5 +1,5 @@
+ % Main comparison: locked values in ARR_OCT2026_MASTER_REVISION_PLAN_ZH.md, Section 4.2.
+-% September 25 additions are green; the superseded September blue block was replaced.
++% September 25 table remains green; October 1 compressed result prose is red.
+ \begin{revnewblock}
+ \begin{table*}[t]
+ \centering
+@@ -34,9 +34,12 @@
+ \end{tabular*}
+ \end{table*}
+ 
+-\samcgs{} improves root localization over One-shot for GPT-4o, Qwen2.5-72B, Llama 3.1-8B-Instruct, and Qwen3.5-9B, and further increases \rootthree{} over LEA in each of these four models (Table~\ref{tab:matched_main}). For Llama 3.1-8B-Instruct, adaptive search raises \rootthree{} from 43.75\% with LEA to 61.25\%, a gain of 17.50 percentage points.
++\end{revnewblock}
+ 
+-These localization gains accompany more complete risk evidence in the returned subgraph. For both GPT-4o and Qwen2.5-72B, \samcgs{} increases \riskall{} from 43.75\% with LEA to 75.00\%, a gain of 31.25 points. Llama 3.1-8B-Instruct also improves \riskall{} by 13.75 points, from 35.00\% to 48.75\%. Gemini 2.5 Pro starts from a high baseline, with \riskall{} between 83.75\% and 85.00\% across the three methods.
++\begin{revredblock}
++\samcgs{} improves \rootthree{} over both One-shot and LEA for GPT-4o, Qwen2.5-72B, Llama 3.1-8B-Instruct, and Qwen3.5-9B (Table~\ref{tab:matched_main}). The largest gain over LEA is 17.50 percentage points for Llama 3.1-8B-Instruct.
+ 
+-Qwen3.5-9B combines higher \rootthree{} with more compact output: relative to LEA, \rootthree{} rises from 56.25\% to 62.50\% and compression from 51.26\% to 67.25\%, while \riskall{} remains at 63.75\%.
+-\end{revnewblock}
++Complete risk-evidence retention also improves: \riskall{} rises over LEA by 31.25 points for both GPT-4o and Qwen2.5-72B, and by 13.75 points for Llama 3.1-8B-Instruct. Gemini 2.5 Pro starts from a high baseline, with \riskall{} between 83.75\% and 85.00\% across the three methods.
++
++Qwen3.5-9B combines higher \rootthree{} with more compact output: compression reaches 67.25\% while \riskall{} matches LEA at 63.75\%.
++\end{revredblock}

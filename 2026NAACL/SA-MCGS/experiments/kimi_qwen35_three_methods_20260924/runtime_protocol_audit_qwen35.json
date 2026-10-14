@@ -1,0 +1,111 @@
+{
+  "at": "2026-09-24T23:30:42+0800",
+  "api_calls": 0,
+  "read_only": true,
+  "violations": [],
+  "status": {
+    "model": "qwen35",
+    "job_id": "395518",
+    "started_at": "2026-09-24T23:23:01+0800",
+    "hostname": "dgx-092",
+    "expected_results": 240,
+    "external_api_cost_usd": 0,
+    "same_node_model_and_workers": true,
+    "status": "server_starting",
+    "updated_at": "2026-09-24T23:25:54+0800",
+    "counts": {},
+    "server_attempt": 1
+  },
+  "protocol_sha256": "f1b6c802db1f1a344e1355d0d89770ed0e5806f6e8616a37913595f29858f2bd",
+  "frozen_fields": {
+    "model": "qwen3.5-9b",
+    "served_model": "qwen3.5-9b",
+    "checkpoint_repository": "Qwen/Qwen3.5-9B",
+    "checkpoint_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "base_url": "http://127.0.0.1:18083/v1",
+    "producer_sha256": "87e423dee7b4b368841025f7a288286ecf686ec00a2d8c375ec8b6d4f1323172",
+    "one_shot": {
+      "naive_profile": "direct_subgraph",
+      "temperature": 0.0,
+      "max_tokens": 12000,
+      "internal_concurrency": 1
+    },
+    "lea": {
+      "window_size": 4,
+      "temperature": 0.4,
+      "max_tokens": 2048,
+      "internal_concurrency": 1
+    },
+    "max_model_len": 131072
+  },
+  "producer_actual_sha256": "87e423dee7b4b368841025f7a288286ecf686ec00a2d8c375ec8b6d4f1323172",
+  "methods": {},
+  "tokenization_report": {
+    "passed": true,
+    "api_calls": 0,
+    "protocol_sha256": "f1b6c802db1f1a344e1355d0d89770ed0e5806f6e8616a37913595f29858f2bd",
+    "max_model_len": 131072,
+    "max_prompt_tokens": 66389,
+    "max_prompt_plus_output_tokens": 78389,
+    "tokenizer_files_sha256": {
+      "chat_template.jinja": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715",
+      "config.json": "d0883072e01861ed0b2d47be3c16c36a8e81c224c7ffaa310c6558fb3f932b05",
+      "merges.txt": "a9d356d7bdf1ef4949e3e748e95b8e10ad9d4e2e838eddc38a0a7b6b94d1db8d",
+      "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+      "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+      "vocab.json": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+    },
+    "coverage": "80 full-SCC One-shot prompts, every deterministic LEA window, SA stub trajectory plus mandatory actual-request runtime guard"
+  },
+  "scientific_source_hash_match": true,
+  "server_commands": [
+    {
+      "argv": [
+        "/aifs4su/hansirui/vllm-dsv4-venv/bin/python3",
+        "-B",
+        "-m",
+        "vllm.entrypoints.openai.api_server",
+        "--model",
+        "/aifs4su/hansirui_3rd/chenlong/kq35_20260924/models/qwen35",
+        "--served-model-name",
+        "qwen3.5-9b",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "18083",
+        "--dtype",
+        "bfloat16",
+        "--tensor-parallel-size",
+        "1",
+        "--max-model-len",
+        "131072",
+        "--max-num-seqs",
+        "32",
+        "--gpu-memory-utilization",
+        "0.85",
+        "--enable-chunked-prefill",
+        "--max-num-batched-tokens",
+        "8192",
+        "--generation-config",
+        "vllm",
+        "--override-generation-config",
+        "{\"top_k\":-1,\"top_p\":1.0,\"repetition_penalty\":1.0}",
+        "--language-model-only",
+        "--enforce-eager",
+        "--no-async-scheduling",
+        "--default-chat-template-kwargs",
+        "{\"enable_thinking\": false}"
+      ],
+      "base_url": "http://127.0.0.1:18083/v1",
+      "attempt": 1
+    }
+  ],
+  "infra_records": 0,
+  "actual_requests_observed": 0,
+  "actual_responses_observed": 0,
+  "actual_results_observed": 0,
+  "audit_scope": "configuration_and_actual_records_present_at_snapshot_only",
+  "actual_three_method_audit_complete": false,
+  "bounded_waits": 1,
+  "wait_seconds": 60
+}

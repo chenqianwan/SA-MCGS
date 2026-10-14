@@ -1,0 +1,713 @@
+{
+  "checked_at": "2026-09-24T20:21:50.899709+08:00",
+  "read_only": true,
+  "api_calls": 0,
+  "job_id": "395069",
+  "receipt": {
+    "job_id": "395069",
+    "previous_job_id": "395047",
+    "submitted_at": "2026-09-24T20:16:26+0800",
+    "held_until_handoff_complete": true,
+    "dependency": null,
+    "predecessor_terminal_verified_before_submission": true,
+    "node": "dgx-100",
+    "nodes": 1,
+    "gpu_count": 1,
+    "time_limit": "5-00:00:00",
+    "case_concurrency": 8,
+    "vllm_max_num_seqs": 32,
+    "base_protocol_sha256": "88fca6211d93c02fa5d6d54821d33262c9d093a36a20742c7dc23dba3705f953",
+    "staging_manifest_sha256": "d578c1a920bc1917c89f2dc99bf37aa4b61025438eff06c998f644b08657dd0b",
+    "sbatch_argv": [
+      "/cm/shared/apps/slurm/current/bin/sbatch",
+      "--parsable",
+      "--hold",
+      "--comment=chenlong_llama8b_c8_20260924",
+      "/aifs4su/hansirui_3rd/chenlong/llama8b_20260924/concurrency8/run_llama_experiment.sbatch"
+    ]
+  },
+  "slurm_job": {
+    "exit_code": 0,
+    "stdout": "JobId=395069 JobName=chenlong_llama8b_c8_resume UserId=hansirui_3rd(1083) GroupId=LAW(1015) MCS_label=N/A Priority=4294715827 Nice=0 Account=hansirui QOS=llm JobState=RUNNING Reason=None Dependency=(null) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:04:58 TimeLimit=5-00:00:00 TimeMin=N/A SubmitTime=2026-09-24T20:16:26 EligibleTime=2026-09-24T20:16:40 AccrueTime=2026-09-24T20:16:40 StartTime=2026-09-24T20:16:52 EndTime=2026-09-29T20:16:52 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-24T20:16:52 Scheduler=Backfill Partition=llm AllocNode:Sid=master-01:1748414 ReqNodeList=dgx-100 ExcNodeList=dgx-127 NodeList=dgx-100 BatchHost=dgx-100 NumNodes=1 NumCPUs=16 NumTasks=1 CPUs/Task=16 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=16,mem=128G,node=1,billing=16,gres/gpu=1 AllocTRES=cpu=16,node=1,billing=16,gres/gpu=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=16 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null) Command=/aifs4su/hansirui_3rd/chenlong/llama8b_20260924/concurrency8/run_llama_experiment.sbatch WorkDir=/aifs4su/hansirui_3rd/chenlong/llama8b_20260924 Comment=chenlong_llama8b_c8_20260924  StdErr=/aifs4su/hansirui_3rd/chenlong/llama8b_20260924/logs/experiment-395069.err StdIn=/dev/null StdOut=/aifs4su/hansirui_3rd/chenlong/llama8b_20260924/logs/experiment-395069.out Power= TresPerNode=gres:gpu:1",
+    "stderr": ""
+  },
+  "slurm_accounting": {
+    "exit_code": 0,
+    "stdout": "395069|RUNNING|0:0|00:04:58|dgx-100\n395069.batch|RUNNING|0:0|00:04:58|dgx-100",
+    "stderr": ""
+  },
+  "status": {
+    "started_at": "2026-09-24T20:16:52+0800",
+    "job_id": "395069",
+    "model": "llama-3.1-8b-instruct",
+    "cases": 80,
+    "methods": [
+      "naive-single",
+      "lea",
+      "sa-mcgs"
+    ],
+    "expected_results": 240,
+    "time_limit_seconds": 432000,
+    "external_api_spend_usd": 0,
+    "execution_profile": "concurrency8",
+    "case_concurrency": 8,
+    "server_max_num_seqs": 32,
+    "previous_job_id": "395047",
+    "original_scientific_source_unchanged": true,
+    "error_classification_amendment": "concurrency8/schema_amendment.json",
+    "status": "running",
+    "updated_at": "2026-09-24T20:21:43+0800",
+    "counts": {
+      "naive-single": {
+        "complete": 11,
+        "strict_experiment_failure": 11,
+        "other": 0
+      },
+      "lea": {
+        "complete": 20,
+        "strict_experiment_failure": 0,
+        "other": 0
+      },
+      "sa-mcgs": {
+        "complete": 18,
+        "strict_experiment_failure": 1,
+        "other": 0
+      }
+    }
+  },
+  "runtime": {
+    "hostname": "dgx-100",
+    "gpu": "NVIDIA H800",
+    "total_memory_bytes": 85017493504,
+    "free_memory_before_server_bytes": 84465025024,
+    "cuda_visible_devices": "0",
+    "vllm_version": "0.20.0+cu129",
+    "torch_version": "2.11.0+cu128",
+    "transformers_version": "5.6.2"
+  },
+  "server_command": {
+    "argv": [
+      "/aifs4su/hansirui/vllm-dsv4-venv/bin/python3",
+      "-B",
+      "-m",
+      "vllm.entrypoints.openai.api_server",
+      "--model",
+      "/aifs4su/hansirui_3rd/chenlong/llama8b_20260924/models/llama-3.1-8b-instruct",
+      "--served-model-name",
+      "llama-3.1-8b-instruct",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "18081",
+      "--dtype",
+      "bfloat16",
+      "--tensor-parallel-size",
+      "1",
+      "--max-model-len",
+      "131072",
+      "--max-num-seqs",
+      "32",
+      "--gpu-memory-utilization",
+      "0.85",
+      "--enable-chunked-prefill",
+      "--max-num-batched-tokens",
+      "8192",
+      "--generation-config",
+      "vllm",
+      "--override-generation-config",
+      "{\"top_k\":-1,\"top_p\":1.0,\"repetition_penalty\":1.0}",
+      "--enforce-eager",
+      "--no-async-scheduling"
+    ],
+    "base_url": "http://127.0.0.1:18081/v1"
+  },
+  "checkpoint_verification": {
+    "repository": "meta-llama/Llama-3.1-8B-Instruct",
+    "revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+    "model_path": "/aifs4su/hansirui_3rd/chenlong/llama8b_20260924/models/llama-3.1-8b-instruct",
+    "dtype": "bfloat16",
+    "files": [
+      {
+        "path": "config.json",
+        "size": 855,
+        "sha256": "29e4c210b0d6ac178b16b2a255a568bdb23b581e50ca1ef6a6d071dd85704e6e"
+      },
+      {
+        "path": "generation_config.json",
+        "size": 184,
+        "sha256": "189fb0c0d7fd8a527db217c0a60a0e013f0394cd8800f9697a666a9e75e5f7fd"
+      },
+      {
+        "path": "model-00001-of-00004.safetensors",
+        "size": 4976698672,
+        "sha256": "2b1879f356aed350030bb40eb45ad362c89d9891096f79a3ab323d3ba5607668"
+      },
+      {
+        "path": "model-00002-of-00004.safetensors",
+        "size": 4999802720,
+        "sha256": "09d433f650646834a83c580877bd60c6d1f88f7755305c12576b5c7058f9af15"
+      },
+      {
+        "path": "model-00003-of-00004.safetensors",
+        "size": 4915916176,
+        "sha256": "fc1cdddd6bfa91128d6e94ee73d0ce62bfcdb7af29e978ddcab30c66ae9ea7fa"
+      },
+      {
+        "path": "model-00004-of-00004.safetensors",
+        "size": 1168138808,
+        "sha256": "92ecfe1a2414458b4821ac8c13cf8cb70aed66b5eea8dc5ad9eeb4ff309d6d7b"
+      },
+      {
+        "path": "model.safetensors.index.json",
+        "size": 23950,
+        "sha256": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b"
+      },
+      {
+        "path": "tokenizer.json",
+        "size": 9085657,
+        "sha256": "79e3e522635f3171300913bb421464a87de6222182a0570b9b2ccba2a964b2b4"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "size": 55351,
+        "sha256": "177c7b61e616fecb84c17ce0591acb92c6c4d60e9ac5ababfb940ff23bbcd424"
+      }
+    ],
+    "marker_sha256": "e561ee5371ff6efc95a3e7f0f44b8c27d8cd78a93e375d65967f8b92bd6a3bdc",
+    "verified_at": "2026-09-24T20:17:10+0800"
+  },
+  "handoff_snapshot_sha256": "57fba443dd40e25c53846569fd182f3c22363935ee1717b065ff8c2665fc9425",
+  "preserved_result_count": 56,
+  "changed_results": [],
+  "verified_cache_prefixes": 118,
+  "changed_cache_prefixes": [],
+  "current_terminal_result_count": 61,
+  "current_result_counts": {
+    "naive-single:strict_experiment_failure": 11,
+    "sa-mcgs:complete": 18,
+    "naive-single:complete": 11,
+    "lea:complete": 20,
+    "sa-mcgs:strict_experiment_failure": 1
+  },
+  "schema_failures_allowed_as_terminal_observations": [
+    {
+      "file": "015_llama-3.1-8b_bgb11_scc_0_direct_mutex__sa-mcgs.json",
+      "case_id": "015_llama-3.1-8b_bgb11_scc_0_direct_mutex",
+      "method": "sa-mcgs",
+      "terminalization_protocol_sha256": "58924fc202a569eb108abd091b0908638a30c997e755fd373484e64397457241",
+      "schema_compat_adapter_sha256": "3534042d1e80012d0129ab10d15ee956d79c51b4711a756a81695ed54071e41d",
+      "cached_only_schema_recovery": true,
+      "schema_recovery_audit": {
+        "source_job_id": "395047",
+        "new_api_calls": 0,
+        "cached_completion_order": [
+          7,
+          6
+        ],
+        "original_request_starts": 8,
+        "consumed_request_starts": 8,
+        "consumed_cached_responses": 2,
+        "uncached_requests_held_without_network": 6,
+        "cache_files_sha256": {
+          "requests.jsonl": "d913682be64206c8144ba711e0c3e00c7f2dfac1bd9e5293ad6ee8737433c68a",
+          "responses.jsonl": "9e1c5a6418aecf5bedc9ea1f969eabcbbd31458c56d6f56e78f14b37d06fe5a4"
+        }
+      }
+    }
+  ],
+  "schema_execution_amendment": {
+    "amendment": {
+      "version": 1,
+      "amendment_id": "transposition_entry_validationerror_terminal_v1",
+      "base_request_protocol_sha256": "88fca6211d93c02fa5d6d54821d33262c9d093a36a20742c7dc23dba3705f953",
+      "original_launcher_sha256": "97f6b3909746226a7237046c352944c2785e4b5b2887b79c4986fc361018e01f",
+      "scope": "Execution-layer terminal classification only. Scientific source, prompts, parser, request/cache protocol, search parameters and recorded responses remain unchanged.",
+      "rule": "An original cost.run_method error_type ValidationError originating from AlphaGoMCGS TranspositionEntry construction is a terminal scientific schema failure. Preserve its subtype, message and traceback; do not repair or resample the response.",
+      "result_protocol_fields": {
+        "protocol_sha256": "Unchanged original request/scientific-code protocol; not the identity of this new producer",
+        "terminalization_protocol_sha256": "Hash binding the base request protocol, this amendment and actual compatibility adapter source",
+        "schema_compat_adapter_sha256": "Actual new producer source hash",
+        "schema_compat_amendment_sha256": "This amendment file hash"
+      },
+      "known_cached_failure": {
+        "case_id": "015_llama-3.1-8b_bgb11_scc_0_direct_mutex",
+        "method": "sa-mcgs",
+        "source_job_id": "395047",
+        "cache_files_sha256": {
+          "requests.jsonl": "d913682be64206c8144ba711e0c3e00c7f2dfac1bd9e5293ad6ee8737433c68a",
+          "responses.jsonl": "9e1c5a6418aecf5bedc9ea1f969eabcbbd31458c56d6f56e78f14b37d06fe5a4"
+        },
+        "failure_response_call_index": 6,
+        "failure_response_content_sha256": "130a200d43f1641b0dd6c21a8f63e5b7b232bc2faebdb8904decd9f1c883a2e2",
+        "recovery": "Replay original cached completion order with all uncached requests held locally and cancelled; zero inference requests. Reproduce the original scientific failure before writing its terminal observation."
+      }
+    },
+    "adapter_sha256": "3534042d1e80012d0129ab10d15ee956d79c51b4711a756a81695ed54071e41d",
+    "original_launcher_sha256": "97f6b3909746226a7237046c352944c2785e4b5b2887b79c4986fc361018e01f",
+    "note": "Original source/request protocol is preserved; model-output schema error classification is explicitly amended."
+  },
+  "worker_process_evidence": [
+    {
+      "name": "shard_0",
+      "pid": 10715,
+      "returncode": null,
+      "pid_visible_to_slurm": null,
+      "log_exists": true,
+      "log_bytes": 588,
+      "log_modified_at": "2026-09-24T20:21:05+08:00"
+    },
+    {
+      "name": "shard_1",
+      "pid": 10717,
+      "returncode": null,
+      "pid_visible_to_slurm": null,
+      "log_exists": true,
+      "log_bytes": 0,
+      "log_modified_at": "2026-09-24T20:18:11+08:00"
+    },
+    {
+      "name": "shard_2",
+      "pid": 10718,
+      "returncode": null,
+      "pid_visible_to_slurm": null,
+      "log_exists": true,
+      "log_bytes": 478,
+      "log_modified_at": "2026-09-24T20:21:17+08:00"
+    },
+    {
+      "name": "shard_3",
+      "pid": 10720,
+      "returncode": null,
+      "pid_visible_to_slurm": null,
+      "log_exists": true,
+      "log_bytes": 179,
+      "log_modified_at": "2026-09-24T20:19:41+08:00"
+    },
+    {
+      "name": "shard_4",
+      "pid": 10722,
+      "returncode": null,
+      "pid_visible_to_slurm": null,
+      "log_exists": true,
+      "log_bytes": 0,
+      "log_modified_at": "2026-09-24T20:18:11+08:00"
+    },
+    {
+      "name": "shard_5",
+      "pid": 10723,
+      "returncode": null,
+      "pid_visible_to_slurm": null,
+      "log_exists": true,
+      "log_bytes": 0,
+      "log_modified_at": "2026-09-24T20:18:11+08:00"
+    },
+    {
+      "name": "shard_6",
+      "pid": 10724,
+      "returncode": null,
+      "pid_visible_to_slurm": null,
+      "log_exists": true,
+      "log_bytes": 320,
+      "log_modified_at": "2026-09-24T20:18:27+08:00"
+    },
+    {
+      "name": "shard_7",
+      "pid": 10725,
+      "returncode": null,
+      "pid_visible_to_slurm": null,
+      "log_exists": true,
+      "log_bytes": 0,
+      "log_modified_at": "2026-09-24T20:18:11+08:00"
+    }
+  ],
+  "worker_liveness_scope": "OS PIDs use Slurm listpids if available. Otherwise eight launched workers plus the fresh coordinator heartbeat provide indirect liveness evidence; stored returncode=null alone is not treated as a live-process probe.",
+  "slurm_pid_query": {
+    "exit_code": 1,
+    "stdout": "PID      JOBID    STEPID   LOCALID GLOBALID",
+    "stderr": "JobId=395069 does not exist on node dgx-100."
+  },
+  "recent_server_metrics": [
+    {
+      "at": "2026-09-24T20:18:37+08:00",
+      "prompt_tokens_per_second": 19141.2,
+      "generation_tokens_per_second": 26.4,
+      "running": 15,
+      "waiting": 0,
+      "kv_usage_percent": 48.8
+    },
+    {
+      "at": "2026-09-24T20:18:47+08:00",
+      "prompt_tokens_per_second": 3982.7,
+      "generation_tokens_per_second": 593.7,
+      "running": 14,
+      "waiting": 0,
+      "kv_usage_percent": 56.3
+    },
+    {
+      "at": "2026-09-24T20:18:57+08:00",
+      "prompt_tokens_per_second": 472.8,
+      "generation_tokens_per_second": 557.9,
+      "running": 15,
+      "waiting": 0,
+      "kv_usage_percent": 56.6
+    },
+    {
+      "at": "2026-09-24T20:19:07+08:00",
+      "prompt_tokens_per_second": 283.0,
+      "generation_tokens_per_second": 640.1,
+      "running": 11,
+      "waiting": 0,
+      "kv_usage_percent": 55.9
+    },
+    {
+      "at": "2026-09-24T20:19:17+08:00",
+      "prompt_tokens_per_second": 651.4,
+      "generation_tokens_per_second": 559.9,
+      "running": 15,
+      "waiting": 0,
+      "kv_usage_percent": 56.9
+    },
+    {
+      "at": "2026-09-24T20:19:27+08:00",
+      "prompt_tokens_per_second": 240.9,
+      "generation_tokens_per_second": 548.3,
+      "running": 8,
+      "waiting": 0,
+      "kv_usage_percent": 56.3
+    },
+    {
+      "at": "2026-09-24T20:19:37+08:00",
+      "prompt_tokens_per_second": 726.4,
+      "generation_tokens_per_second": 615.0,
+      "running": 15,
+      "waiting": 0,
+      "kv_usage_percent": 58.7
+    },
+    {
+      "at": "2026-09-24T20:19:47+08:00",
+      "prompt_tokens_per_second": 1185.5,
+      "generation_tokens_per_second": 511.5,
+      "running": 15,
+      "waiting": 0,
+      "kv_usage_percent": 54.3
+    },
+    {
+      "at": "2026-09-24T20:19:57+08:00",
+      "prompt_tokens_per_second": 765.8,
+      "generation_tokens_per_second": 684.7,
+      "running": 11,
+      "waiting": 0,
+      "kv_usage_percent": 54.6
+    },
+    {
+      "at": "2026-09-24T20:20:07+08:00",
+      "prompt_tokens_per_second": 1287.6,
+      "generation_tokens_per_second": 512.6,
+      "running": 15,
+      "waiting": 0,
+      "kv_usage_percent": 54.6
+    },
+    {
+      "at": "2026-09-24T20:20:17+08:00",
+      "prompt_tokens_per_second": 431.3,
+      "generation_tokens_per_second": 679.4,
+      "running": 10,
+      "waiting": 0,
+      "kv_usage_percent": 54.7
+    },
+    {
+      "at": "2026-09-24T20:20:27+08:00",
+      "prompt_tokens_per_second": 275.3,
+      "generation_tokens_per_second": 406.3,
+      "running": 8,
+      "waiting": 0,
+      "kv_usage_percent": 54.8
+    },
+    {
+      "at": "2026-09-24T20:20:37+08:00",
+      "prompt_tokens_per_second": 687.1,
+      "generation_tokens_per_second": 642.9,
+      "running": 13,
+      "waiting": 0,
+      "kv_usage_percent": 56.4
+    },
+    {
+      "at": "2026-09-24T20:20:47+08:00",
+      "prompt_tokens_per_second": 642.7,
+      "generation_tokens_per_second": 455.8,
+      "running": 8,
+      "waiting": 0,
+      "kv_usage_percent": 55.2
+    },
+    {
+      "at": "2026-09-24T20:20:57+08:00",
+      "prompt_tokens_per_second": 736.6,
+      "generation_tokens_per_second": 517.4,
+      "running": 10,
+      "waiting": 0,
+      "kv_usage_percent": 56.0
+    },
+    {
+      "at": "2026-09-24T20:21:07+08:00",
+      "prompt_tokens_per_second": 0.0,
+      "generation_tokens_per_second": 390.3,
+      "running": 8,
+      "waiting": 0,
+      "kv_usage_percent": 63.6
+    },
+    {
+      "at": "2026-09-24T20:21:17+08:00",
+      "prompt_tokens_per_second": 4522.0,
+      "generation_tokens_per_second": 323.0,
+      "running": 8,
+      "waiting": 0,
+      "kv_usage_percent": 65.7
+    },
+    {
+      "at": "2026-09-24T20:21:27+08:00",
+      "prompt_tokens_per_second": 1584.9,
+      "generation_tokens_per_second": 557.3,
+      "running": 15,
+      "waiting": 0,
+      "kv_usage_percent": 71.2
+    },
+    {
+      "at": "2026-09-24T20:21:37+08:00",
+      "prompt_tokens_per_second": 281.4,
+      "generation_tokens_per_second": 492.5,
+      "running": 11,
+      "waiting": 0,
+      "kv_usage_percent": 69.2
+    },
+    {
+      "at": "2026-09-24T20:21:47+08:00",
+      "prompt_tokens_per_second": 193.7,
+      "generation_tokens_per_second": 374.7,
+      "running": 8,
+      "waiting": 0,
+      "kv_usage_percent": 67.1
+    }
+  ],
+  "recent_metrics_summary": {
+    "samples": 20,
+    "from": "2026-09-24T20:18:37+08:00",
+    "to": "2026-09-24T20:21:47+08:00",
+    "running_max": 15,
+    "waiting_max": 0,
+    "kv_usage_percent_max": 71.2,
+    "generation_mean": 504.485,
+    "generation_max": 684.7,
+    "observed_above_old_sequence_limit": false
+  },
+  "kv_cache": {
+    "memory_gib": 51.28,
+    "capacity_tokens": 420096
+  },
+  "preemption_log_lines": [],
+  "preemption_counter_queried": false,
+  "allowed_schema_tracebacks": [],
+  "log_tails": {
+    "vllm_server.log": [
+      "(APIServer pid=8886) INFO 09-24 20:21:17 [loggers.py:271] Engine 000: Avg prompt throughput: 4522.0 tokens/s, Avg generation throughput: 323.0 tokens/s, Running: 8 reqs, Waiting: 0 reqs, GPU KV cache usage: 65.7%, Prefix cache hit rate: 7.0%",
+      "(APIServer pid=8886) INFO:     127.0.0.1:48732 - \"POST /v1/chat/completions HTTP/1.1\" 200 OK",
+      "(APIServer pid=8886) INFO 09-24 20:21:27 [loggers.py:271] Engine 000: Avg prompt throughput: 1584.9 tokens/s, Avg generation throughput: 557.3 tokens/s, Running: 15 reqs, Waiting: 0 reqs, GPU KV cache usage: 71.2%, Prefix cache hit rate: 8.3%",
+      "(APIServer pid=8886) INFO:     127.0.0.1:38826 - \"POST /v1/chat/completions HTTP/1.1\" 200 OK",
+      "(APIServer pid=8886) INFO:     127.0.0.1:38800 - \"POST /v1/chat/completions HTTP/1.1\" 200 OK",
+      "(APIServer pid=8886) INFO:     127.0.0.1:38778 - \"POST /v1/chat/completions HTTP/1.1\" 200 OK",
+      "(APIServer pid=8886) INFO:     127.0.0.1:38786 - \"POST /v1/chat/completions HTTP/1.1\" 200 OK",
+      "(APIServer pid=8886) INFO:     127.0.0.1:43698 - \"POST /v1/chat/completions HTTP/1.1\" 200 OK",
+      "(APIServer pid=8886) INFO 09-24 20:21:37 [loggers.py:271] Engine 000: Avg prompt throughput: 281.4 tokens/s, Avg generation throughput: 492.5 tokens/s, Running: 11 reqs, Waiting: 0 reqs, GPU KV cache usage: 69.2%, Prefix cache hit rate: 8.3%",
+      "(APIServer pid=8886) INFO:     127.0.0.1:38840 - \"POST /v1/chat/completions HTTP/1.1\" 200 OK",
+      "(APIServer pid=8886) INFO:     127.0.0.1:38848 - \"POST /v1/chat/completions HTTP/1.1\" 200 OK",
+      "(APIServer pid=8886) INFO:     127.0.0.1:43084 - \"POST /v1/chat/completions HTTP/1.1\" 200 OK",
+      "(APIServer pid=8886) INFO:     127.0.0.1:38842 - \"POST /v1/chat/completions HTTP/1.1\" 200 OK",
+      "(APIServer pid=8886) INFO 09-24 20:21:47 [loggers.py:271] Engine 000: Avg prompt throughput: 193.7 tokens/s, Avg generation throughput: 374.7 tokens/s, Running: 8 reqs, Waiting: 0 reqs, GPU KV cache usage: 67.1%, Prefix cache hit rate: 8.3%",
+      "(APIServer pid=8886) INFO:     127.0.0.1:43698 - \"POST /v1/chat/completions HTTP/1.1\" 200 OK",
+      "(APIServer pid=8886) INFO:     127.0.0.1:38810 - \"POST /v1/chat/completions HTTP/1.1\" 200 OK"
+    ],
+    "shard_0.log": [
+      "2026-09-24 20:18:26.943 | INFO     | src.modules.alphago_mcgs:search:320 - AlphaGoMCGS: starting on 11 clauses, budget=60, window=4, concurrency=8",
+      "2026-09-24 20:20:27.860 | DEBUG    | src.modules.alphago_mcgs:search:361 -   batch 5: iter=48/60, llm=48, tt_hits=0, detected=1",
+      "2026-09-24 20:21:05.192 | INFO     | src.modules.alphago_mcgs:search:370 - AlphaGoMCGS complete: 60 iters, 59 LLM calls, 1 TT hits, detected=1, time=158.2s",
+      "{\"case\": 17, \"method\": \"sa-mcgs\", \"state\": \"complete\", \"cached_only_schema_recovery\": false, \"amendment\": \"transposition_entry_validationerror_terminal_v1\"}"
+    ],
+    "shard_1.log": [],
+    "shard_2.log": [
+      "{\"case\": 19, \"method\": \"naive-single\", \"state\": \"strict_experiment_failure\", \"cached_only_schema_recovery\": false, \"amendment\": \"transposition_entry_validationerror_terminal_v1\"}",
+      "{\"case\": 19, \"method\": \"lea\", \"state\": \"complete\", \"cached_only_schema_recovery\": false, \"amendment\": \"transposition_entry_validationerror_terminal_v1\"}",
+      "2026-09-24 20:21:17.416 | INFO     | src.modules.alphago_mcgs:search:320 - AlphaGoMCGS: starting on 9 clauses, budget=60, window=4, concurrency=8"
+    ],
+    "shard_3.log": [
+      "{\"case\": 28, \"method\": \"naive-single\", \"state\": \"strict_experiment_failure\", \"cached_only_schema_recovery\": false, \"amendment\": \"transposition_entry_validationerror_terminal_v1\"}"
+    ],
+    "shard_4.log": [],
+    "shard_5.log": [],
+    "shard_6.log": [
+      "2026-09-24 20:18:27.033 | INFO     | src.modules.alphago_mcgs:search:320 - AlphaGoMCGS: starting on 11 clauses, budget=60, window=4, concurrency=8",
+      "{\"case\": 15, \"method\": \"sa-mcgs\", \"state\": \"strict_experiment_failure\", \"cached_only_schema_recovery\": true, \"amendment\": \"transposition_entry_validationerror_terminal_v1\"}"
+    ],
+    "shard_7.log": []
+  },
+  "checks": [
+    {
+      "name": "receipt_eight_cases_and_thirty_two_sequences",
+      "passed": true
+    },
+    {
+      "name": "same_single_node_single_gpu_request",
+      "passed": true
+    },
+    {
+      "name": "slurm_running_or_completed",
+      "passed": true,
+      "state": "RUNNING"
+    },
+    {
+      "name": "runtime_status_running_or_complete",
+      "passed": true,
+      "status": {
+        "started_at": "2026-09-24T20:16:52+0800",
+        "job_id": "395069",
+        "model": "llama-3.1-8b-instruct",
+        "cases": 80,
+        "methods": [
+          "naive-single",
+          "lea",
+          "sa-mcgs"
+        ],
+        "expected_results": 240,
+        "time_limit_seconds": 432000,
+        "external_api_spend_usd": 0,
+        "execution_profile": "concurrency8",
+        "case_concurrency": 8,
+        "server_max_num_seqs": 32,
+        "previous_job_id": "395047",
+        "original_scientific_source_unchanged": true,
+        "error_classification_amendment": "concurrency8/schema_amendment.json",
+        "status": "running",
+        "updated_at": "2026-09-24T20:21:43+0800",
+        "counts": {
+          "naive-single": {
+            "complete": 11,
+            "strict_experiment_failure": 11,
+            "other": 0
+          },
+          "lea": {
+            "complete": 20,
+            "strict_experiment_failure": 0,
+            "other": 0
+          },
+          "sa-mcgs": {
+            "complete": 18,
+            "strict_experiment_failure": 1,
+            "other": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "handoff_bound_to_released_successor",
+      "passed": true
+    },
+    {
+      "name": "cache_proof_bound_to_handoff",
+      "passed": true
+    },
+    {
+      "name": "execution_bound_to_handoff",
+      "passed": true
+    },
+    {
+      "name": "exactly_fifty_six_preserved_results",
+      "passed": true,
+      "actual": 56
+    },
+    {
+      "name": "all_preserved_results_sha256_match",
+      "passed": true,
+      "changed_or_missing": []
+    },
+    {
+      "name": "all_cache_prefixes_preserved",
+      "passed": true,
+      "prefixes": 118,
+      "changed_or_missing": []
+    },
+    {
+      "name": "current_results_are_terminal",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "name": "known_schema_failure_recovers_without_new_api_call",
+      "passed": true,
+      "known_result_present": true,
+      "original_cache_exactly_unchanged": true
+    },
+    {
+      "name": "server_max_num_seqs_32",
+      "passed": true
+    },
+    {
+      "name": "server_batch_tokens_8192",
+      "passed": true
+    },
+    {
+      "name": "server_memory_budget_085",
+      "passed": true
+    },
+    {
+      "name": "server_same_local_endpoint",
+      "passed": true
+    },
+    {
+      "name": "server_one_tensor_parallel_gpu",
+      "passed": true
+    },
+    {
+      "name": "same_h800_and_cuda_device",
+      "passed": true,
+      "runtime": {
+        "hostname": "dgx-100",
+        "gpu": "NVIDIA H800",
+        "total_memory_bytes": 85017493504,
+        "free_memory_before_server_bytes": 84465025024,
+        "cuda_visible_devices": "0",
+        "vllm_version": "0.20.0+cu129",
+        "torch_version": "2.11.0+cu128",
+        "transformers_version": "5.6.2"
+      }
+    },
+    {
+      "name": "gpu_startup_checkpoint_verification_matches_official",
+      "passed": true,
+      "errors": [],
+      "note": "Uses the GPU coordinator's completed full-weight hash check; this read-only audit does not reread 16GB of weights on the login node."
+    },
+    {
+      "name": "all_eight_workers_launched",
+      "passed": true
+    },
+    {
+      "name": "coordinator_recent_or_complete",
+      "passed": true,
+      "heartbeat_age_seconds": 7.899709
+    },
+    {
+      "name": "no_worker_integrity_error_or_unhandled_traceback_or_oom",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "name": "real_kv_capacity_recorded",
+      "passed": true
+    },
+    {
+      "name": "recent_server_throughput_observed",
+      "passed": true
+    }
+  ],
+  "checks_passed": 24,
+  "checks_total": 24,
+  "passed": true
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "prior_outer_parallel_amendment.v1",
+  "user_authorized_change": "Increase concurrency to finish existing supplemental experiments faster; retain the USD 200 total ceiling",
+  "outer_process_concurrency": 4,
+  "per_worker_case_concurrency": 1,
+  "per_worker_internal_concurrency": 1,
+  "worker_sha256": "sha256:fa2be03e8d541e724689aca19be6987b02bffa586ca137e9cca328d7388930db",
+  "scientific_parameters_changed": false,
+  "frozen_original_runner_modified": false,
+  "models_cases_prior_weights_prompts_rollout_budget_unchanged": true,
+  "dispatch_policy": "Frozen remaining order, max four independent processes; never pick by observed outcomes",
+  "legacy_handoff": "Stop only the old coordinator; allow its already-paid child to finish and commit naturally before launching parallel workers",
+  "accounting_policy": "One coordinator publishes canonical result/ledger prefixes; independent journal, receipts, tickets and worker artifacts retain actual dispatch/start/completion times",
+  "global_authorization_usd": 200,
+  "minimum_closeout_reserve_usd": 10,
+  "budget_policy": "Every launch uses fresh authoritative balance and reserves active workers, completed unpublished costs, all undispatched tail and unknown failed-call reservations",
+  "per_call_budget_guard": "New operational safety guard can censor a cell at its reserved cap; such a cell is terminal BudgetStop invalid and must be reported separately, never interpreted as a prior-effect failure",
+  "automatic_retry_permitted": false,
+  "runtime_comparable_to_serial_nominal": false,
+  "provider_exact_billing_claimed": false
+}
