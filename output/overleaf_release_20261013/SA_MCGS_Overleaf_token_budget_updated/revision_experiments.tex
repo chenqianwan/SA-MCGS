@@ -1,0 +1,252 @@
+% Added ARR experiments. Numeric sources are frozen; no model calls are needed.
+% Stage 1: experiments/stage1_identity_safe_68_20260909_051438/formal/
+%   final_summary.json, stage1_case_results_strict.csv, scc_equal_inference.json.
+% Stage-1 manuscript values include the three author-confirmed corrections of 2026-10-13.
+% These edits do not alter the underlying experiment files.
+% Descriptive 80: stage1_legacy63_diagnostic/raw_input_manifest.json plus
+%   the 17 contemporaneous cases above, replacing all four arms together.
+% Stage 2: stage2_paired_replay_80case_identity_v1_final/
+%   stage2_paired_core_table.csv, stage2_clustered_paired_inference.json.
+% Cost: cost_prior_12case_gpt4o_gemini25pro_b60_v1/cost/strict_cost_table.csv.
+% Prior: prior_fallback_slots_01_03_08_10/strict_prior_table.csv.
+% Cost/Prior intervals: supplemental_pipeline_20260909/clustered_closeout/
+%   paired_cluster_closeout.json. All paths above start at 2026NAACL/SA-MCGS/.
+% Oracle definition: experiments/main_experiment/boosted_naive_baseline/
+%   run_boosted_naive_round_robin.py, selected_metric_means/select_oracle_risk_top3.
+
+\section{Additional Baseline, Ablation, and Cost Experiments}
+\label{app:revision_experiments}
+
+\subsection{Local Evidence Aggregation Protocol}
+\label{app:revision_lea}
+
+Local Evidence Aggregation (LEA) provides a structured baseline based on local graph retrieval and evidence aggregation, without implementing a full external GraphRAG system. For each SCC node, LEA constructs a four-node window from the node and its incoming and outgoing neighbors, using the fixed SCC node order. Missing positions are filled by alternating forward and backward offsets in that order. Each window is evaluated with the same local prompt builder, response schema, and parser as \samcgs{}, producing node scores, local risk nodes, conflict relations, critical pairs, and repair entries. Repeated evaluations may use cached results. The number of windows depends on graph size rather than a fixed rollout budget.
+
+Let $\bar q_v$ denote the mean risk score over windows containing node $v$, and let $L_v$, $R_v$, and $E_v$ count its occurrences in local risk sets, repair entries, and conflict-edge endpoints, respectively. LEA ranks roots by $\bar q_v$ and assigns each node a subgraph membership score
+\begin{equation}
+ a_v=L_v+R_v+E_v+
+ \max\{0,\bar q_v-\operatorname{median}_u\bar q_u\}.
+\end{equation}
+LEA returns the top $k=\min\{|S|,\max(4,\lceil0.45|S|\rceil)\}$ nodes, breaking ties by SCC order. If all membership scores are zero, it selects nodes by mean risk score. LEA uses no adaptive relation-memory selection, critical-pair revisiting, OC-guided core construction, or dynamic replacement. It therefore shares the local evidence evaluator with \samcgs{} but uses a simpler aggregation procedure. \revreplace{Computational cost is reported separately; token budgets are not matched.}{In this original five-model comparison, computational cost is reported separately and token budgets are not matched. Appendix~\ref{app:equal_budget} adds repeated-sampling baselines with per-case SA-referenced budgets.}
+
+The main comparison comprises 80 injected variants from 20 source SCCs across Debian, SEC, BGB, and CUAD. GPT-4o, Gemini 2.5 Pro, Qwen2.5-72B, Llama 3.1-8B-Instruct, and Qwen3.5-9B each run One-shot, LEA, and \samcgs{} on the same inputs, yielding 400 model-cases and 1,200 method outputs. Inputs are matched across methods by source content, SCC membership, and injection identity. All Qwen3.5-9B runs use \texttt{enable\_thinking=false}. The separate contemporaneous cost experiment uses 12 source SCCs and 72 method jobs.
+
+\paragraph{Oracle reference.}
+The historical oracle-risk Top-3-from-10 reference uses ground-truth metrics to select among ten full-SCC attempts. For each three-attempt subset of valid outputs, it computes mean Root@3, Risk-any, and Risk-all. Selection lexicographically maximizes the minimum of these three metrics, their mean, and mean compression. With fewer than three valid attempts, it uses all valid attempts; with none, binary metrics are zero. Reported metrics average the selected attempts without pooling their nodes or subgraphs. This oracle selection requires ground truth, unlike deployable One-shot and LEA, and incurs the computation of ten attempts.
+
+\input{revision_equal_budget_appendix}
+
+\begin{table*}[!tp]
+\centering
+\renewcommand{\arraystretch}{1.10}
+
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lrrrrr}
+\toprule
+\bfseries Arm & \bfseries Root@3 $\uparrow$ & \bfseries Any $\uparrow$ & \bfseries All $\uparrow$ & \bfseries Comp. & \bfseries $|H|$ \\
+\midrule
+\multicolumn{6}{l}{\bfseries \stageoneupdate{80 variants / 20 source SCCs}} \\
+Full \samcgs{} & \stageoneupdate{\tblbest{86.25}} & \tblbest{100.00} & \stageoneupdate{\tblbest{77.50}} & 51.26 & 8.10 \\
+\relationmemorymark{No relation-first memory} & \relationmemorymark{\stageoneupdate{83.75}} & \relationmemorymark{\tblsecond{98.75}} & \relationmemorymark{\stageoneupdate{\tblsecond{73.50}}} & \relationmemorymark{51.26} & \relationmemorymark{8.10} \\
+No critical-pair ledger/revisit & 83.75 & 88.75 & 56.25 & 71.29 & 4.30 \\
+Random local windows & \stageoneupdate{\tblsecond{85.00}} & 96.25 & 71.25 & 51.26 & 8.10 \\
+\bottomrule
+\end{tabular}
+\caption{\relationmemorymark{\stageoneupdate{Stage-1 ablations with GPT-4o on 80 variants from 20 source SCCs. Root@3, Any (Risk-any), All (Risk-all), and compression (Comp.) are percentages; $|H|$ is mean core size. Bold/underline: best/second-best endpoint metric, including ties; core size and compression are descriptive.}}}
+\label{tab:revision_stage1}
+\end{table*}
+
+\subsection{\relationmemorymark{Stage-1 Component Ablations}}
+\label{app:revision_stage1}
+
+\relationmemorymark{\stageoneupdate{Table~\ref{tab:revision_stage1} compares Full, no relation-first memory, no critical-pair ledger/revisit, and random local windows on 80 variants from 20 source SCCs. Removing relation-first memory disabled relation-biased selection and relation probes; removing the critical-pair ledger disabled its protection and revisiting; random-window selection replaced the local-window selector. The table measures endpoint coverage in the returned core separately from root-ranking performance.}}
+
+\relationmemorymark{\stageoneupdate{Full attained 77.50\% \riskall{}, compared with 73.50\% without relation-first memory, a difference of 4.00 percentage points at the same mean core size (8.10) and compression (51.26\%). Full also had higher \rootthree{} (86.25\% versus 83.75\%) and \riskany{} (100.00\% versus 98.75\%). These aggregate results favor retaining relation-first memory in this comparison.}}
+
+\stageoneupdate{Removing critical-pair protection and revisiting reduced \riskall{} by 21.25 points, to 56.25\%, while reducing mean core size from 8.10 to 4.30. This comparison therefore combines changes in evidence selection and output size. Random local windows reduced \riskall{} by 6.25 points, to 71.25\%, at the same mean core size as Full.}
+
+\relationmemorymark{\stageoneupdate{The Stage-1 results are descriptive comparisons across evaluation batches. We report aggregate differences without corresponding confidence intervals or significance tests.}}
+
+\subsection{Stage-2 Paired Core Replay}
+\label{app:revision_stage2}
+
+We replayed frozen GPT-4o Full trajectories for 80 variants from 20 source SCCs without new model calls. Both policies received the same selector proposal at each trajectory prefix. The dynamic policy allowed node replacement; the locked policy admitted nodes up to the cap and retained them without eviction. Both shared OC signals, relation seeding, critical-pair protection, pair closure, thresholds, and the cap. All 80 pairs passed input-identity and final-Full parity checks.
+
+\begin{table}[!htbp]
+\centering
+\renewcommand{\arraystretch}{1.10}
+
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrr}
+\toprule
+\bfseries Core policy & \bfseries Root@3 & \bfseries Any & \bfseries All & \bfseries Comp. & \bfseries $|H|$ \\
+\midrule
+Dynamic & \tblbest{86.25} & \tblbest{100.00} & \tblbest{75.00} & 51.26 & 8.10 \\
+Locked & \tblbest{86.25} & \tblsecond{86.25} & \tblsecond{37.50} & 51.26 & 8.10 \\
+\bottomrule
+\end{tabular}
+\caption{Stage-2 replay on shared search trajectories. Rates and compression are percentages. Root@3 is fixed by the shared trajectory and is unaffected by the core policy. \revadd{Bold/underline: best/second-best endpoint metric ($\uparrow$), including ties.}}
+\label{tab:revision_stage2}
+\end{table}
+
+Dynamic replacement increased \riskall{} by 37.5 percentage points (95\% source-SCC paired interval $[12.5,60.0]$) and \riskany{} by 13.75 points ($[5.0,22.5]$), at equal mean core size and compression (Table~\ref{tab:revision_stage2}). The replay isolates endpoint retention given the observed evidence; search trajectories are fixed, and OC and closure are not ablated independently. \relationmemorymark{\stageoneupdate{The replay and Stage-1 evaluation (Table~\ref{tab:revision_stage1}) use different sets of Full outputs on the same 80 variants, yielding Full \riskall{} values of 75.00\% and 77.50\%, respectively.}}
+
+\input{revision_core_ablation_20261011}
+
+\begin{table*}[!tp]
+\centering
+\renewcommand{\arraystretch}{1.10}
+
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{llrrrrrr}
+\toprule
+\bfseries Model & \bfseries Method & \bfseries Valid & \bfseries Invalid & \bfseries Root@3 & \bfseries Any & \bfseries All & \bfseries Comp. ($n$) \\
+\midrule
+GPT-4o & One-shot & 9 & 3 & 33.3 & 58.3 & 25.0 & 67.2 (9) \\
+ & LEA & 12 & 0 & \tblsecond{83.3} & \tblsecond{91.7} & \tblsecond{41.7} & 51.0 (12) \\
+\rowcolor{TableFocus}
+ & \textbf{\samcgs{}} & 12 & 0 & \tblbest{91.7} & \tblbest{100.0} & \tblbest{83.3} & 51.0 (12) \\
+\midrule
+Gemini 2.5 Pro & One-shot & 12 & 0 & \tblbest{100.0} & \tblbest{100.0} & \tblbest{100.0} & 69.3 (12) \\
+ & LEA & 12 & 0 & 75.0 & \tblbest{100.0} & 83.3 & 51.0 (12) \\
+\rowcolor{TableFocus}
+ & \textbf{\samcgs{}} & 12 & 0 & \tblsecond{91.7} & \tblbest{100.0} & \tblsecond{91.7} & 57.4 (12) \\
+\bottomrule
+\end{tabular}
+
+\vspace{5pt}
+\begin{tabular}{llrrrrrr}
+\toprule
+\bfseries Model & \bfseries Method & \bfseries Calls & \bfseries Input (K) & \bfseries Output (K) & \bfseries Total (K) & \multicolumn{2}{c}{\bfseries Time (s)} \\
+\cmidrule(lr){7-8}
+  &   &   &   &   &   & \bfseries Mean & \bfseries Median \\
+\midrule
+GPT-4o & One-shot & \tblbest{1.0} & \tblbest{17.0} & \tblbest{2.9} & \tblbest{19.9} & \tblbest{21.0} & \tblbest{22.1} \\
+ & LEA & \tblsecond{17.8} & \tblsecond{36.3} & \tblsecond{22.8} & \tblsecond{59.1} & \tblsecond{189.2} & \tblsecond{138.0} \\
+\rowcolor{TableFocus}
+ & \textbf{\samcgs{}} & 59.6 & 112.3 & 68.4 & 180.7 & 570.9 & 574.7 \\
+\midrule
+Gemini 2.5 Pro & One-shot & \tblbest{1.0} & \tblbest{19.6} & \tblbest{7.5} & \tblbest{27.1} & \tblbest{85.9} & \tblbest{66.8} \\
+ & LEA & \tblsecond{15.9} & \tblsecond{36.6} & \tblsecond{31.7} & \tblsecond{68.3} & \tblsecond{868.2} & \tblsecond{443.9} \\
+\rowcolor{TableFocus}
+ & \textbf{\samcgs{}} & 53.5 & 115.9 & 110.2 & 226.1 & 1650.2 & 1413.1 \\
+\bottomrule
+\end{tabular}
+\caption{Cost, performance, and reliability on 12 source SCCs for each model--method pair. All binary rates use a denominator of 12, with invalid outputs counted as failures. Comp. is mean compression over valid outputs; parentheses give the denominator. Calls and tokens include recorded recovery usage and are divided by 12. Tokens are in thousands. Time is recorded runtime per case; parallel speedup was not measured. \revadd{Within each model, bold/underline mark best/second-best endpoint rates ($\uparrow$, upper panel) or costs ($\downarrow$, lower panel); compression and validity are descriptive. Shading identifies \samcgs{}.}}
+\label{tab:revision_cost_full}
+\end{table*}
+
+\subsection{Contemporaneous Cost and Reliability}
+\label{app:revision_cost}
+
+The cost experiment used one injected variant from each of 12 distinct source SCCs. Debian/SEC/BGB/CUAD contributed 2/3/3/4 SCCs; each of the four templates contributed three variants; and small/medium/large SCCs numbered 6/3/3. GPT-4o and Gemini 2.5 Pro each ran One-shot, LEA, and \samcgs{} on these frozen inputs, yielding 72 method jobs. \samcgs{} used 60 rollouts, four-node windows, and internal concurrency one. One-shot generated a subgraph directly from the full SCC in a single call, without oracle selection. Table~\ref{tab:revision_cost_full} reports the results for each model--method pair.
+
+Of the final outputs, 69 were valid and three were invalid. All invalid outputs came from GPT-4o One-shot and remained in the cost and performance denominators. One Gemini \samcgs{} job was interrupted and restarted, with 17 calls before interruption and 56 during recovery; its valid final output required more than one execution. Recorded usage includes both executions, although costs for unreturned in-flight requests are unknown. Runtime covers the recovery interval, with pre-interruption API time recorded separately.
+
+The paired \samcgs{}--LEA \riskall{} differences were $+41.7$ points for GPT-4o (95\% interval $[8.3,75.0]$) and $+8.3$ for Gemini ($[-16.7,33.3]$). Gemini One-shot achieved the highest endpoint completeness in this sample. Averaged equally across models, \samcgs{} used 203.4K tokens per case, compared with 63.7K for LEA, or approximately $3.2\times$ as many. The performance gains from additional computation thus varied by model.
+
+Internal rollout concurrency can reduce waiting time. A simple approximation to wall-clock time is
+\begin{equation}
+ T_{\mathrm{wall}}\approx T_{\mathrm{serial}}+
+ \sum_g\left\lceil\frac{n_g}{p_g}\right\rceil t_g,
+ \label{eq:revision_parallel_time}
+\end{equation}
+where each dependency-ordered group $g$ contains $n_g$ parallelizable calls, $p_g$ is effective parallelism, and $t_g$ is representative call latency. Available work, workers, and API limits constrain $p_g$. For fixed work, concurrency leaves calls, tokens, and fees unchanged. Equation~\ref{eq:revision_parallel_time} models execution time; no within-case speedup was measured, and concurrent execution of separate cases does not establish such a speedup.
+
+\subsection{Relation-Prior Sensitivity}
+\label{app:revision_prior}
+
+We varied the relation-prior bonus multiplier (\texttt{relation\_prior\_weight}) from its default 0.85 to 0.68 and 1.02 ($\pm20\%$). The four source SCCs (cost slots 01/03/08/10) were selected and frozen before the sensitivity results were observed. Node, edge, and pair feature weights in Table~\ref{tab:prior_coefficients} remained fixed. The two models produced 16 new valid outputs; eight nominal outputs with matching inputs and configurations were reused from the cost experiment. All other settings were fixed, including rollout budget and internal concurrency one.
+
+\begin{table}[!htbp]
+\centering
+\renewcommand{\arraystretch}{1.10}
+
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrr}
+\toprule
+\bfseries Model & \bfseries Metric & \bfseries 0.68 & \bfseries 0.85 & \bfseries 1.02 \\
+\midrule
+GPT-4o & Root@3 & \tblsecond{75} & \tblbest{100} & \tblsecond{75} \\
+ & Risk-all & \tblbest{100} & \tblsecond{75} & \tblbest{100} \\
+\midrule
+Gemini Pro & Root@3 & \tblbest{100} & \tblsecond{75} & \tblbest{100} \\
+ & Risk-all & \tblbest{75} & \tblbest{75} & \tblbest{75} \\
+\bottomrule
+\end{tabular}
+\caption{Exploratory sensitivity to the relation-prior multiplier on four source SCCs per row. Root@3 and Risk-all are percentages; Risk-any is 100\% throughout. \revadd{Bold/underline: highest/second-highest distinct value across settings in each row, including ties.}}
+\label{tab:revision_prior}
+\end{table}
+
+\begin{revadded}
+\begin{table*}[!tp]
+\centering
+\small
+\renewcommand{\arraystretch}{1.10}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{L{0.21\textwidth}lrrr}
+\toprule
+\bfseries Model / scope & \bfseries Comparator & \bfseries Root@3 & \bfseries Risk-any & \bfseries Risk-all \\
+\midrule
+All five (fixed) & LEA & $+6.75\;[-0.25,14.00]$ & $-0.25\;[-4.50,4.00]$ & $+15.25\;[2.00,27.75]$ \\
+ & One-shot & $+46.50\;[37.75,55.25]$ & $+35.25\;[24.00,46.75]$ & $+39.00\;[29.00,49.25]$ \\
+\midrule
+GPT-4o & LEA & $+7.50\;[-3.75,20.00]$ & $+3.75\;[0.00,10.00]$ & $+31.25\;[7.50,52.50]$ \\
+ & One-shot & $+60.00\;[43.75,75.00]$ & $+45.00\;[27.50,62.50]$ & $+60.00\;[43.75,73.75]$ \\
+\midrule
+Gemini 2.5 Pro & LEA & $+0.00\;[-8.75,7.50]$ & $-2.50\;[-6.25,0.00]$ & $+0.00\;[-11.25,12.50]$ \\
+ & One-shot & $-2.50\;[-16.25,11.25]$ & $+0.00\;[-5.00,5.00]$ & $-1.25\;[-20.00,16.25]$ \\
+\midrule
+Qwen2.5-72B & LEA & $+2.50\;[-11.25,16.25]$ & $+0.00\;[-6.25,5.00]$ & $+31.25\;[10.00,51.25]$ \\
+ & One-shot & $+67.50\;[51.25,82.50]$ & $+51.25\;[31.25,71.25]$ & $+61.25\;[43.75,78.75]$ \\
+\midrule
+Llama 3.1-8B-Instruct & LEA & $+17.50\;[2.50,32.50]$ & $+2.50\;[-6.25,12.50]$ & $+13.75\;[-5.00,32.50]$ \\
+ & One-shot & $+57.50\;[41.25,72.50]$ & $+47.50\;[30.00,65.00]$ & $+23.75\;[2.50,45.00]$ \\
+\midrule
+Qwen3.5-9B & LEA & $+6.25\;[-6.25,20.00]$ & $-5.00\;[-13.75,2.50]$ & $+0.00\;[-15.00,15.00]$ \\
+ & One-shot & $+50.00\;[31.25,68.75]$ & $+32.50\;[18.75,47.50]$ & $+51.25\;[36.25,66.25]$ \\
+\bottomrule
+\end{tabular}
+\caption{Main-experiment \samcgs{} minus comparator differences, in percentage points, with 95\% source-SCC bootstrap intervals in brackets.}
+\label{tab:unified_paired_intervals}
+\end{table*}
+\end{revadded}
+
+Endpoint completeness did not decrease on this subset, although root rankings changed (Table~\ref{tab:revision_prior}). This four-cluster check characterizes local sensitivity to one coefficient; it does not establish robustness to other priors or core thresholds. The sensitivity jobs ran concurrently across cases, precluding a direct runtime comparison with the serial nominal runs.
+
+
+
+\subsection{Identity and Statistical Conventions}
+\label{app:revision_provenance}
+
+Frozen manifests distinguish physical source SCCs, injected variants, and model--method outputs. Inputs are matched by source content, SCC node membership, and injection identity, rather than traversal index alone. Experiment bundles retain raw outputs, result hashes, \stageoneupdate{available prompt/schema and configuration records}, parser versions, and call-level usage.
+
+% Avoid a one-word continuation at the final column boundary.
+\looseness=-1
+\relationmemorymark{For the ablation and cost experiments, binary performance uses all planned outputs, counting invalid or undefined outcomes as failures. Compression is $1-|H|/|S|$ and is computed only for defined outputs, with the denominator reported. Risk-any and Risk-all measure intersection and full inclusion of the injected endpoint set in $H$, respectively, rather than node-level precision. \stageoneupdate{Where intervals are reported, they use 20,000 percentile-bootstrap replicates with seed 8229, resampling physical source SCCs jointly across methods.} Source-equal estimates average variants within each SCC before averaging SCCs; variant-level averages are labeled explicitly. Models and variants from the same source do not constitute independent clusters; statistical comparisons must account for such dependence \citep{dror2018hitchhiker}. The intervals characterize the selected source set, not natural-risk prevalence.}
+
+\begin{revadded}
+% Keep the final subsection with its full-width interval table in the clean view.
+\ifrevisionmarks\else\newpage\fi
+\subsection{Main-Experiment Confidence Intervals}
+\label{app:main_confidence_intervals}
+
+For the main experiment, we resampled 20 source SCCs with replacement as paired clusters, keeping each source's four variants, five fixed models, and methods together. Paired differences are averaged within each source over variants and, for the overall estimate, models; source means are then averaged equally. Table~\ref{tab:unified_paired_intervals} reports overall and model-specific 95\% percentile intervals from 20,000 bootstrap replicates (seed 8229). These intervals reflect variation across the selected sources rather than repeated-run variability.
+
+
+\end{revadded}
+
+\begin{revadded}
+\subsection{Computational Resources and Implementation Details}
+\label{app:compute_implementation}
+
+\paragraph{Computational resources and budget.}
+Local inference was conducted on a cluster equipped with eight NVIDIA H800 GPUs, with GPU allocation depending on the model. GPT-4o and Gemini 2.5 Pro were accessed through APIs. Across evaluation and development experiments, we estimate aggregate inference usage to be approximately one billion input and output tokens, including recorded retries. Available usage logs account for approximately 0.95 billion tokens; missing historical usage is estimated from comparable cost profiles. Offline analyses reuse existing trajectories without additional model inference.
+
+\paragraph{Software implementation and configuration.}
+The implementation uses Python and NetworkX for graph processing, with QuantLaw for BGB reference extraction. Recorded local deployments use vLLM 0.20.0, PyTorch 2.11.0, and Transformers 5.6.2. The default \samcgs{} configuration uses 60 rollout slots and four-record windows. Evaluation metrics and source-level bootstrap confidence intervals are computed using custom scripts; experiment-specific settings are provided in the corresponding appendix subsections.
+\end{revadded}

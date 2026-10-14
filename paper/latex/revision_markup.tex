@@ -1,0 +1,46 @@
+% Baseline: 25-page clean manuscript frozen on 2026-10-02.
+% Only the current ARR revision is marked: deletions struck, additions blue.
+\usepackage[normalem]{ulem}
+\usepackage{etoolbox}
+\newif\ifrevisionmarks
+\ifdefined\CleanRevisionVersion
+  \revisionmarksfalse
+\else
+  \revisionmarkstrue
+\fi
+\DeclareRobustCommand{\revadd}[1]{\ifrevisionmarks{\color{blue}#1}\else#1\fi}
+\DeclareRobustCommand{\revdel}[1]{\ifrevisionmarks{\color{black}\sout{#1}}\fi}
+\DeclareRobustCommand{\revreplace}[2]{\ifrevisionmarks\revdel{#1}\space\fi\revadd{#2}}
+\DeclareRobustCommand{\revvalue}[2]{\ifrevisionmarks\makecell[c]{\revdel{#1}\\\revadd{#2}}\else#2\fi}
+\newsavebox{\deletedmathbox}
+\newsavebox{\revisionfigurebox}
+\newcommand{\revfigure}[2]{%
+  \ifrevisionmarks
+    \sbox{\revisionfigurebox}{\includegraphics[width=\linewidth]{#1}}%
+    \leavevmode
+    \rlap{\usebox{\revisionfigurebox}}%
+    \smash{\rlap{\raisebox{.25\ht\revisionfigurebox}{\rule{\wd\revisionfigurebox}{0.6pt}}}}%
+    \smash{\rlap{\raisebox{.50\ht\revisionfigurebox}{\rule{\wd\revisionfigurebox}{0.6pt}}}}%
+    \smash{\rlap{\raisebox{.75\ht\revisionfigurebox}{\rule{\wd\revisionfigurebox}{0.6pt}}}}%
+    \phantom{\usebox{\revisionfigurebox}}\par\smallskip
+    {\color{blue}\small Revised figure}\par\smallskip
+  \fi
+  \includegraphics[width=\linewidth]{#2}}
+\newcommand{\revdeletedmath}[1]{%
+  \sbox{\deletedmathbox}{$\displaystyle #1$}%
+  \ifdim\wd\deletedmathbox>\columnwidth
+    \resizebox{\columnwidth}{!}{\revisionstruckmath}%
+  \else\revisionstruckmath\fi}
+\newcommand{\revisionstruckmath}{%
+  \leavevmode\rlap{\usebox{\deletedmathbox}}%
+  \smash{\rlap{\raisebox{\dimexpr(\ht\deletedmathbox-\dp\deletedmathbox)/2\relax}{\rule{\wd\deletedmathbox}{0.45pt}}}}%
+  \phantom{\usebox{\deletedmathbox}}}
+\newif\ifrevisionblock
+\DeclareCaptionFont{revisionblue}{\ifrevisionmarks\color{blue}\fi}
+\newenvironment{revadded}{\begingroup\revisionblocktrue\captionsetup{font+=revisionblue}\ifrevisionmarks\color{blue}\fi}{\endgroup}
+\makeatletter
+\apptocmd{\@floatboxreset}{\ifrevisionblock\ifrevisionmarks\color{blue}\fi\fi}{}{}
+\makeatother
+\ifdefined\pdfstringdefDisableCommands
+\pdfstringdefDisableCommands{\def\revadd#1{#1}\def\revdel#1{}\def\revreplace#1#2{#2}\def\revvalue#1#2{#2}}
+\fi

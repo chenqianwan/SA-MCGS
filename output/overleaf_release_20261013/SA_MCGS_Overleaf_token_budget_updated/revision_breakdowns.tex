@@ -1,0 +1,93 @@
+\begin{table*}[!tp]
+\centering
+\renewcommand{\arraystretch}{1.10}
+\fontsize{9}{10}\selectfont
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.02}
+\textbf{A. Models}\\[0.5mm]
+\begin{tabular}{L{.25\textwidth}L{.12\textwidth}R{.05\textwidth}*{4}{R{.09\textwidth}}}
+\toprule
+\bfseries Group & \bfseries Method & \bfseries N & \bfseries Root@3 & \bfseries Risk-any & \bfseries Risk-all & \bfseries Comp. \\
+\midrule
+GPT-4o & One-shot & 80 & 26.25 & 55.00 & 15.00 & \tblbest{67.89} \\
+ & LEA & 80 & \tblsecond{78.75} & \tblsecond{96.25} & \tblsecond{43.75} & \tblsecond{51.26} \\
+\rowcolor{TableFocus}
+ & \textbf{SA-MCGS} & 80 & \tblbest{86.25} & \tblbest{100.00} & \tblbest{75.00} & \tblsecond{51.26} \\
+\midrule
+Gemini 2.5 Pro & One-shot & 80 & \tblbest{90.00} & \tblsecond{97.50} & \tblbest{85.00} & \tblbest{74.98} \\
+ & LEA & 80 & \tblsecond{87.50} & \tblbest{100.00} & \tblsecond{83.75} & 51.26 \\
+\rowcolor{TableFocus}
+ & \textbf{SA-MCGS} & 80 & \tblsecond{87.50} & \tblsecond{97.50} & \tblsecond{83.75} & \tblsecond{55.86} \\
+\midrule
+Qwen2.5-72B & One-shot & 80 & 2.50 & \tblsecond{46.25} & 13.75 & 42.69 \\
+ & LEA & 80 & \tblsecond{67.50} & \tblbest{97.50} & \tblsecond{43.75} & \tblsecond{51.26} \\
+\rowcolor{TableFocus}
+ & \textbf{SA-MCGS} & 80 & \tblbest{70.00} & \tblbest{97.50} & \tblbest{75.00} & \tblbest{52.82} \\
+\midrule
+Llama 3.1-8B-Instruct & One-shot & 80 & 3.75 & 47.50 & 25.00 & 30.27 \\
+ & LEA & 80 & \tblsecond{43.75} & \tblsecond{92.50} & \tblsecond{35.00} & \tblsecond{51.26} \\
+\rowcolor{TableFocus}
+ & \textbf{SA-MCGS} & 80 & \tblbest{61.25} & \tblbest{95.00} & \tblbest{48.75} & \tblbest{51.30} \\
+\midrule
+Qwen3.5-9B & One-shot & 80 & \revvalue{15.00}{12.50} & \revvalue{60.00}{53.75} & \revvalue{\tblsecond{13.75}}{\tblsecond{12.50}} & \revvalue{\tblsecond{64.73}}{\tblsecond{62.70}} \\
+ & LEA & 80 & \tblsecond{56.25} & \tblbest{91.25} & \tblbest{63.75} & 51.26 \\
+\rowcolor{TableFocus}
+ & \textbf{SA-MCGS} & 80 & \tblbest{62.50} & \tblsecond{86.25} & \tblbest{63.75} & \tblbest{67.25} \\
+\bottomrule
+\end{tabular}
+
+\par\medskip
+
+\textbf{B. Domains}\\[0.5mm]
+\begin{tabular}{L{.25\textwidth}L{.12\textwidth}R{.05\textwidth}*{4}{R{.09\textwidth}}}
+\toprule
+\bfseries Group & \bfseries Method & \bfseries N & \bfseries Root@3 & \bfseries Risk-any & \bfseries Risk-all & \bfseries Comp. \\
+\midrule
+Debian & One-shot & 40 & 25.00 & \revvalue{\tblsecond{97.50}}{\tblsecond{95.00}} & \revvalue{55.00}{52.50} & \revvalue{47.05}{46.76} \\
+ & LEA & 40 & \tblsecond{65.00} & \tblbest{100.00} & \tblbest{85.00} & \tblsecond{52.27} \\
+\rowcolor{TableFocus}
+ & \textbf{SA-MCGS} & 40 & \tblbest{80.00} & \tblbest{100.00} & \tblsecond{80.00} & \tblbest{55.44} \\
+\midrule
+SEC EX-21 & One-shot & 100 & 35.00 & \revvalue{91.00}{89.00} & 46.00 & \revvalue{48.59}{48.82} \\
+ & LEA & 100 & \tblbest{96.00} & \tblsecond{97.00} & \tblsecond{60.00} & \tblsecond{49.80} \\
+\rowcolor{TableFocus}
+ & \textbf{SA-MCGS} & 100 & \tblsecond{94.00} & \tblbest{100.00} & \tblbest{76.00} & \tblbest{50.58} \\
+\midrule
+BGB & One-shot & 60 & \revvalue{23.33}{21.67} & \revvalue{65.00}{63.33} & 23.33 & \revvalue{\tblbest{58.39}}{\tblsecond{57.25}} \\
+ & LEA & 60 & \tblsecond{46.67} & \tblsecond{85.00} & \tblsecond{26.67} & 50.33 \\
+\rowcolor{TableFocus}
+ & \textbf{SA-MCGS} & 60 & \tblbest{51.67} & \tblbest{90.00} & \tblbest{51.67} & \revvalue{\tblsecond{57.42}}{\tblbest{57.42}} \\
+\midrule
+CUAD & One-shot & 200 & \revvalue{25.50}{25.00} & \revvalue{38.00}{37.50} & 20.00 & \revvalue{\tblbest{76.58}}{\tblbest{76.05}} \\
+ & LEA & 200 & \tblsecond{58.50} & \tblbest{97.00} & \tblsecond{53.00} & 52.06 \\
+\rowcolor{TableFocus}
+ & \textbf{SA-MCGS} & 200 & \tblbest{68.50} & \tblsecond{93.50} & \tblbest{69.00} & \tblsecond{57.85} \\
+\bottomrule
+\end{tabular}
+\par\medskip
+
+\textbf{C. SCC sizes}\\[0.5mm]
+\begin{tabular}{L{.25\textwidth}L{.12\textwidth}R{.05\textwidth}*{4}{R{.09\textwidth}}}
+\toprule
+\bfseries Group & \bfseries Method & \bfseries N & \bfseries Root@3 & \bfseries Risk-any & \bfseries Risk-all & \bfseries Comp. \\
+\midrule
+Short ($\leq$12) & One-shot & 180 & \revvalue{35.56}{35.00} & \revvalue{85.00}{83.33} & \revvalue{43.33}{42.78} & \revvalue{50.06}{49.79} \\
+ & LEA & 180 & \tblsecond{77.22} & \tblsecond{94.44} & \tblsecond{67.22} & \tblsecond{50.28} \\
+\rowcolor{TableFocus}
+ & \textbf{SA-MCGS} & 180 & \tblbest{82.78} & \tblbest{98.33} & \tblbest{73.33} & \tblbest{52.41} \\
+\midrule
+Mid (14--20) & One-shot & 120 & 18.33 & \revvalue{\tblsecond{48.33}}{\tblsecond{47.50}} & 20.83 & \revvalue{\tblbest{68.17}}{\tblbest{68.94}} \\
+ & LEA & 120 & \tblsecond{57.50} & \tblbest{97.50} & \tblsecond{40.83} & 51.32 \\
+\rowcolor{TableFocus}
+ & \textbf{SA-MCGS} & 120 & \tblbest{73.33} & \tblbest{97.50} & \tblbest{72.50} & \tblsecond{55.05} \\
+\midrule
+Long ($\geq$24) & One-shot & 100 & \revvalue{24.00}{23.00} & \revvalue{34.00}{33.00} & 19.00 & \revvalue{\tblbest{83.45}}{\tblbest{82.82}} \\
+ & LEA & 100 & \tblbest{59.00} & \tblbest{95.00} & \tblsecond{46.00} & 52.94 \\
+\rowcolor{TableFocus}
+ & \textbf{SA-MCGS} & 100 & \tblsecond{57.00} & \tblsecond{87.00} & \tblbest{58.00} & \tblsecond{62.42} \\
+\bottomrule
+\end{tabular}
+
+\caption{\revreplace{Five-model results by model, domain, and original SCC size. All metrics are percentages. Domain and size summaries pool the same five models. Bold values mark the best method within each group, including ties.}{Five-model results by model, domain, and original SCC size. Metrics are percentages; domain and size summaries pool the same five models. Bold/underline mark highest/second-highest distinct values within each group, including ties. Higher compression means a smaller core. Shading identifies \samcgs{}.}}
+\label{tab:appendix_breakdowns}
+\end{table*}

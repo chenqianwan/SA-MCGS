@@ -1,0 +1,6 @@
+\paragraph{One-shot prompting\revadd{~(Full-SCC)}.}
+One-shot processes the entire \scc{} in a single LLM call, returning a node ranking and a risk subgraph.
+
+
+\paragraph{Local Evidence Aggregation (LEA).}
+LEA evaluates a four-record window anchored at each \scc{} node, using the same local evaluator schema as \samcgs{}. It averages node scores and aggregates evidence into a fixed-cap subgraph, without adaptive search, relation memory, critical-pair revisiting, or core replacement. Appendix~\ref{app:revision_lea} details window construction, aggregation, and caching. \samcgs{} uses 60 rollouts and \revreplace{dynamic-core}{final-core} selection; the comparison fixes the local output task, but not total computation.

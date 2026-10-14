@@ -1,0 +1,27 @@
+% Current ablation revision: blue in the dedicated review and marked views.
+\newif\ifablationmarks
+\ifdefined\AblationReviewVersion
+  \ablationmarkstrue
+\else
+  \ifrevisionmarks\ablationmarkstrue\else\ablationmarksfalse\fi
+\fi
+\DeclareRobustCommand{\ablationadd}[1]{\ifablationmarks{\color{blue}#1}\else#1\fi}
+\newcommand{\ablationcolor}{\ifablationmarks\color{blue}\fi}
+\DeclareCaptionFont{ablationblue}{\ablationcolor}
+\newenvironment{ablationadded}{\begingroup\ablationcolor\captionsetup{font+=ablationblue}}{\endgroup}
+\ifdefined\pdfstringdefDisableCommands
+\pdfstringdefDisableCommands{\def\ablationadd#1{#1}}
+\fi
+
+% Focused reading view: relation-memory ablation annotations only.
+% The command is a no-op in the ordinary clean and revision views.
+\DeclareRobustCommand{\relationmemorymark}[1]{\ifdefined\RelationMemoryReviewVersion\textcolor{blue}{#1}\else#1\fi}
+\ifdefined\pdfstringdefDisableCommands
+\pdfstringdefDisableCommands{\def\relationmemorymark#1{#1}}
+\fi
+
+% 2026-10-13 Stage-1 revision. Highlight only this change in its clean reading view.
+\DeclareRobustCommand{\stageoneupdate}[1]{\ifdefined\StageOneUpdateVersion\textcolor{blue}{#1}\else\ifrevisionmarks\textcolor{blue}{#1}\else#1\fi\fi}
+\ifdefined\pdfstringdefDisableCommands
+\pdfstringdefDisableCommands{\def\stageoneupdate#1{#1}}
+\fi

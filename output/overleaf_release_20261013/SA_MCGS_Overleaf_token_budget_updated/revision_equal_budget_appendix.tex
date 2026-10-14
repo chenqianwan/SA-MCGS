@@ -1,0 +1,18 @@
+\begin{revadded}
+\subsection{Repeated-Sampling Baselines with SA-Referenced Budgets}
+\label{app:equal_budget}
+
+\paragraph{Cases and budget.}
+This comparison uses the same 80 injected variants from 20 source \scc{}s, with four variants per source: 40 CUAD, 20 SEC, 12 BGB, and 8 Debian cases. We evaluate GPT-4o, Qwen2.5-72B, Llama 3.1-8B-Instruct, Qwen3.5-9B, and Kimi-VL-A3B. Historical \samcgs{} outputs remain fixed. For model $m$ and case $i$, LEA and Full-SCC are assigned the same reference budget $B_{m,i}$ for candidate generation and selection. The reference uses recorded historical \samcgs{} token consumption where available, or calibration from existing usage records: same-model, same-domain SA cost measurements for GPT-4o, and historical SA call counts combined with same-case LEA tokens per call for Qwen2.5-72B.
+
+\paragraph{Repeated generation and selection.}
+Each LEA candidate reruns the complete four-node-window aggregation procedure in Appendix~\ref{app:revision_lea}; each Full-SCC candidate reanalyzes the entire component. Both retain their native root ranking and output core. The reference budget and selector context capacity determine the candidate allocation; the number of candidates is not fixed. With one candidate, it is returned directly. With multiple candidates, the same model acts once as a judge, reading the source records, graph relations, and anonymized candidates, including their rankings, cores, and up to 16 reported conflict pairs. It selects one existing candidate without merging or editing outputs. Candidate order is shuffled with a fixed seed, and selection never accesses injection labels or evaluation metrics.
+
+\paragraph{Inference configuration.}
+Candidate sampling uses temperature 0.4 and the judge uses temperature 0. Local-window, Full-SCC, and judge output limits are 2,048, 12,000, and 256 tokens, respectively, with request allowances adjusted to the reference budget. Qwen3.5-9B thinking is disabled, and the local vLLM context limit is 131,072 tokens. Relative to the original Full-SCC one-shot run, this protocol enables stochastic candidate sampling.
+
+\input{revision_equal_budget_table}
+
+\paragraph{Coverage and compactness.}
+Table~\ref{tab:equal_budget_five_models} compares all five backbones. On GPT-4o, \samcgs{} reaches 86.25\% \rootthree{}, versus 71.25\% for LEA and 22.50\% for Full-SCC. On Qwen2.5-72B, it reaches 70.00\%, versus 55.00\% and 23.75\%, respectively, and its 52.82\% compression exceeds both baselines. For Qwen3.5-9B, Full-SCC achieves the highest compression (71.76\%) but only 12.08\% \riskall{}. Kimi shows the reverse balance: Full-SCC achieves the highest \riskall{} but only 13.60\% compression. These results show that the coverage--compression balance depends on the backbone.
+\end{revadded}

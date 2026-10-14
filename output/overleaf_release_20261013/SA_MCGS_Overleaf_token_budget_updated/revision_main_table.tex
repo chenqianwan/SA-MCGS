@@ -1,0 +1,40 @@
+% Main-result table; queued on the preceding page for placement on clean page 6.
+\begin{table*}[t]
+\centering
+\renewcommand{\arraystretch}{1.02}
+\small
+
+
+\begin{tabular}{L{.28\textwidth}L{.15\textwidth}rrrr}
+\toprule
+\bfseries Model & \bfseries Method & \bfseries \rootthree{} & \bfseries \riskany{} & \bfseries \riskall{} & \bfseries Compression \\
+\midrule
+GPT-4o & One-shot & 26.25 & 55.00 & 15.00 & \tblbest{67.89} \\
+ & LEA & \tblsecond{78.75} & \tblsecond{96.25} & \tblsecond{43.75} & \tblsecond{51.26} \\
+\rowcolor{TableFocus}
+ & \textbf{\samcgs{}} & \tblbest{86.25} & \tblbest{100.00} & \tblbest{75.00} & \tblsecond{51.26} \\
+\midrule
+Gemini 2.5 Pro & One-shot & \tblbest{90.00} & \tblsecond{97.50} & \tblbest{85.00} & \tblbest{74.98} \\
+ & LEA & \tblsecond{87.50} & \tblbest{100.00} & \tblsecond{83.75} & 51.26 \\
+\rowcolor{TableFocus}
+ & \textbf{\samcgs{}} & \tblsecond{87.50} & \tblsecond{97.50} & \tblsecond{83.75} & \tblsecond{55.86} \\
+\midrule
+Qwen2.5-72B & One-shot & 2.50 & \tblsecond{46.25} & 13.75 & 42.69 \\
+ & LEA & \tblsecond{67.50} & \tblbest{97.50} & \tblsecond{43.75} & \tblsecond{51.26} \\
+\rowcolor{TableFocus}
+ & \textbf{\samcgs{}} & \tblbest{70.00} & \tblbest{97.50} & \tblbest{75.00} & \tblbest{52.82} \\
+\midrule
+Llama 3.1-8B-Instruct & One-shot & 3.75 & 47.50 & 25.00 & 30.27 \\
+ & LEA & \tblsecond{43.75} & \tblsecond{92.50} & \tblsecond{35.00} & \tblsecond{51.26} \\
+\rowcolor{TableFocus}
+ & \textbf{\samcgs{}} & \tblbest{61.25} & \tblbest{95.00} & \tblbest{48.75} & \tblbest{51.30} \\
+\midrule
+Qwen3.5-9B & One-shot & \revvalue{15.00}{12.50} & \revvalue{60.00}{53.75} & \revvalue{\tblsecond{13.75}}{\tblsecond{12.50}} & \revvalue{\tblsecond{64.73}}{\tblsecond{62.70}} \\
+ & LEA & \tblsecond{56.25} & \tblbest{91.25} & \tblbest{63.75} & 51.26 \\
+\rowcolor{TableFocus}
+ & \textbf{\samcgs{}} & \tblbest{62.50} & \tblsecond{86.25} & \tblbest{63.75} & \tblbest{67.25} \\
+\bottomrule
+\end{tabular}
+\caption{\revreplace{Comparison of One-shot, LEA, and \samcgs{} across five models, each evaluated on the same 80 injected variants. All metrics are percentages. Bold marks the best value for each metric within a model, including ties.}{Results on 80 matched injected variants per model (\%). Bold/underline: highest/second-highest within each model, including ties. Shading identifies \samcgs{}; higher compression means a smaller core.}}
+\label{tab:matched_main}
+\end{table*}
